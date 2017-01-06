@@ -984,16 +984,16 @@ var initNavTree = function () {
 /**
  * @see http://dcdeiv.github.io/simpler-sidebar/
  */
-var initSidebar = function () {
+var initRightSidebar = function () {
   // init tree before sidebar to cache tree events in sidebar to close the sidebar
   //initNavTree();
 
   var closingLinks = '.close-sidebar';
-  var align = 'left';
-  var trigger = '.navbar-toggle';
+  var align = 'right';
+  var trigger = '[data-toggle="sidebar"][data-target="#right-sidebar"]';
   var mask = true;
 
-  var $leftSidebar = jumplink.cache.$leftSidebar.simplerSidebar({
+  var $rightSidebar = jumplink.cache.$rightSidebar.simplerSidebar({
     attr: "simplersidebar",
     init: "closed",
     top: 0,
@@ -1064,7 +1064,7 @@ var initSidebar = function () {
 var initNavbar = function () {
   var $navbarDummy = $('#ah-navbar-dummy');
 
-  initSidebar();
+  initRightSidebar();
 
   // remove shopify admin bar, because that makes problems
   $('#admin_bar_iframe').remove();
