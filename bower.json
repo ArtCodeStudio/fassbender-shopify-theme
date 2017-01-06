@@ -10,7 +10,12 @@
   "keywords": [
     "JumpLink",
     "Bootstrap4",
-    "Shopify"
+    "Shopify",
+    "bootstrap",
+    "cart.js",
+    "jumplink",
+    "barba.js",
+    "theme"
   ],
   "homepage": "https://github.com/JumpLinkNetwork/jumplink-shopify-boilerplate",
   "ignore": [
@@ -22,6 +27,22 @@
   ],
   "dependencies": {
     "bootstrap-backward": "JumpLinkNetwork/bootstrap-backward#v4-0-0-alpha-5-scss-backward",
-    "sass-autoprefixer": "^1.0.1"
+    "sass-autoprefixer": "^1.0.1",
+    "video.js": "^5.13.2",
+    "async": "^2.1.4",
+    "shopify-cartjs": "^0.4.0",
+    "bootstrap-treeview": "^1.2.0",
+    "bootstrap-select": "^1.12.1",
+    "slick-carousel": "^1.6.0",
+    "simpler-sidebar": "^2.2.0",
+    "alertifyjs": "^1.0.11",
+    "sightglass": "^0.2.6",
+    "rivets": "^0.9.6",
+    "gsap": "^1.19.0",
+    "barba.js": "luruke/barba.js#^1.0.0",
+    "jquery": "^3.1.1"
+  },
+  "resolutions": {
+    "jquery": "1.9.1 - 3"
   }
 }

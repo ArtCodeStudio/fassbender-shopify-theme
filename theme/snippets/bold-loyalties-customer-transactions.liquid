@@ -1,0 +1,18 @@
+{% if shop.metafields.bold_loyalties.active == 1 and shop.metafields.bold_loyalties.points_can_be_earned  == 1 and shop.metafields.bold_loyalties.points_can_be_redeemed == 1 %}
+  <div class="boldapps-rewards-points-customer-section">
+    <div class="row bold-no-margin">
+      <div class="col-xs-12">
+        <h1>{{ shop.metafields.bold_loyalties.name }}</h1>
+          <p class="description">
+            {{ shop.metafields.bold_loyalties.description }}
+          </p>
+        </div>
+      </div>
+    
+    <div id="boldapps-reward-points-container">
+      <div class="col-xs-12">
+        <img src="//loy.boldapps.net/assets/ajax-loader.gif">
+      </div>
+    </div>
+  </div>
+{% endif %}

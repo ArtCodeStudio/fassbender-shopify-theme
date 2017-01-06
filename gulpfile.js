@@ -14,7 +14,10 @@ var gulp          = require('gulp'),
     sass          = require('gulp-sass'),
     jsoncombine   = require('gulp-jsoncombine'),
     fs            = require('fs'),
-    util          = require('util');
+    util          = require('util'),
+    uglify        = require('gulp-uglify'),
+    rename        = require("gulp-rename"),
+    sourcemaps    = require('gulp-sourcemaps');
 
 // Basic error messages output to the console.
 // Used with plumber so we don't stop the other tasks from running or kill the gulp process on an error
@@ -43,7 +46,7 @@ gulp.task('default', function () {
 gulp.task('sass', ['bootstrap_sass_test_build', 'sass_concat']);
 
 // ALL THE TASKS!!! plus zipping up a fully built theme
-gulp.task('build', ['sass', 'zip']);
+gulp.task('build', ['sass', 'javascript', 'zip']);
 
 // build sass to test build
 gulp.task('bootstrap_sass_test_build', ['sass_concat_test'], function () {
@@ -67,6 +70,44 @@ gulp.task('zip', function () {
   return gulp.src(theme, {base: "."})
     .pipe(zip('JumpLink-Boilerplate-' + pjson.version + '.zip'))
     .pipe(gulp.dest('./'));
+});
+
+
+gulp.task('javascript', ['javascript-libs']);
+
+gulp.task('javascript-libs', [], function () {
+  return gulp.src([
+    'bower_components/jquery/dist/jquery.js',
+    'src/js/jquery-ui.min.js',
+    'bower_components/tether/dist/js/tether.js',
+    'bower_components/bootstrap-backward/dist/js/bootstrap.js',
+    //'bower_components/bootstrap-treeview/dist/bootstrap-treeview.js',
+    'bower_components/bootstrap-select/dist/js/bootstrap-select.js',
+    'bower_components/bootstrap-select/dist/js/i18n/defaults-*.min.js',
+    'bower_components/simpler-sidebar/dist/jquery.simpler-sidebar.js',
+    'bower_components/alertifyjs/dist/js/alertify.js',
+    'bower_components/sightglass/index.js',
+    'bower_components/rivets/dist/rivets.js',
+    'bower_components/shopify-cartjs/dist/cart.js',
+    'src/js/md5.js',
+    'bower_components/gsap/src/uncompressed/TweenMax.js',
+    'bower_components/async/dist/async.js',
+    'bower_components/barba.js/dist/barba.js',
+    'bower_components/slick-carousel/slick/slick.js',
+    // 'bower_components/video.js/dist/video.js',
+    // 'src/js/Hyphenator.js',
+  ]).pipe(plumber({
+    errorHandler: onError
+  }))
+  .pipe(concat('libs.js'))
+  // .pipe(gulp.dest('./theme/assets/'))
+  //.pipe(sourcemaps.init())
+  .pipe(uglify())
+  .pipe(rename({
+    basename: "libs.min",
+  }))
+  //.pipe(sourcemaps.write('.'))
+  .pipe(gulp.dest('./theme/assets/'));
 });
 
 // SASS_CONCAT: Pull our scss files together and move them into the themes assets

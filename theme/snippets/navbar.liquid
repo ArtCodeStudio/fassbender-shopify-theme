@@ -1,21 +1,202 @@
-<nav class="navbar navbar-light bg-faded">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <ul class="nav navbar-nav">
-    <li class="nav-item active">
-      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Features</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Pricing</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">About</a>
-    </li>
-  </ul>
-  <form class="form-inline pull-xs-right">
-    <input class="form-control" type="text" placeholder="Search">
-    <button class="btn btn-outline-success" type="submit">Search</button>
-  </form>
+<nav role="navigation" class="navbar navbar-default navbar-static-top" id="ah-sub-navbar">
+  <div class="ah-container-fluid">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12" style="z-index:1;">
+
+          <form action="/search" method="get" class="search-form navbar-form" role="search">
+            <div class="input-group">
+              <span class="input-group-btn">
+                <button id="search-submit" class="btn btn-default ah-navbar-btn-icon" type="submit">
+                  <div class="font-icon">
+                    <img src="{{ 'search.svg' | asset_url }}" />
+                  </div>
+                </button>
+              </span>
+              <input name="q" type="search" id="search-field" class="form-control" placeholder="{{ 'navbar.shop_actions.search' | t }}" value="{{ search.terms | escape }}">
+            </div>
+          </form>
+
+          <ul class="nav navbar-nav hidden-xs">
+            <li class="call">
+              <a href="{{settings.navbar_top_left_link_href}}">
+                {{settings.navbar_top_left_link_text}}
+              </a>
+            </li>
+          </ul>
+
+          <div class="navbar-right">
+            <ul class="nav navbar-nav">
+              {% if shop.customer_accounts_enabled %}
+
+                {% if customer %}
+                  <li class="customer-name hidden-xs hidden-sm hidden-md">
+                    <a href="/account">
+                      Hallo {{ customer.first_name }}
+                    </a>
+                  </li>
+                  <li class="customer-account">
+                    <a href="/account">
+                      {{ 'navbar.shop_actions.my_account' | t }}
+                    </a>
+                  </li>
+                  <li class="customer-wishlist">
+                    <!-- include 'wishlist-link' -->
+                  </li>
+                  <li class="customer-logout hidden-xs">
+                    <a href="/account/logout" class="no-barba">
+                      {{ 'navbar.shop_actions.logout' | t }}
+                    </a>
+                  </li>
+                {% else %}
+
+                  {% if shop.metafields.bold_loyalties.active %}
+                    <!-- Bold: Loyalty Points - Step 2 -->
+                    {% include 'bold-loyalties-callout-nav' %}
+                    <!-- // end bold code -->
+                  {% else %}
+                    <li class="customer-login">
+                      <a href="/account/login">
+                        {% comment%}<i class="fa fa-user" aria-hidden="true"></i>{% endcomment %}
+                        {{ 'navbar.shop_actions.login' | t }}
+                      </a>
+                    </li>
+                  {% endif %}
+
+                  <li class="customer-wishlist">
+                    <!-- include 'wishlist-link' -->
+                  </li>
+                  
+                {% endif %}
+              {% endif %}
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="col-xs-12 navbar-nav-center-wrapper info-bar" style="z-index:0;">
+          <div class="">
+            <ul class="nav navbar-nav navbar-center">
+              
+              <li class="">
+                <p class="navbar-text hidden-md hidden-lg">{{settings.navbar_submenu_infotext_sm}}</p>
+                <p class="navbar-text hidden-xs hidden-sm">{{settings.navbar_submenu_infotext}}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </nav>
+
+<div class="ah-container-fluid">
+  <div class="container-fluid">
+    <header class="row" id="logo-header">
+      <div class="banner hidden-xs hidden-sm col-xs-12 " role="banner">
+        <a id="logo" href="/" class="center-block">
+          <img class="img-responsive ah-logo " src="{{ 'navbar_logo_big_image.jpeg' | asset_url }}" alt="{{shop.name}}">
+        </a>
+      </div>
+    </header>
+  </div>
+</div>
+
+<div id="ah-navbar-dummy"></div>
+<nav role="navigation" class="navbar navbar-default yamm navbar-static-top {% if settings.navbar_with_shadow %}with-shadow{% endif %}" id="ah-navbar">
+  <div class="ah-container-fluid">
+    <div class="container-fluid">
+      <div class="row">
+
+
+        {% comment %} Nav only on small devices {% endcomment %}
+        <div class="navbar-header navbar-mobile visible-xs-flex col-xs-12 visible-sm-flex">
+
+          <button type="button" class="pull-left navbar-toggle collapsed tcon tcon-menu--xcross bg-hover-transparent" aria-expanded="false" aria-label="toggle menu">
+            <!--
+            <div class="font-icon" style="background-image: url({{ 'menu.svg' | asset_url }})"></div>
+            -->
+            <span class="tcon-menu__lines" aria-hidden="true"></span>
+            <span class="tcon-visuallyhidden">toggle menu</span>
+          </button>
+          
+          <div class="stretch"></div>
+          
+          <a class="navbar-brand" href="/">
+            <img src="{{ 'navbar_logo_small_image.jpeg' | asset_url }}" class="img-responsive center-block navbar-brand-small" alt="{{shop.name}}">
+            <img src="{{ 'navbar_logo_big_image.jpeg' | asset_url }}" class="img-responsive center-block navbar-brand-large" alt="{{shop.name}}">
+          </a>
+          
+          <div class="stretch"></div>
+          
+          <div class="pull-right btn-group" role="group">
+            <a class="btn navbar-btn ah-navbar-btn-icon navbar-link cart-button" href="/cart">
+              <div class="font-icon cart-icon">
+                <img class="not-active" src="{{ 'cart.svg' | asset_url }}" />
+                <img class="active" src="{{ 'cart_active.svg' | asset_url }}" />
+              </div>
+              <span class="cart-count hidden">
+                {{ cart.item_count }}
+              </span>
+            </a>
+          </div>
+
+        </div>
+
+        <div class="navbar-header navbar-desktop hidden-xs hidden-sm">
+
+          {% comment %} Nav only on medium devices and bigger {% endcomment %}
+          <div class="navbar-left">
+            <a class="navbar-brand" href="/">
+              <img src="{{ 'navbar_logo_small_image.jpeg' | asset_url }}" class="img-responsive center-block" alt="{{shop.name}}">
+            </a>
+          </div>
+
+          <div class="navbar-nav-center-wrapper">
+
+            <ul class="nav navbar-nav navbar-center">
+              {% for link in linklists.main-menu.links %}
+                {% assign has_sub_menu = false %}
+                {% assign has_sub_categories = false %}
+                {% assign child_list_handle = link.title | handle %}
+                {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                  {% assign has_sub_menu = true %}
+                {% elsif link.type == 'collection_link' and link.object.all_tags.size > 0 and sub_categories_over_tags_is_off_now %}
+                  {% assign has_sub_categories = true %}
+                {% endif %}
+                {% if has_sub_menu or has_sub_categories %}
+                    {% if link.title == 'Designer' %}
+                      {% include 'navbar-dropdown-designer' %}
+                    {% else %}
+                       {% comment %}
+                        You could also use {% include 'navbar-dropdown-letters' %}
+                       {% endcomment %}
+                      {% include 'navbar-dropdown' %}
+                    {% endif %}
+                {% else %}
+                  {% if link.handle == 'blog' and settings.blog_enable == false %}
+                  {% else %}
+                    <li class="level-1 {{link.handle}}">
+                      <a href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+
+          </div>
+
+          <ul class="nav navbar-nav navbar-right">
+            {% include 'navbar-dropdown-cart' %}
+          </ul>
+
+        </div>
+              
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+{% include 'left-sidebar' %}

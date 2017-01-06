@@ -1,0 +1,27 @@
+<div class="ah-container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="text-center hidden">{{ page.title }}</h1>
+            </div>
+            <div class="col-xs-12 rte">
+                {{ page.content }}
+            </div>
+
+            <div class="col-xs-12">
+                <div class="row">
+                    {% assign _linklists = linklists.designer.links | sort: 'title' %}
+                    {% include 'collection-link-list-with-letters' %}
+                </div>
+            </div>
+
+            {% include 'featured-collections',
+                featuredLinklist: 'featured-collections',
+                withOffset: true,
+                classWrapperDefault: 'm-t-3 m-b-1',
+                classWrapperSize2: 'm-t-3 m-b-1 m-x-1-md m-x-2-lg'
+            %}
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,215 @@
+{
+  "html": {
+    "lang": {
+      "code": "de"
+    }
+  },
+  "navbar": {
+    "shop_actions": {
+      "login": "Anmelden",
+      "logout": "Abmelden",
+      "register": "Registrieren",
+      "search": "Suchen",
+      "my_account": "Mein Konto",
+      "wishlist": "Wunschliste"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Kontodetails und Bestellverlauf",
+      "details": "Account-Details",
+      "view_addresses": "Adressen ansehen",
+      "return": "Zurück zu Account-Details"
+    },
+    "activate_account": {
+      "title": "Account aktivieren",
+      "subtext": "Erstellen Sie ein Passwort, um Ihren Account zu aktiveren.",
+      "password": "Passwort",
+      "password_confirm": "Passwort bestätigen",
+      "submit": "Account aktivieren",
+      "cancel": "Einladung ablehnen"
+    },
+    "addresses": {
+      "title": "Ihre Adressen",
+      "default": "Standard",
+      "add_new": "Neue Adresse hinzufügen",
+      "edit_address": "Adresse bearbeiten",
+      "first_name": "Vorname",
+      "last_name": "Nachname",
+      "company": "Firma",
+      "address1": "Adresse 1",
+      "address2": "Adresse 2",
+      "city": "Stadt",
+      "country": "Land",
+      "province": "Bundesland",
+      "zip": "PLZ",
+      "phone": "Telefon",
+      "set_default": "Als Standard-Adresse festlegen",
+      "add": "Adresse hinzufügen",
+      "update": "Adresse aktualisieren",
+      "cancel": "Abbrechen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen"
+    },
+    "login": {
+      "title": "Welcome back!",
+      "email": "E-Mail Adresse",
+      "password": "Passwort",
+      "forgot_password": "Passwort vergessen",
+      "sign_in": "Anmelden",
+      "guest_title": "Als Gast fortsetzen",
+      "guest_continue": "Fortsetzen"
+    },
+    "orders": {
+      "title": "Bestellungen",
+      "order_number": "Bestellung",
+      "date": "Datum",
+      "payment_status": "Zahlungsstatus",
+      "fulfillment_status": "Lieferstatus",
+      "total": "Gesamt",
+      "none": "Sie haben noch keine Bestellungen aufgegeben."
+    },
+    "order": {
+      "title": "Bestellung {{ name }}",
+      "date": "Aufgegeben am {{ date }}",
+      "cancelled": "Bestellung storniert am {{ date }}",
+      "cancelled_reason": "Grund: {{ reason }}",
+      "billing_address": "Rechnungsadresse",
+      "payment_status": "Zahlungsstatus",
+      "shipping_address": "Lieferadresse",
+      "fulfillment_status": "Lieferstatus",
+      "discount": "Rabatt",
+      "shipping": "Versand",
+      "tax": "Steuern",
+      "product": "Artikel",
+      "sku": "SKU",
+      "price": "Preis",
+      "quantity": "Menge",
+      "total": "Gesamt",
+      "fulfilled_at": "Geliefert am {{ date }}",
+      "subtotal": "Zwischensumme"
+    },
+    "recover_password": {
+      "title": "Passwort zurücksetzen",
+      "email": "E-Mail",
+      "submit": "Absenden",
+      "cancel": "Abbrechen",
+      "subtext": "Wir werden Ihnen eine E-Mail zum Zurücksetzen des Passworts schicken.",
+      "success": "Wir haben Ihnen eine E-Mail mit einem Link zum Aktualisieren des Passworts geschickt."
+    },
+    "reset_password": {
+      "title": "Account-Passwort zurücksetzen",
+      "subtext": "Geben Sie ein neues Passwort für {{ email }} ein",
+      "password": "Passwort",
+      "password_confirm": "Passwort bestätigen",
+      "submit": "Passwort zurücksetzen"
+    },
+    "register": {
+      "title": "Konto eröffnen",
+      "first_name": "Vorname",
+      "last_name": "Nachname",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "submit": "Registrieren"
+    }
+  },
+  "cart": {
+    "general": {
+      "add_to_cart": "In den Warenkorb",
+      "pre_order": "Vorbestellen",
+      "can_not_add_to_cart": "Telefonisch bestellen",
+      "empty": "Ihr Warenkorb ist leer",
+      "empty_message": "Sie können auf den Produktseiten die Produkte zu Ihrem Warenkorb hinzufügen.",
+      "savings_html": "Du sparst {{ price }}",
+      "added": "Artikel \"{{ title }}\" zum Warenkorb hinzugefügt",
+      "removed": "Artikel \"{{ title }}\" aus Warenkorb entfernt",
+      "subtotal": "Zwischensumme",
+      "shipping_at_checkout": "Liefer- und Preisnachlässe werden an der Kasse generiert.",
+      "checkout": "Zur Kasse",
+      "continue": "Weitershoppen"
+    }
+  },
+  "wishlist": {
+    "general": {
+      "wishlist": "Wunschliste",
+      "empty": "Ihre Wunschliste ist momentan leer.",
+      "empty_message": "Sie können auf den Produktseiten die Produkte auf Ihre Wunschliste hinzufügen.",
+      "login_text": "Bitte melde Sie sich an an, wenn Sie die Wunschliste dauerhaft speichern möchten.",
+      "added": "Artikel \"{{ title }}\" zur Wunschliste hinzugefügt",
+      "removed": "Artikel \"{{ title }}\" aus Wunschliste entfernt",
+      "clear": "Wunschliste leeren",
+      "emptied": "Wunschliste geleert",
+      "remove": "Aus Wunschliste entfernen",
+      "add": "Auf die Wunschliste",
+      "show": "Wunschliste anzeigen",
+      "continue": "Weitershoppen"
+    }
+  },
+  "collection": {
+    "general": {
+      "empty": "Es gibt in dieser Ansicht zur Zeit keine Produkte"
+    },
+    "paginate": {
+      "all": "Alle"
+    }
+  },
+  "product": {
+    "general": {
+      "sold_out": "Ausverkauft",
+      "available": "Verfügbar",
+      "backordner_possible": "Vorbestellbar",
+      "unavailable": "Nicht verfügbar",
+      "legal_price_text": "inkl. {{vat_rate}}% MwSt. zzgl. Versandkosten",
+      "relation": "Dazu empfehlen wir:",
+      "notify": "Mail wenn verfügbar"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "text": "Haben Sie Fragen zum Artikel oder wünschen Sie eine persönliche Beratung?"
+    }
+  },
+  "home": {
+    "newsletter": {
+      "title": "Newsletter",
+      "text": "Bitte senden Sie mir regelmäßig Informationen zu Ihrem Produktsortiment per E-Mail zu. Ihren Newsletter kann ich jederzeit wieder abbestellen.",
+      "email": "E-Mail Adresse",
+      "submit": "Anmelden"
+    }
+  },
+  "contact": {
+    "form": {
+      "firstname": "Vorname",
+      "name": "Name",
+      "phone": "Telefon",
+      "email": "E-Mail Adresse",
+      "message": "Nachricht",
+      "send": "Absenden",
+      "post_success": "Nachricht erfolgreich versendet"
+    }
+  },
+  "blog": {
+    "general": {
+      "readmore": "weiterlesen"
+    }
+  },
+  "date_formats": {
+    "month_day_year": "%B %d, %Y"
+  },
+  "shopify": {
+    "checkout": {
+      "general": {
+        "consent_notice_for_european_customers": "Indem ich fortfahre, willige ich ein, dass meine Informationen für den Bestellvorgang elektronisch verarbeitet werden.",
+        "all_rights_reserved": "Alle rechte vorbehalten Anita Hass eK"
+      },
+      "contact": {
+        "address2_label": "Adresszusatz",
+        "optional_address2_label": "Adresszusatz (optional)",
+        "address2_placeholder": "Adresszusatz",
+        "optional_address2_placeholder": "Adresszusatz (optional)"
+      },
+      "payment": {
+        "offsite_gateway_redirect_hint": "Sie werden zu {{ gateway_label }} weitergeleitet, um Ihren Einkauf sicher abzuschließen."
+      }
+    }
+  }
+}

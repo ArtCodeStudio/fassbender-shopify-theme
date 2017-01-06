@@ -1,0 +1,113 @@
+{% if blog.comments_enabled? %}
+
+    {% paginate article.comments by 10 %}
+
+        {% assign number_of_comments = article.comments_count %}
+
+        {% comment %}If a comment was just submitted, and it has no blank fields.{% endcomment %}
+        {% if comment and comment.created_at %}
+            {% assign number_of_comments = article.comments_count | plus: 1 %}
+        {% endif %}
+
+        <div id="comments" class="row">
+
+            <div class="col-xs-12 m-t-2">
+                {% comment %}If a comment was just submitted with no blank field.{% endcomment %}
+                {% comment %}
+                {% if comment and comment.created_at %}
+                    <p class="alert alert-success feedback" role="alert">
+                        {% if blog.moderated? %}
+                            Ihr Kommentar wurder erfolgreich abgeschickt. Wir werden ihn in nach einem Review in kürze veröffentlichen.
+                        {% else %}
+                            Ihr Kommentar wurder erfolgreich veröffentlicht. Vielen Dank!
+                        {% endif %}
+                    </p>
+                {% endif %}
+                {% endcomment %}
+
+                {% if number_of_comments > 0 %}
+                    <h2 class="text-center text-serif text-normal">{{number_of_comments}} Kommentare</h2>
+
+                    {% comment %}If a comment was just submitted with no blank field, let's show it.{% endcomment %}
+                    {% if comment and comment.created_at %}
+                        {% assign first_comment = article.comments | first %}
+
+                        {% if first_comment.created_at != comment.created_at %}
+                            {% include 'article-comment' with comment, paginate_hash %}
+                        {% endif %}
+                    {% endif %}
+
+                    {% comment %}Showing the rest of the comments.{% endcomment %}
+                    {% for comment in article.comments %}
+                        {% include 'article-comment' with comment %}
+                    {% endfor %}
+                {% endif %}
+                
+                {% comment %}Comments are paginated.{% endcomment %}
+
+                <div class="">
+                {% assign paginate_hash = '#comments' %}
+                {% include 'pagination' %}
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-offset-2 col-md-8 m-b-1">
+                
+                {% comment %}Comment submission form.{% endcomment %}
+                {% form "new_comment", article %}
+
+
+                    <div class="barba-form"
+                        {% if form %}
+                            data-form="true"
+                            data-form-posted-successfully="{{form.posted_successfully?}}"
+
+                            {% if form.errors %}
+                                data-form-errors="true"
+                                data-form-errors-default-messages='{{ form.errors | default_errors  | json | replace: "'", "&#39;"}}'
+                            {% endif %}
+                        {% endif %} 
+                    ></div>
+                
+                    <h2 id="add-comment-title" class="text-center text-serif text-normal m-b-2">Ihr Kommentar</h2>
+                    {% if form.errors %}
+                        {% comment %}                    
+                        <div class="alert alert-danger feedback" role="alert">
+                            {{ form.errors | default_errors }}
+                        </div>
+                        {% endcomment %}     
+                    {% endif %}
+
+                    <div class="row">
+
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-group {% if form.errors contains 'author'' %}has-error has-feedback{% endif %}">
+                                <label class="sr-only" for="comment-author">Name</label>
+                                <input required class="form-control" type="text" name="comment[author]" placeholder="Name" id="comment-author" value="{{ form.author }}" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-group {% if form.errors contains 'email' %}has-error has-feedback{% endif %}">
+                                <label class="sr-only" for="comment-email">Email</label>
+                                <input required class="form-control" type="email" name="comment[email]" placeholder="Email" id="comment-email" value="{{ form.email }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group {% if form.errors contains 'body' %}has-error has-feedback{% endif %}">
+                        <label class="sr-only" for="comment-body">Nachricht</label>
+                        <textarea required class="form-control" rows="6" name="comment[body]" id="comment-body">{{ form.body }}</textarea>
+                    </div>
+
+                    <div class="text-center m-t-2">
+                        <input class="btn btn-default" type="submit" value="Abschicken" /> 
+                    </div>
+                
+                {% endform %}
+            </div>
+        
+        </div>
+    {% endpaginate %}
+{% endif %}

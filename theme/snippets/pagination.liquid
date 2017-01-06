@@ -1,0 +1,48 @@
+{% if paginate.pages > 1 %}
+  <div data-pagination-wrapper="true" class="row pagination-wrapper">
+    <div class="col-xs-12 text-center">
+      <nav class="border-top m-y-05">
+        <ul class="pagination pagination-active-number pull-left m-y-05">
+          {% if paginate.previous.is_link %}
+            <li>
+              <a class="no-border" href="{{ paginate.previous.url }}{{paginate_hash}}">
+                <span class="hidden-xs">&#60; Vorherige Seite</span>
+                <span class="hidden-sm hidden-md hidden-lg">&#60;</span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+        <ul class="pagination pagination-active-number m-y-05">
+          {% for part in paginate.parts %}
+            {% if part.is_link %}
+              <li>
+                <a class="no-border" href="{{part.url}}{{paginate_hash}}">{{ part.title }}</a>
+              </li>
+            {% else %}
+              <li class="active">
+                <a class="no-border" href="{{part.url}}{{paginate_hash}}">{{ part.title }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+          {% if show_all_active %}
+            <li class="">
+              <a class="no-border" data-onclick-load-all="true" href="{{collection.url}}?page=all">
+                {{ 'collection.paginate.all' | t }}
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+        <ul class="pagination pagination-active-number pull-right m-y-05">
+          {% if paginate.next.is_link %}
+            <li>
+              <a class="no-border" href="{{ paginate.next.url }}{{paginate_hash}}">
+                <span class="hidden-xs">Nächste Seite &#62;</span>
+                <span class="hidden-sm hidden-md hidden-lg">&#62;</span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+{% endif %}

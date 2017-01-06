@@ -1,0 +1,10 @@
+{
+    'active': {{link.active}},
+    'object': '{{link.object}}',
+    'handle': '{{link.title | handle}}',
+    'title': '{{link.title | replace: "'",  "\'"}}',
+    'text': '{{link.title | replace: "'",  "\'"}}', {% comment %} for bootstrap-treeview  {% endcomment %}
+    'type': '{{link.type}}',
+    'url': '{{link.url}}',
+    'href': '{{link.url}}', {% comment %} for bootstrap-treeview  {% endcomment %}
+}

@@ -1,0 +1,18 @@
+<li class="level-1 {{link.handle}} dropdown yamm-fw dropdown-columns dropdown-letters">
+    <a href="{{ link.url }}" class="dropdown-toggle" data-toggle="dropdown">
+        {{ link.title }}
+        {% comment %}<i class="fa fa-angle-down"></i>{% endcomment %}
+    </a>
+    <ul class="dropdown-menu">
+        <li>
+            <div class="row">
+                <div class="col-xs-12 col-md-9 col-md-offset-2 col-lg-7 col-lg-offset-3">
+                    <div class="row">
+                        {% assign _linklists = linklists[child_list_handle].links | sort: 'title' %}
+                        {% include 'collection-link-list-with-letters' %}
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>

@@ -1,0 +1,334 @@
+<div id="storePickupApp" class="p-y-1">
+    <style type="text/css">
+ 
+        #storePickupApp {
+            font-size: 13px;
+            margin-bottom: 15px;
+            text-align: left
+        }
+        #storePickupApp::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 7px
+        }
+        #storePickupApp::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(221, 221, 221, .5);
+            margin-right: 4px;
+            -webkit-box-shadow: 0 0 1px rgba(221, 221, 221, .5)
+        }
+        #storePickupApp #methods .method.default.active,
+        #storePickupApp .locations .location.active {
+            background-color: #f8f8f8
+        }
+        #storePickupApp p {
+            margin: 10px 0 10px;
+            font-size: 13px;
+            line-height: 18px;
+            text-align: left
+        }
+        #storePickupApp a {
+            font-size: 13px
+        }
+        #storePickupApp .controls {
+            clear: both;
+            margin-top: 10px
+        }
+        #storePickupApp .clearfix:after {
+            visibility: hidden;
+            display: block;
+            font-size: 0;
+            content: " ";
+            clear: both;
+            height: 0
+        }
+        #storePickupApp * html .clearfix {
+            height: 1%
+        }
+        #storePickupApp .clearfix {
+            display: block
+        }
+        #storePickupApp h2 {
+            font-size: 14px
+        }
+        #storePickupApp #checkoutBtn {
+            float: right
+        }
+        #storePickupApp .input-group {
+            border: none
+        }
+        #storePickupApp #datePicker {
+            margin-bottom: 1em
+        }
+        #storePickupApp #datePicker .picker {
+            font-size: 13px;
+            max-width: 360px;
+            position: absolute;
+            left: 0
+        }
+        #storePickupApp #map-canvas {
+            margin-top: 4em;
+            height: 200px;
+            width: 100%;
+            margin-bottom: 10px
+        }
+        #storePickupApp ul.list-inline {
+            list-style: none;
+            padding: 0;
+            margin: 0
+        }
+        #storePickupApp ul.list-inline li {
+            padding-right: 0;
+            display: inline-block
+        }
+        #storePickupApp .locations {
+            padding: 0;
+            margin: 0 0 10px;
+            list-style: none;
+            width: auto;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto
+        }
+        #storePickupApp .locations .location {
+            width: auto;
+            clear: both;
+            padding: 10px;
+            margin: 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            display: flex
+        }
+        #storePickupApp .locations .location .name {
+            font-weight: 700
+        }
+        #storePickupApp .locations .location:last-child {
+            border-bottom: none
+        }
+        #storePickupApp .locations .location input[type=radio] {
+            margin-top: 2px
+        }
+        #storePickupApp .locations .location .block {
+            display: block;
+            line-height: 16px;
+            text-align: left;
+            padding-left: 10px
+        }
+        #storePickupApp .locations .location .block .name {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 5px;
+            margin-right: 70px;
+        }
+        #storePickupApp .locations .location .block .address {
+            display: block;
+            font-weight: 400;
+            font-size: 12px
+        }
+        #storePickupApp .locations .location .block .distance {
+            margin-top: 5px;
+            float: left;
+            margin-right: 10px;
+        }
+        #storePickupApp .locations .location .block .map {
+            margin-top: 1px;
+            display: block
+        }
+        #storePickupApp .errors,
+        #storePickupApp .success {
+            margin-top: 10px;
+            margin-bottom: 10px
+        }
+        #storePickupApp .showDistance .location .distance {
+            display: block
+        }
+        #storePickupApp #deliveryDatePicker,
+        #storePickupApp #pickupDatePicker {
+            clear: both;
+            width: 100%;
+            position: relative
+        }
+        #storePickupApp #deliveryDatePicker .picker__holder,
+        #storePickupApp #pickupDatePicker .picker__holder {
+            position: absolute;
+            bottom: 0;
+            min-width: 200px;
+            right: 0
+        }
+        #storePickupApp #deliveryDatePicker .picker__holder .picker__weekday,
+        #storePickupApp #pickupDatePicker .picker__holder .picker__weekday {
+            padding: 0;
+            text-align: center
+        }
+        #storePickupApp #deliveryDatePicker table,
+        #storePickupApp #pickupDatePicker table {
+            display: table
+        }
+        #storePickupApp #deliveryDatePicker table thead,
+        #storePickupApp #pickupDatePicker table thead {
+            display: table-header-group
+        }
+        #storePickupApp #deliveryDatePicker table thead tr,
+        #storePickupApp #pickupDatePicker table thead tr {
+            display: table-row;
+            position: inherit
+        }
+        #storePickupApp #deliveryDatePicker table thead tr th,
+        #storePickupApp #deliveryDatePicker table tr td,
+        #storePickupApp #pickupDatePicker table thead tr th,
+        #storePickupApp #pickupDatePicker table tr td {
+            display: table-cell
+        }
+        #storePickupApp #deliveryDatePicker table tbody,
+        #storePickupApp #pickupDatePicker table tbody {
+            display: table-row-group
+        }
+        #storePickupApp #deliveryDatePicker table tr,
+        #storePickupApp #pickupDatePicker table tr {
+            display: table-row
+        }
+        #storePickupApp #deliveryDatePicker table tr td:before,
+        #storePickupApp #pickupDatePicker table tr td:before {
+            content: ""
+        }
+        #storePickupApp .detectLocation a {
+            text-decoration: none
+        }
+        #storePickupApp .errors {
+            color: #c00
+        }
+        #storePickupApp #methods {
+            margin: 0 0 10px;
+            padding: 0;
+            display: flex
+        }
+        #storePickupApp #methods .method {
+            list-style: none
+        }
+        #storePickupApp #methods .method.default {
+            text-align: center;
+            flex-grow: 1;
+            flex-basis: 0;
+            margin: 0 .5em 0 0;
+            border-radius: 5px;
+            border: 1px solid #eee;
+            display: inline-block;
+            position: relative;
+            padding: .5em
+        }
+        #storePickupApp #methods .method.default::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1
+        }
+        #storePickupApp #methods .method.default input[type=radio] {
+            display: none
+        }
+        #storePickupApp #methods .method.default .icon {
+            margin-bottom: 4px;
+            margin-top: 8px;
+            display: block;
+            width: inherit;
+            height: inherit
+        }
+        #storePickupApp #methods .method.default .icon img {
+            height: 20px;
+            max-width: 100%;
+            width: inherit;
+            position: relative;
+            pointer-events: none
+        }
+        #storePickupApp #methods .method.default label:hover {
+            border-color: #CCC
+        }
+        #storePickupApp #methods .method.default .name {
+            display: block;
+            font-size: 100%
+        }
+        #storePickupApp #methods .method.custom {
+            text-align: center;
+            margin: 0 5px 0 0;
+            padding: 0;
+        }
+        #storePickupApp #methods .method.custom label {
+            cursor: pointer;
+        }
+        #storePickupApp #methods .method.custom img {
+            pointer-events: none;
+            position: relative;
+            max-width: 100%
+        }
+        #storePickupApp #methods .method.custom input[type=radio] {
+            display: none
+        }
+        #storePickupApp #methods .method.list {
+            text-align: left;
+            flex-grow: inherit;
+            flex-basis: inherit;
+            margin: 0 1em 0 0
+        }
+        #storePickupApp #methods .method.list input[type=radio] {
+            display: inline-block
+        }
+        #storePickupApp #methods .method:last-child {
+            margin-right: 0
+        }
+    </style>
+    <div class="row">
+        <div class="col-xs-12">
+            <ul id="methods" class="clearfix">
+                <li class="method active default">
+                    <div class="icon shipping">
+                        <span id="shipping_image">
+                            <span class="icon">
+                                <img src="//s3-us-west-2.amazonaws.com/zapiet/uploads/default/shipping.png">
+                            </span>
+                            <span class="name">
+                                {storePickup.translations.shipping.heading}
+                            </span>
+                        </span>
+                    </div>
+                </li>
+                <li class="method default">
+                    <div class="icon pickup">
+                        <span id="pickup_image">
+                            <span class="icon">
+                                <img src="//s3-us-west-2.amazonaws.com/zapiet/uploads/default/pickup.png">
+                            </span>
+                            <span class="name">
+                                {storePickup.translations.pickup.heading}
+                            </span>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+            <input type="hidden" name="attributes[Checkout-Method]" value="shipping">
+            <p class="shipping_note">
+                Bitte gehe weiter zur Kasse um Fortzufahren
+            </p>
+
+            <!-- Include empty attributes for deliveries/pickups so that they are removed when a user changes methods -->
+            <input type="hidden" value="" name="attributes[Pickup-Location-Id]" style="display:none;">
+            <input type="hidden" value="" name="attributes[Delivery-Location-Id]" style="display:none;">
+            <input type="hidden" value="" name="attributes[Pickup-Date]" style="display:none;">
+            <input type="hidden" value="" name="attributes[Pickup-Time]" style="display:none;">
+            <input type="hidden" value="" name="attributes[Delivery-Date]" style="display:none;">
+            <input type="hidden" value="" name="attributes[Delivery-Time]" style="display:none;">
+
+            {% comment %}<input type="hidden" name="attributes[Checkout-Method]" value="shipping | pickup">
+            <input type="hidden" name="attributes[Pickup-Location-Id]" value="14566">
+            <input type="hidden" name="attributes[Pickup-Date]" value="2016/09/27">{% endcomment %}
+
+
+            <!-- Custom Attributes -->
+            <input type="hidden" name="attributes[Custom-Attribute-1]" value="" style="display:none;">
+            <input type="hidden" name="attributes[Custom-Attribute-2]" value="" style="display:none;">
+            <input type="hidden" name="attributes[Custom-Attribute-3]" value="" style="display:none;">
+        </div>
+    </div>
+</div>

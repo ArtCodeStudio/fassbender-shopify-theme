@@ -1,0 +1,61 @@
+{% comment %}<style type="text/css">
+    {{ shop.metafields.pt_filter_css['system'] }}
+    {{ shop.metafields.pt_filter_css['user'] }}
+</style>{% endcomment %}
+<div id="sortme" class="filter-select filter-selected-{{ collection.handle }} {% for tag in current_tags %}filter-selected-{{ tag | handleize }}{% endfor %}">
+    {% unless collection.handle != nil and template contains 'collection' %}
+        {% for menu_header in shop.metafields.pt_filter_menu %}
+            {% assign menu_items = menu_header.last | split: ',' %}
+            {% assign header_handle = menu_header.first | split: '-' %}
+            {% assign header_handle = menu_header.first | replace: header_handle.first, '' %}
+            <div class="clearfix filter filter-group-select filter-group{{ header_handle }} form-group m-y-0 p-y-05">
+                <!--<label>{{ shop.metafields.pt_filter_header[menu_header.first] }}</label>-->
+                <select
+                    class="full-width styled-select coll-filter coll-filter-{{ collection.handle }} nav-{{ menu_header.first | split: '-' | last }}"
+                    data-style="btn-lg btn-default"
+                    data-filter-name="{{ shop.metafields.pt_filter_header[menu_header.first] }}"
+                >
+                    <optgroup>
+                        <option title="{{ shop.metafields.pt_filter_header[menu_header.first] }}: Alle" value="">Alle</option>
+                    </optgroup>
+                    <optgroup label="{{ shop.metafields.pt_filter_header[menu_header.first] }}">
+                        {% for menu_item in menu_items %}
+                            {% assign filter_collection = collections[menu_item] %}
+                            {% if filter_collection and filter_collection.all_products_count != '' and filter_collection.all_products_count > 0 %}
+                                <option title="{{ shop.metafields.pt_filter_header[menu_header.first] }}: {{ filter_collection.title }}" value="{{ menu_item }}">{{ filter_collection.title }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </optgroup>
+                </select>
+            </div>
+        {% endfor %}
+    {% else %}
+        {% assign tag_list = collection.tags %}
+        {% assign current_collection_handle = collection.handle %}
+        {% assign displayed_collection_handles = '|' %}
+        {% if collection.metafields.sort_primary.collection_handle %}
+            {% assign current_collection_handle = collections[collection.metafields.sort_primary.collection_handle].handle %}
+        {% endif %}
+        {% for menu_header in shop.metafields.pt_filter_menu %}
+            {% assign has_items = false %}
+            {% assign has_multiple_items = false %}
+            {% assign has_selected = false %}
+            {% assign current_selected = '|' %}
+            {% assign menu_items = menu_header.last | split: ',' %}
+            {% for menu_item in menu_items %}
+                {% assign filter_collection = collections[menu_item] %}
+                {% if tag_list contains menu_item or current_tags contains menu_item or current_collection_handle == menu_item %}
+                    {% if has_items %}
+                        {% assign has_multiple_items = true %}
+                    {% endif %}
+                    {% assign has_items = true %}
+                    {% if current_tags contains menu_item or current_collection_handle == menu_item %}
+                        {% assign has_selected = true %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% assign btn_style = 'btn-lg btn-default' %}
+            {% include 'filter-menu-select-item' with btn_style %}
+        {% endfor %}
+    {% endunless %}
+</div>

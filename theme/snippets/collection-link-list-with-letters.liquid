@@ -1,0 +1,269 @@
+{% assign _123 = true %}
+{% assign _A = true %}
+{% assign _B = true %}
+{% assign _C = true %}
+{% assign _D = true %}
+{% assign _E = true %}
+{% assign _F = true %}
+{% assign _G = true %}
+{% assign _H = true %}
+{% assign _I = true %}
+{% assign _J = true %}
+{% assign _K = true %}
+{% assign _L = true %}
+{% assign _M = true %}
+{% assign _N = true %}
+{% assign _O = true %}
+{% assign _P = true %}
+{% assign _Q = true %}
+{% assign _R = true %}
+{% assign _S = true %}
+{% assign _T = true %}
+{% assign _U = true %}
+{% assign _V = true %}
+{% assign _W = true %}
+{% assign _X = true %}
+{% assign _Y = true %}
+{% assign _Z = true %}
+{% assign list_elements_per_col = settings.navbar_submenu_items_per_col %}
+{% assign total_skipped = 0 %}
+{% assign skipped = 0 %}
+{% assign cols = 4 %}
+{% assign draw_capital = '' %}
+{% assign last_drawn_capital = '' %}
+
+{% for i in (1..cols) %}
+
+    {% assign min = list_elements_per_col | times: forloop.index0 | minus: total_skipped %} 
+    
+    {% if forloop.index == cols %}
+        {% assign max = list_elements_per_col | times: forloop.index %}
+    {% else %}
+        {% assign max = list_elements_per_col | times: forloop.index | minus: total_skipped %}
+    {% endif %}
+
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <ul class="list-group list-group-with-letters p-t-05">
+            
+            {% for l in _linklists %}
+                {% assign total_skipped = total_skipped | plus: skipped %}
+                {% assign skipped = 0 %}
+
+                {% if forloop.index > min and forloop.index <= max %}
+                    
+                    {% assign _firstLetter = l.title | slice: 0 %}
+                    
+                
+                    {% if _firstLetter == '0' and _123 == true %}
+                        {% assign draw_capital = '123' %}
+                        {% assign _123 = false %}
+                    {% endif %}   
+                    
+                    {% if _firstLetter == '1' and _123 == true %}
+                        {% assign draw_capital = '123' %}
+                        {% assign _123 = false %}
+                    {% endif %} 
+
+                    {% if _firstLetter == '2' and _123 == true %}
+                        {% assign draw_capital = '123' %}
+                        {% assign _123 = false %}
+                    {% endif %} 
+                    
+                    {% if _firstLetter == '3' and _123 == true %}
+                        {% assign draw_capital = '123' %}
+                        {% assign _123 = false %}
+                    {% endif %}                                     
+                    
+                    {% if _firstLetter == '4' and _123 == true %}
+                        {% assign draw_capital = '123' %}
+                        {% assign _123 = false %}
+                    {% endif %}                                      
+                    
+                    {% if _firstLetter == '5' and _123 == true %}
+                        {% assign draw_capital = '123' %}
+                        {% assign _123 = false %}
+                    {% endif %}  
+
+                    {% if _firstLetter == '6' and _123 == true %}
+                        {% assign draw_capital = '123' %}
+                        {% assign _123 = false %}
+                    {% endif %}  
+
+                    {% if _firstLetter == '7' and _123 == true %}
+                        {% assign draw_capital = '123' %}
+                        {% assign _123 = false %}
+                    {% endif %}                                     
+                    
+                    {% if _firstLetter == '8' and _123 == true %}
+                        {% assign draw_capital = '123' %}
+                        {% assign _123 = false %}
+                    {% endif %}  
+                    
+                    {% if _firstLetter == '9' and _123 == true %}
+                        {% assign draw_capital = '123' %}
+                        {% assign _123 = false %}
+                    {% endif %}  
+                    
+                    {% if _firstLetter == 'A' and _A == true %}
+                        {% assign draw_capital = 'A' %}
+                        {% assign _A = false %}
+                    {% endif %}
+
+                    {% if _firstLetter == 'B' and _B == true %}
+                        {% assign draw_capital = 'B' %}
+                        {% assign _B = false %}
+                    {% endif %}
+
+                    {% if _firstLetter == 'C' and _C == true %}
+                        {% assign draw_capital = 'C' %}
+                        {% assign _C = false %}
+                    {% endif %}
+
+                    {% if _firstLetter == 'D' and _D == true %}
+                        {% assign draw_capital = 'D' %}
+                        {% assign _D = false %}
+                    {% endif %}     
+
+                    {% if _firstLetter == 'E' and _E == true %}
+                        {% assign draw_capital = 'E' %}
+                        {% assign _E = false %}
+                    {% endif %}
+                    
+                    {% if _firstLetter == 'F' and _F == true %}
+                        {% assign draw_capital = 'F' %}
+                        {% assign _F = false %}
+                    {% endif %}
+
+                    {% if _firstLetter == 'G' and _G == true %}
+                        {% assign draw_capital = 'G' %}
+                        {% assign _G = false %}
+                    {% endif %}
+
+                    {% if _firstLetter == 'H' and _H == true %}
+                        {% assign draw_capital = 'H' %}
+                        {% assign _H = false %}
+                    {% endif %}    
+
+                    {% if _firstLetter == 'I' and _I == true %}
+                        {% assign draw_capital = 'I' %}
+                        {% assign _I = false %}
+                    {% endif %}      
+
+                    {% if _firstLetter == 'J' and _J == true %}
+                        {% assign draw_capital = 'J' %}
+                        {% assign _J = false %}
+                    {% endif %}           
+
+                    {% if _firstLetter == 'K' and _K == true %}
+                        <{% assign draw_capital = 'K' %}
+                        {% assign _K = false %}
+                    {% endif %}        
+
+                    {% if _firstLetter == 'L' and _L == true %}
+                        {% assign draw_capital = 'L' %}
+                        {% assign _L = false %}
+                    {% endif %}      
+
+                    {% if _firstLetter == 'M' and _M == true %}
+                        {% assign draw_capital = 'M' %}
+                        {% assign _M = false %}
+                    {% endif %}           
+
+                    {% if _firstLetter == 'N' and _N == true %}
+                        {% assign draw_capital = 'N' %}
+                        {% assign _N = false %}
+                    {% endif %}   
+
+                    {% if _firstLetter == 'O' and _O == true %}
+                        {% assign draw_capital = 'O' %}
+                        {% assign _O = false %}
+                    {% endif %}   
+
+                    {% if _firstLetter == 'P' and _P == true %}
+                        {% assign draw_capital = 'P' %}
+                        {% assign _P = false %}
+                    {% endif %}   
+
+                    {% if _firstLetter == 'Q' and _Q == true %}
+                        {% assign draw_capital = 'Q' %}
+                        {% assign _Q = false %}
+                    {% endif %}   
+
+                    {% if _firstLetter == 'R' and _R == true %}
+                        {% assign draw_capital = 'R' %}
+                        {% assign _R = false %}
+                    {% endif %}   
+
+                    {% if _firstLetter == 'S' and _S == true %}
+                        {% assign draw_capital = 'S' %}
+                        {% assign _S = false %}
+                    {% endif %}   
+
+                    {% if _firstLetter == 'T' and _T == true %}
+                        {% assign draw_capital = 'T' %}
+                        {% assign _T = false %}
+                    {% endif %}   
+
+                    {% if _firstLetter == 'U' and _U == true %}
+                        {% assign draw_capital = 'U' %}
+                        {% assign _U = false %}
+                    {% endif %}   
+
+                    {% if _firstLetter == 'V' and _V == true %}
+                        {% assign draw_capital = 'V' %}
+                        {% assign _V = false %}
+                    {% endif %} 
+
+                    {% if _firstLetter == 'W' and _W == true %}
+                        {% assign draw_capital = 'W' %}
+                        {% assign _W = false %}
+                    {% endif %}       
+
+                    {% if _firstLetter == 'X' and _X == true %}
+                        {% assign draw_capital = 'X' %}
+                        {% assign _X = false %}
+                    {% endif %}   
+
+                    {% if _firstLetter == 'Y' and _Y == true %}
+                        {% assign draw_capital = 'Y' %}
+                        {% assign _Y = false %}
+                    {% endif %}    
+
+                    {% if _firstLetter == 'Z' and _Z == true %}
+                        {% assign draw_capital = 'Z' %}
+                        {% assign _Z = false %}
+                    {% endif %}
+
+                    {% if draw_capital != blank %}
+                        {% assign need_to_skip = 2 %}
+                        {% assign skipped = skipped | plus: need_to_skip %}
+                        {% assign max = max | minus: need_to_skip %}
+                    {% else %}
+                        {% assign need_to_skip = 0 %}
+                    {% endif %}
+
+                {% endif %}
+
+                {% if forloop.index > min and forloop.index <= max %}
+
+                    {% if draw_capital != blank %}
+                        <div class="dropdown-capital">{{ draw_capital }}</div>
+                        {% assign last_drawn_capital = draw_capital %}
+                        {% assign draw_capital = '' %}
+                    {% endif %}
+
+                    {% comment %}
+                        check if first letter is under the right letter
+                    {% endcomment %}
+                    {% if _firstLetter == last_drawn_capital or last_drawn_capital == '123'%}
+                        <li class="list-group-item no-border {{ l.handle }}">
+                            <a href="{{ l.url }}">{{ l.title }}</a>
+                        </li>
+                    {% endif %}
+
+                {% endif %}
+                
+            {% endfor %}
+        </ul>
+    </div>
+{% endfor %}

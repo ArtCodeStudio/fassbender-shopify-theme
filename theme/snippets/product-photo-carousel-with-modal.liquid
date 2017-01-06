@@ -1,0 +1,15 @@
+{% include 'product-photo-carousel', is_modal: false, open_modal: true, img_class: 'background-box ratio-1-15', thumb_img_class: 'background-box ratio-1-15', left_class: 'hidden-xs col-sm-2', right_class: 'col-xs-12 col-sm-10' %}
+
+<div class="product-photo-modals">
+    <div class="modal fade modal-fullscreen force-fullscreen full-viewport-height product-photo-modal" id="product-photo-modal-{{product.handle}}" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container">
+                        {% include 'product-photo-carousel', is_modal: true, img_class: 'background-box full-viewport-height', thumb_img_class: 'background-box ratio-1-15', left_class: 'hidden-xs col-sm-2 col-md-2 col-lg-1 p-t-1 scroll-y-100vh', right_class: 'col-xs-12 col-sm-10 col-md-10 col-lg-11' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.13/appmate.js' | script_tag }}
+
+<script type="text/javascript">
+    AppmateInit = function(){
+        if (typeof Appmate === 'undefined') return; // In case lib didn't load.
+
+        Appmate.init({
+            app: {
+                autoLoad: true
+            },
+
+            shop: {
+            domain: '{{ shop.domain }}'
+            },
+
+            session: {
+                customer: '{{ customer.id }}',
+                cacheScripts: true,
+                expiration: 14
+            },
+
+            wishlist: {
+                loginRequired: false,
+                handle: '/pages/wishlist',
+                share: {
+                    title: 'Meine Wunschliste',
+                    description: 'Schau dir einige meiner Lieblingssachen von {{ shop.name }} an.',
+                    imageTitle: '{{ shop.name }}',
+                    hashTags: 'wishlist'
+                },
+            },
+
+            globals: {
+                settings: {{ settings | json }},
+                cookie_policy_handle: '{{ pages.cookie-policy.handle }}',
+                customer: '{{ customer.id }}',
+                customer_accounts_enabled: {{ shop.customer_accounts_enabled }},
+                translations: window.translations
+            }
+        });
+    };
+
+    AppmateInit();
+</script>
+
+{% capture wishlist_king_snippet %}
+{% include 'appmate-wishlist-king' %}
+{% endcapture %}
+{% unless wishlist_king_snippet contains "Liquid error" %}
+{{ wishlist_king_snippet }}
+{% endunless %}
+
+
+{% capture cookie_lawyer_snippet %}
+{% include 'appmate-cookie-lawyer' %}
+{% endcapture %}
+{% unless cookie_lawyer_snippet contains "Liquid error" %}
+{{ cookie_lawyer_snippet }}
+{% endunless %}

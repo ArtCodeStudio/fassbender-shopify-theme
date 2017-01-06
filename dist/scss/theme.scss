@@ -1,4 +1,4 @@
-
+@charset 'utf-8';
 @mixin box-shadow($shadow...) {
   @if $enable-shadows {
     @include vp-box-sizing($shadow);

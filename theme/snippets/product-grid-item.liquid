@@ -11,60 +11,63 @@ Here, for the sake of teaching, we will use 2 presentation options:
 - 4 products per row, when passing the value 'four-per-row' to the snippet
 {% endcomment %}
 
-{% comment %}If no value is passed to the snippet, we will set the snippet variable to a sensible default.{% endcomment %}
-{% if product-grid-item == '' %}{% assign product-grid-item = 'three-per-row' %}{% endif %}
-
 {% comment %}Is this product on sale?{% endcomment %}
 {% assign on_sale = false %}
 {% if product.compare_at_price > product.price %}
   {% assign on_sale = true %}
 {% endif %}
 
-<li class="{{ product-grid-item }}{% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}{% if product-grid-item == 'four-per-row' %}{% cycle 'last': '', '', '', ' last-in-row' %}{% elsif product-grid-item == 'three-per-row' %}{% cycle 'last': '', '', ' last-in-row' %}{% endif %} centered">
+<div id="{{product.handle}}" class="product-item m-b-1 {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
 
   <div class="prod-image-wrap">  
     <a href="{{ product.url | within: collection }}">
-      <img src="{{ product | img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}" />
-    </a>
-  </div><!-- .prod-image-wrap -->
-  
-  <div class="prod-caption">
-      <a href="{{ product.url | within: collection }}">
-        {{ product.title }}
-      </a>
-      <span class="prod-price">
-        {% if product.price_varies %}From{% endif %}
-        {{ product.price | money }}
-        {% if on_sale %}
-        <s class="compare-at-price">{{ product.compare_at_price | money }}</s>
+      {% if product.featured_image %}
+        {% assign featured_image_src = product | img_url: 'grande' %}
+        {% assign images_length =  product.images | size %}
+        {% if images_length > 1 %}
+          {% assign hover_image_src = product.images[1] | product_img_url: 'grande' %}
+          {% if featured_image_src == hover_image_src %}
+            {% assign hover_image_src = product.images[0] | product_img_url: 'grande' %}
+          {% endif %}
+          <div class="background-box ratio-1-15" style="background-image: url({{ featured_image_src }});" data-image-featured-src="{{ featured_image_src }}" data-image-hover-src="{{ hover_image_src }}" title="{{ product.featured_image.alt | escape }}"></div>
+        {% else %}
+          <div class="background-box ratio-1-15" style="background-image: url({{ featured_image_src }});" title="{{ product.featured_image.alt | escape }}"></div>
         {% endif %}
-      </span>
+      {% else %}
+        <div class="background-box ratio-1-15" style="background-image: url({{ 'no-image.png' | asset_url }});" title="{{ product.featured_image.alt | escape }}"></div>
+      {% endif %}
+    </a>
+  </div>
+  
+  <div class="prod-caption p-t-05">
+
+      <p class="prod-vendor text-left m-a-0">
+        <strong class="text-uppercase text-nowrap">{{ product.vendor }}</strong>
+       </p>
+
+      <p class="prod-title text-left m-a-0 text-nowrap">
+        {{ product.title }}
+       </p>
+      <p class="prod-price text-left m-a-0 text-nowrap">
+        {% assign price = product.price %}
+        {% if on_sale %}
+          <span class="text-danger text-nowrap">
+            {% include 'get-price' with price %}
+          </span>
+          {% assign price = product.compare_at_price %}
+        <span>
+          <s class="compare-at-price text-nowrap">
+            {% include 'get-price' with price %}
+          </s>
+        </span>
+        {% else %}
+        	{% include 'get-price' with price %}
+        {% endif %}
+      </p>
       {% comment %}
         All themes by Shopify should support the Product Reviews app out of the box.
         https://apps.shopify.com/product-reviews
       {% endcomment %}
       <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
-  </div><!-- .prod-caption -->
-  
-</li>
-
-{% comment %}
-You don't need to use a clearing div. Use whatever it is you use to clear
-floated elements. The code that follows just just shows you how to use a cycle element.
-Notice that we named it ( 'clear' ). We need to name it because there's another cycle
-element in this file ( we called that other one 'last' ). If you have more than one
-cycle element in a rendered view, you'll need to name all of them.
-The cycle element is documented here: http://docs.shopify.com/themes/liquid-basics/logic#cycle
-{% endcomment %}
-
-{% if product-grid-item == 'six-per-row' %}
-{% cycle 'clear': '', '', '', '', '', '<div style="clear:both"></div>' %}
-{% elsif product-grid-item == 'five-per-row' %}
-{% cycle 'clear': '', '', '', '', '<div style="clear:both"></div>' %}
-{% elsif product-grid-item == 'four-per-row' %}
-{% cycle 'clear': '', '', '', '<div style="clear:both"></div>' %}
-{% elsif product-grid-item == 'three-per-row' %}
-{% cycle 'clear': '', '', '<div style="clear:both"></div>' %}
-{% elsif product-grid-item == 'two-per-row' %}
-{% cycle 'clear': '', '<div style="clear:both"></div>' %}
-{% endif %}
+  </div>
+</div>

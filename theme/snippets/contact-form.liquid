@@ -1,0 +1,70 @@
+{% form 'contact' %}
+
+  {% if form.posted_successfully? %}
+    <div class="col-xs-12 successForm feedback">
+      {{ 'contact.form.post_success' | t }}
+    </div>
+  {% endif %}
+
+  {% if form.errors %}
+  <div class="col-xs-12 errorForm feedback">
+    <!-- {{ form.errors.size }} or {{ form.errors | size }} -->
+    <p>Your contact form has {{ form.errors | size | pluralize: ‘an error’, ‘a few errors’ }}. To submit your form, make the following changes and try again:</p>
+    {% for field in form.errors %}
+      <p>The {{ field | capitalize | replace: 'Body', 'Message' }} field {{ form.errors.messages[field] }}.</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="col-xs-12 col-sm-12" id="contactFormWrapper">
+    <div class="description text-left m-b-1">
+      {% if contact_title == blank %}
+        <h1 class="text-serif text-normal">{{settings.homepage_contact_title}}</h1>
+      {% else %}
+        <h1 class="text-serif text-normal">{{contact_title}}</h1>
+      {% endif %}
+      <div class="text-left">
+        <p>{{settings.homepage_contact_text | newline_to_br}}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label class="sr-only">{{ 'contact.form.firstname' | t }}</label>
+          <input type="text" class="form-control text-left" required id="contactFormFirstname" placeholder="{{ 'contact.form.firstname' | t }}" name="contact[firstname]">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label class="sr-only">{{ 'contact.form.name' | t }}</label>
+          <input type="text" class="form-control text-left" required id="contactFormName" placeholder="{{ 'contact.form.name' | t }}" name="contact[name]">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label class="sr-only">{{ 'contact.form.email' | t }}</label>
+          <input type="email" class="form-control text-left" required id="contactFormEmail" placeholder="{{ 'contact.form.email' | t }}" name="contact[email]">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label class="sr-only">{{ 'contact.form.phone' | t }}</label>
+          <input type="number" class="form-control text-left" required id="contactFormPhone" placeholder="{{ 'contact.form.phone' | t }}" name="contact[phone]">
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label class="sr-only">{{ 'contact.form.message' | t }}</label>
+          <textarea required rows="10" class="form-control" id="contactFormMessage" placeholder="{{ 'contact.form.message' | t }}" name="contact[body]"></textarea>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group text-left">
+          <input type="submit" class="btn btn-primary p-x-1" id="contactFormSubmit" value="{{ 'contact.form.send' | t }}" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endform %}

@@ -1,0 +1,15 @@
+{% if linklists.footer.links.size > 0 %}
+  <nav class="navbar navbar-default navbar-center navbar-footer m-t-1" role="navigation">
+    <div class="ah-container-fluid">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          {% for link in linklists.footer.links %}
+            <li {% if link.active %} class="{{link.handle}} active"{% endif %}>
+              <a class="text-normal" href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+{% endif %}

@@ -1,0 +1,74 @@
+{% if collections.size > 0 %}
+  <div id="navbar-collection-affix-wrapper">
+    <nav class="navbar navbar-default navbar-center navbar-collection" id="navbar-collection" role="navigation">
+      <ul class="nav navbar-nav hidden-xs">
+        <li {% unless collection.id %} class="active"{% endunless %}>
+          <a href="/collections/all" title="All">All</a>
+        </li>
+        {% for nav_collection in collections %}
+          <li {% if nav_collection.id == collection.id %} class="active"{% endif %}>
+            <a href="{{ nav_collection.url }}" title="{{ nav_collection.title }}">{{ nav_collection.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <div class="navbar-collection-sm-wrapper visible-xs-block">
+        <div class="navbar-header" data-toggle="collapse" data-target="#navbar-collection-collapse" aria-expanded="false">
+          <ul class="nav navbar-nav ">
+            <li class="active">
+              {% comment %}
+                active collection on the first position
+                if collection.id not set you are on collection product overview
+                if template == "collection" you are on all products overview
+              {% endcomment %}
+              {% if collection.id %}
+                <p class="navbar-text" title="{{ collection.title }}">{{ collection.title }}</p>
+              {% else %}
+
+                {% if template == "list-collections" %}
+                  <p class="navbar-text" title="Shop">Shop</p>
+                {% endif %}
+                {% if template == "collection" %}
+                  <p class="navbar-text" title="All">All</p>
+                {% endif %}
+
+                {% comment %} Placeholder if nothing would show here {% endcomment %}
+                {% if template != "list-collections" and template != "collection" %}
+                  <p class="navbar-text" title="All">All</p>
+                {% endif %}
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collection-collapse">
+          <ul class="nav navbar-nav ">
+
+            {% comment %}
+              uncomment this if you want to show shop in collapsed menu 
+              {% if template != "list-collections" %}
+                <li>
+                  <a href="/collections" title="Shop">Shop</a>
+                </li>
+              {% endif %}
+            {% endcomment %}
+            
+            {% if collection.id or (template != "collection" and template != "product") %}
+              <li>
+                <a href="/collections/all" title="All">All</a>
+              </li>
+            {% endif %}
+
+            {% comment %} collections without the active one {% endcomment %}
+            {% for nav_collection in collections %}
+              {% if nav_collection.id != collection.id %}
+                <li>
+                  <a href="{{ nav_collection.url }}" title="{{ nav_collection.title }}">{{ nav_collection.title }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+{% endif %}

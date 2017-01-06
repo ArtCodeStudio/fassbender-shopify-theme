@@ -1,0 +1,5 @@
+{% if settings.money_with_currency %}
+    {{ price | money_with_currency }}
+{% else %}
+    {{ price | money }}
+{% endif %}

@@ -1,0 +1,87 @@
+<div id="bold-loyalties-shipping-modal">
+	<form id="handle-{{product.handle}}-bold-loyalties-shipping-form" class="form-horizontal" action="https://loy.boldapps.net/front_end/redeem" method="POST">
+		<input type="hidden" name="domain" value="{{shop.permanent_domain}}" />
+		<input type="hidden" name="uuid" value="{{customer.metafields.bold_loyalties.uuid}}" />
+		<input type="hidden" name="variant_id" id="bold_loyalties_redeem_variant" value="" />
+		<input type="hidden" name="product_id" value="{{product.id}}" />
+
+		<div class="section__header">
+			<a href="#" class="bold-modal-close-btn slick-modal-close">
+				<i class="fa fa-times" aria-hidden="true"></i>
+			</a>
+			<h3 class="m-t-0">{{shop.metafields.bold_loyalties.modal_heading}}</h3>
+			<p class="alert alert-success bold-success">{{shop.metafields.bold_loyalties.modal_thank_you_message}}</p>
+		</div>
+
+		<div class="section__body">
+			<h4>{{shop.metafields.bold_loyalties.modal_shipping_message}}</h4>
+			<div class="fieldset row" id="shipping-address">
+				<div class="alert alert-danger field field--required field--error shipping-address-errors" style="display:none;"><span class="field__error-message shipping-address-errors-text"></span></div>
+				<div class="form-group field field--optional">
+					<label class="col-xs-12 col-sm-4  control-label" for="checkout_shipping_address_first_name">Vorname</label>
+					<div class="col-xs-12 col-sm-8">
+						<input required autocomplete="shipping given-name" id="checkout_shipping_address_first_name" name="first_name_shipping" size="30" type="text" class="form-control address_info" value="{{customer.default_address.first_name}}">
+					</div>
+				</div>
+				<div class="form-group field field--required">
+					<label class="col-xs-12 col-sm-4  control-label" for="checkout_shipping_address_last_name">Nachname</label>
+					<div class="col-xs-12 col-sm-8">
+						<input required autocomplete="shipping family-name" id="checkout_shipping_address_last_name" name="last_name_shipping" size="30" type="text" class="form-control address_info" value="{{customer.default_address.last_name}}">
+					</div>
+				</div>
+				<div class="form-group field field--required">
+					<label class="col-xs-12 col-sm-4  control-label" for="checkout_shipping_address_address1">Straße</label>
+					<div class="col-xs-12 col-sm-8">
+						<input required autocomplete="shipping address-line1" id="checkout_shipping_address_address1" name="address1_shipping" size="30" type="text" class="form-control address_info" value="{{customer.default_address.address1}}">
+					</div>	
+				</div>
+				<div class="form-group field field--optional">
+					<label class="col-xs-12 col-sm-4  control-label" for="checkout_shipping_address_address2">Adresszusatz</label>
+					<div class="col-xs-12 col-sm-8">
+						<input autocomplete="shipping address-line2" id="checkout_shipping_address_address2" name="address2_shipping" size="30" type="text" class="form-control" value="{{customer.default_address.address2}}">
+					</div>
+				</div>
+				<div class="form-group field field--required">
+					<label class="col-xs-12 col-sm-4  control-label" for="checkout_shipping_address_city">Stadt</label>
+					<div class="col-xs-12 col-sm-8">
+						<input required autocomplete="shipping locality" id="checkout_shipping_address_city" name="city_shipping" size="30" type="text" class="form-control address_info" value="{{customer.default_address.city}}">
+					</div>
+				</div>
+				<div class="form-group field field--required">
+					<label class="col-xs-12 col-sm-4  control-label" for="checkout_shipping_address_country">Land</label>
+					<div class="col-xs-12 col-sm-8">
+						<select required autocomplete="shipping country" data-country-field="1" id="checkout_shipping_address_country" name="country_shipping" size="1" class="form-control address_info country">
+							{{country_option_tags}}
+						</select>
+					</div>
+				</div>
+				<div class="form-group field field--required">
+					<label class="col-xs-12 col-sm-4  control-label">Ort</label>
+					<select name="province_shipping" class="col-xs-12 col-sm-8 form-control address_info province">
+						<option value="" selected=""> -- Please Select -- </option>
+					</select>
+				</div>
+				<div class="form-group field field--required">
+					<label class="col-xs-12 col-sm-4  control-label" data-zip-label="1" for="checkout_shipping_address_zip">Postleitzahl</label>
+					<div class="col-xs-12 col-sm-8">
+						<input required autocomplete="shipping postal-code" class="postal-code address_info" data-zip-field="1" id="checkout_shipping_address_zip" name="zip_shipping" size="30" type="text" value="{{customer.default_address.zip}}">
+					</div>
+				</div>
+				<div class="form-group field field--optional">
+					<label class="col-xs-12 col-sm-4  control-label" for="checkout_shipping_address_phone">Telefon</label>
+					<div class="col-xs-12 col-sm-8">
+						<input autocomplete="shipping tel" id="checkout_shipping_address_phone" name="phone_shipping" size="30" type="tel" class="form-control" value="{{customer.default_address.phone}}">
+					</div>
+				</div>
+			</div>
+			<div class="call-to-action">
+				<a href="#" class="btn btn-default btn--secondary bold-modal-close-btn">Abbrechen</a>
+				<input class="btn btn-primary continue_btn" type="submit" name="submit" value="Einlösen">
+			</div>
+		</div>
+		<div class="bold-success bold-success-buttons">
+			<a href="/account" class="btn btn-default btn--secondary">Zum Kundenkonto</a>
+			<a href="/collections/all" class="btn btn-primary ">Weiter shoppen</a>
+		</div>
+	</form>
+</div>

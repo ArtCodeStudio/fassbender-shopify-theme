@@ -1,0 +1,26 @@
+<li class="level-1 cart-button dropdown dropdown-columns yamm">
+    <a href="/cart" class="btn btn-default navbar-btn navbar-link ah-navbar-btn-icon cart-button dropdown-toggle dropdown-toggle-cart">
+        <div class="font-icon cart-icon">
+            <img class="not-active" src="{{ 'cart.svg' | asset_url }}" />
+            <img class="active" src="{{ 'cart_active.svg' | asset_url }}" />
+        </div>
+        <span class="cartCount hidden">
+            {{ cart.item_count }}
+        </span>
+    </a>
+    <ul class="{{link.handle}} dropdown-menu dropdown-column dropdown-cart col-xs-12 col-md-6 col-lg-6 p-a-05">
+        <li>
+            <div data-cart-view="data-cart-view">
+                <form action="/cart" method="post">
+                    <div class="border px-1 bottom table-color">
+                        <div rv-show="cart.item_count | gt 0" class="text-right p-b-05">
+                            <input type="submit" name="checkout" value="Zur Kasse" class="btn btn-primary" />
+                        </div>
+                    </div>
+                    {% assign place = 'cart-dropdown' %}
+                    {% include 'cart' with place %}
+                </form>
+            </div>
+        </li>
+    </ul>
+</li>

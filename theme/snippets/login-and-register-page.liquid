@@ -1,0 +1,73 @@
+<div class="ah-container-fluid" id="login-and-register-container">
+  <div class="container-fluid">
+
+    <div class="row">
+    
+      {% if customer %}
+        <div class="col-xs-12">
+          <h2 class="text-center">Herzlichen Glückwunsch {{ customer.first_name }}, Sie sind angemeldet!
+            <br>
+            <small>Vielen Dank für Ihre erfolgreiche Regsitrierung.</small>
+          </h2>
+          <div class="text-center m-y-3">
+            <a href="/account" class="btn btn-default btn-lg">{{ 'navbar.shop_actions.my_account' | t }}</a>
+            <a href="/account/logout" class="btn btn-default btn-lg no-barba">{{ 'navbar.shop_actions.logout' | t }}</a>
+            <a href="/" class="btn btn-primary btn-lg">Weitershoppen</a>
+          </div>
+        </div>
+      {% else %}
+
+        <div class="col-xs-12">
+          <div class="alert alert-warning" role="alert" id="ResetSuccess" style="display:none;">
+
+            {% comment %}
+                If a user has successfully requested a new password, the form.posted_successfully? variable
+                is set to true within the 'recover_customer_password' form only. Within that form you'll see
+                the variable 'resetPassword' set to true, which is used to initialize timber.resetPasswordSuccess().
+            {% endcomment %}
+            <span >
+                {{ 'customer.recover_password.success' | t }}
+            </span>
+          
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="alert alert-warning text-center" role="alert" id="formErrorMessages" style="display:none;">
+
+          </div>
+        </div>
+
+        {% if settings.show_login_message %}
+          <div class="col-xs-12">
+              <div class="alert alert-warning" role="alert" id="NewShopMessage">
+              <strong>{{ settings.login_message_title }}</strong><br>
+              {{ settings.login_message }}
+              </div>
+          </div>
+        {% endif %}
+
+        <div class="col-xs-12 col-md-6 text-center">
+          <div class="login p-y-1 border top right bottom left px-1 gray-base">
+            <div class="p-x-1">
+              {% include 'login' %}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-md-6 text-center">
+          <div class="register p-y-1 border top right bottom left px-1 gray-base">
+            <div class="p-x-1">
+              {% include 'register' %}
+              {% include 'register-reasons' %}
+            </div>
+          </div>
+        </div>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+</div>
+

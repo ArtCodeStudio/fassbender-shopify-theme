@@ -1,0 +1,149 @@
+<table class="table table-responsive table-cart m-a-0 hidden-xs">
+    <tbody>
+        <tr rv-each-item="cart.items">
+            <td>
+                <strong rv-text="item.quantity" class="cart-image-count"></strong>
+                <a class="cart-link" rv-href="item.url">
+                    <div class="image-box ratio-1-15">
+                        <img rv-if="item.image" rv-src="item.image" rv-alt="item.title" class="media-object content">
+                        <img rv-unless="item.image" src="{{ 'no-image.png' | asset_url }}" alt="" class="media-object content">
+                    </div>
+                </a>
+            </td>
+            <td class="p-y-1" width="70%">
+                <strong rv-text="item.vendor"></strong>
+                <br>
+                <span rv-text="item.title"></span>
+                <br>
+                <ul rv-hide="item.propertyArray | not | empty">
+                    <li rv-each-property="item.propertyArray < properties">
+                        <small class="text-muted">{property.name}: {property.value}</small>
+                    </li>
+                </ul>
+               {% if settings.dropdown_cart_show_price_per_item %}
+                    <span rv-show="item.quantity | gt 1" rv-html="item.price | money Currency.currentCurrency"></span>
+                    <br>
+                {% endif %}
+                <span rv-show="item.original_line_price | gt item.line_price" rv-html="item.line_price | money Currency.currentCurrency" class="text-danger"></span>
+                <s rv-show="item.original_line_price | gt item.line_price" rv-html="item.original_line_price | money Currency.currentCurrency"></s>
+                <span rv-hide="item.original_line_price | gt item.line_price" rv-html="item.line_price | money Currency.currentCurrency"></span>
+                
+                <span rv-hide="item.discounts | empty">
+                  <em rv-each-discount="item.discounts < discounts">- {discount.title}</em>
+                </span>
+          	</td>
+            {% if place == 'cart-template' %}
+                <td class="p-y-1" width="30%">
+                    <div class="input-group input-group-no-middle-borders input-group-width-90px" role="group" aria-label="...">
+                        <span class="input-group-btn">
+                            <button rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" type="button" class="btn btn-default">-</button>
+                        </span>
+                        <input rv-value="item.quantity" type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <button rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | plus 1" type="button" class="btn btn-default">+</button>
+                        </span>
+                    </div>
+                </td>
+            {% else %}
+
+            {% endif %}
+            <td class="p-y-1" >
+ 
+            </td>
+            <td class="p-y-1">
+                
+            </td>
+            <td class="p-y-1 text-right">
+                <div class="btn-group-vertical" role="group" aria-label="...">
+                    <a href="#" rv-data-cart-remove="index | plus 1" class="btn btn-default no-border cart-remove">
+                        
+                    </a>
+                    {% if place == 'cart-template' %}
+
+                    {% elsif settings.dropdown_cart_show_adjust_quantity_buttons %}
+                        <a href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | plus 1" class="btn btn-default btn-sm no-border">
+                            +
+                        </a>
+                        <a href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" class="btn btn-default btn-sm no-border">
+                            -
+                        </a>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+        <tr class="p-y-1" rv-show="cart.item_count | lt 1">
+            <td colspan="5">{{ 'cart.general.empty' | t }}</td>
+        </tr>
+    </tbody>
+    <tfoot rv-show="cart.item_count | gt 0" class="">
+        <tr>
+            <td></td>
+            <td width="70%">
+                <strong>Zwischensumme</strong>
+            </td>
+            <td></td>
+            {% if place == 'cart-template' %}
+                <td></td>
+            {% else %}
+
+            {% endif %}
+            <td width="30%" class="text-right" >
+                <strong rv-html="cart.total_price | money Currency.currentCurrency"></strong>
+            </td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="visible-xs-block">
+    <div class="row">
+        <div class="media" rv-each-item="cart.items">
+            <div class="media-left media-middle col-xs-4">
+                <a class="cart-link" rv-href="item.url">
+                    <div class="image-box ratio-1-15">
+                        <img rv-if="item.image" rv-src="item.image" rv-alt="item.title" class="media-object content">
+                        <img rv-unless="item.image" src="{{ 'no-image.png' | asset_url }}" alt="" class="media-object content">
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-8">
+                <div class="media-body">
+                    <h4 rv-text="item.vendor" class="media-heading"></h4>
+                    <p rv-text="item.title"></p>
+                    {% if settings.dropdown_cart_show_price_per_item %}
+                        <p rv-show="item.quantity | gt 1" rv-html="item.price | money Currency.currentCurrency"></p>
+                    {% endif %}
+                    <p>
+                        <span rv-show="item.original_line_price | gt item.line_price" rv-html="item.line_price | money Currency.currentCurrency" class="text-danger"></span>
+                        <s rv-show="item.original_line_price | gt item.line_price" rv-html="item.original_line_price | money Currency.currentCurrency"></s>
+                        <span rv-hide="item.original_line_price | gt item.line_price" rv-html="item.line_price | money Currency.currentCurrency"></span>
+                        
+                        <span rv-hide="item.discounts | empty">
+                          <em rv-each-discount="item.discounts < discounts">- {discount.title}</em>
+                        </span>
+                    </p>
+                    <p>
+                        <div class="input-group input-group-no-middle-borders input-group-width-90px pull-left" role="group" aria-label="...">
+                            <span class="input-group-btn">
+                                <button rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" type="button" class="btn btn-default">-</button>
+                            </span>
+                            <input rv-value="item.quantity" type="text" class="form-control">
+                            <span class="input-group-btn">
+                                <button rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | plus 1" type="button" class="btn btn-default">+</button>
+                            </span>
+                        </div>
+                        <div class="text-right">
+                            <a href="#" rv-data-cart-remove="index | plus 1" class="btn btn-default no-border cart-remove">
+                                
+                            </a>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 text-center" rv-show="cart.item_count | lt 1">
+            <h3>{{ 'cart.general.empty' | t }}</h3>
+            <p>{{ 'cart.general.empty_message' | t }}</p>
+        </div>
+    </div>
+</div>

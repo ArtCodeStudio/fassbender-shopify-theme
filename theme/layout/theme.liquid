@@ -1,39 +1,171 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags always come first -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="
+    script-src 'self' https://* 'unsafe-inline' 'unsafe-eval'
 
-    <!--Shopify -->
-    <title>
-        {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
-    </title>
-    {% if page_description %}
-        <meta name="description" content="{{ page_description | escape }}" />
-    {% endif %}
-    <link rel="canonical" href="{{ canonical_url }}" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {% include 'open-graph-tags' %}
-    {% include 'twitter-card' %}
-    {{ content_for_header }}
-    {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
-  </head>
-  <body>
-    <div class="container">
-        <header class="row">
-            {% include 'navbar' %}
-            <div id="main" role="main">
-              <h1>Hello World</h1>
-            {{ content_for_layout }}
-            </div>
-        </div>
+  " />
+
+  <title>
+  {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}" />
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}" />
+  
+  {% include 'favicons' %}
+  {% include 'open-graph-tags' %}
+  {% include 'twitter-card' %}
+
+  {{ content_for_header }}
+
+  {% include 'variables.js' %}
+
+  {% comment %}
+    https://help.shopify.com/manual/reports-and-analytics/google-analytics#remove-duplicate-scripts
+    https://help.shopify.com/manual/reports-and-analytics/google-analytics/google-analytics-setup#upgrade-ga%22
+  {% endcomment %}
+  <script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  <script src="{{'libs.min.js' | asset_url}}"></script>
+  <script src="{{'shopify_common.js'  | shopify_asset_url}}"></script>
+  <script src="{{'customer_area.js'  | shopify_asset_url}}"></script>
+  <script src="{{'api.jquery.js'  | shopify_asset_url}}"></script>
+  <script src="{{'option_selection.js'  | shopify_asset_url}}"></script>
+  {% comment %}
+  <script>
+  if(videojs) {
+    videojs.options.flash.swf = "{{'video-js.swf'  | asset_url}}"
+  }
+  </script>
+  {% endcomment %}
+
+  <link rel="stylesheet" href="{{ 'social/social-icons.css' | global_asset_url }}">
+  <link rel="stylesheet" href="{{ 'theme.scss.css' | asset_url }}" id="alertifyCSS">
+  {{ 'shop.js'  | asset_url | script_tag }}
+
+  <script>jQuery('html').removeClass('no-js').addClass('js');</script>
+
+</head>
+
+<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+
+  {% comment %}
+    Main Navigation 
+  {% endcomment %}
+  {% include 'navbar' %}
+
+  <div id="barba-wrapper">
+    <div class="barba-container"
+      data-namespace="{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}"
+
+      {% if product %}
+        data-product-url="{{collection.url}}{{product.url}}"
+        data-product-title='{{product.title | replace: "'", "&#39;"}}'
+        data-product-json-string='{{product | json | replace: "'", "&#39;"}}'
+        data-product-metafields-bold_loyalties-json-string='{{product.metafields.bold_loyalties | json | replace: "'", "&#39;"}}'
+        data-product-metafields-global-json-string='{{product.metafields.global | json | replace: "'", "&#39;"}}'
+
+        {% if collection.previous_product %}
+          data-product-prev-url="{{collection.previous_product}}"
+        {% endif %}
+
+        {% if collection.next_product %}
+          data-product-next-url="{{collection.next_product}}"
+        {% endif %}
+      {% endif %}
+
+      {% if collection %}
+        data-collection-handle="{{collection.handle}}"
+
+        {% comment %}
+          Paginate informations needed for the show all products function
+        {% endcomment %}
+        data-paginate-pages-current-index="{{ current_page }}"
+
+        {% paginate collection.products by settings.products_per_page %}
+
+          {% if paginate.previous.is_link %}
+            data-paginate-previous-url="{{ paginate.previous.url }}"
+          {% endif %}
+
+          {% if paginate.next.is_link %}
+            data-paginate-next-url="{{ paginate.next.url }}"
+          {% endif %}
+
+          {% for part in paginate.parts %}
+
+            {% comment %}
+              The count of pagination pages is in the url of the last part.url
+              e.g if the url is "/collections/all?page=11" the length of pages is 11
+              part.url is unset if this is the current page
+              {% endcomment %}
+            {% if forloop.last %}
+              {% assign string_to_remove = '/collections/' | append: collection.handle | append: '?page=' %}
+              {% assign calced_current_page = part.url | remove: string_to_remove %}
+              {% if calced_current_page == blank %}
+                {% assign calced_current_page = current_page %}
+              {% endif %}
+              data-paginate-pages-length="{{ calced_current_page }}"
+            {% endif %}
+
+            
+          {% endfor %}
+
+        {% endpaginate %}
+
+      {% endif %}
+
+      {% if paginate_hash %}
+        data-paginate-hash="{{paginate_hash}}"
+      {% endif %}
+
+      {% if page %}
+         data-page-handle="{{page.handle}}"
+      {% endif %}
+
+      {% if search %}
+        data-search-results-count="{{search.results_count}}"
+        {% if search.results_count == 1 %}
+          data-search-result-url={{search.results[0].url}}
+        {% endif %}
+      {% endif %}
+
+      {% if newHash %}
+        data-new-hash="{{newHash}}"
+      {% else %}
+        data-new-hash=false
+      {% endif %}
+
+      {% if blog %}
+        data-blog="true"
+        data-blog-articles-count="{{blog.articles_count}}"
+        data-blog-comments-enabled="{{blog.comments_enabled?}}"
+        data-blog-handle="{{blog.handle}}"
+        data-blog-id="{{blog.id}}"
+        data-blog-moderated="{{blog.moderated?}}"
+        data-blog-next-article="{{blog.next_article}}"
+        data-blog-previous-article="{{blog.previous_article}}"
+        data-blog-tags="{{blog.tags}}"
+      {% endif %}
+
+    >
+      {{ content_for_layout }}
     </div>
+  </div>
 
-    <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" crossorigin="anonymous"></script>
-  </body>
+  <footer class="">
+    {% include 'footer' %}
+    {% include 'navbar-footer' %}
+  </footer>
+
+  {% include 'preload-images' %}
+
+</body>
 </html>

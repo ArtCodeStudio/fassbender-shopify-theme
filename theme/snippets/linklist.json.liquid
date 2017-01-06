@@ -1,0 +1,20 @@
+'{{linklist.handle}}': {
+    {% if linklist.handle %}
+        'handle': '{{linklist.handle}}',
+    {% endif %}
+    {% if linklist.id %}
+        'id': '{{linklist.id}}',
+    {% endif %}
+    {% if linklist.links %}
+        'links': {% include 'links.json' %},
+    {% endif %}
+    {% if linklist.title %}
+        'title': '{{linklist.title}}',
+        'text': '{{linklist.title}}', {% comment %} bootstrap-treeview  {% endcomment %}
+    {% endif %}
+
+    {% assign child_list_handle = linklist.title | handle %}
+    {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+        'nodes': [],
+    {% endif %}
+}

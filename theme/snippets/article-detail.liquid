@@ -1,0 +1,64 @@
+<div class="article row">
+
+  {% if article.image and settings.blog_detail_show_featured_image %}
+    <div class="col-xs-12 col-md-4 col-md-offset-4 ">
+      <a href="{{ article.url }}">
+        <div class="background-box ratio-1-1" style="background-image: url({{ article | img_url: 'grande' }});"></div>
+      </a>
+    </div>
+  {% endif %}
+
+  <div class="col-xs-12 col-md-8 col-md-offset-2">
+
+    <h1 class="text-center text-serif text-normal text-size-6 hyphenate">
+      {{ article.title }}
+    </h1>
+
+    <div class="p-y-1">
+      <gravatar data-hash="{{article.user.email | remove: ' ' | strip_newlines | downcase | md5}}" class="center-block max-width-50" data-placeholders='[ {{ 'anita-avatar-01.jpg' | asset_url | json }}, {{ 'anita-avatar-02.jpg' | asset_url | json }}, {{ 'anita-avatar-03.jpg' | asset_url | json }}, {{ 'anita-avatar-04.jpg' | asset_url | json }}, {{ 'anita-avatar-05.jpg' | asset_url | json }} ]'></gravatar>
+      <div class="text-center p-t-05 article-name">
+        von {{article.user.first_name | default: 'Unbekannt'}} {{article.user.last_name}}
+        <br>
+        am <time class="p-y-1" pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%d.%m.%Y' }}</time>
+      </div>
+    </div>
+
+    <div class="rte">
+      {{ article.content }}
+    </div>
+
+  </div>
+</div>
+
+<div class="comments row">
+  <div class="col-xs-12 col-md-8 col-md-offset-2">
+    {% include 'article-comments' %}
+  </div>
+</div>
+
+<div class="article-footer row">
+
+  <div class="col-xs-12">
+    <div class="social-links center-block p-y-1">
+      {% include 'social-links' %}
+    </div>
+  </div>
+
+  <div class="col-xs-12 p-y-1">
+    <h3 class="text-normal">Read Next:</h3>
+    <div class="row next">
+      {% assign count = 0 %}
+      {% for nextArticle in blogs.news.articles limit: 4 %}
+        {% if nextArticle.url != article.url and count < 3 %}
+          {% assign count = count | plus: 1 %}
+          {% include 'article-grid-item' article: nextArticle %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if border %}
+    <div class="col-xs-12"> <hr class="m-y-0"> </div>
+  {% endif %}
+
+</div>
