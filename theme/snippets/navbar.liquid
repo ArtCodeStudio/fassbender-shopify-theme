@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
+<nav class="navbar fixed-top navbar-toggleable-md navbar-light bg-white border-b border-px-1 border-color-gray-lighter" id="main-navbar">
 
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="sidebar" data-target="#right-sidebar" aria-controls="right-sidebar" aria-expanded="false" aria-label="Toggle Sidebar">
     <span class="navbar-toggler-icon"></span>
@@ -6,10 +6,12 @@
 
   <div class="container">
 
-    <a class="navbar-brand" href="/">studio pezzetta</a>
+    <a class="navbar-brand" href="/">
+      <img src="{{ 'logo.svg' | asset_url }}" width="300" height="30" alt="STUDIO PEZZETTA">
+    </a>
     
     <div class="w-100">
-      <ul class="hidden-md-down navbar-nav d-flex flex-row-reverse">
+      <ul class="hidden-md-down navbar-nav d-flex justify-content-end">
         {% for link in linklists.main-menu.links %}
           {% assign has_sub_menu = false %}
           {% assign has_sub_categories = false %}

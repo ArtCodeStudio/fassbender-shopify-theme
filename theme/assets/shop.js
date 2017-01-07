@@ -1066,9 +1066,6 @@ var initNavbar = function () {
 
   initRightSidebar();
 
-  // remove shopify admin bar, because that makes problems
-  $('#admin_bar_iframe').remove();
-
   // Same height for designer dropdown columns, to make the borders equal
   var $elements= $('.designer-dropdown-col');
   jumplink.cache.$window.on('resize', function() {

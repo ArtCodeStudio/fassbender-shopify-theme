@@ -1,6 +1,18 @@
 // theme file without liquid variables to test the concationation
 @import 'charset';
-@import 'fixes';
-@import 'custom';
+
 @import "../../bower_components/sass-autoprefixer/scss/prefixes";
+@import '../../bower_components/jumplink-components/scss/fixes';
 @import "../../bower_components/bootstrap-backward/scss/bootstrap";
+
+@import '../../bower_components/jumplink-components/scss/utilities';
+@import '../../bower_components/jumplink-components/scss/iconset';
+@import '../../bower_components/jumplink-components/scss/styleicons';
+@import '../../bower_components/jumplink-components/scss/modal';
+@import '../../bower_components/jumplink-components/scss/border';
+@import '../../bower_components/jumplink-components/scss/images';
+@import '../../bower_components/jumplink-components/scss/positions';
+@import '../../bower_components/jumplink-components/scss/colors';
+
+@import 'layout';
+@import 'sidebar';
