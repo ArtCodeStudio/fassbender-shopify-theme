@@ -286,17 +286,17 @@ gulp.task('theme_settings', ['bootstrap_theme_settings'], function () {
   // list of settings files to include, in order of inclusion
   var settings = [
     'bootstrap',
+    'collections'
   ];
 
   return gulp.src('./settings_schema/*.json')
     .pipe(jsoncombine('settings_schema.json',function(data){
-      // collect the json data and store it in the correct order
       var data_array = [];
+      // collect the json data and store it in the correct order
       for (var i = 0; i < settings.length; i++) {
         var file = settings[i];
         data_array.push(data[file]);
       }
-
       return new Buffer(JSON.stringify(data_array, null, 2));
     }))
     .pipe(gulp.dest('./theme/config/'));

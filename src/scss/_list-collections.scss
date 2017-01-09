@@ -1,0 +1,31 @@
+.collection-image-wrap {
+    position: relative;
+    //@include transition(background-color 0s linear);
+    .background-box {
+        //@include transition($transition-fade);
+        opacity: 1;
+    }
+    .collection-caption {
+        @include transition($transition-fade);
+        opacity: 0;
+        position: absolute;
+        bottom: 40px;
+        left: 0;
+        right: 0;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        width: 100%;
+        color: $white;
+        text-align: center;
+        font-weight: 300;
+    }
+    &:hover {
+        background-color: $black;
+        .background-box {
+            opacity: 0.2;
+        }
+        .collection-caption {
+            opacity: 1;
+        }
+    }
+}

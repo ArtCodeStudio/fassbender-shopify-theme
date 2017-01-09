@@ -1,19 +1,23 @@
 {% comment %}If no value is passed to the snippet, we will set the snippet variable to a sensible default.{% endcomment %}
 
-<div class="coll-item p-y-1">
+<div class="collection-item m-3">
 
-  <div class="coll-image-wrap">
+  <div class="collection-image-wrap">
     <a href="{{ collection.url }}">
       {% if collection.image %}
-        <div class="background-box ratio-16-9" style="background-image: url({{ collection | img_url: 'grande' }});" title="{{ collection.image.alt | escape }}"></div>
+        {% assign image = collection | img_url: 'grande' %}
+        {% assign title = collection.image.alt | escape %}
       {% else %}
-        <div class="background-box ratio-16-9" style="background-image: url({{ collection.products.first | img_url: 'grande' }});" title="{{ collection.title | escape }}"></div>
+        {% assign image = collection.products.first | img_url: 'grande' %}
+        {% assign title = collection.title | escape %}
       {% endif %}
+      <div class="background-box {{ settings.collections_aspect_ratio }}" style="background-image: url({{ image }});" title="{{ title }}"></div>
+      <div class="collection-caption">
+        {{ collection.title }}
+      </div>
     </a>
   </div>
   
-  <div class="coll-caption p-t-1">
-    {{ collection.title }}
-  </div>
+
 
 </div>

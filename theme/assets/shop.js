@@ -241,8 +241,7 @@ jumplink.cacheSelectors = function () {
     $window                  : $(window),
 
     $ahSubNavbar             : $('#ah-sub-navbar'),
-    $ahNavbar                : $('#ah-navbar'),
-    $logoHeader              : $('#logo-header'),
+    $mainNavbar              : $('#main-navbar'),
     $leftSidebar             : $('#left-sidebar'),
     $rightSidebar            : $('#right-sidebar'),
     $Sidebars                : $('#right-sidebar, #left-sidebar'),
@@ -253,6 +252,8 @@ jumplink.cacheSelectors = function () {
     $cartCostSelector        : $('.cart-cost'),
 
     $newsletterForm          : $('#newsletter-form'),
+
+    $barbaWrapper            : $('#barba-wrapper'),
     
     // barba
     lastElementClicked       : null,
@@ -669,28 +670,14 @@ var initModalHistoryBack = function () {
  * 
  */
 var getMainNavHeight = function () {
-  return jumplink.cache.$ahNavbar.outerHeight(true);
-}
-
-/**
- * 
- */
-var getSubNavHeight = function () {
-  return jumplink.cache.$ahSubNavbar.outerHeight(true);
-}
-
-/**
- * 
- */
-var getHeaderHeight = function () {
-  return jumplink.cache.$logoHeader.outerHeight(true);
+  return jumplink.cache.$mainNavbar.outerHeight(true);
 }
 
 /**
  * 
  */
 var getAllNavsHeight = function () {
-  return getSubNavHeight() + getHeaderHeight() + getMainNavHeight();
+  return getMainNavHeight();
 }
 
 jumplink.goTo = function (href) {
@@ -1062,57 +1049,24 @@ var initRightSidebar = function () {
  * 
  */
 var initNavbar = function () {
-  var $navbarDummy = $('#ah-navbar-dummy');
-
+  
   initRightSidebar();
 
-  // Same height for designer dropdown columns, to make the borders equal
-  var $elements= $('.designer-dropdown-col');
+  jumplink.cache.$Sidebars.css( 'padding-top', getMainNavHeight()+'px');
+
+  var $dropdownElements= $('.designer-dropdown-col');
+
   jumplink.cache.$window.on('resize', function() {
-    jumplink.sameHeightElements($elements);
+    // Same height for designer dropdown columns, to make the borders equal
+    jumplink.sameHeightElements($dropdownElements);
+    // padding top for fixed navbar
+    jumplink.cache.$barbaWrapper.css( 'padding-top', getAllNavsHeight()+'px');
   });
-  jumplink.sameHeightElements($elements);
-
-  
-  // make navbar sticky if supported by browser
-  var stickySupport = jumplink.featureTest( 'position', 'sticky' );
-  if(stickySupport) {
-    jumplink.cache.$ahNavbar.addClass('sticky');
-  } else {
-    jumplink.cache.$ahNavbar.removeClass('sticky');
-  }
-
-  if(typeof(jumplink.cache.$ahNavbar.affix) !== 'undefined') {
-    jumplink.cache.$ahNavbar.affix({
-      offset: {
-        top: function () {
-          var offset = getSubNavHeight() + getHeaderHeight() - 1;
-          //console.log("offset", offset);
-          return offset;
-        }
-      }
-    }).on('affix.bs.affix', function () {
-
-      if(!stickySupport) {
-        $navbarDummy.css('height', getMainNavHeight()+'px');
-      }
-
-      jumplink.cache.$Sidebars.css( 'padding-top', getMainNavHeight()+'px');
-
-    }).on('affix-top.bs.affix', function () {
-      
-      if(!stickySupport) {
-        $navbarDummy.css('height', 0);
-      }
-      
-      jumplink.cache.$Sidebars.css( 'padding-top', getAllNavsHeight()+'px');
-    });
-  } else {
-    console.warn('TODO');
-  }
+  jumplink.sameHeightElements($dropdownElements);
+  jumplink.cache.$barbaWrapper.css( 'padding-top', getAllNavsHeight()+'px');
 
   // Simulate Dropdown hover effekt
-  jumplink.cache.$ahNavbar.find('ul.nav.navbar-nav li.dropdown').hover(function(event){
+  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li.dropdown').hover(function(event){
     var $this = $(this);
     
     if($this.hasClass('cart-button')) {
@@ -1206,7 +1160,8 @@ var MovePage = Barba.BaseTransition.extend({
       xPercent: goingForward ? 100 : -100,
       position: 'absolute',
       left: 0,
-      top: getAllNavsHeight(),
+      //top: getAllNavsHeight(),
+      top: 0,
       right: 0
     });
 
@@ -1281,7 +1236,7 @@ var MovePage = Barba.BaseTransition.extend({
   scrollTop: function() {
     var deferred = Barba.Utils.deferred();
     var position = { y: window.pageYOffset };
-    var topNavsHeight = getSubNavHeight() + getHeaderHeight();
+    var topNavsHeight = getAllNavsHeight();
 
     if(topNavsHeight < position.y) {
       TweenLite.to(position, 0.4, {
@@ -2387,22 +2342,22 @@ var initCustomersAccount = function (dataset) {
  * Set all navs and subnavs on navbar to "not active"
  */
 var resetNav = function () {
-  jumplink.cache.$ahNavbar.find('ul.nav.navbar-nav li').removeClass('active');
-  jumplink.cache.$ahNavbar.find('ul.nav.navbar-nav li ul.list-group li.list-group-item').removeClass('active');
+  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li').removeClass('active');
+  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li ul.list-group li.list-group-item').removeClass('active');
 }
 
 /**
  * Set nav with selector to active 
  */
 var setNav = function (selector) {
-   jumplink.cache.$ahNavbar.find('ul.nav.navbar-nav li'+selector).addClass('active');
+   jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li'+selector).addClass('active');
 }
 
 /**
  * Find a active child with collectionHandle and set it and his parent nav to active 
  */
 var setParentNav = function (collectionHandle) {
-  jumplink.cache.$ahNavbar.find('ul.nav.navbar-nav li ul.list-group li.list-group-item.'+collectionHandle).each(function(index, value) {
+  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li ul.list-group li.list-group-item.'+collectionHandle).each(function(index, value) {
     var $this = $(this);
     $this.addClass('active');
     $this.closest('.level-1').addClass('active');

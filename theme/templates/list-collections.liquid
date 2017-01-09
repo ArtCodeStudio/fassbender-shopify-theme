@@ -1,18 +1,14 @@
-<div class="ah-container-fluid">
-  <div class="container-fluid">
+<div class="container pt-5">
 
-    {% include 'collection-navbar'%}
-    <!-- TODO collections_per_page -->
-    {% paginate collections by settings.collections_per_page %}
-      <div class="row">
-        {% for collection in collections %}
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            {% include 'collection-grid-item' %}
-          </div>
-        {% endfor %}
-      </div>
-      {% include 'pagination' %}
-    {% endpaginate %}
-    
-  </div>
+  {% paginate collections by settings.collections_per_page %}
+    <div class="row">
+      {% for collection in collections %}
+        <div class="col-xs-12 col-sm-6 col-md-4 col-xl-4">
+          {% include 'collection-grid-item' %}
+        </div>
+      {% endfor %}
+    </div>
+    {% include 'pagination' %}
+  {% endpaginate %}
+  
 </div>

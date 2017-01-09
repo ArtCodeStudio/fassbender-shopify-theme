@@ -749,7 +749,7 @@ $enable-overflow-scrolling: false !default;
 
 @mixin transition($transition...) {
   @if $enable-transitions {
-    @include vp-box-sizing($transition);
+    @include vp-transition($transition);
   }
 }
 
@@ -4150,7 +4150,7 @@ $pre-scrollable-max-height:   340px !default;
   $infix: '-sm';
   @include make-grid-column($breakpoint, $infix, $columns, $xs, $sm, $md, $lg, $xl);
 
-  $breakpoint: sm;
+  $breakpoint: md;
   $infix: '-md';
   @include make-grid-column($breakpoint, $infix, $columns, $xs, $sm, $md, $lg, $xl);
 
@@ -12367,6 +12367,102 @@ img.grayscale {
             -webkit-filter: grayscale(0%);
         }
     }
+}
+
+/*
+ * ASPECT RATIO for images and background images
+ *
+ * @see https://jumplink.eu/blog/post/onlineshop-immer-einheitlich-grosse-produktbilder
+ * @see http://www.mademyday.de/css-height-equals-width-with-pure-css.html
+ * @info See link and description
+ * @info See snippets/product-grid-item and for example usage
+ */
+
+// ASPECT RATIO size for background images
+.background-box {
+  width: 100%;
+  display: block;
+  @include vp-background-size(cover);
+  background-position: center bottom;
+
+  // background-color: $brand-danger; // fallback if no image is found
+
+  padding-top: 100%; // Default 1-1 ASPECT RATIO
+  &.ratio-1-1 {
+    padding-top: 100%; // Default 1-1 ASPECT RATIO
+  }
+  &.ratio-2-3 {
+    padding-top: 155.44%;
+  }
+  &.ratio-2-1 {
+    padding-top: 50%;
+  }
+  &.ratio-1-2 {
+    padding-top: 200%;
+  }
+  &.ratio-3-2 {
+    padding-top: 66.67%;
+  }
+  &.ratio-4-3 {
+    padding-top: 75%;
+  }
+  &.ratio-16-9 {
+    padding-top: 56.25%;
+  }
+  &.ratio-3-4 {
+    padding-top: 125%;
+  }
+
+  &.full-viewport-height {
+    padding-top: 0;
+    height: 100vh;
+  }
+
+}
+
+// ASPECT RATIO size for images
+.image-box {
+  position: relative;
+  width: 100%;   /* desired width */
+  overflow: hidden;
+  &:before{
+    content: "";
+    display: block;
+    padding-top: 100%;  /* initial ratio of 1:1*/
+  }
+  // And here is the trick
+  .content {
+    overflow: hidden;
+    position: absolute;
+    // top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    max-width: 100%;
+  }
+  &.ratio-1-1:before {
+    padding-top: 100%;
+  }
+
+  /* Other ratios */
+  &.ratio-2-1:before {
+    padding-top: 50%;
+  }
+  &.ratio-1-2:before {
+    padding-top: 200%;
+  }
+  &.ratio-2-1:before {
+    padding-top: 50%;
+  }
+  &.ratio-3-2:before {
+    padding-top: 150%;
+  }
+  &.ratio-16-9:before {
+    padding-top: 56.25%;
+  }
+  &.ratio-2-3:before {
+    padding-top: 150%;
+  }
 }
 // https://v4-alpha.getbootstrap.com/utilities/sizing-and-positioning/
 
