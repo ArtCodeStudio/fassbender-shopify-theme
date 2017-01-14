@@ -1,0 +1,22 @@
+.imprint {
+    color: $white;
+    .logo-inverse {
+        max-width: 230px;
+    }
+    a {
+        color: $white;
+        &:hover {
+            color: $white;
+        }
+    }
+    .iconset.arrow {
+        display: inline-block;
+        margin-left: 1rem;
+    }
+}
+
+#footer-book {
+    //transition: margin 0.25s ease-in;
+    margin: 15px 0;
+    cursor: pointer;
+}

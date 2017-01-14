@@ -238,14 +238,17 @@ jumplink.cacheSelectors = function () {
     // General
     $html                    : $('html'),
     $body                    : $('body'),
+    $htmlBody                : $('html, body'),
     $window                  : $(window),
+    $document                : $(document),
 
-    $ahSubNavbar             : $('#ah-sub-navbar'),
     $mainNavbar              : $('#main-navbar'),
     $leftSidebar             : $('#left-sidebar'),
     $rightSidebar            : $('#right-sidebar'),
     $Sidebars                : $('#right-sidebar, #left-sidebar'),
-    $navTree                 : $('#nav-tree'),
+    // $navTree                 : $('#nav-tree'),
+
+    $footer                  : $('[data-toggle="footer"]'),
 
     $cartCountSelector       : $('.cart-count'),
     $cartButtonSelector      : $('.cart-button'),
@@ -2617,6 +2620,18 @@ var showHideNewsletterForm = function (dataset) {
   }
 }
 
+var getShopifyAdminBarHeight = function () {
+  return Number(jumplink.cache.$html.css('padding-top').replace("px", ""));
+}
+
+var setBarbaContainerMinHeight = function () {
+  var top = getAllNavsHeight() + getShopifyAdminBarHeight();
+  var bottom = jumplink.cache.$footer.outerHeight();
+  var height = jumplink.cache.$window.height() - top - bottom;
+  console.log('setBarbaContainerMinHeight', 'top', top, 'bottom', bottom, 'height', height);
+  $('.barba-container').css( 'min-height', height+'px');
+}
+
 /**
  * Init Javascripts insite of barba.js
  * 
@@ -2636,10 +2651,12 @@ var initTemplates = function () {
 
     jumplink.replaceNoImage();
 
+    setBarbaContainerMinHeight();
+    jumplink.cache.$window.on('resize', function() {
+      setBarbaContainerMinHeight();
+    });
+
     if(typeof(videojs) !== 'undefined') {
-      // videojs(".video-js", {}, function(){
-      //   // Player (this) is initialized and ready.
-      // });
       $('.video-js').each(function () {
         console.log('init video.js');
         //$this = $(this);
@@ -2657,7 +2674,9 @@ var initTemplates = function () {
       console.warn("video.js not loaded");
     }
 
-    // Hyphenator.run();
+    if(typeof(Hyphenator) !== 'undefined') {
+      Hyphenator.run();
+    }
 
     var data = parseDatasetJsonStrings(container.dataset);
 
@@ -2716,6 +2735,52 @@ var initBarba = function () {
   Barba.Pjax.start();
 }
 
+var initFooter = function () {
+  var $footer = jumplink.cache.$footer;
+  var data = $footer.data();
+  var $target = $(data.target);
+  var $margin = $(data.margin);
+  var $htmlBody = jumplink.cache.$htmlBody;
+  var $document = jumplink.cache.$document;
+  var $window = jumplink.cache.$window;
+
+  var $icon = $('.imprint .iconset.arrow');
+
+  $footer.click(function(event) {
+    // console.log('footer click!', data);
+    event.preventDefault();
+    // open
+    if($target.hasClass('hidden-xs-up')) {
+      //$margin.removeClass('my-1').addClass('my-3');
+      $icon.transition({ 'rotate': '270deg' });
+      
+
+      
+      $target.removeClass('hidden-xs-up');
+      
+      var scrollTop = $document.height() - $window.height() + 11; // 'margin-top': '15px' - 'margin-top': '4px'
+      $margin.transition({ 'margin-top': '15px' });
+      $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {
+        
+        // setBarbaContainerMinHeight();
+      });
+
+
+    // close  
+    } else {
+      // $margin.removeClass('my-3').addClass('my-1');
+      $icon.transition({ 'rotate': '90deg' });
+      $margin.transition({ 'margin-top': '4px' }, function () {
+        var scrollTop = $target.offset().top - $window.height() - 4;
+        $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {
+          $target.addClass('hidden-xs-up');
+          setBarbaContainerMinHeight();
+        });
+      });
+    }
+  })
+}
+
 /*
  * Init Javascripts outsite of barba.js
  * 
@@ -2724,6 +2789,8 @@ var initBarba = function () {
 var init = function ($) {
 
   jumplink.init();
+
+  initFooter();
 
   initSearchField();
   

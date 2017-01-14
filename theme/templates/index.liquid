@@ -1,103 +1,84 @@
-{% comment %}
-  Re-use the 'rte' class wherever you output content that was added by a merchant using the Rich Text Editor ( 'rte' stands for rich text editor ).
-  Style all HTML elements in that content the same way across the board.
-  Use the 'rte' class in your CSS to help maintain that consistency.
-  Example: the h2 element should have the same size and color in:
-  - product descriptions
-  - collection descriptions
-  - page content
-  - blog posts
-{% endcomment %}
+<div class="container">
 
-{% comment %}
-  Very important reading:
-  http://docs.shopify.com/themes/liquid-basics/what-is-true-and-false-in-liquid
-  Learn how to read theme settings in your theme.
-{% endcomment %}
+  <div class="row">
 
-<div class="ah-container-fluid">
-  <div class="container-fluid">
+      <div class="ah-carousel carousel-fluid" id="header-photo-carousel">
+        {% for i in (1..6) %}
+          {% capture active %}homepage_header_carousel_item_{{ i }}_active{% endcapture %}
+          {% capture image %}homepage_header_carousel_item_{{ i }}_image.jpeg{% endcapture %}
+          {% capture href %}homepage_header_carousel_item_{{ i }}_href{% endcapture %}
+          {% capture title %}homepage_header_carousel_item_{{ i }}_title{% endcapture %}
+          {% capture text %}homepage_header_carousel_item_{{ i }}_text{% endcapture %}
+          {% capture position %}homepage_header_carousel_item_{{ i }}_text_position{% endcapture %}
+          {% capture color %}homepage_header_carousel_item_{{ i }}_text_color{% endcapture %}
 
-    <div class="row">
-
-        <div class="ah-carousel carousel-fluid" id="header-photo-carousel">
-          {% for i in (1..6) %}
-            {% capture active %}homepage_header_carousel_item_{{ i }}_active{% endcapture %}
-            {% capture image %}homepage_header_carousel_item_{{ i }}_image.jpeg{% endcapture %}
-            {% capture href %}homepage_header_carousel_item_{{ i }}_href{% endcapture %}
-            {% capture title %}homepage_header_carousel_item_{{ i }}_title{% endcapture %}
-            {% capture text %}homepage_header_carousel_item_{{ i }}_text{% endcapture %}
-            {% capture position %}homepage_header_carousel_item_{{ i }}_text_position{% endcapture %}
-            {% capture color %}homepage_header_carousel_item_{{ i }}_text_color{% endcapture %}
-
-            {% if settings[active] and image%}
-              {% if settings[href] != blank %}
-              <a class="header-photo-carousel-item" data-color="{{ settings[color] | default: 'black' }}" href="{{ settings[href] | escape }}">
-              {% else %}
-              <div class="header-photo-carousel-item" data-color="{{ settings[color] | default: 'black' }}">
-              {% endif %}
-                <div class="background-box ratio-16-9 header-photo-carousel-item-background full-viewport-width" style="background-image: url({{ image | asset_url}});" title="{{ settings[title] | escape }}">
-                </div>
-                {% if settings[title] != blank or settings[text] != blank %}
-                  <div class="carousel-caption col-xs-12 col-sm-6 col-md-5 col-lg-4 {{ settings[position] | escape }}">
-                    <div class="carousel-caption-wrapper m-a-0-xs m-a-2-sm">
-                      <h2 class="text-serif" style="color: {{ settings[color] | default: 'black' }};">{{ settings[title] }}</h2>
-                      <hr class="border px-3" style="border-color: {{ settings[color] | default: 'black' }};" />
-                      <p style="color: {{ settings[color] | default: 'black' }};">{{ settings[text] }}</p>
-                    </div>
-                  </div>
-                {% endif %}
-              {% if settings[href] != blank %}
-              </a>
-              {% else %}
-              </div>
-              {% endif %}
+          {% if settings[active] and image%}
+            {% if settings[href] != blank %}
+            <a class="header-photo-carousel-item" data-color="{{ settings[color] | default: 'black' }}" href="{{ settings[href] | escape }}">
+            {% else %}
+            <div class="header-photo-carousel-item" data-color="{{ settings[color] | default: 'black' }}">
             {% endif %}
+              <div class="background-box ratio-16-9 header-photo-carousel-item-background full-viewport-width" style="background-image: url({{ image | asset_url}});" title="{{ settings[title] | escape }}">
+              </div>
+              {% if settings[title] != blank or settings[text] != blank %}
+                <div class="carousel-caption col-xs-12 col-sm-6 col-md-5 col-lg-4 {{ settings[position] | escape }}">
+                  <div class="carousel-caption-wrapper m-a-0-xs m-a-2-sm">
+                    <h2 class="text-serif" style="color: {{ settings[color] | default: 'black' }};">{{ settings[title] }}</h2>
+                    <hr class="border px-3" style="border-color: {{ settings[color] | default: 'black' }};" />
+                    <p style="color: {{ settings[color] | default: 'black' }};">{{ settings[text] }}</p>
+                  </div>
+                </div>
+              {% endif %}
+            {% if settings[href] != blank %}
+            </a>
+            {% else %}
+            </div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+
+    {% unless settings.homepage_page == blank or pages[settings.homepage_page].empty? %}
+      {% assign page = pages[settings.homepage_page] %}
+      <div class="hidden col-xs-12">
+        <h1 class="text-center text-sans-serif">{{ page.title }}</h1>
+      </div>
+      <div class="hidden col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4">
+        <div class="rte text-center">
+          {{ page.content }}
+        </div>
+      </div>
+    {% endunless %}
+
+    {% include 'featured-collections',
+      featuredLinklist: 'featured-collections',
+      replaceImage1: settings.homepage_featured_collection_1_custom_image,
+      replaceImage1With: 'homepage_featured_collection_1_custom_image.jpeg',
+      replaceImage2: settings.homepage_featured_collection_2_custom_image,
+      replaceImage2With: 'homepage_featured_collection_2_custom_image.jpeg',
+      withOffset: true,
+      classWrapperDefault: 'm-t-3 m-b-1',
+      classWrapperSize2: 'm-t-3 m-b-1 m-x-1-md m-x-2-lg',
+      showHr: true
+    %}
+    
+    {% include 'featured-products',
+      collectionHandle: 'featured-products',
+      classWrapper: 'm-y-1',
+      textAlign: settings.homepage_featured_products_text_align
+      titleClass: 'text-sans-serif text-normal'
+    %}
+
+    {% if settings.blog_enable and settings.home_blog_preview_enable %}
+      <div class="col-xs-12" id="featured-articles">
+        <div class="row">
+          {% for article in blogs.news.articles limit: 3 %}
+            {% include 'article-grid-item' article: article %}
           {% endfor %}
         </div>
-
-      {% unless settings.homepage_page == blank or pages[settings.homepage_page].empty? %}
-        {% assign page = pages[settings.homepage_page] %}
-        <div class="hidden col-xs-12">
-          <h1 class="text-center text-sans-serif">{{ page.title }}</h1>
-        </div>
-        <div class="hidden col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4">
-          <div class="rte text-center">
-            {{ page.content }}
-          </div>
-        </div>
-      {% endunless %}
-
-      {% include 'featured-collections',
-        featuredLinklist: 'featured-collections',
-        replaceImage1: settings.homepage_featured_collection_1_custom_image,
-        replaceImage1With: 'homepage_featured_collection_1_custom_image.jpeg',
-        replaceImage2: settings.homepage_featured_collection_2_custom_image,
-        replaceImage2With: 'homepage_featured_collection_2_custom_image.jpeg',
-        withOffset: true,
-        classWrapperDefault: 'm-t-3 m-b-1',
-        classWrapperSize2: 'm-t-3 m-b-1 m-x-1-md m-x-2-lg',
-        showHr: true
-      %}
-      
-      {% include 'featured-products',
-        collectionHandle: 'featured-products',
-        classWrapper: 'm-y-1',
-        textAlign: settings.homepage_featured_products_text_align
-        titleClass: 'text-sans-serif text-normal'
-      %}
-
-      {% if settings.blog_enable and settings.home_blog_preview_enable %}
-        <div class="col-xs-12" id="featured-articles">
-          <div class="row">
-            {% for article in blogs.news.articles limit: 3 %}
-              {% include 'article-grid-item' article: article %}
-            {% endfor %}
-          </div>
-        </div>
-      {% endif %}
-      
-    </div>
+      </div>
+    {% endif %}
     
   </div>
+  
 </div>

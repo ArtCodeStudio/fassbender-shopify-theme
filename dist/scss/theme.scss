@@ -10364,6 +10364,25 @@ $tcon-menu-arrow360left-transformation: (
 .rotate-90 {
  @include vp-transform(rotate(90deg));
 }
+
+.invert {
+	filter: invert(100%);
+}
+.bg-black {
+    background-color: $black;
+}
+
+.bg-white {
+    background-color: $white;
+}
+.navbar {
+    &.navbar-dark {
+        .navbar-nav .nav-link {
+            // color: white
+        }
+    }
+}
+
 html, body {
     height: 100%;
 }
@@ -10373,6 +10392,14 @@ html, body {
             text-transform: uppercase;
             padding-right: 1.5em;
             padding-left: 1.5em;
+        }
+    }
+}
+
+.footer-navbar {
+    .nav-item {
+        .nav-link {
+            text-transform: uppercase;
         }
     }
 }
@@ -10438,4 +10465,26 @@ html, body {
       fill: $pagination-hover-color;
     }
   }
+}
+.imprint {
+    color: $white;
+    .logo-inverse {
+        max-width: 230px;
+    }
+    a {
+        color: $white;
+        &:hover {
+            color: $white;
+        }
+    }
+    .iconset.arrow {
+        display: inline-block;
+        margin-left: 1rem;
+    }
+}
+
+#footer-book {
+    //transition: margin 0.25s ease-in;
+    margin: 0.25rem 0;
+    cursor: pointer;
 }

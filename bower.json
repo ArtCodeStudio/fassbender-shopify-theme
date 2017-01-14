@@ -41,7 +41,8 @@
     "gsap": "^1.19.0",
     "barba.js": "luruke/barba.js#^1.0.0",
     "jquery": "^3.1.1",
-    "jumplink-components": "JumpLinkNetwork/jumplink-components"
+    "jumplink-components": "JumpLinkNetwork/jumplink-components",
+    "jquery.transit": "^0.9.12"
   },
   "resolutions": {
     "jquery": "1.9.1 - 3",

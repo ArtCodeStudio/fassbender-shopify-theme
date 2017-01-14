@@ -1,70 +1,69 @@
-<div class="container-fluid">
-  {% include 'newsletter-form' %}
-</div>
-<div class="ah-container-fluid">
-  <div class="container-fluid">
-    <div class="row">
-      {% for i in (1..3) %}
-        <div class="col-xs-12 col-sm-4 col-md-4 p-y-1">
-          {% capture title %}footer_block_{{ i }}_title{% endcapture %}
-          {% capture content %}footer_block_{{ i }}_content{% endcapture %}
-          {% capture sociallinks %}footer_block_{{ i }}_show_sociallinks{% endcapture %}
-          {% capture applinks %}footer_block_{{ i }}_show_applinks{% endcapture %}
-          {% capture show_image %}footer_block_{{ i }}_show_image{% endcapture %}
-          {% capture image %}footer_block_{{ i }}_image.jpeg{% endcapture %}
-          {% capture centertext %}footer_block_{{ i }}_centertext{% endcapture %}
-          {% capture contact %}footer_block_{{ i }}_show_contact{% endcapture %}
-          
-          
-          <div class="row {% if settings[centertext] == true %} text-center {% endif %}">
-
-            {% if settings[show_image] == true %}
-              <div class="col-xs-4">
-                <img src="{{ image | asset_url }}" class="img-responsive p-t-05">
-              </div>
-              <div class="col-xs-8">
-            {% else %}
-              <div class="col-xs-12">
-            {% endif %}
-
-              <h2 class="text-sans-serif text-normal">{{ settings[title] }}</h2>
-              <p>{{ settings[content] }}</p>
-
-              {% if settings[sociallinks] == true %}
-                <div class="social-links center-block p-y-1">
-                  {% include 'social-links' %}
-                </div>
-              {% endif %}
-
-              {% if settings[applinks] == true %}
-                <div class="row app-links">
-                  <a href="{{settings.general_app_href_ios}}" class="ios col-xs-6 col-sm-12 col-md-6">
-                    <img src="{{ 'Download_on_the_App_Store_Badge_US-UK_135x40.svg' | asset_url }}" class="img-responsive full-width p-t-05">
-                  </a>
-                  <a href="{{settings.general_app_href_android}}" class="android col-xs-6 col-sm-12 col-md-6">
-                    <img src="{{ 'google-play-badge.svg' | asset_url }}" class="img-responsive full-width p-t-05 ">
-                  </a>
-                </div>
-              {% endif %}
-
-              {% if settings[contact] == true %}
-                <p>
-                  
-                </p>
-                <p>
-                  Tel <a href="tel:{{shop.phone | strip}}">{{ shop.phone }}</a>
-                  <br>
-                  <a href="mailto:{{shop.email}}">{{ shop.email }}</a> 
-                </p>
-              {% endif %}
-
-            </div>
-
-          </div>
-
-
+<footer class="imprint bg-black">
+  <div class="container">
+    <div data-toggle="footer" data-target="#footer-adjustment" data-margin="#footer-book" class="row">
+      <div class="col-xs-12 text-center">
+        <div class="text-uppercase" id="footer-book">
+          BOOK AN APPOINTMENT
+          {% include 'iconset', name: 'arrow', direction: 'top', color: 'white' %}
         </div>
-      {% endfor %}
+      </div>
+    </div>
+    <div class="row hidden-xs-up" id="footer-adjustment">
+
+      <div class="col-xs-12 col-sm-4 col-md-4 d-flex flex-row mb-2">
+        {% if linklists.footer.links.size > 0 %}
+          <nav class="navbar navbar-toggleable-xs navbar-inverse bg-black footer-navbar d-flex align-items-end">
+            <div class="navbar-collapse">
+                <ul class="navbar-nav">
+                  {% for link in linklists.footer.links %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+            </div>
+          </nav>
+        {% endif %}
+      </div>
+
+      <div class="col-xs-12 col-sm-4 col-md-4 text-center">
+
+        <p class="my-3">
+          <a href="tel:+498923000081" class="btn btn-outline-secondary">+49. 89 23 0000 81</a>
+        </p>
+
+        <p class="mt-3">
+          <small>
+            <a href="mailto:{{shop.email}}" class="">{{shop.email}}</a>
+          </small>
+        </p>
+        
+        <p class="my-3">
+          <img class="logo-inverse" src="{{ 'logo-invert.svg' | asset_url }}" width="300" height="30" alt="STUDIO PEZZETTA">
+        </p>
+
+        <p class="my-3">
+          {{shop.address.street | replace: ",", " |"}}
+          <br>
+          {{shop.address.zip}} {{shop.address.country}}
+        </p>
+
+      </div>
+
+      <div class="col-xs-12 col-sm-4 col-md-4 d-flex flex-row mb-2">
+        <nav class="navbar navbar-toggleable-xs navbar-inverse bg-black footer-navbar d-flex align-items-end">
+          <div class="navbar-collapse">
+            <ul class="navbar-nav d-flex justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link" href="/" title="{{shop.name}}">
+                  © 2017 {{shop.name}}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
     </div>
   </div>
-</div>
+</footer>

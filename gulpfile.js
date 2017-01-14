@@ -79,6 +79,7 @@ gulp.task('javascript-libs', [], function () {
   return gulp.src([
     'bower_components/jquery/dist/jquery.js',
     'src/js/jquery-ui.min.js',
+    'bower_components/jquery.transit/jquery.transit.js',                // https://github.com/rstacruz/jquery.transit
     'bower_components/tether/dist/js/tether.js',
     'bower_components/bootstrap-backward/dist/js/bootstrap.js',
     //'bower_components/bootstrap-treeview/dist/bootstrap-treeview.js',
@@ -90,7 +91,7 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/rivets/dist/rivets.js',
     'bower_components/shopify-cartjs/dist/cart.js',
     'src/js/md5.js',
-    'bower_components/gsap/src/uncompressed/TweenMax.js',
+    'bower_components/gsap/src/uncompressed/TweenMax.js',               // https://github.com/rstacruz/jquery.transit
     'bower_components/async/dist/async.js',
     'bower_components/barba.js/dist/barba.js',
     'bower_components/slick-carousel/slick/slick.js',
