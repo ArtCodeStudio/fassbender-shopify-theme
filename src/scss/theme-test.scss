@@ -1,5 +1,5 @@
-// theme file without liquid variables to test the concationation
 @import 'charset';
+// import 'bs4_variables.scss.liquid';
 
 @import "../../bower_components/sass-autoprefixer/scss/prefixes";
 @import '../../bower_components/jumplink-components/scss/fixes';
@@ -13,6 +13,12 @@
 @import '../../bower_components/jumplink-components/scss/images';
 @import '../../bower_components/jumplink-components/scss/positions';
 @import '../../bower_components/jumplink-components/scss/colors';
+@import '../../bower_components/jumplink-components/scss/efects';
 
 @import 'layout';
+// import 'fonts.scss.liquid';
+@import 'navbar';
 @import 'sidebar';
+@import 'images';
+@import 'list-collections';
+@import 'pagination';

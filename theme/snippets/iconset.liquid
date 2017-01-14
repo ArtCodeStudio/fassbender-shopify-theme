@@ -1,0 +1,20 @@
+{% assign snippet = name | prepend: 'iconset_' %}
+
+{% if direction == 'left' %}
+{% endif %}
+
+{% if direction == 'right' %}
+    {% assign class = 'flip-h' %}
+{% endif %}
+
+{% if direction == 'top' %}
+    {% assign class = 'rotate-90' %}
+{% endif %}
+
+{% if direction == 'down' %}
+    {% assign class = 'rotate-90 flip-v' %}
+{% endif %}
+
+<div aria-hidden="true" class="iconset {{class}}">
+    {% include snippet %}
+</div>

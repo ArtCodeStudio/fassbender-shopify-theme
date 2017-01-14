@@ -1011,11 +1011,11 @@ var initRightSidebar = function () {
         animation: {
           open: function() {
             // icon animation for open
-            transformicons.transform($('.navbar-toggle.tcon')[ 0 ]);
+            transformicons.transform($('.sidebar-toggler.tcon')[ 0 ]);
           },
           close: function() {
             // icon animation for close
-            transformicons.revert($('.navbar-toggle.tcon')[ 0 ]);
+            transformicons.revert($('.sidebar-toggler.tcon')[ 0 ]);
           },
           both: function() {
 

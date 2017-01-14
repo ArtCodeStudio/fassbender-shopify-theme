@@ -1,0 +1,27 @@
+
+.page-item {
+  &.active .page-link {
+    svg {
+      fill: $pagination-active-color;
+    }
+  }
+
+  &.disabled .page-link {
+    svg {
+      fill: $pagination-disabled-color;
+    }
+  }
+}
+
+.page-link {
+
+  svg {
+    fill: $pagination-color;
+  }
+
+  @include hover-focus {
+    svg {
+      fill: $pagination-hover-color;
+    }
+  }
+}
