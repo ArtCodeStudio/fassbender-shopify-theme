@@ -287,7 +287,8 @@ gulp.task('theme_settings', ['bootstrap_theme_settings'], function () {
   // list of settings files to include, in order of inclusion
   var settings = [
     'bootstrap',
-    'collections'
+    'collections',
+    'about',
   ];
 
   return gulp.src('./settings_schema/*.json')

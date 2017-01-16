@@ -5,6 +5,11 @@
 @import '../../bower_components/jumplink-components/scss/fixes';
 @import "../../bower_components/bootstrap-backward/scss/bootstrap";
 
+@import '../../bower_components/jumplink-components/scss/variables';
+
+@import 'variables';
+@import 'variables.scss.liquid';
+
 @import '../../bower_components/jumplink-components/scss/utilities';
 @import '../../bower_components/jumplink-components/scss/iconset';
 @import '../../bower_components/jumplink-components/scss/styleicons';
@@ -16,12 +21,18 @@
 @import '../../bower_components/jumplink-components/scss/efects';
 @import '../../bower_components/jumplink-components/scss/backgrounds';
 @import '../../bower_components/jumplink-components/scss/navbar';
+@import '../../bower_components/jumplink-components/scss/carousel';
+
+@import '../../bower_components/slick-carousel/slick/slick.scss';
+@import '../../bower_components/slick-carousel/slick/slick-theme.scss';
 
 @import 'layout';
-@import 'fonts.scss.liquid';
+@import 'fonts';
 @import 'navbar';
 @import 'sidebar';
 @import 'images';
 @import 'list-collections';
 @import 'pagination';
 @import 'footer';
+@import 'typography';
+@import 'buttons';

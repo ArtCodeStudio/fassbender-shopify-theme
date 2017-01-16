@@ -43,6 +43,10 @@
         {
           "value": "ratio-3-4",
           "label": "3:4"
+        },
+        {
+          "value": "ratio-3-10",
+          "label": "3:10"
         }
       ],
       "default": "ratio-1-2"

@@ -1,0 +1,13 @@
+@font-face {
+    font-family: "Avant Garde";
+    src: url(#{$font-avantgarde-path}) format('truetype');
+}
+
+@font-face {
+    font-family: "Avant Garde";
+    src: url(#{$font-avantgarde-bold-path}) format('truetype');
+    font-weight: bold;
+}
+
+$slick-prev-character: ""; // $fa-var-chevron-left; // "←" !default;
+$slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', color: 'white' %}"; // "→"

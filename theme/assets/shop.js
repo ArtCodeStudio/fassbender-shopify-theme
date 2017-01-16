@@ -1447,50 +1447,51 @@ var initLogin = function(dataset) {
 /**
  * 
  */
-var initIndex = function (dataset) {
+var initPageCarousel = function (dataset) {
+
   // init featured articles on home
   initGravatarElements('#featured-articles', 'media-object img-circle center-block max-width-30');
 
-  var $headerPhotoCarousel = $('#header-photo-carousel');
+  var $slick = $('#'+dataset.pageHandle+'_carousel');
 
   var slickSettings = {
-    accessibility:      Boolean(window.settings.homepage_header_carousel_accessibility == 'true'),
-    adaptiveHeight:     Boolean(window.settings.homepage_header_carousel_adaptiveHeight == 'true'),
-    autoplay:           Boolean(window.settings.homepage_header_carousel_autoplay == 'true'),
-    autoplaySpeed:      Number(window.settings.homepage_header_carousel_autoplaySpeed),
-    arrows:             Boolean(window.settings.homepage_header_carousel_arrows == 'true'),
-    centerMode:         Boolean(window.settings.homepage_header_carousel_centerMode == 'true'),
-    centerPadding:      String(window.settings.homepage_header_carousel_centerPadding),
-    cssEase:            String(window.settings.homepage_header_carousel_cssEase),
-    dots:               Boolean(window.settings.homepage_header_carousel_dots == 'true' || window.settings.homepage_header_carousel_dots == true),
-    draggable:          Boolean(window.settings.homepage_header_carousel_draggable == 'true'),
-    fade:               Boolean(window.settings.homepage_header_carousel_fade == 'true'),
-    focusOnSelect:      Boolean(window.settings.homepage_header_carousel_focusOnSelect == 'true'),
-    easing:             String(window.settings.homepage_header_carousel_easing),
-    edgeFriction:       parseFloat(window.settings.homepage_header_carousel_edgeFriction),
-    infinite:           Boolean(window.settings.homepage_header_carousel_infinite == 'true'),
-    initialSlide:       Number(window.settings.homepage_header_carousel_initialSlide),
-    lazyLoad:           String(window.settings.homepage_header_carousel_lazyLoad),
-    mobileFirst:        Boolean(window.settings.homepage_header_carousel_mobileFirst == 'true'),
-    pauseOnFocus:       Boolean(window.settings.homepage_header_carousel_pauseOnFocus == 'true'),
-    pauseOnHover:       Boolean(window.settings.homepage_header_carousel_pauseOnHover == 'true'),
-    pauseOnDotsHover:   Boolean(window.settings.homepage_header_carousel_pauseOnDotsHover == 'true'),
-    rows:               Number(window.settings.homepage_header_carousel_rows),
-    slidesPerRow:       Number(window.settings.homepage_header_carousel_slidesPerRow),
-    slidesToShow:       Number(window.settings.homepage_header_carousel_slidesToShow),
-    slidesToScroll:     Number(window.settings.homepage_header_carousel_slidesToScroll),
-    speed:              Number(window.settings.homepage_header_carousel_speed),
-    swipe:              Boolean(window.settings.homepage_header_carousel_swipe == 'true'),
-    swipeToSlide:       Boolean(window.settings.homepage_header_carousel_swipeToSlide == 'true'),
-    touchMove:          Boolean(window.settings.homepage_header_carousel_touchMove == 'true'),
-    touchThreshold:     Number(window.settings.homepage_header_carousel_touchThreshold),
-    useCSS:             Boolean(window.settings.homepage_header_carousel_useCSS == 'true'),
-    useTransform:       Boolean(window.settings.homepage_header_carousel_useTransform == 'true'),
-    variableWidth:      Boolean(window.settings.homepage_header_carousel_variableWidth == 'true'),
-    vertical:           Boolean(window.settings.homepage_header_carousel_vertical == 'true'),
-    verticalSwiping:    Boolean(window.settings.homepage_header_carousel_verticalSwiping == 'true'),
-    rtl:                Boolean(window.settings.homepage_header_carousel_rtl == 'true'),
-    waitForAnimate:     Boolean(window.settings.homepage_header_carousel_waitForAnimate == 'true'),
+    accessibility:      Boolean(window.settings[dataset.pageHandle+'_carousel_accessibility'] == 'true'),
+    adaptiveHeight:     Boolean(window.settings[dataset.pageHandle+'_carousel_adaptiveHeight'] == 'true'),
+    autoplay:           Boolean(window.settings[dataset.pageHandle+'_carousel_autoplay'] == 'true'),
+    autoplaySpeed:      Number(window.settings[dataset.pageHandle+'_carousel_autoplaySpeed']),
+    arrows:             Boolean(window.settings[dataset.pageHandle+'_carousel_arrows'] == 'true'),
+    centerMode:         Boolean(window.settings[dataset.pageHandle+'_carousel_centerMode'] == 'true'),
+    centerPadding:      String(window.settings[dataset.pageHandle+'_carousel_centerPadding']),
+    cssEase:            String(window.settings[dataset.pageHandle+'_carousel_cssEase']),
+    dots:               Boolean(window.settings[dataset.pageHandle+'_carousel_dots'] == 'true' || window.settings[dataset.pageHandle+'_carousel_dots'] == true),
+    draggable:          Boolean(window.settings[dataset.pageHandle+'_carousel_draggable'] == 'true'),
+    fade:               Boolean(window.settings[dataset.pageHandle+'_carousel_fade'] == 'true'),
+    focusOnSelect:      Boolean(window.settings[dataset.pageHandle+'_carousel_focusOnSelect'] == 'true'),
+    easing:             String(window.settings[dataset.pageHandle+'_carousel_easing']),
+    edgeFriction:       parseFloat(window.settings[dataset.pageHandle+'_carousel_edgeFriction']),
+    infinite:           Boolean(window.settings[dataset.pageHandle+'_carousel_infinite'] == 'true'),
+    initialSlide:       Number(window.settings[dataset.pageHandle+'_carousel_initialSlide']),
+    lazyLoad:           String(window.settings[dataset.pageHandle+'_carousel_lazyLoad']),
+    mobileFirst:        Boolean(window.settings[dataset.pageHandle+'_carousel_mobileFirst'] == 'true'),
+    pauseOnFocus:       Boolean(window.settings[dataset.pageHandle+'_carousel_pauseOnFocus'] == 'true'),
+    pauseOnHover:       Boolean(window.settings[dataset.pageHandle+'_carousel_pauseOnHover'] == 'true'),
+    pauseOnDotsHover:   Boolean(window.settings[dataset.pageHandle+'_carousel_pauseOnDotsHover'] == 'true'),
+    rows:               Number(window.settings[dataset.pageHandle+'_carousel_rows']),
+    slidesPerRow:       Number(window.settings[dataset.pageHandle+'_carousel_slidesPerRow']),
+    slidesToShow:       Number(window.settings[dataset.pageHandle+'_carousel_slidesToShow']),
+    slidesToScroll:     Number(window.settings[dataset.pageHandle+'_carousel_slidesToScroll']),
+    speed:              Number(window.settings[dataset.pageHandle+'_carousel_speed']),
+    swipe:              Boolean(window.settings[dataset.pageHandle+'_carousel_swipe'] == 'true'),
+    swipeToSlide:       Boolean(window.settings[dataset.pageHandle+'_carousel_swipeToSlide'] == 'true'),
+    touchMove:          Boolean(window.settings[dataset.pageHandle+'_carousel_touchMove'] == 'true'),
+    touchThreshold:     Number(window.settings[dataset.pageHandle+'_carousel_touchThreshold']),
+    useCSS:             Boolean(window.settings[dataset.pageHandle+'_carousel_useCSS'] == 'true'),
+    useTransform:       Boolean(window.settings[dataset.pageHandle+'_carousel_useTransform'] == 'true'),
+    variableWidth:      Boolean(window.settings[dataset.pageHandle+'_carousel_variableWidth'] == 'true'),
+    vertical:           Boolean(window.settings[dataset.pageHandle+'_carousel_vertical'] == 'true'),
+    verticalSwiping:    Boolean(window.settings[dataset.pageHandle+'_carousel_verticalSwiping'] == 'true'),
+    rtl:                Boolean(window.settings[dataset.pageHandle+'_carousel_rtl'] == 'true'),
+    waitForAnimate:     Boolean(window.settings[dataset.pageHandle+'_carousel_waitForAnimate'] == 'true'),
     responsive: [
     {
       breakpoint: jumplink.justDigits(window.settings["bs4-grid-breakpoints-xl"]),
@@ -1529,21 +1530,23 @@ var initIndex = function (dataset) {
     }]
   };
 
+  console.log('initPageCarousel', slickSettings);
+
   var setSlickControlColor = function (index) {
     var slideColor = 'black';
     if(typeof index !== 'undefined') {
-      slideColor = $headerPhotoCarousel.find('[data-slick-index="'+index+'"]').data('color');
+      slideColor = $slick.find('[data-slick-index="'+index+'"]').data('color');
     } else {
-      slideColor = $headerPhotoCarousel.find('.slick-current').data('color');
+      slideColor = $slick.find('.slick-current').data('color');
     }
-    $headerPhotoCarousel.attr('data-color', slideColor);
+    $slick.attr('data-color', slideColor);
   }
 
   // init product photo carousel
-  $headerPhotoCarousel.slick(slickSettings);
+  $slick.slick(slickSettings);
   setSlickControlColor();
 
-  $headerPhotoCarousel.on('beforeChange', function(event, slick, currentSlideIndex, nextSlideIndex){
+  $slick.on('beforeChange', function(event, slick, currentSlideIndex, nextSlideIndex){
     setSlickControlColor(nextSlideIndex);
   });
 }
@@ -2312,6 +2315,9 @@ var initCollection = function (dataset) {
 var initPage = function (dataset) {
   // console.log("initPage", dataset);
   switch(dataset.pageHandle) {
+    case 'about-us':
+      initPageCarousel(dataset)
+    break;
     case 'instashop':
       /**
        * WORAROUND
@@ -2480,7 +2486,7 @@ var initTemplate = {
   'blog': initBlog,
   'cart': initCartTemplate,
   'collection': initCollection,
-  'index': initIndex,
+  // 'index': initIndex,
   'list-collections': function(dataset, data) {},
   'page': initPage,
   'product': initProduct,
@@ -2747,28 +2753,17 @@ var initFooter = function () {
   var $icon = $('.imprint .iconset.arrow');
 
   $footer.click(function(event) {
-    // console.log('footer click!', data);
-    event.preventDefault();
     // open
     if($target.hasClass('hidden-xs-up')) {
-      //$margin.removeClass('my-1').addClass('my-3');
       $icon.transition({ 'rotate': '270deg' });
-      
-
-      
       $target.removeClass('hidden-xs-up');
-      
       var scrollTop = $document.height() - $window.height() + 11; // 'margin-top': '15px' - 'margin-top': '4px'
       $margin.transition({ 'margin-top': '15px' });
       $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {
         
-        // setBarbaContainerMinHeight();
       });
-
-
     // close  
     } else {
-      // $margin.removeClass('my-3').addClass('my-1');
       $icon.transition({ 'rotate': '90deg' });
       $margin.transition({ 'margin-top': '4px' }, function () {
         var scrollTop = $target.offset().top - $window.height() - 4;
