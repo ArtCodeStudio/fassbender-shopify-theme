@@ -1,13 +1,17 @@
 {
   "html": {
     "lang": {
-      "code": "de"
+      "code": "en"
     }
   },
   "navbar": {
     "shop_actions": {
       "login": "Login",
-      "search": "Search"
+      "logout": "Logout",
+      "register": "Register",
+      "search": "Search",
+      "my_account": "My Account",
+      "wishlist": "Wishlist"
     }
   },
   "customer": {
@@ -48,7 +52,7 @@
       "delete": "Delete"
     },
     "login": {
-      "title": "Login",
+      "title": "HELLO DEAR, WELCOME BACK!",
       "email": "Email",
       "password": "Password",
       "forgot_password": "Forgot your password?",
@@ -57,7 +61,9 @@
       "guest_title": "Continue as a guest",
       "guest_continue": "Continue",
       "no_account": "Not an account?",
-      "create_account": "Register here"
+      "create_account": "Register here",
+      "logged_in": "Congratulations {{ name }}, you are logged in!",
+      "logged_in_subtext": "Thank you for your successful registration."
     },
     "orders": {
       "title": "Order History",
@@ -104,15 +110,19 @@
       "submit": "Reset Password"
     },
     "register": {
-      "title": "Create Account",
+      "title": "Look forward to our new features.",
       "first_name": "First Name",
       "last_name": "Last Name",
       "email": "Email",
       "password": "Password",
-      "submit": "Create",
+      "submit": "Register",
       "cancel": "Return to Store",
       "account_exists": "Already an account?",
-      "login": "Login here"
+      "login": "Login here",
+      "company": "Company",
+      "welcome_header": "Hello Dear, WE HAVE MADE A NEW SPECIAL ONLINE Showroom FOR YOU",
+      "welcome_text": "You can order special collections easily via our new Online Showroom. For technical reasons, you must registered for once.\nPlease enter your dates and we contact you - ",
+      "welcome_end": "Thank you!"
     }
   },
   "cart": {

@@ -1,8 +1,21 @@
 .display-3, .display-4 {
     margin-top: 2rem;
     margin-bottom: 2rem;
+    text-transform: uppercase;
 }
 
 .display-3 {
     letter-spacing: 0.3rem;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+b, strong {
+    font-weight: $font-weight-bold;
+}
+
+.lead {
+    letter-spacing: 0.1rem;
 }

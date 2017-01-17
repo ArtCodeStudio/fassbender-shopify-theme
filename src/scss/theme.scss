@@ -10,6 +10,7 @@
 @import 'variables';
 @import 'variables.scss.liquid';
 
+@import '../../bower_components/jumplink-components/scss/normalize';
 @import '../../bower_components/jumplink-components/scss/utilities';
 @import '../../bower_components/jumplink-components/scss/iconset';
 @import '../../bower_components/jumplink-components/scss/styleicons';
@@ -36,3 +37,4 @@
 @import 'footer';
 @import 'typography';
 @import 'buttons';
+@import 'customers-login-register';

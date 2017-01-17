@@ -10560,16 +10560,36 @@ $slick-opacity-not-active: 1;
 $slick-arrow-opacity-on-hover: 1;
 $slick-arrow-opacity-disabled: 0.4;
 
-$font-avantgarde-path: "./avantgarde-book.ttf" !default;
-$font-avantgarde-bold-path: "./avantgarde-book-bold.ttf" !default;
+$font-avantgarde-eot-path: "./avantgarde-book.eot" !default;
+$font-avantgarde-woff-path: "./avantgarde-book.woff" !default;
+$font-avantgarde-ttf-path: "./avantgarde-book.ttf" !default;
+$font-avantgarde-svg-path: "./avantgarde-book.svg" !default;
+
+$font-avantgarde-bold-eot-path: "./avantgarde-book-bold.eot" !default;
+$font-avantgarde-bold-woff-path: "./avantgarde-book-bold.woff" !default;
+$font-avantgarde-bold-ttf-path: "./avantgarde-book-bold.ttf" !default;
+$font-avantgarde-bold-svg-path: "./avantgarde-book-bold.svg" !default;
+
 
 $slick-prev-character: "";
 $slick-next-character: "";
-$font-avantgarde-path: "{{ 'avantgarde-book.ttf' | asset_url }}";
-$font-avantgarde-bold-path: "{{ 'avantgarde-book-bold.ttf' | asset_url }}";
+$font-avantgarde-eot-path: "{{ 'avantgarde-book.eot' | asset_url }}";
+$font-avantgarde-woff-path: "{{ 'avantgarde-book.woff' | asset_url }}";
+$font-avantgarde-ttf-path: "{{ 'avantgarde-book.ttf' | asset_url }}";
+$font-avantgarde-svg-path: "{{ 'avantgarde-book.svg' | asset_url }}";
+
+$font-avantgarde-bold-eot-path: "{{ 'avantgarde-book-bold.eot' | asset_url }}";
+$font-avantgarde-bold-woff-path: "{{ 'avantgarde-book-bold.woff' | asset_url }}";
+$font-avantgarde-bold-ttf-path: "{{ 'avantgarde-book-bold.ttf' | asset_url }}";
+$font-avantgarde-bold-svg-path: "{{ 'avantgarde-book-bold.svg' | asset_url }}";
 
 $slick-prev-character: url({{ 'arrow-big-l.svg' | asset_url }});
 $slick-next-character: url({{ 'arrow-big-r.svg' | asset_url }});
+// http://stackoverflow.com/questions/5780109/removing-rounded-corners-from-a-select-element-in-chrome-webkit
+select {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0px;
+}
 .no-select {
   @include vp-user-select(none);
 }
@@ -10781,13 +10801,39 @@ $tcon-menu-arrow360left-transformation: (
 .border-color-transparent {
   border-color: transparent;
 }
+
 .border-color-white {
   border-color: $white;
 }
-
 .border-color-black {
   border-color: $black;
 }
+
+.border-color-red {
+  border-color: $red;
+}
+.border-color-orange {
+  border-color: $orange;
+}
+.border-color-yellow {
+  border-color: $yellow;
+}
+.border-color-green {
+  border-color: $green;
+}
+.border-color-blue {
+  border-color: $blue;
+}
+.border-color-teal {
+  border-color: $teal;
+}
+.border-color-pink {
+  border-color: $pink;
+}
+.border-color-purple {
+  border-color: $purple;
+}
+
 .border-color-gray-dark {
   border-color: $gray-dark;
 }
@@ -10802,6 +10848,25 @@ $tcon-menu-arrow360left-transformation: (
 }
 .border-color-gray-lightest {
   border-color: $gray-lightest;
+}
+
+.border-brand-primary {
+  border-color: $brand-primary;
+}
+.border-brand-success {
+  border-color: $brand-success;
+}
+.border-brand-info {
+  border-color: $brand-info;
+}
+.border-brand-warning {
+  border-color: $brand-warning;
+}
+.border-brand-danger {
+  border-color: $brand-danger;
+}
+.border-brand-inverse {
+  border-color: $brand-inverse;
 }
 
 .border-px-4 {
@@ -11012,13 +11077,55 @@ $tcon-menu-arrow360left-transformation: (
 .invert {
 	filter: invert(100%);
 }
-.bg-black {
-    background-color: $black;
-}
-
 .bg-white {
     background-color: $white;
 }
+.bg-black {
+    background-color: $black;
+}
+.bg-red {
+    background-color: $red;
+}
+.bg-orange {
+    background-color: $orange;
+}
+.bg-yellow {
+    background-color: $yellow;
+}
+.bg-green {
+    background-color: $green;
+}
+.bg-blue {
+    background-color: $blue;
+}
+.bg-teal {
+    background-color: $teal;
+}
+.bg-pink {
+    background-color: $pink;
+}
+.bg-purple {
+    background-color: $purple;
+}
+
+
+
+.bg-gray-dark {
+     background-color: $gray-dark;
+}
+.bg-gray {
+     background-color: $gray;
+}
+.bg-gray-light {
+     background-color: $gray-light;
+}
+.bg-gray-lighter {
+     background-color: $gray-lighter;
+}
+.bg-gray-lightest {
+     background-color: $gray-lightest;
+}
+
 .navbar {
     &.navbar-dark {
         .navbar-nav .nav-link {
@@ -11404,13 +11511,18 @@ html, body {
 }
 @font-face {
     font-family: "Avant Garde";
-    src: url(#{$font-avantgarde-path}) format('truetype');
+	src: url(#{$font-avantgarde-eot-path});
+	src: url(#{$font-avantgarde-woff-path}) format('woff'), url(#{$font-avantgarde-ttf-path}) format('truetype'), url(#{$font-avantgarde-svg-path}) format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
     font-family: "Avant Garde";
-    src: url(#{$font-avantgarde-bold-path}) format('truetype');
+    src: url(#{$font-avantgarde-bold-eot-path});
+    src: url(#{$font-avantgarde-bold-woff-path}) format('woff'), url(#{$font-avantgarde-bold-ttf-path}) format('truetype'), url(#{$font-avantgarde-bold-svg-path}) format('svg');
     font-weight: bold;
+    font-style: normal;
 }
 
 $slick-prev-character: ""; // $fa-var-chevron-left; // "←" !default;
@@ -11520,11 +11632,40 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
 .display-3, .display-4 {
     margin-top: 2rem;
     margin-bottom: 2rem;
+    text-transform: uppercase;
 }
 
 .display-3 {
     letter-spacing: 0.3rem;
 }
+
+h1 {
+    text-transform: uppercase;
+}
+
+b, strong {
+    font-weight: $font-weight-bold;
+}
+
+.lead {
+    letter-spacing: 0.1rem;
+}
 .btn {
     text-transform: uppercase;
+}
+[data-namespace="customers-register"], [data-namespace="customers-login"] {
+    .form-group, h1 {
+        max-width: 360px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .submit-login, .submit-register {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    hr {
+        border-color: $black;
+        max-width: 240px;
+    }
 }

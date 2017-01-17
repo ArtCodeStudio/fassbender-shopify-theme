@@ -58,7 +58,11 @@
       "forgot_password": "Passwort vergessen",
       "sign_in": "Anmelden",
       "guest_title": "Als Gast fortsetzen",
-      "guest_continue": "Fortsetzen"
+      "guest_continue": "Fortsetzen",
+      "no_account": "Noch kein Konto?",
+      "create_account": "Hier registrieren",
+      "logged_in": "Herzlichen Glückwunsch {{ name }}, Sie sind angemeldet!",
+      "logged_in_subtext": "Vielen Dank für Ihre erfolgreiche Registrierung."
     },
     "orders": {
       "title": "Bestellungen",
@@ -110,7 +114,8 @@
       "last_name": "Nachname",
       "email": "E-Mail",
       "password": "Passwort",
-      "submit": "Registrieren"
+      "submit": "Registrieren",
+      "company": "Unternehmen"
     }
   },
   "cart": {

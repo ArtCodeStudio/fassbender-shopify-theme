@@ -1,12 +1,17 @@
 @font-face {
     font-family: "Avant Garde";
-    src: url(#{$font-avantgarde-path}) format('truetype');
+	src: url(#{$font-avantgarde-eot-path});
+	src: url(#{$font-avantgarde-woff-path}) format('woff'), url(#{$font-avantgarde-ttf-path}) format('truetype'), url(#{$font-avantgarde-svg-path}) format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
     font-family: "Avant Garde";
-    src: url(#{$font-avantgarde-bold-path}) format('truetype');
+    src: url(#{$font-avantgarde-bold-eot-path});
+    src: url(#{$font-avantgarde-bold-woff-path}) format('woff'), url(#{$font-avantgarde-bold-ttf-path}) format('truetype'), url(#{$font-avantgarde-bold-svg-path}) format('svg');
     font-weight: bold;
+    font-style: normal;
 }
 
 $slick-prev-character: ""; // $fa-var-chevron-left; // "←" !default;
