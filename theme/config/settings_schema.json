@@ -3373,57 +3373,147 @@
     ]
   },
   {
-    "name": "Collections",
+    "name": "Home",
     "settings": [
       {
-        "type": "number",
-        "id": "collections_per_page",
-        "label": "collections per page",
-        "default": 50
+        "type": "header",
+        "content": "Instafeed"
+      },
+      {
+        "type": "paragraph",
+        "content": "For all available settings see [Instafeed.js](http://instafeedjs.com/)."
+      },
+      {
+        "type": "text",
+        "id": "home_instafeed_clientId",
+        "label": "clientId",
+        "default": "31835d3fabe742fc8227998a8f924890",
+        "info": "Required. Your API client id from Instagram."
+      },
+      {
+        "type": "text",
+        "id": "home_instafeed_accessToken",
+        "label": "accessToken",
+        "default": "1752935354.31835d3.6f1bbea5f97a4ea59b6b92e3515874b2",
+        "info": "A valid oAuth token. Can be used in place of a client ID."
       },
       {
         "type": "select",
-        "id": "collections_aspect_ratio",
-        "label": "collection images aspect ratio",
+        "id": "home_instafeed_get",
+        "label": "Get",
+        "info": "Customize what Instafeed fetches.",
         "options": [
           {
-            "value": "ratio-1-1",
-            "label": "1:1"
+            "value": "popular",
+            "label": "Popular - Images from the popular page."
           },
           {
-            "value": "ratio-2-3",
-            "label": "2:3"
+            "value": "tagged",
+            "label": "Tagged - Images with a specific tag. Use tagName to specify the tag."
           },
           {
-            "value": "ratio-2-1",
-            "label": "2:1"
+            "value": "location",
+            "label": "Location - Images from a location. Use locationId to specify the location."
           },
           {
-            "value": "ratio-1-2",
-            "label": "1:2"
-          },
-          {
-            "value": "ratio-3-2",
-            "label": "3:2"
-          },
-          {
-            "value": "ratio-4-3",
-            "label": "4:3"
-          },
-          {
-            "value": "ratio-19-9",
-            "label": "19:9"
-          },
-          {
-            "value": "ratio-3-4",
-            "label": "3:4"
-          },
-          {
-            "value": "ratio-3-10",
-            "label": "3:10"
+            "value": "user",
+            "label": "User - Images with a user. Use userId to specify the user."
           }
         ],
-        "default": "ratio-1-2"
+        "default": "user"
+      },
+      {
+        "type": "text",
+        "id": "home_instafeed_tagName",
+        "label": "tagName",
+        "info": "Name of the tag to get. Use with get: 'tagged'."
+      },
+      {
+        "type": "text",
+        "id": "home_instafeed_locationId",
+        "label": "locationId",
+        "info": "Unique id of a location to get. Use with get: 'location'."
+      },
+      {
+        "type": "text",
+        "id": "home_instafeed_userId",
+        "label": "userId",
+        "default": "1752935354",
+        "info": "Unique id of a user to get. Use with get: 'user'."
+      },
+      {
+        "type": "select",
+        "id": "home_instafeed_resolution",
+        "label": "Resolution",
+        "info": "Size of the images to get.",
+        "options": [
+          {
+            "value": "thumbnail",
+            "label": "Thumbnail - 150x150"
+          },
+          {
+            "value": "low_resolution",
+            "label": "Low - 306x306"
+          },
+          {
+            "value": "standard_resolution",
+            "label": "Standard - 612x612"
+          }
+        ],
+        "default": "standard_resolution"
+      },
+      {
+        "type": "number",
+        "id": "home_instafeed_limit",
+        "label": "Limit",
+        "default": 3,
+        "info": "Maximum number of Images to add."
+      },
+      {
+        "type": "select",
+        "id": "home_instafeed_sortBy",
+        "label": "Sort feed by",
+        "options": [
+          {
+            "value": "none",
+            "label": "As they come from Instagram."
+          },
+          {
+            "value": "most-recent",
+            "label": "Newest to oldest."
+          },
+          {
+            "value": "least-recent",
+            "label": "Oldest to newest."
+          },
+          {
+            "value": "most-liked",
+            "label": "Highest # of likes to lowest."
+          },
+          {
+            "value": "least-liked",
+            "label": "Lowest # likes to highest."
+          },
+          {
+            "value": "most-commented",
+            "label": "Highest # of comments to lowest."
+          },
+          {
+            "value": "least-commented",
+            "label": "Lowest # of comments to highest."
+          },
+          {
+            "value": "random",
+            "label": "Random order."
+          }
+        ],
+        "default": "none"
+      },
+      {
+        "type": "text",
+        "id": "home_instagram_follow_link",
+        "label": "Follow Link",
+        "default": "https://www.instagram.com/studiopezzetta/"
       }
     ]
   },
@@ -4303,6 +4393,61 @@
         "label": "Wait For Animate",
         "info": "Ignores requests to advance the slide while animating",
         "default": false
+      }
+    ]
+  },
+  {
+    "name": "Collections",
+    "settings": [
+      {
+        "type": "number",
+        "id": "collections_per_page",
+        "label": "collections per page",
+        "default": 50
+      },
+      {
+        "type": "select",
+        "id": "collections_aspect_ratio",
+        "label": "collection images aspect ratio",
+        "options": [
+          {
+            "value": "ratio-1-1",
+            "label": "1:1"
+          },
+          {
+            "value": "ratio-2-3",
+            "label": "2:3"
+          },
+          {
+            "value": "ratio-2-1",
+            "label": "2:1"
+          },
+          {
+            "value": "ratio-1-2",
+            "label": "1:2"
+          },
+          {
+            "value": "ratio-3-2",
+            "label": "3:2"
+          },
+          {
+            "value": "ratio-4-3",
+            "label": "4:3"
+          },
+          {
+            "value": "ratio-19-9",
+            "label": "19:9"
+          },
+          {
+            "value": "ratio-3-4",
+            "label": "3:4"
+          },
+          {
+            "value": "ratio-3-10",
+            "label": "3:10"
+          }
+        ],
+        "default": "ratio-1-2"
       }
     ]
   }

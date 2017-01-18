@@ -95,6 +95,7 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/async/dist/async.js',
     'bower_components/barba.js/dist/barba.js',
     'bower_components/slick-carousel/slick/slick.js',
+    'bower_components/instafeed.js/instafeed.js',                       // https://github.com/stevenschobert/instafeed.js
     // 'bower_components/video.js/dist/video.js',
     // 'src/js/Hyphenator.js',
   ]).pipe(plumber({
@@ -287,8 +288,9 @@ gulp.task('theme_settings', ['bootstrap_theme_settings'], function () {
   // list of settings files to include, in order of inclusion
   var settings = [
     'bootstrap',
-    'collections',
+    'home',
     'about',
+    'collections',
   ];
 
   return gulp.src('./settings_schema/*.json')

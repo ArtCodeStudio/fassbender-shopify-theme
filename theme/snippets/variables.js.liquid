@@ -199,4 +199,12 @@
     {% endif %}
   {% endif %}
 
+  /**
+   * Templates
+   */
+  {% capture templateJumplinkInstafeedItem %}{% include 'jumplink-instafeed-item' %}{% endcapture %}
+
+   window['templates'] = {};
+   window['templates']['jumplink-instafeed-item'] = "{{ templateJumplinkInstafeedItem  | strip_newlines | replace: quote, singleQuote }}";
+
 </script>

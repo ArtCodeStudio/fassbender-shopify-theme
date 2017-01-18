@@ -165,12 +165,8 @@
     }
   },
   "home": {
-    "appointment": {
-      "make": "Make an appointment"
-    },
-    "newsletter": {
-      "email": "Email",
-      "submit": "Sign in"
+    "instagram": {
+      "follow": "Follow Us On Instagram"
     }
   },
   "contact": {

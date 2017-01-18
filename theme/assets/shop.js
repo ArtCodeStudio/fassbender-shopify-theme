@@ -379,6 +379,22 @@ jumplink.OptionSelectors = function (elementID, more) {
  * Utilities / Helper functions
  */
 
+
+/**
+ * 
+ */
+jumplink.urlExists = function (url, cb){
+    jQuery.ajax({
+        url:      url,
+        dataType: 'text',
+        type:     'GET',
+        complete:  function(xhr){
+            if(typeof cb === 'function')
+               cb.apply(this, [xhr.status, url]);
+        }
+    });
+}
+
 /**
  * Set each card to the height of the heightest card to get all cards with the same height 
  */
@@ -2420,17 +2436,74 @@ var setNavActive = function(dataset, data) {
   }
 }
 
-function UrlExists(url, cb){
-    jQuery.ajax({
-        url:      url,
-        dataType: 'text',
-        type:     'GET',
-        complete:  function(xhr){
-            if(typeof cb === 'function')
-               cb.apply(this, [xhr.status, url]);
-        }
-    });
+var initIndex = function (dataset, data) {
+  // https://github.com/stevenschobert/instafeed.js
+
+  var instafeed = new Instafeed({
+    clientId: window.settings['home_instafeed_clientId'],
+    accessToken: window.settings['home_instafeed_accessToken'],
+    template: window['templates']['jumplink-instafeed-item'],
+    get: window.settings['home_instafeed_get'],
+    tagName: window.settings['home_instafeed_tagName'],
+    locationId: window.settings['home_instafeed_locationId'],
+    userId: window.settings['home_instafeed_userId'], //JumpLink: '1752935354' Caroline Pezzetta @studiopezzetta: '1046245675'
+    sortBy: window.settings['home_instafeed_sortBy'],
+    limit: window.settings['home_instafeed_limit'],
+    resolution: window.settings['home_instafeed_resolution'],
+  });
+  instafeed.run();
+
 }
+
+var init404 = function (dataset, data) {
+  var parser = document.createElement('a');
+  parser.href = Barba.Utils.getCurrentUrl();
+  var currentPathname = parser.pathname;
+  var lastPath = currentPathname.substr(currentPathname.lastIndexOf('/') + 1);
+
+  lastPath = lastPath.replace(".html","");
+
+  //console.log("lastPath", lastPath);
+
+  if(redirects[currentPathname]) {
+    Barba.Pjax.goTo(redirects[currentPathname]);
+  } else {
+
+    var searchIn = [
+      'products',
+      'collections',
+      'pages'
+    ]
+
+    for (var i = 0; i < searchIn.length; i++) {
+      var url = '/'+searchIn[i] + '/' + lastPath;
+      jumplink.urlExists(url, function(status, url) {
+        if(status === 200){
+          // file was found
+          //console.log("exists", url);
+          Barba.Pjax.goTo(url);
+        }
+        else if(status === 404){
+          // 404 not found
+          console.error("not exists 404", url);
+        }
+      });
+    }
+
+    // use search
+    Barba.Pjax.goTo('/search?q='+lastPath.replace(/-/g," "));
+
+  }
+}
+
+var initSearch = function(dataset, data) {   
+  // if there is just one result, go to them
+  if(dataset.searchResultsCount === "1") {
+    Barba.Pjax.goTo(dataset.searchResultUrl);
+  }
+}
+
+var initListCollections = function(dataset, data) {}
 
 /**
  * Run JavaScript for for special template
@@ -2441,62 +2514,16 @@ var initTemplate = {
   'customers-register': initLogin,
   'customers-account': initCustomersAccount,
   'customers-addresses': initCustomersAddresses,
-  '404': function(dataset, data) {
-    var parser = document.createElement('a');
-    parser.href = Barba.Utils.getCurrentUrl();
-    var currentPathname = parser.pathname;
-    var lastPath = currentPathname.substr(currentPathname.lastIndexOf('/') + 1);
-
-    lastPath = lastPath.replace(".html","");
-
-    //console.log("lastPath", lastPath);
-
-    if(redirects[currentPathname]) {
-      Barba.Pjax.goTo(redirects[currentPathname]);
-    } else {
-
-      var searchIn = [
-        'products',
-        'collections',
-        'pages'
-      ]
-
-      for (var i = 0; i < searchIn.length; i++) {
-        var url = '/'+searchIn[i] + '/' + lastPath;
-        UrlExists(url, function(status, url) {
-          if(status === 200){
-            // file was found
-            //console.log("exists", url);
-            Barba.Pjax.goTo(url);
-          }
-          else if(status === 404){
-            // 404 not found
-            console.error("not exists 404", url);
-          }
-        });
-      }
-
-      // use search
-      Barba.Pjax.goTo('/search?q='+lastPath.replace(/-/g," "));
-
-    }
-
-  },
+  '404': init404,
   'article': initArticle,
   'blog': initBlog,
   'cart': initCartTemplate,
   'collection': initCollection,
-  // 'index': initIndex,
-  'list-collections': function(dataset, data) {},
+  'index': initIndex,
+  'list-collections': initListCollections,
   'page': initPage,
   'product': initProduct,
-  'search': function(dataset, data) {   
-    // if there is just one result, go to them
-    if(dataset.searchResultsCount === "1") {
-      Barba.Pjax.goTo(dataset.searchResultUrl);
-    }
-  },
-  
+  'search': initSearch,
 }
 
 /**

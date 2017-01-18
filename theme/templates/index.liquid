@@ -1,6 +1,33 @@
-<div class="container">
+<div class="container pt-5">
+
+  {% paginate collections by settings.collections_per_page %}
+    <div class="row">
+      {% for collection in collections %}
+        <div class="col-xs-12 col-sm-6 col-md-4 col-xl-4">
+          {% include 'collection-grid-item' %}
+        </div>
+      {% endfor %}
+    </div>
+    {% include 'pagination', show_all_active: false %}
+  {% endpaginate %}
 
   <div class="row">
+
+    {% include 'jumplink-register-box' %}
+
+    <p class="col-xs-12 display-4 mb-4 text-center">
+      Instagram
+    </p>
+
+    <div class="col-xs-12 col-md-8 offset-md-2 my-4">
+      <div class="row" id="instafeed"></div>
+    </div>
+
+    <p class="col-xs-12 lead my-4 text-center">
+      <a target="_blank" href="{{ settings.home_instagram_follow_link }}">
+        {{ 'home.instagram.follow' | t }}
+      </a>
+    </p>
 
     {% unless settings.homepage_page == blank or pages[settings.homepage_page].empty? %}
       {% assign page = pages[settings.homepage_page] %}
@@ -42,7 +69,7 @@
         </div>
       </div>
     {% endif %}
-    
+
   </div>
   
 </div>
