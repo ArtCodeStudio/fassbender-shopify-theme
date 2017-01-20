@@ -1,0 +1,16 @@
+{
+  "name": "Apps",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Ready to use and well theme integration of Featured Apps, the app only needs to be installed in shopify, no installation in theme necessary."
+    },
+    {
+      "type": "checkbox",
+      "id": "apps_powertools_filter_menu",
+      "label": "Filter Menu by Power Tools",
+      "default": false,
+      "info": "Activates ready to use [Filter Menu by Power Tools](https://apps.shopify.com/power-tools-filter-menu) theme integration"
+    }
+  ]
+}

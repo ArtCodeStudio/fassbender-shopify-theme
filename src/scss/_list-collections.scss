@@ -1,9 +1,9 @@
-.collection-image-wrap {
+.image-wrap {
     position: relative;
     .background-box {
         opacity: 1;
     }
-    .collection-caption {
+    .caption {
         @include transition($transition-fade);
         position: absolute;
         bottom: 40px;

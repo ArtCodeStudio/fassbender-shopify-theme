@@ -4397,18 +4397,18 @@
     ]
   },
   {
-    "name": "Collections",
+    "name": "List Collections",
     "settings": [
       {
         "type": "number",
         "id": "collections_per_page",
-        "label": "collections per page",
+        "label": "Collections per page",
         "default": 50
       },
       {
         "type": "select",
         "id": "collections_aspect_ratio",
-        "label": "collection images aspect ratio",
+        "label": "Images aspect ratio",
         "options": [
           {
             "value": "ratio-1-1",
@@ -4448,6 +4448,95 @@
           }
         ],
         "default": "ratio-1-2"
+      }
+    ]
+  },
+  {
+    "name": "Collection",
+    "settings": [
+      {
+        "type": "number",
+        "id": "products_per_page",
+        "label": "Products per page",
+        "default": 50
+      },
+      {
+        "type": "select",
+        "id": "products_aspect_ratio",
+        "label": "Images aspect ratio",
+        "options": [
+          {
+            "value": "ratio-1-1",
+            "label": "1:1"
+          },
+          {
+            "value": "ratio-2-3",
+            "label": "2:3"
+          },
+          {
+            "value": "ratio-2-1",
+            "label": "2:1"
+          },
+          {
+            "value": "ratio-1-2",
+            "label": "1:2"
+          },
+          {
+            "value": "ratio-3-2",
+            "label": "3:2"
+          },
+          {
+            "value": "ratio-4-3",
+            "label": "4:3"
+          },
+          {
+            "value": "ratio-19-9",
+            "label": "19:9"
+          },
+          {
+            "value": "ratio-3-4",
+            "label": "3:4"
+          },
+          {
+            "value": "ratio-3-10",
+            "label": "3:10"
+          }
+        ],
+        "default": "ratio-1-2"
+      },
+      {
+        "type": "checkbox",
+        "id": "products_show_vendor",
+        "label": "Show vendor",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "products_show_title",
+        "label": "Show title",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "products_show_price",
+        "label": "Show price",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Apps",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Ready to use and well theme integration of Featured Apps, the app only needs to be installed in shopify, no installation in theme necessary."
+      },
+      {
+        "type": "checkbox",
+        "id": "apps_powertools_filter_menu",
+        "label": "Filter Menu by Power Tools",
+        "default": false,
+        "info": "Activates ready to use [Filter Menu by Power Tools](https://apps.shopify.com/power-tools-filter-menu) theme integration"
       }
     ]
   }

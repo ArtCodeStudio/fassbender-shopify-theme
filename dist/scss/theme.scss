@@ -10591,6 +10591,50 @@ $tcon-menu-arrow360left-transformation: (
         opacity: $slick-arrow-opacity-disabled;
     }
 }
+$breakpoint: xs;
+$infix: null;
+@include spacing($breakpoint, $infix, margin, -m, 0, -$spacers-x-0, -$spacers-y-0);
+@include spacing($breakpoint, $infix, margin, -m, 1, -$spacers-x-1, -$spacers-y-1);
+@include spacing($breakpoint, $infix, margin, -m, 2, -$spacers-x-2, -$spacers-y-2);
+@include spacing($breakpoint, $infix, margin, -m, 3, -$spacers-x-3, -$spacers-y-3);
+@include spacing($breakpoint, $infix, margin, -m, 4, -$spacers-x-4, -$spacers-y-4);
+@include spacing($breakpoint, $infix, margin, -m, 5, -$spacers-x-5, -$spacers-y-5);
+
+$breakpoint: sm;
+$infix: '-sm';
+@include spacing($breakpoint, $infix, margin, -m, 0, -$spacers-x-0, -$spacers-y-0);
+@include spacing($breakpoint, $infix, margin, -m, 1, -$spacers-x-1, -$spacers-y-1);
+@include spacing($breakpoint, $infix, margin, -m, 2, -$spacers-x-2, -$spacers-y-2);
+@include spacing($breakpoint, $infix, margin, -m, 3, -$spacers-x-3, -$spacers-y-3);
+@include spacing($breakpoint, $infix, margin, -m, 4, -$spacers-x-4, -$spacers-y-4);
+@include spacing($breakpoint, $infix, margin, -m, 5, -$spacers-x-5, -$spacers-y-5);
+
+$breakpoint: md;
+$infix: '-md';
+@include spacing($breakpoint, $infix, margin, -m, 0, -$spacers-x-0, -$spacers-y-0);
+@include spacing($breakpoint, $infix, margin, -m, 1, -$spacers-x-1, -$spacers-y-1);
+@include spacing($breakpoint, $infix, margin, -m, 2, -$spacers-x-2, -$spacers-y-2);
+@include spacing($breakpoint, $infix, margin, -m, 3, -$spacers-x-3, -$spacers-y-3);
+@include spacing($breakpoint, $infix, margin, -m, 4, -$spacers-x-4, -$spacers-y-4);
+@include spacing($breakpoint, $infix, margin, -m, 5, -$spacers-x-5, -$spacers-y-5);
+
+$breakpoint: lg;
+$infix: '-lg';
+@include spacing($breakpoint, $infix, margin, -m, 0, -$spacers-x-0, -$spacers-y-0);
+@include spacing($breakpoint, $infix, margin, -m, 1, -$spacers-x-1, -$spacers-y-1);
+@include spacing($breakpoint, $infix, margin, -m, 2, -$spacers-x-2, -$spacers-y-2);
+@include spacing($breakpoint, $infix, margin, -m, 3, -$spacers-x-3, -$spacers-y-3);
+@include spacing($breakpoint, $infix, margin, -m, 4, -$spacers-x-4, -$spacers-y-4);
+@include spacing($breakpoint, $infix, margin, -m, 5, -$spacers-x-5, -$spacers-y-5);
+
+$breakpoint: xl;
+$infix: '-xl';
+@include spacing($breakpoint, $infix, margin, -m, 0, -$spacers-x-0, -$spacers-y-0);
+@include spacing($breakpoint, $infix, margin, -m, 1, -$spacers-x-1, -$spacers-y-1);
+@include spacing($breakpoint, $infix, margin, -m, 2, -$spacers-x-2, -$spacers-y-2);
+@include spacing($breakpoint, $infix, margin, -m, 3, -$spacers-x-3, -$spacers-y-3);
+@include spacing($breakpoint, $infix, margin, -m, 4, -$spacers-x-4, -$spacers-y-4);
+@include spacing($breakpoint, $infix, margin, -m, 5, -$spacers-x-5, -$spacers-y-5);
 /* Slider */
 
 .slick-slider {
@@ -10923,6 +10967,11 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
         }
     }
 }
+
+.navbar-toggler {
+    z-index: 1031;
+}
+
 .right-sidebar {
     width: 250px;
     right: -250px;
@@ -10934,12 +10983,12 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
     }
 }
 
-.collection-image-wrap {
+.image-wrap {
     position: relative;
     .background-box {
         opacity: 1;
     }
-    .collection-caption {
+    .caption {
         @include transition($transition-fade);
         position: absolute;
         bottom: 40px;
@@ -10957,6 +11006,25 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
         .background-box {
             opacity: 0.2;
         }
+    }
+}
+.product-item {
+    .image-wrap {
+        .caption {
+            opacity: 0;
+        }
+        &:hover {
+            .caption {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+[data-collection-filter="true"] {
+    @include media-breakpoint-up(md) {
+        @include vp-position(fixed);
+        top: 53.5px; // navbar height
     }
 }
 
@@ -11028,6 +11096,10 @@ b, strong {
 
 .lead {
     letter-spacing: 0.1rem;
+}
+    
+.list-group-item, .nav-link {
+    letter-spacing: 0.1em;
 }
 .btn {
     text-transform: uppercase;

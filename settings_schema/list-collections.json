@@ -1,16 +1,16 @@
 {
-  "name": "Collections",
+  "name": "List Collections",
   "settings": [
     {
       "type": "number",
       "id": "collections_per_page",
-      "label": "collections per page",
+      "label": "Collections per page",
       "default": 50
     },
     {
       "type": "select",
       "id": "collections_aspect_ratio",
-      "label": "collection images aspect ratio",
+      "label": "Images aspect ratio",
       "options": [
         {
           "value": "ratio-1-1",

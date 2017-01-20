@@ -23,6 +23,7 @@
 @import '../../bower_components/jumplink-components/scss/backgrounds';
 @import '../../bower_components/jumplink-components/scss/navbar';
 @import '../../bower_components/jumplink-components/scss/carousel';
+@import '../../bower_components/jumplink-components/scss/spacing';
 
 @import '../../bower_components/slick-carousel/slick/slick.scss';
 @import '../../bower_components/slick-carousel/slick/slick-theme.scss';
@@ -32,9 +33,12 @@
 @import 'navbar';
 @import 'sidebar';
 @import 'images';
-@import 'list-collections';
 @import 'pagination';
 @import 'footer';
 @import 'typography';
 @import 'buttons';
+@import 'list-group';
+
 @import 'customers-login-register';
+@import 'list-collections';
+@import 'collection';

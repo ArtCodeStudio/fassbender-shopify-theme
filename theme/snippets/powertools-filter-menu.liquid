@@ -12,7 +12,7 @@
 </style>
 <div class="filter-menu filter-selected-{{ collection.handle }}{% for tag in current_tags %} filter-selected-{{ tag | handleize }}{% endfor %}">
     <div class="filter-group m-y-0 p-b-05 p-t-1 refine-header">
-        <p class="m-t-0 hidden TODO"><strong>{{ pt_refine_text }}</strong></p>
+        <p class="mt-0 hidden TODO"><strong>{{ pt_refine_text }}</strong></p>
         {% unless collection.handle == 'all' or collection.handle == nil and current_tags == nil %}
             <a class="filter-clear" href="/collections/all">
                 <p class="m-a-0 text-normal">{{ pt_view_all_text }}</p>
@@ -80,14 +80,14 @@
             {% assign group_handle = shop.metafields.pt_filter_header[menu_header.first] | handle %}
             {% if group_handle == 'grossen' or group_handle == 'grosse' or group_handle == 'size' %}
                 {% if menu_items_length <= 8 %}
-                    {% include 'filter-menu-item' %}
+                    {% include 'powertools-filter-menu-item' %}
                 {% elsif menu_items_length <= 20 %}
                     {% assign btn_style = 'btn btn-default max-width-200' %}
                     {% assign show_label = true %}
-                    {% include 'filter-menu-select-item' with btn_style, show_label %}
+                    {% include 'powertools-filter-menu-select-item' with btn_style, show_label %}
                 {% endif %}
             {% else %}
-                {% include 'filter-menu-item' %}
+                {% include 'powertools-filter-menu-item' %}
             {% endif %}
         {% endfor %}
         {% comment %}

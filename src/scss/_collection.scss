@@ -1,0 +1,19 @@
+.product-item {
+    .image-wrap {
+        .caption {
+            opacity: 0;
+        }
+        &:hover {
+            .caption {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+[data-collection-filter="true"] {
+    @include media-breakpoint-up(md) {
+        @include vp-position(fixed);
+        top: 53.5px; // navbar height
+    }
+}

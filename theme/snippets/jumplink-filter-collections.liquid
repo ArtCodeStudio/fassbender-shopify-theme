@@ -1,0 +1,14 @@
+{% paginate collections by settings.collections_per_page %}
+  <ul class="list-group filter-collections">
+    <li class="list-group-item list-group-title">
+      {{ title }}
+    </li>
+    {% for collectionItem in collections %}
+      {% if collectionItem.handle == collection.handle %}
+        <li class="list-group-item active">{{ collection.title }}</li>
+      {% else %}
+        <a href="{{ collectionItem.url }}" class="list-group-item list-group-item-action">{{ collectionItem.title }}</a>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endpaginate %}

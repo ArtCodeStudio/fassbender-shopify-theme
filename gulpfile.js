@@ -43,6 +43,8 @@ gulp.task('default', function () {
 });
 
 // Helper for sass tasks
+gulp.task('style', ['sass']);
+gulp.task('scss', ['sass']);
 gulp.task('sass', ['bootstrap_sass_test_build', 'sass_concat']);
 
 // ALL THE TASKS!!! plus zipping up a fully built theme
@@ -74,7 +76,6 @@ gulp.task('zip', function () {
 
 
 gulp.task('javascript', ['javascript-libs']);
-
 gulp.task('javascript-libs', [], function () {
   return gulp.src([
     'bower_components/jquery/dist/jquery.js',
@@ -283,6 +284,7 @@ gulp.task('bootstrap_theme_settings', function () {
 });
 
 // SHOPIFY_THEME_SETTINGS: Create settings_schema.json
+gulp.task('settings', ['theme_settings']);
 gulp.task('theme_settings', ['bootstrap_theme_settings'], function () {
 
   // list of settings files to include, in order of inclusion
@@ -290,7 +292,9 @@ gulp.task('theme_settings', ['bootstrap_theme_settings'], function () {
     'bootstrap',
     'home',
     'about',
-    'collections',
+    'list-collections',
+    'collection',
+    'apps',
   ];
 
   return gulp.src('./settings_schema/*.json')

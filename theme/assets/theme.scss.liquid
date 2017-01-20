@@ -11212,6 +11212,50 @@ $tcon-menu-arrow360left-transformation: (
         opacity: $slick-arrow-opacity-disabled;
     }
 }
+$breakpoint: xs;
+$infix: null;
+@include spacing($breakpoint, $infix, margin, -m, 0, -$spacers-x-0, -$spacers-y-0);
+@include spacing($breakpoint, $infix, margin, -m, 1, -$spacers-x-1, -$spacers-y-1);
+@include spacing($breakpoint, $infix, margin, -m, 2, -$spacers-x-2, -$spacers-y-2);
+@include spacing($breakpoint, $infix, margin, -m, 3, -$spacers-x-3, -$spacers-y-3);
+@include spacing($breakpoint, $infix, margin, -m, 4, -$spacers-x-4, -$spacers-y-4);
+@include spacing($breakpoint, $infix, margin, -m, 5, -$spacers-x-5, -$spacers-y-5);
+
+$breakpoint: sm;
+$infix: '-sm';
+@include spacing($breakpoint, $infix, margin, -m, 0, -$spacers-x-0, -$spacers-y-0);
+@include spacing($breakpoint, $infix, margin, -m, 1, -$spacers-x-1, -$spacers-y-1);
+@include spacing($breakpoint, $infix, margin, -m, 2, -$spacers-x-2, -$spacers-y-2);
+@include spacing($breakpoint, $infix, margin, -m, 3, -$spacers-x-3, -$spacers-y-3);
+@include spacing($breakpoint, $infix, margin, -m, 4, -$spacers-x-4, -$spacers-y-4);
+@include spacing($breakpoint, $infix, margin, -m, 5, -$spacers-x-5, -$spacers-y-5);
+
+$breakpoint: md;
+$infix: '-md';
+@include spacing($breakpoint, $infix, margin, -m, 0, -$spacers-x-0, -$spacers-y-0);
+@include spacing($breakpoint, $infix, margin, -m, 1, -$spacers-x-1, -$spacers-y-1);
+@include spacing($breakpoint, $infix, margin, -m, 2, -$spacers-x-2, -$spacers-y-2);
+@include spacing($breakpoint, $infix, margin, -m, 3, -$spacers-x-3, -$spacers-y-3);
+@include spacing($breakpoint, $infix, margin, -m, 4, -$spacers-x-4, -$spacers-y-4);
+@include spacing($breakpoint, $infix, margin, -m, 5, -$spacers-x-5, -$spacers-y-5);
+
+$breakpoint: lg;
+$infix: '-lg';
+@include spacing($breakpoint, $infix, margin, -m, 0, -$spacers-x-0, -$spacers-y-0);
+@include spacing($breakpoint, $infix, margin, -m, 1, -$spacers-x-1, -$spacers-y-1);
+@include spacing($breakpoint, $infix, margin, -m, 2, -$spacers-x-2, -$spacers-y-2);
+@include spacing($breakpoint, $infix, margin, -m, 3, -$spacers-x-3, -$spacers-y-3);
+@include spacing($breakpoint, $infix, margin, -m, 4, -$spacers-x-4, -$spacers-y-4);
+@include spacing($breakpoint, $infix, margin, -m, 5, -$spacers-x-5, -$spacers-y-5);
+
+$breakpoint: xl;
+$infix: '-xl';
+@include spacing($breakpoint, $infix, margin, -m, 0, -$spacers-x-0, -$spacers-y-0);
+@include spacing($breakpoint, $infix, margin, -m, 1, -$spacers-x-1, -$spacers-y-1);
+@include spacing($breakpoint, $infix, margin, -m, 2, -$spacers-x-2, -$spacers-y-2);
+@include spacing($breakpoint, $infix, margin, -m, 3, -$spacers-x-3, -$spacers-y-3);
+@include spacing($breakpoint, $infix, margin, -m, 4, -$spacers-x-4, -$spacers-y-4);
+@include spacing($breakpoint, $infix, margin, -m, 5, -$spacers-x-5, -$spacers-y-5);
 /* Slider */
 
 .slick-slider {
@@ -11544,6 +11588,11 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
         }
     }
 }
+
+.navbar-toggler {
+    z-index: 1031;
+}
+
 .right-sidebar {
     width: 250px;
     right: -250px;
@@ -11555,31 +11604,6 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
     }
 }
 
-.collection-image-wrap {
-    position: relative;
-    .background-box {
-        opacity: 1;
-    }
-    .collection-caption {
-        @include transition($transition-fade);
-        position: absolute;
-        bottom: 40px;
-        left: 0;
-        right: 0;
-        font-size: 1.5rem;
-        text-transform: uppercase;
-        width: 100%;
-        color: $white;
-        text-align: center;
-        font-weight: 300;
-    }
-    &:hover {
-        background-color: $black;
-        .background-box {
-            opacity: 0.2;
-        }
-    }
-}
 
 .page-item {
   &.active .page-link {
@@ -11650,9 +11674,33 @@ b, strong {
 .lead {
     letter-spacing: 0.1rem;
 }
+    
+.list-group-item, .nav-link {
+    letter-spacing: 0.1em;
+}
 .btn {
     text-transform: uppercase;
 }
+.list-group {
+    &.filter-collections {
+        .list-group-item {
+            border: none;
+            padding: 0.3rem 0;
+            font-size: 0.9rem;
+            &.list-group-title {
+                text-transform: uppercase;
+                font-weight: bold;
+                padding-bottom: 0.8rem;
+            }
+            &.active {
+                background: transparent;
+                font-weight: bold;
+                color: $list-group-color;
+            }
+        }
+    }
+}
+
 [data-namespace="customers-register"], [data-namespace="customers-login"] {
     .form-group, .btn-group, h1 {
         max-width: 360px;
@@ -11667,5 +11715,49 @@ b, strong {
     hr {
         border-color: $black;
         max-width: 240px;
+    }
+}
+.image-wrap {
+    position: relative;
+    .background-box {
+        opacity: 1;
+    }
+    .caption {
+        @include transition($transition-fade);
+        position: absolute;
+        bottom: 40px;
+        left: 0;
+        right: 0;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        width: 100%;
+        color: $white;
+        text-align: center;
+        font-weight: 300;
+    }
+    &:hover {
+        background-color: $black;
+        .background-box {
+            opacity: 0.2;
+        }
+    }
+}
+.product-item {
+    .image-wrap {
+        .caption {
+            opacity: 0;
+        }
+        &:hover {
+            .caption {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+[data-collection-filter="true"] {
+    @include media-breakpoint-up(md) {
+        @include vp-position(fixed);
+        top: 53.5px; // navbar height
     }
 }

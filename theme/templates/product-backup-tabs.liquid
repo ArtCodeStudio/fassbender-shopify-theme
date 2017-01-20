@@ -9,7 +9,7 @@
 
       <form action="/cart/add" method="post" class="row" id="handle-{{product.handle}}_AddToCartForm" enctype="multipart/form-data">
         
-        <div class="product-photos col-xs-12 col-md-5 m-b-1">
+        <div class="product-photos col-xs-12 col-md-5 mb-1">
 
           {% if product.images.size <= 0 %}
         
@@ -39,7 +39,7 @@
           <p itemprop="brand" class="product-vendor text-sans-serif text-size-1-5 text-bold m-b-0">{{ product.vendor | link_to: vendor_url }}</p>
           <p itemprop="name" class="product-title text-sans-serif text-size-1-5">{{ product.title }}</p>
                     
-          <div id="handle-{{product.handle}}_product-price" class="delta m-y-1" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+          <div id="handle-{{product.handle}}_product-price" class="delta my-1" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
             <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
             <p class="m-0 text-size-1-5 text-bold">
               {% assign variant = product.selected_or_first_available_variant %}
@@ -195,7 +195,7 @@
           </div>
 
 
-          <ul class="product-info-links m-y-1">
+          <ul class="product-info-links my-1">
             <li>
               <a href="{{ pages.sizeguide.url }}" title="{{ pages.sizeguide.title }}">
                 {{ pages.sizeguide.title }}

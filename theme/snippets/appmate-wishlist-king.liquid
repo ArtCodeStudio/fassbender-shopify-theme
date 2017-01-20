@@ -139,8 +139,8 @@
                     {% include 'wishlist-button-wishlist-clear' %}
                 {% endunless %}
 
-                <h3 id="wk-share-head" class="text-center m-y-1">Wunschliste teilen</h3>
-                <ul id="wk-share-list" class="list-unstyled social-links m-y-1">
+                <h3 id="wk-share-head" class="text-center my-1">Wunschliste teilen</h3>
+                <ul id="wk-share-list" class="list-unstyled social-links my-1">
                     <li>{% include 'wishlist-share-button-email' %}</li>
                     <li>{% include 'wishlist-share-button-whatsapp' %}</li>
                     <li>{% include 'wishlist-share-button-fb' %}</li>
@@ -226,7 +226,7 @@
             <!-- Begin product options -->
             <div class="wk-product-options {% if hide_default_title %}wk-no-options{% endif %}">
 
-                <div class="wk-select m-t-05" {% if hide_default_title %} style="opacity:0;"{% endif %}>
+                <div class="wk-select mt-05" {% if hide_default_title %} style="opacity:0;"{% endif %}>
                     <select id="wk-option-select-{{ product.wishlist_item_id }}"
                         class="wk-option-select full-width"
                         name="id"
@@ -244,13 +244,13 @@
                 </div>
 
                 {% if settings.display_quantity_dropdown and product.available %}
-                    <div class="wk-selector-wrapper m-t-05">
+                    <div class="wk-selector-wrapper mt-05">
                         <label>Quantity</label>
                         <input class="wk-quantity" type="number" name="quantity" value="1" class="wk-item-quantity" />
                     </div>
                 {% endif %}
 
-                <div class="wk-purchase-section{% if product.variants.length > 1 %} wk-multiple{% endif %} m-t-05">
+                <div class="wk-purchase-section{% if product.variants.length > 1 %} wk-multiple{% endif %} mt-05">
                 {% unless product.available %}
                     <input type="submit" class="btn btn-lg btn-primary wk-add-to-cart full-width m-b-05 disabled" disabled="disabled" value="{{ window.translations.product.general.sold_out  }}" />
                 {% elsif product.metafields.global.no_saleable or product.metafields.global.Saleable == "nein" or product.metafields.global.Saleable == false or product.metafields.global.Saleable == "false" or product.metafields.global.Saleable == "0" %}
