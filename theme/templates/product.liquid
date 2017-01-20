@@ -36,7 +36,7 @@
           {% else %}
             {% assign vendor_url = product.vendor | url_for_vendor %}
           {% endif %}
-          <p itemprop="brand" class="product-vendor text-sans-serif text-size-1-5 text-bold m-b-0">{{ product.vendor | link_to: vendor_url }}</p>
+          <p itemprop="brand" class="product-vendor text-sans-serif text-size-1-5 text-bold mb-0">{{ product.vendor | link_to: vendor_url }}</p>
           <p itemprop="name" class="product-title text-sans-serif text-size-1-5">{{ product.title }}</p>
                     
           <div id="handle-{{product.handle}}_product-price" class="delta my-1" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
@@ -254,7 +254,7 @@
             </div>
           {% else %}
             <div>
-              <hr class="m-b-05 m-t-1">
+              <hr class="mb-05 m-t-1">
               <p class="text-size-1-5 text-bold m-0">
                 Details
               </p>
@@ -273,7 +273,7 @@
           </div>
 
           <div>
-            <hr class="m-t-1 m-b-05">
+            <hr class="m-t-1 mb-05">
             <p class="text-size-1-5 text-bold">
               {{ 'product.contact.title' | t }}
             </p>

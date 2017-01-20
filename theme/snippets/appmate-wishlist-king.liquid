@@ -252,11 +252,11 @@
 
                 <div class="wk-purchase-section{% if product.variants.length > 1 %} wk-multiple{% endif %} mt-05">
                 {% unless product.available %}
-                    <input type="submit" class="btn btn-lg btn-primary wk-add-to-cart full-width m-b-05 disabled" disabled="disabled" value="{{ window.translations.product.general.sold_out  }}" />
+                    <input type="submit" class="btn btn-lg btn-primary wk-add-to-cart full-width mb-05 disabled" disabled="disabled" value="{{ window.translations.product.general.sold_out  }}" />
                 {% elsif product.metafields.global.no_saleable or product.metafields.global.Saleable == "nein" or product.metafields.global.Saleable == false or product.metafields.global.Saleable == "false" or product.metafields.global.Saleable == "0" %}
-                    <input type="submit" class="btn btn-lg btn-primary wk-add-to-cart full-width m-b-05 disabled" disabled="disabled" value="{{ translations.cart.general.can_not_add_to_cart }}" />
+                    <input type="submit" class="btn btn-lg btn-primary wk-add-to-cart full-width mb-05 disabled" disabled="disabled" value="{{ translations.cart.general.can_not_add_to_cart }}" />
                 {% else %}
-                    <input type="submit" class="btn btn-lg btn-primary wk-add-to-cart full-width m-b-05" data-wk-item="{{ product.wishlist_item_id }}" name="add" value="{{ translations.cart.general.add_to_cart }}" />
+                    <input type="submit" class="btn btn-lg btn-primary wk-add-to-cart full-width mb-05" data-wk-item="{{ product.wishlist_item_id }}" name="add" value="{{ translations.cart.general.add_to_cart }}" />
                 {% endunless %}
                 </div>
             </div>

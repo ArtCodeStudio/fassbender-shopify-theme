@@ -1,9 +1,39 @@
+.custom-nav-link {
+    text-transform: uppercase;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    color: $black;
+    &:hover, &.active {
+        color: $orange;
+    }
+}
+
 #main-navbar {
     .nav-item {
         .nav-link {
-            text-transform: uppercase;
-            padding-right: 1.5em;
-            padding-left: 1.5em;
+           @extend .custom-nav-link;
+        }
+    }
+}
+
+.nav-item {
+    &.dropdown {
+        .dropdown-toggle {
+            &::after {
+                content: none;
+            }
+            @extend .custom-nav-link;
+            cursor: pointer;
+        }
+        .dropdown-menu {
+            top: 37px;
+            left: 1.5em;
+            border-top: 0;
+            .dropdown-item {
+                &:active {
+                    background: transparent;
+                }
+            }
         }
     }
 }

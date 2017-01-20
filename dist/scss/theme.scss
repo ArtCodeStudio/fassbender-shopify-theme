@@ -10950,12 +10950,42 @@ html, body {
 
 $slick-prev-character: ""; // $fa-var-chevron-left; // "←" !default;
 $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', color: 'white' %}"; // "→"
+.custom-nav-link {
+    text-transform: uppercase;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    color: $black;
+    &:hover, &.active {
+        color: $orange;
+    }
+}
+
 #main-navbar {
     .nav-item {
         .nav-link {
-            text-transform: uppercase;
-            padding-right: 1.5em;
-            padding-left: 1.5em;
+           @extend .custom-nav-link;
+        }
+    }
+}
+
+.nav-item {
+    &.dropdown {
+        .dropdown-toggle {
+            &::after {
+                content: none;
+            }
+            @extend .custom-nav-link;
+            cursor: pointer;
+        }
+        .dropdown-menu {
+            top: 37px;
+            left: 1.5em;
+            border-top: 0;
+            .dropdown-item {
+                &:active {
+                    background: transparent;
+                }
+            }
         }
     }
 }
@@ -11008,7 +11038,7 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
         }
     }
 }
-.product-item {
+.product-item, .collection-item {
     .image-wrap {
         .caption {
             opacity: 0;
@@ -11098,8 +11128,9 @@ b, strong {
     letter-spacing: 0.1rem;
 }
     
-.list-group-item, .nav-link {
+.list-group-item, .nav-link, .nav-item .dropdown-toggle {
     letter-spacing: 0.1em;
+    font-size: 0.9rem;
 }
 .btn {
     text-transform: uppercase;

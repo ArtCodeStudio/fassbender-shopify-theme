@@ -1085,21 +1085,21 @@ var initNavbar = function () {
   jumplink.cache.$barbaWrapper.css( 'padding-top', getAllNavsHeight()+'px');
 
   // Simulate Dropdown hover effekt
-  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li.dropdown').hover(function(event){
+  jumplink.cache.$mainNavbar.find('.dropdown').hover(function(event){
     var $this = $(this);
     
     if($this.hasClass('cart-button')) {
-      // only open cart if it has content
+      // only show cart if it has content
       if($this.hasClass('has-content')) {
-        $this.addClass('open');
+        $this.addClass('show');
       }
     } else {
-      $this.addClass('open');
+      // $this.addClass('show');
     }
     // $('.dropdown-toggle', this).trigger('click'); 
   },
   function(event) {
-      $(this).removeClass('open');
+      // $(this).removeClass('show');
   });
 }
 

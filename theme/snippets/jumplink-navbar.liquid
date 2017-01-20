@@ -24,12 +24,12 @@
           {% endif %}
           {% if has_sub_menu or has_sub_categories %}
               {% if link.title == 'Designer' %}
-                {% include 'navbar-dropdown-designer' %}
+                {% include 'jumplink-navbar-dropdown-designer' %}
               {% else %}
                   {% comment %}
-                  You could also use {% include 'navbar-dropdown-letters' %}
+                  You could also use {% include 'jumplink-navbar-dropdown-letters' %}
                   {% endcomment %}
-                {% include 'navbar-dropdown' %}
+                {% include 'jumplink-navbar-dropdown' %}
               {% endif %}
           {% else %}
             {% if link.handle == 'blog' and settings.blog_enable == false %}
@@ -44,7 +44,7 @@
 
       {% if settings.navbar_show_cart %}
         <ul class="navbar-nav">
-          {% include 'navbar-dropdown-cart' %}
+          {% include 'jumplink-navbar-dropdown-cart' %}
         </ul>
       {% endif %}
 
@@ -67,4 +67,4 @@
   </div>
 </nav>
 
-{% include 'right-sidebar' %}
+{% include 'jumplink-right-sidebar' %}
