@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container pt-5">
   <div class="product handle-{{product.handle}}" id="handle-{{product.handle}}" itemscope itemtype="http://schema.org/Product">
     
     <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
@@ -60,16 +60,18 @@
               </span>
             {% endif %}
 
-            <!-- Bold: Loyalty Points - Step 4 -->
-            {% if shop.metafields.bold_loyalties.active == 1 and settings.product_show_loyalty_earn_points %}    
-              <div class="bold-loyalties-redeem-amount">oder <span class="bold-placeholder"></span></div>
+            {% if settings.apps_bold_loyalty_points %}
+              <!-- Bold: Loyalty Points - Step 4 -->
+              {% if shop.metafields.bold_loyalties.active == 1 and settings.product_show_loyalty_earn_points %}    
+                <div class="bold-loyalties-redeem-amount">oder <span class="bold-placeholder"></span></div>
+              {% endif %}
+              <!-- // end bold code -->
+              <!-- Bold: Loyalty Points - Step 5 -->
+              {% if settings.product_show_loyalty_earn_points %}
+                <div class="bold-loyalties-earn"></div>
+              {% endif %}
+              <!-- // end bold code -->
             {% endif %}
-            <!-- // end bold code -->
-            <!-- Bold: Loyalty Points - Step 5 -->
-            {% if settings.product_show_loyalty_earn_points %}
-              <div class="bold-loyalties-earn"></div>
-            {% endif %}
-            <!-- // end bold code -->
 
           </p>
           <p class="product-legal-text m-0">
@@ -179,14 +181,16 @@
 
           {% if product.metafields.global.no_saleable or product.metafields.global.Saleable == "nein" or product.metafields.global.Saleable == false or product.metafields.global.Saleable == "false" or product.metafields.global.Saleable == "0" %}
           {% else %}
-            {% if settings.product_show_loyalty_spend_button %}
-              <div class="form-group">
-                <!-- Bold: Loyalty Points - Step 6 -->
-                <div class="bold-loyalties-redeem">
-                  <a href="#" disabled="disabled" class="buy-with-rewards btn secondary disabled">Herzen einlösen</a>
+            {% if settings.apps_bold_loyalty_points %}
+              {% if settings.product_show_loyalty_spend_button %}
+                <div class="form-group">
+                  <!-- Bold: Loyalty Points - Step 6 -->
+                  <div class="bold-loyalties-redeem">
+                    <a href="#" disabled="disabled" class="buy-with-rewards btn secondary disabled">Herzen einlösen</a>
+                  </div>
+                  <!-- // end bold code -->
                 </div>
-                <!-- // end bold code -->
-              </div>
+              {% endif %}
             {% endif %}
           {% endif %}
 
@@ -317,7 +321,9 @@
   </div>
 </div>
 
-<!-- Bold: Loyalty Points - Step 7 -->
-{% comment %}{% include 'bold-loyalties-product' %}{% endcomment %}
-{% include 'bold-loyalties-modal' %}
-<!-- // end bold code -->
+{% if settings.apps_bold_loyalty_points %}
+  <!-- Bold: Loyalty Points - Step 7 -->
+  {% comment %}{% include 'bold-loyalties-product' %}{% endcomment %}
+  {% include 'bold-loyalties-modal' %}
+  <!-- // end bold code -->
+{% endif %}

@@ -7,6 +7,20 @@
     },
     {
       "type": "checkbox",
+      "id": "apps_jumplink_product_videos",
+      "label": "Product Videos by JumpLink",
+      "default": false,
+      "info": "Activates ready to use [Product Videos by JumpLink](https://product-videos.jumplink.eu/) theme integration"
+    },
+    {
+      "type": "checkbox",
+      "id": "apps_jumplink_exclusive_collections",
+      "label": "Exclusive Collections by JumpLink",
+      "default": true,
+      "info": "Activates ready to use [Exclusive Collections by JumpLink](exclusive-collections.jumplink.eu) theme integration"
+    },
+    {
+      "type": "checkbox",
       "id": "apps_powertools_filter_menu",
       "label": "Filter Menu by Power Tools",
       "default": false,
@@ -25,13 +39,6 @@
       "label": "Store Pickup + Delivery by Zapiet",
       "default": false,
       "info": "Activates ready to use [Store Pickup + Delivery by Zapiet](https://apps.shopify.com/click-and-collect) theme integration"
-    },
-    {
-      "type": "checkbox",
-      "id": "apps_jumplink_product_videos",
-      "label": "Product Videos by JumpLink",
-      "default": false,
-      "info": "Activates ready to use [Product Videos by JumpLink](https://product-videos.jumplink.eu/) theme integration"
     },
     {
       "type": "checkbox",
