@@ -11,6 +11,34 @@
       "label": "Filter Menu by Power Tools",
       "default": false,
       "info": "Activates ready to use [Filter Menu by Power Tools](https://apps.shopify.com/power-tools-filter-menu) theme integration"
+    },
+    {
+      "type": "checkbox",
+      "id": "apps_bold_loyalty_points",
+      "label": "Loyalty Points by Bold",
+      "default": false,
+      "info": "Activates ready to use [Loyalty Points by Bold](https://apps.shopify.com/loyalty-points-by-bold) theme integration"
+    },
+    {
+      "type": "checkbox",
+      "id": "apps_zapiet_store_pickup_and_delivery",
+      "label": "Store Pickup + Delivery by Zapiet",
+      "default": false,
+      "info": "Activates ready to use [Store Pickup + Delivery by Zapiet](https://apps.shopify.com/click-and-collect) theme integration"
+    },
+    {
+      "type": "checkbox",
+      "id": "apps_jumplink_product_videos",
+      "label": "Product Videos by JumpLink",
+      "default": false,
+      "info": "Activates ready to use [Product Videos by JumpLink](https://product-videos.jumplink.eu/) theme integration"
+    },
+    {
+      "type": "checkbox",
+      "id": "apps_wishlist_king_by_appmate",
+      "label": "Wishlist King by Appmate",
+      "default": false,
+      "info": "Activates ready to use [Wishlist King by Appmate](https://apps.shopify.com/wishlist-king) theme integration"
     }
   ]
 }

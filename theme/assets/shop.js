@@ -796,11 +796,14 @@ function appmateOptionSelect(el){
  * @see https://apps.shopify.com/wishlist-king
  */
 var initAppmateWishlist = function () {
+
+  if (window.settings.apps_wishlist_king_by_appmate != "true") {
+    return false;
+  }
+
   if (typeof Appmate === 'undefined') {
     return console.warn("Appmate not installed");
   }
-
-  //console.log("Appmate loaded");
 
   var fadeOrNot = function($elem, callback) {
 
@@ -1605,7 +1608,9 @@ var initBlog = function (dataset) {
  * @see /snippets/bold-loyalties-callout-assets.liquid
  */
 var initBoldLoyaltiesProductModal = function (product) {
-
+  if(window.settings.apps_bold_loyalty_points != "true") {
+    return false;
+  }
   // WORKAROUND
   $('#lean_overlay').remove();
 
@@ -1654,6 +1659,10 @@ var initBoldLoyaltiesProductModal = function (product) {
  * @see /snippets/bold-loyalties-callout-assets.liquid
  */
 var initBoldLoyaltiesProduct = function (product) {
+
+  if(window.settings.apps_bold_loyalty_points != "true") {
+    return false;
+  }
 
   initBoldLoyaltiesProductModal(product);
 
@@ -2051,7 +2060,7 @@ var initCartTemplate = function (dataset) {
    * 
    * @see https://apps.shopify.com/click-and-collect
    */
-   if(window.settings.app_store_pickup_and_delivery == "true") {
+   if(window.settings.apps_zapiet_store_pickup_and_delivery == "true") {
      if(typeof initStorePuckup === 'function') {
        initStorePuckup();
      } else {
@@ -2357,10 +2366,12 @@ var initPage = function (dataset) {
  * 
  */
 var initCustomersAccount = function (dataset) {
-  // init customer bold loyalty point view
-  $.getScript( '//loy.boldapps.net/front_end/customer_account_js', function( data, textStatus, jqxhr ) {
+  if(window.settings.apps_bold_loyalty_points == "true") {
+    // init customer bold loyalty point view
+    $.getScript( '//loy.boldapps.net/front_end/customer_account_js', function( data, textStatus, jqxhr ) {
 
-  });
+    });
+  }
 }
 
 /**
@@ -2567,7 +2578,7 @@ var initCartJS = function () {
      * @@ee E-Mails with Andrew Cargill (Zapiet LTD)
      * @see http://docs.zapiet.apiary.io/#reference/locations/get-pickup-locations/get-pickup-locations
      */
-    if(window.settings.app_store_pickup_and_delivery == "true") {
+    if(window.settings.apps_zapiet_store_pickup_and_delivery == "true") {
       $.getJSON('https://api.storepickup.io/v2.0/settings?shop='+window.shop.permanent_domain+'&language='+window.shop.locale, function(storePickup) {
         CartJS.init(cart, {
             'dataAPI': true,
@@ -2625,9 +2636,13 @@ var parseDatasetJsonStrings = function (dataset) {
     data.product = JSON.parse(dataset.productJsonString);
     // metafields needed to be set manually, its not allawed in shopify to get all as json
     data.product.metafields = {
-      bold_loyalties: JSON.parse(dataset.productMetafieldsBold_loyaltiesJsonString),
       global: JSON.parse(dataset.productMetafieldsGlobalJsonString),
     }
+
+    if(window.settings.apps_bold_loyalty_points == "true") {
+      data.product.metafields.bold_loyalties =  JSON.parse(dataset.productMetafieldsBold_loyaltiesJsonString)
+    }
+
   }
   return data;
 }
@@ -2661,7 +2676,6 @@ var setBarbaContainerMinHeight = function () {
   var top = getAllNavsHeight() + getShopifyAdminBarHeight();
   var bottom = jumplink.cache.$footer.outerHeight();
   var height = jumplink.cache.$window.height() - top - bottom;
-  console.log('setBarbaContainerMinHeight', 'top', top, 'bottom', bottom, 'height', height);
   $('.barba-container').css( 'min-height', height+'px');
 }
 
@@ -2704,7 +2718,7 @@ var initTemplates = function () {
         });
       });
     } else {
-      console.warn("video.js not loaded");
+      // console.warn("video.js not loaded");
     }
 
     if(typeof(Hyphenator) !== 'undefined') {
