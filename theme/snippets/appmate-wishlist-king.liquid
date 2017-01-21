@@ -112,7 +112,7 @@
         {% assign btn_text = translations.wishlist.general.clear %}
         {% assign btn_title = translations.wishlist.general.clear %}
         {% assign btn_class = 'wk-button-wishlist-clear btn btn-default' %}
-        <div class="row p-y-1">
+        <div class="row py-1">
             <div class="col-xs-12 text-center">
                 <button type="button" class="{{ btn_class }}" title="{{ btn_title }}" data-wk-clear-wishlist="{{ wishlist.id }}">
                     <span class="wk-label">{{ btn_text }}</span>
@@ -198,7 +198,7 @@
     </script>
 
     <script id="wishlist-collection-product-title" data="wishlist" type="text/x-template" app="wishlist-king">
-        <div class="wk-product-title p-t-05">
+        <div class="wk-product-title pt-05">
             <a href="{{ product | variant_url }}" class="wk-variant-link" title="Produkt anzeigen">
                 <strong class="wk-product-sub-vendor text-nowrap">{{ product.vendor }}</strong>
                 <br>

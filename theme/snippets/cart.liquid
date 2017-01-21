@@ -10,7 +10,7 @@
                     </div>
                 </a>
             </td>
-            <td class="p-y-1" width="70%">
+            <td class="py-1" width="70%">
                 <strong rv-text="item.vendor"></strong>
                 <br>
                 <span rv-text="item.title"></span>
@@ -33,7 +33,7 @@
                 </span>
           	</td>
             {% if place == 'cart-template' %}
-                <td class="p-y-1" width="30%">
+                <td class="py-1" width="30%">
                     <div class="input-group input-group-no-middle-borders input-group-width-90px" role="group" aria-label="...">
                         <span class="input-group-btn">
                             <button rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" type="button" class="btn btn-default">-</button>
@@ -47,13 +47,13 @@
             {% else %}
 
             {% endif %}
-            <td class="p-y-1" >
+            <td class="py-1" >
  
             </td>
-            <td class="p-y-1">
+            <td class="py-1">
                 
             </td>
-            <td class="p-y-1 text-right">
+            <td class="py-1 text-right">
                 <div class="btn-group-vertical" role="group" aria-label="...">
                     <a href="#" rv-data-cart-remove="index | plus 1" class="btn btn-default no-border cart-remove">
                         
@@ -71,7 +71,7 @@
                 </div>
             </td>
         </tr>
-        <tr class="p-y-1" rv-show="cart.item_count | lt 1">
+        <tr class="py-1" rv-show="cart.item_count | lt 1">
             <td colspan="5">{{ 'cart.general.empty' | t }}</td>
         </tr>
     </tbody>

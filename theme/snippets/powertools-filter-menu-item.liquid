@@ -1,7 +1,7 @@
 {% if has_items %}
     {% assign header_handle = menu_header.first | split: '-' %}
     {% assign header_handle = menu_header.first | replace: header_handle.first, '' %}
-    <div class="filter-group m-y-0 p-y-05 filter-group{{ header_handle }} {% if has_selected %}has_group_selected{% endif %} {% if has_multiple_items %}has_mutliple_items{% else %}has_single_item{% endif %}">
+    <div class="filter-group my-0 p-y-05 filter-group{{ header_handle }} {% if has_selected %}has_group_selected{% endif %} {% if has_multiple_items %}has_mutliple_items{% else %}has_single_item{% endif %}">
         <p class="text-bold filter-group-title mb-0">{{ shop.metafields.pt_filter_header[menu_header.first] }}</p>
 
         {% for menu_item in menu_items %}

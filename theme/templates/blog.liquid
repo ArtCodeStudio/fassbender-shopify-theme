@@ -1,33 +1,31 @@
-<div class="ah-container-fluid">
-  <div class="container-fluid">
+<div class="container">
 
-    {% paginate blog.articles by 5 %}
+  {% paginate blog.articles by 5 %}
 
-      {% if current_tags %}
-        <h1 class="hidden">
-          {{ blog.title | link_to: blog.url }}<span class="quiet">&raquo;</span>{{ current_tags.first }}
-        </h1>
-      {% else %}
-        <h1 class="hidden">
-          {{ blog.title }}
-        </h1>
-      {% endif %}
+    {% if current_tags %}
+      <h1 class="hidden">
+        {{ blog.title | link_to: blog.url }}<span class="quiet">&raquo;</span>{{ current_tags.first }}
+      </h1>
+    {% else %}
+      <h1 class="hidden">
+        {{ blog.title }}
+      </h1>
+    {% endif %}
 
-      <div class="articles">
+    <div class="articles">
 
-        {% for article in blog.articles %}
-          {% if forloop.last %}
-            {% include 'article-list-item', border: false %}
-          {% else %}
-            {% include 'article-list-item', border: true %}
-          {% endif %}
-        {% endfor %}
+      {% for article in blog.articles %}
+        {% if forloop.last %}
+          {% include 'article-list-item', border: false %}
+        {% else %}
+          {% include 'article-list-item', border: true %}
+        {% endif %}
+      {% endfor %}
 
-        {% include 'pagination' %}
+      {% include 'pagination' %}
 
-      </div>
+    </div>
 
-    {% endpaginate %}
+  {% endpaginate %}
 
-  </div>
 </div>

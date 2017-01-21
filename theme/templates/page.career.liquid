@@ -1,35 +1,33 @@
-<div class="ah-container-fluid">
-  <div class="container-fluid">
-    <h1 class="text-center">{{ page.title }}</h1>
-    <div class="row m-t-1">
-      
-      <div class="col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6 text-center">
-        <p class="rte">{{ page.content }}</p>
-        <a href="mailto:'{{settings.about_career_email}}'">{{settings.career_email}}</a>
-      </div>
-
+<div class="container">
+  <h1 class="text-center">{{ page.title }}</h1>
+  <div class="row mt-1">
+    
+    <div class="col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6 text-center">
+      <p class="rte">{{ page.content }}</p>
+      <a href="mailto:'{{settings.about_career_email}}'">{{settings.career_email}}</a>
     </div>
 
-    <div class="row m-t-1">
+  </div>
 
-      {% for i in (1..4) %}
-        {% capture title %}career_block_{{ i }}_title{% endcapture %}
-        {% capture city %}career_block_{{ i }}_city{% endcapture %}
-        {% capture text %}career_block_{{ i }}_text{% endcapture %}
+  <div class="row mt-1">
 
-        <div class="col-xs-12"> <hr class="m-y-0"> </div>
+    {% for i in (1..4) %}
+      {% capture title %}career_block_{{ i }}_title{% endcapture %}
+      {% capture city %}career_block_{{ i }}_city{% endcapture %}
+      {% capture text %}career_block_{{ i }}_text{% endcapture %}
 
-        <dl class="col-xs-12 dl-horizontal dl-left dl-thin m-y-05">
-          <dt><p>{{ settings[title] | escape }}</p></dt>
-          <dd>
-            <p>{{ settings[city] | escape }}</p>
-            <div class="rte">{{ settings[text] | escape }}</div>
-          </dd>
-        </dl>
-      {% endfor %}
+      <div class="col-xs-12"> <hr class="my-0"> </div>
 
-      <div class="col-xs-12"> <hr class="m-y-0"> </div>
+      <dl class="col-xs-12 dl-horizontal dl-left dl-thin my-1">
+        <dt><p>{{ settings[title] | escape }}</p></dt>
+        <dd>
+          <p>{{ settings[city] | escape }}</p>
+          <div class="rte">{{ settings[text] | escape }}</div>
+        </dd>
+      </dl>
+    {% endfor %}
 
-    </div>
+    <div class="col-xs-12"> <hr class="my-0"> </div>
+
   </div>
 </div>

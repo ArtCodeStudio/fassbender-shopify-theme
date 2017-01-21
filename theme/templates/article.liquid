@@ -16,14 +16,13 @@ Note that comment.created_at will only be defined if the comment did not have an
 — was posted without error.
 {% endcomment %}
 
-<div class="ah-container-fluid">
-  <div class="container-fluid">
 
-    <h1 class="hidden"><a href="{{ blog.url }}">{{ blog.title }}</a></h1>
+<div class="container">
 
-    {% include 'article-detail', border: false %}
-    
-  </div>
+  <h1 class="hidden"><a href="{{ blog.url }}">{{ blog.title }}</a></h1>
+
+  {% include 'article-detail', border: false %}
+  
 </div>
 
 {% endpaginate %}

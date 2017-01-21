@@ -1,13 +1,11 @@
-<div class="ah-container-fluid">
-    <div class="container-fluid">
+<div class="container">
     <h1 class="text-center hidden">{{ page.title }}</h1>
-        {% if page.content %}
-            <div class="rte p-x-1">
-                {{ page.content }}
-            </div>
-        {% endif %}
-        <div id="foursixty-wrapper">
-            <script id="foursixty" src="" data-money-format="<%= amount %>€" data-feed-id="anita_hass"></script>
+    {% if page.content %}
+        <div class="rte p-x-1">
+            {{ page.content }}
         </div>
+    {% endif %}
+    <div id="foursixty-wrapper">
+        <script id="foursixty" src="" data-money-format="<%= amount %>€" data-feed-id="todo"></script>
     </div>
 </div>

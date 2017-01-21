@@ -652,7 +652,7 @@ var initSearchField = function () {
   $('#search-field').focus(function() {
     var $this = $(this);
 
-    var maxWidth = $this.closest('.container-fluid').width();
+    var maxWidth = $this.closest('.container').width();
 
     $this.closest('form').animate({
       width: maxWidth

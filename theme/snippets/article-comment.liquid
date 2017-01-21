@@ -1,6 +1,6 @@
 <div d="{{ comment.id }}" class="media comment my-1">
   <div class="media-left">
-    <gravatar data-hash="{{ comment.email | remove: ' ' | strip_newlines | downcase | md5 }}" data-placeholders='[ {{ 'anita-avatar-01.jpg' | asset_url | json }}, {{ 'anita-avatar-02.jpg' | asset_url | json }}, {{ 'anita-avatar-03.jpg' | asset_url | json }}, {{ 'anita-avatar-04.jpg' | asset_url | json }}, {{ 'anita-avatar-05.jpg' | asset_url | json }} ]' data-replace="true" class="media-object img-circle"></gravatar>
+    <gravatar data-hash="{{ comment.email | remove: ' ' | strip_newlines | downcase | md5 }}" data-placeholders='[ {{ 'avatar-01.jpg' | asset_url | json }}, {{ 'avatar-02.jpg' | asset_url | json }}, {{ 'avatar-03.jpg' | asset_url | json }}, {{ 'avatar-04.jpg' | asset_url | json }}, {{ 'avatar-05.jpg' | asset_url | json }} ]' data-replace="true" class="media-object img-circle"></gravatar>
   </div>
   <div class="media-body p-l-1">
     <p class="comment-content m-a-0">

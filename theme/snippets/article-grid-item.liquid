@@ -1,12 +1,12 @@
-<div class="col-xs-12 col-sm-4 col-md-4 p-y-1">
+<div class="col-xs-12 col-sm-4 col-md-4 py-1">
 
   <article data-handle="{{article.handle}}">
     <a href="{{article.url}}" class="background-box ratio-1-1" style="background-image: url({{article.image.src | img_url: '1024x1024'}});" title="{{article.title}}"></a>
     
     {% comment %} medium divice and heigher {% endcomment %}
-    <div class="hidden-xs p-t-05">
+    <div class="hidden-xs pt-05">
       <div class="media">
-        <gravatar data-hash="{{article.user.email | remove: ' ' | strip_newlines | downcase | md5}}" class="media-left media-middle" data-placeholders='[ {{ 'anita-avatar-01.jpg' | asset_url | json }}, {{ 'anita-avatar-02.jpg' | asset_url | json }}, {{ 'anita-avatar-03.jpg' | asset_url | json }}, {{ 'anita-avatar-04.jpg' | asset_url | json }}, {{ 'anita-avatar-05.jpg' | asset_url | json }} ]'></gravatar>
+        <gravatar data-hash="{{article.user.email | remove: ' ' | strip_newlines | downcase | md5}}" class="media-left media-middle" data-placeholders='[ {{ 'avatar-01.jpg' | asset_url | json }}, {{ 'avatar-02.jpg' | asset_url | json }}, {{ 'avatar-03.jpg' | asset_url | json }}, {{ 'avatar-04.jpg' | asset_url | json }}, {{ 'avatar-05.jpg' | asset_url | json }} ]'></gravatar>
         <div class="media-body media-middle">
           {{article.user.first_name | default: 'Unbekannt'}} {{article.user.last_name}}
         </div>
@@ -18,9 +18,9 @@
     <div class="row visible-xs-block p-y-05">
       <div class="col-xs-12">
         <h1 class="text-center text-serif text-normal">{{article.title}}</h1>
-        <gravatar data-hash="{{article.user.email | remove: ' ' | strip_newlines | downcase | md5}}" class="center-block" data-placeholders='[ {{ 'anita-avatar-01.jpg' | asset_url | json }}, {{ 'anita-avatar-02.jpg' | asset_url | json }}, {{ 'anita-avatar-03.jpg' | asset_url | json }}, {{ 'anita-avatar-04.jpg' | asset_url | json }}, {{ 'anita-avatar-05.jpg' | asset_url | json }} ]'></gravatar>
+        <gravatar data-hash="{{article.user.email | remove: ' ' | strip_newlines | downcase | md5}}" class="center-block" data-placeholders='[ {{ 'avatar-01.jpg' | asset_url | json }}, {{ 'avatar-02.jpg' | asset_url | json }}, {{ 'avatar-03.jpg' | asset_url | json }}, {{ 'avatar-04.jpg' | asset_url | json }}, {{ 'avatar-05.jpg' | asset_url | json }} ]'></gravatar>
       </div>
-      <div class="col-xs-12 text-center p-t-05">
+      <div class="col-xs-12 text-center pt-05">
         von {{article.user.first_name | default: 'Unbekannt'}} {{article.user.last_name}}
       </div>
     </div>

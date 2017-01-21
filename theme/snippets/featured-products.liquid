@@ -18,7 +18,7 @@ Shows Products from the collection called `featured-products`
                     </div>
                 </div>
             {% else %}
-                <div class="col-xs-6 col-sm-3 col-md-3 p-y-1">
+                <div class="col-xs-6 col-sm-3 col-md-3 py-1">
                     <div class="{{ classWrapper }}">
                         <a href="{{collections[collectionHandle].url}}{{product.url}}" class="background-box ratio-1-15" style="background-image: url({{image.src | product_img_url: 'grande'}});" title="{{product.title}}"></a>
                         <h5 class="{{ textAlign }} {{ titleClass }} title">{{product.vendor}}</h5>
