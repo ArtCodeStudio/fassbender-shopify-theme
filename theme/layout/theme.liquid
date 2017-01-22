@@ -19,13 +19,13 @@
 
   <link rel="canonical" href="{{ canonical_url }}" />
   
-  {% include 'favicons' %}
-  {% include 'open-graph-tags' %}
-  {% include 'twitter-card' %}
+  {% include 'jumplink-favicons' %}
+  {% include 'jumplink-open-graph-tags' %}
+  {% include 'jumplink-twitter-card' %}
 
   {{ content_for_header }}
 
-  {% include 'variables.js' %}
+  {% include 'jumplink-variables.js' %}
 
   {% comment %}
     https://help.shopify.com/manual/reports-and-analytics/google-analytics#remove-duplicate-scripts

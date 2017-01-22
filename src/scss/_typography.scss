@@ -1,3 +1,6 @@
+$petty-font-size: 0.9rem;
+$petty-letter-spacing: 0.1em;
+
 .display-3, .display-4 {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -20,7 +23,14 @@ b, strong {
     letter-spacing: 0.1rem;
 }
     
-.list-group-item, .nav-link, .nav-item .dropdown-toggle {
-    letter-spacing: 0.1em;
-    font-size: 0.9rem;
+.list-group-item,
+.nav-link,
+.nav-item .dropdown-toggle,
+.breadcrumb-item {
+    letter-spacing: $petty-letter-spacing;
+    font-size: $petty-font-size;
+}
+
+.btn {
+    letter-spacing: $petty-letter-spacing;
 }

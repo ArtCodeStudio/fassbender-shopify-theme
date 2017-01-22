@@ -28,7 +28,7 @@
                 {% endif %}
               </div>
               <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <div class="background-box ratio-1-2" style="background-image:url( {{ collection.image | img_url: 'grande' }} )" alt="{{ collection.title }}"></div>
+                <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image:url( {{ collection.image | img_url: 'grande' }} )" alt="{{ collection.title }}"></div>
               </div>
             {% else %}
               {% if collection.description.size > 0 %}
@@ -62,9 +62,10 @@
               </div>
             </div>
           </div>
-          customer id: {{customer.id}}
         {% else %}
-          not logged in
+          {% comment %}
+            Not logged in
+          {% endcomment %}
         {% endif %}
       </div>
 

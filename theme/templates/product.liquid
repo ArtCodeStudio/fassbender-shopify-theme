@@ -4,7 +4,7 @@
     <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
     <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
     
-    {% include 'navbar-breadcrumbs' %}
+    {% include 'jumplink-navbar-breadcrumbs' %}
 
     <form action="/cart/add" method="post" class="row" id="handle-{{product.handle}}_AddToCartForm" enctype="multipart/form-data">
       
@@ -17,7 +17,7 @@
           </div>
         
         {% else %}
-          {% include 'product-photo-carousel-with-modal' %}
+          {% include 'jumplink-product-photo-carousel-with-modal' %}
         {% endif %}
 
       </div>
@@ -152,45 +152,33 @@
           
         <div id="handle-{{product.handle}}_product-add" class="form-inline my-1">
 
-          {% if product.metafields.global.Saleable == "nein" or product.metafields.global.Saleable == false or product.metafields.global.Saleable == "false" or product.metafields.global.Saleable == "0" %}
-          {% else %}
-            {% if settings.product_show_qty_from %}
-              <div id="handle-{{product.handle}}_qty-form-group" class="form-group">
-                <div id="handle-{{product.handle}}_qty-input-group" class="js-qty input-group input-group-no-middle-borders input-group-width-90px hidden" role="group" aria-label="Manage Quantity">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-default js-qty__adjust js-qty__adjust--minus">&minus;</button>
-                  </span>
-                  <input type="text" name="{{inputName}}" class="form-control js-qty__num" value="1" min="1" aria-label="quantity" pattern="[0-9]*">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-default js-qty__adjust js-qty__adjust--plus">+</button>
-                  </span>
-                </div>
+          {% if settings.product_show_qty_from %}
+            <div id="handle-{{product.handle}}_qty-form-group" class="form-group">
+              <div id="handle-{{product.handle}}_qty-input-group" class="js-qty input-group input-group-no-middle-borders input-group-width-90px hidden" role="group" aria-label="Manage Quantity">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default js-qty__adjust js-qty__adjust--minus">&minus;</button>
+                </span>
+                <input type="text" name="{{inputName}}" class="form-control js-qty__num" value="1" min="1" aria-label="quantity" pattern="[0-9]*">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default js-qty__adjust js-qty__adjust--plus">+</button>
+                </span>
               </div>
-            {% endif %}
+            </div>
           {% endif %}
 
           <div id="handle-{{product.handle}}_add-or-not-from" class="form-group hidden">
-            {% if product.metafields.global.no_saleable or product.metafields.global.Saleable == "nein" or product.metafields.global.Saleable == false or product.metafields.global.Saleable == "false" or product.metafields.global.Saleable == "0" %}
-              <button type="button" name="can-not-add" id="handle-{{product.handle}}_can-not-add" disabled="disabled" class="btn btn-primary can-not-add_to_cart-selector disabled">
-                {{ 'cart.general.can_not_add_to_cart' | t | escape }}
-              </button>
-            {% else %}
-              <input type="submit" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary add_to_cart-selector" value="{{ 'cart.general.add_to_cart' | t | escape }}">
-            {% endif %}
+            <input type="submit" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary add_to_cart-selector" value="{{ 'cart.general.add_to_cart' | t | escape }}">
           </div>
 
-          {% if product.metafields.global.no_saleable or product.metafields.global.Saleable == "nein" or product.metafields.global.Saleable == false or product.metafields.global.Saleable == "false" or product.metafields.global.Saleable == "0" %}
-          {% else %}
-            {% if settings.apps_bold_loyalty_points %}
-              {% if settings.product_show_loyalty_spend_button %}
-                <div class="form-group">
-                  <!-- Bold: Loyalty Points - Step 6 -->
-                  <div class="bold-loyalties-redeem">
-                    <a href="#" disabled="disabled" class="buy-with-rewards btn secondary disabled">Herzen einlösen</a>
-                  </div>
-                  <!-- // end bold code -->
+          {% if settings.apps_bold_loyalty_points %}
+            {% if settings.product_show_loyalty_spend_button %}
+              <div class="form-group">
+                <!-- Bold: Loyalty Points - Step 6 -->
+                <div class="bold-loyalties-redeem">
+                  <a href="#" disabled="disabled" class="buy-with-rewards btn secondary disabled">Herzen einlösen</a>
                 </div>
-              {% endif %}
+                <!-- // end bold code -->
+              </div>
             {% endif %}
           {% endif %}
 
@@ -198,9 +186,11 @@
             <a href="#" id="handle-{{product.handle}}_bsi" data-product-handle="{{ product.handle }}" class="btn btn-primary bsi-button BIS_trigger">{{ 'product.general.notify' | t }}</a>
           </div>
 
-          <div class="form-group ">
-            <!-- include 'wishlist-button-product' with '{{ product.id }}' -->
-          </div>
+          {% if settings.apps_wishlist_king_by_appmate %}
+            <div class="form-group ">
+              <!-- include 'wishlist-button-product' with '{{ product.id }}' -->
+            </div>
+          {% endif %}
         </div>
 
 
@@ -218,13 +208,15 @@
         </ul>
         
 
-        {% if settings.product_show_styling_in_tab %}
+        {% if settings.product_tabs %}
           {% comment %}
             tabs
 
             To set tab content use the shopify custom fields app
-            @namespace tabs
-            @key tab2
+            @namespace c_f
+            @key jumplink_tab_2
+
+            tab_1 is the description
             
             @see http://freakdesign.com.au/pages/shopify-custom-fields
           {% endcomment %}
@@ -235,7 +227,7 @@
                   Details
                 </a>
               </li>
-              {% if product.metafields.global.styling %}
+              {% if product.metafields.c_f.jumplink_tab_2 %}
                 <li role="presentation">
                   <a href="#handle-{{product.handle}}_tab-2" aria-controls="handle-{{product.handle}}_tab-2" role="tab" data-toggle="tab">
                     Style and Fit
@@ -246,11 +238,11 @@
             {% comment %} Tab panes {% endcomment %}
             <div class="tab-content">
               <div role="tabpanel" class="my-1 tab-pane fade in rte active" id="handle-{{product.handle}}_tab-1" itemprop="description">
-                {% include 'product-description-tabs' %}
+                {% include 'jumplink-product-description-tabs' %}
               </div>
-              {% if product.metafields.global.styling %}
+              {% if product.metafields.c_f.jumplink_tab_2 %}
                 <div role="tabpanel" class="my-1 tab-pane fade" id="handle-{{product.handle}}_tab-2">
-                  {{ product.metafields.global.styling }}
+                  {{ product.metafields.c_f.jumplink_tab_2 }}
                 </div>
               {% endif %}
             </div>
@@ -261,9 +253,11 @@
             <p class="text-size-1-5 text-bold m-0">
               Details
             </p>
-            {% comment %}TODO style and use bootstrap tabs like on top{% include 'product-description-tabs' %}{% endcomment %}
+            {% comment %}
+              TODO style and use bootstrap tabs like on top {% include 'product-description-tabs' %}
+            {% endcomment %}
             {{ product.description }}
-            {{ product.metafields.global.styling }}
+            {{ product.metafields.c_f.jumplink_tab_2 }}
           </div>
         {% endif %}
 
@@ -273,21 +267,6 @@
         {% endcomment %}
         <div id="handle-{{product.handle}}_shopify-product-reviews" data-id="{{ product.id }}">
           {{ product.metafields.spr.reviews }}
-        </div>
-
-        <div>
-          <hr class="mt-1 mb-05">
-          <p class="text-size-1-5 text-bold">
-            {{ 'product.contact.title' | t }}
-          </p>
-          <p>
-            {{ 'product.contact.text' | t }}
-          </P>
-          <p class="text-size-1-2 text-normal m-0">
-            <a href="tel:{{ shop.phone | remove: ' ' }}">Tel {{ shop.phone }}</a>
-            <br>
-            <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>
-          </p>
         </div>
         
       </div>

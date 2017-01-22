@@ -29,20 +29,24 @@
                 - Titles with [C] can just see not logged in visitors
             {% endcomment %}
             {% for l in linklists[child_list_handle].links %}
+                {% assign class = '' %}
+                {% if l.url == '/account/logout' %}
+                    {% assign class = 'no-barba' %}
+                {% endif %}
                 {% if l.title contains "[C]"%}
                     {% if customer %}
-                        <a href="{{ l.url }}" class="nav-link dropdown-item level-2 mb-0 {{ l.handle }}">
+                        <a href="{{ l.url }}" class="nav-link dropdown-item level-2 mb-0 {{ l.handle }} {{ class }}">
                             {{ l.title | remove: "[C]" }}
                         </a>
                     {% endif %}
                 {% elsif l.title contains "[N]" %}
                     {% unless customer %}
-                        <a href="{{ l.url }}" class="nav-link dropdown-item level-2 mb-0 {{ l.handle }}">
+                        <a href="{{ l.url }}" class="nav-link dropdown-item level-2 mb-0 {{ l.handle }} {{ class }}">
                             {{ l.title | remove: "[N]" }}
                         </a>
                     {% endunless %}
                 {% else %}
-                    <a href="{{ l.url }}" class="nav-link dropdown-item level-2 mb-0 {{ l.handle }}">
+                    <a href="{{ l.url }}" class="nav-link dropdown-item level-2 mb-0 {{ l.handle }} {{ class }}">
                         {{ l.title }}
                     </a>
                 {% endif %}

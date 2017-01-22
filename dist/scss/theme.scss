@@ -5611,7 +5611,7 @@ pre {
 // width for fluid, full width layouts.
 
 @if $enable-grid-classes {
-  .container {
+  .container-fluid {
     @include make-container();
   }
 }
@@ -11013,50 +11013,6 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
     }
 }
 
-.image-wrap {
-    position: relative;
-    .background-box {
-        opacity: 1;
-    }
-    .caption {
-        @include transition($transition-fade);
-        position: absolute;
-        bottom: 40px;
-        left: 0;
-        right: 0;
-        font-size: 1.5rem;
-        text-transform: uppercase;
-        width: 100%;
-        color: $white;
-        text-align: center;
-        font-weight: 300;
-    }
-    &:hover {
-        background-color: $black;
-        .background-box {
-            opacity: 0.2;
-        }
-    }
-}
-.product-item, .collection-item {
-    .image-wrap {
-        .caption {
-            opacity: 0;
-        }
-        &:hover {
-            .caption {
-                opacity: 1;
-            }
-        }
-    }
-}
-
-[data-collection-filter="true"] {
-    @include media-breakpoint-up(md) {
-        @include vp-position(fixed);
-        top: 53.5px; // navbar height
-    }
-}
 
 .page-item {
   &.active .page-link {
@@ -11106,6 +11062,9 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
     margin: 4px 0;
     cursor: pointer;
 }
+$petty-font-size: 0.9rem;
+$petty-letter-spacing: 0.1em;
+
 .display-3, .display-4 {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -11128,12 +11087,44 @@ b, strong {
     letter-spacing: 0.1rem;
 }
     
-.list-group-item, .nav-link, .nav-item .dropdown-toggle {
-    letter-spacing: 0.1em;
-    font-size: 0.9rem;
+.list-group-item,
+.nav-link,
+.nav-item .dropdown-toggle,
+.breadcrumb-item {
+    letter-spacing: $petty-letter-spacing;
+    font-size: $petty-font-size;
+}
+
+.btn {
+    letter-spacing: $petty-letter-spacing;
 }
 .btn {
     text-transform: uppercase;
+}
+.list-group {
+    &.filter-collections {
+        .list-group-item {
+            border: none;
+            padding: 0.3rem 0;
+            font-size: 0.9rem;
+            &.list-group-title {
+                text-transform: uppercase;
+                font-weight: bold;
+                padding-bottom: 0.8rem;
+            }
+            &.active {
+                background: transparent;
+                font-weight: bold;
+                color: $list-group-color;
+            }
+        }
+    }
+}
+
+.breadcrumb-item {
+    .collection {
+        padding-left: 3rem;
+    }
 }
 [data-namespace="customers-register"], [data-namespace="customers-login"] {
     .form-group, .btn-group, h1 {
@@ -11149,5 +11140,49 @@ b, strong {
     hr {
         border-color: $black;
         max-width: 240px;
+    }
+}
+.image-wrap {
+    position: relative;
+    .background-box {
+        opacity: 1;
+    }
+    .caption {
+        @include transition($transition-fade);
+        position: absolute;
+        bottom: 40px;
+        left: 0;
+        right: 0;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        width: 100%;
+        color: $white;
+        text-align: center;
+        font-weight: 300;
+    }
+    &:hover {
+        background-color: $black;
+        .background-box {
+            opacity: 0.2;
+        }
+    }
+}
+.product-item, .collection-item {
+    .image-wrap {
+        .caption {
+            opacity: 0;
+        }
+        &:hover {
+            .caption {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+[data-collection-filter="true"] {
+    @include media-breakpoint-up(md) {
+        @include vp-position(fixed);
+        top: 53.5px; // navbar height
     }
 }
