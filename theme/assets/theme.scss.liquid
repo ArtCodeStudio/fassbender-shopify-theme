@@ -11650,7 +11650,6 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
 }
 
 .page-link {
-
   svg {
     fill: $pagination-color;
   }
@@ -11661,6 +11660,25 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
     }
   }
 }
+
+.pagination {
+  .page-item {
+    border: none;
+  }
+  &.slide-buttons {
+      .iconset {
+          &.arrow, &.arrow-big {
+              display: inline-block;
+              margin: 0 4px;
+          }
+      }
+      small {
+        vertical-align: middle;
+        line-height: 17px;
+      }
+  }
+}
+
 .imprint {
     color: $white;
     .logo-inverse {
@@ -11672,9 +11690,11 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
             color: $white;
         }
     }
-    .iconset.arrow {
-        display: inline-block;
-        margin-left: 1rem;
+    .iconset {
+        &.arrow {
+            display: inline-block;
+            margin-left: 1rem;
+        }
     }
 }
 
@@ -11745,6 +11765,20 @@ b, strong {
 .breadcrumb-item {
     .collection {
         padding-left: 3rem;
+    }
+}
+
+[class^="col-"] {
+    .breadcrumb {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+.iconset {
+    &.arrow {
+        display: inline-block;
+        margin-left: 1rem;
     }
 }
 [data-namespace="customers-register"], [data-namespace="customers-login"] {

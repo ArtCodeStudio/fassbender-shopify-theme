@@ -1144,7 +1144,7 @@ var MovePage = Barba.BaseTransition.extend({
   // logic before any effect applies
   beforeMove: function() {
     // if true use slide effect else use fade out effect
-    if(this.$oldContainer.data().namespace === 'product' && (this.$lastElementClicked.hasClass('slick-next') || this.$lastElementClicked.hasClass('slick-prev')) ) {
+    if(this.$oldContainer.data().namespace === 'product' && (this.$lastElementClicked.hasClass('next') || this.$lastElementClicked.hasClass('prev')) ) {
       // slide effekt, in this step do nothing
       var deferred = Barba.Utils.deferred();
       deferred.resolve();

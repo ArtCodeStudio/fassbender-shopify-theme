@@ -1,0 +1,33 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-sm-8">
+      {% include 'jumplink-breadcrumbs' %}
+    </div>
+
+    <div class="col-xs-12 col-sm-4 d-flex justify-content-end">
+      {% if collection %}
+        {% if collection.previous_product or collection.next_product %}
+          <ul class="pagination slide-buttons">
+
+            <li class="page-item {% unless collection.previous_product %}disabled{% endunless %}">
+              <a class="page-link prev d-flex flex-row justify-content-center" href="{{collection.previous_product}}">
+                {% include 'jumplink-iconset', name: 'arrow-big', direction: 'left' %} <small>prev</small>
+              </a>
+            </li>
+
+            <li class="page-item {% unless collection.next_product %}disabled{% endunless %}">
+              <a class="page-link next d-flex flex-row justify-content-center" href="{{collection.next_product}}">
+                <small>next</small> {% include 'jumplink-iconset', name: 'arrow-big', direction: 'right' %}
+              </a>
+            </li>
+
+          </ul>
+        {% endif %}
+      {% endif %}
+    </div>
+    
+  </div>
+
+</div>

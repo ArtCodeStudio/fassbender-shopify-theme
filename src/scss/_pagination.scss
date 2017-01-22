@@ -14,7 +14,6 @@
 }
 
 .page-link {
-
   svg {
     fill: $pagination-color;
   }
@@ -23,5 +22,20 @@
     svg {
       fill: $pagination-hover-color;
     }
+  }
+}
+
+.pagination {
+  &.slide-buttons {
+      .iconset {
+          &.arrow, &.arrow-big {
+              display: inline-block;
+              margin: 0 4px;
+          }
+      }
+      small {
+        vertical-align: middle;
+        line-height: 17px;
+      }
   }
 }

@@ -1,10 +1,10 @@
-<div class="container pt-5">
+{% include 'jumplink-breadcrumbs-slide-buttons' %}
+
+<div class="container">
   <div class="product handle-{{product.handle}}" id="handle-{{product.handle}}" itemscope itemtype="http://schema.org/Product">
     
     <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
     <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
-    
-    {% include 'jumplink-navbar-breadcrumbs' %}
 
     <form action="/cart/add" method="post" class="row" id="handle-{{product.handle}}_AddToCartForm" enctype="multipart/form-data">
       
@@ -254,7 +254,7 @@
               Details
             </p>
             {% comment %}
-              TODO style and use bootstrap tabs like on top {% include 'product-description-tabs' %}
+              TODO style and use bootstrap tabs like on top {% include 'jumplink-product-description-tabs' %}
             {% endcomment %}
             {{ product.description }}
             {{ product.metafields.c_f.jumplink_tab_2 }}

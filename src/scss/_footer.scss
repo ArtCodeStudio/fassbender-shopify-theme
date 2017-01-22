@@ -9,9 +9,11 @@
             color: $white;
         }
     }
-    .iconset.arrow {
-        display: inline-block;
-        margin-left: 1rem;
+    .iconset {
+        &.arrow {
+            display: inline-block;
+            margin-left: 1rem;
+        }
     }
 }
 
