@@ -5,154 +5,112 @@
     
     <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
     <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
+    <meta itemprop="brand" content="{{ product.vendor }}" />
+    <meta itemprop="name">{{ product.title }}</meta>
+    <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+    <meta itemprop="price" content="{{ product.price | money }}" />
+    <meta itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 
-    <form action="/cart/add" method="post" class="row" id="handle-{{product.handle}}_AddToCartForm" enctype="multipart/form-data">
-      
-      <div class="product-photos col-xs-12 col-md-5 mb-1">
+    {% if product.available %}
+      <link itemprop="availability" href="http://schema.org/InStock" />
+    {% else %}
+      <link itemprop="availability" href="http://schema.org/OutOfStock" />
+    {% endif %}
 
-        {% if product.images.size <= 0 %}
-      
-          <div class="product-photo-container">
-            <img src="{{ 'no-image.png' | asset_url }}" class="img-responsive" alt="" />
-          </div>
-        
-        {% else %}
-          {% include 'jumplink-product-photo-carousel-with-modal' %}
-        {% endif %}
 
-      </div>
-      
-      <div class="product-details col-xs-12 col-md-7">
+    <form action="/cart/add" method="post" id="handle-{{product.handle}}_AddToCartForm" enctype="multipart/form-data">
 
-        {% comment %}
-        Do we have a collection that has the same name as our product vendor name?
-        If we do, let's have the vendor link point to it.
-        If not, we will point to the automatic vendor collection.
-        {% endcomment %}
-        {% assign product_vendor_handle = product.vendor | handle %}
-        {% if collections[product_vendor_handle].handle == product_vendor_handle %}
-          {% assign vendor_url = collections[product_vendor_handle].url %}
-        {% else %}
-          {% assign vendor_url = product.vendor | url_for_vendor %}
-        {% endif %}
-        <p itemprop="brand" class="product-vendor text-sans-serif text-size-1-5 text-bold mb-0">{{ product.vendor | link_to: vendor_url }}</p>
-        <p itemprop="name" class="product-title text-sans-serif text-size-1-5">{{ product.title }}</p>
-                  
-        <div id="handle-{{product.handle}}_product-price" class="delta my-1" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-          <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
-          <p class="m-0 text-size-1-5 text-bold">
-            {% assign variant = product.selected_or_first_available_variant %}
-            {% if product.compare_at_price > product.price %}
-              {% assign price = variant.price %}
-              <span class="product-price text-danger on-sale" itemprop="price">
-                {% include 'get-price' with price %}
-                {% assign price = variant.compare_at_price %}
-                <span>
-                  <s class="product-compare-price text-default">
-                    {% include 'get-price' with price %}
-                  </s>
-                </span>
-              </span>
-            {% else %}
-              {% assign price = variant.price %}
-              <span class="product-price" itemprop="price">
-                {% include 'get-price' with price %}
-              </span>
-            {% endif %}
+      <div class="row">
 
-            {% if settings.apps_bold_loyalty_points %}
-              <!-- Bold: Loyalty Points - Step 4 -->
-              {% if shop.metafields.bold_loyalties.active == 1 and settings.product_show_loyalty_earn_points %}    
-                <div class="bold-loyalties-redeem-amount">oder <span class="bold-placeholder"></span></div>
-              {% endif %}
-              <!-- // end bold code -->
-              <!-- Bold: Loyalty Points - Step 5 -->
-              {% if settings.product_show_loyalty_earn_points %}
-                <div class="bold-loyalties-earn"></div>
-              {% endif %}
-              <!-- // end bold code -->
-            {% endif %}
-
-          </p>
-          <p class="product-legal-text m-0">
-            <a href="{{ pages.versand.url }}" title="{{ pages.versand.title }}">
-              {{ 'product.general.legal_price_text' | t: vat_rate: '19' }}
-            </a>
-          </p>
-
-          {% if settings.product_show_availability %}
-            {% if product.available %}
-              <link itemprop="availability" href="http://schema.org/InStock" />
-              <p id="handle-{{product.handle}}_availability" class="availability InStock">
-                Verfügbarkeit:
-                <i class="fa fa-circle" aria-hidden="true"></i>
-                <span class="availability_text">
-                  {{ 'product.general.available' | t | escape }}
-                </span>
-              </p>
-            {% else %}
-              <link itemprop="availability" href="http://schema.org/OutOfStock" />
-              <p id="handle-{{product.handle}}_availability" class="availability OutOfStock">
-                Verfügbarkeit:
-                <i class="fa fa-circle" aria-hidden="true"></i>
-                <span class="availability_text">
-                  {{ 'product.general.sold_out' | t | escape }}
-                </span>
-              </p>
-            {% endif %}
-          {% endif %}
+        <div data-collection-filter="true" class="col-xs-12 col-md-4 col-lg-3">
+          {% include 'jumplink-collection-filter'%}
         </div>
         
-        {% assign hide_default_title = false %}
-        {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
-          {% assign hide_default_title = true %}
-        {% endif %}
+        <div class="product-photos col-xs-12 col-md-4 offset-md-4 col-lg-5 offset-lg-3 mb-1">
 
-        <div id="handle-{{product.handle}}_product-variants" class="{% if hide_default_title %} hidden{% endif %} my-1">
-          <select id="handle-{{product.handle}}_product-select" name="id">
-
-            {% capture option_group_label %}
-              {% for option in product.options %}{{ option | replace: 'size', 'Größe' | replace: 'Size', 'Größe' }}{% endfor %}
-            {% endcapture %}
-            
-            <optgroup label="{{ option_group_label }}">
-              {% for variant in product.variants %}
-
-                {% capture option_selected_title %}
-                  {% for option in product.options %}
-                    {{ option | replace: 'size', 'Größe' | replace: 'Size', 'Größe' }}
-                  {% endfor %}
-                  {{ variant.title }} 
-                {% endcapture %}
-
-                {% capture option_title %}
-                  {{ variant.title }}
-                  {% if variant.available %}
-                    {% if variant.inventory_management and variant.inventory_quantity <= 0 %}
-                      <small class='text-muted'>{{ 'product.general.backordner_possible' | t }}</small>
-                    {% endif %}
-                  {% else %}
-                    <small class='text-muted'>{{ 'product.general.notify' | t }}</small>
-                  {% endif %}
-                {% endcapture %}
-
-                <option data-content="{{ option_title }}" title="{{ option_selected_title }}" value="{{ variant.id }}" value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}>
-                  {{ option_title }}
-                </option>
-              {% endfor %}
-            </optgroup>
-          </select>
-        </div>        
-              
-        {% if settings.product_show_backorder_message %}
-          <div id="handle-{{product.handle}}_backorder" class="#backorder" class="hidden">
-            <p class=""> {{ '%s wird nachbestellt. Wir werden es in 10 bis 15 Tagen seperat verschicken.' | replace: '%s', '<span class="selected-variant"></span>' }}</p>
-          </div>
-        {% endif %}
+          {% if product.images.size <= 0 %}
+        
+            <div class="product-photo-container">
+              <img src="{{ 'no-image.png' | asset_url }}" class="img-responsive" alt="" />
+            </div>
           
-        <div id="handle-{{product.handle}}_product-add" class="form-inline my-1">
+          {% else %}
+            {% include 'jumplink-product-photo-carousel-with-modal' %}
+          {% endif %}
 
-          {% if settings.product_show_qty_from %}
+        </div>
+        
+        <div class="product-details col-xs-12 col-md-4">
+
+          {% comment %}
+            Do we have a collection that has the same name as our product vendor name?
+            If we do, let's have the vendor link point to it.
+            If not, we will point to the automatic vendor collection.
+          {% endcomment %}
+          {% assign product_vendor_handle = product.vendor | handle %}
+          {% if collections[product_vendor_handle].handle == product_vendor_handle %}
+            {% assign vendor_url = collections[product_vendor_handle].url %}
+          {% else %}
+            {% assign vendor_url = product.vendor | url_for_vendor %}
+          {% endif %}
+          <h1 class="product-vendor">{{ product.vendor | link_to: vendor_url }}</h1>
+                    
+          <div class="delta my-1">
+            <p class="m-0">
+              {% comment %}
+                Conntent set via JavaScript!
+                Container for Variant Selections 
+              {% endcomment %}
+              <span class="product-price"></span>
+
+              {% if settings.apps_bold_loyalty_points %}
+                <!-- Bold: Loyalty Points - Step 4 -->
+                {% if shop.metafields.bold_loyalties.active == 1 and settings.product_show_loyalty_earn_points %}    
+                  <div class="bold-loyalties-redeem-amount">oder <span class="bold-placeholder"></span></div>
+                {% endif %}
+                <!-- // end bold code -->
+                <!-- Bold: Loyalty Points - Step 5 -->
+                {% if settings.product_show_loyalty_earn_points %}
+                  <div class="bold-loyalties-earn"></div>
+                {% endif %}
+                <!-- // end bold code -->
+              {% endif %}
+
+            </p>
+            <p class="product-legal-text m-0">
+              <a href="{{ pages.vat.url }}" title="{{ pages.versand.title }}">
+                {{ 'product.general.legal_price_text' | t: vat_rate: '19' }}
+              </a>
+            </p>
+
+            {% comment %}
+              Conntent set via JavaScript!
+              Container for Variant Selections 
+            {% endcomment %}
+            {% if settings.product_show_availability %}
+              <p class="availability">
+            {% endif %}
+          </div>
+
+          <p  class="product-title">
+            Code <span>{{ product.title }}</span>
+          </p>   
+                
+          {% if settings.product_show_backorder_message %}
+            <div id="handle-{{product.handle}}_backorder" class="#backorder" class="hidden">
+              <p class=""> {{ '%s wird nachbestellt. Wir werden es in 10 bis 15 Tagen seperat verschicken.' | replace: '%s', '<span class="selected-variant"></span>' }}</p>
+            </div>
+          {% endif %}
+
+          {% comment %}
+            Conntent set via JavaScript!
+            Container for Variant Selections 
+          {% endcomment %}
+          <div class="row product-variants"></div>      
+            
+          <div class="form-inline my-1">
+
+
             <div id="handle-{{product.handle}}_qty-form-group" class="form-group">
               <div id="handle-{{product.handle}}_qty-input-group" class="js-qty input-group input-group-no-middle-borders input-group-width-90px hidden" role="group" aria-label="Manage Quantity">
                 <span class="input-group-btn">
@@ -164,113 +122,97 @@
                 </span>
               </div>
             </div>
-          {% endif %}
 
-          <div id="handle-{{product.handle}}_add-or-not-from" class="form-group hidden">
-            <input type="submit" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary add_to_cart-selector" value="{{ 'cart.general.add_to_cart' | t | escape }}">
-          </div>
+            <div id="handle-{{product.handle}}_add-or-not-from" class="form-group hidden">
+              <input type="submit" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary add_to_cart-selector" value="{{ 'cart.general.add_to_cart' | t | escape }}">
+            </div>
 
-          {% if settings.apps_bold_loyalty_points %}
-            {% if settings.product_show_loyalty_spend_button %}
-              <div class="form-group">
-                <!-- Bold: Loyalty Points - Step 6 -->
-                <div class="bold-loyalties-redeem">
-                  <a href="#" disabled="disabled" class="buy-with-rewards btn secondary disabled">Herzen einlösen</a>
+            {% if settings.apps_bold_loyalty_points %}
+              {% if settings.product_show_loyalty_spend_button %}
+                <div class="form-group">
+                  <!-- Bold: Loyalty Points - Step 6 -->
+                  <div class="bold-loyalties-redeem">
+                    <a href="#" disabled="disabled" class="buy-with-rewards btn secondary disabled">Herzen einlösen</a>
+                  </div>
+                  <!-- // end bold code -->
                 </div>
-                <!-- // end bold code -->
+              {% endif %}
+            {% endif %}
+
+            {% if settings.apps_back_in_stock_by_yellow_robot_pty_ltd %}
+              <div id="handle-{{product.handle}}_bsi-from" class="form-group bsi-form hidden">
+                <a href="#" id="handle-{{product.handle}}_bsi" data-product-handle="{{ product.handle }}" class="btn btn-primary bsi-button BIS_trigger">{{ 'product.general.notify' | t }}</a>
               </div>
             {% endif %}
-          {% endif %}
 
-          <div id="handle-{{product.handle}}_bsi-from" class="form-group bsi-form hidden">
-            <a href="#" id="handle-{{product.handle}}_bsi" data-product-handle="{{ product.handle }}" class="btn btn-primary bsi-button BIS_trigger">{{ 'product.general.notify' | t }}</a>
-          </div>
+            {% if settings.apps_wishlist_king_by_appmate %}
+              <div class="form-group ">
+                <!-- include 'wishlist-button-product' with '{{ product.id }}' -->
+              </div>
+            {% endif %}
+          </div>        
 
-          {% if settings.apps_wishlist_king_by_appmate %}
-            <div class="form-group ">
-              <!-- include 'wishlist-button-product' with '{{ product.id }}' -->
-            </div>
-          {% endif %}
-        </div>
+          {% if settings.product_tabs %}
+            {% comment %}
+              tabs
 
+              To set tab content use the shopify custom fields app
+              @namespace c_f
+              @key jumplink_tab_2
 
-        <ul class="product-info-links my-1">
-          <li>
-            <a href="{{ pages.sizeguide.url }}" title="{{ pages.sizeguide.title }}">
-              {{ pages.sizeguide.title }}
-            </a>
-          </li>
-          <li>
-            <a href="{{ pages.versand.url }}" title="{{ pages.versand.title }}">
-              {{ pages.versand.title }}
-            </a>
-          </li>
-        </ul>
-        
-
-        {% if settings.product_tabs %}
-          {% comment %}
-            tabs
-
-            To set tab content use the shopify custom fields app
-            @namespace c_f
-            @key jumplink_tab_2
-
-            tab_1 is the description
-            
-            @see http://freakdesign.com.au/pages/shopify-custom-fields
-          {% endcomment %}
-          <div>
-            <ul class="nav ah-nav-tabs nav-tabs text-size-1-5" role="tablist" id="handle-{{product.handle}}_product-info-tab">
-              <li role="presentation" class="active">
-                <a href="#handle-{{product.handle}}_tab-1" aria-controls="handle-{{product.handle}}_tab-1" role="tab" data-toggle="tab">
-                  Details
-                </a>
-              </li>
-              {% if product.metafields.c_f.jumplink_tab_2 %}
-                <li role="presentation">
-                  <a href="#handle-{{product.handle}}_tab-2" aria-controls="handle-{{product.handle}}_tab-2" role="tab" data-toggle="tab">
-                    Style and Fit
+              tab_1 is the description
+              
+              @see http://freakdesign.com.au/pages/shopify-custom-fields
+            {% endcomment %}
+            <div>
+              <ul class="nav ah-nav-tabs nav-tabs " role="tablist" id="handle-{{product.handle}}_product-info-tab">
+                <li role="presentation" class="active">
+                  <a href="#handle-{{product.handle}}_tab-1" aria-controls="handle-{{product.handle}}_tab-1" role="tab" data-toggle="tab">
+                    Details
                   </a>
                 </li>
-              {% endif %}
-            </ul>
-            {% comment %} Tab panes {% endcomment %}
-            <div class="tab-content">
-              <div role="tabpanel" class="my-1 tab-pane fade in rte active" id="handle-{{product.handle}}_tab-1" itemprop="description">
-                {% include 'jumplink-product-description-tabs' %}
-              </div>
-              {% if product.metafields.c_f.jumplink_tab_2 %}
-                <div role="tabpanel" class="my-1 tab-pane fade" id="handle-{{product.handle}}_tab-2">
-                  {{ product.metafields.c_f.jumplink_tab_2 }}
+                {% if product.metafields.c_f.jumplink_tab_2 %}
+                  <li role="presentation">
+                    <a href="#handle-{{product.handle}}_tab-2" aria-controls="handle-{{product.handle}}_tab-2" role="tab" data-toggle="tab">
+                      Style and Fit
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+              {% comment %} Tab panes {% endcomment %}
+              <div class="tab-content">
+                <div role="tabpanel" class="my-1 tab-pane fade in rte active" id="handle-{{product.handle}}_tab-1" itemprop="description">
+                  {% include 'jumplink-product-description-tabs' %}
                 </div>
-              {% endif %}
+                {% if product.metafields.c_f.jumplink_tab_2 %}
+                  <div role="tabpanel" class="my-1 tab-pane fade" id="handle-{{product.handle}}_tab-2">
+                    {{ product.metafields.c_f.jumplink_tab_2 }}
+                  </div>
+                {% endif %}
+              </div>
             </div>
-          </div>
-        {% else %}
-          <div>
-            <hr class="mb-05 mt-1">
-            <p class="text-size-1-5 text-bold m-0">
-              Details
-            </p>
-            {% comment %}
-              TODO style and use bootstrap tabs like on top {% include 'jumplink-product-description-tabs' %}
-            {% endcomment %}
-            {{ product.description }}
-            {{ product.metafields.c_f.jumplink_tab_2 }}
-          </div>
-        {% endif %}
+          {% else %}
+            <div>
+              <hr>
+              {% comment %}
+                TODO style and use bootstrap tabs like on top {% include 'jumplink-product-description-tabs' %}
+              {% endcomment %}
+              {{ product.description }}
+              {{ product.metafields.c_f.jumplink_tab_2 }}
+            </div>
+          {% endif %}
 
-        {% comment %}
-          All themes by Shopify should support the Product Reviews app out of the box.
-          https://apps.shopify.com/product-reviews
-        {% endcomment %}
-        <div id="handle-{{product.handle}}_shopify-product-reviews" data-id="{{ product.id }}">
-          {{ product.metafields.spr.reviews }}
+          {% comment %}
+            All themes by Shopify should support the Product Reviews app out of the box.
+            https://apps.shopify.com/product-reviews
+          {% endcomment %}
+          <div id="handle-{{product.handle}}_shopify-product-reviews" data-id="{{ product.id }}">
+            {{ product.metafields.spr.reviews }}
+          </div>
+          
         </div>
-        
+      
       </div>
-
     </form>
 
     {% if settings.related_products %}

@@ -9,5 +9,16 @@ $font-avantgarde-bold-ttf-path: "./avantgarde-book-bold.ttf" !default;
 $font-avantgarde-bold-svg-path: "./avantgarde-book-bold.svg" !default;
 
 
-$slick-prev-character: "";
-$slick-next-character: "";
+$iconset-arrow-l-url: '';
+$iconset-arrow-r-url: '';
+$iconset-arrow-b-url: '';
+$iconset-arrow-t-url: '';
+
+$iconset-arrow-big-l-url: '';
+$iconset-arrow-big-r-url: '';
+$iconset-arrow-big-b-url: '';
+$iconset-arrow-big-t-url: '';
+
+
+$slick-prev-character: url($iconset-arrow-l-url);
+$slick-next-character: url($iconset-arrow-r-url);

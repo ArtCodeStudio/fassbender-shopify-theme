@@ -46,6 +46,13 @@
       "label": "Wishlist King by Appmate",
       "default": false,
       "info": "Activates ready to use [Wishlist King by Appmate](https://apps.shopify.com/wishlist-king) theme integration"
+    },
+    {
+      "type": "checkbox",
+      "id": "apps_back_in_stock_by_yellow_robot_pty_ltd",
+      "label": "Back in Stock by Yellow Robot Pty Ltd",
+      "default": false,
+      "info": "Activates ready to use [Back in Stock by Yellow Robot Pty Ltd](https://apps.shopify.com/back-in-stock) theme integration"
     }
   ]
 }

@@ -3,7 +3,7 @@
     {% assign header_handle = menu_header.first | replace: header_handle.first, '' %}
     <div class="clearfix filter form-group my-0 p-y-05 filter-group-select filter-group{{ header_handle }}">
         {% if show_label %}
-            <p class="text-bold filter-group-title">{{ shop.metafields.pt_filter_header[menu_header.first] }}</p>
+            <p class=" filter-group-title">{{ shop.metafields.pt_filter_header[menu_header.first] }}</p>
         {% endif %}
 
         <select

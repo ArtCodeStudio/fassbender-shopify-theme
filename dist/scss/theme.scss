@@ -9962,8 +9962,20 @@ $font-avantgarde-bold-ttf-path: "./avantgarde-book-bold.ttf" !default;
 $font-avantgarde-bold-svg-path: "./avantgarde-book-bold.svg" !default;
 
 
-$slick-prev-character: "";
-$slick-next-character: "";
+$iconset-arrow-l-url: '';
+$iconset-arrow-r-url: '';
+$iconset-arrow-b-url: '';
+$iconset-arrow-t-url: '';
+
+$iconset-arrow-big-l-url: '';
+$iconset-arrow-big-r-url: '';
+$iconset-arrow-big-b-url: '';
+$iconset-arrow-big-t-url: '';
+
+
+$slick-prev-character: url($iconset-arrow-l-url);
+$slick-next-character: url($iconset-arrow-r-url);
+
 // http://stackoverflow.com/questions/5780109/removing-rounded-corners-from-a-select-element-in-chrome-webkit
 select {
   -webkit-appearance: none;
@@ -11041,9 +11053,6 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
 }
 
 .pagination {
-  .page-item {
-    border: none;
-  }
   &.slide-buttons {
       .iconset {
           &.arrow, &.arrow-big {
@@ -11160,6 +11169,20 @@ b, strong {
         margin-left: 1rem;
     }
 }
+
+// hide active breadcrumbs
+.breadcrumb-item {
+    &.active {
+        display: none;
+    }
+}
+.form-control {
+    text-transform: uppercase;
+}
+
+.custom-select {
+    background-image: url($iconset-arrow-b-url);
+}
 [data-namespace="customers-register"], [data-namespace="customers-login"] {
     .form-group, .btn-group, h1 {
         max-width: 360px;
@@ -11219,4 +11242,7 @@ b, strong {
         @include vp-position(fixed);
         top: 53.5px; // navbar height
     }
+}
+.product-price {
+    font-weight: bold;
 }

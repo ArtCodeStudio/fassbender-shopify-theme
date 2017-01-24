@@ -28,6 +28,9 @@
 @import '../../bower_components/slick-carousel/slick/slick.scss';
 @import '../../bower_components/slick-carousel/slick/slick-theme.scss';
 
+// import '../../bower_components/bootstrap-select/sass/bootstrap-select';
+// import '../../bower_components/bootstrap-select/sass/variables';
+
 @import 'layout';
 @import 'fonts';
 @import 'navbar';
@@ -39,7 +42,9 @@
 @import 'buttons';
 @import 'list-group';
 @import 'breadcrumbs';
+@import 'forms';
 
 @import 'customers-login-register';
 @import 'list-collections';
 @import 'collection';
+@import 'product';

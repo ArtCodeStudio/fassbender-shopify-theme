@@ -17,3 +17,10 @@
         margin-left: 1rem;
     }
 }
+
+// hide active breadcrumbs
+.breadcrumb-item {
+    &.active {
+        display: none;
+    }
+}

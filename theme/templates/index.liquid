@@ -32,7 +32,7 @@
     {% unless settings.homepage_page == blank or pages[settings.homepage_page].empty? %}
       {% assign page = pages[settings.homepage_page] %}
       <div class="hidden col-xs-12">
-        <h1 class="text-center text-sans-serif">{{ page.title }}</h1>
+        <h1 class="text-center ">{{ page.title }}</h1>
       </div>
       <div class="hidden col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4">
         <div class="rte text-center">
@@ -57,7 +57,7 @@
       collectionHandle: 'featured-products',
       classWrapper: 'my-1',
       textAlign: settings.homepage_featured_products_text_align
-      titleClass: 'text-sans-serif text-normal'
+      titleClass: ' text-normal'
     %}
 
     {% if settings.blog_enable and settings.home_blog_preview_enable %}

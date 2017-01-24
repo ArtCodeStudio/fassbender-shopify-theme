@@ -127,12 +127,18 @@
   },
   "cart": {
     "general": {
+      "add_to_cart": "Add to cart",
+      "pre_order": "Pre order",
+      "can_not_add_to_cart": "Can not add to cart",
       "empty": "Your cart is currently empty.",
+      "empty_message": "Sie können auf den Produktseiten die Produkte zu Ihrem Warenkorb hinzufügen.",
       "savings_html": "You're saving {{ price }}",
       "added": "Product \"{{ title }}\" added to cart",
+      "removed": "Product \"{{ title }}\" removed from cart",
       "subtotal": "Subtotal",
       "shipping_at_checkout": "Shipping & taxes calculated at checkout",
-      "checkout": "Check Out"
+      "checkout": "Check Out",
+      "continue": "Continue"
     }
   },
   "wishlist": {
@@ -161,7 +167,7 @@
   },
   "product": {
     "general": {
-      "legal_price_text": "including {{vat_rate}}% VAT., plus shipping"
+      "legal_price_text": "excl. VAT."
     }
   },
   "home": {

@@ -38,7 +38,7 @@ Shows Collections from the navigation called `featured-collections`
                                 {% assign image = replaceImage2With | asset_url %}
                             {% endif %}
                             <a href="{{link.url}}" class="background-box ratio-1-15" style="background-image: url({{image}});" title="{{link.object.title}} - {{link.title}}"></a>
-                            <h2 class="{{ settings.homepage_featured_collections_text_align }} text-sans-serif title"><strong>{{link.object.title}}</strong></h2>
+                            <h2 class="{{ settings.homepage_featured_collections_text_align }}  title"><strong>{{link.object.title}}</strong></h2>
                             {% if showHr == true %}
                                 <div class="row"> 
                                     <div class="col-xs-offset-5 col-xs-2">
@@ -47,7 +47,7 @@ Shows Collections from the navigation called `featured-collections`
                                 </div>
                             {% endif %}
                         </div>
-                        <h4 class="{{ settings.homepage_featured_collections_text_align }} text-sans-serif subtext"><strong>{{link.title}}</strong></h4>
+                        <h4 class="{{ settings.homepage_featured_collections_text_align }}  subtext"><strong>{{link.title}}</strong></h4>
                     </div>
                 </div>
             {% endif %}

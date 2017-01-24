@@ -289,7 +289,82 @@ jumplink.getQty = function ($input) {
   }
   qty = jumplink.validateQty(qty);
   return qty;
+}
 
+/**
+ * Split product options by variant name and create html select elements for it
+ * 
+ * @param product
+ */
+jumplink.splitOptions = function (product) {
+  if( typeof(product.options) === 'undefined' ) {
+    console.warn('no options!');
+    return;
+  }
+
+  var options = [];
+  for (var index = 0; index < product.options.length; index++) {
+    var optionTitle = product.options[index];
+    options.push({
+      index: index,
+      title: optionTitle,
+      $select: $(document.createElement('select')),
+      $options: [],
+      values: {},
+    });
+  }
+
+  for (var i = 0; i < product.variants.length; i++) {
+    var variantOptions = product.variants[i].options;
+    for (var k = 0; k < variantOptions.length; k++) {
+      var variantOption = variantOptions[k];
+      options[k].values[variantOption] = variantOption;
+    }
+  }
+
+  console.log('options', options);
+  return options;
+}
+
+jumplink.generateSelectors = function (product) {
+
+  console.log('generateSelectors', product);
+
+  
+
+  var options = jumplink.splitOptions(product);
+
+  for (var index = 0; index < options.length; index++) {
+    var option = options[index];
+    option.$select = $(document.createElement('select'));
+    option.handle = jumplink.filter.handleize(option.title);
+    option.$select.attr('id', 'handle-'+product.handle+'-'+option.handle);
+    option.$select.addClass('custom-select form-control '+option.handle);
+
+    // Placeholder
+    var $option = $(document.createElement('option'));
+    $option.val(false);
+    $option.html(option.title);
+    option.$select.append($option);
+    option.$options.push($option);
+
+    $.each(option.values, function(key, value) {
+      $option = $(document.createElement('option'));
+      $option.val(value);
+      $option.html(value);
+      option.$select.append($option);
+      option.$options.push($option);
+    });
+    
+    var $variants = $('#handle-'+product.handle+' .product-variants');
+    var wrapper = $('<div />', {
+        "class": 'col-xs-4 -mr-3',
+        html: option.$select,
+    });
+    $variants.append(wrapper);
+  }
+  console.log('generateSelects', options);
+  return options;
 }
 
 /**
@@ -306,33 +381,41 @@ jumplink.OptionSelectors = function (elementID, more) {
   if(typeof more.onVariantSelected !== 'function') {
     throw new Error('more.onVariantSelected must be a function!');
   }
+  
   var $select = $('#'+elementID);
   var product = more.product;
-  var title = null;
+  var productHandle = '#handle-'+product.handle;
 
-  // Add label if only one product option and it isn't 'Title'.
-  if (product.options.length == 1 && product.options[0] != 'Title') {
-    title = product.options[0];
+  var onSelectChange = function (variantID) {
+    getVariantByID(variantID, product, function (error, variant) {
+      return more.onVariantSelected(variant, selector);
+    });
+  }
+
+  var getOption = function ($select) {
+    console.log('getOption', $select);
+    return $select.find('option:selected');
   }
   
-  $select.selectpicker({
-    title: title,
-  });
-  $select.selectpicker('render');
 
+  var getVariantID = function () {
+    console.log('TODO getVariantID');
+    //return $(event.currentTarget).find('option').eq( clickedIndex ).val();
 
-  var selector = {};
-  selector.variantIdField = '#'+elementID;
-  
-  selector.getSelectedOption = function () {
-    return jumplink.getSelectedOption($select);
-  }
-  
-  var getVariantID = function (event, clickedIndex) {
-    return $(event.currentTarget).find('option').eq( clickedIndex ).val();
+    var $selects = $(productHandle+' .product-variants select');
+    var values = [];
+    $selects.each(function(index, select) {
+      var $select = $(select);
+      var value = getOption($select).val();
+      console.log('value', value);
+      values.push(value);
+    });
+    console.log('values', values);
+
   }
 
   var getVariantByID = function (variantID, product, cb) {
+    console.log('getVariantByID', variantID, product, cb);
     variantID = Number(variantID);
     product.variants.forEach(function(variant) {
       if(variant.id === variantID) {
@@ -341,8 +424,14 @@ jumplink.OptionSelectors = function (elementID, more) {
     }, this);
   }
 
-  var getOptionByVariantID = function (variantID) {
-    return $select.find('option:selected').text();
+  console.log('jumplink.OptionSelectors', elementID, $select);
+
+
+  var selector = {};
+  selector.variantIdField = '#'+elementID;
+  
+  selector.getSelectedOption = function () {
+    return jumplink.getSelectedOption($select);
   }
 
   selector.selectVariant = function (variantID) {
@@ -352,25 +441,21 @@ jumplink.OptionSelectors = function (elementID, more) {
       throw new Error('VariantID is '+variantID);
     }
 
-    $select.selectpicker('val', variantID);
+    // $select.selectpicker('val', variantID);
+    console.log("TODO change select");
     onSelectChange(variantID);
   }
 
-  var onSelectChange = function (variantID) {
-    getVariantByID(variantID, product, function (error, variant) {
-      return more.onVariantSelected(variant, selector);
-    });
-  }
-
-  $select.on('changed.bs.select', function (event, clickedIndex, newValue, oldValue) {
-    var variantID = getVariantID(event, clickedIndex);
+  $select.change(function(event) {
+    var variantID = getVariantID();
     onSelectChange(variantID);
   });
 
   // initial callback
-  var $initialSelectedOption = $(selector.getSelectedOption());
-  var initialVariantID = $initialSelectedOption.val();
-  onSelectChange(initialVariantID);
+  // var $initialSelectedOption = $(selector.getSelectedOption());
+  // var initialVariantID = $initialSelectedOption.val();
+
+  onSelectChange(product.variants[0].id);
 
   return selector;
 }
@@ -645,6 +730,45 @@ jumplink.switchImage = function(newImageSrc, newImage, mainImageDomEl) {
   };
 })(console.log);
 
+jumplink.goTo = function (href) {
+  if(Barba) {
+    Barba.Pjax.goTo(href);
+  } else {
+    window.location.href = href;
+  }
+}
+
+jumplink.filter = {};
+
+/**
+ * Strips tabs, spaces, and newlines (all whitespace) from the left and right side of a string.
+ * @see https://help.shopify.com/themes/liquid/filters/string-filters#strip
+ */
+jumplink.filter.strip = function (str) {
+  return $.trim(str);
+}
+
+/**
+ *Converts a string into lowercase.
+ * @see https://help.shopify.com/themes/liquid/filters/string-filters#downcase
+ */
+jumplink.filter.downcase = function (str) {
+  return str.toLowerCase();
+}
+
+
+/**
+ * Formats a string into a handle.
+ * @see https://help.shopify.com/themes/liquid/filters/string-filters#handle-handleize
+ */
+jumplink.filter.handleize = function (str) {
+  str = jumplink.filter.strip(str);
+  str = str.replace(/[^\w\s]/gi, '') // http://stackoverflow.com/a/4374890
+  str = jumplink.filter.downcase(str);
+  return str.replace(/ /g,"-");
+}
+jumplink.filter.handle = jumplink.filter.handle;
+
 /**
  * Change #search field with if active
  */
@@ -697,14 +821,6 @@ var getMainNavHeight = function () {
  */
 var getAllNavsHeight = function () {
   return getMainNavHeight();
-}
-
-jumplink.goTo = function (href) {
-  if(Barba) {
-    Barba.Pjax.goTo(href);
-  } else {
-    window.location.href = href;
-  }
 }
 
 /**
@@ -1691,6 +1807,91 @@ var initBoldLoyaltiesProduct = function (product) {
 }
 
 /**
+ * Adding support for product options. See here for details:
+ * @see http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options
+ * This function comes from template/product.liquid and need möglicherweise rewrite
+ * 
+ * @see https://github.com/Shopify/Timber/blob/master/templates/product.liquid#L162
+ * TOTO use https://cartjs.org/
+ */
+var selectCallback = function(variant, selector, product) {
+
+  console.log('selectCallback', variant, selector, product);
+  var productHandle = '#handle-'+product.handle;
+
+  initBoldLoyaltiesProduct(product);
+
+  if (variant) {      
+
+    // Swap image. TODO switch to image variant in carousel
+    if (variant.featured_image) {
+      var newImage = variant.featured_image; // New image object.
+      var mainImageDomEl = $(productHandle+' '+'.product-photo-container img')[0]; // DOM element of main image we need to swap.
+      Shopify.Image.switchImage(newImage, mainImageDomEl, jumplink.switchImage); // Define switchImage (the callback) in your theme's JavaScript file.
+    }
+    
+    // Selected a valid variant that is available.
+    if (variant.available) {
+
+      // Enabling add to cart button.
+      $(productHandle+'_add').removeClass('disabled hidden').prop('disabled', false).val(window.translations.cart.general.add_to_cart);
+      $(productHandle+'_add-or-not-from').removeClass('hidden');
+
+      // Hide qty
+      $(productHandle+'_qty-form-group').removeClass('hidden');
+
+      // Disable Notification BUtton
+      $(productHandle+'_bsi').addClass('disabled').prop('disabled', true);
+      $(productHandle+'_bsi-from').addClass('hidden');
+    
+      // If item is backordered yet can still be ordered, we'll show special message.
+      if (variant.inventory_management && variant.inventory_quantity <= 0) {
+        if(variant.title === "Default Title") {
+          $(productHandle+' .selected-variant').html(product.title);
+        } else {
+          $(productHandle+' .selected-variant').html(product.title + ' - ' + variant.title);
+        }
+        $(productHandle+' .availability').removeClass('InStock OutOfStock').addClass('BackOrder').find('.availability_text').html(window.translations.product.general.backordner_possible);
+        
+        $(productHandle+'_add').val(window.translations.cart.general.pre_order);
+        $(productHandle+'_backorder').removeClass("hidden");
+      } else {
+        $(productHandle+' .availability').removeClass('OutOfStock BackOrder').addClass('InStock').find('.availability_text').html(window.translations.product.general.available);
+        $(productHandle+'_backorder').addClass("hidden");
+      }
+      
+    } else {
+      // Variant is sold out.
+      $(productHandle+' .availability').removeClass('InStock BackOrder').addClass('OutOfStock').find('.availability_text').html(window.translations.product.general.sold_out);
+      $(productHandle+'_backorder').addClass('hidden');
+      $(productHandle+'_add').val(window.translations.product.general.sold_out).addClass('disabled').prop('disabled', true);
+      $(productHandle+'_add-or-not-from').addClass('hidden');
+
+      // Show qty
+      $(productHandle+'_qty-form-group').addClass('hidden');
+
+      // Enable Notification Button
+      $(productHandle+'_bsi').removeClass('disabled').prop('disabled', false);
+      $(productHandle+'_bsi-from').removeClass('hidden');
+    }
+    
+    // Whether the variant is in stock or not, we can update the price and compare at price.
+    if ( variant.compare_at_price > variant.price ) {
+      $(productHandle+' .product-price').replaceWith('<span class="product-price text-danger on-sale" itemprop="price">'+ Shopify.formatMoney(variant.price, window.shop.moneyFormat) +'&nbsp;<s class="product-compare-price text-default">'+'<span>'+Shopify.formatMoney(variant.compare_at_price, window.shop.moneyFormat)+ '</span>'+'</s>'+'</span>');
+    } else {
+      $(productHandle+' .product-price').replaceWith('<span class="product-price" itemprop="price">'+ Shopify.formatMoney(variant.price, window.shop.moneyFormat) + '</span>' );
+    }
+
+  } else {
+    // variant doesn't exist.
+    $(productHandle+' .product-price').empty();
+    $(productHandle+'_backorder').addClass('hidden');
+    $(productHandle+'_add').val(window.translations.product.general.unavailable).addClass('disabled').prop('disabled', true);
+  }
+
+};
+
+/**
  * 
  */
 var initProduct = function (dataset, data) {
@@ -1810,7 +2011,7 @@ var initProduct = function (dataset, data) {
     $this.find('.background-box.full-viewport-height').css("background-position", pageX+"% "+pageY+"%");
   }
 
-  var onModalSlickChanges = function(event, slickModal, slickModalCurrentSlide){
+  var onModalSlickChanges = function(event, slickModal, slickModalCurrentSlide) {
     var currentSlide = $slick.slick('slickCurrentSlide')
     if( currentSlide !== slickModalCurrentSlide) {
       $slick.slick('slickGoTo', slickModalCurrentSlide, true);
@@ -1884,93 +2085,21 @@ var initProduct = function (dataset, data) {
     $modal.removeClass('show');
   });
 
-  /**
-   * Adding support for product options. See here for details:
-   * @see http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options
-   * This function comes from template/product.liquid and need möglicherweise rewrite
-   * 
-   * @see https://github.com/Shopify/Timber/blob/master/templates/product.liquid#L162
-   * TOTO use https://cartjs.org/
-   */
-  var selectCallback = function(variant, selector, product) {
+  var options = jumplink.generateSelectors(data.product);
 
-    initBoldLoyaltiesProduct(product);
+  for (var index = 0; index < options.length; index++) {
+    var option = options[index];
+    option.$select = 
 
-    if (variant) {      
+    selector = jumplink.OptionSelectors(option.$select.attr('id'), {
+      product: data.product,
+      onVariantSelected: function(variant, selector) {
+        console.log('onVariantSelected', variant, selector);
+        selectCallback(variant, selector, data.product);
+      }, enableHistoryState: true });
 
-      // Swap image. TODO switch to image variant in carousel
-      if (variant.featured_image) {
-        var newImage = variant.featured_image; // New image object.
-        var mainImageDomEl = $(productHandle+' '+'.product-photo-container img')[0]; // DOM element of main image we need to swap.
-        Shopify.Image.switchImage(newImage, mainImageDomEl, jumplink.switchImage); // Define switchImage (the callback) in your theme's JavaScript file.
-      }
-      
-      // Selected a valid variant that is available.
-      if (variant.available) {
-
-        // Enabling add to cart button.
-        $(productHandle+'_add').removeClass('disabled hidden').prop('disabled', false).val(window.translations.cart.general.add_to_cart);
-        $(productHandle+'_add-or-not-from').removeClass('hidden');
-
-        // Hide qty
-        $(productHandle+'_qty-form-group').removeClass('hidden');
-
-        // Disable Notification BUtton
-        $(productHandle+'_bsi').addClass('disabled').prop('disabled', true);
-        $(productHandle+'_bsi-from').addClass('hidden');
-      
-        // If item is backordered yet can still be ordered, we'll show special message.
-        if (variant.inventory_management && variant.inventory_quantity <= 0) {
-          if(variant.title === "Default Title") {
-            $(productHandle+' .selected-variant').html(product.title);
-          } else {
-            $(productHandle+' .selected-variant').html(product.title + ' - ' + variant.title);
-          }
-          $(productHandle+'_availability').removeClass('InStock OutOfStock').addClass('BackOrder').find('.availability_text').html(window.translations.product.general.backordner_possible);
-          
-          $(productHandle+'_add').val(window.translations.cart.general.pre_order);
-          $(productHandle+'_backorder').removeClass("hidden");
-        } else {
-          $(productHandle+'_availability').removeClass('OutOfStock BackOrder').addClass('InStock').find('.availability_text').html(window.translations.product.general.available);
-          $(productHandle+'_backorder').addClass("hidden");
-        }
-        
-      } else {
-        // Variant is sold out.
-        $(productHandle+'_availability').removeClass('InStock BackOrder').addClass('OutOfStock').find('.availability_text').html(window.translations.product.general.sold_out);
-        $(productHandle+'_backorder').addClass('hidden');
-        $(productHandle+'_add').val(window.translations.product.general.sold_out).addClass('disabled').prop('disabled', true);
-        $(productHandle+'_add-or-not-from').addClass('hidden');
-
-        // Show qty
-        $(productHandle+'_qty-form-group').addClass('hidden');
-
-        // Enable Notification Button
-        $(productHandle+'_bsi').removeClass('disabled').prop('disabled', false);
-        $(productHandle+'_bsi-from').removeClass('hidden');
-      }
-      
-      // Whether the variant is in stock or not, we can update the price and compare at price.
-      if ( variant.compare_at_price > variant.price ) {
-        $(productHandle+' .product-price').replaceWith('<span class="product-price text-danger on-sale">'+ Shopify.formatMoney(variant.price, window.shop.moneyFormat) +'&nbsp;<s class="product-compare-price text-default">'+'<span>'+Shopify.formatMoney(variant.compare_at_price, window.shop.moneyFormat)+ '</span>'+'</s>'+'</span>');
-      } else {
-        $(productHandle+' .product-price').replaceWith('<span class="product-price">'+ Shopify.formatMoney(variant.price, window.shop.moneyFormat) + '</span>' );
-      }        
-
-    } else {
-      // variant doesn't exist.
-      $(productHandle+' .product-price').empty();
-      $(productHandle+'_backorder').addClass('hidden');
-      $(productHandle+'_add').val(window.translations.product.general.unavailable).addClass('disabled').prop('disabled', true);
-    }
-
-  };
+  }
   
-  selector = jumplink.OptionSelectors('handle-'+data.product.handle+'_product-select', {
-    product: data.product,
-    onVariantSelected: function(variant, selector) {
-      selectCallback(variant, selector, data.product);
-    }, enableHistoryState: true });
 
   
   // Add label if only one product option and it isn't 'Title'.
