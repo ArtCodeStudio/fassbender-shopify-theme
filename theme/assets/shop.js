@@ -273,6 +273,69 @@ jumplink.init = function () {
 };
 
 /**
+ * Freeze the position of an Element
+ * @see jumplink.unfreezeElements
+ */
+jumplink.freezeElements = function ($oldContainer, $newContainer, overwriteStyles) {
+  var $cloned = null;
+  var $oldElements = $oldContainer.find('[data-barba="freeze"]');
+  var $newElements = $newContainer.find('[data-barba="freeze"]');
+  if(!$oldElements[0]) {
+    console.error(new Error('No elements found to freeze!'));
+    return;
+  }
+
+  $oldElements.each(function( index ) {
+    $oldElement = $(this)
+    var css = this.getBoundingClientRect();
+    
+    if(overwriteStyles['margin-left']) {
+      css['margin-left'] = overwriteStyles['margin-left'];
+    }
+    
+    css.position = 'fixed';
+
+    $cloned = $oldElement.clone();
+    $cloned.css(css);
+    $cloned.attr( 'data-barba', 'cloned' );
+    $cloned.clone().appendTo('#barba-wrapper');
+
+    $oldElement.fadeTo(0, 0);
+    $oldElement.attr( 'data-barba', 'old' );
+  });
+
+  $newElements.each(function( index ) {
+    $newElement = $(this)
+    $newElement.fadeTo(0, 0);
+    $newElement.attr( 'data-barba', 'new' );
+  });
+
+  return $oldElements;
+};
+
+/**
+ * Unfreeze the position of an Element, only possible if you have freezed it before
+ * @see jumplink.freezeElements
+ */
+jumplink.unfreezeElements = function () {
+  var result = {
+    $cloned: $('[data-barba="cloned"]'),
+    $old: $('[data-barba="old"]'),
+    $new: $('[data-barba="new"]'),
+  }
+
+  result.$old.remove();
+  result.$cloned.remove();
+
+  result.$new.attr('data-barba', 'freeze')
+  result.$new.fadeTo(0, 1);
+
+  console.log('unfreezeElements', result);
+
+  return result;
+};
+
+/**
  * Get selected product option of an html select
  */
 jumplink.getSelectedOption = function ($select) {
@@ -322,16 +385,13 @@ jumplink.splitOptions = function (product) {
     }
   }
 
-  console.log('options', options);
+  // console.log('options', options);
   return options;
 }
 
 jumplink.generateSelectors = function (product) {
 
-  console.log('generateSelectors', product);
-
-  
-
+  // console.log('generateSelectors', product);
   var options = jumplink.splitOptions(product);
 
   for (var index = 0; index < options.length; index++) {
@@ -363,7 +423,7 @@ jumplink.generateSelectors = function (product) {
     // });
     $variants.prepend(option.$select);
   }
-  console.log('generateSelects', options);
+  // console.log('generateSelects', options);
   return options;
 }
 
@@ -393,13 +453,13 @@ jumplink.OptionSelectors = function (elementID, more) {
   }
 
   var getOption = function ($select) {
-    console.log('getOption', $select);
+    // console.log('getOption', $select);
     return $select.find('option:selected');
   }
   
 
   var getVariantID = function () {
-    console.log('TODO getVariantID');
+    // console.log('TODO getVariantID');
     //return $(event.currentTarget).find('option').eq( clickedIndex ).val();
 
     var $selects = $(productHandle+' .product-variants select');
@@ -407,15 +467,15 @@ jumplink.OptionSelectors = function (elementID, more) {
     $selects.each(function(index, select) {
       var $select = $(select);
       var value = getOption($select).val();
-      console.log('value', value);
+      // console.log('value', value);
       values.push(value);
     });
-    console.log('values', values);
+    // console.log('values', values);
 
   }
 
   var getVariantByID = function (variantID, product, cb) {
-    console.log('getVariantByID', variantID, product, cb);
+    // console.log('getVariantByID', variantID, product, cb);
     variantID = Number(variantID);
     product.variants.forEach(function(variant) {
       if(variant.id === variantID) {
@@ -424,7 +484,7 @@ jumplink.OptionSelectors = function (elementID, more) {
     }, this);
   }
 
-  console.log('jumplink.OptionSelectors', elementID, $select);
+  // console.log('jumplink.OptionSelectors', elementID, $select);
 
 
   var selector = {};
@@ -442,7 +502,7 @@ jumplink.OptionSelectors = function (elementID, more) {
     }
 
     // $select.selectpicker('val', variantID);
-    console.log("TODO change select");
+    // console.log("TODO change select");
     onSelectChange(variantID);
   }
 
@@ -1278,6 +1338,7 @@ var MovePage = Barba.BaseTransition.extend({
 
   // logic before any effect applies
   beforeMove: function() {
+
     // if true use slide effect else use fade out effect
     if(this.$oldContainer.data().namespace === 'product' && (this.$lastElementClicked.hasClass('next') || this.$lastElementClicked.hasClass('prev')) ) {
       // slide effekt, in this step do nothing
@@ -1293,7 +1354,7 @@ var MovePage = Barba.BaseTransition.extend({
 
   afterMove: function() {
     this.$newContainer = $(this.newContainer);
-
+    
     // var minHeight = jumplink.setBarbaContainerMinHeight(this.newContainer);
     
     if( this.$oldContainer.data().namespace === 'product' && this.$newContainer.data().namespace === 'product' && (!this.url || this.url.indexOf('src=recomatic') === -1) && !this.$lastElementClicked.hasClass('cart-link')) {
@@ -1310,30 +1371,45 @@ var MovePage = Barba.BaseTransition.extend({
     var _this = this;
     var goingForward = true;
 
-    if ( this.$oldContainer.data().productUrl === this.$newContainer.data().productNextUrl ) {
+    if ( _this.$oldContainer.data().productUrl === _this.$newContainer.data().productNextUrl ) {
       goingForward = false;
     }
 
-    var minHeight = jumplink.setBarbaContainerMinHeight(this.$newContainer);
+    var minHeight = jumplink.setBarbaContainerMinHeight(_this.$newContainer);
+    var top = jumplink.getAllNavsHeight();
+
+    jumplink.cache.$htmlBody.css({'overflow-x': 'hidden'});
+
+    jumplink.freezeElements(_this.$oldContainer, _this.$newContainer, {
+      // 'margin-left': '7.5px',
+    });
 
     TweenLite.set(this.newContainer, {
       visibility: 'visible',
       xPercent: goingForward ? 100 : -100,
       position: 'absolute',
       left: 0,
-      top: jumplink.getAllNavsHeight(),
+      top: 0,
       right: 0,
+      'padding-top': top,
       'min-height': minHeight,
     });
 
-    TweenLite.to(this.oldContainer, 0.6, { xPercent: goingForward ? -100 : 100 });
-    TweenLite.to(this.newContainer, 0.6, { xPercent: 0, onComplete: function() {
+    TweenLite.to(_this.oldContainer, 0.6, { xPercent: goingForward ? -100 : 100 });
+    TweenLite.to(_this.newContainer, 0.6, { xPercent: 0, onComplete: function() {
+
       TweenLite.set(_this.newContainer, {
         clearProps: 'all',
       });
+
       TweenLite.set(_this.newContainer, {
         'min-height': minHeight
       });
+
+      jumplink.unfreezeElements();
+
+      jumplink.cache.$htmlBody.css({'overflow-x': 'inherit'});
+
       _this.done();
     }});
 
@@ -1371,7 +1447,7 @@ var MovePage = Barba.BaseTransition.extend({
       var position = { y: window.pageYOffset };
       var $lastProduct = $('#'+jumplink.cache.lastProductDataset.handle);
       if($lastProduct.length >= 1) {
-        console.log('scroll to last object', jumplink.cache.lastProductDataset, $lastProduct)
+        // console.log('scroll to last object', jumplink.cache.lastProductDataset, $lastProduct)
         var offset = 0; // jumplink.getMainNavHeight();
         var target = $lastProduct.offset().top - offset;
         // var minHeight = jumplink.setBarbaContainerMinHeight(this.$newContainer);
@@ -1691,7 +1767,7 @@ var initPageCarousel = function (dataset) {
     }]
   };
 
-  console.log('initPageCarousel', slickSettings);
+  // console.log('initPageCarousel', slickSettings);
 
   var setSlickControlColor = function (index) {
     var slideColor = 'black';
@@ -1861,7 +1937,7 @@ var selectCallback = function(variant, selector, product) {
 
       // Enabling add to cart button.
       $(productHandle+' [name="add"]').removeClass('disabled hidden-xs-up').prop('disabled', false).val(window.translations.cart.general.add_to_cart);
-      $(productHandle+'_add-or-not-from').removeClass('hidden-xs-up');
+      $(productHandle+' .form-add-to-cart').removeClass('hidden-xs-up');
 
       // Hide qty
       $(productHandle+' .group-quantity-actions').removeClass('hidden-xs-up');
@@ -1879,11 +1955,11 @@ var selectCallback = function(variant, selector, product) {
         }
         $(productHandle+' .availability').removeClass('InStock OutOfStock').addClass('BackOrder').find('.availability_text').html(window.translations.product.general.backordner_possible);
         
-        $(productHandle+' [name="add"]').val(window.translations.cart.general.pre_order);
-        $(productHandle+'_backorder').removeClass("hidden-xs-up");
+        $(productHandle + ' [name="add"]').val(window.translations.cart.general.pre_order);
+        $(productHandle + '_backorder').removeClass('hidden-xs-up');
       } else {
-        $(productHandle+' .availability').removeClass('OutOfStock BackOrder').addClass('InStock').find('.availability_text').html(window.translations.product.general.available);
-        $(productHandle+'_backorder').addClass("hidden-xs-up");
+        $(productHandle + ' .availability').removeClass('OutOfStock BackOrder').addClass('InStock').find('.availability_text').html(window.translations.product.general.available);
+        $(productHandle + '_backorder').addClass('hidden-xs-up');
       }
       
     } else {
@@ -1891,7 +1967,7 @@ var selectCallback = function(variant, selector, product) {
       $(productHandle+' .availability').removeClass('InStock BackOrder').addClass('OutOfStock').find('.availability_text').html(window.translations.product.general.sold_out);
       $(productHandle+'_backorder').addClass('hidden-xs-up');
       $(productHandle+' [name="add"]').val(window.translations.product.general.sold_out).addClass('disabled').prop('disabled', true);
-      $(productHandle+'_add-or-not-from').addClass('hidden-xs-up');
+      $(productHandle+' .form-add-to-cart').addClass('hidden-xs-up');
 
       // Show qty
       $(productHandle+' .group-quantity-actions').addClass('hidden-xs-up');
@@ -1927,6 +2003,7 @@ var initProductCarousel = function (product) {
 
   // init product photo carousel
   var $slick = $('#product-photo-carousel-'+product.handle);
+  var $slickMethod = $("[data-slick-method]");
   var $slickThums = $(productHandle+' .thumb');
   var slickOptions = {
     dots: false,
@@ -1938,15 +2015,19 @@ var initProductCarousel = function (product) {
   var $modal = $('#product-photo-modal-'+product.handle);
   var $slickModal = $modal.find(productHandle+' .product-photo-modal');
   var $slickModalThums = $(productHandle + ' .modal-thumb');
-  var slickModalThumsOptions = {
+  var slickModalOptions = {
     dots: false,
     // appendArrows: $(productHandle+' .product-photo-carousel-arrows'),
     initialSlide: function() {return $slick.slick('slickCurrentSlide')},
   }
 
 
-  $("[data-slick-method]").unbind( "click" ).bind( "click", function() {
-    alert( "User clicked on 'foo.'" );
+  $slickMethod.unbind( "click" ).bind( "click", function() {
+    var $this = $(this);
+    var data = $this.data();
+    var target = data.slickTarget;
+    var method = data.slickMethod;
+    $(target).slick(method);
   });
 
   // init main slick
@@ -1962,8 +2043,6 @@ var initProductCarousel = function (product) {
         $slick.slick('slickGoTo', $thumb.data().index);
       });
     });
-
-    data-slick-method="prev" data-slick-target="#product-photo-carousel-{{product.handle}}"
 
   }
 
@@ -2144,7 +2223,7 @@ var initProduct = function (dataset, data) {
     selector = jumplink.OptionSelectors(option.$select.attr('id'), {
       product: data.product,
       onVariantSelected: function(variant, selector) {
-        console.log('onVariantSelected', variant, selector);
+        // console.log('onVariantSelected', variant, selector);
         selectCallback(variant, selector, data.product);
       }, enableHistoryState: true });
 
@@ -2466,7 +2545,7 @@ var initCollection = function (dataset) {
   // init load all button click
   var initLoadAll = function (dataset, currentUrl) {
     $loadAll.click(function() {
-      console.log("load all", dataset );
+      // console.log("load all", dataset );
       loadAllProducts(dataset, currentUrl, function() {
         initCollectionImages();
       });
@@ -2871,7 +2950,7 @@ var initTemplates = function () {
 
     if(typeof(videojs) !== 'undefined') {
       $('.video-js').each(function () {
-        console.log('init video.js');
+        // console.log('init video.js');
         //$this = $(this);
         videojs(this, {
           controlBar: {
@@ -2960,10 +3039,11 @@ var initFooter = function () {
   var $icon = $('.imprint .iconset.arrow');
 
   $footer.click(function(event) {
+    // console.log('click footer');
     // open
-    if($target.hasClass('hidden-xs-up-xs-up')) {
+    if($target.hasClass('hidden-xs-up')) {
       $icon.transition({ 'rotate': '270deg' });
-      $target.removeClass('hidden-xs-up-xs-up');
+      $target.removeClass('hidden-xs-up');
       var scrollTop = $document.height() - $window.height() + 11; // 'margin-top': '15px' - 'margin-top': '4px'
       $margin.transition({ 'margin-top': '15px' });
       $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {

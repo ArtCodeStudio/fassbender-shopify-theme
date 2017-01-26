@@ -18,11 +18,11 @@
     {% endif %}
 
 
-    <form action="/cart/add" method="post" id="handle-{{product.handle}}_AddToCartForm" enctype="multipart/form-data">
+    <form action="/cart/add" method="post" enctype="multipart/form-data">
 
       <div class="row">
 
-        <div data-collection-filter="true" class="col-xs-12 col-md-4 col-lg-3">
+        <div data-barba="freeze" data-collection-filter="true" class="col-xs-12 col-md-4 col-lg-3">
           {% include 'jumplink-filter' %}
         </div>
         
@@ -35,7 +35,7 @@
             </div>
           
           {% else %}
-            {% include 'jumplink-product-photo-carousel-with-modal' %}
+            {% include 'jumplink-product-photo-carousel' %}
           {% endif %}
 
         </div>
@@ -96,9 +96,11 @@
             Code <span>{{ product.title }}</span>
           </p>
 
-          <div id="handle-{{product.handle}}_add-or-not-from" class="form-group hidden-xs-up">
-            <input type="submit" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary w-100" value="{{ 'cart.general.add_to_cart' | t | escape }}">
-          </div>
+          {% if settings.cart %}
+            <div class="form-add-to-cart form-group hidden-xs-up">
+              <input type="submit" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary w-100" value="{{ 'cart.general.add_to_cart' | t | escape }}">
+            </div>
+          {% endif %}
                 
           {% if settings.product_show_backorder_message %}
             <div id="handle-{{product.handle}}_backorder" class="#backorder" class="hidden-xs-up">
@@ -125,7 +127,7 @@
                     Details
                   </a>
                 </li>
-                {% if product.metafields.c_f.jumplink_tab_2 %}
+                {% if product.metafieqlds.c_f.jumplink_tab_2 %}
                   <li role="presentation">
                     <a href="#handle-{{product.handle}}_tab-2" aria-controls="handle-{{product.handle}}_tab-2" role="tab" data-toggle="tab">
                       Style and Fit
@@ -146,13 +148,13 @@
               </div>
             </div>
           {% else %}
-            <div>
+            <p class="rte">
               {% comment %}
                 TODO style and use bootstrap tabs like on top {% include 'jumplink-product-description-tabs' %}
               {% endcomment %}
               {{ product.description }}
               {{ product.metafields.c_f.jumplink_tab_2 }}
-            </div>
+            </p>
           {% endif %}
 
           {% comment %}
@@ -161,19 +163,17 @@
           {% endcomment %}
           <div class="product-variants d-flex justify-content-between align-items-stretch flex-row">
           
-            <div class="input-group group-quantity-actions hidden-xs-up" role="group" aria-label="Adjust the quantity">
-
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-secondary" data-quantity-decrease="10">&minus;</button>
-              </span>
-
-              <input type="text" name="quantity" class="form-control" data-quantity-number="true" value="10" min="1" aria-label="quantity" pattern="[0-9]*">
-
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-secondary border-left-0" data-quantity-increase="10">+</button>
-              </span>
-
-            </div>
+            {% if settings.cart %}
+              <div class="input-group group-quantity-actions hidden-xs-up" role="group" aria-label="Adjust the quantity">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-secondary" data-quantity-decrease="10">&minus;</button>
+                </span>
+                <input type="text" name="quantity" class="form-control" data-quantity-number="true" value="10" min="1" aria-label="quantity" pattern="[0-9]*">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-secondary border-left-0" data-quantity-increase="10">+</button>
+                </span>
+              </div>
+            {% endif %}
           
           </div>      
             

@@ -23,14 +23,10 @@
             {% assign has_sub_categories = true %}
           {% endif %}
           {% if has_sub_menu or has_sub_categories %}
-              {% if link.title == 'Designer' %}
-                {% include 'jumplink-navbar-dropdown-designer' %}
-              {% else %}
-                  {% comment %}
-                  You could also use {% include 'jumplink-navbar-dropdown-letters' %}
-                  {% endcomment %}
-                {% include 'jumplink-navbar-dropdown' %}
-              {% endif %}
+              {% comment %}
+              You could also use {% include 'jumplink-navbar-dropdown-letters' %} or {% include 'jumplink-navbar-dropdown-designer' %}
+              {% endcomment %}
+              {% include 'jumplink-navbar-dropdown' %}
           {% else %}
             {% if link.handle == 'blog' and settings.blog_enable == false %}
             {% else %}

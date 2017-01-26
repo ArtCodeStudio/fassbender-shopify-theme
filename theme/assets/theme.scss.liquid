@@ -11581,6 +11581,15 @@ $slick-opacity-not-active: 0.25 !default;
 html, body {
     height: 100%;
 }
+
+body {
+    // overflow-x: hidden !important;
+    overflow-y: scroll !important;
+}
+
+.barba-container {
+    width: 100vw;
+}
 @font-face {
     font-family: "Avant Garde";
 	src: url(#{$font-avantgarde-eot-path});
@@ -11651,6 +11660,13 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
     z-index: 1031;
 }
 
+
+.navbar {
+    // WORKAROUND
+    &.fixed-top {
+        width: 100vw;
+    }
+}
 .right-sidebar {
     width: 250px;
     right: -250px;
@@ -11806,30 +11822,7 @@ b, strong {
         margin-left: 10px;
     } 
 }
-.list-group {
-    &.filter-collections {
-        .list-group-item {
-            border: none;
-            padding: 0.3rem 0;
-            font-size: 0.9rem;
-            &.list-group-title {
-                text-transform: uppercase;
-                font-weight: bold;
-                padding-bottom: 0.8rem;
-            }
-            &.active {
-                background: transparent;
-                font-weight: bold;
-                color: $list-group-color;
-            }
-        }
-    }
-}
 
-.filter {
-    top: 3rem;
-    position: absolute;
-}
 .breadcrumb-item {
     .collection {
         padding-left: 3rem;
@@ -11919,13 +11912,6 @@ b, strong {
         }
     }
 }
-
-[data-collection-filter="true"] {
-    @include media-breakpoint-up(md) {
-        @include vp-position(fixed);
-        top: 53.5px; // navbar height
-    }
-}
 .product-price {
     font-weight: bold;
     letter-spacing: 0.1rem;
@@ -11935,5 +11921,33 @@ b, strong {
     .iconset {
         padding: 0.5rem;
         cursor: pointer;
+    }
+}
+[data-collection-filter] {
+    @include media-breakpoint-up(md) {
+        @include vp-position(fixed);
+        top: 54px; // navbar height
+        padding-top: 3rem;
+    }
+}
+
+.list-group {
+    &.filter-collections {
+        .list-group-item {
+            border: none;
+            padding: 0.3rem 0;
+            font-size: 0.9rem;
+            background-color: transparent;
+            &.list-group-title {
+                text-transform: uppercase;
+                font-weight: bold;
+                padding-bottom: 0.8rem;
+            }
+            &.active {
+                background: transparent;
+                font-weight: bold;
+                color: $list-group-color;
+            }
+        }
     }
 }

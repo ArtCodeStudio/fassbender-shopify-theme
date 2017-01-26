@@ -3376,8 +3376,11 @@
     "name": "General",
     "settings": [
       {
-        "type": "paragraph",
-        "content": "For all available settings see [Instafeed.js](http://instafeedjs.com/)."
+        "type": "checkbox",
+        "id": "cart",
+        "label": "Cart",
+        "default": false,
+        "info": "Activates the Cart"
       },
       {
         "type": "paragraph",

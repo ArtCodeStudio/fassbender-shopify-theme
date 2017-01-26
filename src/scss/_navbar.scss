@@ -49,3 +49,11 @@
 .navbar-toggler {
     z-index: 1031;
 }
+
+
+.navbar {
+    // WORKAROUND
+    &.fixed-top {
+        width: 100vw;
+    }
+}

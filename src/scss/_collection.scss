@@ -10,10 +10,3 @@
         }
     }
 }
-
-[data-collection-filter="true"] {
-    @include media-breakpoint-up(md) {
-        @include vp-position(fixed);
-        top: 53.5px; // navbar height
-    }
-}

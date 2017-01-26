@@ -2,33 +2,26 @@
 <div id="right-sidebar" class="right-sidebar">
     <div id="sidebar-wrapper" class="sidebar-wrapper">  
         <ul class="navbar-nav">
-        {% for link in linklists.main-menu.links %}
-            {% assign has_sub_menu = false %}
-            {% assign has_sub_categories = false %}
-            {% assign child_list_handle = link.title | handle %}
-            {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
-            {% assign has_sub_menu = true %}
-            {% elsif link.type == 'collection_link' and link.object.all_tags.size > 0 and sub_categories_over_tags_is_off_now %}
-            {% assign has_sub_categories = true %}
-            {% endif %}
-            {% if has_sub_menu or has_sub_categories %}
-                {% if link.title == 'Designer' %}
-                {% include 'navbar-dropdown-designer' %}
-                {% else %}
-                    {% comment %}
-                    You could also use {% include 'navbar-dropdown-letters' %}
-                    {% endcomment %}
-                {% include 'navbar-dropdown' %}
+            {% for link in linklists.main-menu.links %}
+                {% assign has_sub_menu = false %}
+                {% assign has_sub_categories = false %}
+                {% assign child_list_handle = link.title | handle %}
+                {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                    {% assign has_sub_menu = true %}
+                    {% elsif link.type == 'collection_link' and link.object.all_tags.size > 0 and sub_categories_over_tags_is_off_now %}
+                    {% assign has_sub_categories = true %}
                 {% endif %}
-            {% else %}
-            {% if link.handle == 'blog' and settings.blog_enable == false %}
-            {% else %}
-                <li class="nav-item level-1 {{link.handle}}">
-                <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
-                </li>
-            {% endif %}
-            {% endif %}
-        {% endfor %}
+                {% if has_sub_menu or has_sub_categories %}
+                    {% include 'jumplink-navbar-dropdown' %}
+                {% else %}
+                {% if link.handle == 'blog' and settings.blog_enable == false %}
+                    {% else %}
+                        <li class="nav-item level-1 {{link.handle}}">
+                        <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
         </ul>
     </div>
 </div>

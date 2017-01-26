@@ -8,7 +8,7 @@
   {% paginate collection.products by settings.products_per_page %}
 
     <div class="row">
-      <div data-collection-filter="true" class="col-xs-12 col-md-2 col-lg-2">
+      <div data-barba="freeze" data-collection-filter="true" class="col-xs-12 col-md-2 col-lg-2">
         {% include 'jumplink-filter'%}
       </div>
       <div data-collection-products="true" class="col-xs-12 col-md-10 col-lg-10 offset-xs-0 offset-md-2 offset-lg-2 ">

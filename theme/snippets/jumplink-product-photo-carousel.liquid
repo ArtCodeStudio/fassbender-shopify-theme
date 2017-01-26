@@ -1,12 +1,17 @@
-
+{% comment %}
+    Carousel
+{% endcomment %}
 <div class="row">
     <div class="hidden-sm-down col-sm-2">
         <div class="mb-1">
             <div class="product-photo-carousel-arrows d-flex justify-content-between">
-                <div data-slick-method="prev" data-slick-target="#product-photo-carousel-{{product.handle}}">
+                {% comment %}
+                    @see https://github.com/kenwheeler/slick#methods
+                {% endcomment %}
+                <div data-slick-method="slickPrev" data-slick-target="#product-photo-carousel-{{product.handle}}">
                     {% include 'jumplink-iconset', name: 'arrow-big', direction: 'left', color: 'black' %}
                 </div>
-                <div data-slick-method="next" data-slick-target="#product-photo-carousel-{{product.handle}}">
+                <div data-slick-method="slickNext" data-slick-target="#product-photo-carousel-{{product.handle}}">
                     {% include 'jumplink-iconset', name: 'arrow-big', direction: 'right', color: 'black' %}
                 </div>
             </div>
@@ -14,7 +19,7 @@
         {% for image in product.images %}
             <div class="mb-1">
                 <div data-index="{{ forloop.index0 }}" class="thumb">
-                    <div class="{{ thumb_img_class }}" style="background-image: url({{ image | img_url: 'grande' }});" title="{{ image.alt | escape }}"></div>
+                    <div class="background-box {{settings.products_aspect_ratio}}" style="background-image: url({{ image | img_url: 'grande' }});" title="{{ image.alt | escape }}"></div>
                 </div>
             </div>
         {% endfor %}
@@ -23,7 +28,7 @@
         {% if product.metafields.jumplink_video.preview_url and product.metafields.jumplink_video.mp4_url %}
             <div class="mb-1">
                 <div data-index="{{ product.images | size }}" class="thumb">
-                    <div class="{{ thumb_img_class }}" style="background-image: url({{ product.metafields.jumplink_video.preview_url }});" title="{{ product.title }}"></div>
+                    <div class="background-box {{settings.products_aspect_ratio}}" style="background-image: url({{ product.metafields.jumplink_video.preview_url }});" title="{{ product.title }}"></div>
                 </div>
             </div>
         {% endif %}
@@ -34,7 +39,7 @@
         <div class="product-photo-carousel" id="product-photo-carousel-{{product.handle}}"}>
             {% for image in product.images %}
                 <a class="product-photo-carousel-item" data-toggle="modal" data-target="#product-photo-modal-{{product.handle}}">
-                    <div class="{{ img_class }}" style="background-image: url({{ image | img_url: 'master' }});" title="{{ image.alt | escape }}"></div>
+                    <div class="background-box {{settings.products_aspect_ratio}}" style="background-image: url({{ image | img_url: 'master' }});" title="{{ image.alt | escape }}"></div>
                     {% if settings.products_show_page_number_in_carousel %}
                         <div class="carousel-caption bottom right">
                             <div class="carousel-caption-wrapper">
@@ -70,4 +75,47 @@
         </div>
     </div>
 
+</div>
+
+{% comment %}
+    Modal
+{% endcomment %}
+<div class="modal fade modal-fullscreen product-photo-modal" id="product-photo-modal-{{product.handle}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="hidden-xs-up col-sm-2 col-md-2 col-lg-1 pt-1">
+                            {% for image in product.images %}
+                                <div class="mb-1">
+                                    <div data-index="{{ forloop.index0 }}" class="modal-thumb">
+                                        <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image: url({{ image | img_url: 'grande' }});" title="{{ image.alt | escape }}"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-xs-12 col-sm-10 col-md-10 col-lg-11">
+                            <div class="product-photo-modal">
+                                {% for image in product.images %}
+                                    <a class="product-photo-modal-item">
+                                        <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image: url({{ image | img_url: 'master' }});" title="{{ image.alt | escape }}"></div>
+                                        {% if settings.products_show_page_number_in_carousel %}
+                                            <div class="carousel-caption bottom right">
+                                                <div class="carousel-caption-wrapper">
+                                                    {{ forloop.index }}/{{ forloop.length }}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="slick-modal-close slick-arrow" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                    </div>
+                </div>Carousel
+            </div>
+        </div>
+    </div>
 </div>
