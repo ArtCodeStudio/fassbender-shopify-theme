@@ -1,48 +1,39 @@
-{% if is_modal %}
-    <div class="row product-photo-carousel-modal-wrapper" id="product-photo-carousel-modal-wrapper-{{product.handle}}">
-{% else %}
-    <div class="row product-photo-carousel-wrapper" id="product-photo-carousel-wrapper-{{product.handle}}">
-{% endif %}
 
-    <div class="{{left_class}}">
+<div class="row">
+    <div class="hidden-sm-down col-sm-2">
+        <div class="mb-1">
+            <div class="product-photo-carousel-arrows d-flex justify-content-between">
+                <div data-slick-method="prev" data-slick-target="#product-photo-carousel-{{product.handle}}">
+                    {% include 'jumplink-iconset', name: 'arrow-big', direction: 'left', color: 'black' %}
+                </div>
+                <div data-slick-method="next" data-slick-target="#product-photo-carousel-{{product.handle}}">
+                    {% include 'jumplink-iconset', name: 'arrow-big', direction: 'right', color: 'black' %}
+                </div>
+            </div>
+        </div>
         {% for image in product.images %}
-            <div class="row">
-                {% if is_modal %}
-                    <div class="col-xs-12 mb-1 product-photo-carousel-modal-thumbs" id="product-photo-carousel-modal-thumbs-{{product.handle}}">
-                {% else %}
-                    <div class="col-xs-12 mb-1 product-photo-carousel-thumbs" id="product-photo-carousel-thumbs-{{product.handle}}">
-                {% endif %}
-                    <div data-index="{{ forloop.index0 }}" class="product-photo-carousel-thumb">
-                        <div class="{{ thumb_img_class }}" style="background-image: url({{ image | img_url: 'grande' }});" title="{{ image.alt | escape }}"></div>
-                    </div>
+            <div class="mb-1">
+                <div data-index="{{ forloop.index0 }}" class="thumb">
+                    <div class="{{ thumb_img_class }}" style="background-image: url({{ image | img_url: 'grande' }});" title="{{ image.alt | escape }}"></div>
                 </div>
             </div>
         {% endfor %}
 
         {% comment %} video {% endcomment %}
-        {% if product.metafields.jumplink_video.preview_url and product.metafields.jumplink_video.mp4_url and is_modal == false  %}
-            <div class="row">
-                {% if is_modal %}
-                    <div class="col-xs-12 mb-1 product-photo-carousel-modal-thumbs" id="product-photo-carousel-modal-thumbs-{{product.handle}}">
-                {% else %}
-                    <div class="col-xs-12 mb-1 product-photo-carousel-thumbs" id="product-photo-carousel-thumbs-{{product.handle}}">
-                {% endif %}
-                    <div data-index="{{ product.images | size }}" class="product-photo-carousel-thumb">
-                        <div class="{{ thumb_img_class }}" style="background-image: url({{ product.metafields.jumplink_video.preview_url }});" title="{{ product.title }}"></div>
-                    </div>
+        {% if product.metafields.jumplink_video.preview_url and product.metafields.jumplink_video.mp4_url %}
+            <div class="mb-1">
+                <div data-index="{{ product.images | size }}" class="thumb">
+                    <div class="{{ thumb_img_class }}" style="background-image: url({{ product.metafields.jumplink_video.preview_url }});" title="{{ product.title }}"></div>
                 </div>
             </div>
         {% endif %}
     </div>
 
-    <div class="{{right_class}}">
-        {% if is_modal %}
-            <div class="product-photo-carousel-modal ah-carousel" id="product-photo-carousel-modal-{{product.handle}}">
-        {% else %}
-            <div class="product-photo-carousel ah-carousel" id="product-photo-carousel-{{product.handle}}"}>
-        {% endif %}
+    <div class="col-xs-12 col-sm-10">
+
+        <div class="product-photo-carousel" id="product-photo-carousel-{{product.handle}}"}>
             {% for image in product.images %}
-                <a class="product-photo-carousel-item" {% if open_modal %} data-toggle="modal" data-target="#product-photo-modal-{{product.handle}}" {% endif %}>
+                <a class="product-photo-carousel-item" data-toggle="modal" data-target="#product-photo-modal-{{product.handle}}">
                     <div class="{{ img_class }}" style="background-image: url({{ image | img_url: 'master' }});" title="{{ image.alt | escape }}"></div>
                     {% if settings.products_show_page_number_in_carousel %}
                         <div class="carousel-caption bottom right">
@@ -55,8 +46,8 @@
             {% endfor %}
 
             {% comment %} video {% endcomment %}
-            {% if product.metafields.jumplink_video.preview_url and product.metafields.jumplink_video.mp4_url and is_modal == false %}
-                <a class="product-photo-carousel-item" {% if open_modal and off %} data-toggle="modal" data-target="#product-photo-modal-{{product.handle}}" {% endif %}>
+            {% if product.metafields.jumplink_video.preview_url and product.metafields.jumplink_video.mp4_url %}
+                <a class="product-photo-carousel-item" data-toggle="modal" data-target="#product-photo-modal-{{product.handle}}">
                     <video class="video-js" id="video-{{product.handle}}" controls muted preload="auto" width="1317" height="2048"
                         poster="{{product.metafields.jumplink_video.preview_url}}" data-setup='{ "aspectRatio":"1317:2048" }'>
                         <source src="{{product.metafields.jumplink_video.mp4_url}}" type='video/mp4'>
@@ -77,9 +68,6 @@
                 </a>
             {% endif %}
         </div>
-        {% if is_modal %}
-            <button type="button" class="slick-modal-close slick-arrow" data-dismiss="modal" aria-hidden="true">&times;</button>
-        {% endif %}
     </div>
 
 </div>

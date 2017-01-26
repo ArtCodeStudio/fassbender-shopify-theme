@@ -1,0 +1,19 @@
+{
+  "name": "General",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "For all available settings see [Instafeed.js](http://instafeedjs.com/)."
+    },
+    {
+        "type": "paragraph",
+        "content": "See [currency formatting options](https:\/\/help.shopify.com\/manual\/payment-settings\/currency-formatting) and [money filters](https:\/\/help.shopify.com\/themes\/liquid\/filters\/money-filters) for more details"
+    },
+    {
+        "type": "checkbox",
+        "id": "money_with_currency",
+        "label": "Money with currency",
+        "default": true
+    }
+  ]
+}

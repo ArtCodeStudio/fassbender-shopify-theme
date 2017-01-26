@@ -7,6 +7,10 @@
                 <li class="breadcrumb-item">
                     YOU SEE COLLECTION <a href="{{ collection.url }}" class="collection" title="{{ collection.title }}">{{ collection.title }}</a>
                 </li>
+            {% else %}
+                <li class="breadcrumb-item">
+                    YOU SEE COLLECTION <a href='/collections/{{ product.vendor | handle }}' class="collection" title="{{ product.vendor  }}">{{ product.vendor }}</a>
+                </li>
             {% endif %}
 
             <li class="breadcrumb-item active">{{ product.title }}</li>

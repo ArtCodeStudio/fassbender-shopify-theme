@@ -1,3 +1,42 @@
 .btn {
     text-transform: uppercase;
+    &:focus {
+        box-shadow: none !important;
+    }
+}
+
+.group-quantity-actions {
+
+    input.form-control {
+        border-left: none;
+        border-right: none;
+        height: 32px;
+        text-align: center;
+    }
+
+    .input-group-btn {
+        height: 32px;
+        .btn {
+            padding-left: 5px;
+            padding-right: 5px;
+            &:focus {
+                border-color: $input-border-focus;
+            }
+        }
+        &:first-child .btn {
+            border-right: none;
+        }
+        &:last-child .btn {
+            border-left: none;
+        }
+    }
+}
+
+.product-variants {
+    >:first-child {
+        margin-right: 10px;
+    }
+    >:last-child {
+        margin-left: 10px;
+    } 
 }

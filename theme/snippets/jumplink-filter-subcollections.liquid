@@ -53,7 +53,7 @@ Filter inspired by Shopify example
 
         {% if collection_handle == child_list_handle %}
             {% if has_sub_menu %}
-                <div class="p-y-05">
+                <div class="py-1">
                     <div class=" filter-group-title">{{collection_handle }}</div>
                     {% for l in linklists[child_list_handle].links %}
                         <li class="list-unstyled jumplink-filter-item {{ l.handle }}">
@@ -63,7 +63,7 @@ Filter inspired by Shopify example
                 </div>
             {% endif %}
             {% if has_sub_categories %}
-                <div class="p-y-05">
+                <div class="py-1">
                     <div class=" filter-group-title">{{collection_handle }}</div>
                     {% for tag in link.object.all_tags %}
                         <li class="jumplink-filter-item {{ link.handle }}">
