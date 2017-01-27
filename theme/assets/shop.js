@@ -287,13 +287,21 @@ jumplink.freezeElements = function ($oldContainer, $newContainer, overwriteStyle
 
   $oldElements.each(function( index ) {
     $oldElement = $(this)
-    var css = this.getBoundingClientRect();
-    
+    var clientRect = this.getBoundingClientRect();
+    var css = {
+      bottom: clientRect.bottom,
+      height: clientRect.height,
+      left: clientRect.left,
+      // right: clientRect.right,
+      top: clientRect.top,
+      width: clientRect.width,
+      position: 'fixed'
+    }    
     if(overwriteStyles['margin-left']) {
       css['margin-left'] = overwriteStyles['margin-left'];
     }
     
-    css.position = 'fixed';
+    //console.log('freezeElement', clientRect, css);
 
     $cloned = $oldElement.clone();
     $cloned.css(css);
