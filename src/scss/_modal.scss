@@ -1,0 +1,33 @@
+.product-photo-modal {
+    .modal-content {
+        background-color: $gray-dark;
+        opacity: 0;
+        @include vp-transition(opacity 400ms ease-in-out);
+    }
+    &.show {
+        .modal-content {
+            opacity: 1;
+        }
+    }
+    .close {
+        position: fixed;
+        top: 1rem;
+        right: 4rem;
+        opacity: 1;
+        text-shadow: none;
+        color: #fff;
+    }
+    .arrow-left, .arrow-right {
+        position: fixed;
+        top: 50vh;
+        padding: 50px;
+        margin-top: -60px;
+        cursor: pointer;
+    }
+    .arrow-left {
+        left: 50px;
+    }
+    .arrow-right {
+        right: 50px;
+    }
+}

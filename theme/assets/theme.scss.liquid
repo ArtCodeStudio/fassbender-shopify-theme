@@ -10643,11 +10643,28 @@ select {
             fill: $black;
         }
     }
-    &.white {
+
+    &.stroke-white {
+        svg {
+            path {
+                stroke: $white !important;
+            }
+        }
+    }
+     &.fill-white {
         svg {
             fill: $white;
         }
     }
+    &.white {
+        svg {
+            fill: $white;
+            path {
+                stroke: $white !important;
+            }
+        }
+    }
+
 
     &.primary {
         svg {
@@ -10807,19 +10824,21 @@ $tcon-menu-arrow360left-transformation: (
     width: auto;
   }
 }
-.modal-fs {
-    max-width: 100vw;
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    .modal-content {
+.modal-fullscreen {
+    .modal-dialog {
+        width: 100vw;
+        max-width: 100vw;
+        margin: 0;
         height: 100vh;
-        .modal-body {
-            overflow-x: scroll;
-            height: calc(100% - 63px);
+        .modal-content {
+            .modal-body {
+                padding: 0;
+            }
         }
     }
 }
+
+
 // https://v4-alpha.getbootstrap.com/utilities/borders/
 
 
@@ -10951,6 +10970,7 @@ $tcon-menu-arrow360left-transformation: (
   display: block;
   @include vp-background-size(cover);
   background-position: center bottom;
+  background-repeat: no-repeat;
 
   // background-color: $brand-danger; // fallback if no image is found
 
@@ -10983,9 +11003,11 @@ $tcon-menu-arrow360left-transformation: (
     padding-top: 30%;
   }
 
-  &.full-viewport-height {
+  &.ratio-height-fullscreen {
     padding-top: 0;
     height: 100vh;
+    background-size: auto 100%;
+    background-position: center center;
   }
 
 }
@@ -11037,6 +11059,11 @@ $tcon-menu-arrow360left-transformation: (
   &.ratio-3-10:before {
     padding-top: 30%;
   }
+}
+
+.height-fullscreen {
+    height: 100vh;
+    width: auto;
 }
 // https://v4-alpha.getbootstrap.com/utilities/sizing-and-positioning/
 
@@ -11582,13 +11609,18 @@ html, body {
     height: 100%;
 }
 
-body {
-    // overflow-x: hidden !important;
-    overflow-y: scroll !important;
+html {
+    // overflow: hidden !important;
 }
 
-.barba-container {
-    width: 100vw;
+body {
+    // overflow-x: hidden !important;
+    overflow-y: scroll;
+}
+
+#barba-wrapper, .barba-container {
+    // width: 100vw;
+    overflow: hidden;
 }
 @font-face {
     font-family: "Avant Garde";
@@ -11858,6 +11890,39 @@ b, strong {
 }
 .iconset {
     
+}
+.product-photo-modal {
+    .modal-content {
+        background-color: $gray-dark;
+        opacity: 0;
+        @include vp-transition(opacity 400ms ease-in-out);
+    }
+    &.show {
+        .modal-content {
+            opacity: 1;
+        }
+    }
+    .close {
+        position: fixed;
+        top: 1rem;
+        right: 4rem;
+        opacity: 1;
+        text-shadow: none;
+        color: #fff;
+    }
+    .arrow-left, .arrow-right {
+        position: fixed;
+        top: 50vh;
+        padding: 50px;
+        margin-top: -60px;
+        cursor: pointer;
+    }
+    .arrow-left {
+        left: 50px;
+    }
+    .arrow-right {
+        right: 50px;
+    }
 }
 [data-namespace="customers-register"], [data-namespace="customers-login"] {
     .form-group, .btn-group, h1 {

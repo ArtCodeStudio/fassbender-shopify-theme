@@ -344,6 +344,59 @@ jumplink.unfreezeElements = function () {
 };
 
 /**
+ * Data bindings to call slick methods with target
+ */
+jumplink.initSlickMethods = function () {
+ 
+  var $slickMethod = $('[data-slick-method]');
+  $slickMethod.unbind( 'click' ).bind( 'click', function() {
+    var $this = $(this);
+    var data = $this.data();
+    var target = data.target;
+    var method = data.slickMethod;
+    console.log('initSlickMethods', target, method);
+    $(target).slick(method);
+  });
+
+  var $slickArea = $('[data-area="slick"]');
+  var mousePos = {};
+  var offset = $slickArea.offset();
+  var width = $slickArea.width();
+  $slickArea.mousemove(function(e){
+    width = $slickArea.width();
+    mousePos = {
+        left: e.pageX - offset.left,
+        top: e.pageY - offset.top,
+    };
+    // TODO custom image https://css-tricks.com/almanac/properties/c/cursor/
+    // console.log('mousePos', mousePos, width);
+  });
+}
+
+/**
+ * Data bindings for custom modals
+ */
+jumplink.initCustomModals = function () {
+  var $modalNoTouch = $('[data-toggle="modal-no-touch"]');
+
+  $modalNoTouch.unbind( 'click' ).bind( 'click', function(event) {
+
+    // do not open modal on touch devices
+    if(jumplink.isTouchDevice()) {
+      return event.preventDefault();
+    }
+
+    var $this = $(this);
+    var data = $this.data();
+    var backdrop = data.backdrop;
+    var target = data.target;
+    $(target).modal({
+      backdrop: backdrop
+    });
+  });
+}
+
+/**
  * Get selected product option of an html select
  */
 jumplink.getSelectedOption = function ($select) {
@@ -807,15 +860,11 @@ jumplink.goTo = function (href) {
 }
 
 
-jumplink.getShopifyAdminBarHeight = function () {
-  return Number(jumplink.cache.$html.css('padding-top').replace("px", ""));
-}
-
 jumplink.setBarbaContainerMinHeight = function (selector) {
   if(!selector) {
     selector = '.barba-container';
   }
-  var top = jumplink.getAllNavsHeight() + jumplink.getShopifyAdminBarHeight();
+  var top = jumplink.getNavHeight();
   var bottom = jumplink.cache.$footer.outerHeight();
   var height = jumplink.cache.$window.height() - top - bottom;
   $(selector).css( 'min-height', height+'px');
@@ -896,18 +945,15 @@ var initModalHistoryBack = function () {
   });
 }
 
-/**
- * 
- */
-jumplink.getMainNavHeight = function () {
-  return jumplink.cache.$mainNavbar.outerHeight(true);
+jumplink.getShopifyAdminBarHeight = function () {
+  return Number(jumplink.cache.$html.css('padding-top').replace("px", ""));
 }
 
 /**
  * 
  */
-jumplink.getAllNavsHeight = function () {
-  return jumplink.getMainNavHeight();
+jumplink.getNavHeight = function () {
+  return jumplink.cache.$mainNavbar.outerHeight(true);
 }
 
 /**
@@ -1265,9 +1311,9 @@ var initRightSidebar = function () {
   });
 
   jumplink.cache.$window.resize(function() {
-    jumplink.cache.$Sidebars.css( 'padding-top', jumplink.getAllNavsHeight()+'px');
+    jumplink.cache.$Sidebars.css( 'padding-top', jumplink.getNavHeight()+'px');
   });
-  jumplink.cache.$Sidebars.css( 'padding-top', jumplink.getAllNavsHeight()+'px');
+  jumplink.cache.$Sidebars.css( 'padding-top', jumplink.getNavHeight()+'px');
 }
 
 /**
@@ -1277,7 +1323,7 @@ var initNavbar = function () {
   
   initRightSidebar();
 
-  jumplink.cache.$Sidebars.css( 'padding-top', jumplink.getMainNavHeight()+'px');
+  jumplink.cache.$Sidebars.css( 'padding-top', jumplink.getNavHeight()+'px');
 
   var $dropdownElements= $('.designer-dropdown-col');
 
@@ -1285,10 +1331,10 @@ var initNavbar = function () {
     // Same height for designer dropdown columns, to make the borders equal
     jumplink.sameHeightElements($dropdownElements);
     // padding top for fixed navbar
-    jumplink.cache.$barbaWrapper.css( 'padding-top', jumplink.getAllNavsHeight()+'px');
+    jumplink.cache.$html.css( 'padding-top', jumplink.getNavHeight()+'px');
   });
   jumplink.sameHeightElements($dropdownElements);
-  jumplink.cache.$barbaWrapper.css( 'padding-top', jumplink.getAllNavsHeight()+'px');
+  jumplink.cache.$html.css( 'padding-top', jumplink.getNavHeight()+'px');
 
   // Simulate Dropdown hover effekt
   jumplink.cache.$mainNavbar.find('.dropdown').hover(function(event){
@@ -1384,9 +1430,9 @@ var MovePage = Barba.BaseTransition.extend({
     }
 
     var minHeight = jumplink.setBarbaContainerMinHeight(_this.$newContainer);
-    var top = jumplink.getAllNavsHeight();
+    var top = jumplink.getNavHeight();
 
-    jumplink.cache.$htmlBody.css({'overflow-x': 'hidden'});
+    jumplink.cache.$htmlBody.css({'overflow-x': 'hidden !important'});
 
     jumplink.freezeElements(_this.$oldContainer, _this.$newContainer, {
       // 'margin-left': '7.5px',
@@ -1456,7 +1502,7 @@ var MovePage = Barba.BaseTransition.extend({
       var $lastProduct = $('#'+jumplink.cache.lastProductDataset.handle);
       if($lastProduct.length >= 1) {
         // console.log('scroll to last object', jumplink.cache.lastProductDataset, $lastProduct)
-        var offset = 0; // jumplink.getMainNavHeight();
+        var offset = 0; // jumplink.getNavHeight();
         var target = $lastProduct.offset().top - offset;
         // var minHeight = jumplink.setBarbaContainerMinHeight(this.$newContainer);
 
@@ -2001,6 +2047,60 @@ var selectCallback = function(variant, selector, product) {
 
 };
 
+var initProductModal = function (product, $slick) {
+
+  // init product photo modal
+  var $modal = $('#product-photo-modal-'+product.handle);
+  $modal.$slick = $modal.find('.slick-slider');
+
+  var onModalSlickChanges = function(event, slickModal, slickModalCurrentSlide) {
+    var currentSlide = $slick.slick('slickCurrentSlide')
+    if( currentSlide !== slickModalCurrentSlide) {
+      $slick.slick('slickGoTo', slickModalCurrentSlide, true);
+    }
+    var newSlide = $slick.slick('slickCurrentSlide')
+  };
+
+  $modal.on('show.bs.modal', function (e) {
+    $this = $(this);
+    
+    // init modal slick
+    if(!$modal.$slick.hasClass('slick-initialized')) {
+      // init slick
+      $modal.$slick.slick({
+        dots: false,
+        // variableWidth: true,
+        // centerMode: true,
+        // centerPadding: 0,
+        // appendArrows: $(productHandle+' .product-photo-carousel-arrows'),
+        initialSlide: $slick.slick('slickCurrentSlide'),
+      });
+    } else {
+      if( $slick.slick('slickCurrentSlide') !==  $modal.$slick.slick('slickCurrentSlide')) {
+         $modal.$slick.slick('slickGoTo', $slick.slick('slickCurrentSlide'), true);
+      }
+    }
+
+  });
+
+  $modal.on('shown.bs.modal', function (e) {
+     $modal.$slick.slick('setPosition');
+  });
+
+  // destory bindings on modal hides
+  $modal.on('hide.bs.modal', function (e) {
+     $modal.$slick.unbind('afterChange', onModalSlickChanges);
+
+    if( $modal.$slick.hasClass('slick-initialized')) {
+       $modal.$slick.slick('unslick'); // WORAROUND until gotoslide bug is fixed
+    }
+  });
+
+  $modal.on('hiden.bs.modal', function (e) {
+
+  });
+}
+
 /**
  * 
  */
@@ -2011,7 +2111,7 @@ var initProductCarousel = function (product) {
 
   // init product photo carousel
   var $slick = $('#product-photo-carousel-'+product.handle);
-  var $slickMethod = $("[data-slick-method]");
+  
   var $slickThums = $(productHandle+' .thumb');
   var slickOptions = {
     dots: false,
@@ -2019,24 +2119,7 @@ var initProductCarousel = function (product) {
     // appendArrows: $(productHandle+' .product-photo-carousel-arrows'),
   }
 
-  // init product photo modal
-  var $modal = $('#product-photo-modal-'+product.handle);
-  var $slickModal = $modal.find(productHandle+' .product-photo-modal');
-  var $slickModalThums = $(productHandle + ' .modal-thumb');
-  var slickModalOptions = {
-    dots: false,
-    // appendArrows: $(productHandle+' .product-photo-carousel-arrows'),
-    initialSlide: function() {return $slick.slick('slickCurrentSlide')},
-  }
 
-
-  $slickMethod.unbind( "click" ).bind( "click", function() {
-    var $this = $(this);
-    var data = $this.data();
-    var target = data.slickTarget;
-    var method = data.slickMethod;
-    $(target).slick(method);
-  });
 
   // init main slick
   if( !$slick.hasClass('slick-initialized') ) {
@@ -2054,105 +2137,7 @@ var initProductCarousel = function (product) {
 
   }
 
-  // move background image in slick modal on mousemove
-  var mousemoveOverModal = function (e) {
-    $this = $(this);
-
-    var invert = false;
-    var pageX = (e.clientX / jumplink.cache.$window.width()) * 100;
-    var pageY = (e.clientY / jumplink.cache.$window.height()) * 100;
-
-    if(pageX > 100) {
-      pageX = 100;
-    } else if(pageX < 0) {
-      pageX = 0;
-    }
-
-    if(pageY > 100) {
-      pageY = 100;
-    } else if(pageY < 0) {
-      pageY = 0;
-    }
-
-    if(!invert) {
-      pageX = 100 - pageX;
-      pageY = 100 - pageY;
-    }
-
-    $this.find('.background-box.full-viewport-height').css("background-position", pageX+"% "+pageY+"%");
-  }
-
-  var onModalSlickChanges = function(event, slickModal, slickModalCurrentSlide) {
-    var currentSlide = $slick.slick('slickCurrentSlide')
-    if( currentSlide !== slickModalCurrentSlide) {
-      $slick.slick('slickGoTo', slickModalCurrentSlide, true);
-    }
-    var newSlide = $slick.slick('slickCurrentSlide')
-  };
-
-  $modal.on('show.bs.modal', function (e) {
-
-    // do not open modal on touch devices
-    if(jumplink.isTouchDevice()) {
-      return e.preventDefault();
-    }
-    
-    $this = $(this);
-    $modal.removeClass('shown');
-    $modal.removeClass('hiden');
-    $modal.removeClass('hide');
-
-    $modal.bind('mousemove', mousemoveOverModal);
-    
-    // init modal slick
-    if( !$slickModal.hasClass('slick-initialized') ) {
-      // init slick
-      $slickModal.slick(slickModalOptions);
-
-      $slickModalThums.each(function(index, value) {
-        $thumb = $(this);
-        $thumb.click(function(){
-          $thumb = $(this);
-          $slickModal.slick('slickGoTo', $thumb.data().index);
-        });
-      });
-    } else {
-      if( $slick.slick('slickCurrentSlide') !== $slickModal.slick('slickCurrentSlide')) {
-        $slickModal.slick('slickGoTo', $slick.slick('slickCurrentSlide'), true);
-      }
-    }
-
-  });
-
-  $modal.on('shown.bs.modal', function (e) {
-    $modal.removeClass('hide');
-    $modal.removeClass('hiden');
-    $modal.removeClass('show');
-    $modal.addClass('shown');
-
-    $slickModal.slick('setPosition');
-  });
-
-  // destory bindings on modal hides
-  $modal.on('hide.bs.modal', function (e) {
-    $modal.removeClass('shown');
-    $modal.removeClass('hiden');
-    $modal.removeClass('show');
-
-    $modal.unbind('mousemove', mousemoveOverModal);
-    $slickModal.unbind('afterChange', onModalSlickChanges);
-
-    if($slickModal.hasClass('slick-initialized')) {
-      $slickModal.slick('unslick'); // WORAROUND until gotoslide bug is fixed
-    }
-  });
-
-  $modal.on('hiden.bs.modal', function (e) {
-    $modal.removeClass('shown');
-    $modal.removeClass('hide');
-    $modal.removeClass('show');
-  });
-
+  initProductModal(product, $slick);
 }
 
 /**
@@ -2643,6 +2628,7 @@ var initCustomersAccount = function (dataset) {
  */
 var resetNav = function () {
   jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li').removeClass('active');
+
   jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li ul.list-group li.list-group-item').removeClass('active');
 }
 
@@ -2945,13 +2931,24 @@ var initTemplates = function () {
 
   Barba.Dispatcher.on('newPageReady', function(currentStatus, oldStatus, container) {
 
+    var data = parseDatasetJsonStrings(container.dataset);
+
     if(container.dataset.newHash !== "false") {
       jumplink.updateHash(container.dataset.newHash);
     }
 
     jumplink.replaceNoImage();
 
+    jumplink.initSlickMethods();
+
+    jumplink.initCustomModals();
+
     jumplink.setBarbaContainerMinHeight();
+
+    // showHideNewsletterForm(container.dataset, data);
+
+    setNavActive(container.dataset, data);
+
     jumplink.cache.$window.on('resize', function() {
       jumplink.setBarbaContainerMinHeight();
     });
@@ -2977,12 +2974,6 @@ var initTemplates = function () {
     if(typeof(Hyphenator) !== 'undefined') {
       Hyphenator.run();
     }
-
-    var data = parseDatasetJsonStrings(container.dataset);
-
-    showHideNewsletterForm(container.dataset, data);
-
-    setNavActive(container.dataset, data);
 
     if(typeof(initTemplate[currentStatus.namespace]) === 'function' ) {
       initTemplate[currentStatus.namespace](container.dataset, data);
@@ -3068,7 +3059,7 @@ var initFooter = function () {
         });
       });
     }
-  })
+  });
 }
 
 /*

@@ -36,9 +36,9 @@
 
     <div class="col-xs-12 col-sm-10">
 
-        <div class="product-photo-carousel" id="product-photo-carousel-{{product.handle}}"}>
+        <div class="product-photo-carousel" id="product-photo-carousel-{{product.handle}}" data-toggle="modal-no-touch" data-backdrop="false" data-target="#product-photo-modal-{{product.handle}}">
             {% for image in product.images %}
-                <a class="product-photo-carousel-item" data-toggle="modal" data-target="#product-photo-modal-{{product.handle}}">
+                <a class="product-photo-carousel-item">
                     <div class="background-box {{settings.products_aspect_ratio}}" style="background-image: url({{ image | img_url: 'master' }});" title="{{ image.alt | escape }}"></div>
                     {% if settings.products_show_page_number_in_carousel %}
                         <div class="carousel-caption bottom right">
@@ -52,7 +52,7 @@
 
             {% comment %} video {% endcomment %}
             {% if product.metafields.jumplink_video.preview_url and product.metafields.jumplink_video.mp4_url %}
-                <a class="product-photo-carousel-item" data-toggle="modal" data-target="#product-photo-modal-{{product.handle}}">
+                <a class="product-photo-carousel-item">
                     <video class="video-js" id="video-{{product.handle}}" controls muted preload="auto" width="1317" height="2048"
                         poster="{{product.metafields.jumplink_video.preview_url}}" data-setup='{ "aspectRatio":"1317:2048" }'>
                         <source src="{{product.metafields.jumplink_video.mp4_url}}" type='video/mp4'>
@@ -80,42 +80,4 @@
 {% comment %}
     Modal
 {% endcomment %}
-<div class="modal fade modal-fullscreen product-photo-modal" id="product-photo-modal-{{product.handle}}" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <div class="hidden-xs-up col-sm-2 col-md-2 col-lg-1 pt-1">
-                            {% for image in product.images %}
-                                <div class="mb-1">
-                                    <div data-index="{{ forloop.index0 }}" class="modal-thumb">
-                                        <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image: url({{ image | img_url: 'grande' }});" title="{{ image.alt | escape }}"></div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="col-xs-12 col-sm-10 col-md-10 col-lg-11">
-                            <div class="product-photo-modal">
-                                {% for image in product.images %}
-                                    <a class="product-photo-modal-item">
-                                        <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image: url({{ image | img_url: 'master' }});" title="{{ image.alt | escape }}"></div>
-                                        {% if settings.products_show_page_number_in_carousel %}
-                                            <div class="carousel-caption bottom right">
-                                                <div class="carousel-caption-wrapper">
-                                                    {{ forloop.index }}/{{ forloop.length }}
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                    </a>
-                                {% endfor %}
-                            </div>
-                            <button type="button" class="slick-modal-close slick-arrow" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                    </div>
-                </div>Carousel
-            </div>
-        </div>
-    </div>
-</div>
+{% include 'jumplink-product-photo-modal' %}

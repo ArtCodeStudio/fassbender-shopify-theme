@@ -2,11 +2,16 @@ html, body {
     height: 100%;
 }
 
-body {
-    // overflow-x: hidden !important;
-    overflow-y: scroll !important;
+html {
+    // overflow: hidden !important;
 }
 
-.barba-container {
+body {
+    // overflow-x: hidden !important;
+    overflow-y: scroll;
+}
+
+#barba-wrapper, .barba-container {
     // width: 100vw;
+    overflow: hidden;
 }
