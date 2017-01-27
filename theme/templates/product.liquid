@@ -53,7 +53,7 @@
           {% else %}
             {% assign vendor_url = product.vendor | url_for_vendor %}
           {% endif %}
-          <h1 class="product-vendor">{{ product.vendor | link_to: vendor_url }}</h1>
+          <h1 class="product-vendor mb-3">{{ product.vendor | link_to: vendor_url }}</h1>
                     
           <div class="my-1">
             <p class="m-0">
@@ -93,20 +93,24 @@
           </div>
 
           <p  class="product-title">
-            Code <span>{{ product.title }}</span>
+            <small>Code {{ product.title }}</small>
+            
           </p>
 
-          {% if settings.cart %}
-            <div class="form-add-to-cart form-group hidden-xs-up">
-              <input type="submit" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary w-100" value="{{ 'cart.general.add_to_cart' | t | escape }}">
-            </div>
-          {% endif %}
-                
-          {% if settings.product_show_backorder_message %}
-            <div id="handle-{{product.handle}}_backorder" class="#backorder" class="hidden-xs-up">
-              <p class=""> {{ '%s wird nachbestellt. Wir werden es in 10 bis 15 Tagen seperat verschicken.' | replace: '%s', '<span class="selected-variant"></span>' }}</p>
-            </div>
-          {% endif %}
+
+          <div class="form-add-to-cart form-group">
+            <button type="button" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary w-100" value="">
+              {{ 'cart.general.add_to_cart' | t | escape }}
+            </button>
+          </div>
+
+
+          <p class="lead mb-0">
+            Select your Order
+          </p>
+          <div class="mb-2 color-card-opener">
+            {% include 'jumplink-iconset', name: 'arrow', direction: 'right', color: 'black' %} Show Color Card
+          </div>
 
           {% if settings.product_tabs %}
             {% comment %}

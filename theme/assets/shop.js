@@ -1978,8 +1978,9 @@ var selectCallback = function(variant, selector, product) {
   var productHandle = '#handle-'+product.handle;
 
   initBoldLoyaltiesProduct(product);
+  console.log('window.settings', window.settings);
 
-  if (variant) {      
+  if (variant) {
 
     // Swap image. TODO switch to image variant in carousel
     if (variant.featured_image) {
@@ -1989,11 +1990,10 @@ var selectCallback = function(variant, selector, product) {
     }
     
     // Selected a valid variant that is available.
-    if (variant.available) {
+    if (variant.available && window.settings.cart != "false") {
 
       // Enabling add to cart button.
       $(productHandle+' [name="add"]').removeClass('disabled hidden-xs-up').prop('disabled', false).val(window.translations.cart.general.add_to_cart);
-      $(productHandle+' .form-add-to-cart').removeClass('hidden-xs-up');
 
       // Hide qty
       $(productHandle+' .group-quantity-actions').removeClass('hidden-xs-up');
@@ -2023,7 +2023,6 @@ var selectCallback = function(variant, selector, product) {
       $(productHandle+' .availability').removeClass('InStock BackOrder').addClass('OutOfStock').find('.availability_text').html(window.translations.product.general.sold_out);
       $(productHandle+'_backorder').addClass('hidden-xs-up');
       $(productHandle+' [name="add"]').val(window.translations.product.general.sold_out).addClass('disabled').prop('disabled', true);
-      $(productHandle+' .form-add-to-cart').addClass('hidden-xs-up');
 
       // Show qty
       $(productHandle+' .group-quantity-actions').addClass('hidden-xs-up');

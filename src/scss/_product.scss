@@ -1,11 +1,26 @@
-.product-price {
-    font-weight: bold;
-    letter-spacing: 0.1rem;
-}
+[data-namespace="product"] {
+    .product-price {
+        font-weight: bold;
+        letter-spacing: 0.1rem;
+    }
 
-.product-photo-carousel-arrows {
-    .iconset {
-        padding: 0.5rem;
-        cursor: pointer;
+    .product-photo-carousel-arrows {
+        .iconset {
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+    }
+
+    .lead {
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 1em;
+    }
+    .iconset.arrow {
+        margin-left: 0;
+        svg {
+            height: 10px;
+        }
     }
 }
+
