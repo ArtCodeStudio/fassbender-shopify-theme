@@ -1432,7 +1432,8 @@ var MovePage = Barba.BaseTransition.extend({
     var minHeight = jumplink.setBarbaContainerMinHeight(_this.$newContainer);
     var top = jumplink.getNavHeight();
 
-    jumplink.cache.$htmlBody.css({'overflow-x': 'hidden !important'});
+    jumplink.cache.$html.css({'overflow': 'hidden'});
+    jumplink.cache.$body.css({'overflow-x': 'hidden'});
 
     jumplink.freezeElements(_this.$oldContainer, _this.$newContainer, {
       // 'margin-left': '7.5px',
@@ -1462,7 +1463,8 @@ var MovePage = Barba.BaseTransition.extend({
 
       jumplink.unfreezeElements();
 
-      jumplink.cache.$htmlBody.css({'overflow-x': 'inherit'});
+      jumplink.cache.$html.css({'overflow': ''});
+      jumplink.cache.$body.css({'overflow-x': ''});
 
       _this.done();
     }});
