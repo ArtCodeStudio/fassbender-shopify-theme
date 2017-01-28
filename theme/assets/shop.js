@@ -344,6 +344,45 @@ jumplink.unfreezeElements = function () {
 };
 
 /**
+ * Init all custom data bindings
+ */
+jumplink.initDataAttributes = function (dataset) {
+  jumplink.initSlickMethods();
+  jumplink.initCustomModals();
+  jumplink.initColorcard(dataset);
+}
+
+/**
+ * Data bindings to call show/hide colorcard
+ */
+jumplink.initColorcard = function (dataset) {
+  var $toggleColorcard = $('[data-toggle="colorcard"]');
+
+  $toggleColorcard.unbind( 'click' ).bind( 'click', function(event) {
+    var $this = $(this);
+    var data = $this.data();
+    var $target = $(data.target);
+    var html =  $this.html();
+
+    console.log('colocard klick', data, dataset.productImageLast);
+
+    if(!$this.hasClass('toggled')) {
+      $target.children().fadeTo( "fast", 0 );
+      $target.css('background-image', 'url('+dataset.productImageLast+')');
+      $this.addClass('toggled');
+      html = html.replace('Show', 'Hide')
+    } else {
+      $target.css('background-image', 'none');
+      $target.children().fadeTo( "fast", 1 );
+      $this.removeClass('toggled');
+      html = html.replace('Hide', 'Show')
+    }
+    $this.html(html);
+    
+  });
+}
+
+/**
  * Data bindings to call slick methods with target
  */
 jumplink.initSlickMethods = function () {
@@ -352,10 +391,10 @@ jumplink.initSlickMethods = function () {
   $slickMethod.unbind( 'click' ).bind( 'click', function() {
     var $this = $(this);
     var data = $this.data();
-    var target = data.target;
+    var $target = $(data.target);
     var method = data.slickMethod;
-    console.log('initSlickMethods', target, method);
-    $(target).slick(method);
+    // console.log('initSlickMethods', target, method);
+    $target.slick(method);
   });
 
   var $slickArea = $('[data-area="slick"]');
@@ -383,7 +422,7 @@ jumplink.initCustomModals = function () {
 
     // do not open modal on touch devices
     if(jumplink.isTouchDevice()) {
-      return event.preventDefault();
+      return;
     }
 
     var $this = $(this);
@@ -647,6 +686,9 @@ jumplink.justDigits = function (str) {
  * @see https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
 jumplink.isTouchDevice = function () {
+  if(platform.name === 'Epiphany') {
+    return false;
+  }
   return ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch;
 }
 
@@ -2940,9 +2982,7 @@ var initTemplates = function () {
 
     jumplink.replaceNoImage();
 
-    jumplink.initSlickMethods();
-
-    jumplink.initCustomModals();
+    jumplink.initDataAttributes(container.dataset);
 
     jumplink.setBarbaContainerMinHeight();
 

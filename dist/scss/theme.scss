@@ -11372,7 +11372,10 @@ b, strong {
     }
 }
 
-
+[data-colorcard="placeholder"] {
+    background-size: cover;
+    background-position: center center;
+}
 [data-collection-filter] {
     @include media-breakpoint-up(md) {
         @include vp-position(fixed);

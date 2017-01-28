@@ -83,9 +83,6 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/jquery.transit/jquery.transit.js',                // https://github.com/rstacruz/jquery.transit
     'bower_components/tether/dist/js/tether.js',
     'bower_components/bootstrap-backward/dist/js/bootstrap.js',
-    //'bower_components/bootstrap-treeview/dist/bootstrap-treeview.js',
-    //'bower_components/bootstrap-select/dist/js/bootstrap-select.js',
-    //'bower_components/bootstrap-select/dist/js/i18n/defaults-*.min.js',
     'bower_components/simpler-sidebar/dist/jquery.simpler-sidebar.js',
     'bower_components/alertifyjs/dist/js/alertify.js',
     'bower_components/sightglass/index.js',
@@ -97,8 +94,12 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/barba.js/dist/barba.js',
     'bower_components/slick-carousel/slick/slick.js',
     'bower_components/instafeed.js/instafeed.js',                       // https://github.com/stevenschobert/instafeed.js
+    'bower_components/platform.js/platform.js'
     // 'bower_components/video.js/dist/video.js',
     // 'src/js/Hyphenator.js',
+    //'bower_components/bootstrap-treeview/dist/bootstrap-treeview.js',
+    //'bower_components/bootstrap-select/dist/js/bootstrap-select.js',
+    //'bower_components/bootstrap-select/dist/js/i18n/defaults-*.min.js',
   ]).pipe(plumber({
     errorHandler: onError
   }))

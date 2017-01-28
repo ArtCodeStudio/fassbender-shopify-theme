@@ -5,9 +5,13 @@
 
                 <div class="slick-slider">
                     {% for image in product.images %}
-                        <div class="wrapper">
-                            <img src="{{ image | img_url: 'master' }}" class="height-fullscreen mx-auto" alt="{{ image.alt | escape }}" />
-                        </div>
+                        {% if forloop.last %}
+                            {% comment %} This is the Colorcard {% endcomment %}
+                        {% else %}
+                            <div class="wrapper">
+                                <img src="{{ image | img_url: 'master' }}" class="height-fullscreen mx-auto" alt="{{ image.alt | escape }}" />
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
 

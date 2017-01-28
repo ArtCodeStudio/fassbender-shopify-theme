@@ -27,17 +27,7 @@
         </div>
         
         <div class="product-photos col-xs-12 col-md-4 offset-md-4 col-lg-5 offset-lg-3 mb-1">
-
-          {% if product.images.size <= 0 %}
-        
-            <div class="product-photo-container">
-              <img src="{{ 'no-image.png' | asset_url }}" class="img-responsive" alt="" />
-            </div>
-          
-          {% else %}
-            {% include 'jumplink-product-photo-carousel' %}
-          {% endif %}
-
+          {% include 'jumplink-product-photo-carousel' %}
         </div>
         
         <div class="product-details col-xs-12 col-md-4">
@@ -108,7 +98,7 @@
           <p class="lead mb-0">
             Select your Order
           </p>
-          <div class="mb-2 color-card-opener">
+          <div class="mb-2" data-toggle="colorcard" data-target='#handle-{{product.handle}} [data-colorcard="placeholder"]'>
             {% include 'jumplink-iconset', name: 'arrow', direction: 'right', color: 'black' %} Show Color Card
           </div>
 
