@@ -1,36 +1,36 @@
 {% if paginate.pages > 1 %}
-  <div data-pagination-wrapper="true" class="row pagination-wrapper">
+  <div  class="row">
     <div class="col-xs-12">
       <nav aria-label="Page navigation" class="">
 
         <ul class="pagination justify-content-center">
 
           <li class="page-item {% unless paginate.previous.is_link %}disabled{% endunless %}">
-            <a class="page-link" href="{{ paginate.previous.url }}{{paginate_hash}}" {% unless paginate.next.is_link %}disabled="disabled"{% endunless %} aria-label="{{ 'general.paginate.prev_label' | t }}">
+            <a class="page-link" href="{{ paginate.previous.url }}{{paginate_hash}}" {% unless paginate.next.is_link %}disabled="disabled"{% endunless %} aria-label="{{ 'navigation.paginate.prev_label' | t }}">
               {% include 'jumplink-iconset', name: 'arrow', direction: 'left' %}
-              <span class="sr-only">{{ 'general.paginate.prev_label' | t }}</span>
+              <span class="sr-only">{{ 'collection.paginate.prev_label' | t }}</span>
             </a>
           </li>
           
           {% for part in paginate.parts %}
             <li class="page-item {% unless part.is_link %}active{% endunless %}">
-              <a class="page-link" href="{{part.url}}{{paginate_hash}}">{{ part.title }}</a>
+              <a class="page-link" href="{% if part.is_link %}{{part.url}}{% else %}#{% endif %}">{{ part.title }}</a>
             </li>
           {% endfor %}
 
           {% if show_all_active %}
             <li class="page-item">
-              <a class="page-link" data-onclick-load-all="true" href="{{collection.url}}?page=all" aria-label="{{ 'general.paginate.all_label' | t }}">
-                <span aria-hidden="true">{{ 'general.paginate.all' | t }}</span>
-                <span class="sr-only">{{ 'general.paginate.all_label' | t }}</span>
+              <a class="page-link" data-onclick-load-all="true" href="{{collection.url}}?page=all" aria-label="{{ 'navigation.paginate.all_label' | t }}">
+                <span aria-hidden="true">{{ 'navigation.paginate.all' | t }}</span>
+                <span class="sr-only">{{ 'navigation.paginate.all_label' | t }}</span>
               </a>
             </li>
           {% endif %}
 
           <li class="page-item {% unless paginate.next.is_link %}disabled{% endunless %}">
-            <a class="page-link" {% unless paginate.next.is_link %}disabled="disabled"{% endunless %} href="{{ paginate.next.url }}{{paginate_hash}}" aria-label="{{ 'general.paginate.next_label' | t }}">
+            <a class="page-link" {% unless paginate.next.is_link %}disabled="disabled"{% endunless %} href="{{ paginate.next.url }}{{paginate_hash}}" aria-label="{{ 'navigation.paginate.next_label' | t }}">
               {% include 'jumplink-iconset', name: 'arrow', direction: 'right' %}
-              <span class="sr-only">{{ 'general.paginate.next_label' | t }}</span>
+              <span class="sr-only">{{ 'navigation.paginate.next_label' | t }}</span>
             </a>
           </li>
 

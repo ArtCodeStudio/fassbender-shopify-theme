@@ -1,0 +1,246 @@
+{% include 'jumplink-breadcrumbs-slide-buttons' %}
+
+<div class="container">
+  <div class="product handle-{{product.handle}}" id="handle-{{product.handle}}" itemscope itemtype="http://schema.org/Product">
+    
+    <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+    <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
+    <meta itemprop="brand" content="{{ product.vendor }}" />
+    <meta itemprop="name" content="{{ product.title }}" />
+    <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+    <meta itemprop="price" content="{{ product.price | money }}" />
+    <meta itemprop="offers" itemscope itemtype="http://schema.org/Offer" />
+
+    {% if product.available %}
+      <link itemprop="availability" href="http://schema.org/InStock" />
+    {% else %}
+      <link itemprop="availability" href="http://schema.org/OutOfStock" />
+    {% endif %}
+
+
+    <form action="/cart/add" method="post" enctype="multipart/form-data">
+
+      <div class="row">
+
+        <div data-barba="freeze" data-collection-filter="true" class="col-xs-12 col-md-4 col-lg-3">
+          {% include 'jumplink-filter' %}
+        </div>
+        
+        <div class="product-photos col-xs-12 col-md-4 offset-md-4 col-lg-5 offset-lg-3 mb-1">
+          {% include 'jumplink-product-photo-carousel' %}
+        </div>
+        
+        <div class="product-details col-xs-12 col-md-4">
+
+          {% comment %}
+            Do we have a collection that has the same name as our product vendor name?
+            If we do, let's have the vendor link point to it.
+            If not, we will point to the automatic vendor collection.
+          {% endcomment %}
+          {% assign product_vendor_handle = product.vendor | handle %}
+          {% if collections[product_vendor_handle].handle == product_vendor_handle %}
+            {% assign vendor_url = collections[product_vendor_handle].url %}
+          {% else %}
+            {% assign vendor_url = product.vendor | url_for_vendor %}
+          {% endif %}
+          <h1 class="product-vendor mb-3">{{ product.vendor | link_to: vendor_url }}</h1>
+                    
+          <div class="my-1">
+            <p class="m-0">
+              {% comment %}
+                Conntent set via JavaScript!
+                Container for Variant Selections 
+              {% endcomment %}
+              <span class="product-price"></span>
+
+              {% if settings.apps_bold_loyalty_points %}
+                <!-- Bold: Loyalty Points - Step 4 -->
+                {% if shop.metafields.bold_loyalties.active == 1 and settings.product_show_loyalty_earn_points %}    
+                  <div class="bold-loyalties-redeem-amount">oder <span class="bold-placeholder"></span></div>
+                {% endif %}
+                <!-- // end bold code -->
+                <!-- Bold: Loyalty Points - Step 5 -->
+                {% if settings.product_show_loyalty_earn_points %}
+                  <div class="bold-loyalties-earn"></div>
+                {% endif %}
+                <!-- // end bold code -->
+              {% endif %}
+            </p>
+            
+            <p class="product-legal-text m-0">
+              <a href="{{ pages.vat.url }}" title="{{ pages.versand.title }}">
+                <small>{{ 'product.general.legal_price_text' | t: vat_rate: '19' }}</small>
+              </a>
+            </p>
+
+            {% comment %}
+              Conntent set via JavaScript!
+              Container for Variant Selections 
+            {% endcomment %}
+            {% if settings.product_show_availability %}
+              <p class="availability">
+            {% endif %}
+          </div>
+
+          <p  class="product-title">
+            <small>Code {{ product.title }}</small>
+            
+          </p>
+
+
+          <div class="form-add-to-cart form-group">
+            <button type="button" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary w-100" value="">
+              {{ 'cart.general.add_to_cart' | t | escape }}
+            </button>
+          </div>
+
+
+          <p class="lead mb-0">
+            Select your Order
+          </p>
+          <div class="mb-2" data-toggle="colorcard" data-target='#handle-{{product.handle}} [data-colorcard="placeholder"]'>
+            {% include 'jumplink-iconset', name: 'arrow', direction: 'right', color: 'black' %} Show Color Card
+          </div>
+
+          {% if settings.product_tabs %}
+            {% comment %}
+              tabs
+
+              To set tab content use the shopify custom fields app
+              @namespace c_f
+              @key jumplink_tab_2
+
+              tab_1 is the description
+              
+              @see http://freakdesign.com.au/pages/shopify-custom-fields
+            {% endcomment %}
+            <div>
+              <ul class="nav ah-nav-tabs nav-tabs " role="tablist" id="handle-{{product.handle}}_product-info-tab">
+                <li role="presentation" class="active">
+                  <a href="#handle-{{product.handle}}_tab-1" aria-controls="handle-{{product.handle}}_tab-1" role="tab" data-toggle="tab">
+                    Details
+                  </a>
+                </li>
+                {% if product.metafieqlds.c_f.jumplink_tab_2 %}
+                  <li role="presentation">
+                    <a href="#handle-{{product.handle}}_tab-2" aria-controls="handle-{{product.handle}}_tab-2" role="tab" data-toggle="tab">
+                      Style and Fit
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+              {% comment %} Tab panes {% endcomment %}
+              <div class="tab-content">
+                <div role="tabpanel" class="my-1 tab-pane fade in rte active" id="handle-{{product.handle}}_tab-1" itemprop="description">
+                  {% include 'jumplink-product-description-tabs' %}
+                </div>
+                {% if product.metafields.c_f.jumplink_tab_2 %}
+                  <div role="tabpanel" class="my-1 tab-pane fade" id="handle-{{product.handle}}_tab-2">
+                    {{ product.metafields.c_f.jumplink_tab_2 }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% else %}
+            <p class="rte">
+              {% comment %}
+                TODO style and use bootstrap tabs like on top {% include 'jumplink-product-description-tabs' %}
+              {% endcomment %}
+              {{ product.description }}
+              {{ product.metafields.c_f.jumplink_tab_2 }}
+            </p>
+          {% endif %}
+
+          {% comment %}
+            Prepents via JavaScript!
+            Container for Variant Selections 
+          {% endcomment %}
+          <div class="product-variants d-flex justify-content-between align-items-stretch flex-row">
+          
+            {% if settings.cart %}
+              <div class="input-group group-quantity-actions hidden-xs-up" role="group" aria-label="Adjust the quantity">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-secondary" data-quantity-decrease="10">&minus;</button>
+                </span>
+                <input type="text" name="quantity" class="form-control" data-quantity-number="true" value="10" min="1" aria-label="quantity" pattern="[0-9]*">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-secondary border-left-0" data-quantity-increase="10">+</button>
+                </span>
+              </div>
+            {% endif %}
+          
+          </div>      
+            
+          <div class="form-inline my-1">
+
+            {% if settings.apps_bold_loyalty_points %}
+              {% if settings.product_show_loyalty_spend_button %}
+                <div class="form-group">
+                  <!-- Bold: Loyalty Points - Step 6 -->
+                  <div class="bold-loyalties-redeem">
+                    <a href="#" disabled="disabled" class="buy-with-rewards btn secondary disabled">Herzen einlösen</a>
+                  </div>
+                  <!-- // end bold code -->
+                </div>
+              {% endif %}
+            {% endif %}
+
+            {% if settings.apps_back_in_stock_by_yellow_robot_pty_ltd %}
+              <div id="handle-{{product.handle}}_bsi-from" class="form-group bsi-form hidden-xs-up">
+                <a href="#" id="handle-{{product.handle}}_bsi" data-product-handle="{{ product.handle }}" class="btn btn-primary bsi-button BIS_trigger">{{ 'product.general.notify' | t }}</a>
+              </div>
+            {% endif %}
+
+            {% if settings.apps_wishlist_king_by_appmate %}
+              <div class="form-group ">
+                <!-- include 'wishlist-button-product' with '{{ product.id }}' -->
+              </div>
+            {% endif %}
+          </div>        
+
+          {% comment %}
+            All themes by Shopify should support the Product Reviews app out of the box.
+            https://apps.shopify.com/product-reviews
+          {% endcomment %}
+          <div id="handle-{{product.handle}}_shopify-product-reviews" data-id="{{ product.id }}">
+            {{ product.metafields.spr.reviews }}
+          </div>
+          
+        </div>
+      
+      </div>
+    </form>
+
+    {% if settings.related_products %}
+      <div class="row">
+
+        <div class="col-xs-12">
+          <p class="text-left text-size-1-2 pt-2">
+            {{ 'product.general.relation' | t }}
+          </p>
+        </div>
+
+
+        {% capture linkcious_snippet %}
+          {% include 'linkcious' %}
+        {% endcapture %}
+        {% unless linkcious_snippet contains "Liquid error" %}
+          {{ linkcious_snippet }}
+        {% endunless %}
+
+        <div recomatic="product" shop="{{shop.permanent_domain}}" product_id="{{product.id}}">
+          </div>
+
+
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% if settings.apps_bold_loyalty_points %}
+  <!-- Bold: Loyalty Points - Step 7 -->
+  {% comment %}{% include 'bold-loyalties-product' %}{% endcomment %}
+  {% include 'bold-loyalties-modal' %}
+  <!-- // end bold code -->
+{% endif %}

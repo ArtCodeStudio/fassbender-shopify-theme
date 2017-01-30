@@ -4,7 +4,7 @@
       "code": "en"
     }
   },
-  "navbar": {
+  "navigation": {
     "shop_actions": {
       "login": "Login",
       "logout": "Logout",
@@ -12,6 +12,12 @@
       "search": "Search",
       "my_account": "My Account",
       "wishlist": "Wishlist"
+    },
+    "paginate": {
+      "all_label": "All",
+      "all": "All",
+      "next_label": "Next",
+      "prev_label": "Prev"
     }
   },
   "customer": {
@@ -158,11 +164,15 @@
     }
   },
   "collection": {
-    "general": {
-      "empty": "Es gibt in dieser Ansicht zur Zeit keine Produkte"
+    "unlock": {
+      "header": "You are interested?",
+      "button": "Unlock Designer",
+      "text": "Your account is still not enabled to see this collection. If you are interested please ask for an invite."
     },
-    "paginate": {
-      "all": "All"
+    "register": {
+      "header": "Create Account",
+      "button": "Online Showroom",
+      "text": "You need an account to see this collection. If you are interested please create an account and ask for an invite."
     }
   },
   "product": {

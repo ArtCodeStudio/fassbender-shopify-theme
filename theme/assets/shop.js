@@ -338,7 +338,7 @@ jumplink.unfreezeElements = function () {
   result.$new.attr('data-barba', 'freeze')
   result.$new.fadeTo(0, 1);
 
-  console.log('unfreezeElements', result);
+  // console.log('unfreezeElements', result);
 
   return result;
 };
@@ -2401,6 +2401,8 @@ var initCartTemplate = function (dataset) {
 var initCollectionSelectFilter = function (collectionHandle) {
   var collectionFilterName = "Designer";
 
+  return true; // Currently not uses, so stop here!
+
   // console.log("initCollectionSelectFilter", collectionHandle);
 
   /* Product Tag Filters - Good for any number of filters on any type of collection pages */
@@ -2475,7 +2477,7 @@ var initCollection = function (dataset) {
   /**
    * Get html for page, e.g. collection/foobar?page=3
    */
-  var loadProductsOfPage = function (url, currentPageIndex, pageIndex, $currentContainer, cb) {
+  var loadProductsOfPage = function (url, currentPageIndex, pageIndex, $currentContainer, callback) {
 
     // get url from barba.js cache
     var xhr = Barba.BaseCache.get(url);  
@@ -2488,40 +2490,37 @@ var initCollection = function (dataset) {
 
     // https://github.com/luruke/barba.js/blob/master/src/Pjax/Pjax.js#L327
     xhr.then(function(data) {
-      
-      var $currentContainer = $(Barba.Pjax.Dom.getContainer(document.body));
+      // var currentContainer = Barba.Pjax.Dom.getContainer(document.body);
+      // var $currentContainer = $(currentContainer);
       var newContainer = Barba.Pjax.Dom.parseResponse(data);
       var $newContainer = $(newContainer);
       var newDateset = newContainer.dataset;
       var currentStatus = Barba.Pjax.History.currentStatus();
       currentStatus.namespace = Barba.Pjax.Dom.getNamespace(newContainer);
 
-      var $products = $newContainer.children().css({
+      var $products = $newContainer.find('[data-product="column"]');
+
+      $products.css({
         visibility : 'visible',
         opacity : 0
       });
-
-      // remove collection description from products page
-      $products.find('[data-collection-description]').remove();
-
-      // remove pagination from products page
-      $products.find('[data-pagination-wrapper]').remove();
-
-      // remove filter from products page
-      $products.find('[data-collection-filter]').text('');
 
       // remove filter from current page
       $currentContainer.find('[data-pagination-wrapper]').remove();
 
       // append products to current page
-      $currentContainer.append($products);
+      $currentContainer.find('[data-product="row"]').append($products);
 
-      $products.animate({ opacity: 1 }, 400, function() {
-        cb(null, {
+      $products.animate({
+        opacity: 1
+      }, 400).promise().done(function(){
+        return callback(null, {
           index: pageIndex,
           $products: $products,
         });
       });
+
+
 
     });
   }
@@ -2533,55 +2532,53 @@ var initCollection = function (dataset) {
     var pagesLength = Number(dataset.paginatePagesLength);
     var currentPageIndex = Number(dataset.paginatePagesCurrentIndex);
     var collectionHandle = dataset.collectionHandle;
-    var $currentContainer = $(Barba.Pjax.Dom.getContainer(document.body));
+    var currentContainer = Barba.Pjax.Dom.getContainer(document.body);
+    var $currentContainer = $('#barba-wrapper .barba-container');
 
     if($('[data-pagination-wrapper]').length === 0) {
       // console.warn("no pagination, stop loading all products because it is already done", $currentContainer.find('[data-pagination-wrapper]'));
       return cb();
     }
 
-    async.timesSeries(pagesLength, function(n, next) {
+    async.times(pagesLength, function(n, next) {
       var index = n+1;
       var url = currentUrlLocation.origin + collectionUrl + '?page='+index;
       if(index === currentPageIndex) {
-        next(null, null);
+        console.warn('Current Page '+index+' is current index');
+        return next(null, null);
       } else {
-        loadProductsOfPage(url, currentPageIndex, index, $currentContainer, function(err, pageObject) {
-          next(err, pageObject);
-        });
+        // console.log("callback", index);
+        return loadProductsOfPage(url, currentPageIndex, index, $currentContainer, next);
       }
     }, function(err, pageObjects) {
 
-        if(err) {
-          console.error(err);
-          return cb(err);
-        }
+      if(err) {
+        console.error(err);
+        return cb(err);
+      }
 
-        var currentContainer = Barba.Pjax.Dom.getContainer(document.body);
-        var $currentContainer = $(Barba.Pjax.Dom.getContainer(document.body));
-        var deferred = Barba.Utils.deferred();
-        deferred.resolve($currentContainer.outerHTML());
-        
-        Barba.BaseCache.set(currentUrl, deferred.promise);
-
-        // console.log("all products loaded");
-        
-        if(currentUrl === allProductsUrl) {
-          return cb(null, pageObjects);
-        }
-
-        // save url in history
-        window.history.pushState(null, null, allProductsUrl);
-        Barba.Pjax.History.add(allProductsUrl);
-
+      var currentContainer = Barba.Pjax.Dom.getContainer(document.body);
+      var $currentContainer = $(currentContainer);
+      var deferred = Barba.Utils.deferred();
+      deferred.resolve($currentContainer.outerHTML());
+      
+      Barba.BaseCache.set(currentUrl, deferred.promise);
+      
+      if(currentUrl === allProductsUrl) {
         return cb(null, pageObjects);
+      }
+
+      // save url in history
+      window.history.pushState(null, null, allProductsUrl);
+      Barba.Pjax.History.add(allProductsUrl);
+
+      return cb(null, pageObjects);
     });
   }
 
   // init load all button click
   var initLoadAll = function (dataset, currentUrl) {
     $loadAll.click(function() {
-      // console.log("load all", dataset );
       loadAllProducts(dataset, currentUrl, function() {
         initCollectionImages();
       });
@@ -2592,6 +2589,9 @@ var initCollection = function (dataset) {
 
   // init collections images hover effect
   var initCollectionImages = function () {
+    if(window.settings.products_hover_image !== "true" && window.settings.products_hover_image !== true) {
+      return false;
+    }
     var $images = $('[data-image-hover-src]');
     $images.each(function(index, element) {
       $element = $(element);
@@ -2602,10 +2602,8 @@ var initCollection = function (dataset) {
         // unbind old hover bindings
         $element.unbind('mouseenter mouseleave');
         $element.hover(function() {
-          // console.log("hoverSrc", hoverSrc);
           $(this).css("background-image", 'url('+hoverSrc+')');
         }, function() {
-          // console.log("featuredSrc", featuredSrc);
           $(this).css("background-image", 'url('+featuredSrc+')');
         });
       });
@@ -2766,8 +2764,6 @@ var init404 = function (dataset, data) {
   var lastPath = currentPathname.substr(currentPathname.lastIndexOf('/') + 1);
 
   lastPath = lastPath.replace(".html","");
-
-  //console.log("lastPath", lastPath);
 
   if(redirects[currentPathname]) {
     Barba.Pjax.goTo(redirects[currentPathname]);

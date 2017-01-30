@@ -1,19 +1,18 @@
-{% comment %}
-  Important notes about pagination:
-  - Never access collection.products before the opening paginate tag.
-  - Never paginate by more than 50.
-{% endcomment %}
-
 <div class="container pt-5">
   {% paginate collection.products by settings.products_per_page %}
+
+    {% comment %}
+      How many unlocked products are available?
+    {% endcomment %}
+    {% include 'app-jumplink-ec-collection-unlocked-count' %}
 
     <div class="row">
       <div data-barba="freeze" data-collection-filter="true" class="col-xs-12 col-md-2 col-lg-2">
         {% include 'jumplink-filter'%}
       </div>
       <div data-collection-products="true" class="col-xs-12 col-md-10 col-lg-10 offset-xs-0 offset-md-2 offset-lg-2 ">
-        {% if collection.title != 'All' %}
-          <div data-collection-description="true" class="row">
+        {% if collection.title != 'All' and paginate.current_page <= 1 %}
+          <div class="row">
             {% if collection.image %}
               <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 mb-4">
                 {% if collection.description.size > 0 %}
@@ -24,6 +23,14 @@
                     <div class="rte">
                       {{ collection.description }}
                     </div>
+                    {% comment %}
+                      Product not allowed!
+                    {% endcomment %}
+                    {% if unlocked_count <= 0 %}
+                        <div class="col-xs-12 my-5">
+                          {% include 'jumplink-collection-locked' %}
+                        </div>
+                    {% endif %}
                   </div>
                 {% endif %}
               </div>
@@ -39,33 +46,53 @@
                   <div class="rte">
                     {{ collection.description }}
                   </div>
+                  {% comment %}
+                    Product not allowed!
+                  {% endcomment %}
+                  {% if unlocked_count <= 0 %}
+                      <div class="col-xs-12 my-5">
+                        {% include 'jumplink-collection-locked' %}
+                      </div>
+                  {% endif %}
                 </div>
               {% endif %}
 
             {% endif %}
           </div>
         {% endif %}
+        
         {% if customer %}
           <div class="-mx-2">
-            <div class="row">
-              {% for product in collection.products %}
-                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-                  {% include 'jumplink-product-grid-item' with settings.products_per_page %}
+            <div data-product="row" class="row">
+
+              {% if unlocked_count >= 1 %}
+                {% for product in collection.products %}
+
+                  {% comment %}
+                    Is the current product unlocked?
+                  {% endcomment %}
+                  {% include 'app-jumplink-ec-product-unlocked' %}
+
+                  {% if unlocked %}
+                      <div data-product="column" class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+                          {% include 'jumplink-product-grid-item' with settings.products_per_page %}
+                      </div>
+                  {% endif %}
+
+                {% endfor %}
+
+                <div data-pagination-wrapper="true" class="col-xs-12 pagination-wrapper">
+                  {% include 'jumplink-pagination', show_all_active: true %}
                 </div>
-              {% else %}
-                <div class="col-xs-12 text-center my-1">
-                  <p>{{ 'collection.general.empty' | t }}</p>
-                </div>
-              {% endfor %}
-              <div class="col-xs-12">
-                {% include 'jumplink-pagination', show_all_active: true %}
-              </div>
+              {% endif %}
+
             </div>
           </div>
+        {% comment %}
+          Not logged in
+        {% endcomment %}
         {% else %}
-          {% comment %}
-            Not logged in
-          {% endcomment %}
+
         {% endif %}
       </div>
 

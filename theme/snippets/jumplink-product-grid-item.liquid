@@ -1,67 +1,74 @@
-{% assign on_sale = false %}
-{% if product.compare_at_price > product.price %}
-  {% assign on_sale = true %}
-{% endif %}
+{% comment %}
+  Is the current product unlocked?
+{% endcomment %}
+{% include 'app-jumplink-ec-product-unlocked' %}
 
-<div id="{{ product.handle }}" class="product-item {% unless product.available %}sold-out{% endunless %} {% if on_sale %}on-sale{% endif %} mx-2 my-4">
+{% if unlocked %}
+  {% assign on_sale = false %}
+  {% if product.compare_at_price > product.price %}
+    {% assign on_sale = true %}
+  {% endif %}
 
-  <div class="image-wrap">  
-    <a href="{{ product.url | within: collection }}">
-      {% if product.featured_image %}
-        {% assign featured_image_src = product | img_url: 'grande' %}
-        {% assign images_length =  product.images | size %}
-        {% if images_length > 1 %}
-          {% assign hover_image_src = product.images[1] | product_img_url: 'grande' %}
-          {% if featured_image_src == hover_image_src %}
-            {% assign hover_image_src = product.images[0] | product_img_url: 'grande' %}
+  <div id="{{ product.handle }}" class="product-item {% unless product.available %}sold-out{% endunless %} {% if on_sale %}on-sale{% endif %} mx-2 my-4">
+
+    <div class="image-wrap">  
+      <a href="{{ product.url | within: collection }}">
+        {% if product.featured_image %}
+          {% assign featured_image_src = product | img_url: 'grande' %}
+          {% assign images_length =  product.images | size %}
+          {% if images_length > 1 %}
+            {% assign hover_image_src = product.images[1] | product_img_url: 'grande' %}
+            {% if featured_image_src == hover_image_src %}
+              {% assign hover_image_src = product.images[0] | product_img_url: 'grande' %}
+            {% endif %}
+            <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image: url({{ featured_image_src }});" data-image-featured-src="{{ featured_image_src }}" data-image-hover-src="{{ hover_image_src }}" title="{{ product.featured_image.alt | escape }}"></div>
+          {% else %}
+            <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image: url({{ featured_image_src }});" title="{{ product.featured_image.alt | escape }}"></div>
           {% endif %}
-          <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image: url({{ featured_image_src }});" data-image-featured-src="{{ featured_image_src }}" data-image-hover-src="{{ hover_image_src }}" title="{{ product.featured_image.alt | escape }}"></div>
         {% else %}
-          <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image: url({{ featured_image_src }});" title="{{ product.featured_image.alt | escape }}"></div>
+          <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image: url({{ 'no-image.png' | asset_url }});" title="{{ product.featured_image.alt | escape }}"></div>
         {% endif %}
-      {% else %}
-        <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image: url({{ 'no-image.png' | asset_url }});" title="{{ product.featured_image.alt | escape }}"></div>
-      {% endif %}
-      <div class="caption">
-          {% if settings.products_show_vendor %}
-            <p class="vendor text-nowrap">
-              {{ product.vendor }}
-            </p>
-          {% endif %}
-          
-          {% if settings.products_show_title %}
-            <p class="title text-nowrap">
-              {{ product.title }}
-            </p>
-          {% endif %}
+        <div class="caption">
+            {% if settings.products_show_vendor %}
+              <p class="vendor text-nowrap">
+                {{ product.vendor }}
+              </p>
+            {% endif %}
+            
+            {% if settings.products_show_title %}
+              <p class="title text-nowrap">
+                {{ product.title }}
+              </p>
+            {% endif %}
 
-          {% if settings.products_show_price %}
-            <p class="price text-nowrap">
-              {% assign price = product.price %}
-              {% if on_sale %}
-                <span class="text-danger text-nowrap">
-                  {% include 'get-price' with price %}
+            {% if settings.products_show_price %}
+              <p class="price text-nowrap">
+                {% assign price = product.price %}
+                {% if on_sale %}
+                  <span class="text-danger text-nowrap">
+                    {% include 'get-price' with price %}
+                  </span>
+                  {% assign price = product.compare_at_price %}
+                <span>
+                  <s class="compare-at-price text-nowrap">
+                    {% include 'get-price' with price %}
+                  </s>
                 </span>
-                {% assign price = product.compare_at_price %}
-              <span>
-                <s class="compare-at-price text-nowrap">
+                {% else %}
                   {% include 'get-price' with price %}
-                </s>
-              </span>
-              {% else %}
-                {% include 'get-price' with price %}
-              {% endif %}
-            </p>
-          {% endif %}
+                {% endif %}
+              </p>
+            {% endif %}
 
-          {% comment %}
-            All themes by Shopify should support the Product Reviews app out of the box.
-            https://apps.shopify.com/product-reviews
-          {% endcomment %}
-          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
-      </div>
-    </a>
+            {% comment %}
+              All themes by Shopify should support the Product Reviews app out of the box.
+              https://apps.shopify.com/product-reviews
+            {% endcomment %}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+        </div>
+      </a>
+    </div>
   </div>
-  
-
-</div>
+{% else %}
+  {% comment %}TODO Placeholder?{% endcomment %}
+{% endif %}

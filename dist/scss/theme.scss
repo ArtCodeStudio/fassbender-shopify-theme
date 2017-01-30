@@ -11077,7 +11077,17 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
         background-color: $body-bg;
     }
 }
-
+/**
+ * Preload images class
+ */
+.preloaded-images {
+   position: absolute;
+   overflow: hidden;
+   left: -9999px; 
+   top: -9999px;
+   height: 1px;
+   width: 1px;
+}
 
 .page-item {
   &.active .page-link {
@@ -11372,9 +11382,14 @@ b, strong {
     }
 }
 
-[data-colorcard="placeholder"] {
+[data-colorcard="placeholder"],
+[data-colorcard="placed"] {
     background-size: cover;
     background-position: center center;
+}
+
+[data-toggle] {
+    cursor: pointer;
 }
 [data-collection-filter] {
     @include media-breakpoint-up(md) {

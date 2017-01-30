@@ -4543,6 +4543,12 @@
         "id": "products_show_price",
         "label": "Show price",
         "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "products_hover_image",
+        "label": "Switch image on Mouseover",
+        "default": false
       }
     ]
   },
