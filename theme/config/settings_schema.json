@@ -4612,25 +4612,6 @@
   },
   {
     "name": "Customers",
-    "settings": [
-      {
-        "type": "checkbox",
-        "id": "show_account_message",
-        "label": "Show Account Message",
-        "default": true
-      },
-      {
-        "type": "text",
-        "id": "account_message_title",
-        "label": "Account Message Title",
-        "default": "Welcome to your account!"
-      },
-      {
-        "type": "textarea",
-        "id": "account_message",
-        "label": "Account Message",
-        "default": "Here you will find the details of your orders, your deposited addresses and further information. We hope you enjoy or online showroom!"
-      }
-    ]
+    "settings": []
   }
 ]

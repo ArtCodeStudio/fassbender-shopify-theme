@@ -1,25 +1,16 @@
 <div class="container pt-5">
     <div class="row">
 
-        {% if settings.show_account_message %}
-            <div class="col-xs-12">
-                <div class="alert alert-info my-4" role="alert" id="AccountMessage">
-                <strong>{{ settings.account_message_title }}</strong><br>
-                
-                </div>
-            </div>
-        {% endif %}
-
         {% if settings.apps_jumplink_exclusive_collections %}
             <div class="col-xs-12 col-md-9">
 
                 {% assign collectionHandles = customer.metafields.c_f.jumplink_unlocked_collections | strip | remove: ' ' | split: ',' %}
 
-                <h1 class="lead">You unlocked Designer</h1>
+                <h1>{{'customer.account.unlocked_title' | t}}</h1>
 
                 {% if collections.frontpage.products.size > 0 %}
                     <div class="alert alert-danger" role="alert">
-                        You are not unlocked for anything, please ask the site operator
+                        {{'customer.account.no_unlocks' | t}}
                     </div>
                 {% else %}
                     <div class="row">
@@ -32,6 +23,26 @@
                     </div>
                 {% endif %}
 
+                <h1 class="mt-4">{{'customer.account.locked_title' | t}}</h1>
+
+                {% paginate collections by settings.collections_per_page %}
+                    <div class="row">
+                        {% for collection in collections %}
+                            {% comment %}
+                            Is the current collection unlocked?
+                            {% endcomment %}
+                            {% include 'app-jumplink-ec-collection-unlocked' %}
+
+                            {% unless unlocked %}
+                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+                                    {% include 'jumplink-collection-grid-item' %}
+                                </div>
+                            {% endunless %}
+                        {% endfor %}
+                    </div>
+                    {% include 'jumplink-pagination', show_all_active: false %}
+                {% endpaginate %}
+
             </div>
         {% endif %}
 
@@ -39,54 +50,28 @@
             <div class="well">
 
                 <hr>
-                <h1 class="lead">{{ 'customer.account.title' | t }}</h1>
-                <p>{{ settings.account_message }}</p>
+                <h1 class="mb-3">{{ 'customer.account.title' | t }}</h1>
+                <p>{{ 'customer.account.message' | t }}</p>
 
                 <hr>
-                <h2 class="lead">{{ 'customer.account.details' | t }}</h2>
+                <h2 class="mb-3"> {{ 'customer.account.details' | t }}</h2>
 
-                {% if customer.name != "" %}
+                {% unless customer.name == blank  %}
                     <p>{{ customer.name }}</p>
-                {% endif %}
-                {% if customer.name != "" %}
-                    <p>{{ customer.name }}</p>
-                {% endif %}
-                <p>{{ customer.email }}</p>
+                {% endunless %}
+
+                {% unless customer.email == blank  %}
+                    <p>{{ customer.email }}</p>
+                {% endunless %}
                 
-                {% if customer.default_address != nil %}
-                    <p>
-                    {{ customer.default_address.address1 }}<br>
-
-                    {% if customer.default_address.address2 != "" %}
-                        {{ customer.default_address.address2 }}<br>
-                    {% endif %}
-
-                    {% if customer.default_address.city != "" %}
-                        {{ customer.default_address.city }}<br>
-                    {% endif %}
-
-                    {% if customer.default_address.province_code != "" %}
-                        {{ customer.default_address.province_code | upcase }}<br>
-                    {% endif %}
-
-                    {% if customer.default_address.zip != "" %}
-                        {{ customer.default_address.zip | upcase }}<br>
-                    {% endif %}
-
-                    {% if customer.default_address.country != "" %}
-                        {{ customer.default_address.country }}<br>
-                    {% endif %}
-
-                    {% if customer.default_address.phone != "" %}
-                        {{ customer.default_address.phone }}
-                    {% endif %}
-                    </p>
-                {% endif %}
-
-                <p class=""><strong><a class="addresses-link" href="/account/addresses">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a></strong></p>
+                <div>
+                    <a class="addresses-link" href="/account/addresses">
+                        {% include 'jumplink-iconset', name: 'arrow', direction: 'right', color: 'black' %} {{ 'customer.account.view_addresses' | t }}
+                    </a>
+                </div>
 
                 <hr>
-                <h2 class="lead">{{ 'customer.orders.title' | t }}</h2>
+                <h2 class="mb-3">{{ 'customer.orders.title' | t }}</h2>
 
                 {% comment %}
                 If we have past orders, loop through each one
