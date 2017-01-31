@@ -1,28 +1,60 @@
 <div class="container pt-5">
     <div class="row">
 
-        <div class="col-xs-12">
-            <h1 class="text-center">{{ 'customer.account.title' | t }}</h1>
-        </div>
-
         {% if settings.show_account_message %}
             <div class="col-xs-12">
                 <div class="alert alert-info my-4" role="alert" id="AccountMessage">
                 <strong>{{ settings.account_message_title }}</strong><br>
-                {{ settings.account_message }}
+                
                 </div>
+            </div>
+        {% endif %}
+
+        {% if settings.apps_jumplink_exclusive_collections %}
+            <div class="col-xs-12 col-md-9">
+
+                {% assign collectionHandles = customer.metafields.c_f.jumplink_unlocked_collections | strip | remove: ' ' | split: ',' %}
+
+                <h1 class="lead">You unlocked Designer</h1>
+
+                {% if collections.frontpage.products.size > 0 %}
+                    <div class="alert alert-danger" role="alert">
+                        You are not unlocked for anything, please ask the site operator
+                    </div>
+                {% else %}
+                    <div class="row">
+                        {% for handle in collectionHandles %}
+                            {% assign collection = collections[handle] %}
+                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+                                {% include 'jumplink-collection-grid-item' %}
+                            </div>                        
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
             </div>
         {% endif %}
 
         <div class="col-xs-12 col-md-3">
             <div class="well">
-                <h2 class="h4">{{ 'customer.account.details' | t }}</h2>
-                <h3 class="h5 mb-0">{{ customer.name }}</h3>
-                <p class="">
-                    {{ customer.email }}
-                </p>
+
+                <hr>
+                <h1 class="lead">{{ 'customer.account.title' | t }}</h1>
+                <p>{{ settings.account_message }}</p>
+
+                <hr>
+                <h2 class="lead">{{ 'customer.account.details' | t }}</h2>
+
+                {% if customer.name != "" %}
+                    <p>{{ customer.name }}</p>
+                {% endif %}
+                {% if customer.name != "" %}
+                    <p>{{ customer.name }}</p>
+                {% endif %}
+                <p>{{ customer.email }}</p>
+                
                 {% if customer.default_address != nil %}
-                    <p class="text-muted">
+                    <p>
                     {{ customer.default_address.address1 }}<br>
 
                     {% if customer.default_address.address2 != "" %}
@@ -53,52 +85,52 @@
 
                 <p class=""><strong><a class="addresses-link" href="/account/addresses">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a></strong></p>
 
-            </div>
-        </div>
+                <hr>
+                <h2 class="lead">{{ 'customer.orders.title' | t }}</h2>
 
-        <div class="col-xs-12 col-md-9">
-            <h2 class="h4">{{ 'customer.orders.title' | t }}</h2>
+                {% comment %}
+                If we have past orders, loop through each one
+                {% endcomment %}
+                {% paginate customer.orders by 20 %}
+                    {% if customer.orders.size != 0 %}
 
-            {% comment %}
-            If we have past orders, loop through each one
-            {% endcomment %}
-            {% paginate customer.orders by 20 %}
-                {% if customer.orders.size != 0 %}
-
-                    <div class="">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>{{ 'customer.orders.order_number' | t }}</th>
-                                <th>{{ 'customer.orders.date' | t }}</th>
-                                <th>{{ 'customer.orders.payment_status' | t }}</th>
-                                <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
-                                <th>{{ 'customer.orders.total' | t }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for order in customer.orders %}
+                        <div class="">
+                            <table class="table table-hover">
+                                <thead>
                                 <tr>
-                                <td>{{ order.name | link_to: order.customer_url }}</td>
-                                <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
-                                <td>{{ order.financial_status_label }}</td>
-                                <td>{{ order.fulfillment_status_label }}</td>
-                                <td>{{ order.total_price | money }}</td>
+                                    <th>{{ 'customer.orders.order_number' | t }}</th>
+                                    <th>{{ 'customer.orders.date' | t }}</th>
+                                    <th>{{ 'customer.orders.payment_status' | t }}</th>
+                                    <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                                    <th>{{ 'customer.orders.total' | t }}</th>
                                 </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                {% else %}
-                    <p>{{ 'customer.orders.none' | t }}</p>
-                {% endif %}
-                {% if paginate.pages > 1 %}
-                    <hr>
-                    <div class="pagination">
-                        {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
-                    </div>
-                {% endif %}
-            {% endpaginate %}
+                                </thead>
+                                <tbody>
+                                {% for order in customer.orders %}
+                                    <tr>
+                                    <td>{{ order.name | link_to: order.customer_url }}</td>
+                                    <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
+                                    <td>{{ order.financial_status_label }}</td>
+                                    <td>{{ order.fulfillment_status_label }}</td>
+                                    <td>{{ order.total_price | money }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p>{{ 'customer.orders.none' | t }}</p>
+                    {% endif %}
+                    {% if paginate.pages > 1 %}
+                        <hr>
+                        <div class="pagination">
+                            {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+                        </div>
+                    {% endif %}
+                {% endpaginate %}
+
+
+            </div>
         </div>
 
         {% if settings.apps_bold_loyalty_points %}
@@ -106,31 +138,6 @@
                 <!-- Bold: Loyalty Points - Step 3 -->
                 {% include 'bold-loyalties-customer-transactions' %}
                 <!-- // end bold code -->
-            </div>
-        {% endif %}
-
-        {% if settings.apps_jumplink_exclusive_collections %}
-            <div class="col-xs-12">
-                <hr>
-                {% assign collectionHandles = customer.metafields.c_f.jumplink_unlocked_collections | strip | remove: ' ' | split: ',' %}
-
-                <h3>You unlocked Designers</h3>
-
-                {% if collections.frontpage.products.size > 0 %}
-                    <div class="alert alert-danger" role="alert">
-                        You are not unlocked for anything, please ask the site operator
-                    </div>
-                {% else %}
-                    <div class="row">
-                        {% for handle in collectionHandles %}
-                            {% assign collection = collections[handle] %}
-                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-                                {% include 'jumplink-collection-grid-item' %}
-                            </div>                        
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
             </div>
         {% endif %}
         
