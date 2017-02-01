@@ -1705,7 +1705,7 @@ var initLogin = function(dataset) {
       $element = $(element);
       if($element.html()) {
         $formErrorMessages.append($element.html());
-        alertify.success($element.html());
+        // alertify.error($element.html());
         $formErrorMessages.show();
       }
       
@@ -2535,6 +2535,10 @@ var initCollection = function (dataset) {
     var currentContainer = Barba.Pjax.Dom.getContainer(document.body);
     var $currentContainer = $('#barba-wrapper .barba-container');
 
+    if(isNaN(pagesLength)) {
+      pagesLength = 1;
+    }
+
     if($('[data-pagination-wrapper]').length === 0) {
       // console.warn("no pagination, stop loading all products because it is already done", $currentContainer.find('[data-pagination-wrapper]'));
       return cb();
@@ -2544,7 +2548,7 @@ var initCollection = function (dataset) {
       var index = n+1;
       var url = currentUrlLocation.origin + collectionUrl + '?page='+index;
       if(index === currentPageIndex) {
-        console.warn('Current Page '+index+' is current index');
+        // console.warn('Current Page '+index+' is current index');
         return next(null, null);
       } else {
         // console.log("callback", index);
@@ -2613,7 +2617,8 @@ var initCollection = function (dataset) {
 
   initCollectionSelectFilter(dataset.collectionHandle);
 
-  if(currentUrl === allProductsUrl) {
+  // if url is ?page=all or /collections/all load all products
+  if(currentUrl === allProductsUrl || currentUrl === '/collections/all') {
     loadAllProducts(dataset, currentUrl, function() {
       initCollectionImages();
     });

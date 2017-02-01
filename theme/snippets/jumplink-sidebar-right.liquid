@@ -1,0 +1,65 @@
+<!-- http://dcdeiv.github.io/simpler-sidebar/ -->
+<div id="right-sidebar" class="right-sidebar">
+    <div id="sidebar-wrapper" class="sidebar-wrapper">  
+        <div class="list-group">
+            {% for link in linklists.main-menu.links %}
+                {% assign has_sub_menu = false %}
+                {% assign has_sub_categories = false %}
+                {% assign child_list_handle = link.title | handle %}
+                {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                    {% assign has_sub_menu = true %}
+                    {% elsif link.type == 'collection_link' and link.object.all_tags.size > 0 and sub_categories_over_tags_is_off_now %}
+                    {% assign has_sub_categories = true %}
+                {% endif %}
+                {% if has_sub_menu or has_sub_categories %}
+                    <div class="list-group-item level-2-title {{link.handle}}" href="{{ link.url }}">{{ link.title }}</div>
+                    {% for link_level_2 in linklists[child_list_handle].links %}
+
+                        {% comment %}
+                            Check for no-barba links
+                        {% endcomment %}
+                        {% assign class = '' %}
+                        {% if link_level_2.url == '/account/logout' %}
+                            {% assign class = 'no-barba' %}
+                        {% endif %}
+
+                        {% comment %}
+                            Hide cart link if cart is not active in theme settings
+                        {% endcomment %}
+                        {% assign hide_link = false %}
+                        {% if settings.cart == false and link_level_2.url == '/cart' %}
+                            {% assign hide_link = true %}
+                        {% endif %}
+
+                        {% unless hide_link %}
+                            {% comment %}
+                                - Titles with [C] can just see loged in customers
+                                - Titles with [C] can just see not logged in visitors
+                            {% endcomment %}
+                            {% if link_level_2.title contains "[C]"%}
+                                {% if customer %}
+                                        <a href="{{ link_level_2.url }}" class="close-sidebar list-group-item list-group-item-action level-2 {{link_level_2.handle}} {{class}}">
+                                            {{ link_level_2.title | remove: "[C]" }}
+                                        </a>
+                                {% endif %}
+                            {% elsif link_level_2.title contains "[N]" %}
+                                {% unless customer %}
+                                    <a href="{{ link_level_2.url }}" class="close-sidebar list-group-item list-group-item-action level-2 {{link_level_2.handle}} {{class}}">
+                                        {{ link_level_2.title | remove: "[N]" }}
+                                    </a>
+                                {% endunless %}
+                            {% else %}
+                                <a href="{{ link_level_2.url }}" class="close-sidebar list-group-item list-group-item-action level-2 {{link_level_2.handle}} {{class}}">
+                                    {{ link_level_2.title }}
+                                </a>
+                            {% endif %}
+                        {% endunless %}
+
+                    {% endfor %}
+                {% else %}
+                    <a class="close-sidebar list-group-item list-group-item-action level-1 {{link.handle}}" href="{{link.url}}">{{ link.title }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

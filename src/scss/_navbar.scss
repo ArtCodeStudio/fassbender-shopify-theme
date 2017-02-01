@@ -46,8 +46,16 @@
     }
 }
 
+.navbar-brand {
+    @include media-breakpoint-down(xs) {
+        // max-width: 200px;
+        padding-right: 50px;
+    }
+}
+
+
 .navbar-toggler {
-    z-index: 1031;
+    z-index: $zindex-fixed+1;
 }
 
 

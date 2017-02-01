@@ -35,3 +35,9 @@
         margin-right: 5px;
     }
 }
+
+#formErrorMessages {
+    ul {
+        @extend .list-unstyled;
+    }
+}

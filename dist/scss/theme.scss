@@ -11056,8 +11056,16 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
     }
 }
 
+.navbar-brand {
+    @include media-breakpoint-down(xs) {
+        // max-width: 200px;
+        padding-right: 50px;
+    }
+}
+
+
 .navbar-toggler {
-    z-index: 1031;
+    z-index: $zindex-fixed+1;
 }
 
 
@@ -11233,7 +11241,22 @@ b, strong {
         margin-left: 10px;
     } 
 }
+.right-sidebar {
+    .list-group {
+        .list-group-item {
+            border: none;
+            &.level-1 {
 
+            }
+            &.level-2-title {
+                font-weight: bold;
+            }
+            &.level-2 {
+                padding-left: 2rem;
+            }
+        }
+    }
+}
 .breadcrumb-item {
     .collection {
         padding-left: 3rem;
@@ -11338,6 +11361,12 @@ b, strong {
         display: inline-block;
         margin-left: 0;
         margin-right: 5px;
+    }
+}
+
+#formErrorMessages {
+    ul {
+        @extend .list-unstyled;
     }
 }
 .image-wrap {

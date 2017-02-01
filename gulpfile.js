@@ -297,7 +297,7 @@ gulp.task('theme_settings', ['bootstrap_theme_settings'], function () {
     'list-collections',
     'collection',
     'apps',
-    'customers',
+    // 'customers',
   ];
 
   return gulp.src('./settings_schema/*.json')
