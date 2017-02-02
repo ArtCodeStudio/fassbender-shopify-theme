@@ -261,7 +261,8 @@ jumplink.cacheSelectors = function () {
     // barba
     lastElementClicked       : null,
     // to scroll to last product
-    lastProductDataset       : null
+    lastProductDataset       : null,
+    lastCollectionDataset       : null
   };
 };
 
@@ -350,6 +351,35 @@ jumplink.initDataAttributes = function (dataset) {
   jumplink.initSlickMethods();
   jumplink.initCustomModals();
   jumplink.initColorcard(dataset);
+}
+
+/**
+ * Set each element of $elements to the height of the heightest element to have all elements with the same height 
+ */
+jumplink.sameHeightElements = function ($elements, defaultHeight) {
+    if(!defaultHeight) {
+      defaultHeight = 'auto';
+    }
+    var t = 0;
+    var t_elem;
+    // get heightest height
+    $elements.each(function () {
+        $this = $(this);
+        // reset height
+        $this.css('min-height', defaultHeight);
+        if ( $this.outerHeight() > t ) {
+            t_elem=this;
+            t=$this.outerHeight();
+        }
+    });
+    
+    // set all smaller cards to the height of the heightest card
+    $elements.each(function () {
+        $this = $(this);
+        if($this.outerHeight() != t) {
+            $this.css('min-height', t);
+        }
+    });
 }
 
 /**
@@ -638,32 +668,6 @@ jumplink.urlExists = function (url, cb){
                cb.apply(this, [xhr.status, url]);
         }
     });
-}
-
-/**
- * Set each card to the height of the heightest card to get all cards with the same height 
- */
-jumplink.sameHeightElements = function ($elements) {
-  var t = 0;
-  var t_elem;
-  // get heightest height
-  $elements.each(function () {
-    $this = $(this);
-    // reset height
-    $this.css('min-height', 'auto');
-    if ( $this.outerHeight() > t ) {
-      t_elem=this;
-      t=$this.outerHeight();
-    }
-  });
-  
-  // set all smaller element to the height of the heightest card
-  $elements.each(function () {
-    $this = $(this);
-    if($this.outerHeight() != t) {
-      $this.css('min-height', t);
-    }
-  });
 }
 
 /**
@@ -1540,31 +1544,42 @@ var MovePage = Barba.BaseTransition.extend({
       // 'min-height': minHeight,
     });
 
-    // scroll to old product if last page was a product
+    var offset = 0;
+    var target = 0;
+    var position = { y: window.pageYOffset };
+    var $lastPosition = null;
+
+    // scroll to old product in collection if last page was a product
     if( this.$oldContainer.data().namespace === 'product' && this.$newContainer.data().namespace === 'collection') {
-      var position = { y: window.pageYOffset };
-      var $lastProduct = $('#'+jumplink.cache.lastProductDataset.handle);
-      if($lastProduct.length >= 1) {
-        // console.log('scroll to last object', jumplink.cache.lastProductDataset, $lastProduct)
-        var offset = 0; // jumplink.getNavHeight();
-        var target = $lastProduct.offset().top - offset;
-        // var minHeight = jumplink.setBarbaContainerMinHeight(this.$newContainer);
-
-        TweenLite.to(position, 0.4, {
-          y: target,
-          onUpdate: function() {
-            if (position.y === 0) {
-
-            }
-            window.scroll(0, position.y);
-          },
-          onComplete: function() {
-
-          }
-        });
+      console.log('scroll to last product');
+      $lastPosition = $('#'+jumplink.cache.lastProductDataset.handle);
+      if($lastPosition.length >= 1) {
+        target = $lastPosition.offset().top - offset;
       }
-
     }
+
+    // scroll to old collection
+    if( this.$oldContainer.data().namespace === 'collection' && this.$newContainer.data().namespace === 'list-collections') {
+      console.log('scroll to last collection');
+      $lastPosition = $('#'+jumplink.cache.lastCollectionDataset.handle);
+      if($lastPosition.length >= 1) {
+        target = $lastPosition.offset().top - offset;
+      }
+    }
+
+    // scroll to old position or 0
+    TweenLite.to(position, 0.4, {
+      y: target,
+      onUpdate: function() {
+        if (position.y === 0) {
+
+        }
+        window.scroll(0, position.y);
+      },
+      onComplete: function() {
+
+      }
+    });
 
     this.$newContainer.animate({ opacity: 1 }, 400, function() {
       /**
@@ -1746,37 +1761,6 @@ var initLogin = function(dataset) {
     $passwordResetSuccess.show();
   }
 
-  /**
-   * Set each element of $elements to the height of the heightest element to have all elements with the same height 
-   */
-  var sameHeightCards = function ($elements) {
-      var t = 0;
-      var t_elem;
-      // get heightest height
-      $elements.each(function () {
-          $this = $(this);
-          // reset height
-          $this.css('min-height', 'auto');
-          if ( $this.outerHeight() > t ) {
-              t_elem=this;
-              t=$this.outerHeight();
-          }
-      });
-      
-      // set all smaller cards to the height of the heightest card
-      $elements.each(function () {
-          $this = $(this);
-          if($this.outerHeight() != t) {
-              $this.css('min-height', t);
-          }
-      });
-  }
-  
-  // set .login and .register to the same height
-  jumplink.cache.$window.on('resize', function() {
-    sameHeightCards($('.register, .login'));
-  });
-  sameHeightCards($('.register, .login'));
 }; 
 
 /**
@@ -1914,8 +1898,15 @@ var initArticle = function (dataset) {
 /**
  * 
  */
-var initBlog = function (dataset) {
+var initBlog = function (dataset, data) {
   initGravatarElements('article', 'img-circle center-block max-width-50');
+
+  var $sameHeightElements = $('[data-blog-handle="dates"] .article');
+
+  jumplink.cache.$window.on('resize', function() {
+    jumplink.sameHeightElements($sameHeightElements, 500);
+  });
+  jumplink.sameHeightElements($sameHeightElements, 500);
 }
 
 /**
@@ -2192,9 +2183,7 @@ var initProduct = function (dataset, data) {
     throw new Error("data need to have an product object");
   }
 
-  if(data.product) {
-    jumplink.cache.lastProductDataset = data.product;
-  }
+  jumplink.cache.lastProductDataset = data.product;
 
   initProductCarousel(data.product);
   initBoldLoyaltiesProduct(data.product);
@@ -2466,7 +2455,13 @@ var initCollectionSelectFilter = function (collectionHandle) {
 /**
  * JavaScript Code for Collection Pages, executed from barba.js
  */
-var initCollection = function (dataset) {
+var initCollection = function (dataset, data) {
+
+  // 
+  console.log('initCollection', dataset, data);
+  jumplink.cache.lastCollectionDataset = {
+    handle: dataset.collectionHandle
+  }
   
   var $loadAll = $('[data-onclick-load-all]');
   var currentUrl = window.location.href; // Barba.Pjax.getCurrentUrl();
@@ -2808,7 +2803,9 @@ var initSearch = function(dataset, data) {
   }
 }
 
-var initListCollections = function(dataset, data) {}
+var initListCollections = function(dataset, data) {
+  console.log('initListCollections', dataset, data);
+}
 
 /**
  * Run JavaScript for for special template
