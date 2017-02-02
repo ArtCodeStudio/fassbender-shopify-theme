@@ -10,10 +10,11 @@
 
   <div class="col-xs-12 col-md-8 col-md-offset-2">
 
-    <h1 class="text-center text-serif text-normal text-size-6 hyphenate">
+    <h1>
       {{ article.title }}
     </h1>
 
+    {% comment %}
     <div class="py-1">
       <gravatar data-hash="{{article.user.email | remove: ' ' | strip_newlines | downcase | md5}}" class="center-block max-width-50" data-placeholders='[ {{ 'avatar-01.jpg' | asset_url | json }}, {{ 'avatar-02.jpg' | asset_url | json }}, {{ 'avatar-03.jpg' | asset_url | json }}, {{ 'avatar-04.jpg' | asset_url | json }}, {{ 'avatar-05.jpg' | asset_url | json }} ]'></gravatar>
       <div class="text-center pt-05 article-name">
@@ -22,6 +23,7 @@
         am <time class="py-1" pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%d.%m.%Y' }}</time>
       </div>
     </div>
+    {% endcomment %}
 
     <div class="rte">
       {{ article.content }}
@@ -32,7 +34,7 @@
 
 <div class="comments row">
   <div class="col-xs-12 col-md-8 col-md-offset-2">
-    {% include 'article-comments' %}
+    {% include 'jumplink-article-comments' %}
   </div>
 </div>
 
@@ -40,10 +42,11 @@
 
   <div class="col-xs-12">
     <div class="social-links center-block py-1">
-      {% include 'social-links' %}
+      {% include 'jumplink-social-links' %}
     </div>
   </div>
 
+  {% comment %}
   <div class="col-xs-12 py-1">
     <h3 class="text-normal">Read Next:</h3>
     <div class="row next">
@@ -51,11 +54,12 @@
       {% for nextArticle in blogs.news.articles limit: 4 %}
         {% if nextArticle.url != article.url and count < 3 %}
           {% assign count = count | plus: 1 %}
-          {% include 'article-grid-item' article: nextArticle %}
+          {% include 'jumplink-article-grid-item' article: nextArticle %}
         {% endif %}
       {% endfor %}
     </div>
   </div>
+  {% endcomment %}
 
   {% if border %}
     <div class="col-xs-12"> <hr class="my-0"> </div>

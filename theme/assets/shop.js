@@ -1876,23 +1876,25 @@ var initPageCarousel = function (dataset) {
 var initArticle = function (dataset) {
   initGravatarElements('.article', 'img-circle center-block max-width-50');
   initGravatarElements('.comments');
-  formData = $('.barba-form').data();
+  var $formData = $('.barba-form');
+  var data = $formData.data();
 
-  //console.log("initArticle", formData, dataset);
+  if(data) {
+    if(formData.formErrors) {
+      window.location.hash = '#add-comment-title';
+      alertify.error(formData.formErrorsDefaultMessages);
+    }
 
-  if(formData.formErrors) {
-    window.location.hash = '#add-comment-title';
-    alertify.error(formData.formErrorsDefaultMessages);
-  }
-
-  if(formData.formPostedSuccessfully) {
-    window.location.hash = '#comments';
-    if(dataset.blogModerated == "true") {
-      alertify.delay(500000).success("Ihr Kommentar wurder erfolgreich abgeschickt. Wir werden ihn in nach einem Review in kürze veröffentlichen.");
-    } else {
-      alertify.delay(500000).success("Ihr Kommentar wurder erfolgreich veröffentlicht. Vielen Dank!");
+    if(formData.formPostedSuccessfully) {
+      window.location.hash = '#comments';
+      if(dataset.blogModerated == "true") {
+        alertify.delay(500000).success("Ihr Kommentar wurder erfolgreich abgeschickt. Wir werden ihn in nach einem Review in kürze veröffentlichen.");
+      } else {
+        alertify.delay(500000).success("Ihr Kommentar wurder erfolgreich veröffentlicht. Vielen Dank!");
+      }
     }
   }
+
 }
 
 /**
