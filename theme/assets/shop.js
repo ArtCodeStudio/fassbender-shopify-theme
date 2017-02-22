@@ -1,17 +1,286 @@
+ProductJS =  {
+  Utilities: {},
+  Rivets: {},
+  Components: {}
+};
+
+/**
+ * Add useful general-purpose formatters for Rivets.js
+ * Formatters from cart.js
+ * @see https://github.com/discolabs/cartjs/blob/master/src/rivets.coffee#L52
+ */
+rivets.formatters.eq = function(a, b) {
+  return a === b;
+};
+
+rivets.formatters.includes = function(a, b) {
+  return a.indexOf(b) >= 0;
+};
+
+rivets.formatters.match = function(a, regexp, flags) {
+  return a.match(new RegExp(regexp, flags));
+};
+
+rivets.formatters.lt = function(a, b) {
+  return a < b;
+};
+
+rivets.formatters.gt = function(a, b) {
+  return a > b;
+};
+
+rivets.formatters.not = function(a) {
+  return !a;
+};
+
+rivets.formatters.empty = function(a) {
+  return !a.length;
+};
+
+rivets.formatters.plus = function(a, b) {
+  return parseInt(a) + parseInt(b);
+};
+
+rivets.formatters.minus = function(a, b) {
+  return parseInt(a) - parseInt(b);
+};
+
+rivets.formatters.times = function(a, b) {
+  return a * b;
+};
+
+rivets.formatters.divided_by = function(a, b) {
+  return a / b;
+};
+
+rivets.formatters.modulo = function(a, b) {
+  return a % b;
+};
+
+rivets.formatters.prepend = function(a, b) {
+  return b + a;
+};
+
+rivets.formatters.append = function(a, b) {
+  return a + b;
+};
+
+rivets.formatters.slice = function(value, start, end) {
+  return value.slice(start, end);
+};
+
+rivets.formatters.pluralize = function(input, singular, plural) {
+  if (plural == null) {
+    plural = singular + 's';
+  }
+  if (CartJS.Utils.isArray(input)) {
+    input = input.length;
+  }
+  if (input === 1) {
+    return singular;
+  } else {
+    return plural;
+  }
+};
+
+rivets.formatters.array_element = function(array, index) {
+  return array[index];
+};
+
+rivets.formatters.array_first = function(array) {
+  return array[0];
+};
+
+rivets.formatters.array_last = function(array) {
+  return array[array.length - 1];
+};
+
+// Add Shopify-specific formatters for Rivets.js.
+rivets.formatters.money = function(value, currency) {
+  return CartJS.Utils.formatMoney(value, CartJS.settings.moneyFormat, 'money_format', currency);
+};
+
+rivets.formatters.money_with_currency = function(value, currency) {
+  return CartJS.Utils.formatMoney(value, CartJS.settings.moneyWithCurrencyFormat, 'money_with_currency_format', currency);
+};
+
+rivets.formatters.weight = function(grams) {
+  switch (CartJS.settings.weightUnit) {
+    case 'kg':
+      return (grams / 1000).toFixed(CartJS.settings.weightPrecision);
+    case 'oz':
+      return (grams * 0.035274).toFixed(CartJS.settings.weightPrecision);
+    case 'lb':
+      return (grams * 0.00220462).toFixed(CartJS.settings.weightPrecision);
+    default:
+      return grams.toFixed(CartJS.settings.weightPrecision);
+  }
+};
+
+rivets.formatters.weight_with_unit = function(grams) {
+  return rivets.formatters.weight(grams) + CartJS.settings.weightUnit;
+};
+
+rivets.formatters.product_image_size = function(src, size) {
+  return CartJS.Utils.getSizedImageUrl(src, size);
+};
+
+// Add camelCase aliases for underscore formatters.
+rivets.formatters.moneyWithCurrency = rivets.formatters.money_with_currency;
+rivets.formatters.weightWithUnit = rivets.formatters.weight_with_unit;
+rivets.formatters.productImageSize = rivets.formatters.product_image_size;
+
+// Additional formatters for ProductJS
+
+/**
+ * Formats a string into a handle.
+ * @see https://help.shopify.com/themes/liquid/filters/string-filters#handle-handleize
+ */
+rivets.formatters.handleize = function (str) {
+  str = jumplink.filter.strip(str);
+  str = str.replace(/[^\w\s]/gi, '') // http://stackoverflow.com/a/4374890
+  str = jumplink.filter.downcase(str);
+  return str.replace(/ /g,"-");
+}
+
+ProductJS.Components.productVariantSelectorsCtr = function (options) {
+    this.options = options;
+    console.log('variantSelectorsController', this);
+}
+    
+
+rivets.components['product-variant-selectors'] = {
+  // Return the template for the component.
+  template: function() {
+    return '<select rv-each-select="options" class="custom-select form-control" rv-class="select.title | append \' custom-select form-control\'">'
+                +'<option rv-value="false">{ select.title }</option>'
+                +'<option rv-each-option="select.values" rv-value="option">{ option }</option>'
+              +'</select>';
+  },
+
+  // Takes the original element and the data that was passed into the
+  // component (either from rivets.init or the attributes on the component
+  // element in the template).
+  initialize: function(el, data) {
+    return new ProductJS.Components.productVariantSelectorsCtr(data.options);
+  }
+}
+
+/**
+ * Makes array unique / remove dulicated values
+ * 
+ * @see http://jszen.com/best-way-to-get-unique-values-of-an-array-in-javascript.7.html
+ */
+ProductJS.Utilities.unique = function(array) {
+	var n = {},r=[];
+	for(var i = 0; i < array.length; i++) 
+	{
+		if (!n[array[i]]) 
+		{
+			n[array[i]] = true; 
+			r.push(array[i]); 
+		}
+	}
+	return r;
+}
+
+/**
+ * Split product options by variant name and create html select elements for it
+ * 
+ * @param product
+ */
+ProductJS.Utilities.splitOptions = function (product) {
+  if( typeof(product.options) === 'undefined' ) {
+    console.warn('no options!');
+    return;
+  }
+
+  product.selectOptions = [];
+  for (var index = 0; index < product.options.length; index++) {
+    var optionTitle = product.options[index];
+    product.selectOptions.push({
+      index: index,
+      title: optionTitle,
+      // $select: $(document.createElement('select')),
+      // $options: [],
+      values: [],
+    });
+  }
+
+  for (var i = 0; i < product.variants.length; i++) {
+    var variantOptions = product.variants[i].options;
+    for (var k = 0; k < variantOptions.length; k++) {
+      var variantOption = variantOptions[k];
+      product.selectOptions[k].values.push(variantOption);
+    }
+  }
+
+  // unique select options
+  for (var i = 0; i < product.selectOptions.length; i++) {
+    product.selectOptions[i].values = ProductJS.Utilities.unique( product.selectOptions[i].values );
+  }
+
+
+
+  // console.log('options', options);
+  return product;
+};
+
+
+ProductJS.Utilities.generateSelectors = function (product) {
+
+  // console.log('generateSelectors', product);
+  var options = jumplink.splitOptions(product);
+
+  for (var index = 0; index < options.length; index++) {
+    var option = options[index];
+    option.$select = $(document.createElement('select'));
+    option.handle = jumplink.filter.handleize(option.title);
+    option.$select.attr('id', 'handle-'+product.handle+'-'+option.handle);
+    option.$select.addClass('custom-select form-control '+option.handle);
+
+    // Placeholder
+    var $option = $(document.createElement('option'));
+    $option.val(false);
+    $option.html(option.title);
+    option.$select.append($option);
+    option.$options.push($option);
+
+    $.each(option.values, function(key, value) {
+      $option = $(document.createElement('option'));
+      $option.val(value);
+      $option.html(value);
+      option.$select.append($option);
+      option.$options.push($option);
+    });
+    
+    var $variants = $('#handle-'+product.handle+' .product-variants');
+    // var wrapper = $('<div />', {
+    //     class: 'align-items-stretch',
+    //     html: option.$select,
+    // });
+    $variants.prepend(option.$select);
+  }
+  // console.log('generateSelects', options);
+  return options;
+};
+
+ProductJS.init = function (product) {
+  product = ProductJS.Utilities.splitOptions(product);
+  console.log('ProductJS.init', product);
+  rivets.bind($('#handle-'+product.handle), {product: product});
+}
+
+
 // redirects overwrites for 404 page
 var redirects = {
   '/en': '/',
   '/de': '/',
-  '/en/impressum': '/pages/impressum',
-  '/de/impressum': '/pages/impressum',
-  '/de/datenschutz': '/pages/it-recht-datenschutz',
-  '/en/datenschutz': '/pages/it-recht-datenschutz',
-  '/de/widerruf': '/pages/it-recht-widerruf',
-  '/en/widerruf': '/pages/it-recht-widerruf',
-  '/de/agb': '/pages/it-recht-agb',
-  '/en/agb': '/pages/it-recht-agb',
-  '/de/about': '/pages/about-us',
-  '/en/about': '/pages/about-us',
+  '/impressum': '/pages/impressum',
+  '/datenschutz': '/pages/it-recht-datenschutz',
+  '/widerruf': '/pages/it-recht-widerruf',
+  '/agb': '/pages/it-recht-agb',
+  '/about': '/pages/about-us',
 };
 
 /**
@@ -394,7 +663,7 @@ jumplink.initColorcard = function (dataset) {
     var $target = $(data.target);
     var html =  $this.html();
 
-    console.log('colocard klick', data, dataset.productImageLast);
+    // console.log('colocard klick', data, dataset.productImageLast);
 
     if(!$this.hasClass('toggled')) {
       $target.children().fadeTo( "fast", 0 );
@@ -466,10 +735,11 @@ jumplink.initCustomModals = function () {
 }
 
 /**
- * Get selected product option of an html select
+ * Get selected product option of an html selects
  */
-jumplink.getSelectedOption = function ($select) {
-  return $select.find('option:selected');
+jumplink.getSelectedOption = function (variantOptions) {
+  console.log('TODO getSelectedOption', variantOptions);
+  //return $select.find('option:selected');
 }
 
 /**
@@ -485,6 +755,7 @@ jumplink.getQty = function ($input) {
 }
 
 /**
+ * TODO Deprecated see ProductJS
  * Split product options by variant name and create html select elements for it
  * 
  * @param product
@@ -519,6 +790,7 @@ jumplink.splitOptions = function (product) {
   return options;
 }
 
+// TODO Deprecated see ProductJS
 jumplink.generateSelectors = function (product) {
 
   // console.log('generateSelectors', product);
@@ -558,14 +830,13 @@ jumplink.generateSelectors = function (product) {
 }
 
 /**
+ * TODO deprecated see ProductJS
  * Custom function a replacement for Shopify.OptionSelectors
  * 
  * @param elementID
  * @param more.product
  * @param more.onVariantSelected
  * @param more.enableHistoryState
- * 
- * @dependency https://silviomoreto.github.io/bootstrap-select/
  */
 jumplink.OptionSelectors = function (elementID, more) {
   if(typeof more.onVariantSelected !== 'function') {
@@ -2009,11 +2280,11 @@ var initBoldLoyaltiesProduct = function (product) {
  */
 var selectCallback = function(variant, selector, product) {
 
-  console.log('selectCallback', variant, selector, product);
+  // console.log('selectCallback', variant, selector, product);
   var productHandle = '#handle-'+product.handle;
 
   initBoldLoyaltiesProduct(product);
-  console.log('window.settings', window.settings);
+  // console.log('window.settings', window.settings);
 
   if (variant) {
 
@@ -2190,11 +2461,14 @@ var initProduct = function (dataset, data) {
   initProductCarousel(data.product);
   initBoldLoyaltiesProduct(data.product);
 
+  ProductJS.init(data.product);
+
   // get product handle, load product json and use it for variants
   // var handle = dataset.productHandle;
   var productHandle = '#handle-'+data.product.handle;
 
-  var $select = $(productHandle+'_product-select');
+  //var $select = $(productHandle+'_product-select');
+  // var vartiantOptions = jumplink.generateSelectors(data.product);
   var $add = $(productHandle+'_add');
   var $qtySelector = $(productHandle+' [data-quantity-number="true"]');
 
@@ -2203,8 +2477,9 @@ var initProduct = function (dataset, data) {
   // CartJS
   $add.click(function() {
     event.preventDefault();
-    var variantID = jumplink.getSelectedOption($select).val();
+    var variantID = jumplink.getSelectedOption(vartiantOptions);
     var qty = jumplink.getQty($qtySelector);
+    console.log('$add.click', variantID, qty);
     CartJS.addItem(variantID, qty, {}, {
       "success": function(data, textStatus, jqXHR) {
         alertify.success(window.translations.cart.general.added.replace('[title]', data.product_title));
@@ -2241,20 +2516,22 @@ var initProduct = function (dataset, data) {
   });
 
 
-  var options = jumplink.generateSelectors(data.product);
+  
+  // console.log('generateSelectors', options);
 
-  for (var index = 0; index < options.length; index++) {
-    var option = options[index];
-    option.$select = 
+  // TODO move to ProductJS
+  // for (var index = 0; index < vartiantOptions.length; index++) {
+  //   var option = vartiantOptions[index];
+  //   //option.$select = 
 
-    selector = jumplink.OptionSelectors(option.$select.attr('id'), {
-      product: data.product,
-      onVariantSelected: function(variant, selector) {
-        // console.log('onVariantSelected', variant, selector);
-        selectCallback(variant, selector, data.product);
-      }, enableHistoryState: true });
+  //   selector = jumplink.OptionSelectors(option.$select.attr('id'), {
+  //     product: data.product,
+  //     onVariantSelected: function(variant, selector) {
+  //       // console.log('onVariantSelected', variant, selector);
+  //       selectCallback(variant, selector, data.product);
+  //     }, enableHistoryState: true });
 
-  }
+  // }
   
   // Add label if only one product option and it isn't 'Title'.
   if( data.product.options.size == 1 && data.product.options.first != 'Title' ) {

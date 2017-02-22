@@ -88,9 +88,8 @@
               {% endif %}
             </div>
 
-            <p  class="product-title">
-              <small>Code {{ product.title }}</small>
-              
+            <p class="product-title">
+              <small>Code {product.title}</small>
             </p>
 
 
@@ -161,21 +160,22 @@
               Prepents via JavaScript!
               Container for Variant Selections 
             {% endcomment %}
-            <div class="product-variants d-flex justify-content-between align-items-stretch flex-row">
-            
-              {% if settings.cart %}
-                <div class="input-group group-quantity-actions hidden-xs-up" role="group" aria-label="Adjust the quantity">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-secondary" data-quantity-decrease="10">&minus;</button>
-                  </span>
-                  <input type="text" name="quantity" class="form-control" data-quantity-number="true" value="10" min="1" aria-label="quantity" pattern="[0-9]*">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-secondary border-left-0" data-quantity-increase="10">+</button>
-                  </span>
-                </div>
-              {% endif %}
-            
-            </div>      
+
+
+            <product-variant-selectors options="product.selectOptions" class="product-variants d-flex justify-content-between align-items-stretch flex-row"></product-variant-selectors>
+          
+            {% if settings.cart %}
+              <div class="input-group group-quantity-actions hidden-xs-up" role="group" aria-label="Adjust the quantity">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-secondary" data-quantity-decrease="10">&minus;</button>
+                </span>
+                <input type="text" name="quantity" class="form-control" data-quantity-number="true" value="10" min="1" aria-label="quantity" pattern="[0-9]*">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-secondary border-left-0" data-quantity-increase="10">+</button>
+                </span>
+              </div>
+            {% endif %}
+               
               
             <div class="form-inline my-1">
 
