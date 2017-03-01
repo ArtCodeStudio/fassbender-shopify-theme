@@ -143,17 +143,29 @@ rivets.formatters.handleize = function (str) {
   return str.replace(/ /g,"-");
 }
 
-ProductJS.Components.productVariantSelectorsCtr = function (options) {
-    this.options = options;
-    console.log('variantSelectorsController', this);
+ProductJS.Components.productVariantSelectorsCtr = function (element, data) {
+    this.product = ProductJS.Utilities.splitOptions(data.product);
+    // this.options = data.product.options;
+    this.$element = $(element);
+    var self = this;
+
+    this.onOptionChange = function() {
+      console.log('onOptionChange', this, self);
+      var variantIndex = ProductJS.Utilities.getVariant(self.$element.find('select'), self.product.selectOptions, self.product.variants);
+      if(variantIndex > 0) {
+        self.product.currentVariant = self.product.variants[variantIndex];
+      }
+    }
+
+    console.log('variantSelectorsController', data);
 }
     
 
 rivets.components['product-variant-selectors'] = {
   // Return the template for the component.
   template: function() {
-    return '<select rv-each-select="options" class="custom-select form-control" rv-class="select.title | append \' custom-select form-control\'">'
-                +'<option rv-value="false">{ select.title }</option>'
+    return '<select rv-on-change="onOptionChange" rv-each-select="product.selectOptions" class="custom-select form-control" rv-class="select.title | handleize | append \' custom-select form-control\'" rv-id="select.title | handleize | append \' custom-select form-control\'">'
+                // +'<option rv-value="false">{ select.title }</option>'
                 +'<option rv-each-option="select.values" rv-value="option">{ option }</option>'
               +'</select>';
   },
@@ -162,7 +174,11 @@ rivets.components['product-variant-selectors'] = {
   // component (either from rivets.init or the attributes on the component
   // element in the template).
   initialize: function(el, data) {
-    return new ProductJS.Components.productVariantSelectorsCtr(data.options);
+    if(!data.product) {
+      console.error(new Error("function attribute is required"));
+    }
+    this.productHandle = data.productHandle
+    return new ProductJS.Components.productVariantSelectorsCtr(el, data);
   }
 }
 
@@ -201,8 +217,7 @@ ProductJS.Utilities.splitOptions = function (product) {
     product.selectOptions.push({
       index: index,
       title: optionTitle,
-      // $select: $(document.createElement('select')),
-      // $options: [],
+      handle: rivets.formatters.handleize(optionTitle),
       values: [],
     });
   }
@@ -220,53 +235,68 @@ ProductJS.Utilities.splitOptions = function (product) {
     product.selectOptions[i].values = ProductJS.Utilities.unique( product.selectOptions[i].values );
   }
 
-
-
   // console.log('options', options);
   return product;
 };
 
 
-ProductJS.Utilities.generateSelectors = function (product) {
+/**
+ * 
+ * 
+ * @param $selects
+ */
+ProductJS.Utilities.getVariant = function ($selects, options, variants) {
+  console.log("getVariant", $selects);
+  var optionValues = [];
+  var variantIndex = -1;
+  $selects.each(function( index ) {
+    var $select = $( this );
+    optionValues.push(ProductJS.Utilities.getOption($select).val());
+  });
 
-  // console.log('generateSelectors', product);
-  var options = jumplink.splitOptions(product);
-
-  for (var index = 0; index < options.length; index++) {
-    var option = options[index];
-    option.$select = $(document.createElement('select'));
-    option.handle = jumplink.filter.handleize(option.title);
-    option.$select.attr('id', 'handle-'+product.handle+'-'+option.handle);
-    option.$select.addClass('custom-select form-control '+option.handle);
-
-    // Placeholder
-    var $option = $(document.createElement('option'));
-    $option.val(false);
-    $option.html(option.title);
-    option.$select.append($option);
-    option.$options.push($option);
-
-    $.each(option.values, function(key, value) {
-      $option = $(document.createElement('option'));
-      $option.val(value);
-      $option.html(value);
-      option.$select.append($option);
-      option.$options.push($option);
-    });
-    
-    var $variants = $('#handle-'+product.handle+' .product-variants');
-    // var wrapper = $('<div />', {
-    //     class: 'align-items-stretch',
-    //     html: option.$select,
-    // });
-    $variants.prepend(option.$select);
+  
+  for (var i = 0; i < variants.length; i++) {
+    var variant = variants[i];
+    var hits = 0;
+    for (var z = 0; z < optionValues.length; z++) {
+      var option = optionValues[z];  
+      
+      for (var m = 0; m < variant.options.length; m++) {
+        var variantOption =  variant.options[m];
+        if(variantOption === option) {
+          hits++;
+          break;
+        }
+      }
+    }
+    // all options pass?
+    if(hits === optionValues.length) {
+        variantIndex = i;
+    }
   }
-  // console.log('generateSelects', options);
-  return options;
+
+  if(variantIndex > 0) {
+    console.log("variant found!", variantIndex, variants[variantIndex]);
+  }
+  
 };
 
+/**
+ * 
+ * 
+ * @param $select
+ */
+ProductJS.Utilities.getOption = function ($select) {
+  return $select.find('option:selected');
+};
+
+
+/**
+ * 
+ * 
+ * @param product
+ */
 ProductJS.init = function (product) {
-  product = ProductJS.Utilities.splitOptions(product);
   console.log('ProductJS.init', product);
   rivets.bind($('#handle-'+product.handle), {product: product});
 }
