@@ -57,7 +57,7 @@
                   Conntent set via JavaScript!
                   Container for Variant Selections 
                 {% endcomment %}
-                <span class="product-price"></span>
+                <span class="product-price">{ product.currentVariant.price }</span>
 
                 {% if settings.apps_bold_loyalty_points %}
                   <!-- Bold: Loyalty Points - Step 4 -->
@@ -161,8 +161,7 @@
               Container for Variant Selections 
             {% endcomment %}
 
-
-            <product-variant-selectors product="product" class="product-variants d-flex justify-content-between align-items-stretch flex-row"></product-variant-selectors>
+            <product-variant-dropdowns product="product" dropdown-button-class="'w-100'" class="product-variants d-flex justify-content-between align-items-stretch flex-row"></product-variant-selectors>
           
             {% if settings.cart %}
               <div class="input-group group-quantity-actions hidden-xs-up" role="group" aria-label="Adjust the quantity">

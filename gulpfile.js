@@ -40,6 +40,11 @@ gulp.task('default', function () {
     './src/scss/**/*.scss.liquid'
   ], ['sass']);
 
+  // watch for javascript changes
+  gulp.watch([
+    './bower_components/shopify-productjs/dist/product.min.js',
+  ], ['javascript']);
+
 });
 
 // Helper for sass tasks
@@ -94,7 +99,8 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/barba.js/dist/barba.js',
     'bower_components/slick-carousel/slick/slick.js',
     'bower_components/instafeed.js/instafeed.js',                       // https://github.com/stevenschobert/instafeed.js
-    'bower_components/platform.js/platform.js'
+    'bower_components/platform.js/platform.js',
+    'bower_components/shopify-productjs/dist/product.js',
     // 'bower_components/video.js/dist/video.js',
     // 'src/js/Hyphenator.js',
     //'bower_components/bootstrap-treeview/dist/bootstrap-treeview.js',
@@ -104,7 +110,7 @@ gulp.task('javascript-libs', [], function () {
     errorHandler: onError
   }))
   .pipe(concat('libs.js'))
-  // .pipe(gulp.dest('./theme/assets/'))
+  .pipe(gulp.dest('./theme/assets/'))
   //.pipe(sourcemaps.init())
   .pipe(uglify())
   .pipe(rename({
