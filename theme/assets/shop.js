@@ -460,192 +460,6 @@ jumplink.initCustomModals = function () {
   });
 }
 
-/**
- * Get selected product option of an html selects
- */
-jumplink.getSelectedOption = function (variantOptions) {
-  console.log('TODO getSelectedOption', variantOptions);
-  //return $select.find('option:selected');
-}
-
-/**
- * Get product quantity of an html input
- */
-jumplink.getQty = function ($input) {
-  var qty = 1;
-  if($input.length > 0) {
-    qty = parseInt($input.val().replace(/\D/g, ''));
-  }
-  qty = jumplink.validateQty(qty);
-  return qty;
-}
-
-/**
- * TODO Deprecated see ProductJS
- * Split product options by variant name and create html select elements for it
- * 
- * @param product
- */
-jumplink.splitOptions = function (product) {
-  if( typeof(product.options) === 'undefined' ) {
-    console.warn('no options!');
-    return;
-  }
-
-  var options = [];
-  for (var index = 0; index < product.options.length; index++) {
-    var optionTitle = product.options[index];
-    options.push({
-      index: index,
-      title: optionTitle,
-      $select: $(document.createElement('select')),
-      $options: [],
-      values: {},
-    });
-  }
-
-  for (var i = 0; i < product.variants.length; i++) {
-    var variantOptions = product.variants[i].options;
-    for (var k = 0; k < variantOptions.length; k++) {
-      var variantOption = variantOptions[k];
-      options[k].values[variantOption] = variantOption;
-    }
-  }
-
-  // console.log('options', options);
-  return options;
-}
-
-// TODO Deprecated see ProductJS
-jumplink.generateSelectors = function (product) {
-
-  // console.log('generateSelectors', product);
-  var options = jumplink.splitOptions(product);
-
-  for (var index = 0; index < options.length; index++) {
-    var option = options[index];
-    option.$select = $(document.createElement('select'));
-    option.handle = jumplink.filter.handleize(option.title);
-    option.$select.attr('id', 'handle-'+product.handle+'-'+option.handle);
-    option.$select.addClass('custom-select form-control '+option.handle);
-
-    // Placeholder
-    var $option = $(document.createElement('option'));
-    $option.val(false);
-    $option.html(option.title);
-    option.$select.append($option);
-    option.$options.push($option);
-
-    $.each(option.values, function(key, value) {
-      $option = $(document.createElement('option'));
-      $option.val(value);
-      $option.html(value);
-      option.$select.append($option);
-      option.$options.push($option);
-    });
-    
-    var $variants = $('#handle-'+product.handle+' .product-variants');
-    // var wrapper = $('<div />', {
-    //     class: 'align-items-stretch',
-    //     html: option.$select,
-    // });
-    $variants.prepend(option.$select);
-  }
-  // console.log('generateSelects', options);
-  return options;
-}
-
-/**
- * TODO deprecated see ProductJS
- * Custom function a replacement for Shopify.OptionSelectors
- * 
- * @param elementID
- * @param more.product
- * @param more.onVariantSelected
- * @param more.enableHistoryState
- */
-jumplink.OptionSelectors = function (elementID, more) {
-  if(typeof more.onVariantSelected !== 'function') {
-    throw new Error('more.onVariantSelected must be a function!');
-  }
-  
-  var $select = $('#'+elementID);
-  var product = more.product;
-  var productHandle = '#handle-'+product.handle;
-
-  var onSelectChange = function (variantID) {
-    getVariantByID(variantID, product, function (error, variant) {
-      return more.onVariantSelected(variant, selector);
-    });
-  }
-
-  var getOption = function ($select) {
-    // console.log('getOption', $select);
-    return $select.find('option:selected');
-  }
-  
-
-  var getVariantID = function () {
-    // console.log('TODO getVariantID');
-    //return $(event.currentTarget).find('option').eq( clickedIndex ).val();
-
-    var $selects = $(productHandle+' .product-variants select');
-    var values = [];
-    $selects.each(function(index, select) {
-      var $select = $(select);
-      var value = getOption($select).val();
-      // console.log('value', value);
-      values.push(value);
-    });
-    // console.log('values', values);
-
-  }
-
-  var getVariantByID = function (variantID, product, cb) {
-    // console.log('getVariantByID', variantID, product, cb);
-    variantID = Number(variantID);
-    product.variants.forEach(function(variant) {
-      if(variant.id === variantID) {
-        return cb(null, variant);
-      }
-    }, this);
-  }
-
-  // console.log('jumplink.OptionSelectors', elementID, $select);
-
-
-  var selector = {};
-  selector.variantIdField = '#'+elementID;
-  
-  selector.getSelectedOption = function () {
-    return jumplink.getSelectedOption($select);
-  }
-
-  selector.selectVariant = function (variantID) {
-    if(typeof(variantID) !== 'undefined') {
-      variantID = Number(variantID);
-    } else {
-      throw new Error('VariantID is '+variantID);
-    }
-
-    // $select.selectpicker('val', variantID);
-    // console.log("TODO change select");
-    onSelectChange(variantID);
-  }
-
-  $select.change(function(event) {
-    var variantID = getVariantID();
-    onSelectChange(variantID);
-  });
-
-  // initial callback
-  // var $initialSelectedOption = $(selector.getSelectedOption());
-  // var initialVariantID = $initialSelectedOption.val();
-
-  onSelectChange(product.variants[0].id);
-
-  return selector;
-}
 
 /**
  * Utilities / Helper functions
@@ -1997,6 +1811,7 @@ var initBoldLoyaltiesProduct = function (product) {
 }
 
 /**
+ * TODO remove
  * Adding support for product options. See here for details:
  * @see http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options
  * This function comes from template/product.liquid and need möglicherweise rewrite
@@ -2005,6 +1820,7 @@ var initBoldLoyaltiesProduct = function (product) {
  * TOTO use https://cartjs.org/
  */
 var selectCallback = function(variant, selector, product) {
+  console.log('selectCallback');
 
   // console.log('selectCallback', variant, selector, product);
   var productHandle = '#handle-'+product.handle;
@@ -2187,7 +2003,11 @@ var initProduct = function (dataset, data) {
   initProductCarousel(data.product);
   initBoldLoyaltiesProduct(data.product);
 
-  ProductJS.init(data.product);
+  ProductJS.init(data.product, {
+    moneyFormat: window.shop.moneyFormat,
+    moneyWithCurrencyFormat: window.shop.moneyWithCurrencyFormat,
+    quantity: 10,
+  });
 
   // get product handle, load product json and use it for variants
   // var handle = dataset.productHandle;
@@ -2196,7 +2016,7 @@ var initProduct = function (dataset, data) {
   //var $select = $(productHandle+'_product-select');
   // var vartiantOptions = jumplink.generateSelectors(data.product);
   var $add = $(productHandle+'_add');
-  var $qtySelector = $(productHandle+' [data-quantity-number="true"]');
+  // var $qtySelector = $(productHandle+' [data-quantity-number="true"]');
 
   var selector = null;
   
@@ -2204,7 +2024,7 @@ var initProduct = function (dataset, data) {
   $add.click(function() {
     event.preventDefault();
     var variantID = jumplink.getSelectedOption(vartiantOptions);
-    var qty = jumplink.getQty($qtySelector);
+    // var qty = jumplink.getQty($qtySelector);
     console.log('$add.click', variantID, qty);
     CartJS.addItem(variantID, qty, {}, {
       "success": function(data, textStatus, jqXHR) {
@@ -2218,46 +2038,6 @@ var initProduct = function (dataset, data) {
     return false;
   });
 
-  // Setup listeners to add/subtract from the input
-  $(productHandle+' [data-quantity-decrease], '+productHandle+' [data-quantity-increase]').on('click', function() {
-    var $this = $(this);
-    
-    if(!$qtySelector.val()) {
-      $qtySelector = $this.parent().siblings('[data-quantity-number="true"]');
-    }
-    
-    var qty = jumplink.getQty($qtySelector);
-    var data = $this.data();
-
-    // Add or subtract from the current quantity
-    if (data.quantityIncrease) {
-      qty += data.quantityIncrease;
-    } else if(data.quantityDecrease) {
-      qty -= data.quantityDecrease;
-      if (qty <= 1) qty = 1;
-    }
-
-    // Update the input's number
-    $qtySelector.val(qty);
-  });
-
-
-  
-  // console.log('generateSelectors', options);
-
-  // TODO move to ProductJS
-  // for (var index = 0; index < vartiantOptions.length; index++) {
-  //   var option = vartiantOptions[index];
-  //   //option.$select = 
-
-  //   selector = jumplink.OptionSelectors(option.$select.attr('id'), {
-  //     product: data.product,
-  //     onVariantSelected: function(variant, selector) {
-  //       // console.log('onVariantSelected', variant, selector);
-  //       selectCallback(variant, selector, data.product);
-  //     }, enableHistoryState: true });
-
-  // }
   
   // Add label if only one product option and it isn't 'Title'.
   if( data.product.options.size == 1 && data.product.options.first != 'Title' ) {
@@ -2880,7 +2660,7 @@ var initCartJS = function () {
             'dataAPI': true,
             'requestBodyClass': 'loading',
             'moneyFormat': window.shop.moneyFormat,
-            'moneyWithCurrencyFormat': window.shop.moneyWithCurrencyFormat, // needed?
+            'moneyWithCurrencyFormat': window.shop.moneyWithCurrencyFormat,
             'rivetsModels': {
               'storePickup': storePickup
             }
@@ -2891,7 +2671,7 @@ var initCartJS = function () {
           'dataAPI': true,
           'requestBodyClass': 'loading',
           'moneyFormat': window.shop.moneyFormat,
-          'moneyWithCurrencyFormat': window.shop.moneyWithCurrencyFormat, // needed?
+          'moneyWithCurrencyFormat': window.shop.moneyWithCurrencyFormat,
       });
     }
   });

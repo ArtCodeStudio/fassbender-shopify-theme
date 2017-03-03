@@ -11607,12 +11607,22 @@ $slick-opacity-not-active: 0.25 !default;
 
 product-variant-dropdowns {
     &.align-items-stretch {
-        .dropdown {
+        .dropdown, product-quantity-button {
             flex: 1;
         }
     }
 
 }
+
+// use flexbox for tables to make the table reverseable
+product-b2b-list {
+    tr.align-items-stretch {
+        th, td {
+            flex: 1;
+        }
+    }
+}
+
 html, body {
     height: 100%;
 }

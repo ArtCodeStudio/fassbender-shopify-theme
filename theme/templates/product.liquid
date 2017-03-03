@@ -53,24 +53,7 @@
                       
             <div class="my-1">
               <p class="m-0">
-                {% comment %}
-                  Conntent set via JavaScript!
-                  Container for Variant Selections 
-                {% endcomment %}
-                <span class="product-price">{ product.currentVariant.price }</span>
-
-                {% if settings.apps_bold_loyalty_points %}
-                  <!-- Bold: Loyalty Points - Step 4 -->
-                  {% if shop.metafields.bold_loyalties.active == 1 and settings.product_show_loyalty_earn_points %}    
-                    <div class="bold-loyalties-redeem-amount">oder <span class="bold-placeholder"></span></div>
-                  {% endif %}
-                  <!-- // end bold code -->
-                  <!-- Bold: Loyalty Points - Step 5 -->
-                  {% if settings.product_show_loyalty_earn_points %}
-                    <div class="bold-loyalties-earn"></div>
-                  {% endif %}
-                  <!-- // end bold code -->
-                {% endif %}
+                <span class="product-price">{ product.variant.price | money }</span>
               </p>
               
               <p class="product-legal-text m-0">
@@ -89,9 +72,8 @@
             </div>
 
             <p class="product-title">
-              <small>Code {product.title}</small>
+              <small>Code { product.variant.name }</small>
             </p>
-
 
             <div class="form-add-to-cart form-group">
               <button type="button" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary w-100" value="">
@@ -107,101 +89,27 @@
               {% include 'jumplink-iconset', name: 'arrow', direction: 'right', color: 'black' %} Show Color Card
             </div>
 
-            {% if settings.product_tabs %}
+            <p class="rte">
               {% comment %}
-                tabs
-
-                To set tab content use the shopify custom fields app
-                @namespace c_f
-                @key jumplink_tab_2
-
-                tab_1 is the description
-                
-                @see http://freakdesign.com.au/pages/shopify-custom-fields
+                TODO style and use bootstrap tabs like on top {% include 'jumplink-product-description-tabs' %}
               {% endcomment %}
-              <div>
-                <ul class="nav ah-nav-tabs nav-tabs " role="tablist" id="handle-{{product.handle}}_product-info-tab">
-                  <li role="presentation" class="active">
-                    <a href="#handle-{{product.handle}}_tab-1" aria-controls="handle-{{product.handle}}_tab-1" role="tab" data-toggle="tab">
-                      Details
-                    </a>
-                  </li>
-                  {% if product.metafieqlds.c_f.jumplink_tab_2 %}
-                    <li role="presentation">
-                      <a href="#handle-{{product.handle}}_tab-2" aria-controls="handle-{{product.handle}}_tab-2" role="tab" data-toggle="tab">
-                        Style and Fit
-                      </a>
-                    </li>
-                  {% endif %}
-                </ul>
-                {% comment %} Tab panes {% endcomment %}
-                <div class="tab-content">
-                  <div role="tabpanel" class="my-1 tab-pane fade in rte active" id="handle-{{product.handle}}_tab-1" itemprop="description">
-                    {% include 'jumplink-product-description-tabs' %}
-                  </div>
-                  {% if product.metafields.c_f.jumplink_tab_2 %}
-                    <div role="tabpanel" class="my-1 tab-pane fade" id="handle-{{product.handle}}_tab-2">
-                      {{ product.metafields.c_f.jumplink_tab_2 }}
-                    </div>
-                  {% endif %}
-                </div>
-              </div>
-            {% else %}
-              <p class="rte">
-                {% comment %}
-                  TODO style and use bootstrap tabs like on top {% include 'jumplink-product-description-tabs' %}
-                {% endcomment %}
-                {{ product.description }}
-                {{ product.metafields.c_f.jumplink_tab_2 }}
-              </p>
-            {% endif %}
+              {{ product.description }}
+              {{ product.metafields.c_f.jumplink_tab_2 }}
+            </p>
 
             {% comment %}
               Prepents via JavaScript!
               Container for Variant Selections 
             {% endcomment %}
+            <div class="pt-1">
+              <product-variant-dropdowns product="product" show-quantity-button="true" start-quantity=10 dropdown-button-class="'w-100'" class="product-variants d-flex justify-content-between align-items-stretch flex-row" /></product-variant-selectors>
+            </div>
 
-            <product-variant-dropdowns product="product" dropdown-button-class="'w-100'" class="product-variants d-flex justify-content-between align-items-stretch flex-row"></product-variant-selectors>
-          
-            {% if settings.cart %}
-              <div class="input-group group-quantity-actions hidden-xs-up" role="group" aria-label="Adjust the quantity">
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-secondary" data-quantity-decrease="10">&minus;</button>
-                </span>
-                <input type="text" name="quantity" class="form-control" data-quantity-number="true" value="10" min="1" aria-label="quantity" pattern="[0-9]*">
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-secondary border-left-0" data-quantity-increase="10">+</button>
-                </span>
-              </div>
-            {% endif %}
-               
-              
-            <div class="form-inline my-1">
+            <product-b2b-button product="product"></product-b2b-button>
 
-              {% if settings.apps_bold_loyalty_points %}
-                {% if settings.product_show_loyalty_spend_button %}
-                  <div class="form-group">
-                    <!-- Bold: Loyalty Points - Step 6 -->
-                    <div class="bold-loyalties-redeem">
-                      <a href="#" disabled="disabled" class="buy-with-rewards btn secondary disabled">Herzen einlösen</a>
-                    </div>
-                    <!-- // end bold code -->
-                  </div>
-                {% endif %}
-              {% endif %}
-
-              {% if settings.apps_back_in_stock_by_yellow_robot_pty_ltd %}
-                <div id="handle-{{product.handle}}_bsi-from" class="form-group bsi-form hidden-xs-up">
-                  <a href="#" id="handle-{{product.handle}}_bsi" data-product-handle="{{ product.handle }}" class="btn btn-primary bsi-button BIS_trigger">{{ 'product.general.notify' | t }}</a>
-                </div>
-              {% endif %}
-
-              {% if settings.apps_wishlist_king_by_appmate %}
-                <div class="form-group ">
-                  <!-- include 'wishlist-button-product' with '{{ product.id }}' -->
-                </div>
-              {% endif %}
-            </div>        
+            <div class="pt-4">
+              <product-b2b-list product="product"></product-b2b-list>
+            </div>
 
             {% comment %}
               All themes by Shopify should support the Product Reviews app out of the box.
@@ -216,39 +124,8 @@
         </div>
       </form>
 
-      {% if settings.related_products %}
-        <div class="row">
-
-          <div class="col-xs-12">
-            <p class="text-left text-size-1-2 pt-2">
-              {{ 'product.general.relation' | t }}
-            </p>
-          </div>
-
-
-          {% capture linkcious_snippet %}
-            {% include 'linkcious' %}
-          {% endcapture %}
-          {% unless linkcious_snippet contains "Liquid error" %}
-            {{ linkcious_snippet }}
-          {% endunless %}
-
-          <div recomatic="product" shop="{{shop.permanent_domain}}" product_id="{{product.id}}">
-            </div>
-
-
-        </div>
-      {% endif %}
-
     </div>
   </div>
-
-  {% if settings.apps_bold_loyalty_points %}
-    <!-- Bold: Loyalty Points - Step 7 -->
-    {% comment %}{% include 'bold-loyalties-product' %}{% endcomment %}
-    {% include 'bold-loyalties-modal' %}
-    <!-- // end bold code -->
-  {% endif %}
 
 {% else %}
   <div class="col-xs-12">
