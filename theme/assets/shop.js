@@ -607,74 +607,6 @@ jumplink.getUrlLocation = function(href) {
   return l;
 };
 
-/**
- * Update Cart icon
- * TODO use cartJS Data API to change icon
- */
-jumplink.updateCartIcon = function (cart) {
-  // update count
-  if (jumplink.cache.$cartCountSelector) {
-    jumplink.cache.$cartCountSelector.each(function( index ) {
-      $( this ).html(cart.item_count).removeClass('hidden-xs-up-count');
-      if (cart.item_count === 0) {
-        $( this ).addClass('hidden-xs-up-count');
-      }
-    });
-  }
-
-  // update cart icon
-  if (jumplink.cache.$cartButtonSelector) {
-    jumplink.cache.$cartButtonSelector.each(function( index ) {
-      $( this ).removeClass('has-content');
-      if (cart.item_count > 0) {
-        $( this ).addClass('has-content');
-      }
-    });
-  }
-
-  // update price
-  if (jumplink.cache.$cartCostSelector) {
-    jumplink.cache.$cartCostSelector.each(function( index ) {
-      $( this ).html(Shopify.formatMoney(cart.total_price, settings.moneyFormat));
-    });
-  }
-}
-
-
-/**
- * Update Cart
- * 
- * @param cart (optional): the cart object if you have
- * @param force (optional): Force reloading the cart
- * @param cb (optional): Callback function(err, cart)
- */
-jumplink.updateCart = function (cart, force, cb) {
-  if(force === true) {
-    jumplink.reloadCartJS(cart, function(err, cart) {
-      jumplink.updateCartIcon(cart);
-      // CartJS.getCart();
-      if(typeof(cb) === 'function') {
-        cb(err, cart);
-      }
-    });
-  }
-  if( typeof(cart) === 'undefined' || cart === null) {
-    $.getJSON('/cart.js', function(cart) {
-      jumplink.updateCartIcon(cart);
-      // CartJS.getCart();
-      if(typeof(cb) === 'function') {
-        cb(null, cart);
-      }
-    });
-  } else {
-    jumplink.updateCartIcon(cart);
-    // CartJS.getCart();
-    if(typeof(cb) === 'function') {
-      cb(null, cart);
-    }
-  }
-}
-
 /* =======================================================================
   Reading query parameters and storing them in a Shopify.queryParams object.
   Necessary for collection sorting and advanced collection filtering.
@@ -2020,25 +1952,6 @@ var initProduct = function (dataset, data) {
 
   var selector = null;
   
-  // CartJS
-  $add.click(function() {
-    event.preventDefault();
-    var variantID = jumplink.getSelectedOption(vartiantOptions);
-    // var qty = jumplink.getQty($qtySelector);
-    console.log('$add.click', variantID, qty);
-    CartJS.addItem(variantID, qty, {}, {
-      "success": function(data, textStatus, jqXHR) {
-        alertify.success(window.translations.cart.general.added.replace('[title]', data.product_title));
-      },
-      "error": function(jqXHR, textStatus, errorThrown) {
-        console.error(jqXHR, textStatus, errorThrown);
-        alertify.error(jqXHR.responseJSON.description);
-      }
-    });
-    return false;
-  });
-
-  
   // Add label if only one product option and it isn't 'Title'.
   if( data.product.options.size == 1 && data.product.options.first != 'Title' ) {
     $('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>');
@@ -2625,20 +2538,6 @@ var initAlert = function () {
 }
 
 /**
- * 
- */
-jumplink.reloadCartJS = function (cart, cb) {
-  if( typeof(cart) === 'undefined' || cart === null) {
-    CartJS.getCart();
-  } else {
-    CartJS.update(cart);
-    if(typeof(cb) === 'function') {
-      cb(null, cart);
-    }
-  }
-}
-
-/**
  * init cart.js
  * 
  * @see https://cartjs.org/
@@ -2646,58 +2545,12 @@ jumplink.reloadCartJS = function (cart, cb) {
 var initCartJS = function () {
 
   $.getJSON('/cart.js', function(cart) {
-    jumplink.updateCart(cart);
-    /*
-     * TODO get location and wirte custom widget using cart.js
-     * make this app (de)activateable in theme settings
-     * 
-     * @@ee E-Mails with Andrew Cargill (Zapiet LTD)
-     * @see http://docs.zapiet.apiary.io/#reference/locations/get-pickup-locations/get-pickup-locations
-     */
-    if(window.settings.apps_zapiet_store_pickup_and_delivery == "true") {
-      $.getJSON('https://api.storepickup.io/v2.0/settings?shop='+window.shop.permanent_domain+'&language='+window.shop.locale, function(storePickup) {
-        CartJS.init(cart, {
-            'dataAPI': true,
-            'requestBodyClass': 'loading',
-            'moneyFormat': window.shop.moneyFormat,
-            'moneyWithCurrencyFormat': window.shop.moneyWithCurrencyFormat,
-            'rivetsModels': {
-              'storePickup': storePickup
-            }
-        });
-      });
-    } else {
-      CartJS.init(cart, {
-          'dataAPI': true,
-          'requestBodyClass': 'loading',
-          'moneyFormat': window.shop.moneyFormat,
-          'moneyWithCurrencyFormat': window.shop.moneyWithCurrencyFormat,
-      });
-    }
-  });
-
-  $(document).on('cart.requestComplete', function(event, cart) {
-    jumplink.updateCart(cart);
-  });
-
-  window.onFoursixtyCartAdded = function (item) {
-    // console.log("onFoursixtyCartAdded", item);
-  }
-
-  window.onFoursixtyCartUpdated = function (cart) {
-    // console.log("onFoursixtyCartUpdated", cart);
-    CartJS.getCart();
-  }
-}
-
-/**
- * Init shopify recomatic app
- * 
- * @see https://apps.shopify.com/recomatic
- */
-var initRecomaticApp = function () {
-  $(document).on("recomaticready", function () {
-    jumplink.replaceNoImage();
+    CartJS.init(cart, {
+        'dataAPI': true,
+        'requestBodyClass': 'loading',
+        'moneyFormat': window.shop.moneyFormat,
+        'moneyWithCurrencyFormat': window.shop.moneyWithCurrencyFormat,
+    });
   });
 }
 
@@ -2724,27 +2577,6 @@ var parseDatasetJsonStrings = function (dataset) {
 }
 
 /**
- * Show / hide newsletter form in footer on some pages
- */
-var showHideNewsletterForm = function (dataset) {
-  
-  switch(dataset.namespace) {
-    case 'customers-login':
-      jumplink.cache.$newsletterForm.hide();
-    break;
-    case 'customers-register':
-      jumplink.cache.$newsletterForm.hide();
-    break;
-    case 'cart':
-      jumplink.cache.$newsletterForm.hide();
-    break;
-    default:
-      jumplink.cache.$newsletterForm.show();
-    break;
-  }
-}
-
-/**
  * Init Javascripts insite of barba.js
  * 
  * @note see init() for inits outsite of barba.js 
@@ -2768,8 +2600,6 @@ var initTemplates = function () {
     jumplink.initDataAttributes(container.dataset);
 
     jumplink.setBarbaContainerMinHeight();
-
-    // showHideNewsletterForm(container.dataset, data);
 
     setNavActive(container.dataset, data);
 
@@ -2862,7 +2692,6 @@ var initFooter = function () {
   var $icon = $('.imprint .iconset.arrow');
 
   $footer.click(function(event) {
-    // console.log('click footer');
     // open
     if($target.hasClass('hidden-xs-up')) {
       $icon.transition({ 'rotate': '270deg' });
@@ -2902,8 +2731,6 @@ var init = function ($) {
   initModalHistoryBack();
 
   initNavbar();
-
-  initRecomaticApp();
 
   initAlert();
 

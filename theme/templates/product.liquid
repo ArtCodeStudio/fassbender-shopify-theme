@@ -75,11 +75,8 @@
               <small>Code { product.variant.name }</small>
             </p>
 
-            <div class="form-add-to-cart form-group">
-              <button type="button" name="add" id="handle-{{product.handle}}_add" class="btn btn-primary w-100" value="">
-                {{ 'cart.general.add_to_cart' | t | escape }}
-              </button>
-            </div>
+            <product-b2b-add product="product" label="'{{ 'cart.general.add_to_cart' | t | escape }}'"></product-b2b-add>
+
 
 
             <p class="lead mb-0">
