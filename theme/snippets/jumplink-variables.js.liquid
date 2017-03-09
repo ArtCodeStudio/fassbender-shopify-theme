@@ -129,7 +129,7 @@
   window.shop.moneyFormat = window.shop.money_format;
   window.shop.moneyWithCurrencyFormat = window.shop.money_with_currency_format;
 
-  console.log('money_format: "'+window.shop.money_format+'"', 'shop.money_format: "{{ shop.money_format }}"', 'moneyWithCurrencyFormat: "'+window.shop.moneyWithCurrencyFormat+'"' );
+  // console.log('money_format: "'+window.shop.money_format+'"', 'shop.money_format: "{{ shop.money_format }}"', 'moneyWithCurrencyFormat: "'+window.shop.moneyWithCurrencyFormat+'"' );
 
   /**
   * Shop
@@ -168,7 +168,7 @@
 
   BoldApps.Loyalties.shop = {
     domain:'{{ shop.domain}}',
-    permanent_domain: '{{shop.permanent_domain}}',
+    permanent_domain: '{{ shop.permanent_domain }}',
     url: '{{shop.url}}',
     metafields: {{ shop.metafields.bold_loyalties | json }}
   };
@@ -182,10 +182,10 @@
         show:true
     },
     body:{
-        'text' : '{{ shop.metafields.bold_loyalties.product_earn_callout_text}}'
+        'text' : '{{ shop.metafields.bold_loyalties.product_earn_callout_text }}'
     },
     redeem:{
-        'buttonText' : '{{ shop.metafields.bold_loyalties.product_redeem_button_text}}'
+        'buttonText' : '{{ shop.metafields.bold_loyalties.product_redeem_button_text }}'
     }
   };
 

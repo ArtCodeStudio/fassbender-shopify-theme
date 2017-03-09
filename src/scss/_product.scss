@@ -1,9 +1,9 @@
-[data-namespace="product"] {
-    .product-price {
-        font-weight: bold;
-        letter-spacing: 0.1rem;
-    }
+.product-price {
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+}
 
+[data-namespace="product"] {
     .product-photo-carousel-arrows {
         .iconset {
             padding: 0.5rem;

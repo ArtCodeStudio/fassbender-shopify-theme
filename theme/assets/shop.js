@@ -1734,11 +1734,7 @@ var initProduct = function (dataset, data) {
   initProductCarousel(data.product);
   initBoldLoyaltiesProduct(data.product);
 
-  ProductJS.init(data.product, {
-    moneyFormat: window.shop.moneyFormat,
-    moneyWithCurrencyFormat: window.shop.moneyWithCurrencyFormat,
-    quantity: 10,
-  });
+  ProductJS.loadProduct(data.product);
 
   // get product handle, load product json and use it for variants
   // var handle = dataset.productHandle;
@@ -1825,18 +1821,15 @@ var initCustomersAddresses = function (dataset) {
  * 
  * @see https://cartjs.org/
  */
-var initCart = function (dataset) {
+var initCart = function (dataset, data) {
 
   $.getJSON('/cart.js', function(cart) {
-    CartJS.init(cart, {
-        'dataAPI': true,
-        'requestBodyClass': 'loading',
-        'moneyFormat': window.shop.moneyFormat,
-        'moneyWithCurrencyFormat': window.shop.moneyWithCurrencyFormat,
-    });
+    ProductJS.B2bCart.loadCart(cart);
   });
 
-  $(document).on('cart.requestComplete', function(event, cart) {
+  
+
+  jumplink.cache.$document.on('cart.requestComplete', function(event, cart) {
     // console.log('cart.requestComplete', cart);
   });
 }
@@ -2476,6 +2469,12 @@ var init = function ($) {
   initNavbar();
 
   initAlert();
+
+  ProductJS.init({
+    moneyFormat: window.shop.moneyFormat,
+    moneyWithCurrencyFormat: window.shop.moneyWithCurrencyFormat,
+    quantity: 10,
+  });
 
   initBarba();
   

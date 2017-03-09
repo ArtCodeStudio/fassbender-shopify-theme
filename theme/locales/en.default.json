@@ -148,7 +148,7 @@
       "removed": "Product \"{{ title }}\" removed from cart",
       "subtotal": "Subtotal",
       "shipping_at_checkout": "Shipping & taxes calculated at checkout",
-      "checkout": "Check Out",
+      "checkout": "Order now",
       "continue": "Continue"
     }
   },

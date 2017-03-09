@@ -1,42 +1,61 @@
-<div class="container" data-cart-barba="data-cart-barba">
-  <div rv-show="cart.item_count | gt 0">
-    <div class="row">
+<div class="container pt-5" id="cart">
+  <div>
 
-      <div class="col-xs-12 col-md-9 col-lg-10">
-        <div class="CartContainer">
+    {% comment %} With Items {% endcomment %} 
+    <form rv-hide="cart.item_count | lt 1" action="/cart" method="post" class="row">
 
-          <div>
-            <form action="/cart" method="post" class="row">
-              <div class="col-xs-12 pb-1">
-                <h3>Warenkorb</h3>
-                <input type="submit" name="checkout" value="Weiter zur Kasse" class="btn btn-primary pull-right" />
-              </div>
-              <div class="col-xs-12">
-                <div class="border top px-1 table-color">
-                  {% assign place = 'cart-template' %}
-                  {% include 'jumplink-cart' with place %}
+      {% comment %} Left {% endcomment %} 
+      <div class="col-xs-12 col-md-9">
+        <div class="row">
+
+          {% comment %} Products {% endcomment %} 
+          <div rv-each-product="cart.grouped" class="col-xs-12 col-sm-6 col-md-4 col-xl-4">
+
+            {% comment %} Product {% endcomment %} 
+            <div class="product-item mx-2 mb-4">
+
+              <div class="image-wrap">  
+                <div class="background-box {{ settings.products_aspect_ratio }}" rv-background-image="product.image" rv-title="product.title"></div>
+                <div class="caption">
+                    <p rv-show="{{ settings.products_show_vendor }}" class="vendor text-nowrap">
+                      { product.vendor }
+                    </p>
+                  
+                    <p rv-show="{{ settings.products_show_title }}" class="title text-nowrap">
+                      { product.product_title }
+                    </p>
                 </div>
               </div>
-              <div class="col-xs-12 pt-0">
-                <input type="submit" name="checkout" value="Weiter zur Kasse" class="btn btn-primary pull-right" />
-              </div>
-            </form>
+            </div>
+            
           </div>
-          
+        </div>
+      </div>
+
+      {% comment %} Right {% endcomment %} 
+      <div class="col-xs-12 col-md-3">
+
+         {% comment %} Summary {% endcomment %} 
+        <h3 class="mb-4 text-uppercase">{ cart.grouped | size } Items</h3>
+        <p class="mb-0 cart-price">{ cart.total_price | money }</p>
+        <p class="product-legal-text mt-0">
+          <small>{{ 'product.general.legal_price_text' | t: vat_rate: '19' }}</small>
+        </p>
+        <input type="submit" name="checkout" value="{{ 'cart.general.checkout' | t }}" class="btn btn-primary" />
+      </div>
+
+    </form>
+
+    {% comment %} Without Items {% endcomment %} 
+    <div rv-show="cart.item_count | lt 1">
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <h2>{{ 'cart.general.empty' | t }}</h2>
+          <p>{{ 'cart.general.empty_message' | t }}</p>
+          <a href="/" class="btn btn-primary">{{ 'cart.general.continue' | t }}</a>
         </div>
       </div>
     </div>
 
   </div>
-
-  <div rv-show="cart.item_count | lt 1">
-    <div class="row">
-      <div class="col-xs-12 text-center">
-        <h2>{{ 'cart.general.empty' | t }}</h2>
-        <p>{{ 'cart.general.empty_message' | t }}</p>
-        <a href="/" class="btn btn-primary">{{ 'cart.general.continue' | t }}</a>
-      </div>
-    </div>
-  </div>
-
 </div>
