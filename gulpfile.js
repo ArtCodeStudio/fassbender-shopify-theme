@@ -42,6 +42,7 @@ gulp.task('default', function () {
 
   // watch for javascript changes
   gulp.watch([
+    './bower_components/shopify-productjs/dist/product.js',
     './bower_components/shopify-productjs/dist/product.min.js',
   ], ['javascript']);
 
@@ -111,13 +112,11 @@ gulp.task('javascript-libs', [], function () {
   }))
   .pipe(concat('libs.js'))
   .pipe(gulp.dest('./theme/assets/'))
-  //.pipe(sourcemaps.init())
-  .pipe(uglify())
-  .pipe(rename({
-    basename: "libs.min",
-  }))
-  //.pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest('./theme/assets/'));
+  // .pipe(uglify())
+  // .pipe(rename({
+  //   basename: "libs.min",
+  // }))
+  // .pipe(gulp.dest('./theme/assets/'));
 });
 
 // SASS_CONCAT: Pull our scss files together and move them into the themes assets

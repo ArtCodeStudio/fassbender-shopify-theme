@@ -41,25 +41,6 @@
       </div>
     {% endunless %}
 
-    {% include 'featured-collections',
-      featuredLinklist: 'featured-collections',
-      replaceImage1: settings.homepage_featured_collection_1_custom_image,
-      replaceImage1With: 'homepage_featured_collection_1_custom_image.jpeg',
-      replaceImage2: settings.homepage_featured_collection_2_custom_image,
-      replaceImage2With: 'homepage_featured_collection_2_custom_image.jpeg',
-      withOffset: true,
-      classWrapperDefault: 'm-t-3 mb-1',
-      classWrapperSize2: 'm-t-3 mb-1 m-x-1-md m-x-2-lg',
-      showHr: true
-    %}
-    
-    {% include 'featured-products',
-      collectionHandle: 'featured-products',
-      classWrapper: 'my-1',
-      textAlign: settings.homepage_featured_products_text_align
-      titleClass: ' text-normal'
-    %}
-
     {% if settings.blog_enable and settings.home_blog_preview_enable %}
       <div class="col-xs-12" id="featured-articles">
         <div class="row">

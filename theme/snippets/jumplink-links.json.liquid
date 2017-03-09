@@ -2,7 +2,7 @@
     {% for link in linklist.links %}
         {% if link.handle == 'blog' and settings.blog_enable == false %}
         {% else %}
-            {% include 'link.json' %},
+            {% include 'jumplink-link.json' %},
         {% endif %}
     {% endfor %}
 ]

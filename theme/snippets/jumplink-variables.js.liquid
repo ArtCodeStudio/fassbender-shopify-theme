@@ -80,8 +80,8 @@
   window.translations.wishlist.general.continue = {{ 'wishlist.general.continue' | t | json }};
 
   //  TODO use json filter?
-  window.customer = {% include 'customer.json' %};
-  window.settings.linklists = {% include 'linklists.json' %};
+  window.customer = {% include 'jumplink-customer.json' %}; // {{ customer | json }} not allowed for this object
+  window.settings.linklists = {% include 'jumplink-linklists.json' %}; // {{ linklists | json }} not allowed for this object
 
   /**
   * Money / Currency

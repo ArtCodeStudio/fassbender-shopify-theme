@@ -1,19 +1,4 @@
 <div class="hidden-md-down filter">
-
   {% include 'jumplink-filter-collections', title: 'Designer' %}
-
   {% include 'jumplink-filter-subcollections' %}
-
-  {% if settings.apps_powertools_filter_menu_active %}
-    {% comment %}
-      Filter by Shopify Power Tools
-    {% endcomment %}
-    {% include 'powertools-filter-menu' %}
-  {% endif %}
 </div>
-
-{% if settings.apps_powertools_filter_menu %}
-  <div class="hidden-md-up">
-    {% include 'powertools-filter-menu-select' %}
-  </div>
-{% endif %}

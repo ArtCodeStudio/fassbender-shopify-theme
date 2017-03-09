@@ -249,8 +249,6 @@ jumplink.cacheSelectors = function () {
     $cartButtonSelector      : $('.cart-button'),
     $cartCostSelector        : $('.cart-cost'),
 
-    $newsletterForm          : $('#newsletter-form'),
-
     $barbaWrapper            : $('#barba-wrapper'),
     
     // barba
@@ -827,205 +825,8 @@ function appmateOptionSelect(el){
 
   });
 }
-
-/**
- * Appmate Wishlist King
- * init wishlist
- * @see https://apps.shopify.com/wishlist-king
- */
-var initAppmateWishlist = function () {
-
-  if (window.settings.apps_wishlist_king_by_appmate != "true") {
-    return false;
-  }
-
-  if (typeof Appmate === 'undefined') {
-    return console.warn("Appmate not installed");
-  }
-
-  var fadeOrNot = function($elem, callback) {
-
-    if($elem.hasClass('wk-fadeout')) {
-      $elem.fadeOut(callback);
-    } else {
-      if ($elem.parents('.wk-fadeout').length) {
-        $elem.parents('.wk-fadeout').fadeOut(callback);
-      } else {
-        callback();
-      }
-    }
-  }
-
-  Appmate.wk.on({
-    'click [data-wk-add-product]': function(event){
-      var $this = $(this);
-      var product = this.getAttribute('data-wk-add-product');
-      var variant = $this.parents('form').find('select[name="id"]').val();
-      var productData = $this.parents('.barba-container').data();
-
-      if(productData.productTitle) {
-        var productTitle = productData.productTitle;
-      } else {
-        var productTitle = $this.closest('.wk-item-column').find('.wk-product-sub-title').text();
-      }
-
-      Appmate.wk.addProduct(product, variant);
-      alertify.success(window.translations.wishlist.general.added.replace('[title]', productTitle));
-
-      if(typeof(fbq) === 'function') {
-        fbq('track', 'AddToWishlist');
-      }
-
-    },
-    'click [data-wk-remove-product]': function(event){
-      var $this = $(this);
-      var product = this.getAttribute('data-wk-remove-product');
-      var productData = $this.parents('.barba-container').data();
-
-      if(productData.productTitle) {
-        var productTitle = productData.productTitle;
-      } else {
-        var productTitle = $this.closest('.wk-item-column').find('.wk-product-sub-title').text();
-      }
-
-      Appmate.wk.removeProduct(product);
-      alertify.success(window.translations.wishlist.general.removed.replace('[title]', productTitle));
-    },
-    'click [data-wk-remove-item]': function(event){
-      var $this = $(this);
-      var item = this.getAttribute('data-wk-remove-item');
-      var productTitle = $this.closest('.wk-item-column').find('.wk-product-sub-title').text();
-
-      fadeOrNot($this.parents('.wk-item-column'), function() {
-        Appmate.wk.removeItem(item);
-        alertify.success(window.translations.wishlist.general.removed.replace('[title]', productTitle));
-      });
-    },
-    'click [data-wk-clear-wishlist]': function(event){
-      var wishlist = this.getAttribute('data-wk-clear-wishlist');
-      Appmate.wk.clear(wishlist);
-      alertify.success(window.translations.wishlist.general.emptied);
-    },
-    'click [data-wk-share]': function(){
-      var wishlist = this.getAttribute('data-wk-share');
-      var service = this.getAttribute('data-wk-share-service');
-      //console.log("wishlist", wishlist);
-      //console.log("service", service);
-      var shareUrl = Appmate.wk.createShareUrl(wishlist, service);
-      window.open(
-        shareUrl,
-        'wishlist_share',
-        'height=590, width=770, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no'
-      );
-      event.preventDefault();
-      event.stopPropagation();
-    },
-    'click .wk-add-to-cart': function(event){
-      var $elem = $(this);
-      var $form = $elem.closest('form');
-      $elem.prop("disabled", true);
-
-      var item = this.getAttribute('data-wk-item');
-      var formData = $form.serialize();
-      var title = $elem.closest('.wk-item').find('.wk-product-title .wk-product-sub-title').text();
-      var $select = $form.find('select');
-      var variantID = jumplink.getSelectedOption($select).val();
-
-      fadeOrNot($elem.parents('.wk-item-column'), function(){
-
-        // Version A: Stay in wishlist when done
-        // Appmate.wk
-        // .moveToCart(item, formData)
-        // .then(function(){
-        //     jumplink.updateCart(null, true, function(err, cart) {
-        //         alertify.success(window.translations.cart.general.added.replace('[title]', title));
-        //     });
-        // });
-
-        // Version B: Navigate to basket when done
-        // Appmate.wk
-        // .removeItem(item)
-        // .then(function(){
-        //   $form.submit();
-        // });
-
-        // Version C: remove from wishlist and add with cartJS
-        Appmate.wk
-        .removeItem(item)
-        .then(function(){
-            CartJS.addItem(variantID, 1, {
-                "added_by": "wishlist"
-            }, {
-                "success": function(data, textStatus, jqXHR) {
-                    alertify.success(window.translations.cart.general.added.replace('[title]', data.product_title));
-                },
-                "error": function(jqXHR, textStatus, errorThrown) {
-                    alertify.error('Error: ' + errorThrown + '!');
-                }
-            });
-        });
-      });
-
-      event.preventDefault();
-    },
-    'render .wk-option-select': function(elem){
-      appmateOptionSelect(elem);
-    }
-  });
-};
-
 var toggleSidebar = function () {
   $( '.navbar-toggle' ).click();
-}
-
-/**
- * 
- */
-var initNavTree = function () {
-  
-  var $navTree = jumplink.cache.$navTree;
-
-  /**
-   * Generates the Navigation Tree with the same logic like in navbar.liguid
-   */
-  var linklists = window.settings.linklists;
-  var mainMenu = linklists['main-menu'];
-  for(i in mainMenu.links) {
-    var link = mainMenu.links[i];    
-    var child_list_handle = link.handle;
-    if(linklists[child_list_handle] && linklists[child_list_handle].links.length > 0) {
-      link.nodes = linklists[child_list_handle].links;
-      link.selectable = false;
-      for(k in link.nodes) {
-        var node = link.nodes[k];
-        node.selectable = true;
-      }
-    }
-  }
-
-  // init Tree
-  $navTree.treeview({
-    data: window.settings.linklists['main-menu'].links,
-    enableLinks: false,
-    checkedIcon: 'fa fa-check',
-    collapseIcon: 'fa fa-minus',
-    emptyIcon: 'fa fa-circle-thin transparent', // 'fa fa-circle-thin',
-    expandIcon: 'fa fa-plus',
-    backColor: '#fff',
-    onhoverColor: '#fff',
-    selectedBackColor: '#fff',
-    selectedColor: '#000',
-  });
-
-  $navTree.treeview('collapseAll', { silent: true });
-
-  $navTree.on('nodeSelected', function(event, data) {
-    // Your logic goes here
-    if(data && typeof(data.href) === 'string' && data.href.length > 0) {
-      jumplink.goTo(data.href);
-      toggleSidebar();
-    }
-  });
 }
 
 /**
@@ -1033,8 +834,6 @@ var initNavTree = function () {
  */
 var initRightSidebar = function () {
   // init tree before sidebar to cache tree events in sidebar to close the sidebar
-  //initNavTree();
-
   var closingLinks = '.close-sidebar';
   var align = 'right';
   var trigger = '[data-toggle="sidebar"][data-target="#right-sidebar"]';
@@ -2022,63 +1821,24 @@ var initCustomersAddresses = function (dataset) {
 }
 
 /**
+ * init cart.js
  * 
+ * @see https://cartjs.org/
  */
-var initCartTemplate = function (dataset) { 
-  /*
-    * Recomatic Related Products
-    * @see https://apps.shopify.com/recomatic
-    */
-  if(window.recomatic_substitute_cart_code) {
-    window.recomatic_substitute_cart_code();
-    // TODO
-  }
+var initCart = function (dataset) {
 
-  /**
-   * WORAROUND for Store Pickup + Delivery 
-   * 
-   * @see https://apps.shopify.com/click-and-collect
-   */
-   if(window.settings.apps_zapiet_store_pickup_and_delivery == "true") {
-     if(typeof initStorePuckup === 'function') {
-       initStorePuckup();
-     } else {
-        console.error('initStorePuckup not defined, please add this function around of the code in storepickup.js!');
-        console.error('var initStorePuckup = function() {');
-        console.error('\t[original storepickup.js code]');
-        console.error('}');
-        console.error('Otherwise, the app does not work!');
-     }
-    // console.log(window.StorePickUpApp.script);
-    // $.getScript(window.StorePickUpApp.script, function( data, textStatus, jqxhr ) {
-    //   console.log( data ); // Data returned
-    //   console.log( textStatus ); // Success
-    //   console.log( jqxhr.status ); // 200
-    //   console.log( "StorePickUpApp Script Load was performed." );
-    // });
-   }
-  
-
-
-
-  /*
-   * WORKAROUND
-   * @see https://github.com/discolabs/cartjs/issues/97
-   */
-  var renderNewCartJSView = function () {
-    $('[data-cart-barba]').each(function() {
-      var view = rivets.bind($(this), CartJS.Rivets.model);
-      CartJS.Rivets.boundViews.push(view);
+  $.getJSON('/cart.js', function(cart) {
+    CartJS.init(cart, {
+        'dataAPI': true,
+        'requestBodyClass': 'loading',
+        'moneyFormat': window.shop.moneyFormat,
+        'moneyWithCurrencyFormat': window.shop.moneyWithCurrencyFormat,
     });
-  }
-
-  $(document).on('cart.ready', function(event, cart) {
-    renderNewCartJSView();
   });
 
-  if(CartJS.Rivets.model !== null) {
-    renderNewCartJSView();
-  }
+  $(document).on('cart.requestComplete', function(event, cart) {
+    // console.log('cart.requestComplete', cart);
+  });
 }
 
 /**
@@ -2517,7 +2277,7 @@ var initTemplate = {
   '404': init404,
   'article': initArticle,
   'blog': initBlog,
-  'cart': initCartTemplate,
+  'cart': initCart,
   'collection': initCollection,
   'index': initIndex,
   'list-collections': initListCollections,
@@ -2535,23 +2295,6 @@ var initAlert = function () {
   alertify.parent(document.body);
   alertify.logPosition(window.settings.alertify_position);
   window.alertify = alertify;
-}
-
-/**
- * init cart.js
- * 
- * @see https://cartjs.org/
- */
-var initCartJS = function () {
-
-  $.getJSON('/cart.js', function(cart) {
-    CartJS.init(cart, {
-        'dataAPI': true,
-        'requestBodyClass': 'loading',
-        'moneyFormat': window.shop.moneyFormat,
-        'moneyWithCurrencyFormat': window.shop.moneyWithCurrencyFormat,
-    });
-  });
 }
 
 /**
@@ -2733,10 +2476,6 @@ var init = function ($) {
   initNavbar();
 
   initAlert();
-
-  initAppmateWishlist();
-
-  initCartJS();
 
   initBarba();
   

@@ -46,16 +46,16 @@
                 {% assign price = product.price %}
                 {% if on_sale %}
                   <span class="text-danger text-nowrap">
-                    {% include 'get-price' with price %}
+                    {% include 'jumplink-get-price' with price %}
                   </span>
                   {% assign price = product.compare_at_price %}
                 <span>
                   <s class="compare-at-price text-nowrap">
-                    {% include 'get-price' with price %}
+                    {% include 'jumplink-get-price' with price %}
                   </s>
                 </span>
                 {% else %}
-                  {% include 'get-price' with price %}
+                  {% include 'jumplink-get-price' with price %}
                 {% endif %}
               </p>
             {% endif %}
