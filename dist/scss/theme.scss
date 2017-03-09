@@ -10977,13 +10977,14 @@ html, body {
     height: 100%;
 }
 
-html {
-    // overflow: hidden !important;
-}
-
 body {
-    // overflow-x: hidden !important;
     overflow-y: scroll;
+
+    // Disable bootstrap fix just show scollbar
+    // &.modal-open {
+    //     overflow-y: scroll;
+    //     padding-right: 0 !important;
+    // }
 }
 
 #barba-wrapper, .barba-container {
@@ -11293,38 +11294,66 @@ b, strong {
 .iconset {
     
 }
-.product-photo-modal {
-    .modal-content {
-        background-color: $gray-dark;
-        opacity: 0;
-        @include vp-transition(opacity 400ms ease-in-out);
-    }
-    &.show {
+.modal {
+    &.product-photo-modal {
+        overflow: hidden !important;
         .modal-content {
+            background-color: $gray-dark;
+            opacity: 0;
+            @include vp-transition(opacity 400ms ease-in-out);
+        }
+        &.show {
+            .modal-content {
+                opacity: 1;
+            }
+        }
+        .close {
+            position: fixed;
+            top: 1rem;
+            right: 4rem;
             opacity: 1;
+            text-shadow: none;
+            color: #fff;
+        }
+        .arrow-left, .arrow-right {
+            position: fixed;
+            top: 50vh;
+            padding: 50px;
+            margin-top: -60px;
+            cursor: pointer;
+        }
+        .arrow-left {
+            left: 50px;
+        }
+        .arrow-right {
+            right: 50px;
         }
     }
-    .close {
-        position: fixed;
-        top: 1rem;
-        right: 4rem;
-        opacity: 1;
-        text-shadow: none;
-        color: #fff;
+
+    &.modal-cart {
+        z-index: $zindex-navbar - 1; // show modal under navbar
+        .modal-content {
+            opacity: 0;
+            @include vp-transition(opacity 400ms ease-in-out);
+            border: none;
+            height: 100vh;
+            width: 100%;
+        }
+        &.show {
+            .modal-content {
+                opacity: 1;
+            }
+        }
     }
-    .arrow-left, .arrow-right {
-        position: fixed;
-        top: 50vh;
-        padding: 50px;
-        margin-top: -60px;
-        cursor: pointer;
-    }
-    .arrow-left {
-        left: 50px;
-    }
-    .arrow-right {
-        right: 50px;
-    }
+}
+.fixed-right {
+  position: fixed;
+  right: 0;
+}
+
+.fixed-left {
+  position: fixed;
+  right: 0;
 }
 [data-namespace="customers-register"],
 [data-namespace="customers-login"] {
@@ -11444,6 +11473,10 @@ b, strong {
 [data-namespace="cart"] {
   .cart-price {
     @extend .product-price;
+  }
+
+  .cart-summary {
+    z-index: $zindex-navbar; // show summary over modal
   }
 }
 [data-collection-filter] {

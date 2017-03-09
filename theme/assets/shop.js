@@ -416,7 +416,7 @@ jumplink.initSlickMethods = function () {
     var data = $this.data();
     var $target = $(data.target);
     var method = data.slickMethod;
-    // console.log('initSlickMethods', target, method);
+    console.log('initSlickMethods', $target, method);
     $target.slick(method);
   });
 
@@ -424,15 +424,15 @@ jumplink.initSlickMethods = function () {
   var mousePos = {};
   var offset = $slickArea.offset();
   var width = $slickArea.width();
-  $slickArea.mousemove(function(e){
-    width = $slickArea.width();
-    mousePos = {
-        left: e.pageX - offset.left,
-        top: e.pageY - offset.top,
-    };
-    // TODO custom image https://css-tricks.com/almanac/properties/c/cursor/
-    // console.log('mousePos', mousePos, width);
-  });
+  // $slickArea.mousemove(function(e){
+  //   width = $slickArea.width();
+  //   mousePos = {
+  //       left: e.pageX - offset.left,
+  //       top: e.pageY - offset.top,
+  //   };
+  //   // TODO custom image https://css-tricks.com/almanac/properties/c/cursor/
+  //   console.log('mousePos', mousePos, width);
+  // });
 }
 
 /**
@@ -1822,12 +1822,34 @@ var initCustomersAddresses = function (dataset) {
  * @see https://cartjs.org/
  */
 var initCart = function (dataset, data) {
+  var $modal = $('#cart-modal');
+  $modal.$slick = $modal.find('.slick-slider');
 
   $.getJSON('/cart.js', function(cart) {
     ProductJS.B2bCart.loadCart(cart);
   });
 
+  $modal.on('shown.bs.modal', function (e) {
+     $modal.$slick.slick('setPosition');
+  });
+
+  // init product photo carousel
   
+  
+  var slickOptions = {
+    dots: false,
+    arrows: false,
+    // appendArrows: $(productHandle+' .product-photo-carousel-arrows'),
+  }
+
+  
+  $(document).on('b2bcart.bind.after', function(event) {
+    if( !$modal.$slick.hasClass('slick-initialized') ) {
+      $modal.$slick.slick(slickOptions);
+    }
+
+  });
+
 
   jumplink.cache.$document.on('cart.requestComplete', function(event, cart) {
     // console.log('cart.requestComplete', cart);
@@ -1940,7 +1962,7 @@ var initCollection = function (dataset, data) {
       // var $currentContainer = $(currentContainer);
       var newContainer = Barba.Pjax.Dom.parseResponse(data);
       var $newContainer = $(newContainer);
-      var newDateset = newContainer.dataset;
+      var dataset = newContainer.dataset;
       var currentStatus = Barba.Pjax.History.currentStatus();
       currentStatus.namespace = Barba.Pjax.Dom.getNamespace(newContainer);
 

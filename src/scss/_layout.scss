@@ -2,13 +2,14 @@ html, body {
     height: 100%;
 }
 
-html {
-    // overflow: hidden !important;
-}
-
 body {
-    // overflow-x: hidden !important;
     overflow-y: scroll;
+
+    // Disable bootstrap fix just show scollbar
+    // &.modal-open {
+    //     overflow-y: scroll;
+    //     padding-right: 0 !important;
+    // }
 }
 
 #barba-wrapper, .barba-container {

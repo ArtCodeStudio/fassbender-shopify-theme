@@ -2,4 +2,8 @@
   .cart-price {
     @extend .product-price;
   }
+
+  .cart-summary {
+    z-index: $zindex-navbar; // show summary over modal
+  }
 }

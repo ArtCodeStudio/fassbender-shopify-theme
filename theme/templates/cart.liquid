@@ -9,7 +9,7 @@
         <div class="row">
 
           {% comment %} Products {% endcomment %} 
-          <div rv-each-product="cart.grouped" class="col-xs-12 col-sm-6 col-md-4 col-xl-4">
+          <div rv-each-product="cart.grouped" data-toggle="modal" data-backdrop="false" data-target="#cart-modal" class="col-xs-12 col-sm-6 col-md-4 col-xl-4">
 
             {% comment %} Product {% endcomment %} 
             <div class="product-item mx-2 mb-4">
@@ -17,13 +17,13 @@
               <div class="image-wrap">  
                 <div class="background-box {{ settings.products_aspect_ratio }}" rv-background-image="product.image" rv-title="product.title"></div>
                 <div class="caption">
-                    <p rv-show="{{ settings.products_show_vendor }}" class="vendor text-nowrap">
-                      { product.vendor }
-                    </p>
-                  
-                    <p rv-show="{{ settings.products_show_title }}" class="title text-nowrap">
-                      { product.product_title }
-                    </p>
+                  <p rv-show="{{ settings.products_show_vendor }}" class="vendor text-nowrap">
+                    { product.vendor }
+                  </p>
+                
+                  <p rv-show="{{ settings.products_show_title }}" class="title text-nowrap">
+                    { product.product_title }
+                  </p>
                 </div>
               </div>
             </div>
@@ -33,7 +33,7 @@
       </div>
 
       {% comment %} Right {% endcomment %} 
-      <div class="col-xs-12 col-md-3">
+      <div class="col-xs-12 col-md-3 fixed-right cart-summary">
 
          {% comment %} Summary {% endcomment %} 
         <h3 class="mb-4 text-uppercase">{ cart.grouped | size } Items</h3>
@@ -58,4 +58,49 @@
     </div>
 
   </div>
+
+  <div class="modal modal-fullscreen modal-cart" id="cart-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body pt-3">
+
+          <div class="container pt-5">
+            <div class="row">
+              <div class="col-xs-12 col-md-9">
+
+                <div class="slick-slider">
+
+                  {% comment %} Products {% endcomment %} 
+                  <div rv-each-product="cart.grouped">
+
+                    <div class="row">
+                      {% comment %} TODO get product with barba {% endcomment %} 
+                    </div>
+                      
+
+                  </div>
+
+                </div>
+
+                <div class="arrow-left" data-slick-method="slickPrev" data-target="#cart-modal .slick-slider">
+                    {% include 'jumplink-iconset', name: 'arrow-big', direction: 'left', color: 'black' %}
+                </div>
+
+                <div class="arrow-right" data-slick-method="slickNext" data-target="#cart-modal .slick-slider">
+                    {% include 'jumplink-iconset', name: 'arrow-big', direction: 'right', color: 'black' %}
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    {% include 'jumplink-iconset', name: 'x', color: 'black' %}
+                </button>
+                
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
