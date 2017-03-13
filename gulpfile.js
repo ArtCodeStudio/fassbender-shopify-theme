@@ -95,6 +95,7 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/rivets/dist/rivets.js',
     'bower_components/shopify-cartjs/dist/cart.js',
     'src/js/md5.js',
+    'src/js/tcon.js',
     'bower_components/gsap/src/uncompressed/TweenMax.js',               // https://github.com/rstacruz/jquery.transit
     'bower_components/async/dist/async.js',
     'bower_components/barba.js/dist/barba.js',

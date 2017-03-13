@@ -5,7 +5,7 @@
 <script>
 
   {% assign quote = '"' %}
-  {% assign singleQuote = "'" %}
+  {% assign escapedQuote = '\"' %}
 
   /**
   * Variables 
@@ -19,7 +19,7 @@
 
   // make all shopify variables avaible in javascript
   {% for setting in settings %}
-    window.settings["{{setting}}"] = "{{ settings[setting] | strip_newlines | replace: quote, singleQuote }}";
+    window.settings["{{setting}}"] = "{{ settings[setting] | strip_newlines | replace: quote, escapedQuote }}";
   {% endfor %}
 
   window.settings.linklists = {};
@@ -204,9 +204,18 @@
   /**
    * Templates
    */
-  {% capture templateJumplinkInstafeedItem %}{% include 'jumplink-instafeed-item' %}{% endcapture %}
 
-   window['templates'] = {};
-   window['templates']['jumplink-instafeed-item'] = "{{ templateJumplinkInstafeedItem  | strip_newlines | replace: quote, singleQuote }}";
+  if(typeof ProductJS !== 'object') {
+      var ProductJS = {};
+  }
+  if(typeof ProductJS.templates !== 'object') {
+      ProductJS.templates = {};
+  }
+
+  {% capture tplJumplinkInstafeedItem %}{% include 'tpl-jumplink-instafeed-item' %}{% endcapture %}
+  ProductJS.templates.instafeedItem  = "{{ tplJumplinkInstafeedItem  | strip_newlines | replace: quote, escapedQuote }}";
+
+  {% capture tplJumplinkProduct %}{% include 'tpl-jumplink-product' %}{% endcapture %}
+  window.ProductJS.templates.product = "{{ tplJumplinkProduct  | strip_newlines | replace: quote, escapedQuote }}";
 
 </script>

@@ -10,209 +10,6 @@ var redirects = {
 };
 
 /**
- * transformicons
- * 
- * @see http://www.transformicons.com/builder.html
- * 
- * @markup
-  <button type="button" class="tcon tcon-menu--xcross" aria-label="toggle menu">
-    <span class="tcon-menu__lines" aria-hidden-xs-up="true"></span>
-    <span class="tcon-visuallyhidden-xs-up">toggle menu</span>
-  </button>
-  <button type="button" class="tcon tcon-plus tcon-plus--minus" aria-label="add item">
-    <span class="tcon-visuallyhidden-xs-up">add item</span>
-  </button>
-  <button type="button" class="tcon tcon-search--xcross" aria-label="toggle search">
-    <span class="tcon-search__item" aria-hidden-xs-up="true"></span>
-    <span class="tcon-visuallyhidden-xs-up">toggle search</span>
-  </button>
- *
- */
-(function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD module
-    define(factory);
-  } else if (typeof exports === 'object') {
-    // CommonJS-like environment (i.e. Node)
-    module.exports = factory();
-  } else {
-    // Browser global
-    root.transformicons = factory();
-  }
-}(this || window, function () {
-
-  // ####################
-  // MODULE TRANSFORMICON
-  // ####################
-  'use strict';
-
-  var
-    tcon = {}, // static class
-    _transformClass = 'tcon-transform',
-
-    // const
-    DEFAULT_EVENTS = {
-      transform : ['click'],
-      revert : ['click']
-    };
-
-  // ##############
-  // private methods
-  // ##############
-
-  /**
-  * Normalize a selector string, a single DOM element or an array of elements into an array of DOM elements.
-  * @private
-  *
-  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements
-  * @returns {array} Array of DOM elements
-  */
-  var getElementList = function (elements) {
-    if (typeof elements === 'string') {
-      return Array.prototype.slice.call(document.querySelectorAll(elements));
-    } else if (typeof elements === 'undefined' || elements instanceof Array) {
-      return elements;
-    } else {
-      return [elements];
-    }
-  };
-
-  /**
-  * Normalize a string with eventnames separated by spaces or an array of eventnames into an array of eventnames.
-  * @private
-  *
-  * @param {(string|array)} elements - String with eventnames separated by spaces or array of eventnames
-  * @returns {array} Array of eventnames
-  */
-  var getEventList = function (events) {
-    if (typeof events === 'string') {
-      return events.toLowerCase().split(' ');
-    } else {
-      return events;
-    }
-  };
-
-  /**
-  * Attach or remove transformicon events to one or more elements.
-  * @private
-  *
-  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be toggled
-  * @param {object} [events] - An Object containing one or more special event definitions
-  * @param {boolean} [remove=false] - Defines wether the listeners should be added (default) or removed.
-  */
-  var setListeners = function (elements, events, remove) {
-    var
-      method = (remove ? 'remove' : 'add') + 'EventListener',
-      elementList = getElementList(elements),
-      currentElement = elementList.length,
-      eventLists = {};
-
-    // get events or use defaults
-    for (var prop in DEFAULT_EVENTS) {
-      eventLists[prop] = (events && events[prop]) ? getEventList(events[prop]) : DEFAULT_EVENTS[prop];
-    }
-    
-    // add or remove all events for all occasions to all elements
-    while(currentElement--) {
-      for (var occasion in eventLists) {
-        var currentEvent = eventLists[occasion].length;
-        while(currentEvent--) {
-          elementList[currentElement][method](eventLists[occasion][currentEvent], handleEvent);
-        }
-      }
-    }
-  };
-
-  /**
-  * Event handler for transform events.
-  * @private
-  *
-  * @param {object} event - event object
-  */
-  var handleEvent = function (event) {
-    tcon.toggle(event.currentTarget);
-  };
-
-  // ##############
-  // public methods
-  // ##############
-
-  /**
-  * Add transformicon behavior to one or more elements.
-  * @public
-  *
-  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be toggled
-  * @param {object} [events] - An Object containing one or more special event definitions
-  * @param {(string|array)} [events.transform] - One or more events that trigger the transform. Can be an Array or string with events seperated by space.
-  * @param {(string|array)} [events.revert] - One or more events that trigger the reversion. Can be an Array or string with events seperated by space.
-  * @returns {transformicon} transformicon instance for chaining
-  */
-  tcon.add = function (elements, events) {
-    setListeners(elements, events);
-    return tcon;
-  };
-
-  /**
-  * Remove transformicon behavior from one or more elements.
-  * @public
-  *
-  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be toggled
-  * @param {object} [events] - An Object containing one or more special event definitions
-  * @param {(string|array)} [events.transform] - One or more events that trigger the transform. Can be an Array or string with events seperated by space.
-  * @param {(string|array)} [events.revert] - One or more events that trigger the reversion. Can be an Array or string with events seperated by space.
-  * @returns {transformicon} transformicon instance for chaining
-  */
-  tcon.remove = function (elements, events) {
-    setListeners(elements, events, true);
-    return tcon;
-  };
-
-  /**
-  * Put one or more elements in the transformed state.
-  * @public
-  *
-  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be transformed
-  * @returns {transformicon} transformicon instance for chaining
-  */
-  tcon.transform = function (elements) {
-    getElementList(elements).forEach(function(element) {
-      element.classList.add(_transformClass);
-    });
-    return tcon;
-  };
-
-  /**
-  * Revert one or more elements to the original state.
-  * @public
-  *
-  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be reverted
-  * @returns {transformicon} transformicon instance for chaining
-  */
-  tcon.revert = function (elements) {
-    getElementList(elements).forEach(function(element) {
-      element.classList.remove(_transformClass);
-    });
-    return tcon;
-  };
-  
-  /**
-  * Toggles one or more elements between transformed and original state.
-  * @public
-  *
-  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be toggled
-  * @returns {transformicon} transformicon instance for chaining
-  */
-  tcon.toggle = function (elements) {
-    getElementList(elements).forEach(function(element) {
-      tcon[element.classList.contains(_transformClass) ? 'revert' : 'transform'](element);
-    });
-    return tcon;
-  };
-
-  return tcon;
-}));
-
-/**
  * Get selected element's outer HTML
  * @see http://stackoverflow.com/a/2419877
  */
@@ -465,35 +262,6 @@ jumplink.initCustomModals = function () {
 
 
 /**
- * 
- */
-jumplink.urlExists = function (url, cb){
-    jQuery.ajax({
-        url:      url,
-        dataType: 'text',
-        type:     'GET',
-        complete:  function(xhr){
-            if(typeof cb === 'function')
-               cb.apply(this, [xhr.status, url]);
-        }
-    });
-}
-
-/**
- * Just get the digits of a string, useful to remove px from css value
- * 
- * @see http://stackoverflow.com/a/1100653/1465919
- */
-jumplink.justDigits = function (str) {
-  var num = str.replace(/[^-\d\.]/g, '');
-  if(isNaN(num)) {
-    return 0;
-  } else {
-    return Number(num);
-  }
-}
-
-/**
  * Detect if current device is a touch device
  * 
  * @see https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
@@ -521,13 +289,6 @@ jumplink.featureTest = function ( property, value, noPrefixes ) {
     mStyle.cssText = prop + value;
   }
   return mStyle[ property ].indexOf( value ) !== -1;
-}
-
-/**
- * Generate random number between two numbers
- */
-jumplink.rand = function (min, max) {
-  return Math.floor(Math.random()*(max-min+1)+min);
 }
 
 /**
@@ -560,19 +321,6 @@ jumplink.replaceNoImage = function() {
     $this.attr('src', window.product.noImageSrc);
   });
 }
-
-/**
- * 
- */
-jumplink.validateQty = function (qty) {
-  if((parseFloat(qty) == parseInt(qty)) && !isNaN(qty)) {
-    // We have a valid number!
-  } else {
-    // Not a number. Default to 1.
-    qty = 1;
-  }
-  return qty;
-};
 
 /**
  * 
@@ -659,40 +407,6 @@ jumplink.setBarbaContainerMinHeight = function (selector) {
 }
 
 /**
- * Javascript Implementations of Liquid Filters
- */
-jumplink.filter = {};
-
-/**
- * Strips tabs, spaces, and newlines (all whitespace) from the left and right side of a string.
- * @see https://help.shopify.com/themes/liquid/filters/string-filters#strip
- */
-jumplink.filter.strip = function (str) {
-  return $.trim(str);
-}
-
-/**
- *Converts a string into lowercase.
- * @see https://help.shopify.com/themes/liquid/filters/string-filters#downcase
- */
-jumplink.filter.downcase = function (str) {
-  return str.toLowerCase();
-}
-
-
-/**
- * Formats a string into a handle.
- * @see https://help.shopify.com/themes/liquid/filters/string-filters#handle-handleize
- */
-jumplink.filter.handleize = function (str) {
-  str = jumplink.filter.strip(str);
-  str = str.replace(/[^\w\s]/gi, '') // http://stackoverflow.com/a/4374890
-  str = jumplink.filter.downcase(str);
-  return str.replace(/ /g,"-");
-}
-jumplink.filter.handle = jumplink.filter.handle;
-
-/**
  * Change #search field with if active
  */
 var initSearchField = function () {
@@ -743,89 +457,8 @@ jumplink.getNavHeight = function () {
   return jumplink.cache.$mainNavbar.outerHeight(true);
 }
 
-/**
- * Appmate Wishlist King
- * Custom product select callback for appmate wishlist
- * @see https://apps.shopify.com/wishlist-king
- */
-var appmateSelectCallback = function(variant, selector) {
-  var shop = Appmate.wk.globals.shop;
-  var product = Appmate.wk.getProduct(variant.product_id);
-  var itemId = $(selector.variantIdField).parents('[data-wk-item]').attr('data-wk-item');
-  var container = $('#wk-item-' + itemId);
-
-  if (variant) {
-    // console.log("updateItem", variant);
-    Appmate.wk.updateItem(itemId, {selected_variant_id: variant.id});
-  }
-
-  var imageUrl = '';
-
-  if (variant && variant.image) {
-    imageUrl = Appmate.wk.filters.img_url(variant, 'large');
-  } else if (product) {
-    imageUrl = Appmate.wk.filters.img_url(product, 'large');
-  }
-
-  if (imageUrl) {
-    container.find('.wk-variant-image').attr('src', imageUrl);
-  } else {
-
-  }
-  var formatMoney = Appmate.wk.filters.money;
-  if(product.metafields && product.metafields.global && (product.metafields.global.Saleable === "nein" || product.metafields.global.Saleable === false || product.metafields.global.Saleable === 0 )) {
-    container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled').attr('value', window.translations.cart.general.can_not_add_to_cart);
-  } else if (variant && (variant.available || variant.inventory_policy === 'continue')) {
-    container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', window.translations.cart.general.add_to_cart);
-    if(variant.price < variant.compare_at_price){
-      container.find('.wk-price-preview').html("<span class='saleprice text-success'>" + formatMoney(variant.price) + "</span>" + " <small><del>" + formatMoney(variant.compare_at_price) + "</del></small>");
-    } else {
-      container.find('.wk-price-preview').html(formatMoney(variant.price));
-    }
-  } else {
-    container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled').attr('value', window.translations.product.general.sold_out);
-    var message = variant ? window.translations.product.general.sold_out: window.translations.product.general.unavailable;
-    container.find('.wk-price-preview').text(message);
-  }
-};
-
-/**
- * Appmate Wishlist King
- * handle option selection
- * @see https://apps.shopify.com/wishlist-king
- */
-function appmateOptionSelect(el){
-  if (!Shopify || !Shopify.OptionSelectors) {
-    throw new Error('Missing option_selection.js! Please check templates/page.wishlist.liquid');
-  }
-
-  var $el = $(el);
-  var id = el.getAttribute('id');
-  var itemId = $(el).parents('[data-wk-item]').attr('data-wk-item');
-  var container = $('#wk-item-' + itemId);
-
-  Appmate.wk.getItem(itemId).then(function(product){
-    // Original
-    // var selector = new Shopify.OptionSelectors(id, {
-    //     product: product,
-    //     onVariantSelected: appmateSelectCallback,
-    //     enableHistoryState: false
-    // });
-
-    // Own Implementation
-    var selector = jumplink.OptionSelectors(id, {
-        product: product,
-        onVariantSelected: appmateSelectCallback,
-        enableHistoryState: false
-    });
-
-    if (product.selected_variant_id) {
-        selector.selectVariant(product.selected_variant_id);
-    }
-
-  });
-}
-var toggleSidebar = function () {
+// TODO
+jumplink.toggleSidebar = function () {
   $( '.navbar-toggle' ).click();
 }
 
@@ -1200,7 +833,7 @@ var initGravatarElements = function (selector, classes) {
     var data = $gravatar.data();
 
     if(data.placeholders) {
-      placeholder = data.placeholders[jumplink.rand(0, data.placeholders.length-1)];
+      placeholder = data.placeholders[ProductJS.Utilities.rand(0, data.placeholders.length-1)];
     }
 
     //console.log("data", data);
@@ -1355,35 +988,35 @@ var initPageCarousel = function (dataset) {
     waitForAnimate:     Boolean(window.settings[dataset.pageHandle+'_carousel_waitForAnimate'] == 'true'),
     responsive: [
     {
-      breakpoint: jumplink.justDigits(window.settings["bs4-grid-breakpoints-xl"]),
+      breakpoint: rivets.formatters.justDigits(window.settings["bs4-grid-breakpoints-xl"]),
       settings: {
         arrows: true,
         dots: true,
       }
     },
     {
-      breakpoint: jumplink.justDigits(window.settings["bs4-grid-breakpoints-lg"]),
+      breakpoint: rivets.formatters.justDigits(window.settings["bs4-grid-breakpoints-lg"]),
       settings: {
         arrows: true,
         dots: true,
       }
     },
     {
-      breakpoint: jumplink.justDigits(window.settings["bs4-grid-breakpoints-md"]),
+      breakpoint: rivets.formatters.justDigits(window.settings["bs4-grid-breakpoints-md"]),
       settings: {
         arrows: true,
         dots: true,
       }
     },
     {
-      breakpoint: jumplink.justDigits(window.settings["bs4-grid-breakpoints-sm"]),
+      breakpoint: rivets.formatters.justDigits(window.settings["bs4-grid-breakpoints-sm"]),
       settings: {
         arrows: false,
         dots: false,
       }
     },
     {
-      breakpoint: jumplink.justDigits(window.settings["bs4-grid-breakpoints-xs"]),
+      breakpoint: rivets.formatters.justDigits(window.settings["bs4-grid-breakpoints-xs"]),
       settings: {
         arrows: false,
         dots: false,
@@ -1454,94 +1087,6 @@ var initBlog = function (dataset, data) {
 }
 
 /**
- * Loyalty Points by Bold
- * @see https://apps.shopify.com/loyalty-points-by-bold
- * @see /snippets/bold-loyalties-callout-assets.liquid
- */
-var initBoldLoyaltiesProductModal = function (product) {
-  if(window.settings.apps_bold_loyalty_points != "true") {
-    return false;
-  }
-  // WORKAROUND
-  $('#lean_overlay').remove();
-
-  // modal
-  $('#checkout_shipping_address_country').change(function () {
-    var country = $(this).val();
-    if(window.Countries && window.Countries[country]) {
-      var country = window.Countries[country];
-    }
-    
-
-    var provinceDropdown = $('.address_info.province');
-    provinceDropdown.empty();
-
-    if(!country || !country.provinces || country.provinces.length === 0) {
-      provinceDropdown.parent().hide();
-      return;
-    } else {
-      provinceDropdown.parent().show();
-    }
-
-    $.each(country.provinces, function (index, province) {
-      var selected = '';
-
-      if (province === '{{customer.default_address.province}}') {
-        selected = " selected";
-      }
-
-      provinceDropdown.append("<option" + selected + ">" + province + "</option>");
-    });
-  });
-
-  // set default to germany
-  $('#checkout_shipping_address_country').val('Germany');
-
-/*    {% if customer.default_address.country %}
-    $('#checkout_shipping_address_country').val('{{customer.default_address.country}}');
-  {% endif %}*/
-
-  $('#checkout_shipping_address_country').trigger('change');
-}
-
-/**
- * Loyalty Points by Bold
- * @see https://apps.shopify.com/loyalty-points-by-bold
- * @see /snippets/bold-loyalties-callout-assets.liquid
- */
-var initBoldLoyaltiesProduct = function (product) {
-
-  if(window.settings.apps_bold_loyalty_points != "true") {
-    return false;
-  }
-
-  initBoldLoyaltiesProductModal(product);
-
-  BoldApps.Loyalties.product = jQuery.extend({}, product); // clone workaround
-
-  if( product.metafields && product.metafields.bold_loyalties ) {
-    BoldApps.Loyalties.product_has_special_rewards = product.metafields.bold_loyalties.has_special_rewards == 1 ? true : false;
-    BoldApps.Loyalties.product.metafields = product.metafields.bold_loyalties;
-  }
-
-  if(product.metafields && product.metafields.bold_loyalties) {
-    
-  }
-
-  
-  if( window.settings.app_bold_apps !== false && window.settings.app_bold_apps !== "false") {
-    $.getScript( '//loy.boldapps.net/front_end/product_js', function( data, textStatus, jqxhr ) {
-      // console.log( "initBoldLoyaltiesProduct", data ); // Data returned
-      // console.log( "initBoldLoyaltiesProduct", textStatus ); // Success
-      // console.log( "initBoldLoyaltiesProduct", jqxhr.status ); // 200
-      // console.log( "initBoldLoyaltiesProduct", "Load was performed." );
-    });
-  }
-
-  // initBoldProduct($, product);
-}
-
-/**
  * TODO remove
  * Adding support for product options. See here for details:
  * @see http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options
@@ -1555,9 +1100,6 @@ var selectCallback = function(variant, selector, product) {
 
   // console.log('selectCallback', variant, selector, product);
   var productHandle = '#handle-'+product.handle;
-
-  initBoldLoyaltiesProduct(product);
-  // console.log('window.settings', window.settings);
 
   if (variant) {
 
@@ -1729,42 +1271,15 @@ var initProduct = function (dataset, data) {
     throw new Error("data need to have an product object");
   }
 
-  jumplink.cache.lastProductDataset = data.product;
+  jumplink.cache.$document.on('product.bind.after', function(event) {
+    jumplink.initDataAttributes(dataset);
+    initProductCarousel(data.product);
+  });
 
-  initProductCarousel(data.product);
-  initBoldLoyaltiesProduct(data.product);
+  jumplink.cache.lastProductDataset = data.product;
 
   ProductJS.loadProduct(data.product);
 
-  // get product handle, load product json and use it for variants
-  // var handle = dataset.productHandle;
-  var productHandle = '#handle-'+data.product.handle;
-
-  //var $select = $(productHandle+'_product-select');
-  // var vartiantOptions = jumplink.generateSelectors(data.product);
-  var $add = $(productHandle+'_add');
-  // var $qtySelector = $(productHandle+' [data-quantity-number="true"]');
-
-  var selector = null;
-  
-  // Add label if only one product option and it isn't 'Title'.
-  if( data.product.options.size == 1 && data.product.options.first != 'Title' ) {
-    $('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>');
-  }
-  
-  /*
-   * Recomatic Related Products
-   * @see https://apps.shopify.com/recomatic
-   */
-  if(window.recomatic_substitute_product_code) {
-    window.recomatic_substitute_product_code();
-  }
-
-  // https://getbootstrap.com/javascript/#tabs
-  $('#product-info-tab a').click(function (e) {
-    e.preventDefault()
-    $(this).tab('show')
-  });
 }
 
 /**
@@ -1829,8 +1344,20 @@ var initCart = function (dataset, data) {
     ProductJS.B2bCart.loadCart(cart);
   });
 
+  $modal.on('show.bs.modal', function (event) {
+    var data = $(event.target).data('bs.modal')._config;
+    
+    var handle = data.productHandle;
+    ProductJS.Utilities.getProduct(handle, function (error, product) {
+      console.log("show product modal", product);
+    });
+
+  });
+
   $modal.on('shown.bs.modal', function (e) {
-     $modal.$slick.slick('setPosition');
+    $this = $(this);
+    $modal.$slick.slick('setPosition');
+     
   });
 
   // init product photo carousel
@@ -1843,7 +1370,7 @@ var initCart = function (dataset, data) {
   }
 
   
-  $(document).on('b2bcart.bind.after', function(event) {
+  jumplink.cache.$document.on('b2bcart.bind.after', function(event) {
     if( !$modal.$slick.hasClass('slick-initialized') ) {
       $modal.$slick.slick(slickOptions);
     }
@@ -1948,7 +1475,7 @@ var initCollection = function (dataset, data) {
   var loadProductsOfPage = function (url, currentPageIndex, pageIndex, $currentContainer, callback) {
 
     // get url from barba.js cache
-    var xhr = Barba.BaseCache.get(url);  
+    var xhr = Barba.BaseCache.get(url);
 
     // if no cache for url
     if (!xhr) {
@@ -1956,6 +1483,7 @@ var initCollection = function (dataset, data) {
       Barba.BaseCache.set(url, xhr);
     }
 
+    console.warn("TODO use ProductJS.Utilities.getPage");
     // https://github.com/luruke/barba.js/blob/master/src/Pjax/Pjax.js#L327
     xhr.then(function(data) {
       // var currentContainer = Barba.Pjax.Dom.getContainer(document.body);
@@ -1973,7 +1501,7 @@ var initCollection = function (dataset, data) {
         opacity : 0
       });
 
-      // remove filter from current page
+      // remove pagination from current page
       $currentContainer.find('[data-pagination-wrapper]').remove();
 
       // append products to current page
@@ -2002,6 +1530,8 @@ var initCollection = function (dataset, data) {
     var collectionHandle = dataset.collectionHandle;
     var currentContainer = Barba.Pjax.Dom.getContainer(document.body);
     var $currentContainer = $('#barba-wrapper .barba-container');
+    
+    console.log("loadAllProducts");
 
     if(isNaN(pagesLength)) {
       pagesLength = 1;
@@ -2217,7 +1747,7 @@ var initIndex = function (dataset, data) {
   var instafeed = new Instafeed({
     clientId: window.settings['home_instafeed_clientId'],
     accessToken: window.settings['home_instafeed_accessToken'],
-    template: window['templates']['jumplink-instafeed-item'],
+    template: ProductJS.templates.instafeedItem,
     get: window.settings['home_instafeed_get'],
     tagName: window.settings['home_instafeed_tagName'],
     locationId: window.settings['home_instafeed_locationId'],
@@ -2250,7 +1780,7 @@ var init404 = function (dataset, data) {
 
     for (var i = 0; i < searchIn.length; i++) {
       var url = '/'+searchIn[i] + '/' + lastPath;
-      jumplink.urlExists(url, function(status, url) {
+      ProductJS.Utilities.urlExists(url, function(status, url) {
         if(status === 200){
           // file was found
           //console.log("exists", url);
@@ -2313,28 +1843,6 @@ var initAlert = function () {
 }
 
 /**
- * Parse jsonstrings in datasets of the .barba-container
- * 
- * @see theme.liquid for .barba-container  
- */
-var parseDatasetJsonStrings = function (dataset) {
-  var data = {};
-  if(dataset.productJsonString) {
-    data.product = JSON.parse(dataset.productJsonString);
-    // metafields needed to be set manually, its not allawed in shopify to get all as json
-    data.product.metafields = {
-      global: JSON.parse(dataset.productMetafieldsGlobalJsonString),
-    }
-
-    if(window.settings.apps_bold_loyalty_points == "true") {
-      data.product.metafields.bold_loyalties =  JSON.parse(dataset.productMetafieldsBold_loyaltiesJsonString)
-    }
-
-  }
-  return data;
-}
-
-/**
  * Init Javascripts insite of barba.js
  * 
  * @note see init() for inits outsite of barba.js 
@@ -2347,7 +1855,7 @@ var initTemplates = function () {
 
   Barba.Dispatcher.on('newPageReady', function(currentStatus, oldStatus, container) {
 
-    var data = parseDatasetJsonStrings(container.dataset);
+    var data = ProductJS.Utilities.parseDatasetJsonStrings(container.dataset);
 
     if(container.dataset.newHash !== "false") {
       jumplink.updateHash(container.dataset.newHash);
