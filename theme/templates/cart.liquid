@@ -3,7 +3,7 @@
   <div class="container pt-5">
 
     {% comment %} With Items {% endcomment %}
-    <form rv-hide="cart.item_count | lt 1" action="/cart" method="post" class="row">
+    <form rv-show="cart.item_count | gt 0" action="/cart" method="post" class="row">
 
       {% comment %} Left {% endcomment %}
       <div class="col-xs-12 col-md-9">
@@ -106,7 +106,7 @@
                   <div class="row mx-0">
                     {% comment %} TODO get product with barba {% endcomment %}
                     <div class="product-photos col-xs-12 col-md-6 mb-1">
-                      <product-images-slick product="product"></product-images-slick>
+                      <product-images-slick product="product" show-thums="false" has-colorcard="true"></product-images-slick>
                     </div>
                     <div class="product-details col-xs-12 col-md-6">
                       <product product="product" vendor-url="'{{ vendor_url }}'" add-update-button-class="'btn btn-secondary'"></product>
