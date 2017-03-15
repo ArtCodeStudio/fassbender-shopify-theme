@@ -213,9 +213,12 @@
   }
 
   {% capture tplJumplinkInstafeedItem %}{% include 'tpl-jumplink-instafeed-item' %}{% endcapture %}
-  ProductJS.templates.instafeedItem  = "{{ tplJumplinkInstafeedItem  | strip_newlines | replace: quote, escapedQuote }}";
+  ProductJS.templates.instafeedItem  = "{{ tplJumplinkInstafeedItem | strip_newlines | replace: quote, escapedQuote }}";
 
   {% capture tplJumplinkProduct %}{% include 'tpl-jumplink-product' %}{% endcapture %}
-  window.ProductJS.templates.product = "{{ tplJumplinkProduct  | strip_newlines | replace: quote, escapedQuote }}";
+  window.ProductJS.templates.product = "{{ tplJumplinkProduct | strip_newlines | replace: quote, escapedQuote }}";
+
+  {% capture tplJumplinkProductImagesSlick %}{% include 'tpl-jumplink-product-images-slick' %}{% endcapture %}
+  window.ProductJS.templates.productImagesSlick = "{{ tplJumplinkProductImagesSlick | strip_newlines | replace: quote, escapedQuote }}";
 
 </script>

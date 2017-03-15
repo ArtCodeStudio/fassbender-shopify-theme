@@ -1,0 +1,51 @@
+{% comment %}
+  Carousel
+{% endcomment %}
+<div class="row" data-colorcard="placeholder">
+
+  <div class="hidden-sm-down col-sm-2">
+    <div class="mb-1">
+      <div class="product-images-arrows d-flex justify-content-between">
+        {% comment %}
+          @see https://github.com/kenwheeler/slick#methods
+        {% endcomment %}
+        <div data-slick-method="slickPrev" rv-data-target="slickSelector">
+          {% include 'jumplink-iconset', name: 'arrow-big', direction: 'left', color: 'black' %}
+        </div>
+        <div data-slick-method="slickNext" rv-data-target="slickSelector">
+          {% include 'jumplink-iconset', name: 'arrow-big', direction: 'right', color: 'black' %}
+        </div>
+      </div>
+    </div>
+
+    <div rv-id="slickThumsID">
+      <div rv-each-image="product.images" rv-data-index="%image%" class="thumb mb-1">
+        <div class="background-box {{settings.products_aspect_ratio}}" rv-background-image="image" rv-title="product.title"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-xs-12 col-sm-10">
+
+    <div class="product-photo-carousel" rv-id="slickID" data-toggle="modal-no-touch" data-backdrop="false" data-target="#product-photo-modal-{{product.handle}}">
+
+      <a rv-each-image="product.images" class="product-photo-carousel-item">
+        <div class="background-box {{settings.products_aspect_ratio}}" rv-background-image="image" rv-title="product.title"></div>
+      </a>
+
+
+    </div>
+  </div>
+</div>
+
+{% comment %}
+  Modal
+{% endcomment %}
+{% comment %}
+{% include 'jumplink-product-photo-modal' %}
+{% endcomment %}
+
+<div class="preloaded-images">
+  <img src="{{ product.images.last.src | img_url: "master" }}" width="1" height="1" alt="Last Product Image" />
+</div>

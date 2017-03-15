@@ -1,17 +1,18 @@
-<div class="container pt-5" id="cart">
-  <div>
+<div id="cart">
 
-    {% comment %} With Items {% endcomment %} 
+  <div class="container pt-5">
+
+    {% comment %} With Items {% endcomment %}
     <form rv-hide="cart.item_count | lt 1" action="/cart" method="post" class="row">
 
-      {% comment %} Left {% endcomment %} 
+      {% comment %} Left {% endcomment %}
       <div class="col-xs-12 col-md-9">
         <div class="row">
 
-          {% comment %} Products {% endcomment %} 
+          {% comment %} Products {% endcomment %}
           <div rv-each-product="cart.products" data-toggle="modal" data-backdrop="false" data-target="#cart-modal" rv-data-product-handle="product.handle" class="col-xs-12 col-sm-6 col-md-4 col-xl-4">
 
-            {% comment %} Product {% endcomment %} 
+            {% comment %} Product {% endcomment %}
             <div class="product-item mx-2 mb-4">
 
               <div class="image-wrap">  
@@ -32,10 +33,10 @@
         </div>
       </div>
 
-      {% comment %} Right {% endcomment %} 
+      {% comment %} Right {% endcomment %}
       <div class="col-xs-12 col-md-3 fixed-right cart-summary">
-
-         {% comment %} Summary {% endcomment %} 
+        <hr class="my-4" />
+        {% comment %} Summary {% endcomment %}
         <h3 class="mb-4 text-uppercase">{ cart.products | size } Items</h3>
         <p class="mb-0 cart-price">{ cart.total_price | money }</p>
         <p class="product-legal-text mt-0">
@@ -46,7 +47,7 @@
 
     </form>
 
-    {% comment %} Without Items {% endcomment %} 
+    {% comment %} Without Items {% endcomment %}
     <div rv-show="cart.item_count | lt 1">
       <div class="row">
         <div class="col-xs-12 text-center">
@@ -62,54 +63,57 @@
   <div class="modal modal-fullscreen modal-cart" id="cart-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-body pt-3">
+        {% comment %} padding top for navbar {% endcomment %}
+        <div class="modal-body" style="padding-top: 52px;">
 
-          <div class="container pt-5">
+          {% comment %} jumplink-breadcrumbs-slide-buttons {% endcomment %}
+          <div class="container pt-1">
             <div class="row">
-              <div class="col-xs-12 col-md-9">
-
-                <div class="slick-slider">
-
-                  {% comment %} Products {% endcomment %} 
-                  <div rv-each-product="cart.products">
-
-                    <div class="row">
-            
-                      {% comment %} TODO get product with barba {% endcomment %}
-                      <div class="product-photos col-xs-12 col-md-6 mb-1">
-                        <a class="product-photo-carousel-item">
-                            <div class="background-box {{settings.products_aspect_ratio}}" style="background-image: url({{ image | img_url: 'master' }});" title="{{ image.alt | escape }}"></div>
-                            {% if settings.products_show_page_number_in_carousel %}
-                                <div class="carousel-caption bottom right">
-                                    <div class="carousel-caption-wrapper">
-                                        {{ forloop.index }}/{{ forloop.length }}
-                                    </div>
-                                </div>
-                            {% endif %}
-                        </a>
+              <div class="col-xs-6">
+                <ul class="pagination modal-buttons">
+                    <li data-dismiss="modal" aria-label="Close" class="page-item">
+                      <div class="page-link prev d-flex flex-row justify-content-center">
+                        {% include 'jumplink-iconset', name: 'arrow-big', direction: 'left', color: 'black' %} <small>back</small>
                       </div>
-                      <div class="product-details col-xs-12 col-md-6">
-                        <product product="product" vendor-url="'{{ vendor_url }}'"></product>
-                      </div>
+                    </li>
+                </ul>
+              </div>
+              <div class="col-xs-6 d-flex justify-content-end">
+                <ul class="pagination slide-buttons">
+                  <li data-slick-method="slickPrev" data-target="#cart-modal .slick-slider" class="page-item">
+                    <div class="page-link prev d-flex flex-row justify-content-center">
+                      {% include 'jumplink-iconset', name: 'arrow-big', direction: 'left', color: 'black' %} <small>prev</small>
                     </div>
-                      
+                  </li>
 
+                  <li data-slick-method="slickNext" data-target="#cart-modal .slick-slider" class="page-item">
+                    <div class="page-link next d-flex flex-row justify-content-center">
+                      <small>next</small> {% include 'jumplink-iconset', name: 'arrow-big', direction: 'right', color: 'black' %}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="row">
+            
+              <div class="col-xs-12 col-md-9 product-details-slider slick-slider">
+
+                {% comment %} Products {% endcomment %}
+                <div rv-each-product="cart.products">
+                  <div class="row mx-0">
+                    {% comment %} TODO get product with barba {% endcomment %}
+                    <div class="product-photos col-xs-12 col-md-6 mb-1">
+                      <product-images-slick product="product"></product-images-slick>
+                    </div>
+                    <div class="product-details col-xs-12 col-md-6">
+                      <product product="product" vendor-url="'{{ vendor_url }}'" add-update-button-class="'btn btn-secondary'"></product>
+                    </div>
                   </div>
-
                 </div>
 
-                <div class="arrow-left" data-slick-method="slickPrev" data-target="#cart-modal .slick-slider">
-                    {% include 'jumplink-iconset', name: 'arrow-big', direction: 'left', color: 'black' %}
-                </div>
-
-                <div class="arrow-right" data-slick-method="slickNext" data-target="#cart-modal .slick-slider">
-                    {% include 'jumplink-iconset', name: 'arrow-big', direction: 'right', color: 'black' %}
-                </div>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    {% include 'jumplink-iconset', name: 'x', color: 'black' %}
-                </button>
-                
               </div>
             </div>
           </div>
@@ -118,5 +122,4 @@
       </div>
     </div>
   </div>
-
 </div>

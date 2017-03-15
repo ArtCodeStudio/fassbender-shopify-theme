@@ -26,7 +26,10 @@
 }
 
 .pagination {
-  &.slide-buttons {
+  &.slide-buttons, &.modal-buttons {
+      .page-item {
+        cursor: pointer;
+      }
       .iconset {
           &.arrow, &.arrow-big {
               display: inline-block;

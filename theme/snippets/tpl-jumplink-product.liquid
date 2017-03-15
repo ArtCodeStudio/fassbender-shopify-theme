@@ -26,7 +26,7 @@
   <small>Code { product.variant.name }</small>
 </p>
 
-<product-b2b-add product="product" add-label="'{{ 'cart.general.add_to_cart' | t | escape }}'" update-label="'{{ 'cart.general.update_cart' | t | escape }}'"></product-b2b-add>
+<product-b2b-add product="product" add-update-button-class="addUpdateButtonClass" add-label="'{{ 'cart.general.add_to_cart' | t | escape }}'" update-label="'{{ 'cart.general.update_cart' | t | escape }}'"></product-b2b-add>
 
 
 
@@ -37,8 +37,7 @@
   {% include 'jumplink-iconset', name: 'arrow', direction: 'right', color: 'black' %} Show Color Card
 </div>
 
-<p class="rte">
-  { product.description }
+<p rv-html="product.description" class="rte">
 </p>
 
 {% comment %}

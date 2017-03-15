@@ -19236,6 +19236,208 @@ var Popover = function ($) {
 
   g.md5 = g.md5 || md5;
 }(typeof global === "undefined" ? window : global);
+/**
+ * transformicons
+ * 
+ * @see http://www.transformicons.com/builder.html
+ * 
+ * @markup
+  <button type="button" class="tcon tcon-menu--xcross" aria-label="toggle menu">
+    <span class="tcon-menu__lines" aria-hidden-xs-up="true"></span>
+    <span class="tcon-visuallyhidden-xs-up">toggle menu</span>
+  </button>
+  <button type="button" class="tcon tcon-plus tcon-plus--minus" aria-label="add item">
+    <span class="tcon-visuallyhidden-xs-up">add item</span>
+  </button>
+  <button type="button" class="tcon tcon-search--xcross" aria-label="toggle search">
+    <span class="tcon-search__item" aria-hidden-xs-up="true"></span>
+    <span class="tcon-visuallyhidden-xs-up">toggle search</span>
+  </button>
+ *
+ */
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD module
+    define(factory);
+  } else if (typeof exports === 'object') {
+    // CommonJS-like environment (i.e. Node)
+    module.exports = factory();
+  } else {
+    // Browser global
+    root.transformicons = factory();
+  }
+}(this || window, function () {
+
+  // ####################
+  // MODULE TRANSFORMICON
+  // ####################
+  'use strict';
+
+  var
+    tcon = {}, // static class
+    _transformClass = 'tcon-transform',
+
+    // const
+    DEFAULT_EVENTS = {
+      transform : ['click'],
+      revert : ['click']
+    };
+
+  // ##############
+  // private methods
+  // ##############
+
+  /**
+  * Normalize a selector string, a single DOM element or an array of elements into an array of DOM elements.
+  * @private
+  *
+  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements
+  * @returns {array} Array of DOM elements
+  */
+  var getElementList = function (elements) {
+    if (typeof elements === 'string') {
+      return Array.prototype.slice.call(document.querySelectorAll(elements));
+    } else if (typeof elements === 'undefined' || elements instanceof Array) {
+      return elements;
+    } else {
+      return [elements];
+    }
+  };
+
+  /**
+  * Normalize a string with eventnames separated by spaces or an array of eventnames into an array of eventnames.
+  * @private
+  *
+  * @param {(string|array)} elements - String with eventnames separated by spaces or array of eventnames
+  * @returns {array} Array of eventnames
+  */
+  var getEventList = function (events) {
+    if (typeof events === 'string') {
+      return events.toLowerCase().split(' ');
+    } else {
+      return events;
+    }
+  };
+
+  /**
+  * Attach or remove transformicon events to one or more elements.
+  * @private
+  *
+  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be toggled
+  * @param {object} [events] - An Object containing one or more special event definitions
+  * @param {boolean} [remove=false] - Defines wether the listeners should be added (default) or removed.
+  */
+  var setListeners = function (elements, events, remove) {
+    var
+      method = (remove ? 'remove' : 'add') + 'EventListener',
+      elementList = getElementList(elements),
+      currentElement = elementList.length,
+      eventLists = {};
+
+    // get events or use defaults
+    for (var prop in DEFAULT_EVENTS) {
+      eventLists[prop] = (events && events[prop]) ? getEventList(events[prop]) : DEFAULT_EVENTS[prop];
+    }
+    
+    // add or remove all events for all occasions to all elements
+    while(currentElement--) {
+      for (var occasion in eventLists) {
+        var currentEvent = eventLists[occasion].length;
+        while(currentEvent--) {
+          elementList[currentElement][method](eventLists[occasion][currentEvent], handleEvent);
+        }
+      }
+    }
+  };
+
+  /**
+  * Event handler for transform events.
+  * @private
+  *
+  * @param {object} event - event object
+  */
+  var handleEvent = function (event) {
+    tcon.toggle(event.currentTarget);
+  };
+
+  // ##############
+  // public methods
+  // ##############
+
+  /**
+  * Add transformicon behavior to one or more elements.
+  * @public
+  *
+  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be toggled
+  * @param {object} [events] - An Object containing one or more special event definitions
+  * @param {(string|array)} [events.transform] - One or more events that trigger the transform. Can be an Array or string with events seperated by space.
+  * @param {(string|array)} [events.revert] - One or more events that trigger the reversion. Can be an Array or string with events seperated by space.
+  * @returns {transformicon} transformicon instance for chaining
+  */
+  tcon.add = function (elements, events) {
+    setListeners(elements, events);
+    return tcon;
+  };
+
+  /**
+  * Remove transformicon behavior from one or more elements.
+  * @public
+  *
+  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be toggled
+  * @param {object} [events] - An Object containing one or more special event definitions
+  * @param {(string|array)} [events.transform] - One or more events that trigger the transform. Can be an Array or string with events seperated by space.
+  * @param {(string|array)} [events.revert] - One or more events that trigger the reversion. Can be an Array or string with events seperated by space.
+  * @returns {transformicon} transformicon instance for chaining
+  */
+  tcon.remove = function (elements, events) {
+    setListeners(elements, events, true);
+    return tcon;
+  };
+
+  /**
+  * Put one or more elements in the transformed state.
+  * @public
+  *
+  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be transformed
+  * @returns {transformicon} transformicon instance for chaining
+  */
+  tcon.transform = function (elements) {
+    getElementList(elements).forEach(function(element) {
+      element.classList.add(_transformClass);
+    });
+    return tcon;
+  };
+
+  /**
+  * Revert one or more elements to the original state.
+  * @public
+  *
+  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be reverted
+  * @returns {transformicon} transformicon instance for chaining
+  */
+  tcon.revert = function (elements) {
+    getElementList(elements).forEach(function(element) {
+      element.classList.remove(_transformClass);
+    });
+    return tcon;
+  };
+  
+  /**
+  * Toggles one or more elements between transformed and original state.
+  * @public
+  *
+  * @param {(string|element|array)} elements - Selector, DOM element or Array of DOM elements to be toggled
+  * @returns {transformicon} transformicon instance for chaining
+  */
+  tcon.toggle = function (elements) {
+    getElementList(elements).forEach(function(element) {
+      tcon[element.classList.contains(_transformClass) ? 'revert' : 'transform'](element);
+    });
+    return tcon;
+  };
+
+  return tcon;
+}));
 /*!
  * VERSION: 1.19.1
  * DATE: 2017-01-17
@@ -38638,7 +38840,6 @@ ProductJS.Utilities.cacheProduct = function(product) {
         product = ProductJS.Utilities.setVariant(ProductJS.Utilities.splitOptions(product));
     }
     if (ProductJS.cache[product.handle]) {
-        console.log("product is cached", ProductJS.cache[product.handle]);
         return ProductJS.cache[product.handle];
     } else {
         product = ProductJS.Utilities.setVariant(ProductJS.Utilities.splitOptions(product));
@@ -38648,7 +38849,6 @@ ProductJS.Utilities.cacheProduct = function(product) {
 };
 
 ProductJS.Utilities.getPage = function(url, callback) {
-    console.log("getPage", url);
     if (typeof Barba === "undefined") {
         var error = "You need barba.js to use this function, see http://barbajs.org/";
         console.error(error);
@@ -38717,7 +38917,6 @@ ProductJS.Utilities.getProducts = function(products, callback) {
             callback(null);
         });
     }, function(error, products) {
-        console.log("ProductJS.Utilities.getProducts result", error, products);
         callback(error, products);
     });
 };
@@ -38990,7 +39189,6 @@ ProductJS.B2bCart.group = function(cart) {
 
 ProductJS.B2bCart.loadCart = function(cart) {
     $(document).trigger("b2bcart.bind.befor");
-    console.log("loadCart", cart);
     cart = ProductJS.B2bCart.group(cart);
     ProductJS.Utilities.getProducts(cart.products, function(error, products) {
         cart.products = products;
@@ -39209,7 +39407,7 @@ if (typeof ProductJS.templates.product !== "string") {
 }
 
 if (typeof ProductJS.templates.productB2bAdd !== "string") {
-    ProductJS.templates.productB2bAdd = '<div class="form-add-to-cart form-group"><button rv-on-click="addListToCart" type="button" name="add" class="btn btn-primary w-100"><span rv-show="product.variantInCart">{ updateLabel }</span> <span rv-hide="product.variantInCart">{ addLabel }</span></button></div>';
+    ProductJS.templates.productB2bAdd = '<div class="form-add-to-cart form-group"><button rv-on-click="addListToCart" type="button" name="add" rv-class="addUpdateButtonClass"><span rv-show="product.variantInCart">{ updateLabel }</span> <span rv-hide="product.variantInCart">{ addLabel }</span></button></div>';
 }
 
 if (typeof ProductJS.templates.productB2bButton !== "string") {
@@ -39220,12 +39418,16 @@ if (typeof ProductJS.templates.productB2bList !== "string") {
     ProductJS.templates.productB2bList = '<div rv-hide="product.variants | size | lt 2"><table rv-hide="product.b2b_cart | empty" class="table table-hover"><thead><tr class="d-flex flex-row align-items-stretch"><th rv-each-select="product.selectOptions">{ select.title }</th><th>Quantity</th></tr></thead><tbody class="d-flex flex-column-reverse"><tr rv-each-variant="product.b2b_cart" rv-hide="variant.quantity | lt 1" rv-on-click="onClickRow" class="d-flex flex-row align-items-stretch"><td rv-each-option="variant.options" rv-data-value="option" rv-data-index="%option%" data-type="option">{ option }</td><td data-type="quantity">{ variant.quantity }</td></tr></tbody></table></div>';
 }
 
+if (typeof ProductJS.templates.productImagesSlick !== "string") {
+    ProductJS.templates.productImagesSlick = '<h1 rv-on-click="onClick">{product.title}</h1>';
+}
+
 if (typeof ProductJS.templates.productQuantityButton !== "string") {
     ProductJS.templates.productQuantityButton = '<div class="input-group group-quantity-actions" role="group" aria-label="Adjust the quantity"><span class="input-group-btn"><button rv-on-click="onClickDecrease" type="button" class="btn btn-secondary">&minus;</button> </span><input rv-on-change="onValueChange" rv-value="product.variant.quantity | default start" type="text" name="quantity" class="form-control" min="0" aria-label="quantity" pattern="[0-9]*"> <span class="input-group-btn"><button rv-on-click="onClickIncrease" type="button" class="btn btn-secondary border-left-0">+</button></span></div>';
 }
 
 if (typeof ProductJS.templates.productVariantDropdowns !== "string") {
-    ProductJS.templates.productVariantDropdowns = '<div class="dropdown" rv-hide="product.variants | size | lt 2" rv-each-select="product.selectOptions" rv-data-index="%select%" rv-data-title="select.title"><button rv-id="select.title | handleize | append \'-dropdown-toggle\'" rv-class="dropdownButtonClass | append \' btn btn-secondary dropdown-toggle\'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{ select.select }</button><div rv-class="select.title | handleize | append \' dropdown-menu\'" rv-aria-labelledby="select.title | handleize | append \'-dropdown-toggle\'"><h6 class="dropdown-header">{ select.title }</h6><a class="dropdown-item" rv-on-click="onOptionClick" rv-each-option="select.values" rv-data-index="%option%" rv-data-value="option" href="#">{ option }</a></div></div><product-quantity-button rv-if="showQuantityButton" product="product" start="start" min="0" decrease="10" increase="10"></product-quantity-button>';
+    ProductJS.templates.productVariantDropdowns = '<div class="dropdown" rv-hide="product.variants | size | lt 2" rv-each-select="product.selectOptions" rv-data-index="%select%" rv-data-title="select.title"><button rv-id="select.title | handleize | append \'-dropdown-toggle\'" rv-class="dropdownButtonClass | append \' btn btn-secondary dropdown-toggle\'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{ select.select }</button><div rv-class="select.title | handleize | append \' dropdown-menu\'" rv-aria-labelledby="select.title | handleize | append \'-dropdown-toggle\'"><h6 class="dropdown-header">{ select.title }</h6><div class="dropdown-item" rv-on-click="onOptionClick" rv-each-option="select.values" rv-data-index="%option%" rv-data-value="option">{ option }</div></div></div><product-quantity-button rv-if="showQuantityButton" product="product" start="start" min="0" decrease="10" increase="10"></product-quantity-button>';
 }
 
 if (typeof ProductJS.templates.productVariantSelectors !== "string") {
@@ -39304,6 +39506,10 @@ ProductJS.Components.productB2bAddCtr = function(element, data) {
     controller.$element = $(element);
     controller.addLabel = data.addLabel;
     controller.updateLabel = data.updateLabel;
+    controller.addUpdateButtonClass = "btn btn-primary w-100";
+    if (data.addUpdateButtonClass) {
+        controller.addUpdateButtonClass = data.addUpdateButtonClass;
+    }
     controller.addListToCart = function() {
         ProductJS.B2bCart.updateCart(controller.product);
     };
@@ -39447,6 +39653,61 @@ rivets.components["product-b2b-list"] = {
             console.error(new Error("function attribute is required"));
         }
         return new ProductJS.Components.productB2bListCtr(el, data);
+    }
+};
+
+if (typeof ProductJS !== "object") {
+    var ProductJS = {};
+}
+
+if (typeof ProductJS.Components !== "object") {
+    ProductJS.Components = {};
+}
+
+ProductJS.Components.productImagesSlickCtr = function(element, data) {
+    var controller = this;
+    controller.product = data.product;
+    controller.$element = $(element);
+    controller.slickID = "product-images-slick-" + controller.product.handle;
+    controller.slickSelector = "#" + controller.slickID;
+    controller.slickThumsID = "product-thumbs-" + controller.product.handle;
+    controller.slickThumsSelector = "#" + controller.slickThumsID + " .thumb";
+    var slickOptions = {
+        dots: false,
+        arrows: false
+    };
+    $(document).on("b2bcart.bind.after", function(event) {
+        var $slick = $(controller.slickSelector);
+        var $slickThums = $(controller.slickThumsSelector);
+        var $modal = $("#cart-modal");
+        $modal.on("shown.bs.modal", function(e) {
+            $slick.slick("setPosition");
+        });
+        console.log("slick", $slick, $slickThums);
+        if (!$slick.hasClass("slick-initialized")) {
+            $slick.slick(slickOptions);
+            $slickThums.each(function(index, value) {
+                $thumb = $(this);
+                $thumb.click(function() {
+                    $thumb = $(this);
+                    $slick.slick("slickGoTo", $thumb.data().index);
+                });
+            });
+        }
+    });
+    console.log("productImagesSlickCtr", controller);
+};
+
+rivets.components["product-images-slick"] = {
+    template: function() {
+        return ProductJS.templates.productImagesSlick;
+    },
+    initialize: function(el, data) {
+        console.log("init product-images-slick", el, data);
+        if (!data.product) {
+            console.error(new Error("product attribute is required"));
+        }
+        return new ProductJS.Components.productImagesSlickCtr(el, data);
     }
 };
 

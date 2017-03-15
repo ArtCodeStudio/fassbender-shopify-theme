@@ -213,7 +213,7 @@ jumplink.initSlickMethods = function () {
     var data = $this.data();
     var $target = $(data.target);
     var method = data.slickMethod;
-    console.log('initSlickMethods', $target, method);
+    // console.log('initSlickMethods', $target, method);
     $target.slick(method);
   });
 
@@ -1097,6 +1097,7 @@ var initBlog = function (dataset, data) {
  */
 var selectCallback = function(variant, selector, product) {
   console.log('selectCallback');
+  console.warn(new Error("Deprecated!"));
 
   // console.log('selectCallback', variant, selector, product);
   var productHandle = '#handle-'+product.handle;
@@ -1366,6 +1367,8 @@ var initCart = function (dataset, data) {
   var slickOptions = {
     dots: false,
     arrows: false,
+    infinite: false, // infinite makes problems with rivets.js
+    swipe: false, // do not swipe products because it has product images to swipe
     // appendArrows: $(productHandle+' .product-photo-carousel-arrows'),
   }
 

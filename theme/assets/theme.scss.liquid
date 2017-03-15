@@ -11606,21 +11606,15 @@ $slick-opacity-not-active: 0.25 !default;
 }
 
 product-variant-dropdowns {
-    &.align-items-stretch {
-        .dropdown, product-quantity-button {
-            flex: 1;
-        }
+    .dropdown, product-quantity-button {
+
     }
 
 }
 
 // use flexbox for tables to make the table reverseable
 product-b2b-list {
-    tr.align-items-stretch {
-        th, td {
-            flex: 1;
-        }
-    }
+
 }
 
 html, body {
@@ -11775,7 +11769,10 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
 }
 
 .pagination {
-  &.slide-buttons {
+  &.slide-buttons, &.modal-buttons {
+      .page-item {
+        cursor: pointer;
+      }
       .iconset {
           &.arrow, &.arrow-big {
               display: inline-block;
@@ -11882,15 +11879,6 @@ b, strong {
             border-left: none;
         }
     }
-}
-
-.product-variants {
-    >:first-child {
-        margin-right: 10px;
-    }
-    >:last-child {
-        margin-left: 10px;
-    } 
 }
 .right-sidebar {
     .list-group {
@@ -12116,10 +12104,6 @@ b, strong {
     background-size: cover;
     background-position: center center;
 }
-
-[data-toggle] {
-    cursor: pointer;
-}
 [data-namespace="cart"] {
   .cart-price {
     @extend .product-price;
@@ -12129,6 +12113,7 @@ b, strong {
     z-index: $zindex-navbar; // show summary over modal
   }
 }
+
 [data-collection-filter] {
     @include media-breakpoint-up(md) {
         @include vp-position(fixed);
@@ -12188,4 +12173,34 @@ b, strong {
             width: 100%;
         }
     }
+}
+product-variant-dropdowns {
+    &.align-items-stretch {
+        .dropdown, product-quantity-button {
+            flex: 1;
+        }
+    }
+
+}
+
+// use flexbox for tables to make the table reverseable
+product-b2b-list {
+    tr.align-items-stretch {
+        th, td {
+            flex: 1;
+        }
+    }
+}
+
+.product-variants {
+    >:first-child {
+        margin-right: 10px;
+    }
+    >:last-child {
+        margin-left: 10px;
+    } 
+}
+
+[rv-on-click], [data-toggle] {
+  cursor: pointer;
 }
