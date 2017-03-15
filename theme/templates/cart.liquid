@@ -34,7 +34,7 @@
       </div>
 
       {% comment %} Right {% endcomment %}
-      <div class="col-xs-12 col-md-3 fixed-right cart-summary">
+      <div class="hidden-md-down col-md-3 fixed-right cart-summary">
         <hr class="my-4" />
         {% comment %} Summary {% endcomment %}
         <h3 class="mb-4 text-uppercase">{ cart.products | size } Items</h3>
@@ -43,6 +43,25 @@
           <small>{{ 'product.general.legal_price_text' | t: vat_rate: '19' }}</small>
         </p>
         <input type="submit" name="checkout" value="{{ 'cart.general.checkout' | t }}" class="btn btn-primary" />
+      </div>
+
+      <div class="hidden-lg-up navbar fixed-bottom navbar-light bg-white border-t border-px-1 border-color-gray-lighter d-flex flex-row justify-content-between">
+        
+        <span class="navbar-text">
+          { cart.products | size } Items
+        </span>
+
+        <span class="navbar-text">
+          <p class="mb-0 cart-price my-0">{ cart.total_price | money }</p>
+          <p class="product-legal-text my-0">
+            <small>{{ 'product.general.legal_price_text' | t: vat_rate: '19' }}</small>
+          </p>
+        </span>
+
+        <div class="form-inline">
+          <button type="submit" name="checkout" class="btn btn-primary">{{ 'cart.general.checkout' | t }}</button>
+        </div>
+
       </div>
 
     </form>
@@ -99,7 +118,7 @@
           <div class="container">
             <div class="row">
             
-              <div class="col-xs-12 col-md-9 product-details-slider slick-slider">
+              <div class="col-xs-12 col-md-9 product-details-slider slick-slider bg-body">
 
                 {% comment %} Products {% endcomment %}
                 <div rv-each-product="cart.products">
