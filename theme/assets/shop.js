@@ -1349,9 +1349,9 @@ var initCart = function (dataset, data) {
     var data = $(event.target).data('bs.modal')._config;
     
     var handle = data.productHandle;
-    ProductJS.Utilities.getProduct(handle, function (error, product) {
-      console.log("show product modal", product);
-    });
+    // ProductJS.Utilities.getProduct(handle, function (error, product) {
+    //   console.log("show product modal", product);
+    // });
 
   });
 
