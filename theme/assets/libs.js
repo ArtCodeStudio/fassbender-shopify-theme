@@ -39423,6 +39423,22 @@ rivets.formatters.last = function(array, index) {
     return array.length === index + 1;
 };
 
+rivets.formatters.get = function(obj, key) {
+    if (obj && typeof obj === "object") {
+        return obj[key];
+    }
+    return null;
+};
+
+rivets.formatters["."] = rivets.formatters.get;
+
+rivets.formatters.set = function(obj, key, value) {
+    if (obj && typeof obj === "object") {
+        obj[key] = value;
+    }
+    return obj;
+};
+
 if (typeof ProductJS !== "object") {
     var ProductJS = {};
 }

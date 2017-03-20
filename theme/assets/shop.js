@@ -182,13 +182,18 @@ jumplink.initColorcard = function (dataset) {
     var $this = $(this);
     var data = $this.data();
     var $target = $(data.target);
+    var image = data.image;
+
+    if($target.length <= 0) {
+      $target = $('[data-product-handle="'+data.productHandle+'"] [data-colorcard="placeholder"]');
+    }
     var html =  $this.html();
 
-    // console.log('colocard klick', data, dataset.productImageLast);
+    console.log('colocard klick', data, image);
 
     if(!$this.hasClass('toggled')) {
       $target.children().fadeTo( "fast", 0 );
-      $target.css('background-image', 'url('+dataset.productImageLast+')');
+      $target.css('background-image', 'url('+image+')');
       $this.addClass('toggled');
       html = html.replace('Show', 'Hide')
     } else {
@@ -1381,20 +1386,12 @@ var initCart = function (dataset, data) {
     // stuff to init after rivents dom binding stuff is done
     jumplink.cache.$document.on('b2bcart.bind.after', function(event) {
 
+      jumplink.initColorcard(dataset);
+
       // init modal
       self.$modal = $('#cart-modal');
       self.$modal.modal(self.modalOptions);
-      self.$modal.on('show.bs.modal', function (event) {
-        //$this = $(event.currentTarget);
-        // console.log("". $this, event) 
-        // var data = $(event.target).data('bs.modal')._config; 
-        // var handle = data.productHandle;
-        // ProductJS.Utilities.getProduct(handle, function (error, product) {
-        //   console.log("show product modal", product);
-        // });
-      });
       self.$modal.on('shown.bs.modal', function (e) {
-        // $this = $(this);
         self.$modal.$slick.slick('setPosition');
       });
       self.$modalTogglers = $('[data-toggle="product-modal"]');
