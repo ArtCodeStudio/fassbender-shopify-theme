@@ -11340,6 +11340,10 @@ b, strong {
         }
     }
 }
+
+.modal-backdrop {
+    display: none !important; // WORKAROUND for bug?
+}
 .fixed-right {
   position: fixed;
   right: 0;

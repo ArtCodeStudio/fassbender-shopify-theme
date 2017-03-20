@@ -1338,33 +1338,15 @@ var initCustomersAddresses = function (dataset) {
  * @see https://cartjs.org/
  */
 var initCart = function (dataset, data) {
-  var $modal = $('#cart-modal');
-  $modal.$slick = $modal.find('.slick-slider');
+  var self = this;
+ 
+  self.modalOptions = {
+    backdrop: false,
+    show: false,
+    focus: false,
+  }
 
-  $.getJSON('/cart.js', function(cart) {
-    ProductJS.B2bCart.loadCart(cart);
-  });
-
-  $modal.on('show.bs.modal', function (event) {
-    var data = $(event.target).data('bs.modal')._config;
-    
-    var handle = data.productHandle;
-    // ProductJS.Utilities.getProduct(handle, function (error, product) {
-    //   console.log("show product modal", product);
-    // });
-
-  });
-
-  $modal.on('shown.bs.modal', function (e) {
-    $this = $(this);
-    $modal.$slick.slick('setPosition');
-     
-  });
-
-  // init product photo carousel
-  
-  
-  var slickOptions = {
+  self.slickOptions = {
     dots: false,
     arrows: false,
     infinite: false, // infinite makes problems with rivets.js
@@ -1372,18 +1354,73 @@ var initCart = function (dataset, data) {
     // appendArrows: $(productHandle+' .product-photo-carousel-arrows'),
   }
 
-  
-  jumplink.cache.$document.on('b2bcart.bind.after', function(event) {
-    if( !$modal.$slick.hasClass('slick-initialized') ) {
-      $modal.$slick.slick(slickOptions);
+  /**
+   * Remove all event handlers from all paragraphs and hide hide all modals
+   * 
+   * @see http://api.jquery.com/off/
+   */
+  self.destory = function () {
+    console.log("destory cart template");
+    if(self.$modal) {
+      self.$modal.off('show.bs.modal shown.bs.modal');
+      self.$modal.modal('hide');
     }
+    
+    // self.$modalTogglers.off();
+    // jumplink.cache.$document.off('b2bcart.bind.after cart.requestComplete');
+    
+  }
 
-  });
+  self.init = function () {
+
+    console.log("init cart");
+    $.getJSON('/cart.js', function(cart) {
+      ProductJS.B2bCart.loadCart(cart);
+    });
+
+    // stuff to init after rivents dom binding stuff is done
+    jumplink.cache.$document.on('b2bcart.bind.after', function(event) {
+
+      // init modal
+      self.$modal = $('#cart-modal');
+      self.$modal.modal(self.modalOptions);
+      self.$modal.on('show.bs.modal', function (event) {
+        // var data = $(event.target).data('bs.modal')._config; 
+        // var handle = data.productHandle;
+        // ProductJS.Utilities.getProduct(handle, function (error, product) {
+        //   console.log("show product modal", product);
+        // });
+      });
+      self.$modal.on('shown.bs.modal', function (e) {
+        $this = $(this);
+        self.$modal.$slick.slick('setPosition');
+      });
+      self.$modalTogglers = $('[data-toggle="product-modal"]');
+      self.$modalTogglers.each(function( index ) {
+        var $this = $(this);
+        console.log($this);
+        $this.click(function() {
+          console.log("klick modal toggle");
+          self.$modal.modal('show');
+        });
+      });
+
+      // init slick
+      self.$modal.$slick = self.$modal.find('.slick-slider');
+      if( !self.$modal.$slick.hasClass('slick-initialized') ) {
+        self.$modal.$slick.slick(self.slickOptions);
+      }
+
+    });
 
 
-  jumplink.cache.$document.on('cart.requestComplete', function(event, cart) {
-    // console.log('cart.requestComplete', cart);
-  });
+    jumplink.cache.$document.on('cart.requestComplete', function(event, cart) {
+      // console.log('cart.requestComplete', cart);
+    });
+  }
+
+  self.init();
+  return self;
 }
 
 /**
@@ -1845,6 +1882,10 @@ var initAlert = function () {
   window.alertify = alertify;
 }
 
+jumplink.closeAllModals = function () {
+  jumplink.cache.$body.removeClass('modal-open').removeAttr('style');
+}
+
 /**
  * Init Javascripts insite of barba.js
  * 
@@ -1857,12 +1898,15 @@ var initTemplates = function () {
   });
 
   Barba.Dispatcher.on('newPageReady', function(currentStatus, oldStatus, container) {
+    console.log('newPageReady');
 
     var data = ProductJS.Utilities.parseDatasetJsonStrings(container.dataset);
 
     if(container.dataset.newHash !== "false") {
       jumplink.updateHash(container.dataset.newHash);
     }
+
+    jumplink.closeAllModals();
 
     jumplink.replaceNoImage();
 
@@ -1899,7 +1943,15 @@ var initTemplates = function () {
     }
 
     if(typeof(initTemplate[currentStatus.namespace]) === 'function' ) {
-      initTemplate[currentStatus.namespace](container.dataset, data);
+      var template = initTemplate[currentStatus.namespace](container.dataset, data);
+      if(typeof(template) !== 'undefined' && ProductJS.Utilities.isFunction(template.destory)) {
+        Barba.Dispatcher.on('newPageReady', function(currentStatus, oldStatus, container) {
+          template.destory();
+          Barba.Dispatcher.off( 'newPageReady', this );
+        });
+      } else {
+        console.warn("template "+currentStatus.namespace+" needs a destroy function!");
+      }
 
     } else {
       console.error("Template not defined: "+currentStatus.namespace);

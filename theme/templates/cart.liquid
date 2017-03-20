@@ -10,7 +10,7 @@
         <div class="row">
 
           {% comment %} Products {% endcomment %}
-          <div rv-each-product="cart.products" data-toggle="modal" data-backdrop="false" data-target="#cart-modal" rv-data-product-handle="product.handle" class="col-xs-12 col-sm-6 col-md-4 col-xl-4">
+          <div rv-each-product="cart.products" data-toggle="product-modal" rv-data-index="%product%" rv-data-product-handle="product.handle" class="col-xs-12 col-sm-6 col-md-4 col-xl-4">
 
             {% comment %} Product {% endcomment %}
             <div class="product-item mx-2 mb-4">

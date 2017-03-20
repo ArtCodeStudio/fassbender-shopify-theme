@@ -50,3 +50,7 @@
         }
     }
 }
+
+.modal-backdrop {
+    display: none !important; // WORKAROUND for bug?
+}
