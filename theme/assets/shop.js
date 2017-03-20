@@ -1385,6 +1385,8 @@ var initCart = function (dataset, data) {
       self.$modal = $('#cart-modal');
       self.$modal.modal(self.modalOptions);
       self.$modal.on('show.bs.modal', function (event) {
+        //$this = $(event.currentTarget);
+        // console.log("". $this, event) 
         // var data = $(event.target).data('bs.modal')._config; 
         // var handle = data.productHandle;
         // ProductJS.Utilities.getProduct(handle, function (error, product) {
@@ -1392,15 +1394,17 @@ var initCart = function (dataset, data) {
         // });
       });
       self.$modal.on('shown.bs.modal', function (e) {
-        $this = $(this);
+        // $this = $(this);
         self.$modal.$slick.slick('setPosition');
       });
       self.$modalTogglers = $('[data-toggle="product-modal"]');
       self.$modalTogglers.each(function( index ) {
         var $this = $(this);
-        console.log($this);
         $this.click(function() {
-          console.log("klick modal toggle");
+          var $this = $(this);
+          var productIndex = $this.data('productIndex');
+          // slide to clicked product
+          self.$modal.$slick.slick('slickGoTo', productIndex);
           self.$modal.modal('show');
         });
       });
