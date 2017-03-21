@@ -1,0 +1,16 @@
+$alertify-box-shadow: {{settings.alertify-box-shadow}}; // 0 2px 5px 0 rgba(0,0,0,.2) !default;
+$alertify-padding-base: {{settings.alertify-padding-base}}; // $spacer !default;
+
+$alertify-text-color: {{settings.alertify-text-color}}; // $body-color !default;
+$alertify-border-radius: {{settings.alertify-border-radius}}; // $border-radius !default;
+
+$alertify-success-color: {{settings.alertify-success-color}}; // $brand-success !default;
+$alertify-success-text-color: {{settings.alertify-success-text-color}}; // $alertify-text-color !default;
+
+$alertify-danger-color: {{settings.alertify-danger-color}}; // $brand-danger !default;
+$alertify-danger-text-color: {{settings.alertify-danger-text-color}}; // $alertify-text-color !default;
+
+$alertify-top-spacer: {{settings.alertify-top-spacer}}; // 16px !default;
+$alertify-right-spacer: {{settings.alertify-right-spacer}}; // 16px !default;
+$alertify-bottom-spacer: {{settings.alertify-bottom-spacer}}; // 16px !default;
+$alertify-left-spacer: {{settings.alertify-left-spacer}}; // 16px !default;

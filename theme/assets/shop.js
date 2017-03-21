@@ -1877,7 +1877,7 @@ var initTemplate = {
  * 
  * @see https://alertifyjs.org/
  */
-var initAlert = function () {
+jumplink.initAlert = function () {
   alertify.parent(document.body);
   alertify.logPosition(window.settings.alertify_position);
   window.alertify = alertify;
@@ -2054,7 +2054,7 @@ var init = function ($) {
 
   initNavbar();
 
-  initAlert();
+  jumplink.initAlert();
 
   ProductJS.init({
     moneyFormat: window.shop.moneyFormat,

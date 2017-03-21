@@ -303,6 +303,7 @@ gulp.task('theme_settings', ['bootstrap_theme_settings'], function () {
     'list-collections',
     'collection',
     'apps',
+    'notifications',
     // 'customers',
   ];
 

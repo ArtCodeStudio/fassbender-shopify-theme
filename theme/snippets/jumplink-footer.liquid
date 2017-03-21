@@ -29,7 +29,7 @@
       <div class="col-xs-12 col-sm-4 col-md-4 text-center">
 
         <p class="my-3">
-          <a href="tel:+498923000081" class="btn btn-outline-secondary">+49. 89 23 0000 81</a>
+          <a href="tel:{{shop.phone | remove: ' ' | remove: '.'}}" class="btn btn-outline-secondary">{{shop.phone}}</a>
         </p>
 
         <p class="mt-3">

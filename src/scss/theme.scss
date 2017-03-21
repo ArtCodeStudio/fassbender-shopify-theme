@@ -28,6 +28,8 @@
 @import '../../bower_components/slick-carousel/slick/slick';
 @import '../../bower_components/slick-carousel/slick/slick-theme';
 
+// @import '../../bower_components/alertifyjs/src/sass/alertify';
+
 @import '../../bower_components/shopify-productjs/src/scss/shopify-productjs';
 
 // import '../../bower_components/bootstrap-select/sass/bootstrap-select';
@@ -59,3 +61,5 @@
 @import 'blog';
 @import 'templates';
 @import 'dropdown';
+@import 'alertify_variables';
+@import 'alertify';

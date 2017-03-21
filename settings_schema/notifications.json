@@ -1,0 +1,117 @@
+{
+  "name": "Notifications",
+  "settings": [
+    {
+        "type": "paragraph",
+        "content": "The notification system is based on alertify, see [alertifyjs.org](https:\/\/alertifyjs.org\/) for more details"
+    },
+    {
+      "type": "text",
+      "id": "alertify-box-shadow",
+      "label": "box shadow",
+      "default": "0 2px 5px 0 rgba(0,0,0,.2)"
+    },
+    {
+      "type": "text",
+      "id": "alertify-padding-base",
+      "label": "padding base",
+      "default": "$spacer"
+    },
+    {
+      "type": "text",
+      "id": "alertify-text-color",
+      "label": "text color",
+      "default": "$body-color"
+    },
+    {
+      "type": "text",
+      "id": "alertify-border-radius",
+      "label": "border radius",
+      "default": "$border-radius"
+    },
+    {
+      "type": "header",
+      "content": "Success"
+    },
+    {
+      "type": "text",
+      "id": "alertify-success-color",
+      "label": "success color",
+      "default": "$brand-success"
+    },
+    {
+      "type": "text",
+      "id": "alertify-success-text-color",
+      "label": "success text color",
+      "default": "$alertify-text-color"
+    },
+    {
+      "type": "header",
+      "content": "Danger"
+    },
+    {
+      "type": "text",
+      "id": "alertify-danger-color",
+      "label": "danger color",
+      "default": "$brand-danger"
+    },
+    {
+      "type": "text",
+      "id": "alertify-danger-text-color",
+      "label": "danger text color",
+      "default": "$alertify-text-color"
+    },
+    {
+      "type": "header",
+      "content": "Position Options"
+    },
+    {
+      "type": "select",
+      "id": "alertify_position",
+      "label": "Position",
+      "options": [
+        {
+          "value": "top right",
+          "label": "top right"
+        },
+        {
+          "value": "bottom right",
+          "label": "bottom right"
+        },
+        {
+          "value": "top left",
+          "label": "top left"
+        },
+        {
+          "value": "bottom left",
+          "label": "bottom left"
+        }
+      ],
+      "default": "top right"
+    },
+    {
+      "type": "text",
+      "id": "alertify-top-spacer",
+      "label": "top spacer",
+      "default": "16px"
+    },
+    {
+      "type": "text",
+      "id": "alertify-right-spacer",
+      "label": "top spacer",
+      "default": "16px"
+    },
+    {
+      "type": "text",
+      "id": "alertify-bottom-spacer",
+      "label": "top spacer",
+      "default": "16px"
+    },
+    {
+      "type": "text",
+      "id": "alertify-left-spacer",
+      "label": "top spacer",
+      "default": "16px"
+    }
+  ]
+}
