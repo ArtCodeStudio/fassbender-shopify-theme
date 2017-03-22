@@ -3,7 +3,7 @@
   <div class="container pt-5">
 
     {% comment %} With Items {% endcomment %}
-    <form rv-show="cart.item_count | gt 0" action="/cart" method="post" class="row">
+    <form rv-d-flex="cart.item_count | gt 0" action="/cart" method="post" class="row">
 
       {% comment %} Left {% endcomment %}
       <div class="col-xs-12 col-md-9">
@@ -67,7 +67,7 @@
     </form>
 
     {% comment %} Without Items {% endcomment %}
-    <div rv-show="cart.item_count | lt 1">
+    <div rv-d-block="cart.item_count | lt 1">
       <div class="row">
         <div class="col-xs-12 text-center">
           <h2>{{ 'cart.general.empty' | t }}</h2>
