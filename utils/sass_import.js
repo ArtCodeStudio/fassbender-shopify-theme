@@ -45,12 +45,12 @@ SassImport.prototype._read_data = function (data, pwd) {
 };
 
 SassImport.prototype._is_import = function (str) {
-  return /^@import/.test(str);
+  return /^@import(?! *url)/.test(str); // @import without 'url'
 };
 
 SassImport.prototype._has_imports = function (path) {
   var data = fs.readFileSync(path, 'utf8');
-  return /@import/.test(data);
+  return /@import(?! *url)/.test(data); // @import without 'url'
 };
 
 SassImport.prototype._get_path = function (str) {

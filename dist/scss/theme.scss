@@ -9951,15 +9951,15 @@ $slick-opacity-not-active: 1;
 $slick-arrow-opacity-on-hover: 1;
 $slick-arrow-opacity-disabled: 0.4;
 
-$font-avantgarde-eot-path: "./avantgarde-book.eot" !default;
-$font-avantgarde-woff-path: "./avantgarde-book.woff" !default;
-$font-avantgarde-ttf-path: "./avantgarde-book.ttf" !default;
-$font-avantgarde-svg-path: "./avantgarde-book.svg" !default;
+$font-avantgarde-eot-path: "./font-avantgarde-book.eot" !default;
+$font-avantgarde-woff-path: "./font-avantgarde-book.woff" !default;
+$font-avantgarde-ttf-path: "./font-avantgarde-book.ttf" !default;
+$font-avantgarde-svg-path: "./font-avantgarde-book.svg" !default;
 
-$font-avantgarde-bold-eot-path: "./avantgarde-book-bold.eot" !default;
-$font-avantgarde-bold-woff-path: "./avantgarde-book-bold.woff" !default;
-$font-avantgarde-bold-ttf-path: "./avantgarde-book-bold.ttf" !default;
-$font-avantgarde-bold-svg-path: "./avantgarde-book-bold.svg" !default;
+$font-avantgarde-bold-eot-path: "./font-avantgarde-book-bold.eot" !default;
+$font-avantgarde-bold-woff-path: "./font-avantgarde-book-bold.woff" !default;
+$font-avantgarde-bold-ttf-path: "./font-avantgarde-book-bold.ttf" !default;
+$font-avantgarde-bold-svg-path: "./font-avantgarde-book-bold.svg" !default;
 
 
 $iconset-arrow-l-url: '';
@@ -11009,6 +11009,9 @@ body {
 
 $slick-prev-character: ""; // $fa-var-chevron-left; // "←" !default;
 $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', color: 'white' %}"; // "→"
+
+// font-family: 'Kanit', sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Kanit:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
 .custom-nav-link {
     text-transform: uppercase;
     padding-right: 1.5em;
