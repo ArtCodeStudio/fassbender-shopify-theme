@@ -32,3 +32,12 @@
         }
     }
 }
+
+.bg-black {
+    .btn-outline-secondary {
+        &:hover {
+            background-color: $btn-secondary-bg;
+            color: $black;
+        }
+    }
+}

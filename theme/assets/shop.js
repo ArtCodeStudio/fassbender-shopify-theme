@@ -1883,6 +1883,10 @@ jumplink.initAlert = function () {
   window.alertify = alertify;
 }
 
+/**
+ * Close all opend bootstrap modals
+ * @see http://v4-alpha.getbootstrap.com/components/modal/
+ */
 jumplink.closeAllModals = function () {
   jumplink.cache.$body.removeClass('modal-open').removeAttr('style');
 }
@@ -1903,16 +1907,19 @@ jumplink.initShopifyAdminBar = function () {
     var $shopifyAdminBarClose = $shopifyAdminBar.find('#close-admin-bar');
     var $shopifyAdminBarShow = $shopifyAdminBar.find('#show-admin-bar');
     $shopifyAdminBarClose.on('click', function (event) {
+      // event name conversation from https://v4-alpha.getbootstrap.com/components/modal/#events
+      jumplink.cache.$document.trigger('show.shopify.adminbar', event);
       setTimeout(function() {
         jumplink.cache.$window.trigger('resize', event);
-        jumplink.cache.$document.trigger('adminbar.close', event);
+        jumplink.cache.$document.trigger('shown.shopify.adminbar', event);
       }, 10);
 
     });
     $shopifyAdminBarShow.on('click', function (event) {
+      jumplink.cache.$document.trigger('hide.shopify.adminbar', event);
       setTimeout(function() {
         jumplink.cache.$window.trigger('resize', event);
-        jumplink.cache.$document.trigger('adminbar.show', event);
+        jumplink.cache.$document.trigger('hidden.shopify.adminbar', event);
       }, 10);
     });
   });
@@ -2049,19 +2056,23 @@ var initFooter = function () {
   $footer.click(function(event) {
     // open
     if($target.hasClass('hidden-xs-up')) {
+      // event name inspired by https://v4-alpha.getbootstrap.com/components/modal/#events
+      jumplink.cache.$document.trigger('show.jl.footer');
       $icon.transition({ 'rotate': '270deg' });
       $target.removeClass('hidden-xs-up');
       var scrollTop = $document.height() - $window.height();
       $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {
-        
+        jumplink.cache.$document.trigger('shown.jl.footer');
       });
     // close  
     } else {
+      jumplink.cache.$document.trigger('hide.jl.footer');
       $icon.transition({ 'rotate': '90deg' });
       var scrollTop = $target.offset().top - $window.height() - 4;
       $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {
         $target.addClass('hidden-xs-up');
         jumplink.setBarbaContainerMinHeight();
+        jumplink.cache.$document.trigger('hidden.jl.footer');
       });
     }
   });

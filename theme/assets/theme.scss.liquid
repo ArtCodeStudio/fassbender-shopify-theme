@@ -4384,7 +4384,7 @@ $pre-scrollable-max-height:   340px !default;
 // Used only by Bootstrap to generate the correct number of grid classes given
 // any value of `$grid-columns`.
 
-@mixin make-grid-column($breakpoint, $infix, $columns: $grid-columns, $gutter: $grid-gutter-width, $xs: $grid-breakpoints-xs, $sm: $grid-breakpoints-sm, $md: $grid-breakpoints-md, $lg: $grid-breakpoints-lg, $xl: $grid-breakpoints-xl) {
+@mixin make-grid-column($breakpoint, $infix, $columns: $grid-columns, $xs: $grid-breakpoints-xs, $sm: $grid-breakpoints-sm, $md: $grid-breakpoints-md, $lg: $grid-breakpoints-lg, $xl: $grid-breakpoints-xl) {
 
   @for $i from 1 through $columns {
     .col#{$infix}-#{$i} {
@@ -4788,25 +4788,25 @@ $pre-scrollable-max-height:   340px !default;
   }
 
   @include media-breakpoint-up(sm) {
-    $gutter: $gutter-widths-xs;
+    $gutter: $gutter-widths-sm;
     padding-right: ($gutter / 2);
     padding-left:  ($gutter / 2);
   }
 
   @include media-breakpoint-up(md) {
-    $gutter: $gutter-widths-xs;
+    $gutter: $gutter-widths-md;
     padding-right: ($gutter / 2);
     padding-left:  ($gutter / 2);
   }
 
   @include media-breakpoint-up(lg) {
-    $gutter: $gutter-widths-xs;
+    $gutter: $gutter-widths-lg;
     padding-right: ($gutter / 2);
     padding-left:  ($gutter / 2);
   }
 
   @include media-breakpoint-up(xl) {
-    $gutter: $gutter-widths-xs;
+    $gutter: $gutter-widths-xl;
     padding-right: ($gutter / 2);
     padding-left:  ($gutter / 2);
   }
@@ -11811,7 +11811,6 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
 
 #footer-book {
     //transition: margin 0.25s ease-in;
-    margin: 4px 0;
     cursor: pointer;
 }
 $petty-font-size: 0.9rem;
@@ -11881,6 +11880,15 @@ b, strong {
         }
         &:last-child .btn {
             border-left: none;
+        }
+    }
+}
+
+.bg-black {
+    .btn-outline-secondary {
+        &:hover {
+            background-color: $btn-secondary-bg;
+            color: $black;
         }
     }
 }
