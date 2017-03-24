@@ -2006,7 +2006,6 @@ var initFooter = function () {
   var $footer = jumplink.cache.$footer;
   var data = $footer.data();
   var $target = $(data.target);
-  var $margin = $(data.margin);
   var $htmlBody = jumplink.cache.$htmlBody;
   var $document = jumplink.cache.$document;
   var $window = jumplink.cache.$window;
@@ -2018,20 +2017,17 @@ var initFooter = function () {
     if($target.hasClass('hidden-xs-up')) {
       $icon.transition({ 'rotate': '270deg' });
       $target.removeClass('hidden-xs-up');
-      var scrollTop = $document.height() - $window.height() + 11; // 'margin-top': '15px' - 'margin-top': '4px'
-      $margin.transition({ 'margin-top': '15px' });
+      var scrollTop = $document.height() - $window.height();
       $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {
         
       });
     // close  
     } else {
       $icon.transition({ 'rotate': '90deg' });
-      $margin.transition({ 'margin-top': '4px' }, function () {
-        var scrollTop = $target.offset().top - $window.height() - 4;
-        $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {
-          $target.addClass('hidden-xs-up');
-          jumplink.setBarbaContainerMinHeight();
-        });
+      var scrollTop = $target.offset().top - $window.height() - 4;
+      $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {
+        $target.addClass('hidden-xs-up');
+        jumplink.setBarbaContainerMinHeight();
       });
     }
   });

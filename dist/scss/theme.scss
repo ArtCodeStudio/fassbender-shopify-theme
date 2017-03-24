@@ -11506,34 +11506,41 @@ b, strong {
     }
 }
 [data-blog-handle="dates"] {
-    .article {
-        min-height: 500px;
-        position: relative;
-
-        .title, .content {
-            @include transition($transition-fade);
+    article {
+        a {
+            &:hover {
+                text-decoration: none;
+            }
         }
-
-        &:hover, &.active {
-          .title {
-              opacity: 0;
-          }
-          .content {
-              opacity: 1;
-          }
-        }
-
-        .title {
-            opacity: 1;
-            position: absolute;
-            width: 100%;
-            margin: 0;
-        }
-
-        .content {
-            opacity: 0;
+        .article {
+            min-height: 500px;
             position: relative;
-            width: 100%;
+
+            .title, .content {
+                @include transition($transition-fade);
+            }
+
+            &:hover, &.active {
+            .title {
+                opacity: 0;
+            }
+            .content {
+                opacity: 1;
+            }
+            }
+
+            .title {
+                opacity: 1;
+                position: absolute;
+                width: 100%;
+                margin: 0;
+            }
+
+            .content {
+                opacity: 0;
+                position: relative;
+                width: 100%;
+            }
         }
     }
 }

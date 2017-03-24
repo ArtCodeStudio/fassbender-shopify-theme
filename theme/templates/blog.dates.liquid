@@ -1,6 +1,6 @@
 <div class="container pt-5">
 
-  {% paginate blog.articles by 3 %}
+  {% paginate blog.articles by 50 %}
 
     {% if current_tags %}
       <h1 class="hidden-xs-up">
@@ -17,14 +17,16 @@
 
         {% assign articles = blog.articles %}
         {% for article in articles %}
-          <div class="col-xs-12 col-md-4 my-5">
-            <div class="article mx-3 border-a border-px-1 border-color-black py-5 text-center d-flex">
-              <h2 class="title align-self-center">{{article.title}}</h2>
-              <div class="content align-self-center">
-                {{article.excerpt_or_content}}
+          <article class="col-xs-12 col-sm-6 col-md-4 my-5">
+            <a href="{{article.url}}" title="{{article.title}}">
+              <div class="article mx-3 border-a border-px-1 border-color-black py-5 text-center d-flex">
+                <h2 class="title align-self-center">{{article.title}}</h2>
+                <div class="content align-self-center">
+                  {{article.excerpt_or_content}}
+                </div>
               </div>
-            </div>
-          </div>
+            </a>
+          </article>
         {% endfor %}
 
         <div data-pagination-wrapper="true" class="col-xs-12 pagination-wrapper">

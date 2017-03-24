@@ -1,9 +1,9 @@
-<footer class="imprint bg-black">
+<footer class="imprint bg-black hidden-print">
   <div class="container">
-    <div data-toggle="footer" data-target="#footer-adjustment" data-margin="#footer-book" class="row">
+    <div data-toggle="footer" data-target="#footer-adjustment" class="row">
       <div class="col-xs-12 text-center">
-        <div class="text-uppercase" id="footer-book">
-          BOOK AN APPOINTMENT
+        <div class="text-uppercase mt-2" id="footer-book">
+          Contact us
           {% include 'jumplink-iconset', name: 'arrow', direction: 'top', color: 'white' %}
         </div>
       </div>
@@ -45,7 +45,7 @@
         <p class="my-3">
           {{shop.address.street | replace: ",", " |"}}
           <br>
-          {{shop.address.zip}} {{shop.address.country}}
+          {{shop.address.zip}} {{shop.address.city}}
         </p>
 
       </div>

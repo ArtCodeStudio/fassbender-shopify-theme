@@ -1,68 +1,72 @@
-<div class="article row">
+<div class="container text-center">
+  <div class="article row">
 
-  {% if article.image and settings.blog_detail_show_featured_image %}
-    <div class="col-xs-12 col-md-4 col-md-offset-4 ">
-      <a href="{{ article.url }}">
-        <div class="background-box ratio-1-1" style="background-image: url({{ article | img_url: 'grande' }});"></div>
-      </a>
+    {% if article.image and settings.blog_detail_show_featured_image %}
+      <div class="col-xs-12">
+        <a href="{{ article.url }}">
+          <div class="background-box ratio-1-1" style="background-image: url({{ article | img_url: 'grande' }});"></div>
+        </a>
+      </div>
+    {% endif %}
+
+    <div class="col-xs-12">
+
+      <h1 class="d-inline-block">
+        {{ article.title }}
+      </h1>
+
+      {% comment %}
+      <div class="py-1">
+        <gravatar data-hash="{{article.user.email | remove: ' ' | strip_newlines | downcase | md5}}" class="center-block max-width-50" data-placeholders='[ {{ 'avatar-01.jpg' | asset_url | json }}, {{ 'avatar-02.jpg' | asset_url | json }}, {{ 'avatar-03.jpg' | asset_url | json }}, {{ 'avatar-04.jpg' | asset_url | json }}, {{ 'avatar-05.jpg' | asset_url | json }} ]'></gravatar>
+        <div class="text-center pt-05 article-name">
+          von {{article.user.first_name | default: 'Unbekannt'}} {{article.user.last_name}}
+          <br>
+          am <time class="py-1" pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%d.%m.%Y' }}</time>
+        </div>
+      </div>
+      {% endcomment %}
+
+      <div class="rte">
+        {{ article.content }}
+      </div>
+
+      <button class="btn btn-primary hidden-print mt-5" onClick="window.print()">Print</button>
+
     </div>
-  {% endif %}
+  </div>
 
-  <div class="col-xs-12 col-md-8 col-md-offset-2">
+  <div class="comments row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+      {% include 'jumplink-article-comments' %}
+    </div>
+  </div>
 
-    <h1>
-      {{ article.title }}
-    </h1>
+  <div class="article-footer row">
+
+    <div class="col-xs-12">
+      <div class="social-links center-block py-1">
+        {% include 'jumplink-social-links' %}
+      </div>
+    </div>
 
     {% comment %}
-    <div class="py-1">
-      <gravatar data-hash="{{article.user.email | remove: ' ' | strip_newlines | downcase | md5}}" class="center-block max-width-50" data-placeholders='[ {{ 'avatar-01.jpg' | asset_url | json }}, {{ 'avatar-02.jpg' | asset_url | json }}, {{ 'avatar-03.jpg' | asset_url | json }}, {{ 'avatar-04.jpg' | asset_url | json }}, {{ 'avatar-05.jpg' | asset_url | json }} ]'></gravatar>
-      <div class="text-center pt-05 article-name">
-        von {{article.user.first_name | default: 'Unbekannt'}} {{article.user.last_name}}
-        <br>
-        am <time class="py-1" pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%d.%m.%Y' }}</time>
+    <div class="col-xs-12 py-1">
+      <h3 class="text-normal">Read Next:</h3>
+      <div class="row next">
+        {% assign count = 0 %}
+        {% for nextArticle in blogs.news.articles limit: 4 %}
+          {% if nextArticle.url != article.url and count < 3 %}
+            {% assign count = count | plus: 1 %}
+            {% include 'jumplink-article-grid-item' article: nextArticle %}
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
     {% endcomment %}
 
-    <div class="rte">
-      {{ article.content }}
-    </div>
+    {% if border %}
+      <div class="col-xs-12"> <hr class="my-0"> </div>
+    {% endif %}
 
   </div>
-</div>
-
-<div class="comments row">
-  <div class="col-xs-12 col-md-8 col-md-offset-2">
-    {% include 'jumplink-article-comments' %}
-  </div>
-</div>
-
-<div class="article-footer row">
-
-  <div class="col-xs-12">
-    <div class="social-links center-block py-1">
-      {% include 'jumplink-social-links' %}
-    </div>
-  </div>
-
-  {% comment %}
-  <div class="col-xs-12 py-1">
-    <h3 class="text-normal">Read Next:</h3>
-    <div class="row next">
-      {% assign count = 0 %}
-      {% for nextArticle in blogs.news.articles limit: 4 %}
-        {% if nextArticle.url != article.url and count < 3 %}
-          {% assign count = count | plus: 1 %}
-          {% include 'jumplink-article-grid-item' article: nextArticle %}
-        {% endif %}
-      {% endfor %}
-    </div>
-  </div>
-  {% endcomment %}
-
-  {% if border %}
-    <div class="col-xs-12"> <hr class="my-0"> </div>
-  {% endif %}
-
 </div>
