@@ -1887,6 +1887,37 @@ jumplink.closeAllModals = function () {
   jumplink.cache.$body.removeClass('modal-open').removeAttr('style');
 }
 
+  /**
+   * Handles the Shopify Admin Bar
+   * Fires window resize event if admin bar changes
+   * Fires gobal adminbar.show event if admin bar shows
+   * Fires gobal adminbar.close event if admin bar closes
+   */ 
+jumplink.initShopifyAdminBar = function () {
+
+  // handle and fire events
+  var $shopifyAdminBarIframe = $('#admin_bar_iframe');
+  $shopifyAdminBarIframe.on('load', function () {
+    jumplink.cache.$window.trigger('resize');
+    var $shopifyAdminBar = $shopifyAdminBarIframe.contents();
+    var $shopifyAdminBarClose = $shopifyAdminBar.find('#close-admin-bar');
+    var $shopifyAdminBarShow = $shopifyAdminBar.find('#show-admin-bar');
+    $shopifyAdminBarClose.on('click', function (event) {
+      setTimeout(function() {
+        jumplink.cache.$window.trigger('resize', event);
+        jumplink.cache.$document.trigger('adminbar.close', event);
+      }, 10);
+
+    });
+    $shopifyAdminBarShow.on('click', function (event) {
+      setTimeout(function() {
+        jumplink.cache.$window.trigger('resize', event);
+        jumplink.cache.$document.trigger('adminbar.show', event);
+      }, 10);
+    });
+  });
+}
+
 /**
  * Init Javascripts insite of barba.js
  * 
@@ -1907,17 +1938,20 @@ var initTemplates = function () {
       jumplink.updateHash(container.dataset.newHash);
     }
 
+    jumplink.initShopifyAdminBar();
+
     jumplink.closeAllModals();
 
     jumplink.replaceNoImage();
 
     jumplink.initDataAttributes(container.dataset);
 
-    jumplink.setBarbaContainerMinHeight();
-
     setNavActive(container.dataset, data);
 
-    jumplink.cache.$window.on('resize', function() {
+    jumplink.setBarbaContainerMinHeight();
+
+    jumplink.cache.$window.on('resize load onorientationchange', function() {
+      console.log('window resize load or onorientationchange event fired');
       jumplink.setBarbaContainerMinHeight();
     });
 
