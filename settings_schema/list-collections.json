@@ -47,9 +47,13 @@
         {
           "value": "ratio-3-10",
           "label": "3:10"
+        },
+        {
+          "value": "ratio-10-17",
+          "label": "10:17"
         }
       ],
-      "default": "ratio-1-2"
+      "default": "ratio-10-17"
     }
   ]
 }

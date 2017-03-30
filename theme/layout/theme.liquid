@@ -1,12 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head>
+<head class="no-js">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="Content-Security-Policy" content="
     script-src 'self' https://* 'unsafe-inline' 'unsafe-eval'
-
   " />
 
   <title>
@@ -42,7 +41,7 @@
 
   <script>
     if(typeof(videojs) !== 'undefined' && typeof(videojs.options) !== 'undefined' && typeof(videojs.options.flash) !== 'undefined' ) {
-      videojs.options.flash.swf = "{{'video-js.swf'  | asset_url}}"
+      videojs.options.flash.swf = "{{'video-js.swf' | asset_url}}"
     }
   </script>
 

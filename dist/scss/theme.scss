@@ -10370,6 +10370,9 @@ $tcon-menu-arrow360left-transformation: (
   &.ratio-3-10 {
     padding-top: 30%;
   }
+  &.ratio-10-17 {
+    padding-top: 170%;
+  }
 
   &.ratio-height-fullscreen {
     padding-top: 0;
@@ -10426,6 +10429,9 @@ $tcon-menu-arrow360left-transformation: (
   }
   &.ratio-3-10:before {
     padding-top: 30%;
+  }
+  &.ratio-10-17:before {
+    padding-top: 170%;
   }
 }
 
@@ -10980,11 +10986,10 @@ html, body {
 body {
     overflow-y: scroll;
 
-    // Disable bootstrap fix just show scollbar
-    // &.modal-open {
-    //     overflow-y: scroll;
-    //     padding-right: 0 !important;
-    // }
+    // overflow-wrap: break-word;
+    // word-wrap: break-word;
+    // word-break: break-word;
+    -webkit-font-smoothing: subpixel-antialiased;
 }
 
 #barba-wrapper, .barba-container {
@@ -11012,6 +11017,14 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
 
 // font-family: 'Kanit', sans-serif;
 @import url('https://fonts.googleapis.com/css?family=Kanit:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+
+// font-family: 'Fira Sans Condensed', sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+
+
+button, input, optgroup, select, textarea {
+    font-family: $font-family-sans-serif;
+}
 .custom-nav-link {
     text-transform: uppercase;
     padding-right: 1.5em;
@@ -11211,6 +11224,14 @@ b, strong {
         box-shadow: none !important;
     }
 }
+
+.btn-primary {
+    &:focus {
+        color: $white;
+    }
+}
+
+
 
 .group-quantity-actions {
 
@@ -11418,15 +11439,29 @@ b, strong {
     .caption {
         @include transition($transition-fade);
         position: absolute;
-        bottom: 40px;
-        left: 0;
-        right: 0;
         font-size: 1.5rem;
         text-transform: uppercase;
         width: 100%;
         color: $white;
         text-align: center;
         font-weight: 300;
+        &.caption-x-bottom {
+            bottom: 40px;
+            top: inherit;
+        }
+        &.caption-x-center {
+            bottom: 0;
+            top: 0;
+            height: 100%;
+            @extend .d-flex, .flex-column, .justify-content-center;
+
+        }
+        &.caption-y-center {
+            left: 0;
+            right: 0;
+            width: 100%;
+            text-align: center;
+        }
     }
     &:hover {
         background-color: $black;
@@ -11435,6 +11470,7 @@ b, strong {
         }
     }
 }
+/*
 .product-item, .collection-item {
     .image-wrap {
         .caption {
@@ -11447,6 +11483,7 @@ b, strong {
         }
     }
 }
+*/
 .product-price {
     font-weight: bold;
     letter-spacing: 0.1rem;

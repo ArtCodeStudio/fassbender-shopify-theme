@@ -12,6 +12,10 @@
                                 <img src="{{ image | img_url: 'master' }}" class="height-fullscreen mx-auto" alt="{{ image.alt | escape }}" />
                             </div>
                         {% endif %}
+                    {% else %}
+                        <div class="wrapper">
+                            <img src="{{ 'no-image.png' | asset_url }}" class="height-fullscreen mx-auto" alt="no image" />
+                        </div>
                     {% endfor %}
                 </div>
 

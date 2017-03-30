@@ -6,6 +6,14 @@
     }
 }
 
+.btn-primary {
+    &:focus {
+        color: $white;
+    }
+}
+
+
+
 .group-quantity-actions {
 
     input.form-control {
