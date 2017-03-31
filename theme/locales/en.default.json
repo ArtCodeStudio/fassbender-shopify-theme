@@ -201,5 +201,8 @@
       "send": "Send",
       "post_success": "Message sent successfully"
     }
+  },
+  "date_formats": {
+    "month_day_year": "%B %d, %Y"
   }
 }

@@ -47,84 +47,73 @@
         {% endif %}
 
         <div class="col-xs-12 col-md-3">
-            <div class="well">
+            <hr>
+            <h1 class="mb-3">{{ 'customer.account.title' | t }}</h1>
+            <p>{{ 'customer.account.message' | t }}</p>
 
-                <hr>
-                <h1 class="mb-3">{{ 'customer.account.title' | t }}</h1>
-                <p>{{ 'customer.account.message' | t }}</p>
+            <hr>
+            <h2 class="mb-3"> {{ 'customer.account.details' | t }}</h2>
 
-                <hr>
-                <h2 class="mb-3"> {{ 'customer.account.details' | t }}</h2>
+            {% unless customer.name == blank  %}
+                <p>{{ customer.name }}</p>
+            {% endunless %}
 
-                {% unless customer.name == blank  %}
-                    <p>{{ customer.name }}</p>
-                {% endunless %}
-
-                {% unless customer.email == blank  %}
-                    <p>{{ customer.email }}</p>
-                {% endunless %}
-                
-                <div>
-                    <a class="addresses-link" href="/account/addresses">
-                        {% include 'jumplink-iconset', name: 'arrow', direction: 'right', color: 'black' %} {{ 'customer.account.view_addresses' | t }}
-                    </a>
-                </div>
-
-                <hr>
-                <h2 class="mb-3">{{ 'customer.orders.title' | t }}</h2>
-
-                {% comment %}
-                If we have past orders, loop through each one
-                {% endcomment %}
-                {% paginate customer.orders by 20 %}
-                    {% if customer.orders.size != 0 %}
-
-                        <div class="">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>{{ 'customer.orders.order_number' | t }}</th>
-                                    <th>{{ 'customer.orders.date' | t }}</th>
-                                    <th>{{ 'customer.orders.payment_status' | t }}</th>
-                                    <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
-                                    <th>{{ 'customer.orders.total' | t }}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for order in customer.orders %}
-                                    <tr>
-                                    <td>{{ order.name | link_to: order.customer_url }}</td>
-                                    <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
-                                    <td>{{ order.financial_status_label }}</td>
-                                    <td>{{ order.fulfillment_status_label }}</td>
-                                    <td>{{ order.total_price | money }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% else %}
-                        <p>{{ 'customer.orders.none' | t }}</p>
-                    {% endif %}
-                    {% if paginate.pages > 1 %}
-                        <hr>
-                        <div class="pagination">
-                            {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
-                        </div>
-                    {% endif %}
-                {% endpaginate %}
-
-
+            {% unless customer.email == blank  %}
+                <p>{{ customer.email }}</p>
+            {% endunless %}
+            
+            <div>
+                <a class="addresses-link" href="/account/addresses">
+                    {% include 'jumplink-iconset', name: 'arrow', direction: 'right', color: 'black' %} {{ 'customer.account.view_addresses' | t }}
+                </a>
             </div>
+
         </div>
 
-        {% if settings.apps_bold_loyalty_points %}
-            <div class="col-xs-12">           
-                <!-- Bold: Loyalty Points - Step 3 -->
-                {% include 'bold-loyalties-customer-transactions' %}
-                <!-- // end bold code -->
-            </div>
-        {% endif %}
+        <div class="col-xs-12">
+            <h2 class="mb-3">{{ 'customer.orders.title' | t }}</h2>
+
+            {% comment %}
+            If we have past orders, loop through each one
+            {% endcomment %}
+            {% paginate customer.orders by 20 %}
+                {% if customer.orders.size != 0 %}
+
+                    <div class="">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>{{ 'customer.orders.order_number' | t }}</th>
+                                <th>{{ 'customer.orders.date' | t }}</th>
+                                <th>{{ 'customer.orders.payment_status' | t }}</th>
+                                <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                                <th>{{ 'customer.orders.total' | t }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in customer.orders %}
+                                <tr>
+                                <td>{{ order.name | link_to: order.customer_url }}</td>
+                                <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
+                                <td>{{ order.financial_status_label }}</td>
+                                <td>{{ order.fulfillment_status_label }}</td>
+                                <td>{{ order.total_price | money }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>{{ 'customer.orders.none' | t }}</p>
+                {% endif %}
+                {% if paginate.pages > 1 %}
+                    <hr>
+                    <div class="pagination">
+                        {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+                    </div>
+                {% endif %}
+            {% endpaginate %}
+        </div>
         
     </div>
 </div>

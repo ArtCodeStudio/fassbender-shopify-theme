@@ -11311,7 +11311,7 @@ b, strong {
     }
 }
 .form-control {
-    text-transform: uppercase;
+    // text-transform: uppercase;
 }
 
 .custom-select {
@@ -11866,4 +11866,8 @@ $alertify-left-spacer: 16px !default;
         }
     }
 
+}
+
+#itkanzlei_img_copyright, #itkanzlei_img_copyright {
+  display: none;
 }
