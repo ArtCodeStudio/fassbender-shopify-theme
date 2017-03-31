@@ -467,6 +467,27 @@ jumplink.toggleSidebar = function () {
   $( '.navbar-toggle' ).click();
 }
 
+jumplink.initInstafeed = function (id) {
+  if(!id) {
+    id = 'instafeed';
+  }
+  // https://github.com/stevenschobert/instafeed.js
+  var instafeed = new Instafeed({
+    target: id,
+    clientId: window.settings['home_instafeed_clientId'],
+    accessToken: window.settings['home_instafeed_accessToken'],
+    template: ProductJS.templates.instafeedItem,
+    get: window.settings['home_instafeed_get'],
+    tagName: window.settings['home_instafeed_tagName'],
+    locationId: window.settings['home_instafeed_locationId'],
+    userId: window.settings['home_instafeed_userId'], //JumpLink: '1752935354' Caroline Pezzetta @studiopezzetta: '1046245675'
+    sortBy: window.settings['home_instafeed_sortBy'],
+    limit: window.settings['home_instafeed_limit'],
+    resolution: window.settings['home_instafeed_resolution'],
+  });
+  instafeed.run();
+}
+
 /**
  * @see http://dcdeiv.github.io/simpler-sidebar/
  */
@@ -866,6 +887,202 @@ var initGravatarElements = function (selector, classes) {
 }
 
 /**
+ * init Alertify.js
+ * 
+ * @see https://alertifyjs.org/
+ */
+jumplink.initAlert = function () {
+  alertify.parent(document.body);
+  alertify.logPosition(window.settings.alertify_position);
+  window.alertify = alertify;
+}
+
+/**
+ * Close all opend bootstrap modals
+ * @see http://v4-alpha.getbootstrap.com/components/modal/
+ */
+jumplink.closeAllModals = function () {
+  jumplink.cache.$body.removeClass('modal-open').removeAttr('style');
+}
+
+  /**
+   * Handles the Shopify Admin Bar
+   * Fires window resize event if admin bar changes
+   * Fires gobal adminbar.show event if admin bar shows
+   * Fires gobal adminbar.close event if admin bar closes
+   */ 
+jumplink.initShopifyAdminBar = function () {
+
+  // handle and fire events
+  var $shopifyAdminBarIframe = $('#admin_bar_iframe');
+  $shopifyAdminBarIframe.on('load', function () {
+    jumplink.cache.$window.trigger('resize');
+    var $shopifyAdminBar = $shopifyAdminBarIframe.contents();
+    var $shopifyAdminBarClose = $shopifyAdminBar.find('#close-admin-bar');
+    var $shopifyAdminBarShow = $shopifyAdminBar.find('#show-admin-bar');
+    $shopifyAdminBarClose.on('click', function (event) {
+      // event name conversation from https://v4-alpha.getbootstrap.com/components/modal/#events
+      jumplink.cache.$document.trigger('show.shopify.adminbar', event);
+      setTimeout(function() {
+        jumplink.cache.$window.trigger('resize', event);
+        jumplink.cache.$document.trigger('shown.shopify.adminbar', event);
+      }, 10);
+
+    });
+    $shopifyAdminBarShow.on('click', function (event) {
+      jumplink.cache.$document.trigger('hide.shopify.adminbar', event);
+      setTimeout(function() {
+        jumplink.cache.$window.trigger('resize', event);
+        jumplink.cache.$document.trigger('hidden.shopify.adminbar', event);
+      }, 10);
+    });
+  });
+}
+
+/**
+ * Set all navs and subnavs on navbar to "not active"
+ */
+var resetNav = function () {
+  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li').removeClass('active');
+
+  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li ul.list-group li.list-group-item').removeClass('active');
+}
+
+/**
+ * Set nav with selector to active 
+ */
+var setNav = function (selector) {
+   jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li'+selector).addClass('active');
+}
+
+/**
+ * Find a active child with collectionHandle and set it and his parent nav to active 
+ */
+var setParentNav = function (collectionHandle) {
+  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li ul.list-group li.list-group-item.'+collectionHandle).each(function(index, value) {
+    var $this = $(this);
+    $this.addClass('active');
+    $this.closest('.level-1').addClass('active');
+  });
+}
+
+/**
+ * Find active navs and set them to active
+ */
+var setNavActive = function(dataset, data) {
+  resetNav();
+  switch(dataset.namespace) {
+    case 'customers-login':
+      setNav('.'+dataset.namespace);
+    break;
+    case 'customers-register':
+      setNav('.'+dataset.namespace);
+    break;
+    case '404':
+      setNav('.'+dataset.namespace);
+    break;
+    case 'article':
+      setNav('.blog');
+    break;
+    case 'blog':
+      setNav('.'+dataset.namespace);
+    break;
+    case 'cart':
+      setNav('.cart-button');
+    break;
+    case 'collection':
+      setNav('.'+dataset.collectionHandle);
+      setParentNav(dataset.collectionHandle);
+    break;
+    case 'index':
+      setNav('.'+dataset.namespace);
+    break;
+    case 'list-collections':
+    break;
+    case 'page':
+      setNav('.'+dataset.pageHandle);
+    break;
+    case 'product':
+      setParentNav(dataset.collectionHandle);
+    break;
+    case 'search':
+    break;
+    default:
+      setNav('.'+dataset.namespace);
+    break;
+  }
+}
+
+/**
+ * @see snippets/filter-menu-select
+ * @see https://apps.shopify.com/power-tools-filter-menu
+ */
+var initCollectionSelectFilter = function (collectionHandle) {
+  var collectionFilterName = "Designer";
+
+  return true; // Currently not uses, so stop here!
+
+  // console.log("initCollectionSelectFilter", collectionHandle);
+
+  /* Product Tag Filters - Good for any number of filters on any type of collection pages */
+  /* Brought to you by Caroline Schnapp and Shopify Power Tools */
+  var $allFilters = $('.coll-filter-'+collectionHandle);
+  $allFilters.selectpicker();
+  $allFilters.selectpicker('render');
+
+  // $allFilters.on('hidden-xs-up.bs.select', function (e) {
+  //   console.log("bs select changed", e);
+  // });
+
+  var onChange = function () {
+    //console.log("select changed", this);
+    var newTags = [];
+    var newCollectionHandle = null;
+    $(this).closest('.filter-select, .filter-menu').find('.coll-filter').each(function() {
+      var $this = $(this);
+      var value = $this.val();
+
+      // if filter has the name uses as main collection
+      if( $this.data().filterName == collectionFilterName ) {
+        if(!value) {
+          newCollectionHandle = 'all';
+        } else {
+          newCollectionHandle = value;
+        }
+        
+      } else if( value ) {
+        newTags.push(value);
+      }
+
+    });
+
+    if (newTags.length) {
+      var query = newTags.join('+');
+      if( newCollectionHandle ) {
+        jumplink.goTo('/collections/'+newCollectionHandle+'/'+query);
+      } else if( collectionHandle ) {
+        jumplink.goTo('/collections/'+collectionHandle+'/'+query);
+      } else {
+        jumplink.goTo('/collections/all/'+query);
+      }
+    } else {  
+      if(newCollectionHandle) {
+        jumplink.goTo('/collections/'+newCollectionHandle);
+      } else if( collectionHandle ) {
+        jumplink.goTo('/collections/'+collectionHandle);
+      } else {
+        jumplink.goTo('/collections/all');
+      }
+    }
+  }
+
+  $allFilters.each(function(index, element) {
+    $element = $(element);
+    $element.change(onChange);
+  });
+}
+
+/**
  * 
  */
 var initLogin = function(dataset) {
@@ -948,8 +1165,7 @@ var initLogin = function(dataset) {
  */
 var initPageCarousel = function (dataset) {
 
-  // init featured articles on home
-  initGravatarElements('#featured-articles', 'media-object img-circle center-block max-width-30');
+  jumplink.initInstafeed('instafeed-'+dataset.pageHandle);
 
   var $slick = $('#'+dataset.pageHandle+'_carousel');
 
@@ -1083,6 +1299,8 @@ var initArticle = function (dataset) {
 var initBlog = function (dataset, data) {
   initGravatarElements('article', 'img-circle center-block max-width-50');
 
+  jumplink.initInstafeed('instafeed-'+dataset.blogHandle);
+
   var $sameHeightElements = $('[data-blog-handle="dates"] .article');
 
   jumplink.cache.$window.on('resize', function() {
@@ -1092,89 +1310,8 @@ var initBlog = function (dataset, data) {
 }
 
 /**
- * TODO remove
- * Adding support for product options. See here for details:
- * @see http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options
- * This function comes from template/product.liquid and need möglicherweise rewrite
  * 
- * @see https://github.com/Shopify/Timber/blob/master/templates/product.liquid#L162
- * TOTO use https://cartjs.org/
  */
-var selectCallback = function(variant, selector, product) {
-  console.log('selectCallback');
-  console.warn(new Error("Deprecated!"));
-
-  // console.log('selectCallback', variant, selector, product);
-  var productHandle = '#handle-'+product.handle;
-
-  if (variant) {
-
-    // Swap image. TODO switch to image variant in carousel
-    if (variant.featured_image) {
-      var newImage = variant.featured_image; // New image object.
-      var mainImageDomEl = $(productHandle+' '+'.product-photo-container img')[0]; // DOM element of main image we need to swap.
-      Shopify.Image.switchImage(newImage, mainImageDomEl, jumplink.switchImage); // Define switchImage (the callback) in your theme's JavaScript file.
-    }
-    
-    // Selected a valid variant that is available.
-    if (variant.available && window.settings.cart != "false") {
-
-      // Enabling add to cart button.
-      $(productHandle+' [name="add"]').removeClass('disabled hidden-xs-up').prop('disabled', false).val(window.translations.cart.general.add_to_cart);
-
-      // Hide qty
-      $(productHandle+' .group-quantity-actions').removeClass('hidden-xs-up');
-
-      // Disable Notification BUtton
-      $(productHandle+'_bsi').addClass('disabled').prop('disabled', true);
-      $(productHandle+'_bsi-from').addClass('hidden-xs-up');
-    
-      // If item is backordered yet can still be ordered, we'll show special message.
-      if (variant.inventory_management && variant.inventory_quantity <= 0) {
-        if(variant.title === "Default Title") {
-          $(productHandle+' .selected-variant').html(product.title);
-        } else {
-          $(productHandle+' .selected-variant').html(product.title + ' - ' + variant.title);
-        }
-        $(productHandle+' .availability').removeClass('InStock OutOfStock').addClass('BackOrder').find('.availability_text').html(window.translations.product.general.backordner_possible);
-        
-        $(productHandle + ' [name="add"]').val(window.translations.cart.general.pre_order);
-        $(productHandle + '_backorder').removeClass('hidden-xs-up');
-      } else {
-        $(productHandle + ' .availability').removeClass('OutOfStock BackOrder').addClass('InStock').find('.availability_text').html(window.translations.product.general.available);
-        $(productHandle + '_backorder').addClass('hidden-xs-up');
-      }
-      
-    } else {
-      // Variant is sold out.
-      $(productHandle+' .availability').removeClass('InStock BackOrder').addClass('OutOfStock').find('.availability_text').html(window.translations.product.general.sold_out);
-      $(productHandle+'_backorder').addClass('hidden-xs-up');
-      $(productHandle+' [name="add"]').val(window.translations.product.general.sold_out).addClass('disabled').prop('disabled', true);
-
-      // Show qty
-      $(productHandle+' .group-quantity-actions').addClass('hidden-xs-up');
-
-      // Enable Notification Button
-      $(productHandle+'_bsi').removeClass('disabled').prop('disabled', false);
-      $(productHandle+'_bsi-from').removeClass('hidden-xs-up');
-    }
-    
-    // Whether the variant is in stock or not, we can update the price and compare at price.
-    if ( variant.compare_at_price > variant.price ) {
-      $(productHandle+' .product-price').replaceWith('<span class="product-price text-danger on-sale" itemprop="price">'+ Shopify.formatMoney(variant.price, window.shop.moneyFormat) +'&nbsp;<s class="product-compare-price text-default">'+'<span>'+Shopify.formatMoney(variant.compare_at_price, window.shop.moneyFormat)+ '</span>'+'</s>'+'</span>');
-    } else {
-      $(productHandle+' .product-price').replaceWith('<span class="product-price" itemprop="price">'+ Shopify.formatMoney(variant.price, window.shop.moneyFormat) + '</span>' );
-    }
-
-  } else {
-    // variant doesn't exist.
-    $(productHandle+' .product-price').empty();
-    $(productHandle+'_backorder').addClass('hidden-xs-up');
-    $(productHandle+'_add').val(window.translations.product.general.unavailable).addClass('disabled').prop('disabled', true);
-  }
-
-};
-
 var initProductModal = function (product, $slick) {
 
   // init product photo modal
@@ -1425,75 +1562,6 @@ var initCart = function (dataset, data) {
 }
 
 /**
- * @see snippets/filter-menu-select
- * @see https://apps.shopify.com/power-tools-filter-menu
- */
-var initCollectionSelectFilter = function (collectionHandle) {
-  var collectionFilterName = "Designer";
-
-  return true; // Currently not uses, so stop here!
-
-  // console.log("initCollectionSelectFilter", collectionHandle);
-
-  /* Product Tag Filters - Good for any number of filters on any type of collection pages */
-  /* Brought to you by Caroline Schnapp and Shopify Power Tools */
-  var $allFilters = $('.coll-filter-'+collectionHandle);
-  $allFilters.selectpicker();
-  $allFilters.selectpicker('render');
-
-  // $allFilters.on('hidden-xs-up.bs.select', function (e) {
-  //   console.log("bs select changed", e);
-  // });
-
-  var onChange = function () {
-    //console.log("select changed", this);
-    var newTags = [];
-    var newCollectionHandle = null;
-    $(this).closest('.filter-select, .filter-menu').find('.coll-filter').each(function() {
-      var $this = $(this);
-      var value = $this.val();
-
-      // if filter has the name uses as main collection
-      if( $this.data().filterName == collectionFilterName ) {
-        if(!value) {
-          newCollectionHandle = 'all';
-        } else {
-          newCollectionHandle = value;
-        }
-        
-      } else if( value ) {
-        newTags.push(value);
-      }
-
-    });
-
-    if (newTags.length) {
-      var query = newTags.join('+');
-      if( newCollectionHandle ) {
-        jumplink.goTo('/collections/'+newCollectionHandle+'/'+query);
-      } else if( collectionHandle ) {
-        jumplink.goTo('/collections/'+collectionHandle+'/'+query);
-      } else {
-        jumplink.goTo('/collections/all/'+query);
-      }
-    } else {  
-      if(newCollectionHandle) {
-        jumplink.goTo('/collections/'+newCollectionHandle);
-      } else if( collectionHandle ) {
-        jumplink.goTo('/collections/'+collectionHandle);
-      } else {
-        jumplink.goTo('/collections/all');
-      }
-    }
-  }
-
-  $allFilters.each(function(index, element) {
-    $element = $(element);
-    $element.change(onChange);
-  });
-}
-
-/**
  * JavaScript Code for Collection Pages, executed from barba.js
  */
 var initCollection = function (dataset, data) {
@@ -1708,97 +1776,8 @@ var initCustomersAccount = function (dataset) {
   }
 }
 
-/**
- * Set all navs and subnavs on navbar to "not active"
- */
-var resetNav = function () {
-  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li').removeClass('active');
-
-  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li ul.list-group li.list-group-item').removeClass('active');
-}
-
-/**
- * Set nav with selector to active 
- */
-var setNav = function (selector) {
-   jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li'+selector).addClass('active');
-}
-
-/**
- * Find a active child with collectionHandle and set it and his parent nav to active 
- */
-var setParentNav = function (collectionHandle) {
-  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li ul.list-group li.list-group-item.'+collectionHandle).each(function(index, value) {
-    var $this = $(this);
-    $this.addClass('active');
-    $this.closest('.level-1').addClass('active');
-  });
-}
-
-/**
- * Find active navs and set them to active
- */
-var setNavActive = function(dataset, data) {
-  resetNav();
-  switch(dataset.namespace) {
-    case 'customers-login':
-      setNav('.'+dataset.namespace);
-    break;
-    case 'customers-register':
-      setNav('.'+dataset.namespace);
-    break;
-    case '404':
-      setNav('.'+dataset.namespace);
-    break;
-    case 'article':
-      setNav('.blog');
-    break;
-    case 'blog':
-      setNav('.'+dataset.namespace);
-    break;
-    case 'cart':
-      setNav('.cart-button');
-    break;
-    case 'collection':
-      setNav('.'+dataset.collectionHandle);
-      setParentNav(dataset.collectionHandle);
-    break;
-    case 'index':
-      setNav('.'+dataset.namespace);
-    break;
-    case 'list-collections':
-    break;
-    case 'page':
-      setNav('.'+dataset.pageHandle);
-    break;
-    case 'product':
-      setParentNav(dataset.collectionHandle);
-    break;
-    case 'search':
-    break;
-    default:
-      setNav('.'+dataset.namespace);
-    break;
-  }
-}
-
 var initIndex = function (dataset, data) {
-  // https://github.com/stevenschobert/instafeed.js
-
-  var instafeed = new Instafeed({
-    clientId: window.settings['home_instafeed_clientId'],
-    accessToken: window.settings['home_instafeed_accessToken'],
-    template: ProductJS.templates.instafeedItem,
-    get: window.settings['home_instafeed_get'],
-    tagName: window.settings['home_instafeed_tagName'],
-    locationId: window.settings['home_instafeed_locationId'],
-    userId: window.settings['home_instafeed_userId'], //JumpLink: '1752935354' Caroline Pezzetta @studiopezzetta: '1046245675'
-    sortBy: window.settings['home_instafeed_sortBy'],
-    limit: window.settings['home_instafeed_limit'],
-    resolution: window.settings['home_instafeed_resolution'],
-  });
-  instafeed.run();
-
+  jumplink.initInstafeed('instafeed-'+dataset.namespace);
 }
 
 var init404 = function (dataset, data) {
@@ -1848,7 +1827,8 @@ var initSearch = function(dataset, data) {
 }
 
 var initListCollections = function(dataset, data) {
-  console.log('initListCollections', dataset, data);
+  // console.log('initListCollections', dataset, data);
+  jumplink.initInstafeed('instafeed-'+dataset.namespace);
 }
 
 /**
@@ -1870,59 +1850,6 @@ var initTemplate = {
   'page': initPage,
   'product': initProduct,
   'search': initSearch,
-}
-
-/**
- * init Alertify.js
- * 
- * @see https://alertifyjs.org/
- */
-jumplink.initAlert = function () {
-  alertify.parent(document.body);
-  alertify.logPosition(window.settings.alertify_position);
-  window.alertify = alertify;
-}
-
-/**
- * Close all opend bootstrap modals
- * @see http://v4-alpha.getbootstrap.com/components/modal/
- */
-jumplink.closeAllModals = function () {
-  jumplink.cache.$body.removeClass('modal-open').removeAttr('style');
-}
-
-  /**
-   * Handles the Shopify Admin Bar
-   * Fires window resize event if admin bar changes
-   * Fires gobal adminbar.show event if admin bar shows
-   * Fires gobal adminbar.close event if admin bar closes
-   */ 
-jumplink.initShopifyAdminBar = function () {
-
-  // handle and fire events
-  var $shopifyAdminBarIframe = $('#admin_bar_iframe');
-  $shopifyAdminBarIframe.on('load', function () {
-    jumplink.cache.$window.trigger('resize');
-    var $shopifyAdminBar = $shopifyAdminBarIframe.contents();
-    var $shopifyAdminBarClose = $shopifyAdminBar.find('#close-admin-bar');
-    var $shopifyAdminBarShow = $shopifyAdminBar.find('#show-admin-bar');
-    $shopifyAdminBarClose.on('click', function (event) {
-      // event name conversation from https://v4-alpha.getbootstrap.com/components/modal/#events
-      jumplink.cache.$document.trigger('show.shopify.adminbar', event);
-      setTimeout(function() {
-        jumplink.cache.$window.trigger('resize', event);
-        jumplink.cache.$document.trigger('shown.shopify.adminbar', event);
-      }, 10);
-
-    });
-    $shopifyAdminBarShow.on('click', function (event) {
-      jumplink.cache.$document.trigger('hide.shopify.adminbar', event);
-      setTimeout(function() {
-        jumplink.cache.$window.trigger('resize', event);
-        jumplink.cache.$document.trigger('hidden.shopify.adminbar', event);
-      }, 10);
-    });
-  });
 }
 
 /**

@@ -1,7 +1,7 @@
 {% paginate collections by settings.collections_per_page %}
   <ul class="list-group filter-collections">
     <li class="list-group-item list-group-title">
-      {{ title }}
+      {{ 'collection.filter.title' | t }}
     </li>
     {% for collectionItem in collections %}
       {% if collectionItem.handle == collection.handle %}

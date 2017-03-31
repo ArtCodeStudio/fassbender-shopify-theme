@@ -38,4 +38,9 @@
 
   {% endpaginate %}
 
+  {% include 'jumplink-register-box' %}
+
+  {% assign instagramId = 'instafeed-' | append: blog.handle %}
+  {% include 'jumplink-instagram-box', id: instagramId %}
+
 </div>

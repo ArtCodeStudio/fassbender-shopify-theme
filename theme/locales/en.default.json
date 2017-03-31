@@ -179,6 +179,9 @@
       "header": "Create Account",
       "button": "Online Showroom",
       "text": "You need an account to see this collection. If you are interested please create an account and ask for an invite."
+    },
+    "filter": {
+      "title": "Brands"
     }
   },
   "product": {
@@ -200,6 +203,11 @@
       "message": "Nachricht",
       "send": "Send",
       "post_success": "Message sent successfully"
+    }
+  },
+  "footer": {
+    "general": {
+      "header": "Contact us"
     }
   },
   "date_formats": {

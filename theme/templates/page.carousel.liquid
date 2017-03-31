@@ -15,5 +15,8 @@
     
     {% include 'jumplink-register-box' %}
 
+    {% assign instagramId = 'instafeed-' | append: page.handle %}
+    {% include 'jumplink-instagram-box', id: instagramId %}
+
   </div>
 </div>

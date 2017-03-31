@@ -3,7 +3,7 @@
     <div data-toggle="footer" data-target="#footer-adjustment" class="row">
       <div class="col-xs-12 text-center">
         <div class="text-uppercase my-2" id="footer-book">
-          Contact us
+          {{ 'footer.general.header' | t }}
           {% include 'jumplink-iconset', name: 'arrow', direction: 'top', color: 'white' %}
         </div>
       </div>
@@ -39,7 +39,7 @@
         </p>
         
         <p class="my-3">
-          <img class="logo-inverse" src="{{ 'logo-invert.svg' | asset_url }}" width="300" height="30" alt="STUDIO PEZZETTA">
+          <img class="logo-inverse" src="{{ 'logo-invert.svg' | asset_url }}" width="300" height="30" alt="{{shop.name}}">
         </p>
 
         <p class="my-3">
