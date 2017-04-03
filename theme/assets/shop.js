@@ -1,3 +1,6 @@
+// JumpLink functions
+jumplink = window.jumplink || {};
+
 // redirects overwrites for 404 page
 var redirects = {
   '/en': '/',
@@ -18,9 +21,6 @@ jQuery.fn.outerHTML = function(s) {
     ? this.before(s).remove()
     : jQuery("<p>").append(this.eq(0).clone()).html();
 };
-
-// JumpLink functions
-window.jumplink = window.jumplink || {};
 
 /**
  * 
@@ -138,38 +138,8 @@ jumplink.unfreezeElements = function () {
  * Init all custom data bindings
  */
 jumplink.initDataAttributes = function (dataset) {
-  jumplink.initSlickMethods();
-  jumplink.initCustomModals();
+  jumplink.initDataApi();
   jumplink.initColorcard(dataset);
-}
-
-/**
- * Set each element of $elements to the height of the heightest element to have all elements with the same height 
- */
-jumplink.sameHeightElements = function ($elements, defaultHeight) {
-    if(!defaultHeight) {
-      defaultHeight = 'auto';
-    }
-    var t = 0;
-    var t_elem;
-    // get heightest height
-    $elements.each(function () {
-        $this = $(this);
-        // reset height
-        $this.css('min-height', defaultHeight);
-        if ( $this.outerHeight() > t ) {
-            t_elem=this;
-            t=$this.outerHeight();
-        }
-    });
-    
-    // set all smaller cards to the height of the heightest card
-    $elements.each(function () {
-        $this = $(this);
-        if($this.outerHeight() != t) {
-            $this.css('min-height', t);
-        }
-    });
 }
 
 /**
@@ -208,155 +178,9 @@ jumplink.initColorcard = function (dataset) {
 }
 
 /**
- * Data bindings to call slick methods with target
- */
-jumplink.initSlickMethods = function () {
- 
-  var $slickMethod = $('[data-slick-method]');
-  $slickMethod.unbind( 'click' ).bind( 'click', function() {
-    var $this = $(this);
-    var data = $this.data();
-    var $target = $(data.target);
-    var method = data.slickMethod;
-    // console.log('initSlickMethods', $target, method);
-    $target.slick(method);
-  });
-
-  var $slickArea = $('[data-area="slick"]');
-  var mousePos = {};
-  var offset = $slickArea.offset();
-  var width = $slickArea.width();
-  // $slickArea.mousemove(function(e){
-  //   width = $slickArea.width();
-  //   mousePos = {
-  //       left: e.pageX - offset.left,
-  //       top: e.pageY - offset.top,
-  //   };
-  //   // TODO custom image https://css-tricks.com/almanac/properties/c/cursor/
-  //   console.log('mousePos', mousePos, width);
-  // });
-}
-
-/**
- * Data bindings for custom modals
- */
-jumplink.initCustomModals = function () {
-  var $modalNoTouch = $('[data-toggle="modal-no-touch"]');
-
-  $modalNoTouch.unbind( 'click' ).bind( 'click', function(event) {
-
-    // do not open modal on touch devices
-    if(jumplink.isTouchDevice()) {
-      return;
-    }
-
-    var $this = $(this);
-    var data = $this.data();
-    var backdrop = data.backdrop;
-    var target = data.target;
-    $(target).modal({
-      backdrop: backdrop
-    });
-  });
-}
-
-
-/**
  * Utilities / Helper functions
  */
 
-
-/**
- * Detect if current device is a touch device
- * 
- * @see https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
- */
-jumplink.isTouchDevice = function () {
-  if(platform.name === 'Epiphany') {
-    return false;
-  }
-  return ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch;
-}
-
-/**
- * featureTest( 'position', 'sticky' )
- * @see https://github.com/filamentgroup/fixed-sticky/blob/master/fixedsticky.js
- */
-jumplink.featureTest = function ( property, value, noPrefixes ) {
-  // Thanks Modernizr! https://github.com/phistuck/Modernizr/commit/3fb7217f5f8274e2f11fe6cfeda7cfaf9948a1f5
-  var prop = property + ':',
-    el = document.createElement( 'test' ),
-    mStyle = el.style;
-
-  if( !noPrefixes ) {
-    mStyle.cssText = prop + [ '-webkit-', '-moz-', '-ms-', '-o-', '' ].join( value + ';' + prop ) + value + ';';
-  } else {
-    mStyle.cssText = prop + value;
-  }
-  return mStyle[ property ].indexOf( value ) !== -1;
-}
-
-/**
- * Preloading images with jQuery with callback after image is loaded
- * 
- * @see http://stackoverflow.com/a/476681/1465919
- * @see https://perishablepress.com/3-ways-preload-images-css-javascript-ajax/
- */
-jumplink.preloadImage = function ($element, src, srcOrignal, cb) {
-  return $(new Image()).attr("src", src).load(function() {
-    $image = $(this);
-    $image.unbind('load');
-    return cb($element, src, srcOrignal, $image);
-  });
-}
-
-jumplink.preloadImages = function (arrayOfImages) {
-  $(arrayOfImages).each(function() {
-    jumplink.preloadImage(this);
-  });
-}
-
-/**
- * 
- */
-jumplink.replaceNoImage = function() {
-  var $images = $('[src*="no-image-compact.gif"]');
-  $images.each(function(index) {
-    var $this = $(this);
-    $this.attr('src', window.product.noImageSrc);
-  });
-}
-
-/**
- * 
- */
-jumplink.getHash = function () {
-  return window.location.hash;
-};
-
-/**
- * 
- */
-jumplink.updateHash = function (hash) {
-  return window.location.hash = hash;
-};
-
-/**
- * 
- */
-jumplink.removeHash = function () {
-  return history.pushState("", document.title, window.location.pathname + window.location.search);
-};
-
-/**
- * get hostname an path of url
- * æsee http://stackoverflow.com/a/736970/1465919
- */
-jumplink.getUrlLocation = function(href) {
-  var l = document.createElement("a");
-  l.href = href;
-  return l;
-};
 
 /* =======================================================================
   Reading query parameters and storing them in a Shopify.queryParams object.
@@ -373,23 +197,6 @@ if (location.search.length) {
   }
 }
 
-/**
- * TODO fix for slick
- */
-jumplink.switchImage = function(newImageSrc, newImage, mainImageDomEl) {
-  // newImageSrc is the path of the new image in the same size as originalImage is sized.
-  // newImage is Shopify's object representation of the new image, with various attributes, such as scr, id, position.
-  // mainImageDomEl is the passed domElement, which has not yet been manipulated. Let's manipulate it now.
-  $(mainImageDomEl).parents('a').attr('href', newImageSrc.replace('_grande', '_1024x1024'));
-  $(mainImageDomEl).attr('src', newImageSrc);  
-};
-
-(function(proxied) {
-  window.alert = function() {
-    // do something here
-    return proxied.apply(this, arguments);
-  };
-})(console.log);
 
 jumplink.goTo = function (href) {
   if(Barba) {
@@ -432,22 +239,6 @@ var initSearchField = function () {
     }, 500, function() {
       // Animation complete.
     });
-  });
-}
-
-/**
- * Cause back button to close Bootstrap modal windows
- * @see https://gist.github.com/thedamon/9276193
- */
-var initModalHistoryBack = function () {
-  $(".modal").on("shown.bs.modal", function()  { // any time a modal is shown
-    var urlReplace = "#" + $(this).attr('id'); // make the hash the id of the modal shown
-    history.pushState(null, null, urlReplace); // push state that hash into the url
-  });
-
-  // If a pushstate has previously happened and the back button is clicked, hide any modals.
-  jumplink.cache.$window.on('popstate', function() { 
-    $(".modal").modal('hide');
   });
 }
 
@@ -815,76 +606,6 @@ var MovePage = Barba.BaseTransition.extend({
 
 });
 
-
-/**
- * Get Image of E-Mail by Gravawtar
- * @see https://stackoverflow.com/questions/705344/loading-gravatar-using-$
- */
-jumplink.getGravatar = function (emailOrHash, classes, withHash, placeholder) {
-  var src = null;
-
-  if(typeof(emailOrHash) === 'undefined' || emailOrHash === null || !emailOrHash.length) {
-    return console.error("Gravatar need an email or hash");
-  }
-
-  if(typeof(withHash) === 'undefined' || withHash !== true) {
-    emailOrHash = md5(emailOrHash);
-  }
-
-  src = '//www.gravatar.com/avatar/' + emailOrHash;
-
-  if(placeholder) {
-    src += '?d=' + encodeURI('https:'+placeholder);
-  }
-
-  //console.log("getGravatar", emailOrHash, classes, withHash, placeholder, src);
-
-  var $image = $('<img>').attr({src: src}).addClass(classes);
-  return $image;
-}
-
-/**
- * 
- */
-var initGravatarElements = function (selector, classes) {
-  if(!classes) {
-    classes = "";
-  }
-  $articles = $(selector);
-  $articles.find('gravatar').each(function(index, gravatar) {
-    var $gravatar = $(gravatar);
-    var emailOrHash = null;
-    var withHash = false;
-    var placeholder = null;
-    var data = $gravatar.data();
-
-    if(data.placeholders) {
-      placeholder = data.placeholders[ProductJS.Utilities.rand(0, data.placeholders.length-1)];
-    }
-
-    //console.log("data", data);
-
-    if( data.email ) {
-      emailOrHash = $gravatar.data('email');
-      withHash = false;
-    }
-
-    if( data.hash ) {
-      emailOrHash = $gravatar.data('hash');
-      withHash = true;
-    }
-
-    if(data.replace) {
-      $image = jumplink.getGravatar(emailOrHash, classes+" "+$gravatar.attr('class'), withHash, placeholder);    
-      $gravatar.replaceWith($image);
-    } else {
-      $image = jumplink.getGravatar(emailOrHash, classes, withHash, placeholder);    
-      $gravatar.empty().append($image);
-    }
-    
-    
-  });
-}
 
 /**
  * init Alertify.js
@@ -2018,7 +1739,7 @@ var init = function ($) {
 
   initSearchField();
   
-  initModalHistoryBack();
+  window.jumplink.initModalHistoryBack();
 
   initNavbar();
 

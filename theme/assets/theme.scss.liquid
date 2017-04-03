@@ -11071,6 +11071,7 @@ $tcon-menu-arrow360left-transformation: (
     height: 100vh;
     width: auto;
 }
+
 // https://v4-alpha.getbootstrap.com/utilities/sizing-and-positioning/
 
 .pos-a-t-xs {
@@ -11120,24 +11121,37 @@ $tcon-menu-arrow360left-transformation: (
 }
 
 .flip-h {
-    @include vp-transform(scaleX(-1));
-    filter: FlipH;
-    -ms-filter: "FlipH";
+  @include vp-transform(scaleX(-1));
+  filter: FlipH;
+  -ms-filter: "FlipH";
 }
 
 .flip-v {
-     @include vp-transform(scaleY(-1));
-    filter: FlipV;
-    -ms-filter: "FlipV";
+    @include vp-transform(scaleY(-1));
+  filter: FlipV;
+  -ms-filter: "FlipV";
 }
 
 .rotate-90 {
- @include vp-transform(rotate(90deg));
+  @include vp-transform(rotate(90deg));
+}
+
+.rotate-180 {
+  @include vp-transform(rotate(180deg));
+}
+
+.rotate-270 {
+  @include vp-transform(rotate(270deg));
+}
+
+.rotate-90, .rotate-180, .rotate-270 {
+  @include vp-transition(transform 0.5s ease);
 }
 
 .invert {
 	filter: invert(100%);
 }
+
 .bg-white {
     background-color: $white;
 }

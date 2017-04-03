@@ -9,12 +9,12 @@
     {% assign class = 'flip-h' %}
 {% endif %}
 
-{% if direction == 'top' %}
+{% if direction == 'top' or direction == 'up'%}
     {% assign class = 'rotate-90' %}
 {% endif %}
 
-{% if direction == 'down' %}
-    {% assign class = 'rotate-90 flip-v' %}
+{% if direction == 'bottom' or direction == 'down' %}
+    {% assign class = 'rotate-270' %}
 {% endif %}
 
 <div aria-hidden="true" class="iconset {{name}} {{direction}} {{class}} {{color}}">

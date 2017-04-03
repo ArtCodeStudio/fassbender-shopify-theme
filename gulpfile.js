@@ -44,6 +44,8 @@ gulp.task('default', function () {
   gulp.watch([
     './bower_components/shopify-productjs/dist/product.js',
     './bower_components/shopify-productjs/dist/product.min.js',
+    './bower_components/jumplink-components/javascript/utilities.js',
+    './bower_components/jumplink-components/javascript/dataApi.js',
   ], ['javascript']);
 
 });
@@ -95,13 +97,16 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/rivets/dist/rivets.js',
     'bower_components/shopify-cartjs/dist/cart.js',
     'src/js/md5.js',
-    'src/js/tcon.js',
+    // 'src/js/tcon.js',
     'bower_components/gsap/src/uncompressed/TweenMax.js',               // https://github.com/rstacruz/jquery.transit
     'bower_components/async/dist/async.js',
     'bower_components/barba.js/dist/barba.js',
     'bower_components/slick-carousel/slick/slick.js',
     'bower_components/instafeed.js/instafeed.js',                       // https://github.com/stevenschobert/instafeed.js
     'bower_components/platform.js/platform.js',
+    'bower_components/jumplink-components/javascript/utilities.js',     // https://github.com/JumpLinkNetwork/jumplink-components
+    'bower_components/jumplink-components/javascript/styleicons.js',     // https://github.com/JumpLinkNetwork/jumplink-components
+    'bower_components/jumplink-components/javascript/dataApi.js',       // https://github.com/JumpLinkNetwork/jumplink-components
     'bower_components/shopify-productjs/dist/product.js',
     // 'bower_components/video.js/dist/video.js',
     // 'src/js/Hyphenator.js',
