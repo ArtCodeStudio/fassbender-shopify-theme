@@ -18,7 +18,7 @@
                 {% if collection.description.size > 0 %}
                   <div class="pb-1">
                     <h1 class="collection-title mt-0 mb-4 text-center">
-                      {{ collection.title }}
+                      {{ collection.title | strip_html }}
                     </h1>
                     <div class="rte">
                       {{ collection.description }}

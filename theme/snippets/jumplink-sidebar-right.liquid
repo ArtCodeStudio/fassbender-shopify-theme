@@ -22,7 +22,7 @@
                 {% if has_sub_menu or has_all_collections %}
                     <a class="list-group-item level-2-title {{link.handle}}" href="{{ link.url }}" data-toggle="collapse-with-icon" data-target="#sub-list-group-{{link.handle}}" data-icon=".arrow" data-icon-class-on-hide="rotate-270" data-icon-class-on-show="rotate-90" aria-expanded="false" aria-controls="collapseExample">
                         <div class="d-flex flex-row justify-content-between w-100">
-                            {{ link.title }}
+                            {{ link.title | strip_html }}
                             {% include 'jumplink-iconset', name: 'arrow', direction: 'bottom', color: 'black' %}
                         </div>
                     </a>
@@ -37,6 +37,7 @@
                         {% endcomment %}
                         {% paginate collections by settings.collections_per_page %}
                             {% for link_level_2 in loop %}
+                                
                                 {% comment %}
                                     Check for no-barba links
                                 {% endcomment %}
@@ -54,6 +55,7 @@
                                 {% endif %}
 
                                 {% unless hide_link %}
+
                                     {% comment %}
                                         - Titles with [C] can just see loged in customers
                                         - Titles with [C] can just see not logged in visitors
@@ -61,18 +63,18 @@
                                     {% if link_level_2.title contains "[C]"%}
                                         {% if customer %}
                                                 <a href="{{ link_level_2.url }}" class="close-sidebar list-group-item list-group-item-action level-2 {{link_level_2.handle}} {{class}}">
-                                                    {{ link_level_2.title | remove: "[C]" }}
+                                                    {{ link_level_2.title | strip_html | remove: "[C]" }}
                                                 </a>
                                         {% endif %}
                                     {% elsif link_level_2.title contains "[N]" %}
                                         {% unless customer %}
                                             <a href="{{ link_level_2.url }}" class="close-sidebar list-group-item list-group-item-action level-2 {{link_level_2.handle}} {{class}}">
-                                                {{ link_level_2.title | remove: "[N]" }}
+                                                {{ link_level_2.title | strip_html | remove: "[N]" }}
                                             </a>
                                         {% endunless %}
                                     {% else %}
                                         <a href="{{ link_level_2.url }}" class="close-sidebar list-group-item list-group-item-action level-2 {{link_level_2.handle}} {{class}}">
-                                            {{ link_level_2.title }}
+                                            {{ link_level_2.title | strip_html }}
                                         </a>
                                     {% endif %}
                                 {% endunless %}
@@ -87,7 +89,7 @@
                     </div>{% comment %}id="sub-list-group-{{link.handle}}"{% endcomment %}
 
                 {% else %}
-                    <a class="close-sidebar list-group-item list-group-item-action level-1 {{link.handle}}" href="{{link.url}}">{{ link.title }}</a>
+                    <a class="close-sidebar list-group-item list-group-item-action level-1 {{link.handle}}" href="{{link.url}}">{{ link.title | strip_html }}</a>
                 {% endif %}
             {% endfor %}
         </div>
