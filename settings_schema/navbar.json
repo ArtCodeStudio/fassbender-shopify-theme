@@ -1,0 +1,14 @@
+{
+  "name": "Navbar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
+      "type": "image",
+      "id": "navbar_logo.png",
+      "label": "Navbar Logo as .png Image"
+    }
+  ]
+}

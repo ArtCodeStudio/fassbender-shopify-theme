@@ -1,6 +1,9 @@
 .imprint {
     color: $white;
     .logo-inverse {
+        height: auto;
+        max-height: 26px;
+        width: auto;
         max-width: 230px;
     }
     a {

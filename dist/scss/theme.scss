@@ -11088,6 +11088,10 @@ button, input, optgroup, select, textarea {
 }
 
 .navbar-brand {
+    img {
+        max-height: 33px;
+        width: auto;
+    }
     @include media-breakpoint-down(xs) {
         // max-width: 200px;
         padding-right: 50px;
@@ -11175,6 +11179,9 @@ button, input, optgroup, select, textarea {
 .imprint {
     color: $white;
     .logo-inverse {
+        height: auto;
+        max-height: 26px;
+        width: auto;
         max-width: 230px;
     }
     a {

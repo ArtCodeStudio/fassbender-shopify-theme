@@ -1,0 +1,14 @@
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
+      "type": "image",
+      "id": "footer_logo.png",
+      "label": "Footer Brand as .png Image"
+    }
+  ]
+}

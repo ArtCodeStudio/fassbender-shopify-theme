@@ -303,6 +303,8 @@ gulp.task('theme_settings', ['bootstrap_theme_settings'], function () {
   var settings = [
     'bootstrap',
     'general',
+    'navbar',
+    'footer',
     'home',
     'about',
     'list-collections',

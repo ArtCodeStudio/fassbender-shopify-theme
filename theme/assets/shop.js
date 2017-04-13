@@ -991,8 +991,8 @@ var initPageCarousel = function (dataset) {
  * 
  */
 var initArticle = function (dataset) {
-  initGravatarElements('.article', 'img-circle center-block max-width-50');
-  initGravatarElements('.comments');
+  // jumplink.initGravatarElements('.article', 'img-circle center-block max-width-50');
+  // jumplink.initGravatarElements('.comments');
   var $formData = $('.barba-form');
   var data = $formData.data();
 
@@ -1018,7 +1018,7 @@ var initArticle = function (dataset) {
  * 
  */
 var initBlog = function (dataset, data) {
-  initGravatarElements('article', 'img-circle center-block max-width-50');
+  // jumplink.initGravatarElements('article', 'img-circle center-block max-width-50');
 
   jumplink.initInstafeed('instafeed-'+dataset.blogHandle);
 
