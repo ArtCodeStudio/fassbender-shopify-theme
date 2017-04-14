@@ -1,15 +1,15 @@
 @font-face {
-    font-family: "Avant Garde";
-	src: url(#{$font-avantgarde-eot-path});
-	src: url(#{$font-avantgarde-woff-path}) format('woff'), url(#{$font-avantgarde-ttf-path}) format('truetype'), url(#{$font-avantgarde-svg-path}) format('svg');
+    font-family: "GT-Walsheim";
+	src: url(#{$font-gt-walsheim-eot-path});
+	src: url(#{$font-gt-walsheim-woff-path}) format('woff'), url(#{$font-gt-walsheim-ttf-path}) format('truetype'), url(#{$font-gt-walsheim-otf-path}) format('otf');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
-    font-family: "Avant Garde";
-    src: url(#{$font-avantgarde-bold-eot-path});
-    src: url(#{$font-avantgarde-bold-woff-path}) format('woff'), url(#{$font-avantgarde-bold-ttf-path}) format('truetype'), url(#{$font-avantgarde-bold-svg-path}) format('svg');
+    font-family: "GT-Walsheim";
+    src: url(#{$font-gt-walsheim-bold-eot-path});
+    src: url(#{$font-gt-walsheim-bold-woff-path}) format('woff'), url(#{$font-gt-walsheim-bold-ttf-path}) format('truetype'), url(#{$font-gt-walsheim-bold-otf-path}) format('otf');
     font-weight: bold;
     font-style: normal;
 }

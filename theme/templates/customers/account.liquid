@@ -16,7 +16,7 @@
                     <div class="row">
                         {% for handle in collectionHandles %}
                             {% assign collection = collections[handle] %}
-                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                                 {% include 'jumplink-collection-grid-item' %}
                             </div>                        
                         {% endfor %}
@@ -34,7 +34,7 @@
                             {% include 'app-jumplink-ec-collection-unlocked' %}
 
                             {% unless unlocked %}
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                                     {% include 'jumplink-collection-grid-item' %}
                                 </div>
                             {% endunless %}

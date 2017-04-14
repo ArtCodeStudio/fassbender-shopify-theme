@@ -7,10 +7,6 @@ $petty-letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
-.display-3 {
-    letter-spacing: 0.3rem;
-}
-
 h1 {
     text-transform: uppercase;
 }
@@ -19,18 +15,23 @@ b, strong {
     font-weight: $font-weight-bold;
 }
 
-.lead {
-    letter-spacing: 0.1rem;
+h1,
+.display-3,
+.display-4,
+.btn,
+.text-uppercase,
+.lead,
+[data-blog-handle="dates"] article .article .title,
+[data-blog-handle="dates"] article .article .content,
+.image-wrap .caption
+{
+    letter-spacing: $petty-letter-spacing;
 }
-    
+
 .list-group-item,
 .nav-link,
 .nav-item .dropdown-toggle,
 .breadcrumb-item {
     letter-spacing: $petty-letter-spacing;
     font-size: $petty-font-size;
-}
-
-.btn {
-    letter-spacing: $petty-letter-spacing;
 }

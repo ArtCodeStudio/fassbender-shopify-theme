@@ -24,10 +24,11 @@
             }
             @extend .custom-nav-link;
             cursor: pointer;
+            padding-top: 0.17em // TODO way?!
         }
         .dropdown-menu {
             top: 37px;
-            left: 1.5em;
+            left: (1.5em / 2);
             border-top: 0;
             .dropdown-item {
                 &:active {
@@ -53,7 +54,7 @@
     }
     @include media-breakpoint-down(xs) {
         // max-width: 200px;
-        padding-right: 50px;
+        // padding-right: 50px;
     }
 }
 
@@ -66,6 +67,32 @@
 .navbar {
     // WORKAROUND
     &.fixed-top {
-        width: 100vw;
+        // width: 100vw;
+    }
+}
+
+@include media-breakpoint-down(xs) {
+    .navbar {
+        .container {
+            // Do not center brand
+            margin-left: 0;
+            margin-right: 0;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .navbar-toggleable-md>.container {
+        padding-right: initial;
+        padding-left: inherit;
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    .navbar-toggleable-md>.container {
+        padding-right: 15px; // overwrite 24px TODO use variable
+        padding-left: 15px; // overwrite 24px  TODO use variable
     }
 }

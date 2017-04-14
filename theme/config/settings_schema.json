@@ -4,7 +4,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Bootstrap 4 [fork](https:\/\/github.com\/JumpLinkNetwork\/bootstrap-backward) with backward compatibility for Shopify by [JumpLink](https:\/\/www.jumplink.eu)"
+        "content": "Bootstrap 4 [fork](https://github.com/JumpLinkNetwork/bootstrap-backward) with backward compatibility for Shopify by [JumpLink](https://www.jumplink.eu)"
       },
       {
         "type": "header",
@@ -575,7 +575,7 @@
         "type": "text",
         "id": "bs4-headings-margin-bottom",
         "label": "headings-margin-bottom",
-        "default": "($spacer \/ 2)"
+        "default": "($spacer / 2)"
       },
       {
         "type": "text",
@@ -759,7 +759,7 @@
         "type": "text",
         "id": "bs4-line-height-lg",
         "label": "line-height-lg",
-        "default": "(4 \/ 3)"
+        "default": "(4 / 3)"
       },
       {
         "type": "text",
@@ -1372,7 +1372,7 @@
         "type": "text",
         "id": "bs4-custom-control-indicator-margin-y",
         "label": "custom-control-indicator-margin-y",
-        "default": "(($line-height-base * 1rem) - $custom-control-indicator-size) \/ -2"
+        "default": "(($line-height-base * 1rem) - $custom-control-indicator-size) / -2"
       },
       {
         "type": "text",
@@ -1892,7 +1892,7 @@
         "type": "text",
         "id": "bs4-navbar-padding-y",
         "label": "navbar-padding-y",
-        "default": "($spacer \/ 2)"
+        "default": "($spacer / 2)"
       },
       {
         "type": "text",
@@ -2392,7 +2392,7 @@
         "type": "text",
         "id": "bs4-card-deck-margin",
         "label": "card-deck-margin",
-        "default": "($grid-gutter-width-base \/ 2)"
+        "default": "($grid-gutter-width-base / 2)"
       },
       {
         "type": "text",
@@ -3178,7 +3178,7 @@
         "type": "text",
         "id": "bs4-breadcrumb-divider",
         "label": "breadcrumb-divider",
-        "default": "\"\/\""
+        "default": "\"/\""
       },
       {
         "type": "header",
@@ -3384,7 +3384,7 @@
       },
       {
         "type": "paragraph",
-        "content": "See [currency formatting options](https:\/\/help.shopify.com\/manual\/payment-settings\/currency-formatting) and [money filters](https:\/\/help.shopify.com\/themes\/liquid\/filters\/money-filters) for more details"
+        "content": "See [currency formatting options](https://help.shopify.com/manual/payment-settings/currency-formatting) and [money filters](https://help.shopify.com/themes/liquid/filters/money-filters) for more details"
       },
       {
         "type": "checkbox",
@@ -3431,7 +3431,7 @@
       },
       {
         "type": "paragraph",
-        "content": "For all available settings see [Instafeed.js](http:\/\/instafeedjs.com\/)."
+        "content": "For all available settings see [Instafeed.js](http://instafeedjs.com/)."
       },
       {
         "type": "text",
@@ -3563,12 +3563,12 @@
         "type": "text",
         "id": "home_instagram_follow_link",
         "label": "Follow Link",
-        "default": "https:\/\/www.instagram.com\/studiopezzetta\/"
+        "default": "https://www.instagram.com/studiopezzetta/"
       }
     ]
   },
   {
-    "name": "About",
+    "name": "We are",
     "settings": [
       {
         "type": "header",
@@ -4132,7 +4132,7 @@
       },
       {
         "type": "paragraph",
-        "content": "See [slick documentation](https:\/\/kenwheeler.github.io\/slick\/) for information about the possible options"
+        "content": "See [slick documentation](https://kenwheeler.github.io/slick/) for information about the possible options"
       },
       {
         "type": "checkbox",
@@ -4217,14 +4217,14 @@
         "type": "checkbox",
         "id": "about-us_carousel_arrows",
         "label": "Arrows",
-        "info": "Prev\/Next Arrows",
+        "info": "Prev/Next Arrows",
         "default": true
       },
       {
         "type": "checkbox",
         "id": "about-us_carousel_centerMode",
         "label": "Center Mode",
-        "info": "Enables centered view with partial prev\/next slides. Use with odd numbered slidesToShow counts",
+        "info": "Enables centered view with partial prev/next slides. Use with odd numbered slidesToShow counts",
         "default": false
       },
       {
@@ -4363,7 +4363,7 @@
       {
         "type": "number",
         "id": "about-us_carousel_speed",
-        "info": "Slide\/Fade animation speed",
+        "info": "Slide/Fade animation speed",
         "label": "Speed",
         "default": 300
       },
@@ -4392,21 +4392,21 @@
         "type": "number",
         "id": "about-us_carousel_touchThreshold",
         "label": "Touch Threshold",
-        "info": "To advance slides, the user must swipe a length of (1\/touchThreshold) * the width of the slider",
+        "info": "To advance slides, the user must swipe a length of (1/touchThreshold) * the width of the slider",
         "default": 5
       },
       {
         "type": "checkbox",
         "id": "about-us_carousel_useCSS",
         "label": "Use CSS",
-        "info": "Enable\/Disable CSS Transitions",
+        "info": "Enable/Disable CSS Transitions",
         "default": true
       },
       {
         "type": "checkbox",
         "id": "about-us_carousel_useTransform",
         "label": "Use Transform",
-        "info": "Enable\/Disable CSS Transforms",
+        "info": "Enable/Disable CSS Transforms",
         "default": true
       },
       {
@@ -4600,7 +4600,7 @@
         "id": "apps_jumplink_product_videos",
         "label": "Product Videos by JumpLink",
         "default": false,
-        "info": "Activates ready to use [Product Videos by JumpLink](https:\/\/product-videos.jumplink.eu\/) theme integration"
+        "info": "Activates ready to use [Product Videos by JumpLink](https://product-videos.jumplink.eu/) theme integration"
       },
       {
         "type": "checkbox",
@@ -4614,35 +4614,35 @@
         "id": "apps_powertools_filter_menu",
         "label": "Filter Menu by Power Tools",
         "default": false,
-        "info": "Activates ready to use [Filter Menu by Power Tools](https:\/\/apps.shopify.com\/power-tools-filter-menu) theme integration"
+        "info": "Activates ready to use [Filter Menu by Power Tools](https://apps.shopify.com/power-tools-filter-menu) theme integration"
       },
       {
         "type": "checkbox",
         "id": "apps_bold_loyalty_points",
         "label": "Loyalty Points by Bold",
         "default": false,
-        "info": "Activates ready to use [Loyalty Points by Bold](https:\/\/apps.shopify.com\/loyalty-points-by-bold) theme integration"
+        "info": "Activates ready to use [Loyalty Points by Bold](https://apps.shopify.com/loyalty-points-by-bold) theme integration"
       },
       {
         "type": "checkbox",
         "id": "apps_zapiet_store_pickup_and_delivery",
         "label": "Store Pickup + Delivery by Zapiet",
         "default": false,
-        "info": "Activates ready to use [Store Pickup + Delivery by Zapiet](https:\/\/apps.shopify.com\/click-and-collect) theme integration"
+        "info": "Activates ready to use [Store Pickup + Delivery by Zapiet](https://apps.shopify.com/click-and-collect) theme integration"
       },
       {
         "type": "checkbox",
         "id": "apps_wishlist_king_by_appmate",
         "label": "Wishlist King by Appmate",
         "default": false,
-        "info": "Activates ready to use [Wishlist King by Appmate](https:\/\/apps.shopify.com\/wishlist-king) theme integration"
+        "info": "Activates ready to use [Wishlist King by Appmate](https://apps.shopify.com/wishlist-king) theme integration"
       },
       {
         "type": "checkbox",
         "id": "apps_back_in_stock_by_yellow_robot_pty_ltd",
         "label": "Back in Stock by Yellow Robot Pty Ltd",
         "default": false,
-        "info": "Activates ready to use [Back in Stock by Yellow Robot Pty Ltd](https:\/\/apps.shopify.com\/back-in-stock) theme integration"
+        "info": "Activates ready to use [Back in Stock by Yellow Robot Pty Ltd](https://apps.shopify.com/back-in-stock) theme integration"
       }
     ]
   },
@@ -4651,7 +4651,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "The notification system is based on alertify, see [alertifyjs.org](https:\/\/alertifyjs.org\/) for more details"
+        "content": "The notification system is based on alertify, see [alertifyjs.org](https://alertifyjs.org/) for more details"
       },
       {
         "type": "text",

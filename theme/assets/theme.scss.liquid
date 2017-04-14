@@ -10585,15 +10585,15 @@ $iconset-arrow-big-t-url: '';
 $slick-prev-character: url($iconset-arrow-l-url);
 $slick-next-character: url($iconset-arrow-r-url);
 
-$font-avantgarde-eot-path: "{{ 'avantgarde-book.eot' | asset_url }}";
-$font-avantgarde-woff-path: "{{ 'avantgarde-book.woff' | asset_url }}";
-$font-avantgarde-ttf-path: "{{ 'avantgarde-book.ttf' | asset_url }}";
-$font-avantgarde-svg-path: "{{ 'avantgarde-book.svg' | asset_url }}";
+$font-gt-walsheim-eot-path: "{{ 'GT-Walsheim-Light.eot' | asset_url }}";
+$font-gt-walsheim-woff-path: "{{ 'GT-Walsheim-Light.woff' | asset_url }}";
+$font-gt-walsheim-ttf-path: "{{ 'GT-Walsheim-Light.ttf' | asset_url }}";
+$font-gt-walsheim-otf-path: "{{ 'GT-Walsheim-Light.otf' | asset_url }}";
 
-$font-avantgarde-bold-eot-path: "{{ 'avantgarde-book-bold.eot' | asset_url }}";
-$font-avantgarde-bold-woff-path: "{{ 'avantgarde-book-bold.woff' | asset_url }}";
-$font-avantgarde-bold-ttf-path: "{{ 'avantgarde-book-bold.ttf' | asset_url }}";
-$font-avantgarde-bold-svg-path: "{{ 'avantgarde-book-bold.svg' | asset_url }}";
+$font-gt-walsheim-bold-eot-path: "{{ 'GT-Walsheim-Bold.eot' | asset_url }}";
+$font-gt-walsheim-bold-woff-path: "{{ 'GT-Walsheim-Bold.woff' | asset_url }}";
+$font-gt-walsheim-bold-ttf-path: "{{ 'GT-Walsheim-Bold.ttf' | asset_url }}";
+$font-gt-walsheim-bold-otf-path: "{{ 'GT-Walsheim-Bold.otf' | asset_url }}";
 
 $iconset-arrow-l-url: '{{ 'arrow-l.svg' | asset_url }}';
 $iconset-arrow-r-url: '{{ 'arrow-r.svg' | asset_url }}';
@@ -11659,17 +11659,17 @@ body {
     overflow: hidden;
 }
 @font-face {
-    font-family: "Avant Garde";
-	src: url(#{$font-avantgarde-eot-path});
-	src: url(#{$font-avantgarde-woff-path}) format('woff'), url(#{$font-avantgarde-ttf-path}) format('truetype'), url(#{$font-avantgarde-svg-path}) format('svg');
+    font-family: "GT-Walsheim";
+	src: url(#{$font-gt-walsheim-eot-path});
+	src: url(#{$font-gt-walsheim-woff-path}) format('woff'), url(#{$font-gt-walsheim-ttf-path}) format('truetype'), url(#{$font-gt-walsheim-otf-path}) format('otf');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
-    font-family: "Avant Garde";
-    src: url(#{$font-avantgarde-bold-eot-path});
-    src: url(#{$font-avantgarde-bold-woff-path}) format('woff'), url(#{$font-avantgarde-bold-ttf-path}) format('truetype'), url(#{$font-avantgarde-bold-svg-path}) format('svg');
+    font-family: "GT-Walsheim";
+    src: url(#{$font-gt-walsheim-bold-eot-path});
+    src: url(#{$font-gt-walsheim-bold-woff-path}) format('woff'), url(#{$font-gt-walsheim-bold-ttf-path}) format('truetype'), url(#{$font-gt-walsheim-bold-otf-path}) format('otf');
     font-weight: bold;
     font-style: normal;
 }
@@ -11713,10 +11713,11 @@ button, input, optgroup, select, textarea {
             }
             @extend .custom-nav-link;
             cursor: pointer;
+            padding-top: 0.17em // TODO way?!
         }
         .dropdown-menu {
             top: 37px;
-            left: 1.5em;
+            left: (1.5em / 2);
             border-top: 0;
             .dropdown-item {
                 &:active {
@@ -11742,7 +11743,7 @@ button, input, optgroup, select, textarea {
     }
     @include media-breakpoint-down(xs) {
         // max-width: 200px;
-        padding-right: 50px;
+        // padding-right: 50px;
     }
 }
 
@@ -11755,7 +11756,33 @@ button, input, optgroup, select, textarea {
 .navbar {
     // WORKAROUND
     &.fixed-top {
-        width: 100vw;
+        // width: 100vw;
+    }
+}
+
+@include media-breakpoint-down(xs) {
+    .navbar {
+        .container {
+            // Do not center brand
+            margin-left: 0;
+            margin-right: 0;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .navbar-toggleable-md>.container {
+        padding-right: initial;
+        padding-left: inherit;
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    .navbar-toggleable-md>.container {
+        padding-right: 15px; // overwrite 24px TODO use variable
+        padding-left: 15px; // overwrite 24px  TODO use variable
     }
 }
 .right-sidebar {
@@ -11778,6 +11805,10 @@ button, input, optgroup, select, textarea {
    top: -9999px;
    height: 1px;
    width: 1px;
+}
+
+.background-box {
+  background-position: center center;
 }
 
 .page-item {
@@ -11859,10 +11890,6 @@ $petty-letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
-.display-3 {
-    letter-spacing: 0.3rem;
-}
-
 h1 {
     text-transform: uppercase;
 }
@@ -11871,20 +11898,25 @@ b, strong {
     font-weight: $font-weight-bold;
 }
 
-.lead {
-    letter-spacing: 0.1rem;
+h1,
+.display-3,
+.display-4,
+.btn,
+.text-uppercase,
+.lead,
+[data-blog-handle="dates"] article .article .title,
+[data-blog-handle="dates"] article .article .content,
+.image-wrap .caption
+{
+    letter-spacing: $petty-letter-spacing;
 }
-    
+
 .list-group-item,
 .nav-link,
 .nav-item .dropdown-toggle,
 .breadcrumb-item {
     letter-spacing: $petty-letter-spacing;
     font-size: $petty-font-size;
-}
-
-.btn {
-    letter-spacing: $petty-letter-spacing;
 }
 .btn {
     text-transform: uppercase;
