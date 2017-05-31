@@ -222,4 +222,19 @@
   {% capture tplJumplinkProductImagesSlick %}{% include 'tpl-jumplink-product-images-slick' %}{% endcapture %}
   window.ProductJS.templates.productImagesSlick = "{{ tplJumplinkProductImagesSlick | strip_newlines | replace: quote, escapedQuote }}";
 
+  {% capture tplJumplinkProductVariantDropdowns %}{% include 'tpl-jumplink-product-variant-dropdowns' %}{% endcapture %}
+  window.ProductJS.templates.productVariantDropdowns = "{{ tplJumplinkProductVariantDropdowns | strip_newlines | replace: quote, escapedQuote }}";
+
+  {% capture tplJumplinkProductQuantityButton %}{% include 'tpl-jumplink-product-quantity-button' %}{% endcapture %}
+  window.ProductJS.templates.productQuantityButton = "{{ tplJumplinkProductQuantityButton | strip_newlines | replace: quote, escapedQuote }}";
+
+  {% capture tplJumplinkProductB2bList %}{% include 'tpl-jumplink-product-b2b-list' %}{% endcapture %}
+  window.ProductJS.templates.productB2bList = "{{ tplJumplinkProductB2bList | strip_newlines | replace: quote, escapedQuote }}";
+
+  {% capture tplJumplinkProductB2bButton %}{% include 'tpl-jumplink-product-b2b-button' %}{% endcapture %}
+  window.ProductJS.templates.productB2bButton = "{{ tplJumplinkProductB2bButton | strip_newlines | replace: quote, escapedQuote }}";
+
+  {% capture tplJumplinkProductB2bAdd %}{% include 'tpl-jumplink-product-b2b-add' %}{% endcapture %}
+  window.ProductJS.templates.productB2bAdd = "{{ tplJumplinkProductB2bAdd | strip_newlines | replace: quote, escapedQuote }}";
+
 </script>

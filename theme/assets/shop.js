@@ -1768,7 +1768,7 @@ var init = function ($) {
   ProductJS.init({
     moneyFormat: window.shop.moneyFormat,
     moneyWithCurrencyFormat: window.shop.moneyWithCurrencyFormat,
-    quantity: 10,
+    quantity: 1,
   });
 
   initBarba();
