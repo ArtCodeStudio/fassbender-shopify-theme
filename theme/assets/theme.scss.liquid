@@ -10560,16 +10560,15 @@ $slick-opacity-not-active: 1;
 $slick-arrow-opacity-on-hover: 1;
 $slick-arrow-opacity-disabled: 0.4;
 
-$font-avantgarde-eot-path: "./font-avantgarde-book.eot" !default;
-$font-avantgarde-woff-path: "./font-avantgarde-book.woff" !default;
-$font-avantgarde-ttf-path: "./font-avantgarde-book.ttf" !default;
-$font-avantgarde-svg-path: "./font-avantgarde-book.svg" !default;
+$font-gt-walsheim-eot-path: "./GT-Walsheim-Light.eot" !default;
+$font-gt-walsheim-woff-path: "./GT-Walsheim-Light.woff" !default;
+$font-gt-walsheim-ttf-path: "./GT-Walsheim-Light.ttf" !default;
+$font-gt-walsheim-otf-path: "./GT-Walsheim-Light.otf" !default;
 
-$font-avantgarde-bold-eot-path: "./font-avantgarde-book-bold.eot" !default;
-$font-avantgarde-bold-woff-path: "./font-avantgarde-book-bold.woff" !default;
-$font-avantgarde-bold-ttf-path: "./font-avantgarde-book-bold.ttf" !default;
-$font-avantgarde-bold-svg-path: "./font-avantgarde-book-bold.svg" !default;
-
+$font-gt-walsheim-bold-eot-path: "./GT-Walsheim-Bold.eot" !default;
+$font-gt-walsheim-bold-woff-path: "./GT-Walsheim-Bold.woff" !default;
+$font-gt-walsheim-bold-ttf-path: "./GT-Walsheim-Bold.ttf" !default;
+$font-gt-walsheim-bold-otf-path: "./GT-Walsheim-Bold.otf" !default;
 
 $iconset-arrow-l-url: '';
 $iconset-arrow-r-url: '';
@@ -12211,10 +12210,15 @@ h1,
     }
 }
 
-[data-colorcard="placeholder"],
+[data-colorcard="placeholder"] {
+    background-image: none !important;
+}
 [data-colorcard="placed"] {
-    background-size: cover;
-    background-position: center center;
+    background-size: contain;
+    background-position: top center;
+    background-repeat: no-repeat;
+    margin-left: -9px;
+    margin-right: -9px;
 }
 [data-namespace="cart"] {
   .cart-price {

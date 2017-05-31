@@ -26,6 +26,7 @@ jQuery.fn.outerHTML = function(s) {
  * 
  */
 jumplink.cacheSelectors = function () {
+  console.log('cacheSelectors');
   jumplink.cache = {
     // General
     $html                    : $('html'),
@@ -152,27 +153,33 @@ jumplink.initColorcard = function (dataset) {
     var $this = $(this);
     var data = $this.data();
     var $target = $(data.target);
+    var $label = $this.find('.label');
     var image = data.image;
 
     if($target.length <= 0) {
-      $target = $('[data-product-handle="'+data.productHandle+'"] [data-colorcard="placeholder"]');
+      $target = $('[data-product-handle="'+data.productHandle+'"] [data-colorcard]');
     }
-    var html =  $this.html();
-
-    console.log('colocard klick', data, image);
+    var html = $label.html();
+    console.log('colocard click', html, data, image);
 
     if(!$this.hasClass('toggled')) {
-      $target.children().fadeTo( "fast", 0 );
-      $target.css('background-image', 'url('+image+')');
-      $this.addClass('toggled');
-      html = html.replace('Show', 'Hide')
+      html = html.replace('Show', 'Hide');
+      $target.children().fadeTo( "fast", 0 , function() {
+        $target.attr('data-colorcard', 'placed');
+        $target.css('background-image', 'url('+image+')');
+        $this.addClass('toggled');
+      });
     } else {
       $target.css('background-image', 'none');
-      $target.children().fadeTo( "fast", 1 );
-      $this.removeClass('toggled');
-      html = html.replace('Hide', 'Show')
+      $target.attr('data-colorcard', 'placeholder');
+      html = html.replace('Hide', 'Show');
+      $target.children().fadeTo( "fast", 1, function() {
+        $this.removeClass('toggled');
+      });
     }
-    $this.html(html);
+
+    
+    $label.text(html);
     
   });
 }
@@ -348,10 +355,15 @@ var initRightSidebar = function () {
     }
   });
 
-  jumplink.cache.$window.resize(function() {
+  if(jumplink.cache && jumplink.cache.$window && jumplink.cache.$Sidebars) {
+    jumplink.cache.$window.resize(function() {
+      jumplink.cache.$Sidebars.css( 'padding-top', jumplink.getNavHeight()+'px');
+    });
     jumplink.cache.$Sidebars.css( 'padding-top', jumplink.getNavHeight()+'px');
-  });
-  jumplink.cache.$Sidebars.css( 'padding-top', jumplink.getNavHeight()+'px');
+  } else {
+    console.error(new Error('jumplink.cache is undefined'));
+  }
+
 }
 
 /**
@@ -400,212 +412,214 @@ var initNavbar = function () {
  * 
  * @see http://barbajs.org/demo/nextprev/nextprev.js
  */
-var MovePage = Barba.BaseTransition.extend({
-  start: function() {
-    /**
-     * This function is automatically called as soon the Transition starts
-     * this.newContainerLoading is a Promise for the loading of the new container
-     * (Barba.js also comes with an handy Promise polyfill!)
-     */
-    this.$oldContainer = $(this.oldContainer);
-    this.originalThumb = jumplink.cache.lastElementClicked; // for what is this?
-    this.$lastElementClicked = $(jumplink.cache.lastElementClicked);
-    this.url = this.$lastElementClicked.attr('href');
+var initBarbaTransition = function() {
+  var MovePage = Barba.BaseTransition.extend({
+    start: function() {
+      /**
+       * This function is automatically called as soon the Transition starts
+       * this.newContainerLoading is a Promise for the loading of the new container
+       * (Barba.js also comes with an handy Promise polyfill!)
+       */
+      this.$oldContainer = $(this.oldContainer);
+      this.originalThumb = jumplink.cache.lastElementClicked; // for what is this?
+      this.$lastElementClicked = $(jumplink.cache.lastElementClicked);
+      this.url = this.$lastElementClicked.attr('href');
 
-    // this.currentUrl = window.location.href;
-    // this.currentUrlLocation = jumplink.getUrlLocation(this.currentUrl);
-    
-    // var collectionUrl = '/collections/' + dataset.collectionHandle;
-    // var allProductsUrl = currentUrlLocation.origin+collectionUrl+'?page=all';
+      // this.currentUrl = window.location.href;
+      // this.currentUrlLocation = jumplink.getUrlLocation(this.currentUrl);
+      
+      // var collectionUrl = '/collections/' + dataset.collectionHandle;
+      // var allProductsUrl = currentUrlLocation.origin+collectionUrl+'?page=all';
 
-    // console.log("barba currentUrlLocation", this.currentUrlLocation);
+      // console.log("barba currentUrlLocation", this.currentUrlLocation);
 
-    // As soon the loading is finished and the old page is faded out, let's fade the new page
-    Promise
-      .all([this.newContainerLoading, this.beforeMove()])
-      .then(this.scrollTop())
-      .then(this.afterMove.bind(this));
+      // As soon the loading is finished and the old page is faded out, let's fade the new page
+      Promise
+        .all([this.newContainerLoading, this.beforeMove()])
+        .then(this.scrollTop())
+        .then(this.afterMove.bind(this));
 
-  },
+    },
 
-  // logic before any effect applies
-  beforeMove: function() {
+    // logic before any effect applies
+    beforeMove: function() {
 
-    // if true use slide effect else use fade out effect
-    if(this.$oldContainer.data().namespace === 'product' && (this.$lastElementClicked.hasClass('next') || this.$lastElementClicked.hasClass('prev')) ) {
-      // slide effekt, in this step do nothing
-      var deferred = Barba.Utils.deferred();
-      deferred.resolve();
-      return deferred.promise;
-    } else {
-      // fade out
-      return this.fadeOut();
-    }
+      // if true use slide effect else use fade out effect
+      if(this.$oldContainer.data().namespace === 'product' && (this.$lastElementClicked.hasClass('next') || this.$lastElementClicked.hasClass('prev')) ) {
+        // slide effekt, in this step do nothing
+        var deferred = Barba.Utils.deferred();
+        deferred.resolve();
+        return deferred.promise;
+      } else {
+        // fade out
+        return this.fadeOut();
+      }
 
-  },
+    },
 
-  afterMove: function() {
-    this.$newContainer = $(this.newContainer);
-    
-    // var minHeight = jumplink.setBarbaContainerMinHeight(this.newContainer);
-    
-    if( this.$oldContainer.data().namespace === 'product' && this.$newContainer.data().namespace === 'product' && (!this.url || this.url.indexOf('src=recomatic') === -1) && !this.$lastElementClicked.hasClass('cart-link')) {
-      // slide effekt
-      return this.slidePages();
-    } else {
-      // fade out
-      return this.fadeIn();
-    }
-  },
+    afterMove: function() {
+      this.$newContainer = $(this.newContainer);
+      
+      // var minHeight = jumplink.setBarbaContainerMinHeight(this.newContainer);
+      
+      if( this.$oldContainer.data().namespace === 'product' && this.$newContainer.data().namespace === 'product' && (!this.url || this.url.indexOf('src=recomatic') === -1) && !this.$lastElementClicked.hasClass('cart-link')) {
+        // slide effekt
+        return this.slidePages();
+      } else {
+        // fade out
+        return this.fadeIn();
+      }
+    },
 
-  // slide effect implementation
-  slidePages: function() {
-    var _this = this;
-    var goingForward = true;
+    // slide effect implementation
+    slidePages: function() {
+      var _this = this;
+      var goingForward = true;
 
-    if ( _this.$oldContainer.data().productUrl === _this.$newContainer.data().productNextUrl ) {
-      goingForward = false;
-    }
+      if ( _this.$oldContainer.data().productUrl === _this.$newContainer.data().productNextUrl ) {
+        goingForward = false;
+      }
 
-    var minHeight = jumplink.setBarbaContainerMinHeight(_this.$newContainer);
-    var top = jumplink.getNavHeight();
+      var minHeight = jumplink.setBarbaContainerMinHeight(_this.$newContainer);
+      var top = jumplink.getNavHeight();
 
-    jumplink.cache.$html.css({'overflow': 'hidden'});
-    jumplink.cache.$body.css({'overflow-x': 'hidden'});
+      jumplink.cache.$html.css({'overflow': 'hidden'});
+      jumplink.cache.$body.css({'overflow-x': 'hidden'});
 
-    jumplink.freezeElements(_this.$oldContainer, _this.$newContainer, {
-      // 'margin-left': '7.5px',
-    });
-
-    TweenLite.set(this.newContainer, {
-      visibility: 'visible',
-      xPercent: goingForward ? 100 : -100,
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      right: 0,
-      'padding-top': top,
-      'min-height': minHeight,
-    });
-
-    TweenLite.to(_this.oldContainer, 0.6, { xPercent: goingForward ? -100 : 100 });
-    TweenLite.to(_this.newContainer, 0.6, { xPercent: 0, onComplete: function() {
-
-      TweenLite.set(_this.newContainer, {
-        clearProps: 'all',
+      jumplink.freezeElements(_this.$oldContainer, _this.$newContainer, {
+        // 'margin-left': '7.5px',
       });
 
-      TweenLite.set(_this.newContainer, {
-        'min-height': minHeight
+      TweenLite.set(this.newContainer, {
+        visibility: 'visible',
+        xPercent: goingForward ? 100 : -100,
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        right: 0,
+        'padding-top': top,
+        'min-height': minHeight,
       });
 
-      jumplink.unfreezeElements();
+      TweenLite.to(_this.oldContainer, 0.6, { xPercent: goingForward ? -100 : 100 });
+      TweenLite.to(_this.newContainer, 0.6, { xPercent: 0, onComplete: function() {
 
-      jumplink.cache.$html.css({'overflow': ''});
-      jumplink.cache.$body.css({'overflow-x': ''});
+        TweenLite.set(_this.newContainer, {
+          clearProps: 'all',
+        });
 
-      _this.done();
-    }});
+        TweenLite.set(_this.newContainer, {
+          'min-height': minHeight
+        });
 
-  },
+        jumplink.unfreezeElements();
 
-  // fade out effect implementation
-  fadeOut: function() {
-    /**
-     * this.oldContainer is the HTMLElement of the old Container
-     */
-    return this.$oldContainer.animate({ opacity: 0 }).promise();
-  },
+        jumplink.cache.$html.css({'overflow': ''});
+        jumplink.cache.$body.css({'overflow-x': ''});
 
-  // fade new content in effect
-  fadeIn: function() {
-    /**
-     * this.newContainer is the HTMLElement of the new Container
-     * At this stage newContainer is on the DOM (inside our #barba-container and with visibility: hidden-xs-up)
-     * Please note, newContainer is available just after newContainerLoading is resolved!
-     */
-    var _this = this;
+        _this.done();
+      }});
 
-    this.$oldContainer.hide();
+    },
 
-    // var minHeight = jumplink.setBarbaContainerMinHeight(this.$newContainer);
+    // fade out effect implementation
+    fadeOut: function() {
+      /**
+       * this.oldContainer is the HTMLElement of the old Container
+       */
+      return this.$oldContainer.animate({ opacity: 0 }).promise();
+    },
 
-    this.$newContainer.css({
-      visibility : 'visible',
-      opacity : 0,
-      // 'min-height': minHeight,
-    });
+    // fade new content in effect
+    fadeIn: function() {
+      /**
+       * this.newContainer is the HTMLElement of the new Container
+       * At this stage newContainer is on the DOM (inside our #barba-container and with visibility: hidden-xs-up)
+       * Please note, newContainer is available just after newContainerLoading is resolved!
+       */
+      var _this = this;
 
-    var offset = 0;
-    var target = 0;
-    var position = { y: window.pageYOffset };
-    var $lastPosition = null;
+      this.$oldContainer.hide();
 
-    // scroll to old product in collection if last page was a product
-    if( this.$oldContainer.data().namespace === 'product' && this.$newContainer.data().namespace === 'collection') {
-      console.log('scroll to last product');
-      $lastPosition = $('#'+jumplink.cache.lastProductDataset.handle);
-      if($lastPosition.length >= 1) {
-        target = $lastPosition.offset().top - offset;
+      // var minHeight = jumplink.setBarbaContainerMinHeight(this.$newContainer);
+
+      this.$newContainer.css({
+        visibility : 'visible',
+        opacity : 0,
+        // 'min-height': minHeight,
+      });
+
+      var offset = 0;
+      var target = 0;
+      var position = { y: window.pageYOffset };
+      var $lastPosition = null;
+
+      // scroll to old product in collection if last page was a product
+      if( this.$oldContainer.data().namespace === 'product' && this.$newContainer.data().namespace === 'collection') {
+        console.log('scroll to last product');
+        $lastPosition = $('#'+jumplink.cache.lastProductDataset.handle);
+        if($lastPosition.length >= 1) {
+          target = $lastPosition.offset().top - offset;
+        }
       }
-    }
 
-    // scroll to old collection
-    if( this.$oldContainer.data().namespace === 'collection' && this.$newContainer.data().namespace === 'list-collections') {
-      console.log('scroll to last collection');
-      $lastPosition = $('#'+jumplink.cache.lastCollectionDataset.handle);
-      if($lastPosition.length >= 1) {
-        target = $lastPosition.offset().top - offset;
+      // scroll to old collection
+      if( this.$oldContainer.data().namespace === 'collection' && this.$newContainer.data().namespace === 'list-collections') {
+        console.log('scroll to last collection');
+        $lastPosition = $('#'+jumplink.cache.lastCollectionDataset.handle);
+        if($lastPosition.length >= 1) {
+          target = $lastPosition.offset().top - offset;
+        }
       }
-    }
 
-    // scroll to old position or 0
-    TweenLite.to(position, 0.4, {
-      y: target,
-      onUpdate: function() {
-        if (position.y === 0) {
+      // scroll to old position or 0
+      TweenLite.to(position, 0.4, {
+        y: target,
+        onUpdate: function() {
+          if (position.y === 0) {
+
+          }
+          window.scroll(0, position.y);
+        },
+        onComplete: function() {
 
         }
-        window.scroll(0, position.y);
-      },
-      onComplete: function() {
+      });
 
-      }
-    });
+      this.$newContainer.animate({ opacity: 1 }, 400, function() {
+        /**
+         * Do not forget to call .done() as soon your transition is finished!
+         * .done() will automatically remove from the DOM the old Container
+         */
+        _this.done();
+      });
+    },
 
-    this.$newContainer.animate({ opacity: 1 }, 400, function() {
-      /**
-       * Do not forget to call .done() as soon your transition is finished!
-       * .done() will automatically remove from the DOM the old Container
-       */
-      _this.done();
-    });
-  },
+    // scroll to top of the page
+    scrollTop: function() {
+      var deferred = Barba.Utils.deferred();
+      var position = { y: window.pageYOffset };
 
-  // scroll to top of the page
-  scrollTop: function() {
-    var deferred = Barba.Utils.deferred();
-    var position = { y: window.pageYOffset };
+      TweenLite.to(position, 0.4, {
+        y: 0,
+        onUpdate: function() {
+          if (position.y === 0) {
+            deferred.resolve();
+          }
 
-    TweenLite.to(position, 0.4, {
-      y: 0,
-      onUpdate: function() {
-        if (position.y === 0) {
+          window.scroll(0, position.y);
+        },
+        onComplete: function() {
           deferred.resolve();
         }
+      });
 
-        window.scroll(0, position.y);
-      },
-      onComplete: function() {
-        deferred.resolve();
-      }
-    });
+      return deferred.promise;
+    },
 
-    return deferred.promise;
-  },
-
-});
-
+  });
+  return MovePage;
+}
 
 /**
  * init Alertify.js
@@ -1607,7 +1621,12 @@ var initTemplates = function () {
 
     jumplink.cache.$window.on('resize load onorientationchange', function() {
       console.log('window resize load or onorientationchange event fired');
-      jumplink.setBarbaContainerMinHeight();
+      // WORKAROUND why is this event sometimes fired before jumplink.setBarbaContainerMinHeight is defined?
+      if(ProductJS.Utilities.isFunction(jumplink.setBarbaContainerMinHeight)) {
+        jumplink.setBarbaContainerMinHeight();
+      } else {
+        console.error(new Error('jumplink.setBarbaContainerMinHeight is not a function'));
+      }
     });
 
     if(typeof(videojs) !== 'undefined') {
@@ -1682,6 +1701,7 @@ var initBarba = function () {
      * Here you can use your own logic!
      * For example you can use different Transition based on the current page or link...
      */
+    var MovePage = initBarbaTransition();
     return MovePage;
   };
   

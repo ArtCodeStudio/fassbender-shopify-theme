@@ -25,11 +25,11 @@
       "title": "My Account",
       "details": "Account Details",
       "view_addresses": "View Addresses",
-      "return": "Return to Account Details",
-      "message": "Here you will find the details of your orders, your deposited addresses and further information. We hope you enjoy or online showroom!",
-      "no_unlocks": "You are not unlocked for any Designer, please ask the site operator",
-      "unlocked_title": "My unlocked Designers",
-      "locked_title": "Also interesting designers for you?"
+      "return": "Return to account details",
+      "message": "Here you will find the details of your orders, your deposited addresses and further information. We hope you enjoy our online showroom!",
+      "no_unlocks": "You are not unlocked for any brands, please ask the site operator",
+      "unlocked_title": "Unlocked Brands",
+      "locked_title": "Also interesting Brands for you?"
     },
     "activate_account": {
       "title": "Activate Account",
@@ -172,7 +172,7 @@
   "collection": {
     "unlock": {
       "header": "You are interested?",
-      "button": "Unlock Designer",
+      "button": "Unlock Brand",
       "text": "Your account is still not enabled to see this collection. If you are interested please ask for an invite."
     },
     "register": {
