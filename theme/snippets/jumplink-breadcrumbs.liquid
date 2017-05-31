@@ -5,7 +5,7 @@
         {% elsif template contains 'product' %}
             {% if collection.url %}
                 <li class="breadcrumb-item">
-                    YOU SEE COLLECTION <a href="{{ collection.url }}" class="collection" title="{{ collection.title }}">{{ collection.title }}</a>
+                    YOU SEE COLLECTION <a href="{{ collection.url }}" class="collection" title="{{ collection.title }}">{{ collection.title | strip_html }}</a>
                 </li>
             {% else %}
                 <li class="breadcrumb-item">
@@ -17,12 +17,12 @@
         {% elsif template contains 'collection' and collection.handle %}
             {% if current_tags %}
                 <li class="breadcrumb-item">
-                    YOU SEE COLLECTION <a href="/collections/{{ collection.handle }}" class="collection" title="{{ collection.title }}">{{ collection.title }}</a>
+                    YOU SEE COLLECTION <a href="/collections/{{ collection.handle }}" class="collection" title="{{ collection.title }}">{{ collection.title | strip_html }}</a>
                 </li>
 
                 <li class="breadcrumb-item active">{{ current_tags | join: " + " }}</li>
             {% else %}
-                <li class="breadcrumb-item active">{{ collection.title }}</li>
+                <li class="breadcrumb-item active">{{ collection.title | strip_html }}</li>
             {% endif %}
         {% elsif template == 'blog' %}
             {% if current_tags %}
