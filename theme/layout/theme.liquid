@@ -78,8 +78,7 @@
         data-product-url="{{collection.url}}{{product.url}}"
         data-product-title='{{product.title | replace: "'", "&#39;"}}'
         data-product-json-string='{{product | json | replace: "'", "&#39;"}}'
-        data-product-metafields-bold_loyalties-json-string='{{product.metafields.bold_loyalties | json | replace: "'", "&#39;"}}'
-        data-product-metafields-global-json-string='{{product.metafields.global | json | replace: "'", "&#39;"}}'
+        data-product-metafields-custom-fields-json-string='{{product.metafields.c_f | json | replace: "'", "&#39;"}}'
         data-product-image-last='{{ product.images.last.src | img_url: "master" }}'
 
         {% if collection.previous_product %}

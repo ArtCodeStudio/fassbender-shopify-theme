@@ -1102,7 +1102,7 @@ var initProductModal = function (product, $slick) {
 }
 
 /**
- * 
+ * @deprecated see productJS product-images-slick
  */
 var initProductCarousel = function (product) {
   // get product handle, load product json and use it for variants
@@ -1151,7 +1151,7 @@ var initProduct = function (dataset, data) {
 
   jumplink.cache.$document.on('product.bind.after', function(event) {
     jumplink.initDataAttributes(dataset);
-    initProductCarousel(data.product);
+    // initProductCarousel(data.product);
   });
 
   jumplink.cache.lastProductDataset = data.product;

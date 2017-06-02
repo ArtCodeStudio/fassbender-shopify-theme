@@ -124,7 +124,7 @@
                 <div rv-each-product="cart.products" rv-data-product-index="%product%" rv-data-product-handle="product.handle">
                   <div class="row mx-0">
                     <div class="product-photos col-xs-12 col-md-6 mb-1">
-                      <product-images-slick product="product" show-thums="false" has-colorcard="true"></product-images-slick>
+                      <product-images-slick product="product" show-thums="false" wait-for-b2bcart="true" with-fullscreen-modal="false"></product-images-slick>
                     </div>
                     <div class="product-details col-xs-12 col-md-6">
                       <product product="product" vendor-url="'{{ vendor_url }}'" add-update-button-class="'btn btn-secondary'"></product>

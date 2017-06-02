@@ -32,7 +32,7 @@
 <p class="lead mb-0">
   Select your Order
 </p>
-<div class="mb-2" data-toggle="colorcard" rv-data-product-handle="product.handle" rv-data-image="product.images | array_last">
+<div class="mb-2" data-toggle="colorcard" rv-disable="product.metafields.c_f.jumplink_enable_colorcard | eq '0'" rv-data-product-handle="product.handle" rv-data-image="product.images | array_last">
   {% include 'jumplink-iconset', name: 'arrow', direction: 'right', color: 'black' %}
   <span class="label">Show Color Card</span>
 </div>
