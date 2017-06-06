@@ -180,13 +180,13 @@
 
   BoldApps.Loyalties.ProductDisplaySettings = {
     title:{
-        show:true
+      show:true
     },
     body:{
-        'text' : '{{ shop.metafields.bold_loyalties.product_earn_callout_text }}'
+      'text' : '{{ shop.metafields.bold_loyalties.product_earn_callout_text }}'
     },
     redeem:{
-        'buttonText' : '{{ shop.metafields.bold_loyalties.product_redeem_button_text }}'
+      'buttonText' : '{{ shop.metafields.bold_loyalties.product_redeem_button_text }}'
     }
   };
 
@@ -236,5 +236,8 @@
 
   {% capture tplJumplinkProductB2bAdd %}{% include 'tpl-jumplink-product-b2b-add' %}{% endcapture %}
   window.ProductJS.templates.productB2bAdd = "{{ tplJumplinkProductB2bAdd | strip_newlines | replace: quote, escapedQuote }}";
+
+  {% capture tplJumplinkProductPhotoModal %}{% include 'tpl-jumplink-product-photo-modal' %}{% endcapture %}
+  window.ProductJS.templates.productPhotoModal = "{{ tplJumplinkProductPhotoModal | strip_newlines | replace: quote, escapedQuote }}";
 
 </script>

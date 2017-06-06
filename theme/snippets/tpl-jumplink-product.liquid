@@ -22,12 +22,12 @@
 </div>
 
 <p class="product-title">
-  <small>Code { product.variant.name }</small>
+   <a rv-href="product.url" rv-title="product.variant.name">
+    <small>Code { product.variant.name }</small>
+   </a>
 </p>
 
 <product-b2b-add product="product" add-update-button-class="addUpdateButtonClass" add-label="'{{ 'cart.general.add_to_cart' | t | escape }}'" update-label="'{{ 'cart.general.update_cart' | t | escape }}'"></product-b2b-add>
-
-
 
 <p class="lead mb-0">
   Select your Order
@@ -37,8 +37,7 @@
   <span class="label">Show Color Card</span>
 </div>
 
-<p rv-html="product.description" class="rte">
-</p>
+<p rv-html="product.description" class="rte"></p>
 
 {% comment %}
   Prepents via Shopify Product.js
@@ -56,7 +55,9 @@
 {% comment %}
   All themes by Shopify should support the Product Reviews app out of the box.
   https://apps.shopify.com/product-reviews
+
+  TODO TESTME
 {% endcomment %}
-<div id="handle-{{product.handle}}_shopify-product-reviews" data-id="{{ product.id }}">
-  {{ product.metafields.spr.reviews }}
+<div rv-id="shopifyProductReviewsID" rv-data-id="product.id">
+  {product.metafields.spr.reviews}
 </div>

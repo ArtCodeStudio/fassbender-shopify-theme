@@ -27,8 +27,7 @@
   </div>
 
   <div rv-class="imageColClass">
-
-    <div class="product-photo-carousel" rv-id="slickID" data-toggle="modal-no-touch" data-backdrop="false" data-target="#product-photo-modal-{{product.handle}}">
+    <div class="product-photo-carousel" rv-id="slickID" data-toggle="modal-no-touch" data-backdrop="false" rv-data-target="modalSelector">
 
       <a rv-each-image="product.images" class="product-photo-carousel-item">
         <div class="background-box {{settings.products_aspect_ratio}}" rv-background-image="image" rv-title="product.title"></div>
@@ -41,8 +40,9 @@
 {% comment %}
   Modal
 {% endcomment %}
-
-{% include 'jumplink-product-photo-modal' %}
+<div rv-if="withFullscreenModal">
+  <product-photo-modal product="product" sync="true" sync-target="slickSelector" modal-id="syncTarget"></product-images-slick>
+</div>
 
 
 <div class="preloaded-images">

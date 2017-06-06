@@ -26,7 +26,7 @@ jQuery.fn.outerHTML = function(s) {
  * 
  */
 jumplink.cacheSelectors = function () {
-  console.log('cacheSelectors');
+  // console.log('cacheSelectors');
   jumplink.cache = {
     // General
     $html                    : $('html'),
@@ -160,7 +160,7 @@ jumplink.initColorcard = function (dataset) {
       $target = $('[data-product-handle="'+data.productHandle+'"] [data-colorcard]');
     }
     var html = $label.html();
-    console.log('colocard click', html, data, image);
+    // console.log('colocard click', html, data, image);
 
     if(!$this.hasClass('toggled')) {
       html = html.replace('Show', 'Hide');
@@ -556,7 +556,7 @@ var initBarbaTransition = function() {
 
       // scroll to old product in collection if last page was a product
       if( this.$oldContainer.data().namespace === 'product' && this.$newContainer.data().namespace === 'collection') {
-        console.log('scroll to last product');
+        // console.log('scroll to last product');
         $lastPosition = $('#'+jumplink.cache.lastProductDataset.handle);
         if($lastPosition.length >= 1) {
           target = $lastPosition.offset().top - offset;
@@ -565,7 +565,7 @@ var initBarbaTransition = function() {
 
       // scroll to old collection
       if( this.$oldContainer.data().namespace === 'collection' && this.$newContainer.data().namespace === 'list-collections') {
-        console.log('scroll to last collection');
+        // console.log('scroll to last collection');
         $lastPosition = $('#'+jumplink.cache.lastCollectionDataset.handle);
         if($lastPosition.length >= 1) {
           target = $lastPosition.offset().top - offset;
@@ -1047,102 +1047,6 @@ var initBlog = function (dataset, data) {
 /**
  * 
  */
-var initProductModal = function (product, $slick) {
-
-  // init product photo modal
-  var $modal = $('#product-photo-modal-'+product.handle);
-  $modal.$slick = $modal.find('.slick-slider');
-
-  var onModalSlickChanges = function(event, slickModal, slickModalCurrentSlide) {
-    var currentSlide = $slick.slick('slickCurrentSlide')
-    if( currentSlide !== slickModalCurrentSlide) {
-      $slick.slick('slickGoTo', slickModalCurrentSlide, true);
-    }
-    var newSlide = $slick.slick('slickCurrentSlide')
-  };
-
-  $modal.on('show.bs.modal', function (e) {
-    $this = $(this);
-    
-    // init modal slick
-    if(!$modal.$slick.hasClass('slick-initialized')) {
-      // init slick
-      $modal.$slick.slick({
-        dots: false,
-        // variableWidth: true,
-        // centerMode: true,
-        // centerPadding: 0,
-        // appendArrows: $(productHandle+' .product-photo-carousel-arrows'),
-        initialSlide: $slick.slick('slickCurrentSlide'),
-      });
-    } else {
-      if( $slick.slick('slickCurrentSlide') !==  $modal.$slick.slick('slickCurrentSlide')) {
-         $modal.$slick.slick('slickGoTo', $slick.slick('slickCurrentSlide'), true);
-      }
-    }
-
-  });
-
-  $modal.on('shown.bs.modal', function (e) {
-     $modal.$slick.slick('setPosition');
-  });
-
-  // destory bindings on modal hides
-  $modal.on('hide.bs.modal', function (e) {
-     $modal.$slick.unbind('afterChange', onModalSlickChanges);
-
-    if( $modal.$slick.hasClass('slick-initialized')) {
-       $modal.$slick.slick('unslick'); // WORAROUND until gotoslide bug is fixed
-    }
-  });
-
-  $modal.on('hiden.bs.modal', function (e) {
-
-  });
-}
-
-/**
- * @deprecated see productJS product-images-slick
- */
-var initProductCarousel = function (product) {
-  // get product handle, load product json and use it for variants
-  // var handle = dataset.productHandle;
-  var productHandle = '#handle-'+product.handle;
-
-  // init product photo carousel
-  var $slick = $('#product-photo-carousel-'+product.handle);
-  
-  var $slickThums = $(productHandle+' .thumb');
-  var slickOptions = {
-    dots: false,
-    arrows: false,
-    // appendArrows: $(productHandle+' .product-photo-carousel-arrows'),
-  }
-
-
-
-  // init main slick
-  if( !$slick.hasClass('slick-initialized') ) {
-    // init slick
-    $slick.slick(slickOptions);
-
-    // set slick thumb click actions
-    $slickThums.each(function(index, value) {
-      $thumb = $(this);
-      $thumb.click(function(){
-        $thumb = $(this);
-        $slick.slick('slickGoTo', $thumb.data().index);
-      });
-    });
-
-  }
-
-  initProductModal(product, $slick);
-}
-
-/**
- * 
- */
 var initProduct = function (dataset, data) {
 
   if(!data.product) {
@@ -1151,7 +1055,6 @@ var initProduct = function (dataset, data) {
 
   jumplink.cache.$document.on('product.bind.after', function(event) {
     jumplink.initDataAttributes(dataset);
-    // initProductCarousel(data.product);
   });
 
   jumplink.cache.lastProductDataset = data.product;
@@ -1237,7 +1140,7 @@ var initCart = function (dataset, data) {
    * @see http://api.jquery.com/off/
    */
   self.destory = function () {
-    console.log("destory cart template");
+    // console.log("destory cart template");
     if(self.$modal) {
       self.$modal.off('show.bs.modal shown.bs.modal');
       self.$modal.modal('hide');
@@ -1249,8 +1152,7 @@ var initCart = function (dataset, data) {
   }
 
   self.init = function () {
-
-    console.log("init cart");
+    // console.log("init cart");
     $.getJSON('/cart.js', function(cart) {
       ProductJS.B2bCart.loadCart(cart);
     });
@@ -1263,6 +1165,7 @@ var initCart = function (dataset, data) {
       // init modal
       self.$modal = $('#cart-modal');
       self.$modal.modal(self.modalOptions);
+      // console.log('#cart-modal slick', self.$modal.$slick);
       self.$modal.on('shown.bs.modal', function (e) {
         self.$modal.$slick.slick('setPosition');
       });
@@ -1278,9 +1181,12 @@ var initCart = function (dataset, data) {
         });
       });
 
-      // init slick
+      /**
+       * init product slick carousel, all products in this modal are in a slick carousel 
+       */
       self.$modal.$slick = self.$modal.find('.slick-slider');
       if( !self.$modal.$slick.hasClass('slick-initialized') ) {
+        // console.log("shop.js init slick in modal");
         self.$modal.$slick.slick(self.slickOptions);
       }
 
@@ -1301,8 +1207,7 @@ var initCart = function (dataset, data) {
  */
 var initCollection = function (dataset, data) {
 
-  // 
-  console.log('initCollection', dataset, data);
+  // console.log('initCollection', dataset, data);
   jumplink.cache.lastCollectionDataset = {
     handle: dataset.collectionHandle
   }
@@ -1375,7 +1280,7 @@ var initCollection = function (dataset, data) {
     var currentContainer = Barba.Pjax.Dom.getContainer(document.body);
     var $currentContainer = $('#barba-wrapper .barba-container');
     
-    console.log("loadAllProducts");
+    // console.log("loadAllProducts");
 
     if(isNaN(pagesLength)) {
       pagesLength = 1;
@@ -1599,7 +1504,7 @@ var initTemplates = function () {
   });
 
   Barba.Dispatcher.on('newPageReady', function(currentStatus, oldStatus, container) {
-    console.log('newPageReady');
+    // console.log('newPageReady');
 
     var data = ProductJS.Utilities.parseDatasetJsonStrings(container.dataset);
 
@@ -1620,7 +1525,7 @@ var initTemplates = function () {
     jumplink.setBarbaContainerMinHeight();
 
     jumplink.cache.$window.on('resize load onorientationchange', function() {
-      console.log('window resize load or onorientationchange event fired');
+      // console.log('window resize load or onorientationchange event fired');
       // WORKAROUND why is this event sometimes fired before jumplink.setBarbaContainerMinHeight is defined?
       if(ProductJS.Utilities.isFunction(jumplink.setBarbaContainerMinHeight)) {
         jumplink.setBarbaContainerMinHeight();

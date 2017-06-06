@@ -79,6 +79,7 @@
         data-product-title='{{product.title | replace: "'", "&#39;"}}'
         data-product-json-string='{{product | json | replace: "'", "&#39;"}}'
         data-product-metafields-custom-fields-json-string='{{product.metafields.c_f | json | replace: "'", "&#39;"}}'
+        data-product-metafields-spr-json-string='{{product.metafields.spr | json | replace: "'", "&#39;"}}'
         data-product-image-last='{{ product.images.last.src | img_url: "master" }}'
 
         {% if collection.previous_product %}
