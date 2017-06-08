@@ -22,7 +22,7 @@
 
                 <li class="breadcrumb-item active">{{ current_tags | join: " + " }}</li>
             {% else %}
-                <li class="breadcrumb-item active">{{ collection.title | strip_html }}</li>
+                <li class="breadcrumb-item active"><a href="/collections/{{ collection.handle }}" class="collection" title="{{ collection.title }}">{{ collection.title | strip_html }}</a></li>
             {% endif %}
         {% elsif template == 'blog' %}
             {% if current_tags %}

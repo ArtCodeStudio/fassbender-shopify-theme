@@ -10331,6 +10331,14 @@ $tcon-menu-arrow360left-transformation: (
  * @info See snippets/product-grid-item and for example usage
  */
 
+.background-size-cover {
+  @include vp-background-size(cover !important);
+}
+
+.background-size-contain {
+  @include vp-background-size(contain !important);
+}
+
 // ASPECT RATIO size for background images
 .background-box {
   width: 100%;
@@ -10553,19 +10561,19 @@ $tcon-menu-arrow360left-transformation: (
 
 
 .bg-gray-dark {
-     background-color: $gray-dark;
+    background-color: $gray-dark;
 }
 .bg-gray {
-     background-color: $gray;
+    background-color: $gray;
 }
 .bg-gray-light {
-     background-color: $gray-light;
+    background-color: $gray-light;
 }
 .bg-gray-lighter {
-     background-color: $gray-lighter;
+    background-color: $gray-lighter;
 }
 .bg-gray-lightest {
-     background-color: $gray-lightest;
+    background-color: $gray-lightest;
 }
 
 .navbar {

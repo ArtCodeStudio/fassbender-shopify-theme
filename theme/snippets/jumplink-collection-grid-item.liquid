@@ -9,7 +9,7 @@
         {% assign image = collection.products.first | img_url: 'grande' %}
         {% assign title = collection.title | escape %}
       {% endif %}
-
+          
       <div class="background-box {{ settings.collections_aspect_ratio }}" style="background-image: url({{ image }});" title="{{ title }}"></div>
       <div class="caption caption-y-center caption-x-center text-nowrap">
         {{ collection.title | strip_html }}

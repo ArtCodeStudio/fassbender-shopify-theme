@@ -4,7 +4,7 @@
     {% comment %}
       How many unlocked products are available?
     {% endcomment %}
-    {% include 'app-jumplink-ec-collection-unlocked-count' %}
+    {% include 'app-jumplink-ec-logic-collection-unlocked-count' %}
 
     <div class="row">
       <div data-barba="freeze" data-collection-filter="true" class="col-xs-12 col-md-2 col-lg-2">
@@ -35,7 +35,7 @@
                 {% endif %}
               </div>
               <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mb-5">
-                <div class="background-box {{ settings.products_aspect_ratio }}" style="background-image:url( {{ collection.image | img_url: 'grande' }} )" alt="{{ collection.title }}"></div>
+                <div class="background-box {{ settings.collections_aspect_ratio }}" style="background-image:url( {{ collection.image | img_url: 'grande' }} )" alt="{{ collection.title }}"></div>
               </div>
             {% else %}
               {% if collection.description.size > 0 %}
@@ -71,7 +71,7 @@
                   {% comment %}
                     Is the current product unlocked?
                   {% endcomment %}
-                  {% include 'app-jumplink-ec-product-unlocked' %}
+                  {% include 'app-jumplink-ec-logic-product-unlocked' %}
 
                   {% if unlocked %}
                       <div data-product="column" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
