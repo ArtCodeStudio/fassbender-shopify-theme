@@ -10626,8 +10626,6 @@ select {
     display: table;
 }
 
-
-
 .iconset {
     display: inline-block;
     // width: 32px;
@@ -10637,61 +10635,80 @@ select {
     //     height: 32px;
     // }
 
-    &.black {
+    &.stroke-black {
         svg {
-            fill: $black;
+            stroke: $black !important;
+            * {
+                stroke: $black !important;
+            }
+        }
+    }
+    &.black, &.fill-black {
+        svg {
+            fill: $black !important;
+            * {
+                fill: $black !important;
+            }
         }
     }
 
     &.stroke-white {
         svg {
-            path {
+            stroke: $white !important;
+            * {
                 stroke: $white !important;
             }
         }
     }
-     &.fill-white {
+    &.fill-white, &.white {
         svg {
-            fill: $white;
-        }
-    }
-    &.white {
-        svg {
-            fill: $white;
-            path {
-                stroke: $white !important;
+            fill: $white !important;
+            * {
+                fill: $white !important;
             }
         }
     }
 
-
-    &.primary {
+    &.fill-primary, &.primary {
         svg {
-            fill: $brand-primary;
+            fill: $brand-primary !important;
+            * {
+                fill: $brand-primary !important;
+            }
         }
     }
-    &.success {
+    &.fill-success, &.success {
         svg {
-            fill: $brand-success;
+            fill: $brand-success !important;
+            * {
+                fill: $brand-success !important;
+            }
         }
     }
-    &.info {
+     &.fill-info, &.info {
         svg {
-            fill: $brand-info;
+            fill: $brand-info !important;
+            * {
+                fill: $brand-info !important;
+            }
         }
     }
-    &.warning {
+     &.fill-warning, &.warning {
         svg {
-            fill: $brand-warning;
+            fill: $brand-warning !important;
+            * {
+                fill: $brand-warning !important;
+            }
         }
     }
-    &.danger {
+     &.fill-danger, &.danger {
         svg {
-            fill: $brand-danger;
+            fill: $brand-danger !important;
+            * {
+                fill: $brand-danger !important;
+            }
         }
     }
-
-
 }
 
 /**

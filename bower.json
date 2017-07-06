@@ -37,7 +37,7 @@
     "rivets": "^0.9.6",
     "gsap": "^1.19.0",
     "barba.js": "luruke/barba.js#^1.0.0",
-    "jquery": "2",
+    "jquery": "3.2.1",
     "jquery.transit": "^0.9.12",
     "jumplink-components": "JumpLinkNetwork/jumplink-components",
     "instafeed.js": "^1.4.1",
@@ -45,7 +45,7 @@
     "async": "^2.1.4"
   },
   "resolutions": {
-    "jquery": "3.1.1",
-    "bootstrap-backward": "v4-0-0-alpha-5-scss-backward"
+    "bootstrap-backward": "v4-0-0-alpha-5-scss-backward",
+    "jquery": "3.2.1"
   }
 }

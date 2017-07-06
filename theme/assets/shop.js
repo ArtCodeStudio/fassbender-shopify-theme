@@ -1653,11 +1653,11 @@ var initFooter = function () {
 
 /*
  * Init Javascripts outsite of barba.js
+ * run init as soon as jQuery is ready
  * 
  * @note see initTemplates() for inits insite of barba.js 
  */
-var init = function ($) {
-
+$(function() {
   jumplink.init();
 
   initFooter();
@@ -1677,8 +1677,4 @@ var init = function ($) {
   });
 
   initBarba();
-  
-}
-
-// run init as soon as jQuery is ready
-$(init);
+});
