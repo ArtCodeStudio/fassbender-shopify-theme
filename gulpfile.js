@@ -78,7 +78,7 @@ gulp.task('zip', function () {
   ];
 
   return gulp.src(theme, {base: "."})
-    .pipe(zip('JumpLink-Boilerplate-' + pjson.version + '.zip'))
+    .pipe(zip(pjson.name + '-' + pjson.version + '.zip'))
     .pipe(gulp.dest('./'));
 });
 

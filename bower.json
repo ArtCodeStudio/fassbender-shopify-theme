@@ -1,7 +1,7 @@
 {
-  "name": "jumplink-shopify-boilerplate",
-  "version": "0.0.2",
-  "description": "Shopify theme framework based on Bootstrap 4",
+  "name": "art-code-studio-shopify-theme",
+  "version": "0.0.3",
+  "description": "Shopify theme based on Bootstrap 4",
   "main": "gulpfile.js",
   "authors": [
     "Pascal Garber <pascal@jumplink.eu>"
@@ -17,7 +17,7 @@
     "barba.js",
     "theme"
   ],
-  "homepage": "https://github.com/JumpLinkNetwork/jumplink-shopify-boilerplate",
+  "homepage": "https://git.mediamor.de/jumplink.eu/art-code-studio-shopify-theme",
   "ignore": [
     "**/.*",
     "node_modules",
