@@ -1,26 +1,26 @@
-.breadcrumb-item {
-    .collection {
-        padding-left: 3rem;
-    }
-}
+// .breadcrumb-item {
+//     .collection {
+//         padding-left: 3rem;
+//     }
+// }
 
-[class^="col-"] {
-    .breadcrumb {
-        padding-left: 0;
-        padding-right: 0;
-    }
-}
+// [class^="col-"] {
+//     .breadcrumb {
+//         padding-left: 0;
+//         padding-right: 0;
+//     }
+// }
 
-.iconset {
-    &.arrow {
-        display: inline-block;
-        margin-left: 1rem;
-    }
-}
+// .iconset {
+//     &.arrow {
+//         display: inline-block;
+//         margin-left: 1rem;
+//     }
+// }
 
-// hide active breadcrumbs
-.breadcrumb-item {
-    &.active {
-        display: none;
-    }
-}
+// // hide active breadcrumbs
+// .breadcrumb-item {
+//     &.active {
+//         display: none;
+//     }
+// }

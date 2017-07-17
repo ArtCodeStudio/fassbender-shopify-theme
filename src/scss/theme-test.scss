@@ -24,9 +24,16 @@
 @import '../../bower_components/jumplink-components/scss/navbar';
 @import '../../bower_components/jumplink-components/scss/carousel';
 @import '../../bower_components/jumplink-components/scss/spacing';
+@import '../../bower_components/jumplink-components/scss/sizes';
 
 @import '../../bower_components/slick-carousel/slick/slick.scss';
 @import '../../bower_components/slick-carousel/slick/slick-theme.scss';
+
+// @import '../../bower_components/alertifyjs/src/sass/alertify';
+
+@import '../../bower_components/animate.css/animate.css';
+
+@import '../../bower_components/shopify-productjs/src/scss/shopify-productjs';
 
 // import '../../bower_components/bootstrap-select/sass/bootstrap-select';
 // import '../../bower_components/bootstrap-select/sass/variables';
@@ -60,3 +67,4 @@
 // @import 'alertify_variables';
 @import 'alertify';
 @import 'app-it-recht-kanzlei';
+@import 'morphext';

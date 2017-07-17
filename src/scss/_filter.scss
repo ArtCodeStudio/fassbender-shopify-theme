@@ -1,28 +1,28 @@
-[data-collection-filter] {
-    @include media-breakpoint-up(md) {
-        @include vp-position(fixed);
-        top: 54px; // navbar height
-        padding-top: 3rem;
-    }
-}
+// [data-collection-filter] {
+//     @include media-breakpoint-up(md) {
+//         @include vp-position(fixed);
+//         top: 54px; // navbar height
+//         padding-top: 3rem;
+//     }
+// }
 
-.list-group {
-    &.filter-collections {
-        .list-group-item {
-            border: none;
-            padding: 0.3rem 0;
-            font-size: 0.9rem;
-            background-color: transparent;
-            &.list-group-title {
-                text-transform: uppercase;
-                font-weight: bold;
-                padding-bottom: 0.8rem;
-            }
-            &.active {
-                background: transparent;
-                font-weight: bold;
-                color: $list-group-color;
-            }
-        }
-    }
-}
+// .list-group {
+//     &.filter-collections {
+//         .list-group-item {
+//             border: none;
+//             padding: 0.3rem 0;
+//             font-size: 0.9rem;
+//             background-color: transparent;
+//             &.list-group-title {
+//                 text-transform: uppercase;
+//                 font-weight: bold;
+//                 padding-bottom: 0.8rem;
+//             }
+//             &.active {
+//                 background: transparent;
+//                 font-weight: bold;
+//                 color: $list-group-color;
+//             }
+//         }
+//     }
+// }

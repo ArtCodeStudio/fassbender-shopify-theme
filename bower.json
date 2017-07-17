@@ -26,7 +26,7 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap-backward": "JumpLinkNetwork/bootstrap-backward#v4-0-0-alpha-5-scss-backward",
+    "bootstrap-backward": "v4.0.0-alpha.6",
     "sass-autoprefixer": "^1.0.1",
     "video.js": "^5.13.2",
     "shopify-cartjs": "^0.4.0",
@@ -42,10 +42,11 @@
     "jumplink-components": "JumpLinkNetwork/jumplink-components",
     "instafeed.js": "^1.4.1",
     "platform.js": "bestiejs/platform.js#^1.3.3",
-    "async": "^2.1.4"
+    "async": "^2.1.4",
+    "Morphext": "^2.4.4",
+    "animate-sass": "^0.6.6"
   },
   "resolutions": {
-    "bootstrap-backward": "v4-0-0-alpha-5-scss-backward",
     "jquery": "3.2.1"
   }
 }

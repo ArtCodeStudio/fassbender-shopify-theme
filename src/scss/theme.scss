@@ -1,9 +1,9 @@
 @import 'charset';
 @import 'bs4_variables.scss.liquid';
 
-@import "../../bower_components/sass-autoprefixer/scss/prefixes";
+@import '../../bower_components/sass-autoprefixer/scss/prefixes';
 @import '../../bower_components/jumplink-components/scss/fixes';
-@import "../../bower_components/bootstrap-backward/scss/bootstrap";
+@import '../../bower_components/bootstrap-backward/scss/bootstrap';
 
 @import '../../bower_components/jumplink-components/scss/variables';
 
@@ -24,11 +24,14 @@
 @import '../../bower_components/jumplink-components/scss/navbar';
 @import '../../bower_components/jumplink-components/scss/carousel';
 @import '../../bower_components/jumplink-components/scss/spacing';
+@import '../../bower_components/jumplink-components/scss/sizes';
 
 @import '../../bower_components/slick-carousel/slick/slick';
 @import '../../bower_components/slick-carousel/slick/slick-theme';
 
 // @import '../../bower_components/alertifyjs/src/sass/alertify';
+
+@import '../../bower_components/animate.css/animate.css';
 
 @import '../../bower_components/shopify-productjs/src/scss/shopify-productjs';
 
@@ -64,3 +67,4 @@
 @import 'alertify_variables';
 @import 'alertify';
 @import 'app-it-recht-kanzlei';
+@import 'morphext';

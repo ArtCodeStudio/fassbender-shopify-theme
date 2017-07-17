@@ -104,6 +104,7 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/slick-carousel/slick/slick.js',
     'bower_components/instafeed.js/instafeed.js',                       // https://github.com/stevenschobert/instafeed.js
     'bower_components/platform.js/platform.js',
+    'bower_components/Morphext/dist/morphext.js',
     'bower_components/jumplink-components/javascript/utilities.js',     // https://github.com/JumpLinkNetwork/jumplink-components
     'bower_components/jumplink-components/javascript/styleicons.js',     // https://github.com/JumpLinkNetwork/jumplink-components
     'bower_components/jumplink-components/javascript/dataApi.js',       // https://github.com/JumpLinkNetwork/jumplink-components

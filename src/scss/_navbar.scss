@@ -1,98 +1,101 @@
-.custom-nav-link {
-    text-transform: uppercase;
-    padding-right: 1.5em;
-    padding-left: 1.5em;
-    color: $black;
-    &:hover, &.active {
-        color: $orange;
-    }
-}
+// .custom-nav-link {
+//     text-transform: uppercase;
+//     padding-right: 1.5em;
+//     padding-left: 1.5em;
+//     color: $black;
+//     &:hover, &.active {
+//         color: $orange;
+//     }
+// }
 
-#main-navbar {
-    .nav-item {
-        .nav-link {
-           @extend .custom-nav-link;
-        }
-    }
-}
+// #main-navbar {
+//     .nav-item {
+//         .nav-link {
+//            @extend .custom-nav-link;
+//         }
+//     }
+// }
 
-.nav-item {
-    &.dropdown {
-        .dropdown-toggle {
-            &::after {
-                content: none;
-            }
-            @extend .custom-nav-link;
-            cursor: pointer;
-            padding-top: 0.17em // TODO way?!
-        }
-        .dropdown-menu {
-            top: 37px;
-            left: (1.5em / 2);
-            border-top: 0;
-            .dropdown-item {
-                &:active {
-                    background: transparent;
-                }
-            }
-        }
-    }
-}
+// .nav-item {
+//     &.dropdown {
+//         .dropdown-toggle {
+//             &::after {
+//                 content: none;
+//             }
+//             @extend .custom-nav-link;
+//             cursor: pointer;
+//             padding-top: 0.17em // TODO way?!
+//         }
+//         .dropdown-menu {
+//             top: 37px;
+//             left: (1.5em / 2);
+//             border-top: 0;
+//             .dropdown-item {
+//                 &:active {
+//                     background: transparent;
+//                 }
+//             }
+//         }
+//     }
+// }
 
-.footer-navbar {
-    .nav-item {
-        .nav-link {
-            text-transform: uppercase;
-        }
-    }
-}
+// .footer-navbar {
+//     .nav-item {
+//         .nav-link {
+//             text-transform: uppercase;
+//         }
+//     }
+// }
 
-.navbar-brand {
-    img {
-        max-height: 33px;
-        width: auto;
-    }
-    @include media-breakpoint-down(xs) {
-        // max-width: 200px;
-        // padding-right: 50px;
-    }
-}
+// .navbar-brand {
+//     img {
+//         // max-height: 33px;
+//         // width: auto;
+//     }
+//     @include media-breakpoint-down(xs) {
+//         // max-width: 200px;
+//         // padding-right: 50px;
+//     }
+// }
 
 
 .navbar-toggler {
+    font-weight: $font-weight-normal;
     z-index: $zindex-fixed+1;
-}
-
-
-.navbar {
-    // WORKAROUND
-    &.fixed-top {
-        // width: 100vw;
-    }
-}
-
-@include media-breakpoint-down(xs) {
-    .navbar {
-        .container {
-            // Do not center brand
-            margin-left: 0;
-            margin-right: 0;
-            padding-left: 0 !important;
-            padding-right: 0 !important;
+    &:focus {outline: none;}
+    .morphext {
+        width: 80px;
+        height: 20px;
+        position: relative;
+        .open, .closed {
+            position: absolute;
+            right: 0;
         }
     }
 }
 
-@include media-breakpoint-up(lg) {
-    .navbar-toggleable-md>.container {
-        padding-right: initial;
-        padding-left: inherit;
-    }
-}
+// @include media-breakpoint-down(xs) {
+//     .navbar {
+//         .container {
+//             // Do not center brand
+//             margin-left: 0;
+//             margin-right: 0;
+//             padding-left: 0 !important;
+//             padding-right: 0 !important;
+//         }
+//     }
+// }
 
-@include media-breakpoint-down(lg) {
-    .navbar-toggleable-md>.container {
-        padding-right: 15px; // overwrite 24px TODO use variable
-        padding-left: 15px; // overwrite 24px  TODO use variable
-    }
-}
+// @include media-breakpoint-up(lg) {
+//     .navbar-toggleable-md>.container {
+//         padding-right: initial;
+//         padding-left: inherit;
+//     }
+// }
+
+// @include media-breakpoint-down(lg) {
+//     .navbar-toggleable-md>.container {
+//         padding-right: 15px; // overwrite 24px TODO use variable
+//         padding-left: 15px; // overwrite 24px  TODO use variable
+//     }
+// }

@@ -295,10 +295,41 @@ var initRightSidebar = function () {
   var align = 'right';
   var trigger = '[data-toggle="sidebar"][data-target="#right-sidebar"]';
   var mask = true;
+  var $closeText = $('.sidebar-toggler .open');
+  var $openText = $('.sidebar-toggler .closed');
+  var init = 'closed';
+  var openTextInAnimationClass = 'rotateInDownRight';
+  var openTextOutAnimationClass = 'rotateOutUpRight';
+  var closeTextInAnimationClass = 'rotateInUpRight';
+  var closeTextOutAnimationClass = 'rotateOutDownRight';
+
+  $openText.on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function() {
+    // $(this).removeClass(openTextInAnimationClass + ' ' + openTextOutAnimationClass);
+    console.log('openText Animation Done');
+  });
+
+  $closeText.on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function() {
+    // $(this).removeClass(closeTextInAnimationClass + ' ' + closeTextOutAnimationClass);
+    console.log('closeText Animation Done');
+  });
+
+  if(init === 'closed') {
+    $closeText.addClass('invisible');
+  }
+
+  var openAnimation = function () {
+    $openText.removeClass('invisible ' + openTextInAnimationClass).addClass(openTextOutAnimationClass);
+    $closeText.removeClass('invisible ' + closeTextOutAnimationClass).addClass(closeTextInAnimationClass);
+  }
+
+  var closeAnimation = function () {
+    $closeText.removeClass('invisible ' + closeTextInAnimationClass).addClass(closeTextOutAnimationClass);
+    $openText.removeClass('invisible ' + openTextOutAnimationClass).addClass(openTextInAnimationClass);
+  }
 
   var $rightSidebar = jumplink.cache.$rightSidebar.simplerSidebar({
     attr: "simplersidebar",
-    init: "closed",
+    init: init,
     top: 0,
     align: align, // sidebar.align
     gap: 64, // sidebar.gap
@@ -325,14 +356,8 @@ var initRightSidebar = function () {
     events: {
       on: {
         animation: {
-          open: function() {
-            // icon animation for open
-            transformicons.transform($('.sidebar-toggler.tcon')[ 0 ]);
-          },
-          close: function() {
-            // icon animation for close
-            transformicons.revert($('.sidebar-toggler.tcon')[ 0 ]);
-          },
+          open: openAnimation,
+          close: closeAnimation,
           both: function() {
 
           },
@@ -349,7 +374,7 @@ var initRightSidebar = function () {
           both: function() {
             
           },
-          freezePage: true
+          freezePage: false
         }
       }
     }

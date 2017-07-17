@@ -1,18 +1,20 @@
-@font-face {
-    font-family: "GT-Walsheim";
-	src: url(#{$font-gt-walsheim-eot-path});
-	src: url(#{$font-gt-walsheim-woff-path}) format('woff'), url(#{$font-gt-walsheim-ttf-path}) format('truetype'), url(#{$font-gt-walsheim-otf-path}) format('otf');
-	font-weight: normal;
-	font-style: normal;
-}
+// @font-face {
+//     font-family: "GT-Walsheim";
+// 	src: url(#{$font-gt-walsheim-eot-path});
+// 	src: url(#{$font-gt-walsheim-woff-path}) format('woff'), url(#{$font-gt-walsheim-ttf-path}) format('truetype'), url(#{$font-gt-walsheim-otf-path}) format('otf');
+// 	font-weight: normal;
+// 	font-style: normal;
+// }
 
-@font-face {
-    font-family: "GT-Walsheim";
-    src: url(#{$font-gt-walsheim-bold-eot-path});
-    src: url(#{$font-gt-walsheim-bold-woff-path}) format('woff'), url(#{$font-gt-walsheim-bold-ttf-path}) format('truetype'), url(#{$font-gt-walsheim-bold-otf-path}) format('otf');
-    font-weight: bold;
-    font-style: normal;
-}
+// @font-face {
+//     font-family: "GT-Walsheim";
+//     src: url(#{$font-gt-walsheim-bold-eot-path});
+//     src: url(#{$font-gt-walsheim-bold-woff-path}) format('woff'), url(#{$font-gt-walsheim-bold-ttf-path}) format('truetype'), url(#{$font-gt-walsheim-bold-otf-path}) format('otf');
+//     font-weight: bold;
+//     font-style: normal;
+// }
+
+@import url('https://fonts.googleapis.com/css?family=Overpass:100,100i,200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&subset=latin-ext');
 
 $slick-prev-character: ""; // $fa-var-chevron-left; // "←" !default;
 $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', color: 'white' %}"; // "→"
@@ -24,6 +26,6 @@ $slick-next-character: "{% include 'iconset', name: 'arrow', direction: 'top', c
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
 
 
-button, input, optgroup, select, textarea {
-    font-family: $font-family-sans-serif;
-}
+// button, input, optgroup, select, textarea {
+//     font-family: $font-family-sans-serif;
+// }
