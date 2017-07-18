@@ -4,9 +4,6 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="Content-Security-Policy" content="
-    script-src 'self' https://* 'unsafe-inline' 'unsafe-eval'
-  " />
 
   <title>
     {% comment %}
@@ -40,19 +37,18 @@
     https://help.shopify.com/manual/reports-and-analytics/google-analytics#remove-duplicate-scripts
     https://help.shopify.com/manual/reports-and-analytics/google-analytics/google-analytics-setup#upgrade-ga%22
   {% endcomment %}
-  <script src='https://www.google-analytics.com/analytics.js'></script>
+  {{ 'custom-libs.js' | asset_url | script_tag }}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {{ 'customer_area.js' | shopify_asset_url | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  {{ 'option_selection.js' | asset_url | script_tag }}
+  {{ 'https://www.google-analytics.com/analytics.js' | script_tag }}
 
-  <script src="{{'libs.js' | asset_url}}"></script>
-  <script src="{{'shopify_common.js'  | shopify_asset_url}}"></script>
-  <script src="{{'customer_area.js'  | shopify_asset_url}}"></script>
-  <script src="{{'api.jquery.js'  | shopify_asset_url}}"></script>
-  <script src="{{'option_selection.js'  | asset_url}}"></script> 
-
-  <script>
+  {% comment %} <script>
     if(typeof(videojs) !== 'undefined' && typeof(videojs.options) !== 'undefined' && typeof(videojs.options.flash) !== 'undefined' ) {
       videojs.options.flash.swf = "{{'video-js.swf' | asset_url}}"
     }
-  </script>
+  </script> {% endcomment %}
 
   <link rel="stylesheet" href="{{ 'social/social-icons.css' | global_asset_url }}">
   <link rel="stylesheet" href="{{ 'theme.scss.css' | asset_url }}" id="alertifyCSS">

@@ -1,0 +1,27 @@
+#score {
+
+}
+
+#rows {
+
+}
+
+#canvas {
+  width: 100%;
+}
+
+#upcoming {
+  width: 200px;
+  height: 200px;
+}
+
+#menu {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2000;
+  .info {
+    position: absolute;
+    top: 0;
+  }
+}

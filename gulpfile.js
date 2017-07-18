@@ -89,6 +89,7 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/jquery/dist/jquery.js',
     'src/js/jquery-ui.min.js',
     'bower_components/jquery.transit/jquery.transit.js',                // https://github.com/rstacruz/jquery.transit
+    'bower_components/jquery-touch-events/src/jquery.mobile-events.js', // https://github.com/benmajor/jQuery-Touch-Events
     'bower_components/tether/dist/js/tether.js',
     'bower_components/bootstrap-backward/dist/js/bootstrap.js',
     'bower_components/simpler-sidebar/dist/jquery.simpler-sidebar.js',
@@ -97,16 +98,14 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/rivets/dist/rivets.js',
     'bower_components/shopify-cartjs/dist/cart.js',
     'src/js/md5.js',
-    // 'src/js/tcon.js',
     'bower_components/gsap/src/uncompressed/TweenMax.js',               // https://github.com/rstacruz/jquery.transit
-    'bower_components/async/dist/async.js',
-    'bower_components/barba.js/dist/barba.js',
-    'bower_components/slick-carousel/slick/slick.js',
+    'bower_components/async/dist/async.js',                             // https://github.com/caolan/async
+    'bower_components/barba.js/dist/barba.js',                          // https://github.com/luruke/barba.js/
+    'bower_components/slick-carousel/slick/slick.js',                   // https://github.com/kenwheeler/slick/
     'bower_components/instafeed.js/instafeed.js',                       // https://github.com/stevenschobert/instafeed.js
-    'bower_components/platform.js/platform.js',
-    'bower_components/Morphext/dist/morphext.js',
+    'bower_components/platform.js/platform.js',                         // https://github.com/bestiejs/platform.js/
     'bower_components/jumplink-components/javascript/utilities.js',     // https://github.com/JumpLinkNetwork/jumplink-components
-    'bower_components/jumplink-components/javascript/styleicons.js',     // https://github.com/JumpLinkNetwork/jumplink-components
+    'bower_components/jumplink-components/javascript/styleicons.js',    // https://github.com/JumpLinkNetwork/jumplink-components
     'bower_components/jumplink-components/javascript/dataApi.js',       // https://github.com/JumpLinkNetwork/jumplink-components
     'bower_components/shopify-productjs/dist/product.js',
     // 'bower_components/video.js/dist/video.js',
@@ -117,11 +116,11 @@ gulp.task('javascript-libs', [], function () {
   ]).pipe(plumber({
     errorHandler: onError
   }))
-  .pipe(concat('libs.js'))
-  .pipe(gulp.dest('./theme/assets/'))
+  .pipe(concat('custom-libs.js'))
+  .pipe(gulp.dest('./theme/assets/')) // save libs.js without minify
   // .pipe(uglify())
   // .pipe(rename({
-  //   basename: "libs.min",
+  //   basename: "custom-libs.min.js",
   // }))
   // .pipe(gulp.dest('./theme/assets/'));
 });

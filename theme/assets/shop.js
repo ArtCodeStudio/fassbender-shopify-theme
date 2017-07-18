@@ -65,6 +65,470 @@ jumplink.init = function () {
 };
 
 /**
+ * Init Tetris based on https://github.com/jakesgordon/javascript-tetris
+ * Copyright (c) 2011, 2012, 2013, 2014, 2015, 2016 Jake Gordon and contributors
+ */
+jumplink.initTetris = function (dataset) {
+  //-------------------------------------------------------------------------
+  // base helper methods
+  //-------------------------------------------------------------------------
+
+  var get = function (id)        { return document.getElementById(id);  }
+
+  var timestamp = function () { return new Date().getTime(); }
+  var random = function (min, max) { return (min + (Math.random() * (max - min))); }
+  var randomChoice = function (choices) { return choices[Math.round(random(0, choices.length-1))]; }
+
+  // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+  if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame    ||
+      window.oRequestAnimationFrame      ||
+      window.msRequestAnimationFrame     ||
+      function(callback, element) {
+        window.setTimeout(callback, 1000 / 60);
+      }
+  }
+
+  //-------------------------------------------------------------------------
+  // game constants
+  //-------------------------------------------------------------------------
+
+  var KEY         = { ESC: 27, SPACE: 32, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 },
+      DIR         = { UP: 0, RIGHT: 1, DOWN: 2, LEFT: 3, MIN: 0, MAX: 3 },
+      // canvas      = get('canvas'),
+      $canvas     = $('#canvas'),
+      $playBtn    = $('#start'),
+      $rows       = $('#rows'),
+      $score      = $('#score'),
+      ctx         = $canvas.get(0).getContext('2d'),
+      $ucanvas    = $('#upcoming'),
+      $menu       = $('#menu').hide(),
+      // ucanvas     = get('upcoming'),
+      uctx        = $ucanvas.get(0).getContext('2d'),
+      speed       = { start: 0.6, decrement: 0.005, min: 0.1 }, // how long before piece drops by 1 row (seconds)
+      nu          = 5,  // width/height of upcoming preview (in blocks)
+      vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0), // viewport width
+      vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0), // viewport height
+      aspectRatio = vh < vw ? [1,2] : [2,1]  // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
+      orientation = aspectRatio[0] < aspectRatio[1] ? 'landscape' : 'portrait';   
+      nx          = aspectRatio[1] * 10, // width of tetris court (in blocks)
+      ny          = aspectRatio[0] * 10, // height of tetris court (in blocks)
+      lineWidthXl = 3;
+
+
+  //-------------------------------------------------------------------------
+  // game variables (initialized during reset)
+  //-------------------------------------------------------------------------
+
+  var dx, dy,         // pixel size of a single tetris block
+      dnextx, dnexty, // pixel size of a single tetris block in upcoming preview
+      blocks,         // 2 dimensional array (nx*ny) representing tetris court - either empty block or occupied by a 'piece'
+      actions,        // queue of user actions (inputs)
+      playing,        // true|false - game is in progress
+      dt,             // time since starting this game
+      current,        // the current piece
+      next,           // the next piece
+      score,          // the current score
+      vscore,         // the currently displayed score (it catches up to score in small chunks - like a spinning slot machine)
+      rows,           // number of completed rows in the current game
+      step;           // how long before current piece drops by 1 row
+
+  //-------------------------------------------------------------------------
+  // tetris pieces
+  //
+  // blocks: each element represents a rotation of the piece (0, 90, 180, 270)
+  //         each element is a 16 bit integer where the 16 bits represent
+  //         a 4x4 set of blocks, e.g. j.blocks[0] = 0x44C0
+  //
+  //             0100 = 0x4 << 3 = 0x4000
+  //             0100 = 0x4 << 2 = 0x0400
+  //             1100 = 0xC << 1 = 0x00C0
+  //             0000 = 0x0 << 0 = 0x0000
+  //                               ------
+  //                               0x44C0
+  //
+  //-------------------------------------------------------------------------
+
+  var i = { name:'i', size: 4, blocks: [0x0F00, 0x2222, 0x00F0, 0x4444], color: '#0A9177' };
+  var j = { name:'j', size: 3, blocks: [0x44C0, 0x8E00, 0x6440, 0x0E20], color: '#AB1A62' };
+  var l = { name:'l', size: 3, blocks: [0x4460, 0x0E80, 0xC440, 0x2E00], color: '#050506' };
+  var o = { name:'o', size: 2, blocks: [0xCC00, 0xCC00, 0xCC00, 0xCC00], color: '#0A9177' };
+  var s = { name:'s', size: 3, blocks: [0x06C0, 0x8C40, 0x6C00, 0x4620], color: '#AB1A62' };
+  var t = { name:'t', size: 3, blocks: [0x0E40, 0x4C40, 0x4E00, 0x4640], color: '#050506' };
+  var z = { name:'z', size: 3, blocks: [0x0C60, 0x4C80, 0xC600, 0x2640], color: '#0A9177' };
+
+  //------------------------------------------------
+  // do the bit manipulation and iterate through each
+  // occupied block (x,y) for a given piece
+  //------------------------------------------------
+  var eachblock = function (type, x, y, dir, fn) {
+    var bit, result, row = 0, col = 0, blocks = type.blocks[dir];
+    for(bit = 0x8000 ; bit > 0 ; bit = bit >> 1) {
+      if (blocks & bit) {
+        fn(x + col, y + row);
+      }
+      if (++col === 4) {
+        col = 0;
+        ++row;
+      }
+    }
+  }
+
+  //-----------------------------------------------------
+  // check if a piece can fit into a position in the grid
+  //-----------------------------------------------------
+  var occupied = function (type, x, y, dir) {
+    var result = false
+    eachblock(type, x, y, dir, function(x, y) {
+      if ((x < 0) || (x >= nx) || (y < 0) || (y >= ny) || getBlock(x,y))
+        result = true;
+    });
+    return result;
+  }
+
+  var unoccupied = function (type, x, y, dir) {
+    return !occupied(type, x, y, dir);
+  }
+
+  //-----------------------------------------
+  // start with 4 instances of each piece and
+  // pick randomly until the 'bag is empty'
+  //-----------------------------------------
+  var pieces = [];
+  var randomPiece = function () {
+    if (pieces.length == 0)
+      pieces = [i,i,i,i,j,j,j,j,l,l,l,l,o,o,o,o,s,s,s,s,t,t,t,t,z,z,z,z];
+    var type = pieces.splice(random(0, pieces.length-1), 1)[0];
+    return { type: type, dir: DIR.UP, x: Math.round(random(0, nx - type.size)), y: 0 };
+  }
+
+
+  //-------------------------------------------------------------------------
+  // GAME LOOP
+  //-------------------------------------------------------------------------
+
+  var run = function () {
+
+    // showStats(); // initialize FPS counter
+    addEvents(); // attach keydown and resize events
+
+    var last = now = timestamp();
+    var frame = function () {
+      now = timestamp();
+      update(Math.min(1, (now - last) / 1000.0)); // using requestAnimationFrame have to be able to handle large delta's caused when it 'hibernates' in a background or non-visible tab
+      draw();
+      // stats.update();
+      last = now;
+      requestAnimationFrame(frame, $canvas.get(0));
+    }
+
+    resize(); // setup all our sizing information
+    reset();  // reset the per-game variables
+    frame();  // start the first frame
+
+  }
+
+  var addEvents = function () {
+    document.addEventListener('keydown', keydown, false);
+    window.addEventListener('resize', resize, false);
+  }
+
+  var resize = function (event) {
+    vw          = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); // viewport width
+    vh          = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); // viewport height
+    aspectRatio = vh < vw ? [1,2] : [2,1]  // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
+    orientation = aspectRatio[0] < aspectRatio[1] ? 'landscape' : 'portrait'; 
+    nx          = aspectRatio[1] * 10; // width of tetris court (in blocks)
+    ny          = aspectRatio[0] * 10; // height of tetris court (in blocks)
+
+    if(orientation === 'landscape') {
+      console.log('height = '+$canvas.width() + ' / ' + aspectRatio[1]);
+      $canvas.height($canvas.width() / aspectRatio[1]); // half height of width
+    } else {
+      console.log('height = '+$canvas.width() + ' * ' + aspectRatio[0]);
+      $canvas.height($canvas.width() * aspectRatio[0]); // double height of width
+    }
+    
+    $canvas.attr('width', $canvas.width());   // set canvas logical size equal to its physical size
+    $canvas.attr('height', $canvas.height()); // (ditto)
+
+    $ucanvas.attr('width', $ucanvas.width());
+    $ucanvas.attr('height', $ucanvas.height());
+    $ucanvas.height($ucanvas.width()) // 1:1
+
+    dx = $canvas.width() / nx; // pixel size of a single tetris block
+    dy = $canvas.height() / ny; // (ditto)
+
+    dnextx = $ucanvas.width() / nu; // pixel size of a single tetris block for the upcomming preview
+    dnexty = $ucanvas.height() / nu; // (ditto)
+    
+
+    invalidate();
+    invalidateNext();
+  }
+
+  var keydown = function (ev) {
+    var handled = false;
+    if (playing) {
+      switch(ev.keyCode) {
+        case KEY.LEFT:   actions.push(DIR.LEFT);  handled = true; break;
+        case KEY.RIGHT:  actions.push(DIR.RIGHT); handled = true; break;
+        case KEY.UP:     actions.push(DIR.UP);    handled = true; break;
+        case KEY.DOWN:   actions.push(DIR.DOWN);  handled = true; break;
+        case KEY.ESC:    lose();                  handled = true; break;
+      }
+    }
+    else if (ev.keyCode == KEY.SPACE) {
+      play();
+      handled = true;
+    }
+    if (handled)
+      ev.preventDefault(); // prevent arrow keys from scrolling the page (supported in IE9+ and all other browsers)
+  }
+
+  //-------------------------------------------------------------------------
+  // GAME LOGIC
+  //-------------------------------------------------------------------------
+
+  var play = function(){
+    console.log('play');
+    $menu.show();
+    $playBtn.prop('disabled', true);
+    
+    reset();
+    playing = true;
+  }
+
+  $playBtn.click(function() {
+    console.log('clicked');
+    play();
+  });
+
+  var lose = function () {
+    $playBtn.prop('disabled', false);
+    $menu.hide();
+    setVisualScore();
+    playing = false;
+  }
+
+  var setVisualScore = function (n)      { vscore = n || score; invalidateScore(); }
+  var setScore = function (n)            { score = n; setVisualScore(n);  }
+  var addScore = function (n)            { score = score + n;   }
+  var clearScore = function ()           { setScore(0); }
+  var clearRows = function ()            { setRows(0); }
+  var setRows = function (n)             { rows = n; step = Math.max(speed.min, speed.start - (speed.decrement*rows)); invalidateRows(); }
+  var addRows = function (n)             { setRows(rows + n); }
+  var getBlock = function (x,y)          { return (blocks && blocks[x] ? blocks[x][y] : null); }
+  var setBlock = function (x,y,type)     { blocks[x] = blocks[x] || []; blocks[x][y] = type; invalidate(); }
+  var clearBlocks = function ()          { blocks = []; invalidate(); }
+  var clearActions = function ()         { actions = []; }
+  var setCurrentPiece = function (piece) { current = piece || randomPiece(); invalidate();     }
+  var setNextPiece = function (piece)    { next    = piece || randomPiece(); invalidateNext(); }
+
+  var reset = function () {
+    dt = 0;
+    clearActions();
+    clearBlocks();
+    clearRows();
+    clearScore();
+    setCurrentPiece(next);
+    setNextPiece();
+  }
+
+  var update = function (idt) {
+    if (playing) {
+      if (vscore < score)
+        setVisualScore(vscore + 1);
+      handle(actions.shift());
+      dt = dt + idt;
+      if (dt > step) {
+        dt = dt - step;
+        drop();
+      }
+    }
+  }
+
+  var handle = function (action) {
+    switch(action) {
+      case DIR.LEFT:  move(DIR.LEFT);  break;
+      case DIR.RIGHT: move(DIR.RIGHT); break;
+      case DIR.UP:    rotate();        break;
+      case DIR.DOWN:  drop();          break;
+    }
+  }
+
+  var move = function (dir) {
+    var x = current.x, y = current.y;
+    switch(dir) {
+      case DIR.RIGHT: x = x + 1; break;
+      case DIR.LEFT:  x = x - 1; break;
+      case DIR.DOWN:  y = y + 1; break;
+    }
+    if (unoccupied(current.type, x, y, current.dir)) {
+      current.x = x;
+      current.y = y;
+      invalidate();
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  var rotate = function () {
+    var newdir = (current.dir == DIR.MAX ? DIR.MIN : current.dir + 1);
+    if (unoccupied(current.type, current.x, current.y, newdir)) {
+      current.dir = newdir;
+      invalidate();
+    }
+  }
+
+  var drop = function () {
+    if (!move(DIR.DOWN)) {
+      addScore(10);
+      dropPiece();
+      removeLines();
+      setCurrentPiece(next);
+      setNextPiece(randomPiece());
+      clearActions();
+      if (occupied(current.type, current.x, current.y, current.dir)) {
+        lose();
+      }
+    }
+  }
+
+  var dropPiece = function () {
+    eachblock(current.type, current.x, current.y, current.dir, function(x, y) {
+      setBlock(x, y, current.type);
+    });
+  }
+
+  var removeLines = function () {
+    var x, y, complete, n = 0;
+    for(y = ny ; y > 0 ; --y) {
+      complete = true;
+      for(x = 0 ; x < nx ; ++x) {
+        if (!getBlock(x, y))
+          complete = false;
+      }
+      if (complete) {
+        removeLine(y);
+        y = y + 1; // recheck same line
+        n++;
+      }
+    }
+    if (n > 0) {
+      addRows(n);
+      addScore(100*Math.pow(2,n-1)); // 1: 100, 2: 200, 3: 400, 4: 800
+    }
+  }
+
+  var removeLine = function (n) {
+    var x, y;
+    for(y = n ; y >= 0 ; --y) {
+      for(x = 0 ; x < nx ; ++x)
+        setBlock(x, y, (y == 0) ? null : getBlock(x, y-1));
+    }
+  }
+
+  //-------------------------------------------------------------------------
+  // RENDERING
+  //-------------------------------------------------------------------------
+
+  var invalid = {};
+
+  var invalidate = function ()         { invalid.court  = true; }
+  var invalidateNext = function ()     { invalid.next   = true; }
+  var invalidateScore = function ()    { invalid.score  = true; }
+  var invalidateRows = function ()     { invalid.rows   = true; }
+
+  var draw = function () {
+    ctx.save();
+    ctx.lineWidth = lineWidthXl;
+    ctx.translate(lineWidthXl/2, lineWidthXl/2); // for crisp 1px black lines
+    drawCourt();
+    drawNext();
+    drawScore();
+    drawRows();
+    ctx.restore();
+  }
+
+  // Spielfeld
+  var drawCourt = function () {
+    if (invalid.court) {
+      ctx.clearRect(0, 0, $canvas.width(), $canvas.height());
+      if (playing)
+        drawPiece(ctx, current.type, current.x, current.y, current.dir, dx, dy);
+      var x, y, block;
+      for(y = 0 ; y < ny ; y++) {
+        for (x = 0 ; x < nx ; x++) {
+          if (block = getBlock(x,y))
+            drawBlock(ctx, x, y, block.color, dx, dy);
+        }
+      }
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = lineWidthXl;
+      ctx.strokeRect(0, 0, nx*dx - lineWidthXl, ny*dy - lineWidthXl); // court boundary / Spielfeldrand
+      invalid.court = false;
+    }
+  }
+
+  var drawNext = function () {
+    if (invalid.next) {
+      var padding = ((nu - next.type.size) / 2);
+      // padding = 1; // WORKAROUND
+      console.log('drawNext padding', padding, 'dnextx', dnextx, 'nu', nu, 'next', next);
+      uctx.save();
+      uctx.translate(lineWidthXl/2, lineWidthXl/2); 
+      uctx.clearRect(0, 0, $ucanvas.width(), $ucanvas.height());
+      drawPiece(uctx, next.type, padding, padding, next.dir, dnextx, dnexty);
+      uctx.strokeStyle = 'black';
+      ctx.lineWidth = lineWidthXl;
+      uctx.strokeRect(0, 0, nu*dnextx - lineWidthXl, nu*dnexty - lineWidthXl);
+      uctx.restore();
+      invalid.next = false;
+    }
+  }
+
+  var drawScore = function () {
+    if (invalid.score) {
+      // html('score', ("00000" + Math.floor(vscore)).slice(-5));
+      $score.text(("00000" + Math.floor(vscore)).slice(-5));
+      invalid.score = false;
+    }
+  }
+
+  var drawRows = function () {
+    if (invalid.rows) {
+      //html('rows', rows);
+      $rows.text(rows);
+      invalid.rows = false;
+    }
+  }
+
+  var drawPiece = function (ctx, type, x, y, dir, dx, dy) {
+    eachblock(type, x, y, dir, function(x, y) {
+      drawBlock(ctx, x, y, type.color, dx, dy);
+    });
+  }
+
+  var drawBlock = function (ctx, x, y, color, dx, dy) {
+    ctx.fillStyle = 'transparent';
+    ctx.lineWidth = lineWidthXl;
+    ctx.strokeStyle = color;
+    ctx.fillRect(x*dx, y*dy, dx, dy);
+    ctx.strokeRect(x*dx, y*dy, dx, dy)
+  }
+
+  //-------------------------------------------------------------------------
+  // FINALLY, lets run the game
+  //-------------------------------------------------------------------------
+
+  run();
+}
+
+/**
  * Freeze the position of an Element
  * @see jumplink.unfreezeElements
  */
@@ -261,8 +725,9 @@ jumplink.getNavHeight = function () {
 }
 
 // TODO
-jumplink.toggleSidebar = function () {
-  $( '.navbar-toggle' ).click();
+jumplink.toggleRightSidebar = function () {
+  console.log('toggleRightSidebar');
+  $( '.sidebar-toggler[data-target="#right-sidebar"]' ).click();
 }
 
 jumplink.initInstafeed = function (id) {
@@ -291,6 +756,7 @@ jumplink.initInstafeed = function (id) {
  */
 var initRightSidebar = function () {
   // init tree before sidebar to cache tree events in sidebar to close the sidebar
+  var $rightSidebar = jumplink.cache.$rightSidebar;
   var closingLinks = '.close-sidebar';
   var align = 'right';
   var trigger = '[data-toggle="sidebar"][data-target="#right-sidebar"]';
@@ -303,11 +769,16 @@ var initRightSidebar = function () {
   var closeTextInAnimationClass = 'rotateInUpRight';
   var closeTextOutAnimationClass = 'rotateOutDownRight';
 
+
+  // events
+
+  // event: animation done
   $openText.on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function() {
     // $(this).removeClass(openTextInAnimationClass + ' ' + openTextOutAnimationClass);
     console.log('openText Animation Done');
   });
 
+  // event: animation done
   $closeText.on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function() {
     // $(this).removeClass(closeTextInAnimationClass + ' ' + closeTextOutAnimationClass);
     console.log('closeText Animation Done');
@@ -327,17 +798,31 @@ var initRightSidebar = function () {
     $openText.removeClass('invisible ' + openTextOutAnimationClass).addClass(openTextInAnimationClass);
   }
 
-  var $rightSidebar = jumplink.cache.$rightSidebar.simplerSidebar({
+  // https://github.com/benmajor/jQuery-Touch-Events
+  $rightSidebar.on('swipe', function(e, touch) {
+    console.log( 'swipe', e, touch);
+  });
+
+  $rightSidebar.on('swiperight', function(e, touch) {
+    console.log( 'swiperight', e, touch);
+    jumplink.toggleRightSidebar();
+  });
+
+  // $rightSidebar.on('tapmove', function(e, touch) {
+  //   console.log( 'tapmove', e, touch);
+  // });
+
+  $rightSidebar.simplerSidebar({
     attr: "simplersidebar",
     init: init,
     top: 0,
     align: align, // sidebar.align
     gap: 64, // sidebar.gap
     animation: {
-      duration: 500,
-      easing: "swing"
+      duration: 1000,
+      easing: "easeOutQuint" // swing
     },
-  selectors: {
+    selectors: {
       trigger: trigger, // opener
       quitter: closingLinks // sidebar.closingLinks
     },
@@ -774,88 +1259,19 @@ var setNavActive = function(dataset, data) {
 }
 
 /**
- * @see snippets/filter-menu-select
- * @see https://apps.shopify.com/power-tools-filter-menu
- */
-var initCollectionSelectFilter = function (collectionHandle) {
-  var collectionFilterName = "Designer";
-
-  return true; // Currently not uses, so stop here!
-
-  // console.log("initCollectionSelectFilter", collectionHandle);
-
-  /* Product Tag Filters - Good for any number of filters on any type of collection pages */
-  /* Brought to you by Caroline Schnapp and Shopify Power Tools */
-  var $allFilters = $('.coll-filter-'+collectionHandle);
-  $allFilters.selectpicker();
-  $allFilters.selectpicker('render');
-
-  // $allFilters.on('hidden-xs-up.bs.select', function (e) {
-  //   console.log("bs select changed", e);
-  // });
-
-  var onChange = function () {
-    //console.log("select changed", this);
-    var newTags = [];
-    var newCollectionHandle = null;
-    $(this).closest('.filter-select, .filter-menu').find('.coll-filter').each(function() {
-      var $this = $(this);
-      var value = $this.val();
-
-      // if filter has the name uses as main collection
-      if( $this.data().filterName == collectionFilterName ) {
-        if(!value) {
-          newCollectionHandle = 'all';
-        } else {
-          newCollectionHandle = value;
-        }
-        
-      } else if( value ) {
-        newTags.push(value);
-      }
-
-    });
-
-    if (newTags.length) {
-      var query = newTags.join('+');
-      if( newCollectionHandle ) {
-        jumplink.goTo('/collections/'+newCollectionHandle+'/'+query);
-      } else if( collectionHandle ) {
-        jumplink.goTo('/collections/'+collectionHandle+'/'+query);
-      } else {
-        jumplink.goTo('/collections/all/'+query);
-      }
-    } else {  
-      if(newCollectionHandle) {
-        jumplink.goTo('/collections/'+newCollectionHandle);
-      } else if( collectionHandle ) {
-        jumplink.goTo('/collections/'+collectionHandle);
-      } else {
-        jumplink.goTo('/collections/all');
-      }
-    }
-  }
-
-  $allFilters.each(function(index, element) {
-    $element = $(element);
-    $element.change(onChange);
-  });
-}
-
-/**
  * 
  */
 var initLogin = function(dataset) {
   var resetPassword = false;
-  var $recoverPasswordLink     = $('.RecoverPassword, #RecoverPassword');
-  var $hideRecoverPasswordLink = $('#HideRecoverPasswordLink');
-  var $recoverPasswordForm     = $('#RecoverPasswordForm');
-  var $customerLoginForm       = $('#CustomerLoginForm');
-  var $passwordResetSuccess    = $('#ResetSuccess');
-  var $NewShopMessage          = $('#NewShopMessage');
-  var $formErrorsSelector      = $('.form-errors-selector');
-  var $resetPasswordSuccessSelector = $( '#resetPasswordSuccessSelector' );
-  var $formErrorMessages       = $('#formErrorMessages');
+  var $recoverPasswordLink          = $('.RecoverPassword, #RecoverPassword');
+  var $hideRecoverPasswordLink      = $('#HideRecoverPasswordLink');
+  var $recoverPasswordForm          = $('#RecoverPasswordForm');
+  var $customerLoginForm            = $('#CustomerLoginForm');
+  var $passwordResetSuccess         = $('#ResetSuccess');
+  var $NewShopMessage               = $('#NewShopMessage');
+  var $formErrorsSelector           = $('.form-errors-selector');
+  var $resetPasswordSuccessSelector = $('#resetPasswordSuccessSelector');
+  var $formErrorMessages            = $('#formErrorMessages');
 
    $formErrorMessages.hide();
    $passwordResetSuccess.hide();
@@ -1387,8 +1803,6 @@ var initCollection = function (dataset, data) {
     });
   }
 
-  initCollectionSelectFilter(dataset.collectionHandle);
-
   // if url is ?page=all or /collections/all load all products
   if(currentUrl === allProductsUrl || currentUrl === '/collections/all') {
     loadAllProducts(dataset, currentUrl, function() {
@@ -1424,6 +1838,11 @@ var initPage = function (dataset) {
         // console.log( "Load was performed." );
       });
     break;
+    case 'networking':
+      console.log('init networking page');
+      jumplink.initTetris(dataset);
+    break;
+
     default:
     break;
   }
@@ -1644,6 +2063,9 @@ var initBarba = function () {
 var initFooter = function () {
   var $footer = jumplink.cache.$footer;
   var data = $footer.data();
+  if(typeof(data) === 'undefined') {
+    return console.warn('footer not found');
+  }
   var $target = $(data.target);
   var $htmlBody = jumplink.cache.$htmlBody;
   var $document = jumplink.cache.$document;

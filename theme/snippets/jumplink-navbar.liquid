@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="d-flex flex-nowrap justify-content-between">
-          <div class="align-self-start">
+          <div class="align-self-center hidden-sm-down">
             <div class="navbar-toggler border-px-0">
               <div class="morphext">
                 Shortcut
@@ -11,12 +11,12 @@
           </div>
         
           <div class="align-self-center">
-            {% comment %} <img class="hidden-xs-up" src="{{ 'navbar_logo.svg' | asset_url }}" width="auto" height="16px" alt="Art💚Code Studio"> {% endcomment %}
+            {% comment %} <img class="hidden-xs-up" src="{{ 'navbar_logo.svg' | asset_url }}" width="auto" height="16px" alt="{{ shop.name | strip_html }}"> {% endcomment %}
             <a href="/" class="brand-01">
               <div class="font-weight-bold brand-text">Art</div>
-              <img class="brand-image" src="{{ 'icon_heart_px.png' | asset_url }}" alt="Art💚Code Studio">
+              <img class="brand-image" src="{{ 'icon_heart_px.png' | asset_url }}" alt="{{ shop.name | strip_html }}">
               <div class="font-weight-bold brand-text">Code</div>
-              <div class="font-weight-normal brand-text">&nbsp;Studio</div>
+              <div class="font-weight-normal brand-text hidden-xs-down">&nbsp;Studio</div>
             </a>
           </div>
 
@@ -41,7 +41,7 @@
             </form>
           {% endif %}
 
-          <div class="align-self-end">
+          <div class="align-self-center">
             <button class="navbar-toggler sidebar-toggler hidden-print border-px-0" type="button" data-toggle="sidebar" data-target="#right-sidebar" aria-controls="right-sidebar" aria-expanded="false" aria-label="Toggle Sidebar">
               <div class="morphext">
                 <span class="animated open">Close</span>
