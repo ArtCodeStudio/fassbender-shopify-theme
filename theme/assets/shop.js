@@ -232,6 +232,8 @@ jumplink.initTetris = function (dataset) {
   var addEvents = function () {
     document.addEventListener('keydown', keydown, false);
     window.addEventListener('resize', resize, false);
+    $canvas.on('singletap', tab);
+    $canvas.on('swipe', swipe);
   }
 
   var resize = function (event) {
@@ -268,6 +270,7 @@ jumplink.initTetris = function (dataset) {
     invalidateNext();
   }
 
+  // keyboard events for playing on desktop
   var keydown = function (ev) {
     var handled = false;
     if (playing) {
@@ -278,14 +281,36 @@ jumplink.initTetris = function (dataset) {
         case KEY.DOWN:   actions.push(DIR.DOWN);  handled = true; break;
         case KEY.ESC:    lose();                  handled = true; break;
       }
-    }
-    else if (ev.keyCode == KEY.SPACE) {
+    } else if (ev.keyCode == KEY.SPACE) {
       play();
       handled = true;
     }
     if (handled)
       ev.preventDefault(); // prevent arrow keys from scrolling the page (supported in IE9+ and all other browsers)
   }
+
+  // swipe gestures for playing on touch devices
+  var swipe = function (e, touch) {
+    console.log('swipe', touch);
+    if (playing) {
+      switch(touch.direction) {
+        case 'left':    actions.push(DIR.LEFT);   handled = true; break;
+        case 'right':   actions.push(DIR.RIGHT);  handled = true; break;
+        case 'up':      actions.push(DIR.UP);     handled = true; break;
+        case 'down':    actions.push(DIR.DOWN);   handled = true; break;
+      }
+    }
+  }
+
+  // tab gestures for playing on touch devices
+  var tab = function (e, touch) {
+    console.log('tab', touch);
+    if (playing) {
+      actions.push(DIR.UP);
+      handled = true;
+    }
+  }
+
 
   //-------------------------------------------------------------------------
   // GAME LOGIC
@@ -294,23 +319,28 @@ jumplink.initTetris = function (dataset) {
   var play = function(){
     console.log('play');
     $menu.show();
-    $playBtn.prop('disabled', true);
+    // $playBtn.prop('disabled', true);
+    $playBtn.text('Give Up');
     
     reset();
     playing = true;
   }
 
-  $playBtn.click(function() {
-    console.log('clicked');
-    play();
-  });
-
   var lose = function () {
-    $playBtn.prop('disabled', false);
-    $menu.hide();
+    // $playBtn.prop('disabled', false);
+    $playBtn.text('Play');
+    // $menu.hide();
     setVisualScore();
     playing = false;
   }
+
+  $playBtn.click(function() {
+    if (playing) {
+      lose();
+    } else {
+      play();
+    }
+  });
 
   var setVisualScore = function (n)      { vscore = n || score; invalidateScore(); }
   var setScore = function (n)            { score = n; setVisualScore(n);  }
