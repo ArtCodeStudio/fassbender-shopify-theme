@@ -1,16 +1,17 @@
 {% if section.settings.active %}
-  <div class="carousel" id="shopify-section-jumplink-carousel-slick"
+  <div
+    class="carousel"
+    id="shopify-section-jumplink-carousel-slick"
     data-slick-settings-json-string='{{section.settings | json | replace: "'", "&#39;"}}'
   >
     {% for block in section.blocks %}
       {% if block.settings.active and block.settings.image %}
         {% if block.settings.href != blank %}
-        <a class="jumplink-carousel-slick-item" data-color="{{  block.settings.text_color | default: 'black' }}" href="{{  block.settings.href | escape }}">
+          <a class="jumplink-carousel-slick-item" data-color="{{  block.settings.text_color | default: 'black' }}" href="{{  block.settings.href | escape }}">
         {% else %}
-        <div class="jumplink-carousel-slick-item" data-color="{{  block.settings.text_color | default: 'black' }}">
+          <div class="jumplink-carousel-slick-item" data-color="{{  block.settings.text_color | default: 'black' }}">
         {% endif %}
-          <div class="background-box ratio-16-9 jumplink-carousel-slick-item-background" style="background-image: url({{ block.settings.image.src | img_url: 'master' }});" title="{{  block.settings.alt | escape }}">
-          </div>
+          <img src="{{ block.settings.image.src | img_url: 'master' }}" alt="{{  block.settings.alt | escape }}">
           {% if block.settings.title != blank or block.settings.text != blank %}
             <div class="carousel-caption col-xs-12 col-sm-6 col-md-5 col-lg-4 {{  block.settings.position | escape }}">
               <div class="carousel-caption-wrapper m-a-0-xs m-a-2-sm">
@@ -21,9 +22,9 @@
             </div>
           {% endif %}
         {% if block.settings.href != blank %}
-        </a>
+          </a>
         {% else %}
-        </div>
+          </div>
         {% endif %}
       {% endif %}
     {% endfor %}
