@@ -1,0 +1,416 @@
+{% if section.settings.active %}
+  <div class="carousel" id="shopify-section-jumplink-carousel-slick"
+    data-slick-settings-json-string='{{section.settings | json | replace: "'", "&#39;"}}'
+  >
+    {% for block in section.blocks %}
+      {% if block.settings.active and block.settings.image %}
+        {% if block.settings.href != blank %}
+        <a class="jumplink-carousel-slick-item" data-color="{{  block.settings.text_color | default: 'black' }}" href="{{  block.settings.href | escape }}">
+        {% else %}
+        <div class="jumplink-carousel-slick-item" data-color="{{  block.settings.text_color | default: 'black' }}">
+        {% endif %}
+          <div class="background-box ratio-16-9 jumplink-carousel-slick-item-background" style="background-image: url({{ block.settings.image.src | img_url: 'master' }});" title="{{  block.settings.alt | escape }}">
+          </div>
+          {% if block.settings.title != blank or block.settings.text != blank %}
+            <div class="carousel-caption col-xs-12 col-sm-6 col-md-5 col-lg-4 {{  block.settings.position | escape }}">
+              <div class="carousel-caption-wrapper m-a-0-xs m-a-2-sm">
+                <h2 class="text-serif" style="color: {{  block.settings.text_color | default: 'black' }};">{{  block.settings.title }}</h2>
+                <hr class="border px-3" style="border-color: {{  block.settings.text_color | default: 'black' }};" />
+                <p style="color: {{ block.settings.text_color | default: 'black' }};">{{  block.settings.text }}</p>
+              </div>
+            </div>
+          {% endif %}
+        {% if block.settings.href != blank %}
+        </a>
+        {% else %}
+        </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Carousel",
+    "class": "jumplink-carousel",
+    "max_blocks": 10,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "active",
+        "label": "Active",
+        "info": "Enable or Disable this carousel",
+        "default": true
+      },
+      {
+        "type": "paragraph",
+        "content": "See [slick documentation](https:\/\/kenwheeler.github.io\/slick\/) for information about the possible options"
+      },
+      {
+        "type": "checkbox",
+        "id": "accessibility",
+        "label": "Accessibility",
+        "info": "Enables tabbing and arrow key navigation",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "adaptiveHeight",
+        "label": "Adaptive Height",
+        "info": "Enables adaptive height for single slide horizontal carousels",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Autoplay",
+        "info": "Enables Autoplay",
+        "default": false
+      },
+      {
+        "type": "number",
+        "id": "autoplaySpeed",
+        "label": "Autoplay Speed",
+        "info": "Autoplay Speed in milliseconds",
+        "default": 3000
+      },
+      {
+        "type": "checkbox",
+        "id": "arrows",
+        "label": "Arrows",
+        "info": "Prev\/Next Arrows",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "centerMode",
+        "label": "Center Mode",
+        "info": "Enables centered view with partial prev\/next slides. Use with odd numbered slidesToShow counts",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "centerPadding",
+        "label": "Center Padding",
+        "info": "Side padding when in center mode (px or %)",
+        "default": "50px"
+      },
+      {
+        "type": "text",
+        "id": "cssEase",
+        "label": "CCS Ease",
+        "info": "CSS3 Animation Easing",
+        "default": "linear"
+      },
+      {
+        "type": "checkbox",
+        "id": "dots",
+        "label": "Dots",
+        "info": "Show dot indicators",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "draggable",
+        "label": "Draggable",
+        "info": "Enable mouse dragging",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "fade",
+        "label": "Fade",
+        "info": "Enable fade",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "focusOnSelect",
+        "label": "Focus On Select",
+        "info": "Enable focus on selected element (click)",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "easing",
+        "label": "Easing",
+        "info": "Add easing for jQuery animate. Use with easing libraries or default easing methods",
+        "default": "linear"
+      },
+      {
+        "type": "text",
+        "id": "edgeFriction",
+        "label": "edgeFriction",
+        "info": "Resistance when swiping edges of non-infinite carousels",
+        "default": "0.15"
+      },
+      {
+        "type": "checkbox",
+        "id": "infinite",
+        "label": "Infinite",
+        "info": "Infinite loop sliding",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "initialSlide",
+        "label": "Initial Slide",
+        "info": "Slide to start on",
+        "default": 0
+      },
+      {
+        "type": "text",
+        "id": "lazyLoad",
+        "label": "Lazy Load",
+        "info": "Set lazy loading technique. Accepts 'ondemand' or 'progressive'",
+        "default": "ondemand"
+      },
+      {
+        "type": "checkbox",
+        "id": "mobileFirst",
+        "label": "Mobile First",
+        "info": "Responsive settings use mobile first calculation",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "pauseOnFocus",
+        "label": "Pause On Focus",
+        "info": "Pause Autoplay On Focus",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "pauseOnHover",
+        "label": "Pause On Hover",
+        "info": "Pause Autoplay On Hover",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "pauseOnDotsHover",
+        "label": "Pause On Dots Hover",
+        "info": "Pause Autoplay when a dot is hovered",
+        "default": false
+      },
+      {
+        "type": "number",
+        "id": "rows",
+        "label": "Rows",
+        "info": "Setting this to more than 1 initializes grid mode. Use slidesPerRow to set how many slides should be in each row",
+        "default": 1
+      },
+      {
+        "type": "number",
+        "id": "slidesPerRow",
+        "label": "Slides Per Row",
+        "info": "With grid mode intialized via the rows option, this sets how many slides are in each grid row",
+        "default": 1
+      },
+      {
+        "type": "number",
+        "id": "slidesToShow",
+        "label": "Slides To Show",
+        "info": "Number of slides to show",
+        "default": 1
+      },
+      {
+        "type": "number",
+        "id": "slidesToScroll",
+        "info": "Number of slides to scroll",
+        "label": "Slides To Scroll",
+        "default": 1
+      },
+      {
+        "type": "number",
+        "id": "speed",
+        "info": "Slide\/Fade animation speed",
+        "label": "Speed",
+        "default": 300
+      },
+      {
+        "type": "checkbox",
+        "id": "swipe",
+        "label": "Swipe",
+        "info": "Enable swiping",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "swipeToSlide",
+        "label": "Swipe To Slide",
+        "info": "Allow users to drag or swipe directly to a slide irrespective of slidesToScroll",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "touchMove",
+        "label": "Touch Move",
+        "info": "Enable slide motion with touch",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "touchThreshold",
+        "label": "Touch Threshold",
+        "info": "To advance slides, the user must swipe a length of (1\/touchThreshold) * the width of the slider",
+        "default": 5
+      },
+      {
+        "type": "checkbox",
+        "id": "useCSS",
+        "label": "Use CSS",
+        "info": "Enable\/Disable CSS Transitions",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "useTransform",
+        "label": "Use Transform",
+        "info": "Enable\/Disable CSS Transforms",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "variableWidth",
+        "label": "Variable Width",
+        "info": "Variable width slides",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "vertical",
+        "label": "Vertical",
+        "info": "Vertical slide mode",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "verticalSwiping",
+        "label": "verticalSwiping",
+        "info": "Vertical swipe mode",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "rtl",
+        "label": "right-to-left",
+        "info": "Change the sliders direction to become right-to-left",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "waitForAnimate",
+        "label": "Wait For Animate",
+        "info": "Ignores requests to advance the slide while animating",
+        "default": false
+      }
+    ],
+    "blocks": [
+      {
+        "type": "slide",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "active",
+            "label": "Active",
+            "default": true
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "href",
+            "label": "Hyperlink"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Ebesidii sedi"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text",
+            "default": "Ebesidii sedi, dienia or quem perides nonsuliam ala nequam simuro es facene eris consulocres."
+          },
+          {
+            "type": "select",
+            "id": "text_position",
+            "label": "Text Position",
+            "options": [
+              {
+                "value": "top left",
+                "label": "top left"
+              },
+              {
+                "value": "top center",
+                "label": "top center"
+              },
+              {
+                "value": "top right",
+                "label": "top right"
+              },
+              {
+                "value": "bottom left",
+                "label": "bottom left"
+              },
+              {
+                "value": "bottom center",
+                "label": "bottom center"
+              },
+              {
+                "value": "bottom right",
+                "label": "bottom right"
+              },
+              {
+                "value": "middle left",
+                "label": "middle left"
+              },
+              {
+                "value": "middle center",
+                "label": "middle center"
+              },
+              {
+                "value": "middle right",
+                "label": "middle right"
+              }
+            ],
+            "default": "bottom right"
+          },
+          {
+            "type": "select",
+            "id": "text_color",
+            "label": "Text and Controls Color",
+            "options": [
+              {
+                "value": "black",
+                "label": "black"
+              },
+              {
+                "value": "white",
+                "label": "white"
+              }
+            ],
+            "default": "black"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Carousel",
+        "category": "Slideshows",
+        "blocks": [
+
+        ]
+      }
+    ]
+  }
+{% endschema %}

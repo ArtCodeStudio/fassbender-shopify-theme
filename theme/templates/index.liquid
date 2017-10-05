@@ -1,5 +1,6 @@
-<div class="container pt-5">
+<div class="container-fluid pt-5">
 
+  {% comment %}
   {% paginate collections by settings.collections_per_page %}
     <div class="row">
       {% for collection in collections %}
@@ -10,27 +11,19 @@
     </div>
     {% include 'jumplink-pagination', show_all_active: false %}
   {% endpaginate %}
+  {% endcomment %}
+
+  {{ content_for_index }}
+
 
   <div class="row">
 
-    {% include 'jumplink-register-box' %}
+    {% comment %} {% include 'jumplink-register-box' %} {% endcomment %}
 
     {% include 'jumplink-instagram-box' %}
 
-    {% unless settings.homepage_page == blank or pages[settings.homepage_page].empty? %}
-      {% assign page = pages[settings.homepage_page] %}
-      <div class="hidden col-xs-12">
-        <h1 class="text-center ">{{ page.title }}</h1>
-      </div>
-      <div class="hidden col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4">
-        <div class="rte text-center">
-          {{ page.content }}
-        </div>
-      </div>
-    {% endunless %}
-
     {% if settings.blog_enable and settings.home_blog_preview_enable %}
-      <div class="col-xs-12" id="featured-articles">
+      <div class="col-12" id="featured-articles">
         <div class="row">
           {% for article in blogs.news.articles limit: 3 %}
             {% include 'article-grid-item' article: article %}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head class="no-js">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -52,7 +52,9 @@
 
   <link rel="stylesheet" href="{{ 'social/social-icons.css' | global_asset_url }}">
   <link rel="stylesheet" href="{{ 'theme.scss.css' | asset_url }}" id="alertifyCSS">
-  {{ 'shop.js'  | asset_url | script_tag }}
+  {{ 'jumplink-templates.js'  | asset_url | script_tag }}
+  {{ 'jumplink-sections.js'  | asset_url | script_tag }}
+  {{ 'shop.js' | asset_url | script_tag }}
 
   <script>jQuery('html').removeClass('no-js').addClass('js');</script>
 

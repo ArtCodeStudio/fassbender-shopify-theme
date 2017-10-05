@@ -14,14 +14,11 @@
   /**
   * Theme Settings
   */
-  window.settings = {};
-  
+  window.settings = {{ settings | json }};
 
-  // make all shopify variables avaible in javascript
-  {% for setting in settings %}
-    window.settings["{{setting}}"] = "{{ settings[setting] | strip_newlines | replace: quote, escapedQuote }}";
-  {% endfor %}
-
+  /**
+  * Navigation
+  */
   window.settings.linklists = {};
 
   /**
@@ -31,19 +28,19 @@
 
 
   /**
-  * Cart
-  */
+   * Cart
+   */
   window.cart = {{ cart | json }};
 
   /**
-  * Product
-  */
+   * Product
+   */
   window.product = {};
   window.product.noImageSrc = "{{ 'no-image.png' | asset_url }}";
 
   /**
-  * Translations
-  */
+   * Translations
+   */
   window.translations = {};
 
   window.translations.cart = {};

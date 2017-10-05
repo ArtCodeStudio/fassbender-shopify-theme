@@ -1,0 +1,453 @@
+
+{% assign block_length = section.blocks | size %}
+{% case block_length %}
+  {% when 0 %}
+    {% assign column_class = 'col-xs-12 col-md-12' %}
+  {% when 1 %}
+    {% assign column_class = 'col-xs-12 col-md-12' %}
+  {% when 2 %}
+    {% assign column_class = 'col-xs-12 col-sm-6' %}
+  {% when 3 %}
+    {% assign column_class = 'col-xs-12 col-sm-4' %}
+  {% when 4 %}
+    {% assign column_class = 'col-xs-12 col-sm-6 col-md-3' %}
+  {% else %}
+    {% assign column_class = 'col-xs-12 col-sm-4 col-md-3' %}
+{% endcase %}
+
+<div class="col-xs-12" style="margin-top: {{section.settings.margin_top}}rem; margin-bottom: {{section.settings.margin_bottom}}rem;">
+  <div class="text-row row {{section.settings.vertical_alignment}}">
+    {% for block in section.blocks %}
+      
+      {% capture column_style %}
+        padding: {{block.settings.top_padding}}rem {{block.settings.right_padding}}vw {{block.settings.bottom_padding}}rem {{block.settings.left_padding}}vw;
+      {% endcapture %}
+
+      {% if block.settings.content_max_width_active %}
+        {% capture content_style %}
+          max-width: {{block.settings.content_max_width}}px;
+        {% endcapture %}
+      {% else %}
+        {% capture content_style %}
+          max-width: 100%;
+        {% endcapture %}
+      {% endif %}
+
+      {% if block.settings.title_max_width_active %}
+        {% capture title_style %}
+          max-width: {{block.settings.title_max_width}}px;
+        {% endcapture %}
+      {% else %}
+        {% capture title_style %}
+          max-width: 100%;
+        {% endcapture %}
+      {% endif %}
+      
+      <div class="text-column {% if block.settings.custom_column_class == blank %}{{column_class}}{% else %}{{block.settings.custom_column_class}}{% endif %}" style="{{column_style | strip}}">
+        {% if block.settings.title_show %}
+          <h{{block.settings.title_level}} class="{{block.settings.title_text_alignment}} {{title_font_family}}" style="{{title_style}}">{{ block.settings.title }}</h{{block.settings.title_level}}>
+        {% endif %}
+        {% if block.settings.content_show %}
+          <div class="{{block.settings.content_text_alignment}} {{content_font_family}}" style="{{content_style}}">
+            {{ block.settings.content }}
+          </div>
+        {% endif %}
+        {% if block.settings.button_show %}
+          <div class="{{block.settings.button_text_alignment}}">
+            <a
+              href="{{block.settings.button_href}}"
+              class="btn {{block.settings.button_style}} {{block.settings.button_size}}"
+              role="button"
+              aria-pressed="true"
+              style="
+                margin-button: {{block.settings.button_margin_bottom}}rem;
+                margin-top: {{block.settings.button_margin_top}}rem;"
+            >
+              {{ block.settings.button_title }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Text Row (Digital)",
+    "class": "jumplink-text-row row",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Append a row with max 4 columns for text with title and content"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Text Row"
+      },
+      {
+        "type": "select",
+        "id": "vertical_alignment",
+        "label": "Vertical column alignment",
+        "options": [
+          {
+            "value": "align-top",
+            "label": "Top"
+          },
+          {
+            "value": "align-center",
+            "label": "Center"
+          },
+          {
+            "value": "align-bottom",
+            "label": "Bottom"
+          }
+        ],
+        "default": "align-center"
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "label": "Top spacing",
+        "info": "margin-top in rem",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "label": "Bottom spacing",
+        "info": "margin-bottom in rem",
+        "default": 0
+      }
+    ],
+    "blocks": [
+      {
+        "type": "text",
+        "name": "Text",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Column"
+          },
+          {
+            "type": "text",
+            "id": "custom_column_class",
+            "label": "Overwrite Column Class",
+            "info": "Leave blank if you not want to overwrite the default classes"
+          },
+
+          {
+            "type": "range",
+            "id": "top_padding",
+            "min": 0,
+            "max": 40,
+            "step": 1,
+            "label": "Top spacing",
+            "info": "Left padding in rem for this image",
+            "default": 3
+          },
+          {
+            "type": "range",
+            "id": "right_padding",
+            "min": 0,
+            "max": 40,
+            "step": 1,
+            "label": "Right spacing",
+            "info": "Right padding in vw for this image",
+            "default": 3
+          },
+          {
+            "type": "range",
+            "id": "bottom_padding",
+            "min": 0,
+            "max": 40,
+            "step": 1,
+            "label": "Bottom spacing",
+            "info": "Bottom padding in rem for this image",
+            "default": 3
+          },
+          {
+            "type": "range",
+            "id": "left_padding",
+            "min": 0,
+            "max": 40,
+            "step": 1,
+            "label": "Left spacing",
+            "info": "Left padding in vw for this image",
+            "default": 3
+          },
+ 
+          {
+            "type": "header",
+            "content": "Title"
+          },
+          {
+            "type": "html",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "checkbox",
+            "id": "title_show",
+            "label": "Show",
+            "default": true
+          },
+          {
+            "type": "range",
+            "id": "title_level",
+            "min": 1,
+            "max": 6,
+            "step": 1,
+            "label": "Header level",
+            "default": 1
+          },
+          {
+            "type": "checkbox",
+            "id": "title_max_width_active",
+            "label": "Max width",
+            "default": false
+          },
+          {
+            "type": "number",
+            "id": "title_max_width",
+            "label": "Max width",
+            "info": "In pixel",
+            "default": 610 
+          },
+          {
+            "type": "select",
+            "id": "title_text_alignment",
+            "label": "Title alignment",
+            "options": [
+              {
+                "value": "text-center",
+                "label": "Center"
+              },
+              {
+                "value": "text-left",
+                "label": "Left"
+              },
+              {
+                "value": "text-right",
+                "label": "Right"
+              }
+            ],
+            "default": "text-left"
+          },
+          {
+            "type": "header",
+            "content": "Content"
+          },
+          {
+            "type": "html",
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "type": "checkbox",
+            "id": "content_show",
+            "label": "Show",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "content_max_width_active",
+            "label": "Max width",
+            "default": false
+          },
+          {
+            "type": "number",
+            "id": "content_max_width",
+            "label": "Max width",
+            "info": "In pixel",
+            "default": 610 
+          },
+          {
+            "type": "select",
+            "id": "content_text_alignment",
+            "label": "Content alignment",
+            "options": [
+              {
+                "value": "text-center",
+                "label": "Center"
+              },
+              {
+                "value": "text-left",
+                "label": "Left"
+              },
+              {
+                "value": "text-right",
+                "label": "Right"
+              }
+            ],
+            "default": "text-left"
+          },
+          {
+            "type": "header",
+            "content": "Button"
+          },
+          {
+            "type": "checkbox",
+            "id": "button_show",
+            "label": "Show",
+            "default": false
+          },
+          {
+            "type": "html",
+            "id": "button_title",
+            "label": "Title",
+            "default": "Click me!"
+          },
+          {
+            "type": "text",
+            "id": "button_href",
+            "label": "Hyperlink"
+          },
+          {
+            "type": "select",
+            "id": "button_style",
+            "label": "Style",
+            "options": [
+              {
+                "value": "btn-primary",
+                "label": "Primary"
+              },
+              {
+                "value": "btn-secondary",
+                "label": "Secondary"
+              },
+              {
+                "value": "btn-success",
+                "label": "Success"
+              },
+              {
+                "value": "btn-danger",
+                "label": "Danger"
+              },
+              {
+                "value": "btn-warning",
+                "label": "Warning"
+              },
+              {
+                "value": "btn-info",
+                "label": "Info"
+              },
+              {
+                "value": "btn-light",
+                "label": "Light"
+              },
+              {
+                "value": "btn-dark",
+                "label": "Dark"
+              },
+
+              {
+                "value": "btn-outline-primary",
+                "label": "Primary (Outline)"
+              },
+              {
+                "value": "btn-outline-secondary",
+                "label": "Secondary (Outline)"
+              },
+              {
+                "value": "btn-outline-success",
+                "label": "Success (Outline)"
+              },
+              {
+                "value": "btn-outline-danger",
+                "label": "Danger (Outline)"
+              },
+              {
+                "value": "btn-outline-warning",
+                "label": "Warning (Outline)"
+              },
+              {
+                "value": "btn-outline-info",
+                "label": "Info (Outline)"
+              },
+              {
+                "value": "btn-outline-light",
+                "label": "Light (Outline)"
+              },
+              {
+                "value": "btn-outline-dark",
+                "label": "Dark (Outline)"
+              }
+            ],
+            "default": "btn-outline-primary"
+          },
+          {
+            "type": "select",
+            "id": "button_size",
+            "label": "Size",
+            "options": [
+              {
+                "value": "btn-lg",
+                "label": "Large"
+              },
+              {
+                "value": "btn-md",
+                "label": "Medium"
+              },
+              {
+                "value": "btn-sm",
+                "label": "Small"
+              }
+            ],
+            "default": "btn-md"
+          },
+          {
+            "type": "select",
+            "id": "button_text_alignment",
+            "label": "Alignment",
+            "options": [
+              {
+                "value": "text-center",
+                "label": "Center"
+              },
+              {
+                "value": "text-left",
+                "label": "Left"
+              },
+              {
+                "value": "text-right",
+                "label": "Right"
+              }
+            ],
+            "default": "text-left"
+          },
+          {
+            "type": "range",
+            "id": "button_margin_top",
+            "min": 0,
+            "max": 30,
+            "step": 1,
+            "label": "Top spacing",
+            "info": "margin-top in rem",
+            "default": 3
+          },
+          {
+            "type": "range",
+            "id": "button_margin_bottom",
+            "min": 0,
+            "max": 30,
+            "step": 1,
+            "label": "Bottom spacing",
+            "info": "margin-bottom in rem",
+            "default": 1
+          }
+        ]
+      }
+    ],
+    "presets": [
+    ]
+  }
+{% endschema %}

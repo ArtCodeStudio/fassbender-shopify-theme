@@ -16,7 +16,11 @@
         {% else %}
             <div class="" data-color="{{ settings[color] | default: 'black' }}">
         {% endif %}
-            <div class="background-box {{ settings[aspect_ratio] }}" style="background-image: url({{ image | asset_url}});" title="{{ settings[title] | escape }}">
+            <div
+                class="background-box {{ settings[aspect_ratio] }}"
+                style="background-image: url({{ image | asset_url}});"
+                title="{{ settings[title] | escape }}"
+            >
             </div>
             {% if settings[title] != blank or settings[text] != blank %}
                 <div class="carousel-caption col-xs-12 col-sm-6 col-md-5 col-lg-4 {{ settings[position] | escape }}">

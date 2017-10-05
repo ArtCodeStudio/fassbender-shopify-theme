@@ -100,6 +100,8 @@ gulp.task('javascript-libs', [], function () {
     'src/js/md5.js',
     'bower_components/gsap/src/uncompressed/TweenMax.js',               // https://github.com/rstacruz/jquery.transit
     'bower_components/async/dist/async.js',                             // https://github.com/caolan/async
+    // don't forgett to modify cart.js and build debug.js with `make browser`
+    'bower_components/visionmedia-debug/dist/debug.js',                 // https://github.com/visionmedia/debug
     'bower_components/barba.js/dist/barba.js',                          // https://github.com/luruke/barba.js/
     'bower_components/slick-carousel/slick/slick.js',                   // https://github.com/kenwheeler/slick/
     'bower_components/instafeed.js/instafeed.js',                       // https://github.com/stevenschobert/instafeed.js
@@ -303,6 +305,7 @@ gulp.task('theme_settings', ['bootstrap_theme_settings'], function () {
   var settings = [
     'bootstrap',
     'general',
+    'barba',
     'navbar',
     'footer',
     'home',

@@ -3,6 +3,12 @@
   "settings": [
     {
         "type": "checkbox",
+        "id": "debug",
+        "label": "Enable debug mode",
+        "default": false
+    },
+    {
+        "type": "checkbox",
         "id": "cart",
         "label": "Cart",
         "default": false,

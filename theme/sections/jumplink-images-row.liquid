@@ -1,0 +1,508 @@
+{% assign block_length = section.blocks | size %}
+{% case block_length %}
+  {% when 0 %}
+    {% assign column_class = 'col-xs-12 col-md-12' %}
+  {% when 1 %}
+    {% assign column_class = 'col-xs-12 col-md-12' %}
+  {% when 2 %}
+    {% assign column_class = 'col-xs-12 col-sm-6' %}
+  {% when 3 %}
+    {% assign column_class = 'col-xs-12 col-sm-4' %}
+  {% when 4 %}
+    {% assign column_class = 'col-xs-12 col-sm-6 col-md-3' %}
+  {% else %}
+    {% assign column_class = 'col-xs-12 col-md-6' %}
+{% endcase %}
+
+
+<div class="col-xs-12" style="margin-top: {{section.settings.margin_top}}rem; margin-bottom: {{section.settings.margin_bottom}}rem;">
+  {% if section.settings.title_show %}
+    <div class="row">
+      <h2 class="mb-2 text-center">{{ section.settings.title | escape }}</h2>
+    </div>
+  {% endif %}
+
+  <div class="images-row row {{section.settings.vertical_alignment}}">
+    {% for block in section.blocks %}
+
+      {% assign transform_translateY = block.settings.transform_translateB | minus: block.settings.transform_translateT %}
+      {% assign transform_translateX = block.settings.transform_translateR | minus: block.settings.transform_translateL %}
+      {% assign transform_rotate = block.settings.transform_rotate_right | minus: block.settings.transform_rotate_left%}
+
+      {% capture column_style %}
+        padding: 0 {{block.settings.right_padding}}vw 0 {{block.settings.left_padding}}vw;
+        -webkit-transform: translate3d({{transform_translateX}}vw, {{transform_translateY}}rem, 0) rotate({{transform_rotate}}deg);
+            -ms-transform: translate3d({{transform_translateX}}vw, {{transform_translateY}}rem, 0) rotate({{transform_rotate}}deg);
+                transform: translate3d({{transform_translateX}}vw, {{transform_translateY}}rem, 0) rotate({{transform_rotate}}deg);
+        z-index: {{block.settings.z_index}};
+      {% endcapture %}
+
+      {% if block.settings.image %}
+        {% if block.settings.aspect_ratio_active %}
+          {% capture image_html %}
+            <div 
+              class="background-box {{block.settings.aspect_ratio}}
+              background-size-{% if block.settings.aspect_ratio_cover %}cover{% else %}contain{% endif %}
+              "
+              style="
+                background-image: url({{ block.settings.image.src | img_url: 'master' }});
+                {% if block.settings.image_max_width_active %}
+                  max-width: {{block.settings.image_max_width}}px;
+                {% endif %}
+              "
+              title="{{ block.settings.alt | escape }}"
+            ></div>
+          {% endcapture %}
+        {% else %}
+          {% capture image_html %}
+            <img
+              class="img-fluid mx-auto d-block"
+              src="{{ block.settings.image.src | img_url: 'master' }}"
+              alt="{{ block.settings.alt | escape }}"
+              style="
+                {% if block.settings.image_max_width_active %}
+                  max-width: {{block.settings.image_max_width}}px;
+                {% endif %}
+              "
+            />
+          {% endcapture %}
+        {% endif %}
+      {% comment %} No image {% endcomment %}
+      {% else %}
+          {% capture image_html %}
+            <div class="background-box {{block.settings.aspect_ratio}} background-size-cover hidden-xs"></div>
+          {% endcapture %}
+      {% endif %}
+      
+
+      {% if block.settings.href != blank %}
+        <a class="image-column {% if block.settings.custom_column_class == blank %}{{column_class}}{% else %}{{block.settings.custom_column_class}}{% endif %}" href="{{block.settings.href}}" style="{{column_style | strip}}">
+      {% else %}
+        <div class="image-column {% if block.settings.custom_column_class == blank %}{{column_class}}{% else %}{{block.settings.custom_column_class}}{% endif %}" style="{{column_style | strip}}">
+      {% endif %}
+      
+        {{image_html | raw}}
+        {% if block.settings.title_show or block.settings.text_show %}
+          <div class="title-and-or-text pt-4">
+            {% if block.settings.title_show %}
+                <p
+                  class="title mb-0 text-line-height-1-7-force
+                  {% if block.settings.title_bold %}font-weight-bold{% endif %}
+                  {% if block.settings.title_underline %}text-underline{% endif %}
+                  {{block.settings.title_alignment}}
+                  "
+                  style="font-size: {{block.settings.title_font_size}};"
+                >
+                  {% if block.settings.title != blank %}
+                    {{ block.settings.title }}
+                  {% else %}
+                    &nbsp;
+                  {% endif %}
+                </p>
+            {% endif %}
+            {% if block.settings.text_show %}
+                <p
+                  class="text text-line-height-1-7-force
+                  {% if block.settings.text_bold %}font-weight-bold{% endif %}
+                  {% if block.settings.text_underline %}text-underline{% endif %}
+                  {{block.settings.text_alignment}}
+                  "
+                  style="font-size: {{block.settings.text_font_size}};"
+                >
+                  {% if block.settings.text != blank %}
+                    {{ block.settings.text }}
+                  {% else %}
+                    &nbsp;
+                  {% endif %}
+                </p>
+            {% endif %}
+          </div>
+        {% endif %}
+
+      {% if block.settings.href != blank %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Images Row",
+    "class": "jumplink-images-row row",
+    "max_blocks": 4,
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Append a row with max 4 columns for image optionally with text"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Images Row"
+      },
+      {
+        "type": "checkbox",
+        "id": "title_show",
+        "label": "Show",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "vertical_alignment",
+        "label": "Vertical column alignment",
+        "options": [
+          {
+            "value": "images-align-top",
+            "label": "Top"
+          },
+          {
+            "value": "images-align-center",
+            "label": "Center"
+          },
+          {
+            "value": "images-align-bottom",
+            "label": "Bottom"
+          }
+        ],
+        "default": "images-align-center"
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "label": "Top spacing",
+        "info": "margin-top in rem",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "label": "Bottom spacing",
+        "info": "margin-bottom in rem",
+        "default": 0
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image-column",
+        "name": "Image Column",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Column"
+          },
+          {
+            "type": "text",
+            "id": "custom_column_class",
+            "label": "Overwrite Column Class",
+            "info": "Leave blank if you not want to overwrite the default classes"
+          },
+          {
+            "type": "text",
+            "id": "href",
+            "label": "Hyperlink"
+          },
+          {
+            "type": "range",
+            "id": "left_padding",
+            "min": 0,
+            "max": 40,
+            "step": 1,
+            "label": "Left spacing",
+            "info": "Left padding in vw",
+            "default": 3
+          },
+          {
+            "type": "range",
+            "id": "right_padding",
+            "min": 0,
+            "max": 40,
+            "step": 1,
+            "label": "Right spacing",
+            "info": "Right padding in vw",
+            "default": 3
+          },
+          {
+            "type": "range",
+            "id": "transform_translateT",
+            "min": 0,
+            "max": 20,
+            "step": 1,
+            "label": "Top move",
+            "info": "Move the column to top (negative translateY in rem)",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "transform_translateR",
+            "min": 0,
+            "max": 10,
+            "step": 1,
+            "label": "Right move",
+            "info": "Move the column to right (positiv translateX in vw)",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "transform_translateB",
+            "min": 0,
+            "max": 20,
+            "step": 1,
+            "label": "Bottom move",
+            "info": "Move the column to bottom (positive translateY in rem)",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "transform_translateL",
+            "min": 0,
+            "max": 10,
+            "step": 1,
+            "label": "Left move",
+            "info": "Move the column to left (negative translateX in vw)",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "transform_rotate_right",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Rotate Right",
+            "info": "Rotate the column in degree to right",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "transform_rotate_left",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Rotate Left",
+            "info": "Rotate the column in degree to left",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "z_index",
+            "min": 0,
+            "max": 4,
+            "step": 1,
+            "label": "Z-Index",
+            "info": "Set the overlay of column",
+            "default": 0
+          },
+          {
+            "type": "header",
+            "content": "Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "checkbox",
+            "id": "image_max_width_active",
+            "label": "Max width",
+            "default": false
+          },
+          {
+            "type": "number",
+            "id": "image_max_width",
+            "label": "Max width",
+            "info": "In pixel",
+            "default": 610 
+          },
+          {
+            "type": "checkbox",
+            "id": "aspect_ratio_active",
+            "label": "Use aspect ratio",
+            "info": "Activate this if you want all images to be displayed with equal size",
+            "default": true
+          },
+          {
+            "type": "select",
+            "id": "aspect_ratio",
+            "label": "Aspect ratio",
+            "options": [
+              {
+                "value": "ratio-1-1",
+                "label": "1:1"
+              },
+              {
+                "value": "ratio-2-3",
+                "label": "2:3"
+              },
+              {
+                "value": "ratio-2-1",
+                "label": "2:1"
+              },
+              {
+                "value": "ratio-1-2",
+                "label": "1:2"
+              },
+              {
+                "value": "ratio-3-2",
+                "label": "3:2"
+              },
+              {
+                "value": "ratio-4-3",
+                "label": "4:3"
+              },
+              {
+                "value": "ratio-16-9",
+                "label": "16:9"
+              },
+              {
+                "value": "ratio-3-4",
+                "label": "3:4"
+              },
+              {
+                "value": "ratio-3-10",
+                "label": "3:10"
+              },
+              {
+                "value": "ratio-10-17",
+                "label": "10:17"
+              }
+            ],
+            "default": "ratio-2-3"
+          },
+          {
+            "type": "checkbox",
+            "id": "aspect_ratio_cover",
+            "label": "Trim image for aspect ratio",
+            "info": "Activate this if you want all images to be displayed with equal size and disable this if the image should displayed completely visible without cutting anything",
+            "default": true
+          },
+          {
+            "type": "header",
+            "content": "Title"
+          },
+          {
+            "type": "checkbox",
+            "id": "title_show",
+            "label": "Show",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "checkbox",
+            "id": "title_bold",
+            "label": "Bold",
+            "default": false
+          },
+          {
+            "type": "checkbox",
+            "id": "title_underline",
+            "label": "Underlined",
+            "default": false
+          },
+          {
+            "type": "text",
+            "id": "title_font_size",
+            "label": "Font size",
+            "default": "1rem"
+          },
+          {
+            "type": "select",
+            "id": "title_alignment",
+            "label": "Horizontal alignment",
+            "options": [
+              {
+                "value": "text-center",
+                "label": "Center"
+              },
+              {
+                "value": "text-left",
+                "label": "Left"
+              },
+              {
+                "value": "text-right",
+                "label": "Right"
+              }
+            ],
+            "default": "text-left"
+          },
+          {
+            "type": "header",
+            "content": "Text"
+          },
+          {
+            "type": "checkbox",
+            "id": "text_show",
+            "label": "Show",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "checkbox",
+            "id": "text_bold",
+            "label": "Bold",
+            "default": false
+          },
+          {
+            "type": "checkbox",
+            "id": "text_underline",
+            "label": "Underlined",
+            "default": false
+          },
+          {
+            "type": "text",
+            "id": "text_font_size",
+            "label": "Font size",
+            "default": "1rem"
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Horizontal alignment",
+            "options": [
+              {
+                "value": "text-center",
+                "label": "Center"
+              },
+              {
+                "value": "text-left",
+                "label": "Left"
+              },
+              {
+                "value": "text-right",
+                "label": "Right"
+              }
+            ],
+            "default": "text-left"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Images Row",
+        "category": "Rows",
+        "blocks": [
+
+        ]
+      }
+    ]
+  }
+{% endschema %}

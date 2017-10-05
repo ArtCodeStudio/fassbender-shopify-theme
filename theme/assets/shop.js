@@ -1,5 +1,37 @@
-// JumpLink functions
-jumplink = window.jumplink || {};
+// JumpLink object
+window.jumplink = window.jumplink || {};
+
+// debugging https://github.com/visionmedia/debug
+window.jumplink.debug = window.jumplink.debug || {};
+window.jumplink.debug.barba = debug('theme:barba');
+window.jumplink.debug.events = debug('theme:events');
+window.jumplink.debug.tracking = debug('theme:tracking');
+window.jumplink.debug.raven = debug('theme:raven');
+window.jumplink.debug.info = debug('theme:info');
+window.jumplink.debug.error = debug('theme:error');
+window.jumplink.debug.warn = debug('theme:warn');
+// templates
+window.jumplink.debug.product = debug('theme:product');
+window.jumplink.debug.collection = debug('theme:collection');
+window.jumplink.debug.page = debug('theme:page');
+window.jumplink.debug.blog = debug('theme:blog');
+window.jumplink.debug['404'] = debug('theme:404');
+// partials
+window.jumplink.debug.sidebar = debug('theme:sidebar');
+window.jumplink.debug.navbar = debug('theme:navbar');
+// apps
+window.jumplink.debug.instashop = debug('theme:instashop');
+
+window.jumplink.debug.info('window.settings', window.settings);
+window.jumplink.debug.info('Shopify', Shopify);
+window.jumplink.debug.info('window.shop', window.shop);
+
+// TODO debug string in theme settings
+if(window.settings.debug) {
+  localStorage.setItem('debug', 'theme:*'); // ?preview_theme_id=185739271
+} else {
+  localStorage.removeItem('debug');
+}
 
 // redirects overwrites for 404 page
 var redirects = {
@@ -1971,7 +2003,7 @@ var initTemplate = {
  * 
  * @note see init() for inits outsite of barba.js 
  */
-var initTemplates = function () {
+jumplink.initTemplates = function () {
 
   Barba.Dispatcher.on('linkClicked', function(el) {
     jumplink.cache.lastElementClicked = el;
@@ -1997,6 +2029,10 @@ var initTemplates = function () {
     setNavActive(container.dataset, data);
 
     jumplink.setBarbaContainerMinHeight();
+
+    if(window.jumplink.sections) {
+      window.jumplink.sections.init(container.dataset, data);
+    }
 
     jumplink.cache.$window.on('resize load onorientationchange', function() {
       // console.log('window resize load or onorientationchange event fired');
@@ -2085,9 +2121,54 @@ var initBarba = function () {
   };
   
   // activate precache
-  Barba.Prefetch.init();
-  initTemplates();
+  if(window.settings.barba && window.settings.barba_prefetch) {
+    window.jumplink.debug.barba('enable prefetch');
+    Barba.Prefetch.init();
+  }
+  
+  window.jumplink.initTemplates();
   Barba.Pjax.start();
+
+  /**
+   * disable barba.js if disabled in theme settings or the user is in theme theme editor
+   * @see https://help.shopify.com/themes/development/theme-editor/other-theme-files#detecting-the-theme-editor-with-javascript
+   */
+  if(!window.settings.barba ||(Shopify && Shopify.designMode === true)) {
+    window.jumplink.debug.barba('disable barba.js');
+    Barba.Pjax.preventCheck = function() {
+      return false;
+    };
+  }
+
+  /**
+   * msg – The message associated with the error, e.g. “Uncaught ReferenceError: foo is not defined”
+   * url – The URL of the script or document associated with the error, e.g. “/dist/app.js”
+   * lineNo – The line number (if available)
+   * columnNo – The column number (if available)
+   * error – The Error object associated with this error (if available)
+   */
+  window.onerror = function(message, url, lineNumber, columnNumber, error) {
+    if(message === 'Script error.') {
+      throw new Error(message);
+    } else if(message === 'Uncaught Error: Collapse is transitioning') {
+      // ignore
+    } else if(error === null) {
+      // ignore
+      console.error(new Error('unknown error '+message));
+    } else {
+      if(window.settings.app_sentry) {
+        // Raven.showReportDialog();
+      }
+      console.error("Error! Disable Pajax!");
+      console.error('message', message, 'url', url, 'lineNumber', lineNumber, 'columnNumber', columnNumber, 'error', error);
+      // Go into fallback mode by isable barba links
+      Barba.Pjax.preventCheck = function() {
+        return false;
+      };
+    }
+    return true;
+  };
+
 }
 
 var initFooter = function () {
@@ -2132,7 +2213,7 @@ var initFooter = function () {
  * Init Javascripts outsite of barba.js
  * run init as soon as jQuery is ready
  * 
- * @note see initTemplates() for inits insite of barba.js 
+ * @note see jumplink.initTemplates() for inits insite of barba.js 
  */
 $(function() {
   jumplink.init();
