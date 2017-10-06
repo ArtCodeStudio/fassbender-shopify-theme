@@ -63,3 +63,24 @@
     }
   }
 }
+
+/**
+ * @section shopify-section jumplink-text-row
+ */
+.jumplink-carousel {
+  .slick-list {
+    height: 100%;
+    .slick-track {
+      height: 100%;
+      .slick-slide {
+        height: 100%;
+        > div {
+          height: 100%;
+          .jumplink-carousel-slick-item {
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}

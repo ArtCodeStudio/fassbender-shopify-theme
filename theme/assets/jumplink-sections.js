@@ -16,13 +16,28 @@ window.jumplink.sections.init = function(dataset, data) {
   $sections.each(function(index) {
     var $section = $(this);
     window.jumplink.debug.sections('$section', $section);
-    var sectionID = $section.attr('class').replace('shopify-section', '').trim();
+    var sectionClasses = $section.attr('class').split(' ');
+    /**
+     * first class is shopify-section
+     * second the one we are looking for, normally
+     * the third and the next if set are optionally
+     * 
+     * @example schema:
+     * "name": "Carousel",
+     * "class": "jumplink-carousel row",
+     * "max_blocks": 10,
+     * ...
+     * 
+     * In this case `jumplink-carousel` is the second class, `row` the third
+     */
+    var sectionClass = sectionClasses[1];
+    // nvar sectionClass = $section.attr('class').replace('shopify-section', '').trim();
     
-    if(ProductJS.Utilities.isFunction(window.jumplink.sections[sectionID])) {
-      window.jumplink.debug.sections('init '+sectionID);
-      window.jumplink.sections[sectionID]($sections, $section, dataset, data);
+    if(ProductJS.Utilities.isFunction(window.jumplink.sections[sectionClass])) {
+      window.jumplink.debug.sections('init '+sectionClass);
+      window.jumplink.sections[sectionClass]($sections, $section, dataset, data);
     } else {
-      window.jumplink.debug.sections('no javascript for section id: "'+sectionID+'"');
+      window.jumplink.debug.sections('no javascript for section id: "'+sectionClass+'"');
     }
   });
 };

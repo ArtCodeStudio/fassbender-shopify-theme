@@ -67,6 +67,15 @@
             </a>
           </div>
         {% endif %}
+        
+        {% if block.settings.nav %}
+          {% assign loop = linklists[block.settings.nav_handle].links %}
+            <div class="pt-3">
+            {% for link in loop %}
+              <p class="mb-1"><a href="{{link.url}}">{{link.title}}</a></p>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
     {% endfor %}
   </div>
@@ -443,6 +452,22 @@
             "label": "Bottom spacing",
             "info": "margin-bottom in rem",
             "default": 1
+          },
+          {
+            "type": "header",
+            "content": "Navigation"
+          },
+          {
+            "type": "checkbox",
+            "id": "nav",
+            "label": "Show",
+            "default": false
+          },
+          {
+            "type": "text",
+            "id": "nav_handle",
+            "label": "Handle",
+            "default": "main-menu"
           }
         ]
       }

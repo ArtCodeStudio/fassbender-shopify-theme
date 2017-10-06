@@ -3,16 +3,49 @@
     class="carousel"
     id="shopify-section-jumplink-carousel-slick"
     data-slick-settings-json-string='{{section.settings | json | replace: "'", "&#39;"}}'
+    {% if section.settings.custom_height %}
+      style="height: {{section.settings.height}}vh;"
+    {% endif %}
   >
     {% for block in section.blocks %}
       {% if block.settings.active and block.settings.image %}
+
+        {% capture wrapperAttributes %}
+          class="jumplink-carousel-slick-item d-flex align-content-center"
+          data-color="{{ block.settings.color | default: 'black' }}"
+        {% endcapture %}
+
         {% if block.settings.href != blank %}
-          <a class="jumplink-carousel-slick-item" data-color="{{  block.settings.text_color | default: 'black' }}" href="{{  block.settings.href | escape }}">
+          <a
+            {{wrapperAttributes}}
+            href="{{ block.settings.href | escape }}"
+          >
         {% else %}
-          <div class="jumplink-carousel-slick-item" data-color="{{  block.settings.text_color | default: 'black' }}">
+          <div 
+            {{wrapperAttributes}}
+            data-color="{{ block.settings.color | default: 'black' }}"
+          >
         {% endif %}
-          <img src="{{ block.settings.image.src | img_url: 'master' }}" alt="{{  block.settings.alt | escape }}">
-          {% if block.settings.title != blank or block.settings.text != blank %}
+          <img
+            class="
+              img-fluid
+              {{block.settings.vertical_alignment}}
+              {% if block.settings.image_border %}
+                border-a border-px-1
+              {% endif %}
+              {% if block.settings.image_shadow %}
+                z-depth-3
+              {% endif %}
+            "
+            src="{{ block.settings.image.src | img_url: 'master' }}"
+            alt="{{ block.settings.alt | escape }}"
+            style="
+              height: {{block.settings.image_height}}%;
+              margin: 0 {{block.settings.horizontal_padding}}vw;
+              border-color: {{block.settings.color}};
+            "
+          >
+          {% if block.settings.show_text %}
             <div class="carousel-caption col-xs-12 col-sm-6 col-md-5 col-lg-4 {{  block.settings.position | escape }}">
               <div class="carousel-caption-wrapper m-a-0-xs m-a-2-sm">
                 <h2 class="text-serif" style="color: {{  block.settings.text_color | default: 'black' }};">{{  block.settings.title }}</h2>
@@ -34,8 +67,7 @@
 {% schema %}
   {
     "name": "Carousel",
-    "class": "jumplink-carousel",
-    "max_blocks": 10,
+    "class": "jumplink-carousel row d-block",
     "settings": [
       {
         "type": "checkbox",
@@ -43,6 +75,23 @@
         "label": "Active",
         "info": "Enable or Disable this carousel",
         "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "custom_height",
+        "label": "Force height",
+        "info": "Activate custom height for the complete carousel",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "height",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "label": "Height",
+        "info": "Image Height in % of the carousel height",
+        "default": 50
       },
       {
         "type": "paragraph",
@@ -314,15 +363,14 @@
         "name": "Slide",
         "settings": [
           {
+            "type": "header",
+            "content": "Slide"
+          },
+          {
             "type": "checkbox",
             "id": "active",
             "label": "Active",
             "default": true
-          },
-          {
-            "type": "image_picker",
-            "id": "image",
-            "label": "Image"
           },
           {
             "type": "text",
@@ -330,16 +378,99 @@
             "label": "Hyperlink"
           },
           {
+            "type": "color",
+            "id": "color",
+            "label": "Color",
+            "default": "#000000"
+          },
+          {
+            "type": "header",
+            "content": "Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "checkbox",
+            "id": "image_border",
+            "label": "Border",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "image_shadow",
+            "label": "Shadow",
+            "default": true
+          },
+          {
+            "type": "range",
+            "id": "image_height",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Height",
+            "info": "Image Height in %",
+            "default": 100
+          },
+          {
+            "type": "select",
+            "id": "vertical_alignment",
+            "label": "Vertical alignment",
+            "options": [
+              {
+                "value": "align-self-start",
+                "label": "Top"
+              },
+              {
+                "value": "align-self-center",
+                "label": "Center"
+              },
+              {
+                "value": "align-self-end",
+                "label": "Bottom"
+              },
+              {
+                "value": "align-self-baseline",
+                "label": "Baseline"
+              },
+              {
+                "value": "align-self-stretch",
+                "label": "Stretch"
+              }
+            ],
+            "default": "align-self-center"
+          },
+          {
+            "type": "range",
+            "id": "horizontal_padding",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Horizontal spacing",
+            "info": "Horizontal spacing as margin in vw",
+            "default": 10
+          },
+          {
+            "type": "header",
+            "content": "Text"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_text",
+            "label": "Show",
+            "default": false
+          },
+          {
             "type": "text",
             "id": "title",
-            "label": "Title",
-            "default": "Ebesidii sedi"
+            "label": "Title"
           },
           {
             "type": "textarea",
             "id": "text",
-            "label": "Text",
-            "default": "Ebesidii sedi, dienia or quem perides nonsuliam ala nequam simuro es facene eris consulocres."
+            "label": "Text"
           },
           {
             "type": "select",
@@ -384,22 +515,6 @@
               }
             ],
             "default": "bottom right"
-          },
-          {
-            "type": "select",
-            "id": "text_color",
-            "label": "Text and Controls Color",
-            "options": [
-              {
-                "value": "black",
-                "label": "black"
-              },
-              {
-                "value": "white",
-                "label": "white"
-              }
-            ],
-            "default": "black"
           }
         ]
       }

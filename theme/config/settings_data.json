@@ -539,6 +539,9 @@
     "debug": true,
     "cart": true,
     "money_with_currency": true,
+    "barba": true,
+    "barba_prefetch": true,
+    "barba_default_transition": "fade",
     "home_instafeed_clientId": "31835d3fabe742fc8227998a8f924890",
     "home_instafeed_accessToken": "1046245675.1677ed0.3c0b3197542c48169610a9d7c0eba969",
     "home_instafeed_get": "user",
@@ -666,9 +669,6 @@
     "checkout_accent_color": "#000000",
     "checkout_button_color": "#000000",
     "checkout_error_color": "#ff6d6d",
-    "barba": "true",
-    "barba_prefetch": "true",
-    "barba_default_transition": "fade",
     "show_account_message": true,
     "account_message_title": "Welcome to your account!",
     "account_message": "Here you will find the details of your orders, your deposited addresses and further information. We hope you enjoy or online showroom!",
@@ -1490,121 +1490,8 @@
           "title": "Pilz",
           "title_show": false,
           "vertical_alignment": "images-align-bottom",
-          "margin_top": 0,
+          "margin_top": 13,
           "margin_bottom": 25
-        }
-      },
-      "1507216108374": {
-        "type": "jumplink-carousel",
-        "blocks": {
-          "1507216132890": {
-            "type": "slide",
-            "settings": {
-              "active": true,
-              "image": "shopify:\/\/shop_images\/Referenz.jpg",
-              "href": "",
-              "title": "Ebesidii sedi",
-              "text": "Ebesidii sedi, dienia or quem perides nonsuliam ala nequam simuro es facene eris consulocres.",
-              "text_position": "bottom right",
-              "text_color": "black"
-            }
-          },
-          "1507216149264": {
-            "type": "slide",
-            "settings": {
-              "active": true,
-              "image": "shopify:\/\/shop_images\/Referenz6.jpg",
-              "href": "",
-              "title": "Ebesidii sedi",
-              "text": "Ebesidii sedi, dienia or quem perides nonsuliam ala nequam simuro es facene eris consulocres.",
-              "text_position": "bottom right",
-              "text_color": "black"
-            }
-          },
-          "1507216156857": {
-            "type": "slide",
-            "settings": {
-              "active": true,
-              "image": "shopify:\/\/shop_images\/Referenz5.jpg",
-              "href": "",
-              "title": "Ebesidii sedi",
-              "text": "Ebesidii sedi, dienia or quem perides nonsuliam ala nequam simuro es facene eris consulocres.",
-              "text_position": "bottom right",
-              "text_color": "black"
-            }
-          },
-          "1507218042915": {
-            "type": "slide",
-            "settings": {
-              "active": true,
-              "image": "shopify:\/\/shop_images\/Referenz17.jpg",
-              "href": "",
-              "title": "Ebesidii sedi",
-              "text": "Ebesidii sedi, dienia or quem perides nonsuliam ala nequam simuro es facene eris consulocres.",
-              "text_position": "bottom right",
-              "text_color": "black"
-            }
-          },
-          "1507218055015": {
-            "type": "slide",
-            "settings": {
-              "active": true,
-              "image": "shopify:\/\/shop_images\/Referenz_1142e13a-5e54-4bf7-8bca-5ef979d8bbe2.jpg",
-              "href": "",
-              "title": "Ebesidii sedi",
-              "text": "Ebesidii sedi, dienia or quem perides nonsuliam ala nequam simuro es facene eris consulocres.",
-              "text_position": "bottom right",
-              "text_color": "black"
-            }
-          }
-        },
-        "block_order": [
-          "1507216132890",
-          "1507216149264",
-          "1507216156857",
-          "1507218042915",
-          "1507218055015"
-        ],
-        "settings": {
-          "active": true,
-          "fluid": true,
-          "accessibility": true,
-          "adaptiveHeight": false,
-          "autoplay": false,
-          "autoplaySpeed": 3000,
-          "arrows": true,
-          "centerMode": false,
-          "centerPadding": "50px",
-          "cssEase": "linear",
-          "dots": true,
-          "draggable": true,
-          "fade": true,
-          "focusOnSelect": false,
-          "easing": "linear",
-          "edgeFriction": "0.15",
-          "infinite": true,
-          "initialSlide": 0,
-          "lazyLoad": "ondemand",
-          "mobileFirst": false,
-          "pauseOnFocus": true,
-          "pauseOnHover": true,
-          "pauseOnDotsHover": false,
-          "rows": 3,
-          "slidesPerRow": 1,
-          "slidesToShow": 1,
-          "slidesToScroll": 1,
-          "speed": 300,
-          "swipe": true,
-          "swipeToSlide": false,
-          "touchMove": true,
-          "touchThreshold": 5,
-          "useCSS": true,
-          "useTransform": true,
-          "variableWidth": false,
-          "vertical": false,
-          "verticalSwiping": false,
-          "rtl": false,
-          "waitForAnimate": false
         }
       },
       "jumplink-text-row-ecommerce": {
@@ -1734,13 +1621,13 @@
               "aspect_ratio": "ratio-2-3",
               "aspect_ratio_cover": true,
               "title_show": true,
-              "title": "",
+              "title": "S H O P A N A L Y S E",
               "title_bold": false,
-              "title_alignment": "text-left",
+              "title_alignment": "text-center",
               "text_show": true,
               "text": "",
               "text_bold": false,
-              "text_alignment": "text-left"
+              "text_alignment": "text-center"
             }
           },
           "1507224299899": {
@@ -1759,14 +1646,14 @@
               "transform_rotate_right": 0,
               "transform_rotate_left": 0,
               "z_index": 0,
-              "image": "",
-              "aspect_ratio_active": true,
+              "image": "shopify:\/\/shop_images\/examples_fe99bb2b-8988-4c43-957e-30683f370d99.gif",
+              "aspect_ratio_active": false,
               "aspect_ratio": "ratio-2-3",
               "aspect_ratio_cover": true,
               "title_show": true,
-              "title": "",
+              "title": "E X A M P L E S",
               "title_bold": false,
-              "title_alignment": "text-left",
+              "title_alignment": "text-center",
               "text_show": true,
               "text": "",
               "text_bold": false,
@@ -1776,7 +1663,7 @@
           "1507224786246": {
             "type": "image-column",
             "settings": {
-              "href": "",
+              "href": "\/pages\/kompetenzen-ecommerce-shopify",
               "column_class": "col-xs-12 col-sm-4",
               "top_padding": 3,
               "right_padding": 3,
@@ -1789,12 +1676,12 @@
               "transform_rotate_right": 0,
               "transform_rotate_left": 0,
               "z_index": 0,
-              "image": "shopify:\/\/shop_images\/shopify.jpg",
-              "aspect_ratio_active": false,
-              "aspect_ratio": "ratio-1-1",
+              "image": "shopify:\/\/shop_images\/shopify_08f6f609-ff27-4ed6-9bf1-cbbf6866c812.jpg",
+              "aspect_ratio_active": true,
+              "aspect_ratio": "ratio-16-9",
               "aspect_ratio_cover": true,
               "title_show": true,
-              "title": "Ü B E R",
+              "title": "S H O P I F Y",
               "title_bold": false,
               "title_alignment": "text-center",
               "text_show": true,
@@ -1816,6 +1703,765 @@
           "margin_top": 0,
           "margin_bottom": 0
         }
+      },
+      "1507296958810": {
+        "type": "jumplink-carousel",
+        "blocks": {
+          "1507297480099": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "shopify:\/\/shop_images\/anitahass.com-_iPhone_6_2.png",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 50,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "Anita - phone",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507296970736": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "shopify:\/\/shop_images\/studio-pezzetta.com-collections-rockins-products-pyjama_iPhone_6.png",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 50,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "Pezzetta - Phone",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507298180691": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "shopify:\/\/shop_images\/anitahass.com.png",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 70,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "Anita - screen",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507297067284": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "shopify:\/\/shop_images\/www.davidpayr.com-_iPhone_6_1_94c4544d-83e7-4966-bde7-44735de00a65.png",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 50,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "David Pays - phone",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507298137176": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "shopify:\/\/shop_images\/studio-pezzetta.com-collections.png",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 70,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "Pezzetta - screen",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507297841533": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "shopify:\/\/shop_images\/feinfineart.de-blog_iPad.png",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 60,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "feinfineart - pad",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507297010642": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "shopify:\/\/shop_images\/chouchouberlin.com-products-produktname-013_iPhone_6_1ca84c38-abcc-40e8-8825-a87accf50f8c.png",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 50,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "Chou Chou - phone",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507297547413": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "shopify:\/\/shop_images\/anitahass.com-collections-blazer_iPad_4_8f19a426-3fe9-4f46-b772-989043f67481.png",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 60,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "Anita - pad",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507297041017": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#ffa29f",
+              "image": "shopify:\/\/shop_images\/jewelberry.de-collections-ketten-products-kette-ivy-leaf-versilbert_iPhone_6.png",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 50,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "Jewelberry - phone",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507299271511": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "shopify:\/\/shop_images\/lateliercreatif.jumplink.eu-_iPhone_6.png",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 50,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "Atelier - phone",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507298433391": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "shopify:\/\/shop_images\/feinfineart.de-_iPhone_6.png",
+              "image_border": false,
+              "image_shadow": true,
+              "image_height": 50,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 5,
+              "show_text": false,
+              "title": "feinfineart - phone",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          },
+          "1507300259727": {
+            "type": "slide",
+            "settings": {
+              "active": true,
+              "href": "",
+              "color": "#000000",
+              "image": "",
+              "image_border": true,
+              "image_shadow": true,
+              "image_height": 70,
+              "vertical_alignment": "align-self-center",
+              "horizontal_padding": 10,
+              "show_text": false,
+              "title": "David Payr - screen",
+              "text": "",
+              "text_position": "bottom right"
+            }
+          }
+        },
+        "block_order": [
+          "1507297480099",
+          "1507296970736",
+          "1507298180691",
+          "1507297067284",
+          "1507298137176",
+          "1507297841533",
+          "1507297010642",
+          "1507297547413",
+          "1507297041017",
+          "1507299271511",
+          "1507298433391",
+          "1507300259727"
+        ],
+        "settings": {
+          "active": true,
+          "custom_height": true,
+          "height": 80,
+          "accessibility": true,
+          "adaptiveHeight": false,
+          "autoplay": false,
+          "autoplaySpeed": 3000,
+          "arrows": false,
+          "centerMode": true,
+          "centerPadding": "10vw",
+          "cssEase": "linear",
+          "dots": false,
+          "draggable": true,
+          "fade": false,
+          "focusOnSelect": false,
+          "easing": "linear",
+          "edgeFriction": "0.15",
+          "infinite": true,
+          "initialSlide": 0,
+          "lazyLoad": "ondemand",
+          "mobileFirst": false,
+          "pauseOnFocus": true,
+          "pauseOnHover": true,
+          "pauseOnDotsHover": false,
+          "rows": 1,
+          "slidesPerRow": 1,
+          "slidesToShow": 1,
+          "slidesToScroll": 1,
+          "speed": 400,
+          "swipe": true,
+          "swipeToSlide": true,
+          "touchMove": true,
+          "touchThreshold": 5,
+          "useCSS": true,
+          "useTransform": true,
+          "variableWidth": true,
+          "vertical": false,
+          "verticalSwiping": false,
+          "rtl": false,
+          "waitForAnimate": false
+        }
+      },
+      "jumplink-text-row-shopify": {
+        "type": "jumplink-text-row-shopify",
+        "blocks": {
+          "1507304381991": {
+            "type": "text",
+            "settings": {
+              "custom_column_class": "col-xs-12 col-md-8 mx-auto",
+              "top_padding": 12,
+              "right_padding": 3,
+              "bottom_padding": 12,
+              "left_padding": 3,
+              "title": "Der <span class=\"text-success\">perfekte Auftritt<\/span>\nfür deine Produkte.",
+              "title_show": true,
+              "title_level": 1,
+              "title_max_width_active": true,
+              "title_max_width": 700,
+              "title_text_alignment": "text-left",
+              "content": "Dein Onlineshop in wundervollem Design sorgt für mehr Aufmerksamkeit deiner Produkte. Art+Code Studio, als offizieller Shopify Experte, bietet dir effiziente Prozesse auf Basis neuster Technologie und kontinuierliche Wachstumsmöglichkeiten - das macht dich noch erfolgreicher. Unsere Gestaltung und Umsetzung basieren auf dem Fortschritt und werden individuell auf die Bedürfnisse deines Projekts angepasst.",
+              "content_show": true,
+              "content_max_width_active": true,
+              "content_max_width": 700,
+              "content_text_alignment": "text-left",
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          }
+        },
+        "block_order": [
+          "1507304381991"
+        ],
+        "settings": {
+          "title": "Text Row",
+          "vertical_alignment": "align-center",
+          "margin_top": 0,
+          "margin_bottom": 0
+        }
+      },
+      "jumplink-accordion-shopify": {
+        "type": "jumplink-accordion-shopify",
+        "blocks": {
+          "1507304092240": {
+            "type": "accordion",
+            "settings": {
+              "title": "P R O D U K T E",
+              "title_text_alignment": "text-left",
+              "content": "<p>test<\/p>",
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          },
+          "1507304160030": {
+            "type": "accordion",
+            "settings": {
+              "title": "D A T E N S I C H E R H E I T",
+              "title_text_alignment": "text-left",
+              "content": "<p>test2<\/p>",
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          },
+          "1507306003903": {
+            "type": "accordion",
+            "settings": {
+              "title": "A N A L S Y E",
+              "title_text_alignment": "text-left",
+              "content": "<p>test3<\/p>",
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          },
+          "1507306019038": {
+            "type": "accordion",
+            "settings": {
+              "title": "U P D A T E S",
+              "title_text_alignment": "text-left",
+              "content": "<p>test4<\/p>",
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "button_show": true,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          },
+          "1507306038240": {
+            "type": "accordion",
+            "settings": {
+              "title": "S U P P O R T",
+              "title_text_alignment": "text-left",
+              "content": "<p>test5<\/p>",
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          },
+          "1507306053743": {
+            "type": "accordion",
+            "settings": {
+              "title": "A N B I N D U N G E N",
+              "title_text_alignment": "text-left",
+              "content": "<p>teset6<\/p>",
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          }
+        },
+        "block_order": [
+          "1507304092240",
+          "1507304160030",
+          "1507306003903",
+          "1507306019038",
+          "1507306038240",
+          "1507306053743"
+        ],
+        "settings": {
+          "title": "Vorteile",
+          "column_class": "col-xs-12 col-md-8 mx-auto"
+        }
+      },
+      "jumplink-text-row-shopify-2": {
+        "type": "jumplink-text-row-shopify-2",
+        "blocks": {
+          "1507306423681": {
+            "type": "text",
+            "settings": {
+              "custom_column_class": "col-xs-12",
+              "top_padding": 3,
+              "right_padding": 3,
+              "bottom_padding": 12,
+              "left_padding": 3,
+              "title": "mehr",
+              "title_show": false,
+              "title_level": 1,
+              "title_max_width_active": false,
+              "title_max_width": 610,
+              "title_text_alignment": "text-left",
+              "content": "<a href=\"\/\">mehr<\/a>",
+              "content_show": true,
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "content_text_alignment": "text-center",
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          },
+          "1507304523671": {
+            "type": "text",
+            "settings": {
+              "custom_column_class": "col-xs-12 col-md-8 mx-auto",
+              "top_padding": 3,
+              "right_padding": 3,
+              "bottom_padding": 3,
+              "left_padding": 3,
+              "title": "Shop - Pakete",
+              "title_show": true,
+              "title_level": 2,
+              "title_max_width_active": false,
+              "title_max_width": 610,
+              "title_text_alignment": "text-left",
+              "content": "Ein großartigers Talent von Shopify ist: die absolute Anpassung an Unternehmerbedürfnisse.\nDieser Faktor sorgt bei der Umsetzung für unschlagbare Freiheit und Individualität, doch fängt es auch schon bei den Preisen\nan. Je nachdem was für deinen Onlineshop benötigt wird, kannst du zwischen drei Paketen wählen, von Basic bis Advanced,\nfür Unternehmen mit höheren Zielen gibt es die vierte Variante, das Shopify-Plus-Programm. Nötige Features und den",
+              "content_show": true,
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "content_text_alignment": "text-left",
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          },
+          "1507304581737": {
+            "type": "text",
+            "settings": {
+              "custom_column_class": "col-xs-12 col-md-8 mx-auto",
+              "top_padding": 3,
+              "right_padding": 3,
+              "bottom_padding": 3,
+              "left_padding": 3,
+              "title": "German Market und Shopify? Das geht!",
+              "title_show": true,
+              "title_level": 2,
+              "title_max_width_active": false,
+              "title_max_width": 610,
+              "title_text_alignment": "text-left",
+              "content": "So wie ein Ladengeschäft bestimmte Anforderungen und Pflichten erfüllen muss, gilt dies auch für eCommerce in\nDeutschland. Die Vorgaben werden in den GoBD festgehalten. Alles wichtige zu den Anforderungen kannst du in unserem\nBeitrag nachlesen: GoBD + Shopify",
+              "content_show": true,
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "content_text_alignment": "text-left",
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          },
+          "1507304598641": {
+            "type": "text",
+            "settings": {
+              "custom_column_class": "col-xs-12 col-md-8 mx-auto",
+              "top_padding": 3,
+              "right_padding": 3,
+              "bottom_padding": 3,
+              "left_padding": 3,
+              "title": "Häufige Kundenfragen",
+              "title_show": true,
+              "title_level": 2,
+              "title_max_width_active": false,
+              "title_max_width": 610,
+              "title_text_alignment": "text-left",
+              "content": "Wer sich noch intensiver mit dem System Shopify vertraut machen möchte, dem empfielt sich unsere Zusammenfassung der\nmeist gestellten Kundenfagen. Spezifischere Fragen werden dort ebenfalls schnell erhört. Häufige Kundenfragen",
+              "content_show": true,
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "content_text_alignment": "text-left",
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          },
+          "1507304730225": {
+            "type": "text",
+            "settings": {
+              "custom_column_class": "col-xs-12",
+              "top_padding": 3,
+              "right_padding": 3,
+              "bottom_padding": 3,
+              "left_padding": 3,
+              "title": "Button",
+              "title_show": false,
+              "title_level": 1,
+              "title_max_width_active": false,
+              "title_max_width": 610,
+              "title_text_alignment": "text-left",
+              "content": "",
+              "content_show": true,
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "content_text_alignment": "text-center",
+              "button_show": true,
+              "button_title": "Shopanalyse",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-center",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1
+            }
+          }
+        },
+        "block_order": [
+          "1507306423681",
+          "1507304523671",
+          "1507304581737",
+          "1507304598641",
+          "1507304730225"
+        ],
+        "settings": {
+          "title": "Text Row",
+          "vertical_alignment": "align-center",
+          "margin_top": 5,
+          "margin_bottom": 12
+        }
+      },
+      "jumplink-text-row-digital-design": {
+        "type": "jumplink-text-row-digital-design",
+        "blocks": {
+          "1507306695168": {
+            "type": "text",
+            "settings": {
+              "custom_column_class": "col-xs-12 col-md-8 mx-auto",
+              "top_padding": 3,
+              "right_padding": 3,
+              "bottom_padding": 17,
+              "left_padding": 3,
+              "title": "online, offline,\nrealisieren,\nDesign, Code,\nvisuell, technisch,\ngrandios.",
+              "title_show": true,
+              "title_level": 1,
+              "title_max_width_active": true,
+              "title_max_width": 600,
+              "title_text_alignment": "text-left",
+              "content": "Wir denken über Grenzen hinweg und vereinen Corporate Design sowie klassische und digitale Kommunikation zu Gesamtlösungen der Unternehmenspersönlichkeit.",
+              "content_show": true,
+              "content_max_width_active": true,
+              "content_max_width": 610,
+              "content_text_alignment": "text-left",
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
+            }
+          },
+          "1507306803745": {
+            "type": "text",
+            "settings": {
+              "custom_column_class": "col-xs-12 col-md-5 ml-auto",
+              "top_padding": 3,
+              "right_padding": 3,
+              "bottom_padding": 3,
+              "left_padding": 3,
+              "title": "Strategisch digital.",
+              "title_show": true,
+              "title_level": 2,
+              "title_max_width_active": false,
+              "title_max_width": 610,
+              "title_text_alignment": "text-left",
+              "content": "Programmierer gibt es wie Sand am Meer. Ordentliche dagegen eher wie das Meer an der Nordsee. Bei uns zählt das Ergebnis. Das Bestmögliche ist unser Anspruch und unsere Pflicht. Immer mit dem Einsatz modernster und effizientester Technologie, schaffen wir ideale Lösungen für jedes Projekt. Dabei sehen wir uns nicht als abgedroschenen Dienstleister, sondern als deinen unkomplizierten Partner mit dem gleichen Fokus auf dein Projekt.",
+              "content_show": true,
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "content_text_alignment": "text-left",
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1,
+              "nav": true,
+              "nav_handle": "digital"
+            }
+          },
+          "1507306997279": {
+            "type": "text",
+            "settings": {
+              "custom_column_class": "col-xs-12 col-md-5 mr-auto",
+              "top_padding": 3,
+              "right_padding": 3,
+              "bottom_padding": 3,
+              "left_padding": 3,
+              "title": "Mission: Design",
+              "title_show": true,
+              "title_level": 2,
+              "title_max_width_active": false,
+              "title_max_width": 610,
+              "title_text_alignment": "text-left",
+              "content": "Ein zentraler Faktor für den Erfolg: Design macht Werte, Ideen und die Persönlichkeit eines Unternehmens lebendig und vorallem sichtbar. Gutes Design stärkt die Sympathie eines Unternehmens und fördert die Akzeptanz. Jedes Unternehmen, jedes Produkt und jede Marke verdient ein eigenes Gesicht für unbeirrte Kommunikation.",
+              "content_show": true,
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "content_text_alignment": "text-left",
+              "button_show": false,
+              "button_title": "Click me!!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1,
+              "nav": true,
+              "nav_handle": "design"
+            }
+          },
+          "1507307209512": {
+            "type": "text",
+            "settings": {
+              "custom_column_class": "col-xs-12 col-md-4 mx-auto",
+              "top_padding": 13,
+              "right_padding": 3,
+              "bottom_padding": 13,
+              "left_padding": 3,
+              "title": "E-Mail",
+              "title_show": false,
+              "title_level": 1,
+              "title_max_width_active": false,
+              "title_max_width": 610,
+              "title_text_alignment": "text-left",
+              "content": "Manchmal muss ein Unternehmen auch einfach andere Wege\neinschlagen, um sich weiterentwickeln zu können, um sich und seine\nKunden zu überraschen: <a href=\"mailto:projekt@artandcode.de\">projekt@artandcode.de<\/a>",
+              "content_show": true,
+              "content_max_width_active": false,
+              "content_max_width": 610,
+              "content_text_alignment": "text-center",
+              "button_show": false,
+              "button_title": "Click me!",
+              "button_href": "",
+              "button_style": "btn-outline-primary",
+              "button_size": "btn-md",
+              "button_text_alignment": "text-left",
+              "button_margin_top": 3,
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
+            }
+          }
+        },
+        "block_order": [
+          "1507306695168",
+          "1507306803745",
+          "1507306997279",
+          "1507307209512"
+        ],
+        "settings": {
+          "title": "Text Row",
+          "vertical_alignment": "align-center",
+          "margin_top": 12,
+          "margin_bottom": 0
+        }
+      },
+      "jumplink-images-row-digital-design": {
+        "type": "jumplink-images-row-digital-design",
+        "settings": {
+          "title": "Images Row",
+          "title_show": false,
+          "vertical_alignment": "images-align-center",
+          "margin_top": 0,
+          "margin_bottom": 0
+        }
       }
     },
     "content_for_index": [
@@ -1823,8 +2469,8 @@
       "1507133221688",
       "1507127147710",
       "1507210252156",
-      "1507212385855",
-      "1507216108374"
+      "1507296958810",
+      "1507212385855"
     ]
   }
 }
