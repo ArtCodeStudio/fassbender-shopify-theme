@@ -17,7 +17,16 @@ var gulp          = require('gulp'),
     util          = require('util'),
     uglify        = require('gulp-uglify'),
     rename        = require("gulp-rename"),
-    sourcemaps    = require('gulp-sourcemaps');
+    sourcemaps    = require('gulp-sourcemaps'),
+    browserify    = require("browserify"),
+    source        = require('vinyl-source-stream'),
+    tsify         = require("tsify"),
+    gutil         = require("gulp-util"),
+    watchify      = require("watchify"),
+    buffer        = require('vinyl-buffer');
+    // ts            = require("gulp-typescript"),
+    // tsProject     = ts.createProject("tsconfig.json")
+
 
 // Basic error messages output to the console.
 // Used with plumber so we don't stop the other tasks from running or kill the gulp process on an error
@@ -81,6 +90,52 @@ gulp.task('zip', function () {
     .pipe(zip(pjson.name + '-' + pjson.version + '.zip'))
     .pipe(gulp.dest('./'));
 });
+
+var browserfyConfig = {
+  basedir: '.',
+  debug: true,
+  entries: ['src/ts/main.ts'],
+  cache: {},
+  packageCache: {}
+};
+
+var watchedBrowserify = watchify(browserify(browserfyConfig).plugin(tsify));
+
+var watchBrowserify = function() {
+  return watchedBrowserify
+  .transform('babelify', {
+    presets: ['es2015'],
+    extensions: ['.ts']
+  })
+  .bundle()
+  .pipe(source('bundle.js'))
+  .pipe(buffer())
+  .pipe(sourcemaps.init({loadMaps: true}))
+  // .pipe(uglify())
+  .pipe(sourcemaps.write('./'))
+  .pipe(gulp.dest('./theme/assets/'));
+};
+watchedBrowserify.on('update', watchBrowserify);
+watchedBrowserify.on('log', gutil.log);
+
+
+gulp.task('typescript', function() {
+  return browserify(browserfyConfig)
+  .plugin(tsify)
+  .transform('babelify', {
+      presets: ['es2015'],
+      extensions: ['.ts']
+  })
+  .bundle()
+  .pipe(source('bundle.js'))
+  .pipe(buffer())
+  .pipe(sourcemaps.init({loadMaps: true}))
+  .pipe(uglify())
+  .pipe(sourcemaps.write('./'))
+  .pipe(gulp.dest('./theme/assets/'));
+});
+
+gulp.task('watch-typescript', watchBrowserify);
 
 
 gulp.task('javascript', ['javascript-libs']);

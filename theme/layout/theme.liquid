@@ -55,6 +55,7 @@
   {{ 'jumplink-templates.js'  | asset_url | script_tag }}
   {{ 'jumplink-sections.js'  | asset_url | script_tag }}
   {{ 'shop.js' | asset_url | script_tag }}
+  {{ 'bundle.js' | asset_url | script_tag }}
 
   <script>jQuery('html').removeClass('no-js').addClass('js');</script>
 
@@ -62,6 +63,7 @@
 
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
 
+  <p id="greeting">Loading ...</p>
   {% comment %}
     Main Navigation 
   {% endcomment %}
