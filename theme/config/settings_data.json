@@ -737,7 +737,7 @@
               "title_font_size": "1rem",
               "title_alignment": "text-left",
               "text_show": true,
-              "text": "Raffinierte Umsetzung mit reizendem Augenschmaus.",
+              "text": "raffiniert visuell kommunizieren.",
               "text_bold": false,
               "text_underline": false,
               "text_font_size": "1rem",
@@ -750,7 +750,7 @@
           "1507127402788"
         ],
         "settings": {
-          "title": "Images Row - Kompetenzen",
+          "title": "Start - Kompetenzen",
           "title_show": false,
           "vertical_alignment": "images-align-center",
           "margin_top": 15,
@@ -768,17 +768,17 @@
             "type": "text",
             "settings": {
               "custom_column_class": "",
-              "top_padding": 3,
+              "top_padding": 20,
               "right_padding": 3,
               "bottom_padding": 3,
-              "left_padding": 14,
+              "left_padding": 15,
               "title": "Let's make something <br><span class=\"text-success\">nice<\/span> together.",
               "title_show": true,
               "title_level": 1,
               "title_max_width_active": false,
               "title_max_width": 610,
               "title_text_alignment": "text-left",
-              "content": "Qualität entsteht nicht nur durch Technik und Methoden, sondern vorallem durch das Können und die Leidenschaft der Menschen, die sie bedienen. Du bist bei Art+Code Studio - herzlich willkommen.",
+              "content": "Qualität entsteht nicht nur durch Technik und Methoden, sondern vorallem durch das Können und die Leidenschaft der Menschen, die sie bedienen. Du bist bei ART+CODE STUDIO - herzlich willkommen.",
               "content_show": true,
               "content_max_width_active": true,
               "content_max_width": 610,
@@ -790,7 +790,9 @@
               "button_size": "btn-md",
               "button_text_alignment": "text-left",
               "button_margin_top": 3,
-              "button_margin_bottom": 1
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           }
         },
@@ -800,7 +802,7 @@
         "settings": {
           "title": "Text Row",
           "vertical_alignment": "align-center",
-          "margin_top": 25,
+          "margin_top": 0,
           "margin_bottom": 0
         }
       },
@@ -1319,7 +1321,7 @@
           "1507201854240": {
             "type": "image-column",
             "settings": {
-              "href": "https:\/\/studiopezzetta.de\/",
+              "href": "https:\/\/studio-pezzetta.com\/",
               "column_class": "col-xs-12",
               "top_padding": 20,
               "right_padding": 15,
@@ -1349,7 +1351,7 @@
           "1507222064457": {
             "type": "image-column",
             "settings": {
-              "href": "",
+              "href": "http:\/\/www.davidpayr.com\/",
               "column_class": "col-xs-12",
               "top_padding": 20,
               "right_padding": 3,
@@ -1413,7 +1415,7 @@
               "right_padding": 3,
               "bottom_padding": 3,
               "left_padding": 3,
-              "title": "Epoche eCommerce",
+              "title": "Wundervolle Onlineshops.",
               "title_show": true,
               "title_level": 2,
               "title_max_width_active": false,
@@ -1431,7 +1433,9 @@
               "button_size": "btn-md",
               "button_text_alignment": "text-left",
               "button_margin_top": 3,
-              "button_margin_bottom": 1
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           }
         },
@@ -1439,10 +1443,10 @@
           "1507210269570"
         ],
         "settings": {
-          "title": "Epoche eCommerce",
+          "title": "dein wundervoller Onlineshop",
           "vertical_alignment": "align-center",
           "margin_top": 25,
-          "margin_bottom": 25
+          "margin_bottom": 0
         }
       },
       "1507212385855": {
@@ -1490,7 +1494,7 @@
           "title": "Pilz",
           "title_show": false,
           "vertical_alignment": "images-align-bottom",
-          "margin_top": 13,
+          "margin_top": 20,
           "margin_bottom": 25
         }
       },
@@ -1501,7 +1505,7 @@
             "type": "text",
             "settings": {
               "custom_column_class": "col-xs-12",
-              "top_padding": 3,
+              "top_padding": 10,
               "right_padding": 0,
               "bottom_padding": 3,
               "left_padding": 0,
@@ -1523,14 +1527,16 @@
               "button_size": "btn-lg",
               "button_text_alignment": "text-center",
               "button_margin_top": 3,
-              "button_margin_bottom": 0
+              "button_margin_bottom": 0,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           },
           "1507220583501": {
             "type": "text",
             "settings": {
               "custom_column_class": "col-xs-12",
-              "top_padding": 3,
+              "top_padding": 20,
               "right_padding": 3,
               "bottom_padding": 3,
               "left_padding": 15,
@@ -1540,7 +1546,7 @@
               "title_max_width_active": false,
               "title_max_width": 610,
               "title_text_alignment": "text-left",
-              "content": "Konzeption neuer Einkaufserlebnisse, die Kundenbindung langfristig steigern und effektive Umsätze generieren. Wer will das nicht?",
+              "content": "Als offizielle Shopify Experten konzentrieren wir uns auf kundenspezifische Design- und Entwicklungsarbeiten im eCommerce. Konzeption neuer Einkaufserlebnisse, die Kundenbindung langfristig steigern und effektive Umsätze generieren. Stetig gibt es Neuerungen und Möglichkeiten zur Verbesserung der Conversion-Rate und für mehr Kundenzufriedenheit, die wir bedienen. Nicht nur mit Hingabe, auch mit fortlaufendem Support und Einsatz, unterstützen wir dich im Online-Marketing Dschungel.",
               "content_show": true,
               "content_max_width_active": true,
               "content_max_width": 550,
@@ -1552,14 +1558,16 @@
               "button_size": "btn-md",
               "button_text_alignment": "text-left",
               "button_margin_top": 3,
-              "button_margin_bottom": 1
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           },
           "1507221433883": {
             "type": "text",
             "settings": {
               "custom_column_class": "col-xs-12",
-              "top_padding": 3,
+              "top_padding": 20,
               "right_padding": 3,
               "bottom_padding": 3,
               "left_padding": 15,
@@ -1569,7 +1577,7 @@
               "title_max_width_active": false,
               "title_max_width": 610,
               "title_text_alignment": "text-left",
-              "content": "→ Analyse nach deinen Bedürfnissen<br><br>\n→ Konzeption und Design optimierter eCommerce<br><br>\n→ Innovative Elemente und Features<br><br>\n→ Entwicklung Online und Offline Marketing<br><br>\n→ Vertriebsdiversifizierung",
+              "content": "<br>\n→ Analyse der unternehmerischen Bedürfnisse\n<br><br>\n\n→ Individuelle Entwicklung\n<br><br>\n→ Fortlaufender Support\n<br><br>\n\n→ Umzug von anderen Plattformen auf Shopify \n<br><br>\n\n→  optimierter Backendbereich\n<br><br>\n→ Innovative Elemente und Features\n<br><br>\n\n→ Entwicklung Online und Offline Marketing\n<br><br>\n\n→ Anpassungen für das in Deutschland geltende Recht",
               "content_show": true,
               "content_max_width_active": false,
               "content_max_width": 610,
@@ -1581,7 +1589,9 @@
               "button_size": "btn-md",
               "button_text_alignment": "text-left",
               "button_margin_top": 3,
-              "button_margin_bottom": 1
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           }
         },
@@ -1593,7 +1603,7 @@
         "settings": {
           "title": "Text Row",
           "vertical_alignment": "align-center",
-          "margin_top": 0,
+          "margin_top": 10,
           "margin_bottom": 0
         }
       },
@@ -1700,8 +1710,8 @@
           "title": "Images Row",
           "title_show": false,
           "vertical_alignment": "images-align-center",
-          "margin_top": 0,
-          "margin_bottom": 0
+          "margin_top": 20,
+          "margin_bottom": 21
         }
       },
       "1507296958810": {
@@ -2010,7 +2020,9 @@
               "button_size": "btn-md",
               "button_text_alignment": "text-left",
               "button_margin_top": 3,
-              "button_margin_bottom": 1
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           }
         },
@@ -2178,7 +2190,9 @@
               "button_size": "btn-md",
               "button_text_alignment": "text-left",
               "button_margin_top": 3,
-              "button_margin_bottom": 1
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           },
           "1507304523671": {
@@ -2207,7 +2221,9 @@
               "button_size": "btn-md",
               "button_text_alignment": "text-left",
               "button_margin_top": 3,
-              "button_margin_bottom": 1
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           },
           "1507304581737": {
@@ -2236,7 +2252,9 @@
               "button_size": "btn-md",
               "button_text_alignment": "text-left",
               "button_margin_top": 3,
-              "button_margin_bottom": 1
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           },
           "1507304598641": {
@@ -2265,7 +2283,9 @@
               "button_size": "btn-md",
               "button_text_alignment": "text-left",
               "button_margin_top": 3,
-              "button_margin_bottom": 1
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           },
           "1507304730225": {
@@ -2294,7 +2314,9 @@
               "button_size": "btn-md",
               "button_text_alignment": "text-center",
               "button_margin_top": 3,
-              "button_margin_bottom": 1
+              "button_margin_bottom": 1,
+              "nav": false,
+              "nav_handle": "main-menu"
             }
           }
         },
@@ -2319,9 +2341,9 @@
             "type": "text",
             "settings": {
               "custom_column_class": "col-xs-12 col-md-8 mx-auto",
-              "top_padding": 3,
+              "top_padding": 20,
               "right_padding": 3,
-              "bottom_padding": 17,
+              "bottom_padding": 0,
               "left_padding": 3,
               "title": "online, offline,\nrealisieren,\nDesign, Code,\nvisuell, technisch,\ngrandios.",
               "title_show": true,
@@ -2350,7 +2372,7 @@
             "type": "text",
             "settings": {
               "custom_column_class": "col-xs-12 col-md-5 ml-auto",
-              "top_padding": 3,
+              "top_padding": 20,
               "right_padding": 3,
               "bottom_padding": 3,
               "left_padding": 3,
@@ -2402,7 +2424,7 @@
               "button_style": "btn-outline-primary",
               "button_size": "btn-md",
               "button_text_alignment": "text-left",
-              "button_margin_top": 3,
+              "button_margin_top": 10,
               "button_margin_bottom": 1,
               "nav": true,
               "nav_handle": "design"
@@ -2412,10 +2434,10 @@
             "type": "text",
             "settings": {
               "custom_column_class": "col-xs-12 col-md-4 mx-auto",
-              "top_padding": 13,
-              "right_padding": 3,
-              "bottom_padding": 13,
-              "left_padding": 3,
+              "top_padding": 20,
+              "right_padding": 20,
+              "bottom_padding": 20,
+              "left_padding": 20,
               "title": "E-Mail",
               "title_show": false,
               "title_level": 1,
@@ -2449,7 +2471,7 @@
         "settings": {
           "title": "Text Row",
           "vertical_alignment": "align-center",
-          "margin_top": 12,
+          "margin_top": 0,
           "margin_bottom": 0
         }
       },
