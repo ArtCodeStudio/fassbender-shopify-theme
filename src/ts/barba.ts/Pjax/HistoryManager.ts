@@ -1,10 +1,15 @@
+interface IState {
+  url: string,
+  namespace: string
+}
+
 /**
  * HistoryManager helps to keep track of the navigation
  *
  * @namespace Barba.HistoryManager
  * @type {Object}
  */
-var HistoryManager = {
+class HistoryManager {
   /**
    * Keep track of the status in historic order
    *
@@ -12,7 +17,11 @@ var HistoryManager = {
    * @readOnly
    * @type {Array}
    */
-  history: new Array(),
+  history: Array<IState> = new Array();;
+
+  constructor() {
+    
+  }
 
   /**
    * Add a new set of url and namespace
@@ -22,15 +31,17 @@ var HistoryManager = {
    * @param {String} namespace
    * @private
    */
-  add: (url: string, namespace: string) => {
-    if (!namespace)
+  add(url: string, namespace: string) {
+
+    if (!namespace) {
       namespace = undefined;
+    }
 
     this.history.push({
       url: url,
       namespace: namespace
     });
-  },
+  }
 
   /**
    * Return information about the current status
@@ -38,9 +49,9 @@ var HistoryManager = {
    * @memberOf Barba.HistoryManager
    * @return {Object}
    */
-  currentStatus: function() {
+  currentStatus() {
     return this.history[this.history.length - 1];
-  },
+  }
 
   /**
    * Return information about the previous status
@@ -48,7 +59,7 @@ var HistoryManager = {
    * @memberOf Barba.HistoryManager
    * @return {Object}
    */
-  prevStatus: function() {
+  prevStatus() {
     var history = this.history;
 
     if (history.length < 2)

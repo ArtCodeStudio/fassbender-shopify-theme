@@ -1,23 +1,37 @@
 import { sayHello } from './greet';
-import { Barba } from './barba.ts';
 import * as $ from 'jquery';
 import { Observable, Subject, ReplaySubject, from, of, range } from 'rxjs';
+import { Barba } from './barba.ts';
+import * as Rivets from 'rivets';
 
+import * as Debug from 'debug';
 
 declare global {
-  interface Window { Barba: any; }
+  interface Window {
+    $: any;
+    jQuery: any;
+    Barba: any;
+    rivets: any;
+  }
+  interface Window {  }
 }
-
+window.$ = $;
+window.jQuery = $;
 window.Barba = Barba;
+window.rivets = Rivets;
+
+
+
+console.log('Barba', Barba);
+console.log('Rivets', Rivets , window.rivets);
 
 function showHello(selector: string, name: string) {
-    const $el = $(selector);
-    console.log($el);
-    $el.text(sayHello(name));
+  const $el = $(selector);
+  console.log($el);
+  $el.text(sayHello(name));
 };
 
 $(() => {
   showHello("#greeting", "TypeScript");
 });
 
-console.log('Barba', Barba);

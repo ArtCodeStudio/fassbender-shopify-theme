@@ -16,7 +16,7 @@ import { Dom } from './Dom';
 */
 var Pjax = {
  Dom: Dom,
- History: HistoryManager,
+ History: new HistoryManager(),
  Cache: BaseCache,
 
  /**

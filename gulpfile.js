@@ -134,7 +134,7 @@ gulp.task('typescript', function() {
   .pipe(source('bundle.js'))
   .pipe(buffer())
   .pipe(sourcemaps.init({loadMaps: true}))
-  .pipe(uglify())
+  // .pipe(uglify())
   .pipe(sourcemaps.write('./'))
   .pipe(gulp.dest('./theme/assets/'));
 });
@@ -145,7 +145,7 @@ gulp.task('watch-typescript', watchBrowserify);
 gulp.task('javascript', ['javascript-libs']);
 gulp.task('javascript-libs', [], function () {
   return gulp.src([
-    'bower_components/jquery/dist/jquery.js',
+    // 'bower_components/jquery/dist/jquery.js',
     'src/js/jquery-ui.min.js',
     'bower_components/jquery.transit/jquery.transit.js',                // https://github.com/rstacruz/jquery.transit
     'bower_components/jquery-touch-events/src/jquery.mobile-events.js', // https://github.com/benmajor/jQuery-Touch-Events
@@ -153,8 +153,8 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/bootstrap-backward/dist/js/bootstrap.js',
     'bower_components/simpler-sidebar/dist/jquery.simpler-sidebar.js',
     'bower_components/alertifyjs/dist/js/alertify.js',
-    'bower_components/sightglass/index.js',
-    'bower_components/rivets/dist/rivets.js',
+    // 'bower_components/sightglass/index.js',
+    // 'bower_components/rivets/dist/rivets.js',
     'bower_components/shopify-cartjs/dist/cart.js',
     'src/js/md5.js',
     'bower_components/gsap/src/uncompressed/TweenMax.js',               // https://github.com/rstacruz/jquery.transit

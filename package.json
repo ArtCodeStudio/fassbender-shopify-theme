@@ -46,10 +46,14 @@
     "yargs": "^5.0.0"
   },
   "dependencies": {
+    "@types/debug": "^0.0.30",
     "@types/jquery": "^3.3.2",
     "@types/promise-polyfill": "^6.0.0",
+    "debug": "^3.1.0",
     "jquery": "^3.3.1",
+    "jshint": "^2.9.5",
     "promise-polyfill": "^8.0.0",
+    "rivets": "^0.9.6",
     "rxjs": "^6.2.0",
     "vinyl-buffer": "^1.0.1"
   }

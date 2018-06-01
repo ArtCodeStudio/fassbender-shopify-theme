@@ -1,6 +1,6 @@
 {
   "files": [
-        "src/ts/main.ts"
+    "src/ts/main.ts"
   ],
   "compileOnSave": false,
   "compilerOptions": {
@@ -16,7 +16,8 @@
     "module": "commonjs",
     "typeRoots": [
       "node_modules/@types",
-      "node_modules/firebase/"
+      "types",
+      "./types"
     ],
     "lib": [
       "es2016",
