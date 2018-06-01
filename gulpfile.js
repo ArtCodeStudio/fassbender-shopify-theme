@@ -1,4 +1,8 @@
-'use strict';
+(function () {
+  'use strict';
+  // this function is strict...
+}());
+
 /*
   Bootstrapify build tasks
 */
@@ -157,7 +161,7 @@ gulp.task('javascript-libs', [], function () {
     'bower_components/async/dist/async.js',                             // https://github.com/caolan/async
     // don't forgett to modify cart.js and build debug.js with `make browser`
     'bower_components/visionmedia-debug/dist/debug.js',                 // https://github.com/visionmedia/debug
-    'bower_components/barba.js/dist/barba.js',                          // https://github.com/luruke/barba.js/
+    // 'bower_components/barba.js/dist/barba.js',                          // https://github.com/luruke/barba.js/
     'bower_components/slick-carousel/slick/slick.js',                   // https://github.com/kenwheeler/slick/
     'bower_components/instafeed.js/instafeed.js',                       // https://github.com/stevenschobert/instafeed.js
     'bower_components/platform.js/platform.js',                         // https://github.com/bestiejs/platform.js/
@@ -174,7 +178,7 @@ gulp.task('javascript-libs', [], function () {
     errorHandler: onError
   }))
   .pipe(concat('custom-libs.js'))
-  .pipe(gulp.dest('./theme/assets/')) // save libs.js without minify
+  .pipe(gulp.dest('./theme/assets/')); // save libs.js without minify
   // .pipe(uglify())
   // .pipe(rename({
   //   basename: "custom-libs.min.js",
@@ -314,6 +318,15 @@ gulp.task('bootstrap_theme_settings', function () {
         });
         break;
       case 'text':
+        groups[variableDefs.group[0]].push({
+          type: "text",
+          id: 'bs4-'+variableDefs.context.name,
+          label: variableDefs.context.name,
+          default: variableDefs.context.value,
+          info: variableDefs.description,
+
+        });
+        break;
       default:
         groups[variableDefs.group[0]].push({
           type: "text",
@@ -327,10 +340,16 @@ gulp.task('bootstrap_theme_settings', function () {
     }
   }, this);
 
-  var toTitleCase = function(str)
-  {
+  var toTitleCase = function(str){
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-  }
+  };
+
+  var pushGroup = function(groupContext) {
+    if(!groupContext.info || groupContext.info == "" || groupContext.info == "\n") {
+      delete groupContext.info;
+    }
+    bootstrap_theme_settings.settings.push(groupContext);
+  };
 
   // write groups to settings and clean up 
   for(var name in groups) { 
@@ -339,12 +358,7 @@ gulp.task('bootstrap_theme_settings', function () {
       "type": "header",
       "content": toTitleCase(name),
     });
-    group.forEach(function(groupContext) {
-      if(!groupContext.info || groupContext.info == "" || groupContext.info == "\n") {
-        delete groupContext.info;
-      }
-      bootstrap_theme_settings.settings.push(groupContext);
-    }, this);
+    group.forEach(pushGroup, this);
   }
 
   // save settings to json file

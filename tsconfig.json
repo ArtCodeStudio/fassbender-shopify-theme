@@ -1,9 +1,26 @@
 {
-    "files": [
+  "files": [
         "src/ts/main.ts"
+  ],
+  "compileOnSave": false,
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "outDir": "./theme/assets/",
+    "baseUrl": "src",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "module": "commonjs",
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/firebase/"
     ],
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "target": "es2015"
-    }
+    "lib": [
+      "es2016",
+      "dom"
+    ]
+  }
 }

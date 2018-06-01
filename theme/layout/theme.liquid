@@ -37,6 +37,9 @@
     https://help.shopify.com/manual/reports-and-analytics/google-analytics#remove-duplicate-scripts
     https://help.shopify.com/manual/reports-and-analytics/google-analytics/google-analytics-setup#upgrade-ga%22
   {% endcomment %}
+
+  {{ 'bundle.js' | asset_url | script_tag }}
+  
   {{ 'custom-libs.js' | asset_url | script_tag }}
   {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
   {{ 'customer_area.js' | shopify_asset_url | script_tag }}
@@ -55,7 +58,6 @@
   {{ 'jumplink-templates.js'  | asset_url | script_tag }}
   {{ 'jumplink-sections.js'  | asset_url | script_tag }}
   {{ 'shop.js' | asset_url | script_tag }}
-  {{ 'bundle.js' | asset_url | script_tag }}
 
   <script>jQuery('html').removeClass('no-js').addClass('js');</script>
 
