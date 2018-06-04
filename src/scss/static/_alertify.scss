@@ -4,10 +4,10 @@ $alertify-padding-base: $spacer !default;
 $alertify-text-color: $body-color !default;
 $alertify-border-radius: $border-radius !default;
 
-$alertify-success-color: $brand-success !default;
+$alertify-success-color: theme-color(brand-success) !default;
 $alertify-success-text-color: $alertify-text-color !default;
 
-$alertify-danger-color: $brand-danger !default;
+$alertify-danger-color: theme-color(brand-danger) !default;
 $alertify-danger-text-color: $alertify-text-color !default;
 
 $alertify-top-spacer: 16px !default;

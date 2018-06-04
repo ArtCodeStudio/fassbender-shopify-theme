@@ -2,9 +2,10 @@
     &.product-photo-modal {
         overflow: hidden !important;
         .modal-content {
-            background-color: $gray-dark;
+            // background-color: $gray-dark;
             opacity: 0;
-            @include vp-transition(opacity 400ms ease-in-out);
+            // @include vp-transition(opacity 400ms ease-in-out);
+            transition: opacity 400ms ease-in-out;
         }
         &.show {
             .modal-content {
@@ -35,10 +36,11 @@
     }
 
     &.modal-cart {
-        z-index: $zindex-navbar - 1; // show modal under navbar
+        // z-index: $zindex-navbar - 1; // show modal under navbar
         .modal-content {
             opacity: 0;
-            @include vp-transition(opacity 400ms ease-in-out);
+            // @include vp-transition(opacity 400ms ease-in-out);
+            transition: opacity 400ms ease-in-out;
             border: none;
             height: 100vh;
             width: 100%;
