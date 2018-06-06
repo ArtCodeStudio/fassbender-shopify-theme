@@ -1,3 +1,5 @@
+
+
 /**
  * Object that is going to deal with DOM parsing/manipulation
  *
@@ -49,35 +51,32 @@ var Dom = {
    * @memberOf Barba.Pjax.Dom
    * @private
    * @param  {String} responseText
-   * @return {HTMLElement}
+   * @return {JQuery<HTMLElement>}
    */
-  parseResponse: function(responseText: string) {
+  parseResponse: function(responseText: string): JQuery<HTMLElement> {
     this.currentHTML = responseText;
-
-    var wrapper = document.createElement('div');
-    wrapper.innerHTML = responseText;
-
-    var titleEl = wrapper.querySelector('title');
-
-    if (titleEl)
-      document.title = titleEl.textContent;
-
-    return this.getContainer(wrapper);
+    var $wrapper = $( $.parseHTML(responseText) );
+    var $title = $wrapper.filter('title');
+    if ($title.length) {
+      document.title = $title.text();
+    }
+    return this.getContainer($wrapper);
   },
 
   /**
    * Get the main barba wrapper by the ID `wrapperId`
    *
    * @memberOf Barba.Pjax.Dom
-   * @return {HTMLElement} element
+   * @return {JQuery<HTMLElement>} element
    */
-  getWrapper: function(): HTMLElement {
-    var wrapper = document.getElementById(this.wrapperId);
+  getWrapper: function(): JQuery<HTMLElement> {
+    var $wrapper = $('#'+this.wrapperId);
 
-    if (!wrapper)
+    if (!$wrapper) {
       throw new Error('Barba.js: wrapper not found!');
+    }
 
-    return wrapper;
+    return $wrapper;
   },
 
   /**
@@ -89,22 +88,18 @@ var Dom = {
    * @param  {HTMLElement} element
    * @return {HTMLElement}
    */
-  getContainer: function(element: HTMLElement): HTMLElement {
-    if (!element)
-      element = document.body;
-
-    if (!element)
+  getContainer: function($element: JQuery<HTMLElement>): JQuery<HTMLElement> {
+    if (!$element) {
+      $element = $(document.body);
+    }
+    if (!$element) {
       throw new Error('Barba.js: DOM not ready!');
-
-    var container = this.parseContainer(element);
-
-    if (container && container.jquery)
-      container = container[0];
-
-    if (!container)
+    }
+    var $container = this.parseContainer($element);
+    if (!$container) {
       throw new Error('Barba.js: no container found');
-
-    return container;
+    }
+    return $container;
   },
 
   /**
@@ -115,11 +110,9 @@ var Dom = {
    * @param  {HTMLElement} element
    * @return {String}
    */
-  getNamespace: function(element: HTMLElement): string {
-    if (element && element.dataset) {
-      return element.dataset[this.dataNamespace];
-    } else if (element) {
-      return element.getAttribute('data-' + this.dataNamespace);
+  getNamespace: function($element: JQuery<HTMLElement>): string {
+    if ($element && $element.data()) {
+      return $element.data('namespace')
     }
 
     return null;
@@ -132,11 +125,11 @@ var Dom = {
    * @private
    * @param  {HTMLElement} element
    */
-  putContainer: function(element: HTMLElement) {
-    element.style.visibility = 'hidden';
+  putContainer ($element: JQuery<HTMLElement>) {
+    $element.css('visibility', 'hidden');
 
-    var wrapper = this.getWrapper();
-    wrapper.appendChild(element);
+    var $wrapper = this.getWrapper();
+    $wrapper.append($element);
   },
 
   /**
@@ -147,8 +140,8 @@ var Dom = {
    * @param  {HTMLElement} element
    * @return {HTMLElement} element
    */
-  parseContainer: function(element: HTMLElement) {
-    return element.querySelector('.' + this.containerClass);
+  parseContainer ($element: JQuery<HTMLElement>): JQuery<HTMLElement> {
+    return $element.find('.' + this.containerClass);
   }
 };
 

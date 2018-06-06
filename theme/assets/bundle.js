@@ -12508,6 +12508,608 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var $ = require("jquery");
+var Direction;
+(function (Direction) {
+    Direction[Direction["UP"] = 0] = "UP";
+    Direction[Direction["RIGHT"] = 1] = "RIGHT";
+    Direction[Direction["DOWN"] = 2] = "DOWN";
+    Direction[Direction["LEFT"] = 3] = "LEFT";
+    Direction[Direction["MIN"] = 0] = "MIN";
+    Direction[Direction["MAX"] = 3] = "MAX";
+})(Direction || (Direction = {}));
+var Key;
+(function (Key) {
+    Key[Key["ESC"] = 27] = "ESC";
+    Key[Key["SPACE"] = 32] = "SPACE";
+    Key[Key["LEFT"] = 37] = "LEFT";
+    Key[Key["UP"] = 38] = "UP";
+    Key[Key["RIGHT"] = 39] = "RIGHT";
+    Key[Key["DOWN"] = 40] = "DOWN";
+})(Key || (Key = {}));
+/**
+ * Tetris based on https://github.com/jakesgordon/javascript-tetris
+ * Copyright (c) 2011, 2012, 2013, 2014, 2015, 2016 Jake Gordon and contributors
+ */
+var Tetris = /** @class */function () {
+    // randomChoice(choices) {
+    //   return choices[Math.round(random(0, choices.length-1))];
+    // };
+    function Tetris() {
+        // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+        // if (!window.requestAnimationFrame) {
+        //   window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
+        //     window.mozRequestAnimationFrame    ||
+        //     window.oRequestAnimationFrame      ||
+        //     window.msRequestAnimationFrame     ||
+        //     function(callback, element) {
+        //       window.setTimeout(callback, 1000 / 60);
+        //     };
+        // }
+        this.$canvas = $('#canvas');
+        this.$playBtn = $('#start');
+        this.$rows = $('#rows');
+        this.$score = $('#score');
+        this.ctx = this.$canvas.get(0).getContext('2d');
+        this.$ucanvas = $('#upcoming');
+        this.$menu = $('#menu').hide();
+        this.uctx = this.$ucanvas.get(0).getContext('2d');
+        this.speed = { start: 0.6, decrement: 0.005, min: 0.1 }; // how long before piece drops by 1 row (seconds)
+        this.nu = 5; // width/height of upcoming preview (in blocks)
+        this.vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); // viewport width
+        this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); // viewport height
+        this.aspectRatio = this.vh < this.vw ? [1, 2] : [2, 1]; // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
+        this.orientation = this.aspectRatio[0] < this.aspectRatio[1] ? 'landscape' : 'portrait';
+        this.nx = this.aspectRatio[1] * 10; // width of tetris court (in blocks)
+        this.ny = this.aspectRatio[0] * 10; // height of tetris court (in blocks)
+        this.lineWidthXl = 3;
+        //-------------------------------------------------------------------------
+        // tetris pieces
+        //
+        // blocks: each element represents a rotation of the piece (0, 90, 180, 270)
+        //         each element is a 16 bit integer where the 16 bits represent
+        //         a 4x4 set of blocks, e.g. j.blocks[0] = 0x44C0
+        //
+        //             0100 = 0x4 << 3 = 0x4000
+        //             0100 = 0x4 << 2 = 0x0400
+        //             1100 = 0xC << 1 = 0x00C0
+        //             0000 = 0x0 << 0 = 0x0000
+        //                               ------
+        //                               0x44C0
+        //
+        //-------------------------------------------------------------------------
+        this.i = { name: 'i', size: 4, blocks: [0x0F00, 0x2222, 0x00F0, 0x4444], color: '#0A9177' };
+        this.j = { name: 'j', size: 3, blocks: [0x44C0, 0x8E00, 0x6440, 0x0E20], color: '#AB1A62' };
+        this.l = { name: 'l', size: 3, blocks: [0x4460, 0x0E80, 0xC440, 0x2E00], color: '#050506' };
+        this.o = { name: 'o', size: 2, blocks: [0xCC00, 0xCC00, 0xCC00, 0xCC00], color: '#0A9177' };
+        this.s = { name: 's', size: 3, blocks: [0x06C0, 0x8C40, 0x6C00, 0x4620], color: '#AB1A62' };
+        this.t = { name: 't', size: 3, blocks: [0x0E40, 0x4C40, 0x4E00, 0x4640], color: '#050506' };
+        this.z = { name: 'z', size: 3, blocks: [0x0C60, 0x4C80, 0xC600, 0x2640], color: '#0A9177' };
+        //-----------------------------------------
+        // start with 4 instances of each piece and
+        // pick randomly until the 'bag is empty'
+        //-----------------------------------------
+        this.pieces = new Array();
+        //-------------------------------------------------------------------------
+        // RENDERING
+        //-------------------------------------------------------------------------
+        this.invalid = {
+            court: false,
+            next: false,
+            score: false,
+            rows: false
+        };
+        //-------------------------------------------------------------------------
+        // FINALLY, lets run the game
+        //-------------------------------------------------------------------------
+        // this.run();
+        console.log('tetris constructor', this);
+    }
+    //-------------------------------------------------------------------------
+    // base helper methods
+    //-------------------------------------------------------------------------
+    Tetris.prototype.get = function (id) {
+        return document.getElementById(id);
+    };
+    ;
+    Tetris.prototype.timestamp = function () {
+        return new Date().getTime();
+    };
+    ;
+    Tetris.prototype.random = function (min, max) {
+        return min + Math.random() * (max - min);
+    };
+    ;
+    //------------------------------------------------
+    // do the bit manipulation and iterate through each
+    // occupied block (x,y) for a given piece
+    //------------------------------------------------
+    Tetris.prototype.eachblock = function (type, x, y, dir, fn) {
+        var bit,
+            result,
+            row = 0,
+            col = 0,
+            blocks = type.blocks[dir];
+        for (bit = 0x8000; bit > 0; bit = bit >> 1) {
+            if (blocks & bit) {
+                fn(x + col, y + row);
+            }
+            if (++col === 4) {
+                col = 0;
+                ++row;
+            }
+        }
+    };
+    ;
+    //-----------------------------------------------------
+    // check if a piece can fit into a position in the grid
+    //-----------------------------------------------------
+    Tetris.prototype.occupied = function (type, x, y, dir) {
+        var _this = this;
+        var result = false;
+        this.eachblock(type, x, y, dir, function (x, y) {
+            if (x < 0 || x >= _this.nx || y < 0 || y >= _this.ny || _this.getBlock(x, y)) result = true;
+        });
+        return result;
+    };
+    ;
+    Tetris.prototype.unoccupied = function (type, x, y, dir) {
+        return !this.occupied(type, x, y, dir);
+    };
+    ;
+    //-----------------------------------------
+    // start with 4 instances of each piece and
+    // pick randomly until the 'bag is empty'
+    //-----------------------------------------
+    Tetris.prototype.randomPiece = function () {
+        if (this.pieces.length == 0) {
+            this.pieces = [this.i, this.i, this.i, this.i, this.j, this.j, this.j, this.j, this.l, this.l, this.l, this.l, this.o, this.o, this.o, this.o, this.s, this.s, this.s, this.s, this.t, this.t, this.t, this.t, this.z, this.z, this.z, this.z];
+        }
+        var type = this.pieces.splice(this.random(0, this.pieces.length - 1), 1)[0];
+        return { type: type, dir: Direction.UP, x: Math.round(this.random(0, this.nx - type.size)), y: 0 };
+    };
+    ;
+    Tetris.prototype.addEvents = function () {
+        var self = this;
+        document.addEventListener('keydown', function (event) {
+            self.keydown(event);
+        }, false);
+        window.addEventListener('resize', function (event) {
+            self.resize(event);
+        }, false);
+        // TODO https://github.com/benmajor/$-Touch-Events
+        // this.$canvas.on('singletap', this.tab);
+        // this.$canvas.on('swipe', this.swipe);
+        this.$playBtn.click(function () {
+            if (self.playing) {
+                self.lose();
+            } else {
+                self.play();
+            }
+        });
+    };
+    ;
+    Tetris.prototype.resize = function (event) {
+        this.vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); // viewport width
+        this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); // viewport height
+        this.aspectRatio = this.vh < this.vw ? [1, 2] : [2, 1]; // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
+        this.orientation = this.aspectRatio[0] < this.aspectRatio[1] ? 'landscape' : 'portrait';
+        this.nx = this.aspectRatio[1] * 10; // width of tetris court (in blocks)
+        this.ny = this.aspectRatio[0] * 10; // height of tetris court (in blocks)
+        if (this.orientation === 'landscape') {
+            this.$canvas.height(this.$canvas.width() / this.aspectRatio[1]); // half height of width
+        } else {
+            this.$canvas.height(this.$canvas.width() * this.aspectRatio[0]); // double height of width
+        }
+        this.$canvas.attr('width', this.$canvas.width()); // set canvas logical size equal to its physical size
+        this.$canvas.attr('height', this.$canvas.height()); // (ditto)
+        this.$ucanvas.attr('width', this.$ucanvas.width());
+        this.$ucanvas.attr('height', this.$ucanvas.height());
+        this.$ucanvas.height(this.$ucanvas.width()); // 1:1
+        this.dx = this.$canvas.width() / this.nx; // pixel size of a single tetris block
+        this.dy = this.$canvas.height() / this.ny; // (ditto)
+        this.dnextx = this.$ucanvas.width() / this.nu; // pixel size of a single tetris block for the upcomming preview
+        this.dnexty = this.$ucanvas.height() / this.nu; // (ditto)
+        this.invalidate();
+        this.invalidateNext();
+    };
+    ;
+    // keyboard events for playing on desktop
+    Tetris.prototype.keydown = function (ev) {
+        var handled = false;
+        if (this.playing) {
+            switch (ev.keyCode) {
+                case Key.LEFT:
+                    this.actions.push(Direction.LEFT);
+                    handled = true;
+                    break;
+                case Key.RIGHT:
+                    this.actions.push(Direction.RIGHT);
+                    handled = true;
+                    break;
+                case Key.UP:
+                    this.actions.push(Direction.UP);
+                    handled = true;
+                    break;
+                case Key.DOWN:
+                    this.actions.push(Direction.DOWN);
+                    handled = true;
+                    break;
+                case Key.ESC:
+                    this.lose();
+                    handled = true;
+                    break;
+            }
+        } else if (ev.keyCode == Key.SPACE) {
+            this.play();
+            handled = true;
+        }
+        if (handled) ev.preventDefault(); // prevent arrow keys from scrolling the page (supported in IE9+ and all other browsers)
+    };
+    ;
+    // swipe gestures for playing on touch devices
+    Tetris.prototype.swipe = function (e, touch) {
+        var handled = false;
+        if (this.playing) {
+            switch (touch.direction) {
+                case 'left':
+                    this.actions.push(Direction.LEFT);
+                    handled = true;
+                    break;
+                case 'right':
+                    this.actions.push(Direction.RIGHT);
+                    handled = true;
+                    break;
+                case 'up':
+                    this.actions.push(Direction.UP);
+                    handled = true;
+                    break;
+                case 'down':
+                    this.actions.push(Direction.DOWN);
+                    handled = true;
+                    break;
+            }
+        }
+    };
+    ;
+    // tab gestures for playing on touch devices
+    Tetris.prototype.tab = function (e, touch) {
+        var handled = false;
+        if (this.playing) {
+            this.actions.push(Direction.UP);
+            handled = true;
+        }
+    };
+    ;
+    //-------------------------------------------------------------------------
+    // GAME LOGIC
+    //-------------------------------------------------------------------------
+    Tetris.prototype.play = function () {
+        this.$menu.show();
+        // $playBtn.prop('disabled', true);
+        this.$playBtn.text('Give Up');
+        this.reset();
+        this.playing = true;
+    };
+    ;
+    Tetris.prototype.lose = function () {
+        // $playBtn.prop('disabled', false);
+        this.$playBtn.text('Play');
+        // $menu.hide();
+        this.setVisualScore();
+        this.playing = false;
+    };
+    ;
+    Tetris.prototype.setVisualScore = function (n) {
+        this.vscore = n || this.score;this.invalidateScore();
+    };
+    ;
+    Tetris.prototype.setScore = function (n) {
+        this.score = n;this.setVisualScore(n);
+    };
+    ;
+    Tetris.prototype.addScore = function (n) {
+        this.score = this.score + n;
+    };
+    ;
+    Tetris.prototype.clearScore = function () {
+        this.setScore(0);
+    };
+    ;
+    Tetris.prototype.clearRows = function () {
+        this.setRows(0);
+    };
+    ;
+    Tetris.prototype.setRows = function (n) {
+        this.rows = n;this.step = Math.max(this.speed.min, this.speed.start - this.speed.decrement * this.rows);this.invalidateRows();
+    };
+    ;
+    Tetris.prototype.addRows = function (n) {
+        this.setRows(this.rows + n);
+    };
+    ;
+    Tetris.prototype.getBlock = function (x, y) {
+        return this.blocks && this.blocks[x] ? this.blocks[x][y] : null;
+    };
+    ;
+    Tetris.prototype.setBlock = function (x, y, type) {
+        this.blocks[x] = this.blocks[x] || [];this.blocks[x][y] = type;this.invalidate();
+    };
+    ;
+    Tetris.prototype.clearBlocks = function () {
+        this.blocks = [];this.invalidate();
+    };
+    ;
+    Tetris.prototype.clearActions = function () {
+        this.actions = new Array();
+    };
+    ;
+    Tetris.prototype.setCurrentPiece = function (piece) {
+        this.current = piece || this.randomPiece();this.invalidate();
+    };
+    ;
+    Tetris.prototype.setNextPiece = function (piece) {
+        this.next = piece || this.randomPiece();this.invalidateNext();
+    };
+    ;
+    Tetris.prototype.reset = function () {
+        this.dt = 0;
+        this.clearActions();
+        this.clearBlocks();
+        this.clearRows();
+        this.clearScore();
+        this.setCurrentPiece(this.next);
+        this.setNextPiece();
+    };
+    ;
+    Tetris.prototype.update = function (idt) {
+        if (this.playing) {
+            if (this.vscore < this.score) {
+                this.setVisualScore(this.vscore + 1);
+            }
+            this.handle(this.actions.shift());
+            this.dt = this.dt + idt;
+            if (this.dt > this.step) {
+                this.dt = this.dt - this.step;
+                this.drop();
+            }
+        }
+    };
+    ;
+    Tetris.prototype.handle = function (action) {
+        switch (action) {
+            case Direction.LEFT:
+                this.move(Direction.LEFT);
+                break;
+            case Direction.RIGHT:
+                this.move(Direction.RIGHT);
+                break;
+            case Direction.UP:
+                this.rotate();
+                break;
+            case Direction.DOWN:
+                this.drop();
+                break;
+        }
+    };
+    ;
+    Tetris.prototype.move = function (dir) {
+        console.log('move', dir);
+        var x = this.current.x;
+        var y = this.current.y;
+        switch (dir) {
+            case Direction.RIGHT:
+                x = x + 1;
+                break;
+            case Direction.LEFT:
+                x = x - 1;
+                break;
+            case Direction.DOWN:
+                y = y + 1;
+                break;
+        }
+        if (this.unoccupied(this.current.type, x, y, this.current.dir)) {
+            this.current.x = x;
+            this.current.y = y;
+            this.invalidate();
+            return true;
+        } else {
+            return false;
+        }
+    };
+    ;
+    Tetris.prototype.rotate = function () {
+        var newdir = this.current.dir == Direction.MAX ? Direction.MIN : this.current.dir + 1;
+        if (this.unoccupied(this.current.type, this.current.x, this.current.y, newdir)) {
+            this.current.dir = newdir;
+            this.invalidate();
+        }
+    };
+    ;
+    Tetris.prototype.drop = function () {
+        if (!this.move(Direction.DOWN)) {
+            this.addScore(10);
+            this.dropPiece();
+            this.removeLines();
+            this.setCurrentPiece(this.next);
+            this.setNextPiece(this.randomPiece());
+            this.clearActions();
+            if (this.occupied(this.current.type, this.current.x, this.current.y, this.current.dir)) {
+                this.lose();
+            }
+        }
+    };
+    ;
+    Tetris.prototype.dropPiece = function () {
+        var _this = this;
+        this.eachblock(this.current.type, this.current.x, this.current.y, this.current.dir, function (x, y) {
+            _this.setBlock(x, y, _this.current.type);
+        });
+    };
+    ;
+    Tetris.prototype.removeLines = function () {
+        var x,
+            y,
+            complete,
+            n = 0;
+        for (y = this.ny; y > 0; --y) {
+            complete = true;
+            for (x = 0; x < this.nx; ++x) {
+                if (!this.getBlock(x, y)) complete = false;
+            }
+            if (complete) {
+                this.removeLine(y);
+                y = y + 1; // recheck same line
+                n++;
+            }
+        }
+        if (n > 0) {
+            this.addRows(n);
+            this.addScore(100 * Math.pow(2, n - 1)); // 1: 100, 2: 200, 3: 400, 4: 800
+        }
+    };
+    ;
+    Tetris.prototype.removeLine = function (n) {
+        var x, y;
+        for (y = n; y >= 0; --y) {
+            for (x = 0; x < this.nx; ++x) {
+                this.setBlock(x, y, y == 0 ? null : this.getBlock(x, y - 1));
+            }
+        }
+    };
+    ;
+    //-------------------------------------------------------------------------
+    // RENDERING
+    //-------------------------------------------------------------------------
+    Tetris.prototype.invalidate = function () {
+        this.invalid.court = true;
+    };
+    ;
+    Tetris.prototype.invalidateNext = function () {
+        this.invalid.next = true;
+    };
+    ;
+    Tetris.prototype.invalidateScore = function () {
+        this.invalid.score = true;
+    };
+    ;
+    Tetris.prototype.invalidateRows = function () {
+        this.invalid.rows = true;
+    };
+    ;
+    Tetris.prototype.draw = function () {
+        this.ctx.save();
+        this.ctx.lineWidth = this.lineWidthXl;
+        this.ctx.translate(this.lineWidthXl / 2, this.lineWidthXl / 2); // for crisp 1px black lines
+        this.drawCourt();
+        this.drawNext();
+        this.drawScore();
+        this.drawRows();
+        this.ctx.restore();
+    };
+    ;
+    // Spielfeld
+    Tetris.prototype.drawCourt = function () {
+        if (this.invalid.court) {
+            this.ctx.clearRect(0, 0, this.$canvas.width(), this.$canvas.height());
+            if (this.playing) this.drawPiece(this.ctx, this.current.type, this.current.x, this.current.y, this.current.dir, this.dx, this.dy);
+            var x = void 0,
+                y = void 0,
+                block = void 0;
+            for (y = 0; y < this.ny; y++) {
+                for (x = 0; x < this.nx; x++) {
+                    block = this.getBlock(x, y);
+                    if (block) {
+                        this.drawBlock(this.ctx, x, y, block.color, this.dx, this.dy);
+                    }
+                }
+            }
+            this.ctx.strokeStyle = 'black';
+            this.ctx.lineWidth = this.lineWidthXl;
+            this.ctx.strokeRect(0, 0, this.nx * this.dx - this.lineWidthXl, this.ny * this.dy - this.lineWidthXl); // court boundary / Spielfeldrand
+            this.invalid.court = false;
+        }
+    };
+    ;
+    Tetris.prototype.drawNext = function () {
+        if (this.invalid.next) {
+            var padding = (this.nu - this.next.type.size) / 2;
+            // padding = 1; // WORKAROUND
+            console.log('drawNext padding', padding, 'dnextx', this.dnextx, 'nu', this.nu, 'next', this.next);
+            this.uctx.save();
+            this.uctx.translate(this.lineWidthXl / 2, this.lineWidthXl / 2);
+            this.uctx.clearRect(0, 0, this.$ucanvas.width(), this.$ucanvas.height());
+            this.drawPiece(this.uctx, this.next.type, padding, padding, this.next.dir, this.dnextx, this.dnexty);
+            this.uctx.strokeStyle = 'black';
+            this.ctx.lineWidth = this.lineWidthXl;
+            this.uctx.strokeRect(0, 0, this.nu * this.dnextx - this.lineWidthXl, this.nu * this.dnexty - this.lineWidthXl);
+            this.uctx.restore();
+            this.invalid.next = false;
+        }
+    };
+    ;
+    Tetris.prototype.drawScore = function () {
+        if (this.invalid.score) {
+            // html('score', ("00000" + Math.floor(vscore)).slice(-5));
+            this.$score.text(("00000" + Math.floor(this.vscore)).slice(-5));
+            this.invalid.score = false;
+        }
+    };
+    ;
+    Tetris.prototype.drawRows = function () {
+        if (this.invalid.rows) {
+            //html('rows', rows);
+            this.$rows.text(this.rows);
+            this.invalid.rows = false;
+        }
+    };
+    ;
+    Tetris.prototype.drawPiece = function (ctx, type, x, y, dir, dx, dy) {
+        var _this = this;
+        this.eachblock(type, x, y, dir, function (x, y) {
+            _this.drawBlock(ctx, x, y, type.color, dx, dy);
+        });
+    };
+    ;
+    Tetris.prototype.drawBlock = function (ctx, x, y, color, dx, dy) {
+        ctx.fillStyle = 'transparent';
+        ctx.lineWidth = this.lineWidthXl;
+        ctx.strokeStyle = color;
+        ctx.fillRect(x * dx, y * dy, dx, dy);
+        ctx.strokeRect(x * dx, y * dy, dx, dy);
+    };
+    ;
+    //-------------------------------------------------------------------------
+    // GAME LOOP
+    //-------------------------------------------------------------------------
+    Tetris.prototype.run = function () {
+        var _this = this;
+        // showStats(); // initialize FPS counter
+        this.addEvents(); // attach keydown and resize events
+        var now = this.timestamp();
+        var last = now;
+        var frame = function frame() {
+            now = _this.timestamp();
+            _this.update(Math.min(1, (now - last) / 1000.0)); // using requestAnimationFrame have to be able to handle large delta's caused when it 'hibernates' in a background or non-visible tab
+            _this.draw();
+            // stats.update();
+            last = now;
+            window.requestAnimationFrame(frame /*, $canvas.get(0)*/);
+        };
+        this.resize(); // setup all our sizing information
+        this.reset(); // reset the per-game variables
+        frame(); // start the first frame
+    };
+    ;
+    return Tetris;
+}();
+exports.Tetris = Tetris;
+;
+
+},{"jquery":1}],8:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 var Utils_1 = require("./Utils");
 /**
  * BaseCache it's a simple static cache
@@ -12565,7 +13167,7 @@ var BaseCache = {
 };
 exports.BaseCache = BaseCache;
 
-},{"./Utils":17}],8:[function(require,module,exports){
+},{"./Utils":18}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -12626,7 +13228,7 @@ var Dispatcher = {
 };
 exports.Dispatcher = Dispatcher;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -12637,127 +13239,133 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @type {Object}
  */
 var Dom = {
-  /**
-   * The name of the data attribute on the container
-   *
-   * @memberOf Barba.Pjax.Dom
-   * @type {String}
-   * @default
-   */
-  dataNamespace: 'namespace',
-  /**
-   * Id of the main wrapper
-   *
-   * @memberOf Barba.Pjax.Dom
-   * @type {String}
-   * @default
-   */
-  wrapperId: 'barba-wrapper',
-  /**
-   * Class name used to identify the containers
-   *
-   * @memberOf Barba.Pjax.Dom
-   * @type {String}
-   * @default
-   */
-  containerClass: 'barba-container',
-  /**
-   * Full HTML String of the current page.
-   * By default is the innerHTML of the initial loaded page.
-   *
-   * Each time a new page is loaded, the value is the response of the xhr call.
-   *
-   * @memberOf Barba.Pjax.Dom
-   * @type {String}
-   */
-  currentHTML: document.documentElement.innerHTML,
-  /**
-   * Parse the responseText obtained from the xhr call
-   *
-   * @memberOf Barba.Pjax.Dom
-   * @private
-   * @param  {String} responseText
-   * @return {HTMLElement}
-   */
-  parseResponse: function parseResponse(responseText) {
-    this.currentHTML = responseText;
-    var wrapper = document.createElement('div');
-    wrapper.innerHTML = responseText;
-    var titleEl = wrapper.querySelector('title');
-    if (titleEl) document.title = titleEl.textContent;
-    return this.getContainer(wrapper);
-  },
-  /**
-   * Get the main barba wrapper by the ID `wrapperId`
-   *
-   * @memberOf Barba.Pjax.Dom
-   * @return {HTMLElement} element
-   */
-  getWrapper: function getWrapper() {
-    var wrapper = document.getElementById(this.wrapperId);
-    if (!wrapper) throw new Error('Barba.js: wrapper not found!');
-    return wrapper;
-  },
-  /**
-   * Get the container on the current DOM,
-   * or from an HTMLElement passed via argument
-   *
-   * @memberOf Barba.Pjax.Dom
-   * @private
-   * @param  {HTMLElement} element
-   * @return {HTMLElement}
-   */
-  getContainer: function getContainer(element) {
-    if (!element) element = document.body;
-    if (!element) throw new Error('Barba.js: DOM not ready!');
-    var container = this.parseContainer(element);
-    if (container && container.jquery) container = container[0];
-    if (!container) throw new Error('Barba.js: no container found');
-    return container;
-  },
-  /**
-   * Get the namespace of the container
-   *
-   * @memberOf Barba.Pjax.Dom
-   * @private
-   * @param  {HTMLElement} element
-   * @return {String}
-   */
-  getNamespace: function getNamespace(element) {
-    if (element && element.dataset) {
-      return element.dataset[this.dataNamespace];
-    } else if (element) {
-      return element.getAttribute('data-' + this.dataNamespace);
+    /**
+     * The name of the data attribute on the container
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @type {String}
+     * @default
+     */
+    dataNamespace: 'namespace',
+    /**
+     * Id of the main wrapper
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @type {String}
+     * @default
+     */
+    wrapperId: 'barba-wrapper',
+    /**
+     * Class name used to identify the containers
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @type {String}
+     * @default
+     */
+    containerClass: 'barba-container',
+    /**
+     * Full HTML String of the current page.
+     * By default is the innerHTML of the initial loaded page.
+     *
+     * Each time a new page is loaded, the value is the response of the xhr call.
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @type {String}
+     */
+    currentHTML: document.documentElement.innerHTML,
+    /**
+     * Parse the responseText obtained from the xhr call
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @private
+     * @param  {String} responseText
+     * @return {JQuery<HTMLElement>}
+     */
+    parseResponse: function parseResponse(responseText) {
+        this.currentHTML = responseText;
+        var $wrapper = $($.parseHTML(responseText));
+        var $title = $wrapper.filter('title');
+        if ($title.length) {
+            document.title = $title.text();
+        }
+        return this.getContainer($wrapper);
+    },
+    /**
+     * Get the main barba wrapper by the ID `wrapperId`
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @return {JQuery<HTMLElement>} element
+     */
+    getWrapper: function getWrapper() {
+        var $wrapper = $('#' + this.wrapperId);
+        if (!$wrapper) {
+            throw new Error('Barba.js: wrapper not found!');
+        }
+        return $wrapper;
+    },
+    /**
+     * Get the container on the current DOM,
+     * or from an HTMLElement passed via argument
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @private
+     * @param  {HTMLElement} element
+     * @return {HTMLElement}
+     */
+    getContainer: function getContainer($element) {
+        if (!$element) {
+            $element = $(document.body);
+        }
+        if (!$element) {
+            throw new Error('Barba.js: DOM not ready!');
+        }
+        var $container = this.parseContainer($element);
+        if (!$container) {
+            throw new Error('Barba.js: no container found');
+        }
+        return $container;
+    },
+    /**
+     * Get the namespace of the container
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @private
+     * @param  {HTMLElement} element
+     * @return {String}
+     */
+    getNamespace: function getNamespace($element) {
+        if ($element && $element.data()) {
+            return $element.data('namespace');
+        }
+        return null;
+    },
+    /**
+     * Put the container on the page
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @private
+     * @param  {HTMLElement} element
+     */
+    putContainer: function putContainer($element) {
+        $element.css('visibility', 'hidden');
+        var $wrapper = this.getWrapper();
+        $wrapper.append($element);
+    },
+    /**
+     * Get container selector
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @private
+     * @param  {HTMLElement} element
+     * @return {HTMLElement} element
+     */
+    parseContainer: function parseContainer($element) {
+        return $element.find('.' + this.containerClass);
     }
-    return null;
-  },
-  /**
-   * Put the container on the page
-   *
-   * @memberOf Barba.Pjax.Dom
-   * @private
-   * @param  {HTMLElement} element
-   */
-  putContainer: function putContainer(element) {
-    element.style.visibility = 'hidden';
-    var wrapper = this.getWrapper();
-    wrapper.appendChild(element);
-  },
-  /**
-   * Get container selector
-   *
-   * @memberOf Barba.Pjax.Dom
-   * @private
-   * @param  {HTMLElement} element
-   * @return {HTMLElement} element
-   */
-  parseContainer: function parseContainer(element) {
-    return element.querySelector('.' + this.containerClass);
-  }
 };
 exports.Dom = Dom;
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -12821,7 +13429,7 @@ var HistoryManager = /** @class */function () {
 exports.HistoryManager = HistoryManager;
 ;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -12881,13 +13489,14 @@ var Pjax = {
      * @private
      */
     init: function init() {
-        var container = this.Dom.getContainer();
-        var wrapper = this.Dom.getWrapper();
-        wrapper.setAttribute('aria-live', 'polite');
-        this.History.add(this.getCurrentUrl(), this.Dom.getNamespace(container));
+        this.Dom;
+        var $container = this.Dom.getContainer();
+        var $wrapper = this.Dom.getWrapper();
+        $wrapper.attr('aria-live', 'polite');
+        this.History.add(this.getCurrentUrl(), this.Dom.getNamespace($container));
         //Fire for the current view.
         Dispatcher_1.Dispatcher.trigger('initStateChange', this.History.currentStatus());
-        Dispatcher_1.Dispatcher.trigger('newPageReady', this.History.currentStatus(), {}, container, this.Dom.currentHTML);
+        Dispatcher_1.Dispatcher.trigger('newPageReady', this.History.currentStatus(), {}, $container, this.Dom.currentHTML);
         Dispatcher_1.Dispatcher.trigger('transitionCompleted', this.History.currentStatus());
         this.bindEvents();
     },
@@ -12948,10 +13557,10 @@ var Pjax = {
             this.Cache.set(url, xhr);
         }
         xhr.then(function (data) {
-            var container = _this.Dom.parseResponse(data);
-            _this.Dom.putContainer(container);
+            var $container = _this.Dom.parseResponse(data);
+            _this.Dom.putContainer($container);
             if (!_this.cacheEnabled) _this.Cache.reset();
-            deferred.resolve(container);
+            deferred.resolve($container);
         }, function () {
             //Something went wrong (timeout, 404, 505...)
             _this.forceGoTo(url);
@@ -13040,7 +13649,7 @@ var Pjax = {
      */
     getTransition: function getTransition() {
         //User customizable
-        return Transition_1.HideShowTransition;
+        return new Transition_1.HideShowTransition();
     },
     /**
      * Method called after a 'popstate' or from .goTo()
@@ -13086,7 +13695,7 @@ var Pjax = {
 };
 exports.Pjax = Pjax;
 
-},{"../Cache":7,"../Dispatcher":8,"../Transition":16,"../Utils":17,"./Dom":9,"./HistoryManager":10}],12:[function(require,module,exports){
+},{"../Cache":8,"../Dispatcher":9,"../Transition":17,"../Utils":18,"./Dom":10,"./HistoryManager":11}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -13145,7 +13754,7 @@ var Prefetch = {
 };
 exports.Prefetch = Prefetch;
 
-},{"../Utils":17,"./Pjax":11}],13:[function(require,module,exports){
+},{"../Utils":18,"./Pjax":12}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -13158,7 +13767,7 @@ exports.Pjax = Pjax_1.Pjax;
 var Prefetch_1 = require("./Prefetch");
 exports.Prefetch = Prefetch_1.Prefetch;
 
-},{"./Dom":9,"./HistoryManager":10,"./Pjax":11,"./Prefetch":12}],14:[function(require,module,exports){
+},{"./Dom":10,"./HistoryManager":11,"./Pjax":12,"./Prefetch":13}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -13169,22 +13778,8 @@ var Utils_1 = require("../Utils");
  * @namespace Barba.BaseTransition
  * @type {Object}
  */
-var BaseTransition = {
-  /**
-   * @memberOf Barba.BaseTransition
-   * @type {HTMLElement}
-   */
-  oldContainer: HTMLElement,
-  /**
-   * @memberOf Barba.BaseTransition
-   * @type {HTMLElement}
-   */
-  newContainer: HTMLElement,
-  /**
-   * @memberOf Barba.BaseTransition
-   * @type {Promise}
-   */
-  newContainerLoading: Promise,
+var BaseTransition = /** @class */function () {
+  function BaseTransition() {}
   /**
    * Helper to extend the object
    *
@@ -13192,9 +13787,10 @@ var BaseTransition = {
    * @param  {Object} newObject
    * @return {Object} newInheritObject
    */
-  extend: function extend(obj) {
+  BaseTransition.prototype.extend = function (obj) {
     return Utils_1.Utils.extend(this, obj);
-  },
+  };
+  ;
   /**
    * This function is called from Pjax module to initialize
    * the transition.
@@ -13205,43 +13801,66 @@ var BaseTransition = {
    * @param  {Promise} newContainer
    * @return {Promise}
    */
-  init: function init(oldContainer, newContainer) {
+  BaseTransition.prototype.init = function ($oldContainer, $newContainer) {
     var _this = this;
-    this.oldContainer = oldContainer;
-    this._newContainerPromise = newContainer;
+    this.$oldContainer = $oldContainer;
+    var _newContainerPromise = $newContainer;
     this.deferred = Utils_1.Utils.deferred();
-    this.newContainerReady = Utils_1.Utils.deferred();
-    this.newContainerLoading = this.newContainerReady.promise;
+    var newContainerReady = Utils_1.Utils.deferred();
+    this.newContainerLoading = newContainerReady.promise;
     this.start();
-    this._newContainerPromise.then(function (newContainer) {
-      _this.newContainer = newContainer;
-      _this.newContainerReady.resolve();
+    _newContainerPromise.then(function ($newContainer) {
+      _this.$newContainer = $newContainer;
+      newContainerReady.resolve();
     });
     return this.deferred.promise;
-  },
+  };
+  ;
   /**
    * This function needs to be called as soon the Transition is finished
    *
    * @memberOf Barba.BaseTransition
    */
-  done: function done() {
-    this.oldContainer.parentNode.removeChild(this.oldContainer);
-    this.newContainer.style.visibility = 'visible';
+  BaseTransition.prototype.done = function () {
+    // this.$oldContainer[0].parentNode.removeChild(this.$oldContainer[]);
+    this.$oldContainer.remove();
+    // this.newContainer.style.visibility = 'visible';
+    this.$newContainer.css('visibility', 'visible');
     this.deferred.resolve();
-  },
+  };
+  ;
   /**
    * Constructor for your Transition
    *
    * @memberOf Barba.BaseTransition
    * @abstract
    */
-  start: function start() {}
-};
+  BaseTransition.prototype.start = function () {};
+  ;
+  return BaseTransition;
+}();
 exports.BaseTransition = BaseTransition;
+;
 
-},{"../Utils":17}],15:[function(require,module,exports){
+},{"../Utils":18}],16:[function(require,module,exports){
 "use strict";
 
+var __extends = undefined && undefined.__extends || function () {
+    var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
+        d.__proto__ = b;
+    } || function (d, b) {
+        for (var p in b) {
+            if (b.hasOwnProperty(p)) d[p] = b[p];
+        }
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+}();
 Object.defineProperty(exports, "__esModule", { value: true });
 var BaseTransition_1 = require("./BaseTransition");
 /**
@@ -13252,18 +13871,25 @@ var BaseTransition_1 = require("./BaseTransition");
  * @namespace Barba.HideShowTransition
  * @augments Barba.BaseTransition
  */
-var HideShowTransition = BaseTransition_1.BaseTransition.extend({
-    start: function start() {
+var HideShowTransition = /** @class */function (_super) {
+    __extends(HideShowTransition, _super);
+    function HideShowTransition() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    HideShowTransition.prototype.start = function () {
         this.newContainerLoading.then(this.finish.bind(this));
-    },
-    finish: function finish() {
+    };
+    ;
+    HideShowTransition.prototype.finish = function () {
         document.body.scrollTop = 0;
         this.done();
-    }
-});
+    };
+    ;
+    return HideShowTransition;
+}(BaseTransition_1.BaseTransition);
 exports.HideShowTransition = HideShowTransition;
 
-},{"./BaseTransition":14}],16:[function(require,module,exports){
+},{"./BaseTransition":15}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -13272,7 +13898,7 @@ exports.BaseTransition = BaseTransition_1.BaseTransition;
 var HideShowTransition_1 = require("./HideShowTransition");
 exports.HideShowTransition = HideShowTransition_1.HideShowTransition;
 
-},{"./BaseTransition":14,"./HideShowTransition":15}],17:[function(require,module,exports){
+},{"./BaseTransition":15,"./HideShowTransition":16}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -13386,7 +14012,7 @@ var Utils = /** @class */function () {
 exports.Utils = Utils;
 ;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -13474,7 +14100,7 @@ var BaseView = {
 };
 exports.BaseView = BaseView;
 
-},{"./Dispatcher":8,"./Utils":17}],19:[function(require,module,exports){
+},{"./Dispatcher":9,"./Utils":18}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -13490,7 +14116,7 @@ if (typeof promise_polyfill_1.default !== 'function') {
     window.Promise = promise_polyfill_1.default;
 }
 var Barba = {
-    version: '1.0.0-typescript',
+    version: '1.0.0-jquery',
     BaseTransition: BaseTransition_1.BaseTransition,
     BaseView: View_1.BaseView,
     BaseCache: Cache_1.BaseCache,
@@ -13502,41 +14128,39 @@ var Barba = {
 };
 exports.Barba = Barba;
 
-},{"./Cache":7,"./Dispatcher":8,"./Pjax":13,"./Transition/BaseTransition":14,"./Utils":17,"./View":18,"promise-polyfill":3}],20:[function(require,module,exports){
+},{"./Cache":8,"./Dispatcher":9,"./Pjax":14,"./Transition/BaseTransition":15,"./Utils":18,"./View":19,"promise-polyfill":3}],21:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-function sayHello(name) {
-    return "Hello from " + name;
-}
-exports.sayHello = sayHello;
-
-},{}],21:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var greet_1 = require("./greet");
-var jQuery = require("jquery");
-var barba_ts_1 = require("./barba.ts");
+var Tetris_1 = require("./Tetris");
+var $ = require("jquery");
+var barba_1 = require("./barba");
 var Rivets = require("rivets");
-// window.$ = jQuery;
-// window.jQuery = jQuery;
+window.$ = $;
+// window.jQuery = $;
 // window.Barba = Barba;
 // window.rivets = Rivets;
-console.log('Barba', barba_ts_1.Barba);
-console.log('Rivets', Rivets, window.rivets);
-function showHello(selector, name) {
-    var $el = jQuery(selector);
-    console.log($el);
-    $el.text(greet_1.sayHello(name));
-}
-;
-jQuery(function () {
-    showHello("#greeting", "TypeScript");
-    barba_ts_1.Barba.Prefetch.init();
-    barba_ts_1.Barba.Pjax.start();
+var $el;
+console.log('Barba', barba_1.Barba);
+console.log('Rivets', Rivets);
+var initBarba = function initBarba() {
+    console.log('initBarba');
+    barba_1.Barba.Prefetch.init();
+    barba_1.Barba.Dispatcher.on('newPageReady', function (currentStatus, prevStatus, $container, newPageRawHTML) {
+        // init Template
+        var data = $container.data();
+        console.log('newPageReady', currentStatus);
+        if (data.template === 'page.tetris') {
+            var tetris = new Tetris_1.Tetris();
+            tetris.run();
+        }
+    });
+    barba_1.Barba.Pjax.start();
+};
+$(function () {
+    initBarba();
 });
 
-},{"./barba.ts":19,"./greet":20,"jquery":1,"rivets":4}]},{},[21])
+},{"./Tetris":7,"./barba":20,"jquery":1,"rivets":4}]},{},[21])
 
 //# sourceMappingURL=bundle.js.map

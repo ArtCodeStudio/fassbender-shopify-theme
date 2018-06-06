@@ -62,14 +62,15 @@ var Pjax = {
   * @private
   */
  init: function() {
-   var container = this.Dom.getContainer();
-   var wrapper = this.Dom.getWrapper();
+   this.Dom; 
+   var $container = this.Dom.getContainer();
+   var $wrapper = this.Dom.getWrapper();
 
-   wrapper.setAttribute('aria-live', 'polite');
+   $wrapper.attr('aria-live', 'polite');
 
    this.History.add(
      this.getCurrentUrl(),
-     this.Dom.getNamespace(container)
+     this.Dom.getNamespace($container)
    );
 
    //Fire for the current view.
@@ -77,7 +78,7 @@ var Pjax = {
    Dispatcher.trigger('newPageReady',
      this.History.currentStatus(),
      {},
-     container,
+     $container,
      this.Dom.currentHTML
    );
    Dispatcher.trigger('transitionCompleted', this.History.currentStatus());
@@ -157,14 +158,14 @@ var Pjax = {
 
    xhr.then(
      function(data: string) {
-       var container = _this.Dom.parseResponse(data);
+       var $container = _this.Dom.parseResponse(data);
 
-       _this.Dom.putContainer(container);
+       _this.Dom.putContainer($container);
 
        if (!_this.cacheEnabled)
          _this.Cache.reset();
 
-       deferred.resolve(container);
+       deferred.resolve($container);
      },
      function() {
        //Something went wrong (timeout, 404, 505...)
@@ -289,7 +290,7 @@ var Pjax = {
   */
  getTransition: function() {
    //User customizable
-   return HideShowTransition;
+   return new HideShowTransition();
  },
 
  /**

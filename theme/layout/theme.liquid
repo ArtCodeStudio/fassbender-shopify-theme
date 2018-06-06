@@ -6,17 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
-    {% comment %}
-      Use collection.title directly to remove <##> tag from collection title.
-      The strip_html filter seems to not work with page_title object
-      @see https://help.shopify.com/themes/liquid/objects/page-title
-    {% endcomment %}
-    {% unless collection.title == blank %}
-      {{ collection.title | strip_html }}
-    {% else %}
-      {{ page_title }}
-    {% endunless %}
-    {% unless page_title contains shop.name %} &ndash; {{ shop.name | strip_html }}{% endunless %}
+    {% include 'jumplink-get-title' %}
   </title>
 
   {% if page_description %}
@@ -33,147 +23,19 @@
 
   {% include 'jumplink-variables.js' %}
 
-  {% comment %}
-    https://help.shopify.com/manual/reports-and-analytics/google-analytics#remove-duplicate-scripts
-    https://help.shopify.com/manual/reports-and-analytics/google-analytics/google-analytics-setup#upgrade-ga%22
-  {% endcomment %}
-
   {{ 'bundle.js' | asset_url | script_tag }}
-  
-  {% comment %}
-  {{ 'custom-libs.js' | asset_url | script_tag }}
-  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
-  {{ 'customer_area.js' | shopify_asset_url | script_tag }}
-  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
-  {{ 'option_selection.js' | asset_url | script_tag }}
-  {{ 'https://www.google-analytics.com/analytics.js' | script_tag }}
-  {% endcomment %}
 
-  {% comment %} <script>
-    if(typeof(videojs) !== 'undefined' && typeof(videojs.options) !== 'undefined' && typeof(videojs.options.flash) !== 'undefined' ) {
-      videojs.options.flash.swf = "{{'video-js.swf' | asset_url}}"
-    }
-  </script> {% endcomment %}
-
-  {% comment %}
-  <link rel="stylesheet" href="{{ 'social/social-icons.css' | global_asset_url }}">
-  {% endcomment %}
   <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}">
   <link rel="stylesheet" href="{{ 'theme.scss.css' | asset_url }}">
-
-  {% comment %}
-  {{ 'jumplink-templates.js'  | asset_url | script_tag }}
-  {{ 'jumplink-sections.js'  | asset_url | script_tag }}
-  {{ 'shop.js' | asset_url | script_tag }}
-  {% endcomment %}
 
 </head>
 
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
 
-  <p id="greeting">Loading ...</p>
-  {% comment %}
-    Main Navigation 
-  {% endcomment %}
   {% include 'jumplink-navbar' %}
 
   <div id="barba-wrapper">
-    <div class="barba-container"
-      data-namespace="{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}"
-
-      {% if product %}
-        data-product-url="{{collection.url}}{{product.url}}"
-        data-product-title='{{product.title | replace: "'", "&#39;"}}'
-        data-product-json-string='{{product | json | replace: "'", "&#39;"}}'
-        data-product-metafields-custom-fields-json-string='{{product.metafields.c_f | json | replace: "'", "&#39;"}}'
-        data-product-metafields-spr-json-string='{{product.metafields.spr | json | replace: "'", "&#39;"}}'
-        data-product-image-last='{{ product.images.last.src | img_url: "master" }}'
-        data-product-placeholder-image='{{ "no-image.png" | asset_url }}'
-
-        {% if collection.previous_product %}
-          data-product-prev-url="{{collection.previous_product}}"
-        {% endif %}
-
-        {% if collection.next_product %}
-          data-product-next-url="{{collection.next_product}}"
-        {% endif %}
-      {% endif %}
-
-      {% if collection %}
-        data-collection-handle="{{collection.handle}}"
-
-        {% comment %}
-          Paginate informations needed for the show all products function
-        {% endcomment %}
-        data-paginate-pages-current-index="{{ current_page }}"
-
-        {% paginate collection.products by settings.products_per_page %}
-
-          {% if paginate.previous.is_link %}
-            data-paginate-previous-url="{{ paginate.previous.url }}"
-          {% endif %}
-
-          {% if paginate.next.is_link %}
-            data-paginate-next-url="{{ paginate.next.url }}"
-          {% endif %}
-
-          {% for part in paginate.parts %}
-
-            {% comment %}
-              The count of pagination pages is in the url of the last part.url
-              e.g if the url is "/collections/all?page=11" the length of pages is 11
-              part.url is unset if this is the current page
-              {% endcomment %}
-            {% if forloop.last %}
-              {% assign string_to_remove = '/collections/' | append: collection.handle | append: '?page=' %}
-              {% assign calced_current_page = part.url | remove: string_to_remove %}
-              {% if calced_current_page == blank %}
-                {% assign calced_current_page = current_page %}
-              {% endif %}
-              data-paginate-pages-length="{{ calced_current_page }}"
-            {% endif %}
-
-            
-          {% endfor %}
-
-        {% endpaginate %}
-
-      {% endif %}
-
-      {% if paginate_hash %}
-        data-paginate-hash="{{paginate_hash}}"
-      {% endif %}
-
-      {% if page %}
-         data-page-handle="{{page.handle}}"
-      {% endif %}
-
-      {% if search %}
-        data-search-results-count="{{search.results_count}}"
-        {% if search.results_count == 1 %}
-          data-search-result-url={{search.results[0].url}}
-        {% endif %}
-      {% endif %}
-
-      {% if newHash %}
-        data-new-hash="{{newHash}}"
-      {% else %}
-        data-new-hash=false
-      {% endif %}
-
-      {% if blog %}
-        data-blog="true"
-        data-blog-articles-count="{{blog.articles_count}}"
-        data-blog-comments-enabled="{{blog.comments_enabled?}}"
-        data-blog-handle="{{blog.handle}}"
-        data-blog-id="{{blog.id}}"
-        data-blog-moderated="{{blog.moderated?}}"
-        data-blog-next-article="{{blog.next_article}}"
-        data-blog-previous-article="{{blog.previous_article}}"
-        data-blog-tags="{{blog.tags}}"
-      {% endif %}
-
-    >
+    <div class="barba-container" {% include 'jumplink-barba-container-attributes' %}>
       {{ content_for_layout }}
     </div>
   </div>

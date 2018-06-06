@@ -1,0 +1,141 @@
+{% if template == blank %}
+  {% assign template = 'no-barba' %}
+{% endif %}
+
+{% assign namespace = template | replace: '.', ' ' | truncatewords: 1, '' | handle %}
+data-title="{% include 'jumplink-get-title' %}"
+data-namespace="{{ namespace }}"
+data-template="{{ template }}"
+data-template-directory="{{ template.directory }}"
+data-template-name="{{ template.name }}"
+data-template-suffix="{{ template.suffix }}"
+
+data-seo-page-title={{ page_title | json }}
+data-seo-page_description={{ page_description | json }}
+
+{% if page %}
+  data-page-author={{ page.author | json }}
+  data-page-content={{ page.content | json }}
+  data-page-handle={{ page.handle | json }}
+  data-page-id={{ page.id | json }}
+  data-page-published-at={{ page.published_at | json }}
+  data-page-template-suffix={{ page.template_suffix | json }}
+  data-page-title={{ page.title | json }}
+  data-page-url={{ page.url | json }}
+{% endif %}
+
+{% if product %}
+  data-product-url="{{collection.url}}{{product.url}}"
+  data-product-title='{{product.title | replace: "'", "&#39;"}}'
+  data-product='{{product | json | replace: "'", "&#39;"}}'
+
+  {% for variant in product.variants %}
+    data-product-variant{{variant.id}}-incoming='{{variant.incoming | json}}'
+    data-product-variant{{variant.id}}-next-incoming-date='{{variant.next_incoming_date}}'
+  {% endfor %}
+
+  data-product-metafields-global='{{product.metafields.global | json | replace: "'", "&#39;"}}'
+
+  data-product-metafields-cf='{{product.metafields.c_f | json | replace: "'", "&#39;"}}'
+
+  data-product-images-count={{ product.images | size | json }}
+
+  {% for image in product.images %}
+    data-product-image-grande{{forloop.index0}}="{{ image | img_url: 'grande' }}"
+    data-product-image-master{{forloop.index0}}="{{ image | img_url: 'master' }}"
+  {% endfor %}
+
+  {% if collection.previous_product %}
+    data-product-prev-url="{{collection.previous_product}}"
+  {% endif %}
+
+  {% if collection.next_product %}
+    data-product-next-url="{{collection.next_product}}"
+  {% endif %}
+{% endif %}
+
+{% if collection %}
+  data-collection-handle="{{collection.handle}}"
+  data-collection-title="{{collection.title}}"
+
+  {% comment %}
+    Paginate informations needed for the show all products function
+  {% endcomment %}
+  data-paginate-pages-current-index="{{ current_page }}"
+
+  {% paginate collection.products by settings.products_per_page %}
+
+    data-collection-products-count={{collection.products | size | json }}
+
+    {% for product in collection.products %}
+      data-collection-product{{forloop.index0}}-featured-image-grande="{{ product | img_url: 'grande' }}"
+      data-collection-product{{forloop.index0}}-featured-image-original="{{ product | img_url: 'original' }}"
+    {% endfor %}
+
+    {% if paginate.previous.is_link %}
+      data-paginate-previous-url="{{ paginate.previous.url }}"
+    {% endif %}
+
+    {% if paginate.next.is_link %}
+      data-paginate-next-url="{{ paginate.next.url }}"
+    {% endif %}
+
+    {% for part in paginate.parts %}
+
+      {% comment %}
+        The count of pagination pages is in the url of the last part.url
+        e.g if the url is "/collections/all?page=11" the length of pages is 11
+        part.url is unset if this is the current page
+        {% endcomment %}
+      {% if forloop.last %}
+        {% assign string_to_remove = '/collections/' | append: collection.handle | append: '?page=' %}
+        {% assign calced_current_page = part.url | remove: string_to_remove %}
+        {% if calced_current_page == blank %}
+          {% assign calced_current_page = current_page %}
+        {% endif %}
+        data-paginate-pages-length="{{ calced_current_page }}"
+      {% endif %}
+
+      
+    {% endfor %}
+
+  {% endpaginate %}
+
+{% endif %}
+
+{% if paginate_hash %}
+  data-paginate-hash="{{paginate_hash}}"
+{% endif %}
+
+{% if page %}
+    data-page-handle="{{page.handle}}"
+{% endif %}
+
+{% if search %}
+  data-search-results-count="{{search.results_count}}"
+  {% if search.results_count == 1 %}
+    data-search-result-url={{search.results[0].url}}
+  {% endif %}
+{% endif %}
+
+{% if cart %}
+  data-cart='{{cart | json | replace: "'", "&#39;"}}'
+{% endif %}
+
+{% if newHash %}
+  data-new-hash="{{newHash}}"
+{% else %}
+  data-new-hash=false
+{% endif %}
+
+{% if blog %}
+  data-blog="true"
+  data-blog-articles-count="{{blog.articles_count}}"
+  data-blog-comments-enabled="{{blog.comments_enabled?}}"
+  data-blog-handle="{{blog.handle}}"
+  data-blog-id="{{blog.id}}"
+  data-blog-moderated="{{blog.moderated?}}"
+  data-blog-next-article="{{blog.next_article}}"
+  data-blog-previous-article="{{blog.previous_article}}"
+  data-blog-tags="{{blog.tags}}"
+{% endif %}

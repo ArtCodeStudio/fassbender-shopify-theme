@@ -6,24 +6,26 @@ import { Utils } from '../Utils';
  * @namespace Barba.BaseTransition
  * @type {Object}
  */
-var BaseTransition = {
+class BaseTransition {
   /**
    * @memberOf Barba.BaseTransition
-   * @type {HTMLElement}
+   * @type {JQuery<HTMLElement>}
    */
-  oldContainer: HTMLElement,
+  $oldContainer: JQuery<HTMLElement>;
 
   /**
    * @memberOf Barba.BaseTransition
-   * @type {HTMLElement}
+   * @type {JQuery<HTMLElement>}
    */
-  newContainer: HTMLElement,
+  $newContainer: JQuery<HTMLElement>;
 
   /**
    * @memberOf Barba.BaseTransition
    * @type {Promise}
    */
-  newContainerLoading: Promise,
+  newContainerLoading: Promise<JQuery<HTMLElement>>;
+
+  private deferred: any; // TODO type
 
   /**
    * Helper to extend the object
@@ -32,9 +34,9 @@ var BaseTransition = {
    * @param  {Object} newObject
    * @return {Object} newInheritObject
    */
-  extend: function(obj: Object){
+  extend (obj: Object) {
     return Utils.extend(this, obj);
-  },
+  };
 
   /**
    * This function is called from Pjax module to initialize
@@ -46,36 +48,38 @@ var BaseTransition = {
    * @param  {Promise} newContainer
    * @return {Promise}
    */
-  init: function(oldContainer: HTMLElement, newContainer: Promise<HTMLElement>) {
+  init($oldContainer: JQuery<HTMLElement>, $newContainer: Promise<JQuery<HTMLElement>>) {
     var _this = this;
 
-    this.oldContainer = oldContainer;
-    this._newContainerPromise = newContainer;
+    this.$oldContainer = $oldContainer;
+    let _newContainerPromise = $newContainer;
 
     this.deferred = Utils.deferred();
-    this.newContainerReady = Utils.deferred();
-    this.newContainerLoading = this.newContainerReady.promise;
+    let newContainerReady = Utils.deferred();
+    this.newContainerLoading = newContainerReady.promise;
 
     this.start();
 
-    this._newContainerPromise.then(function(newContainer: HTMLElement) {
-      _this.newContainer = newContainer;
-      _this.newContainerReady.resolve();
+    _newContainerPromise.then(function($newContainer: JQuery<HTMLElement>) {
+      _this.$newContainer = $newContainer;
+      newContainerReady.resolve();
     });
 
     return this.deferred.promise;
-  },
+  };
 
   /**
    * This function needs to be called as soon the Transition is finished
    *
    * @memberOf Barba.BaseTransition
    */
-  done: function() {
-    this.oldContainer.parentNode.removeChild(this.oldContainer);
-    this.newContainer.style.visibility = 'visible';
+  done() {
+    // this.$oldContainer[0].parentNode.removeChild(this.$oldContainer[]);
+    this.$oldContainer.remove();
+    // this.newContainer.style.visibility = 'visible';
+    this.$newContainer.css('visibility', 'visible');
     this.deferred.resolve();
-  },
+  };
 
   /**
    * Constructor for your Transition
@@ -83,7 +87,9 @@ var BaseTransition = {
    * @memberOf Barba.BaseTransition
    * @abstract
    */
-  start: function() {},
+  start() {
+
+  };
 };
 
 export { BaseTransition };

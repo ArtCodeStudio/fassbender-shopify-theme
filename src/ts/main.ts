@@ -1,7 +1,7 @@
-import { sayHello } from './greet';
-import * as jQuery from 'jquery';
+import { Tetris } from './Tetris';
+import * as $ from 'jquery';
 import { Observable, Subject, ReplaySubject, from, of, range } from 'rxjs';
-import { Barba } from './barba.ts';
+import { Barba, IState } from './barba';
 import * as Rivets from 'rivets';
 
 import * as Debug from 'debug';
@@ -9,31 +9,41 @@ import * as Debug from 'debug';
 declare global {
   interface Window {
     $: any;
-    jQuery: any;
-    Barba: any;
-    rivets: any;
   }
   interface Window {  }
 }
 
-// window.$ = jQuery;
-// window.jQuery = jQuery;
+window.$ = $;
+// window.jQuery = $;
 // window.Barba = Barba;
 // window.rivets = Rivets;
 
-
+var $el: JQuery<HTMLElement>
 
 console.log('Barba', Barba);
-console.log('Rivets', Rivets , window.rivets);
+console.log('Rivets', Rivets);
 
-function showHello(selector: string, name: string) {
-  const $el = jQuery(selector);
-  console.log($el);
-  $el.text(sayHello(name));
-};
+let initBarba = () => {
+  console.log('initBarba');
 
-jQuery(() => {
-  showHello("#greeting", "TypeScript");
   Barba.Prefetch.init();
+
+  Barba.Dispatcher.on('newPageReady', (currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string) => {
+    // init Template
+    var data = $container.data();
+    console.log('newPageReady', currentStatus, );
+    if(data.template === 'page.tetris') {
+      let tetris = new Tetris();
+      tetris.run();
+    }
+  });
+
+  
   Barba.Pjax.start();
+}
+
+$(() => {
+  initBarba();
 });
+
+

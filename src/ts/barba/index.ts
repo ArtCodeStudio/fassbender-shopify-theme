@@ -5,7 +5,7 @@ import { BaseTransition } from './Transition/BaseTransition';
 import { BaseView } from './View';
 import { BaseCache } from './Cache';
 import { Dispatcher } from './Dispatcher';
-import { HistoryManager, Pjax, Prefetch } from './Pjax';
+import { HistoryManager, Pjax, Prefetch, IState } from './Pjax';
 import { Utils } from './Utils';
 
 declare global {
@@ -17,7 +17,7 @@ if (typeof Promise !== 'function') {
 }
  
  var Barba = {
-   version: '1.0.0-typescript',
+   version: '1.0.0-jquery',
    BaseTransition: BaseTransition,
    BaseView: BaseView,
    BaseCache: BaseCache,
@@ -28,4 +28,4 @@ if (typeof Promise !== 'function') {
    Utils: Utils
  };
  
- export { Barba };
+ export { Barba, IState };

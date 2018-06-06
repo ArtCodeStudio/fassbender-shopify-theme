@@ -52,6 +52,7 @@
     "@types/promise-polyfill": "^6.0.0",
     "bootstrap": "^4.1.1",
     "debug": "^3.1.0",
+    "gulp-shell": "^0.6.5",
     "jquery": "^3.3.1",
     "jshint": "^2.9.5",
     "promise-polyfill": "^8.0.0",

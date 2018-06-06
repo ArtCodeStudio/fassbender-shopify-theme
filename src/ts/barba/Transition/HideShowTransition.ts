@@ -8,15 +8,15 @@ import { BaseTransition } from './BaseTransition';
  * @namespace Barba.HideShowTransition
  * @augments Barba.BaseTransition
  */
-var HideShowTransition = BaseTransition.extend({
-  start: function() {
+class HideShowTransition extends BaseTransition {
+  start() {
     this.newContainerLoading.then(this.finish.bind(this));
-  },
+  };
 
-  finish: function() {
+  finish() {
     document.body.scrollTop = 0;
     this.done();
-  }
-});
+  };
+}
 
 export { HideShowTransition };

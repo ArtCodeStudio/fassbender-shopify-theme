@@ -17,14 +17,15 @@ var gulp          = require('gulp'),
     uglify        = require('gulp-uglify'),
     rename        = require("gulp-rename"),
     sourcemaps    = require('gulp-sourcemaps'),
-    browserify    = require("browserify"),
+    browserify    = require('browserify'),
     source        = require('vinyl-source-stream'),
-    tsify         = require("tsify"),
-    gutil         = require("gulp-util"),
-    watchify      = require("watchify"),
+    tsify         = require('tsify'),
+    gutil         = require('gulp-util'),
+    watchify      = require('watchify'),
     buffer        = require('vinyl-buffer'),
     autoprefixer  = require('gulp-autoprefixer'),
-    ts            = require("gulp-typescript"),
+    shell         = require('gulp-shell'),
+    ts            = require('gulp-typescript'),
     tsProject     = ts.createProject('tsconfig.json');
 
 // list of settings files to include, in order of inclusion
@@ -76,8 +77,10 @@ var onError = function (err) {
   gutil.beep();
   gutil.log(gutil.colors.red(err));
 };
-
-// ZIP: Cretae a zipped file of the theme that can be uploaded to Shopify
+ 
+/**
+ * Cretae a zipped file of the theme that can be uploaded to Shopify
+ */
 gulp.task('zip', function () {
   var theme = [
     'theme/assets/*',
@@ -94,6 +97,9 @@ gulp.task('zip', function () {
     .pipe(gulp.dest('./'));
 });
 
+/**
+ * Build typescript files to bundle.js
+ */
 gulp.task('typescript', function() {
   return browserify(browserfyConfig)
   .plugin(tsify)
@@ -102,6 +108,7 @@ gulp.task('typescript', function() {
       extensions: ['.ts']
   })
   .bundle()
+  .on('error', onError)
   .pipe(source('bundle.js'))
   .pipe(buffer())
   .pipe(sourcemaps.init({loadMaps: true}))
@@ -110,8 +117,10 @@ gulp.task('typescript', function() {
   .pipe(gulp.dest('./theme/assets/'));
 });
 
-// sass-dynamic: Pull scss files together
-// TODO use https://www.npmjs.com/package/gulp-shopify-sass
+/**
+ * concat all dynamic scss files to let it build from shopify's scss implementation on the server
+ * TODO use https://www.npmjs.com/package/gulp-shopify-sass
+ */
 gulp.task('sass-dynamic', function () {
   var paths = new SassImport('./src/scss/dynamic/theme.scss');
   console.log(paths);
@@ -123,6 +132,9 @@ gulp.task('sass-dynamic', function () {
     .pipe(gulp.dest('./theme/assets/'));
 });
 
+/**
+ * Build scss files to css
+ */
 gulp.task('sass-static', function () {
 
   var sassOptions = {
@@ -142,9 +154,9 @@ gulp.task('sass-static', function () {
     .pipe(gulp.dest('./theme/assets/'));
 });
 
-gulp.task('sass', ['sass-static', 'sass-dynamic']);
-
-// SHOPIFY_THEME_SETTINGS: Create settings_schema.json
+/**
+ * Create settings_schema.json
+ */
 gulp.task('theme_settings', function () {
   return gulp.src('./settings_schema/*.json')
     .pipe(jsoncombine('settings_schema.json',function(data){
@@ -159,8 +171,6 @@ gulp.task('theme_settings', function () {
     .pipe(gulp.dest('./theme/config/'));
 });
 
-gulp.task('watch-typescript', watchBrowserify);
-
 gulp.task('watch-sass', function () {
   // watch for sass changes
   gulp.watch([
@@ -169,6 +179,14 @@ gulp.task('watch-sass', function () {
   ], ['sass']);
 });
 
-gulp.task('watch', ['watch-sass', 'watch-typescript']);
+gulp.task('watch-typescript', watchBrowserify);
 
-gulp.task('default', ['sass', 'typescript']);
+gulp.task('sass', ['sass-static', 'sass-dynamic']);
+
+gulp.task('theme-watch', shell.task('cd ./theme; theme watch --force'));
+
+gulp.task('watch', ['watch-sass', 'watch-typescript', 'theme-watch']);
+
+gulp.task('build', ['sass', 'typescript']);
+
+gulp.task('default', ['watch']);
