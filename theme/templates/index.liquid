@@ -1,29 +1,11 @@
 <div class="container-fluid pt-5">
 
-  {% comment %}
-  {% paginate collections by settings.collections_per_page %}
-    <div class="row">
-      {% for collection in collections %}
-        <div class="col-xs-12 col-sm-6 col-md-4 col-xl-4">
-          {% include 'jumplink-collection-grid-item' %}
-        </div>
-      {% endfor %}
-    </div>
-    {% include 'jumplink-pagination', show_all_active: false %}
-  {% endpaginate %}
-  {% endcomment %}
-
   {{ content_for_index }}
-
 
   <div class="row">
 
-    {% comment %} {% include 'jumplink-register-box' %} {% endcomment %}
-
-    {% include 'jumplink-instagram-box' %}
-
     {% if settings.blog_enable and settings.home_blog_preview_enable %}
-      <div class="col-12" id="featured-articles">
+      <div class="col-12">
         <div class="row">
           {% for article in blogs.news.articles limit: 3 %}
             {% include 'article-grid-item' article: article %}

@@ -6,14 +6,13 @@ import * as Rivets from 'rivets';
 
 import * as Debug from 'debug';
 
-declare global {
-  interface Window {
-    $: any;
-  }
-  interface Window {  }
-}
+// declare global {
+//   interface Window {
+//     $: any;
+//   }
+//   interface Window {  }
+// }
 
-window.$ = $;
 // window.jQuery = $;
 // window.Barba = Barba;
 // window.rivets = Rivets;

@@ -13232,6 +13232,7 @@ exports.Dispatcher = Dispatcher;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var $ = require("jquery");
 /**
  * Object that is going to deal with DOM parsing/manipulation
  *
@@ -13365,7 +13366,7 @@ var Dom = {
 };
 exports.Dom = Dom;
 
-},{}],11:[function(require,module,exports){
+},{"jquery":1}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -14136,7 +14137,12 @@ var Tetris_1 = require("./Tetris");
 var $ = require("jquery");
 var barba_1 = require("./barba");
 var Rivets = require("rivets");
-window.$ = $;
+// declare global {
+//   interface Window {
+//     $: any;
+//   }
+//   interface Window {  }
+// }
 // window.jQuery = $;
 // window.Barba = Barba;
 // window.rivets = Rivets;

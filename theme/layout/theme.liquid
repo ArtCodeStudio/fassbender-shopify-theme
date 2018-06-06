@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
-    {% include 'jumplink-get-title' %}
+    {% include 'jumplink-utils-get-title' %}
   </title>
 
   {% if page_description %}
@@ -17,11 +17,10 @@
   
   {% include 'jumplink-favicons' %}
   {% include 'jumplink-open-graph-tags' %}
-  {% include 'jumplink-twitter-card' %}
 
   {{ content_for_header }}
 
-  {% include 'jumplink-variables.js' %}
+  {% include 'jumplink-utils-js-variables' %}
 
   {{ 'bundle.js' | asset_url | script_tag }}
 
@@ -30,12 +29,12 @@
 
 </head>
 
-<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+<body id="{{ page_title | handle }}">
 
-  {% include 'jumplink-navbar' %}
+  {% include 'jumplink-navigation' %}
 
   <div id="barba-wrapper">
-    <div class="barba-container" {% include 'jumplink-barba-container-attributes' %}>
+    <div class="barba-container" {% include 'jumplink-utils-barba-container-attributes' %}>
       {{ content_for_layout }}
     </div>
   </div>

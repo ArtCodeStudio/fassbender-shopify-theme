@@ -6,7 +6,7 @@
         'id': '{{linklist.id}}',
     {% endif %}
     {% if linklist.links %}
-        'links': {% include 'jumplink-links.json' %},
+        'links': {% include 'jumplink-utils-json-links' %},
     {% endif %}
     {% if linklist.title %}
         'title': '{{linklist.title}}',
