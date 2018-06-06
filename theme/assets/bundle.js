@@ -14166,6 +14166,7 @@ var initBarba = function initBarba() {
 $(function () {
     initBarba();
 });
+// TODO slideshow inpirated by https://slideout.js.org/
 
 },{"./Tetris":7,"./barba":20,"jquery":1,"rivets":4}]},{},[21])
 

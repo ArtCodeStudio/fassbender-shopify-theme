@@ -45,4 +45,4 @@ $(() => {
   initBarba();
 });
 
-
+// TODO slideshow inpirated by https://slideout.js.org/
