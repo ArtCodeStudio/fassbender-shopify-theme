@@ -49,9 +49,7 @@ var redirects = {
  * @see http://stackoverflow.com/a/2419877
  */
 jQuery.fn.outerHTML = function(s) {
-  return s
-    ? this.before(s).remove()
-    : jQuery("<p>").append(this.eq(0).clone()).html();
+  return s ? this.before(s).remove() : jQuery("<p>").append(this.eq(0).clone()).html();
 };
 
 /**
@@ -105,11 +103,11 @@ jumplink.initTetris = function (dataset) {
   // base helper methods
   //-------------------------------------------------------------------------
 
-  var get = function (id)        { return document.getElementById(id);  }
+  var get = function (id)        { return document.getElementById(id);  };
 
-  var timestamp = function () { return new Date().getTime(); }
-  var random = function (min, max) { return (min + (Math.random() * (max - min))); }
-  var randomChoice = function (choices) { return choices[Math.round(random(0, choices.length-1))]; }
+  var timestamp = function () { return new Date().getTime(); };
+  var random = function (min, max) { return (min + (Math.random() * (max - min))); };
+  var randomChoice = function (choices) { return choices[Math.round(random(0, choices.length-1))]; };
 
   // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
   if (!window.requestAnimationFrame) {
@@ -119,34 +117,34 @@ jumplink.initTetris = function (dataset) {
       window.msRequestAnimationFrame     ||
       function(callback, element) {
         window.setTimeout(callback, 1000 / 60);
-      }
+      };
   }
 
   //-------------------------------------------------------------------------
   // game constants
   //-------------------------------------------------------------------------
 
-  var KEY         = { ESC: 27, SPACE: 32, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 },
-      DIR         = { UP: 0, RIGHT: 1, DOWN: 2, LEFT: 3, MIN: 0, MAX: 3 },
-      // canvas      = get('canvas'),
-      $canvas     = $('#canvas'),
-      $playBtn    = $('#start'),
-      $rows       = $('#rows'),
-      $score      = $('#score'),
-      ctx         = $canvas.get(0).getContext('2d'),
-      $ucanvas    = $('#upcoming'),
-      $menu       = $('#menu').hide(),
-      // ucanvas     = get('upcoming'),
-      uctx        = $ucanvas.get(0).getContext('2d'),
-      speed       = { start: 0.6, decrement: 0.005, min: 0.1 }, // how long before piece drops by 1 row (seconds)
-      nu          = 5,  // width/height of upcoming preview (in blocks)
-      vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0), // viewport width
-      vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0), // viewport height
-      aspectRatio = vh < vw ? [1,2] : [2,1]  // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
-      orientation = aspectRatio[0] < aspectRatio[1] ? 'landscape' : 'portrait';   
-      nx          = aspectRatio[1] * 10, // width of tetris court (in blocks)
-      ny          = aspectRatio[0] * 10, // height of tetris court (in blocks)
-      lineWidthXl = 3;
+  var KEY         = { ESC: 27, SPACE: 32, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 };
+  var  DIR         = { UP: 0, RIGHT: 1, DOWN: 2, LEFT: 3, MIN: 0, MAX: 3 };
+  // var  canvas      = get('canvas');
+  var  $canvas     = $('#canvas');
+  var  $playBtn    = $('#start');
+  var  $rows       = $('#rows');
+  var  $score      = $('#score');
+  var  ctx         = $canvas.get(0).getContext('2d');
+  var  $ucanvas    = $('#upcoming');
+  var  $menu       = $('#menu').hide();
+  // var  ucanvas     = get('upcoming');
+  var  uctx        = $ucanvas.get(0).getContext('2d');
+  var  speed       = { start: 0.6, decrement: 0.005, min: 0.1 }; // how long before piece drops by 1 row (seconds)
+  var  nu          = 5;  // width/height of upcoming preview (in blocks)
+  var  vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); // viewport width
+  var  vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); // viewport height
+  var  aspectRatio = vh < vw ? [1,2] : [2,1];  // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
+  var  orientation = aspectRatio[0] < aspectRatio[1] ? 'landscape' : 'portrait';   
+  var  nx          = aspectRatio[1] * 10; // width of tetris court (in blocks)
+  var  ny          = aspectRatio[0] * 10; // height of tetris court (in blocks)
+  var lineWidthXl = 3;
 
 
   //-------------------------------------------------------------------------
@@ -205,23 +203,23 @@ jumplink.initTetris = function (dataset) {
         ++row;
       }
     }
-  }
+  };
 
   //-----------------------------------------------------
   // check if a piece can fit into a position in the grid
   //-----------------------------------------------------
   var occupied = function (type, x, y, dir) {
-    var result = false
+    var result = false;
     eachblock(type, x, y, dir, function(x, y) {
       if ((x < 0) || (x >= nx) || (y < 0) || (y >= ny) || getBlock(x,y))
         result = true;
     });
     return result;
-  }
+  };
 
   var unoccupied = function (type, x, y, dir) {
     return !occupied(type, x, y, dir);
-  }
+  };
 
   //-----------------------------------------
   // start with 4 instances of each piece and
@@ -233,7 +231,7 @@ jumplink.initTetris = function (dataset) {
       pieces = [i,i,i,i,j,j,j,j,l,l,l,l,o,o,o,o,s,s,s,s,t,t,t,t,z,z,z,z];
     var type = pieces.splice(random(0, pieces.length-1), 1)[0];
     return { type: type, dir: DIR.UP, x: Math.round(random(0, nx - type.size)), y: 0 };
-  }
+  };
 
 
   //-------------------------------------------------------------------------
@@ -244,8 +242,8 @@ jumplink.initTetris = function (dataset) {
 
     // showStats(); // initialize FPS counter
     addEvents(); // attach keydown and resize events
-
-    var last = now = timestamp();
+    var now = timestamp();
+    var last = now;
     var frame = function () {
       now = timestamp();
       update(Math.min(1, (now - last) / 1000.0)); // using requestAnimationFrame have to be able to handle large delta's caused when it 'hibernates' in a background or non-visible tab
@@ -253,25 +251,25 @@ jumplink.initTetris = function (dataset) {
       // stats.update();
       last = now;
       requestAnimationFrame(frame, $canvas.get(0));
-    }
+    };
 
     resize(); // setup all our sizing information
     reset();  // reset the per-game variables
     frame();  // start the first frame
 
-  }
+  };
 
   var addEvents = function () {
     document.addEventListener('keydown', keydown, false);
     window.addEventListener('resize', resize, false);
     $canvas.on('singletap', tab);
     $canvas.on('swipe', swipe);
-  }
+  };
 
   var resize = function (event) {
     vw          = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); // viewport width
     vh          = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); // viewport height
-    aspectRatio = vh < vw ? [1,2] : [2,1]  // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
+    aspectRatio = vh < vw ? [1,2] : [2,1];  // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
     orientation = aspectRatio[0] < aspectRatio[1] ? 'landscape' : 'portrait'; 
     nx          = aspectRatio[1] * 10; // width of tetris court (in blocks)
     ny          = aspectRatio[0] * 10; // height of tetris court (in blocks)
@@ -289,7 +287,7 @@ jumplink.initTetris = function (dataset) {
 
     $ucanvas.attr('width', $ucanvas.width());
     $ucanvas.attr('height', $ucanvas.height());
-    $ucanvas.height($ucanvas.width()) // 1:1
+    $ucanvas.height($ucanvas.width()); // 1:1
 
     dx = $canvas.width() / nx; // pixel size of a single tetris block
     dy = $canvas.height() / ny; // (ditto)
@@ -300,7 +298,7 @@ jumplink.initTetris = function (dataset) {
 
     invalidate();
     invalidateNext();
-  }
+  };
 
   // keyboard events for playing on desktop
   var keydown = function (ev) {
@@ -319,7 +317,7 @@ jumplink.initTetris = function (dataset) {
     }
     if (handled)
       ev.preventDefault(); // prevent arrow keys from scrolling the page (supported in IE9+ and all other browsers)
-  }
+  };
 
   // swipe gestures for playing on touch devices
   var swipe = function (e, touch) {
@@ -332,7 +330,7 @@ jumplink.initTetris = function (dataset) {
         case 'down':    actions.push(DIR.DOWN);   handled = true; break;
       }
     }
-  }
+  };
 
   // tab gestures for playing on touch devices
   var tab = function (e, touch) {
@@ -341,7 +339,7 @@ jumplink.initTetris = function (dataset) {
       actions.push(DIR.UP);
       handled = true;
     }
-  }
+  };
 
 
   //-------------------------------------------------------------------------
@@ -356,7 +354,7 @@ jumplink.initTetris = function (dataset) {
     
     reset();
     playing = true;
-  }
+  };
 
   var lose = function () {
     // $playBtn.prop('disabled', false);
@@ -364,7 +362,7 @@ jumplink.initTetris = function (dataset) {
     // $menu.hide();
     setVisualScore();
     playing = false;
-  }
+  };
 
   $playBtn.click(function() {
     if (playing) {
@@ -374,19 +372,19 @@ jumplink.initTetris = function (dataset) {
     }
   });
 
-  var setVisualScore = function (n)      { vscore = n || score; invalidateScore(); }
-  var setScore = function (n)            { score = n; setVisualScore(n);  }
-  var addScore = function (n)            { score = score + n;   }
-  var clearScore = function ()           { setScore(0); }
-  var clearRows = function ()            { setRows(0); }
-  var setRows = function (n)             { rows = n; step = Math.max(speed.min, speed.start - (speed.decrement*rows)); invalidateRows(); }
-  var addRows = function (n)             { setRows(rows + n); }
-  var getBlock = function (x,y)          { return (blocks && blocks[x] ? blocks[x][y] : null); }
-  var setBlock = function (x,y,type)     { blocks[x] = blocks[x] || []; blocks[x][y] = type; invalidate(); }
-  var clearBlocks = function ()          { blocks = []; invalidate(); }
-  var clearActions = function ()         { actions = []; }
-  var setCurrentPiece = function (piece) { current = piece || randomPiece(); invalidate();     }
-  var setNextPiece = function (piece)    { next    = piece || randomPiece(); invalidateNext(); }
+  var setVisualScore = function (n)      { vscore = n || score; invalidateScore(); };
+  var setScore = function (n)            { score = n; setVisualScore(n); };
+  var addScore = function (n)            { score = score + n; };
+  var clearScore = function ()           { setScore(0); };
+  var clearRows = function ()            { setRows(0); };
+  var setRows = function (n)             { rows = n; step = Math.max(speed.min, speed.start - (speed.decrement*rows)); invalidateRows(); };
+  var addRows = function (n)             { setRows(rows + n); };
+  var getBlock = function (x,y)          { return (blocks && blocks[x] ? blocks[x][y] : null); };
+  var setBlock = function (x,y,type)     { blocks[x] = blocks[x] || []; blocks[x][y] = type; invalidate(); };
+  var clearBlocks = function ()          { blocks = []; invalidate(); };
+  var clearActions = function ()         { actions = []; };
+  var setCurrentPiece = function (piece) { current = piece || randomPiece(); invalidate();     };
+  var setNextPiece = function (piece)    { next    = piece || randomPiece(); invalidateNext(); };
 
   var reset = function () {
     dt = 0;
@@ -396,7 +394,7 @@ jumplink.initTetris = function (dataset) {
     clearScore();
     setCurrentPiece(next);
     setNextPiece();
-  }
+  };
 
   var update = function (idt) {
     if (playing) {
@@ -409,7 +407,7 @@ jumplink.initTetris = function (dataset) {
         drop();
       }
     }
-  }
+  };
 
   var handle = function (action) {
     switch(action) {
@@ -418,7 +416,7 @@ jumplink.initTetris = function (dataset) {
       case DIR.UP:    rotate();        break;
       case DIR.DOWN:  drop();          break;
     }
-  }
+  };
 
   var move = function (dir) {
     var x = current.x, y = current.y;
@@ -436,7 +434,7 @@ jumplink.initTetris = function (dataset) {
     else {
       return false;
     }
-  }
+  };
 
   var rotate = function () {
     var newdir = (current.dir == DIR.MAX ? DIR.MIN : current.dir + 1);
@@ -444,7 +442,7 @@ jumplink.initTetris = function (dataset) {
       current.dir = newdir;
       invalidate();
     }
-  }
+  };
 
   var drop = function () {
     if (!move(DIR.DOWN)) {
@@ -458,13 +456,13 @@ jumplink.initTetris = function (dataset) {
         lose();
       }
     }
-  }
+  };
 
   var dropPiece = function () {
     eachblock(current.type, current.x, current.y, current.dir, function(x, y) {
       setBlock(x, y, current.type);
     });
-  }
+  };
 
   var removeLines = function () {
     var x, y, complete, n = 0;
@@ -484,7 +482,7 @@ jumplink.initTetris = function (dataset) {
       addRows(n);
       addScore(100*Math.pow(2,n-1)); // 1: 100, 2: 200, 3: 400, 4: 800
     }
-  }
+  };
 
   var removeLine = function (n) {
     var x, y;
@@ -492,7 +490,7 @@ jumplink.initTetris = function (dataset) {
       for(x = 0 ; x < nx ; ++x)
         setBlock(x, y, (y == 0) ? null : getBlock(x, y-1));
     }
-  }
+  };
 
   //-------------------------------------------------------------------------
   // RENDERING
@@ -500,10 +498,10 @@ jumplink.initTetris = function (dataset) {
 
   var invalid = {};
 
-  var invalidate = function ()         { invalid.court  = true; }
-  var invalidateNext = function ()     { invalid.next   = true; }
-  var invalidateScore = function ()    { invalid.score  = true; }
-  var invalidateRows = function ()     { invalid.rows   = true; }
+  var invalidate = function ()         { invalid.court  = true; };
+  var invalidateNext = function ()     { invalid.next   = true; };
+  var invalidateScore = function ()    { invalid.score  = true; };
+  var invalidateRows = function ()     { invalid.rows   = true; };
 
   var draw = function () {
     ctx.save();
@@ -514,7 +512,7 @@ jumplink.initTetris = function (dataset) {
     drawScore();
     drawRows();
     ctx.restore();
-  }
+  };
 
   // Spielfeld
   var drawCourt = function () {
@@ -525,8 +523,10 @@ jumplink.initTetris = function (dataset) {
       var x, y, block;
       for(y = 0 ; y < ny ; y++) {
         for (x = 0 ; x < nx ; x++) {
-          if (block = getBlock(x,y))
+          block = getBlock(x,y);
+          if (block) {
             drawBlock(ctx, x, y, block.color, dx, dy);
+          }
         }
       }
       ctx.strokeStyle = 'black';
@@ -534,7 +534,7 @@ jumplink.initTetris = function (dataset) {
       ctx.strokeRect(0, 0, nx*dx - lineWidthXl, ny*dy - lineWidthXl); // court boundary / Spielfeldrand
       invalid.court = false;
     }
-  }
+  };
 
   var drawNext = function () {
     if (invalid.next) {
@@ -551,7 +551,7 @@ jumplink.initTetris = function (dataset) {
       uctx.restore();
       invalid.next = false;
     }
-  }
+  };
 
   var drawScore = function () {
     if (invalid.score) {
@@ -559,7 +559,7 @@ jumplink.initTetris = function (dataset) {
       $score.text(("00000" + Math.floor(vscore)).slice(-5));
       invalid.score = false;
     }
-  }
+  };
 
   var drawRows = function () {
     if (invalid.rows) {
@@ -567,28 +567,28 @@ jumplink.initTetris = function (dataset) {
       $rows.text(rows);
       invalid.rows = false;
     }
-  }
+  };
 
   var drawPiece = function (ctx, type, x, y, dir, dx, dy) {
     eachblock(type, x, y, dir, function(x, y) {
       drawBlock(ctx, x, y, type.color, dx, dy);
     });
-  }
+  };
 
   var drawBlock = function (ctx, x, y, color, dx, dy) {
     ctx.fillStyle = 'transparent';
     ctx.lineWidth = lineWidthXl;
     ctx.strokeStyle = color;
     ctx.fillRect(x*dx, y*dy, dx, dy);
-    ctx.strokeRect(x*dx, y*dy, dx, dy)
-  }
+    ctx.strokeRect(x*dx, y*dy, dx, dy);
+  };
 
   //-------------------------------------------------------------------------
   // FINALLY, lets run the game
   //-------------------------------------------------------------------------
 
   run();
-}
+};
 
 /**
  * Freeze the position of an Element
@@ -604,7 +604,7 @@ jumplink.freezeElements = function ($oldContainer, $newContainer, overwriteStyle
   }
 
   $oldElements.each(function( index ) {
-    $oldElement = $(this)
+    $oldElement = $(this);
     var clientRect = this.getBoundingClientRect();
     var css = {
       bottom: clientRect.bottom,
@@ -614,7 +614,7 @@ jumplink.freezeElements = function ($oldContainer, $newContainer, overwriteStyle
       top: clientRect.top,
       width: clientRect.width,
       position: 'fixed'
-    }    
+    };
     if(overwriteStyles['margin-left']) {
       css['margin-left'] = overwriteStyles['margin-left'];
     }
@@ -631,7 +631,7 @@ jumplink.freezeElements = function ($oldContainer, $newContainer, overwriteStyle
   });
 
   $newElements.each(function( index ) {
-    $newElement = $(this)
+    $newElement = $(this);
     $newElement.fadeTo(0, 0);
     $newElement.attr( 'data-barba', 'new' );
   });
@@ -648,12 +648,12 @@ jumplink.unfreezeElements = function () {
     $cloned: $('[data-barba="cloned"]'),
     $old: $('[data-barba="old"]'),
     $new: $('[data-barba="new"]'),
-  }
+  };
 
   result.$old.remove();
   result.$cloned.remove();
 
-  result.$new.attr('data-barba', 'freeze')
+  result.$new.attr('data-barba', 'freeze');
   result.$new.fadeTo(0, 1);
 
   // console.log('unfreezeElements', result);
@@ -667,7 +667,7 @@ jumplink.unfreezeElements = function () {
 jumplink.initDataAttributes = function (dataset) {
   jumplink.initDataApi();
   jumplink.initColorcard(dataset);
-}
+};
 
 /**
  * Data bindings to call show/hide colorcard
@@ -708,7 +708,7 @@ jumplink.initColorcard = function (dataset) {
     $label.text(html);
     
   });
-}
+};
 
 /**
  * Utilities / Helper functions
@@ -737,7 +737,7 @@ jumplink.goTo = function (href) {
   } else {
     window.location.href = href;
   }
-}
+};
 
 
 jumplink.setBarbaContainerMinHeight = function (selector) {
@@ -749,7 +749,7 @@ jumplink.setBarbaContainerMinHeight = function (selector) {
   var height = jumplink.cache.$window.height() - top - bottom;
   $(selector).css( 'min-height', height+'px');
   return height;
-}
+};
 
 /**
  * Change #search field with if active
@@ -773,24 +773,24 @@ var initSearchField = function () {
       // Animation complete.
     });
   });
-}
+};
 
 jumplink.getShopifyAdminBarHeight = function () {
   return Number(jumplink.cache.$html.css('padding-top').replace("px", ""));
-}
+};
 
 /**
  * 
  */
 jumplink.getNavHeight = function () {
   return jumplink.cache.$mainNavbar.outerHeight(true);
-}
+};
 
 // TODO
 jumplink.toggleRightSidebar = function () {
   console.log('toggleRightSidebar');
   $( '.sidebar-toggler[data-target="#right-sidebar"]' ).click();
-}
+};
 
 jumplink.initInstafeed = function (id) {
   if(!id) {
@@ -799,19 +799,19 @@ jumplink.initInstafeed = function (id) {
   // https://github.com/stevenschobert/instafeed.js
   var instafeed = new Instafeed({
     target: id,
-    clientId: window.settings['home_instafeed_clientId'],
-    accessToken: window.settings['home_instafeed_accessToken'],
+    clientId: window.settings.home_instafeed_clientId,
+    accessToken: window.settings.home_instafeed_accessToken,
     template: ProductJS.templates.instafeedItem,
-    get: window.settings['home_instafeed_get'],
-    tagName: window.settings['home_instafeed_tagName'],
-    locationId: window.settings['home_instafeed_locationId'],
-    userId: window.settings['home_instafeed_userId'], //JumpLink: '1752935354' Caroline Pezzetta @studiopezzetta: '1046245675'
-    sortBy: window.settings['home_instafeed_sortBy'],
-    limit: window.settings['home_instafeed_limit'],
-    resolution: window.settings['home_instafeed_resolution'],
+    get: window.settings.home_instafeed_get,
+    tagName: window.settings.home_instafeed_tagName,
+    locationId: window.settings.home_instafeed_locationId,
+    userId: window.settings.home_instafeed_userId, //JumpLink: '1752935354' Caroline Pezzetta @studiopezzetta: '1046245675'
+    sortBy: window.settings.home_instafeed_sortBy,
+    limit: window.settings.home_instafeed_limit,
+    resolution: window.settings.home_instafeed_resolution,
   });
   instafeed.run();
-}
+};
 
 /**
  * @see http://dcdeiv.github.io/simpler-sidebar/
@@ -853,12 +853,12 @@ var initRightSidebar = function () {
   var openAnimation = function () {
     $openText.removeClass('invisible ' + openTextInAnimationClass).addClass(openTextOutAnimationClass);
     $closeText.removeClass('invisible ' + closeTextOutAnimationClass).addClass(closeTextInAnimationClass);
-  }
+  };
 
   var closeAnimation = function () {
     $closeText.removeClass('invisible ' + closeTextInAnimationClass).addClass(closeTextOutAnimationClass);
     $openText.removeClass('invisible ' + openTextOutAnimationClass).addClass(openTextInAnimationClass);
-  }
+  };
 
   // https://github.com/benmajor/jQuery-Touch-Events
   $rightSidebar.on('swipe', function(e, touch) {
@@ -935,8 +935,7 @@ var initRightSidebar = function () {
   } else {
     console.error(new Error('jumplink.cache is undefined'));
   }
-
-}
+};
 
 /**
  * 
@@ -975,7 +974,7 @@ var initNavbar = function () {
   function(event) {
       // $(this).removeClass('show');
   });
-}
+};
 
 /**
  * Barba.js Slide and fade transition
@@ -1191,7 +1190,7 @@ var initBarbaTransition = function() {
 
   });
   return MovePage;
-}
+};
 
 /**
  * init Alertify.js
@@ -1202,7 +1201,7 @@ jumplink.initAlert = function () {
   alertify.parent(document.body);
   alertify.logPosition(window.settings.alertify_position);
   window.alertify = alertify;
-}
+};
 
 /**
  * Close all opend bootstrap modals
@@ -1210,14 +1209,14 @@ jumplink.initAlert = function () {
  */
 jumplink.closeAllModals = function () {
   jumplink.cache.$body.removeClass('modal-open').removeAttr('style');
-}
+};
 
-  /**
-   * Handles the Shopify Admin Bar
-   * Fires window resize event if admin bar changes
-   * Fires gobal adminbar.show event if admin bar shows
-   * Fires gobal adminbar.close event if admin bar closes
-   */ 
+/**
+ * Handles the Shopify Admin Bar
+ * Fires window resize event if admin bar changes
+ * Fires gobal adminbar.show event if admin bar shows
+ * Fires gobal adminbar.close event if admin bar closes
+ */ 
 jumplink.initShopifyAdminBar = function () {
 
   // handle and fire events
@@ -1244,23 +1243,22 @@ jumplink.initShopifyAdminBar = function () {
       }, 10);
     });
   });
-}
+};
 
 /**
  * Set all navs and subnavs on navbar to "not active"
  */
 var resetNav = function () {
   jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li').removeClass('active');
-
   jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li ul.list-group li.list-group-item').removeClass('active');
-}
+};
 
 /**
  * Set nav with selector to active 
  */
 var setNav = function (selector) {
-   jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li'+selector).addClass('active');
-}
+  jumplink.cache.$mainNavbar.find('ul.nav.navbar-nav li'+selector).addClass('active');
+};
 
 /**
  * Find a active child with collectionHandle and set it and his parent nav to active 
@@ -1271,7 +1269,7 @@ var setParentNav = function (collectionHandle) {
     $this.addClass('active');
     $this.closest('.level-1').addClass('active');
   });
-}
+};
 
 /**
  * Find active navs and set them to active
@@ -1318,7 +1316,7 @@ var setNavActive = function(dataset, data) {
       setNav('.'+dataset.namespace);
     break;
   }
-}
+};
 
 /**
  * 
@@ -1367,12 +1365,12 @@ var initLogin = function(dataset) {
     $recoverPasswordForm.show();
     $customerLoginForm.hide();
     jumplink.updateHash('#recover');
-  }
+  };
 
   var hideRecoverPasswordForm = function() {
     $recoverPasswordForm.hide();
     $customerLoginForm.show();
-  }
+  };
 
   $recoverPasswordLink.on('click', function(evt) {
     evt.preventDefault();
@@ -1395,7 +1393,6 @@ var initLogin = function(dataset) {
     $NewShopMessage.hide();
     $passwordResetSuccess.show();
   }
-
 }; 
 
 /**
@@ -1493,7 +1490,7 @@ var initPageCarousel = function (dataset) {
       slideColor = $slick.find('.slick-current').data('color');
     }
     $slick.attr('data-color', slideColor);
-  }
+  };
 
   // init product photo carousel
   $slick.slick(slickSettings);
@@ -1502,7 +1499,7 @@ var initPageCarousel = function (dataset) {
   $slick.on('beforeChange', function(event, slick, currentSlideIndex, nextSlideIndex){
     setSlickControlColor(nextSlideIndex);
   });
-}
+};
 
 /**
  * 
@@ -1528,8 +1525,7 @@ var initArticle = function (dataset) {
       }
     }
   }
-
-}
+};
 
 /**
  * 
@@ -1545,7 +1541,7 @@ var initBlog = function (dataset, data) {
     jumplink.sameHeightElements($sameHeightElements, 500);
   });
   jumplink.sameHeightElements($sameHeightElements, 500);
-}
+};
 
 /**
  * 
@@ -1563,8 +1559,7 @@ var initProduct = function (dataset, data) {
   jumplink.cache.lastProductDataset = data.product;
 
   ProductJS.loadProduct(data.product);
-
-}
+};
 
 /**
  * 
@@ -1612,8 +1607,8 @@ var initCustomersAddresses = function (dataset) {
         Shopify.postLink('/account/addresses/'+id, {'parameters': {'_method': 'delete'}});
       }
     }
-  }
-}
+  };
+};
 
 /**
  * init cart.js
@@ -1627,7 +1622,7 @@ var initCart = function (dataset, data) {
     backdrop: false,
     show: false,
     focus: false,
-  }
+  };
 
   self.slickOptions = {
     dots: false,
@@ -1635,7 +1630,7 @@ var initCart = function (dataset, data) {
     infinite: false, // infinite makes problems with rivets.js
     swipe: false, // do not swipe products because it has product images to swipe
     // appendArrows: $(productHandle+' .product-photo-carousel-arrows'),
-  }
+  };
 
   /**
    * Remove all event handlers from all paragraphs and hide hide all modals
@@ -1648,11 +1643,7 @@ var initCart = function (dataset, data) {
       self.$modal.off('show.bs.modal shown.bs.modal');
       self.$modal.modal('hide');
     }
-    
-    // self.$modalTogglers.off();
-    // jumplink.cache.$document.off('b2bcart.bind.after cart.requestComplete');
-    
-  }
+  };
 
   self.init = function () {
     // console.log("init cart");
@@ -1699,11 +1690,11 @@ var initCart = function (dataset, data) {
     jumplink.cache.$document.on('cart.requestComplete', function(event, cart) {
       // console.log('cart.requestComplete', cart);
     });
-  }
+  };
 
   self.init();
   return self;
-}
+};
 
 /**
  * JavaScript Code for Collection Pages, executed from barba.js
@@ -1713,7 +1704,7 @@ var initCollection = function (dataset, data) {
   // console.log('initCollection', dataset, data);
   jumplink.cache.lastCollectionDataset = {
     handle: dataset.collectionHandle
-  }
+  };
   
   var $loadAll = $('[data-onclick-load-all]');
   var currentUrl = window.location.href; // Barba.Pjax.getCurrentUrl();
@@ -1767,11 +1758,8 @@ var initCollection = function (dataset, data) {
           $products: $products,
         });
       });
-
-
-
     });
-  }
+  };
 
   /**
    * Get html for all pages of a collection
@@ -1828,7 +1816,7 @@ var initCollection = function (dataset, data) {
 
       return cb(null, pageObjects);
     });
-  }
+  };
 
   // init load all button click
   var initLoadAll = function (dataset, currentUrl) {
@@ -1836,10 +1824,9 @@ var initCollection = function (dataset, data) {
       loadAllProducts(dataset, currentUrl, function() {
         initCollectionImages();
       });
-
       return false; // Do not open link
     });
-  }
+  };
 
   // init collections images hover effect
   var initCollectionImages = function () {
@@ -1863,19 +1850,18 @@ var initCollection = function (dataset, data) {
       });
 
     });
-  }
+  };
 
   // if url is ?page=all or /collections/all load all products
   if(currentUrl === allProductsUrl || currentUrl === '/collections/all') {
     loadAllProducts(dataset, currentUrl, function() {
       initCollectionImages();
     });
-
   } else {
     initLoadAll(dataset, currentUrl);
     initCollectionImages();
   }
-}
+};
 
 /**
  * JavaScript Code for Page Template, executed from barba.js
@@ -1884,7 +1870,7 @@ var initPage = function (dataset) {
   // console.log("initPage", dataset);
   switch(dataset.pageHandle) {
     case 'about-us':
-      initPageCarousel(dataset)
+      initPageCarousel(dataset);
     break;
     case 'instashop':
       /**
@@ -1908,7 +1894,7 @@ var initPage = function (dataset) {
     default:
     break;
   }
-}
+};
 
 /**
  * 
@@ -1920,11 +1906,11 @@ var initCustomersAccount = function (dataset) {
 
     });
   }
-}
+};
 
 var initIndex = function (dataset, data) {
   jumplink.initInstafeed('instafeed-'+dataset.namespace);
-}
+};
 
 var init404 = function (dataset, data) {
   var parser = document.createElement('a');
@@ -1942,40 +1928,40 @@ var init404 = function (dataset, data) {
       'products',
       'collections',
       'pages'
-    ]
+    ];
+
+    var urlExistsCallback = function(status, url) {
+      if(status === 200){
+        // file was found
+        //console.log("exists", url);
+        Barba.Pjax.goTo(url);
+      }
+      else if(status === 404){
+        // 404 not found
+        console.error("not exists 404", url);
+      }
+    };
 
     for (var i = 0; i < searchIn.length; i++) {
       var url = '/'+searchIn[i] + '/' + lastPath;
-      ProductJS.Utilities.urlExists(url, function(status, url) {
-        if(status === 200){
-          // file was found
-          //console.log("exists", url);
-          Barba.Pjax.goTo(url);
-        }
-        else if(status === 404){
-          // 404 not found
-          console.error("not exists 404", url);
-        }
-      });
+      ProductJS.Utilities.urlExists(url, urlExistsCallback);
     }
-
     // use search
     Barba.Pjax.goTo('/search?q='+lastPath.replace(/-/g," "));
-
   }
-}
+};
 
 var initSearch = function(dataset, data) {   
   // if there is just one result, go to them
   if(dataset.searchResultsCount === "1") {
     Barba.Pjax.goTo(dataset.searchResultUrl);
   }
-}
+};
 
 var initListCollections = function(dataset, data) {
   // console.log('initListCollections', dataset, data);
   jumplink.initInstafeed('instafeed-'+dataset.namespace);
-}
+};
 
 /**
  * Run JavaScript for for special template
@@ -1996,7 +1982,7 @@ var initTemplate = {
   'page': initPage,
   'product': initProduct,
   'search': initSearch,
-}
+};
 
 /**
  * Init Javascripts insite of barba.js
@@ -2076,20 +2062,16 @@ jumplink.initTemplates = function () {
       } else {
         console.warn("template "+currentStatus.namespace+" needs a destroy function!");
       }
-
     } else {
       console.error("Template not defined: "+currentStatus.namespace);
     }
-
-    
   });
-}
+};
 
 /**
  * Init barba itself
  */
 var initBarba = function () {
-
   /*
    * Update Google Google Analytics if page is changed with barba
    * 
@@ -2168,8 +2150,7 @@ var initBarba = function () {
     }
     return true;
   };
-
-}
+};
 
 var initFooter = function () {
   var $footer = jumplink.cache.$footer;
@@ -2185,13 +2166,14 @@ var initFooter = function () {
   var $icon = $('.imprint .iconset.arrow');
 
   $footer.click(function(event) {
+    var scrollTop ;
     // open
     if($target.hasClass('hidden-xs-up')) {
       // event name inspired by https://v4-alpha.getbootstrap.com/components/modal/#events
       jumplink.cache.$document.trigger('show.jl.footer');
       $icon.transition({ 'rotate': '270deg' });
       $target.removeClass('hidden-xs-up');
-      var scrollTop = $document.height() - $window.height();
+      scrollTop = $document.height() - $window.height();
       $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {
         jumplink.cache.$document.trigger('shown.jl.footer');
       });
@@ -2199,7 +2181,7 @@ var initFooter = function () {
     } else {
       jumplink.cache.$document.trigger('hide.jl.footer');
       $icon.transition({ 'rotate': '90deg' });
-      var scrollTop = $target.offset().top - $window.height() - 4;
+      scrollTop = $target.offset().top - $window.height() - 4;
       $htmlBody.animate({ scrollTop: scrollTop }, 1000, function () {
         $target.addClass('hidden-xs-up');
         jumplink.setBarbaContainerMinHeight();
@@ -2207,7 +2189,7 @@ var initFooter = function () {
       });
     }
   });
-}
+};
 
 /*
  * Init Javascripts outsite of barba.js
