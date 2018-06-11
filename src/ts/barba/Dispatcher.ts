@@ -1,10 +1,15 @@
+interface IEvent {
+  [eventName: string]: Array<(any)>;
+}
+
 /**
  * Little Dispatcher inspired by MicroEvent.js
  *
  * @namespace Barba.Dispatcher
  * @type {Object}
  */
-var Dispatcher = {
+class Dispatcher {
+  private static instance: Dispatcher;
   /**
    * Object that keeps all the events
    *
@@ -12,7 +17,15 @@ var Dispatcher = {
    * @readOnly
    * @type {Object}
    */
-  events: {},
+  private events: IEvent = {};
+
+  constructor() {
+    if (Dispatcher.instance) {
+      return Dispatcher.instance;
+    }
+
+    Dispatcher.instance = this;
+  }
 
   /**
    * Bind a callback to an event
@@ -21,10 +34,10 @@ var Dispatcher = {
    * @param  {string} eventName
    * @param  {Function} function
    */
-  on: function(e: string, f: Function) {
+  public on(e: string, f: any) {
     this.events[e] = this.events[e] || [];
     this.events[e].push(f);
-  },
+  }
 
   /**
    * Unbind event
@@ -33,12 +46,13 @@ var Dispatcher = {
    * @param  {string} eventName
    * @param  {Function} function
    */
-  off: function(e: string, f: Function) {
-    if(e in this.events === false)
+  public off(e: string, f: any) {
+    if (e in this.events === false) {
       return;
+    }
 
     this.events[e].splice(this.events[e].indexOf(f), 1);
-  },
+  }
 
   /**
    * Fire the event running all the event associated to it
@@ -47,14 +61,20 @@ var Dispatcher = {
    * @param  {string} eventName
    * @param  {...*} args
    */
-  trigger: function(e: string, ...args: any[]) {//e, ...args
-    if (e in this.events === false)
+  public trigger(e: string, ...args: any[]) { // e, ...args
+    if (e in this.events === false) {
       return;
-
-    for(var i = 0; i < this.events[e].length; i++){
-      this.events[e][i].apply(this, Array.prototype.slice.call(arguments, 1));
     }
+
+    for (const i in this.events[e]) {
+      if (this.events[e][i]) {
+        this.events[e][i].apply(this, Array.prototype.slice.call(arguments, 1));
+      }
+    }
+    // for (let i = 0; i < this.events[e].length; i++) {
+    //   this.events[e][i].apply(this, Array.prototype.slice.call(arguments, 1));
+    // }
   }
-};
+}
 
 export { Dispatcher };

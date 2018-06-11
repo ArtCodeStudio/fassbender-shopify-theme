@@ -1,4 +1,4 @@
-import * as $ from 'jquery';
+import $ = require('jquery');
 
 /**
  * Object that is going to deal with DOM parsing/manipulation
@@ -6,33 +6,33 @@ import * as $ from 'jquery';
  * @namespace Barba.Pjax.Dom
  * @type {Object}
  */
-var Dom = {
+class Dom {
   /**
    * The name of the data attribute on the container
    *
    * @memberOf Barba.Pjax.Dom
-   * @type {String}
+   * @type {string}
    * @default
    */
-  dataNamespace: 'namespace',
+  public dataNamespace = 'namespace';
 
   /**
    * Id of the main wrapper
    *
    * @memberOf Barba.Pjax.Dom
-   * @type {String}
+   * @type {string}
    * @default
    */
-  wrapperId: 'barba-wrapper',
+  public wrapperId = 'barba-wrapper';
 
   /**
    * Class name used to identify the containers
    *
    * @memberOf Barba.Pjax.Dom
-   * @type {String}
+   * @type {string}
    * @default
    */
-  containerClass: 'barba-container',
+  public containerClass = 'barba-container';
 
   /**
    * Full HTML String of the current page.
@@ -43,25 +43,25 @@ var Dom = {
    * @memberOf Barba.Pjax.Dom
    * @type {String}
    */
-  currentHTML: document.documentElement.innerHTML,
+  public currentHTML: string;
 
   /**
    * Parse the responseText obtained from the xhr call
    *
    * @memberOf Barba.Pjax.Dom
    * @private
-   * @param  {String} responseText
+   * @param  {string} responseText
    * @return {JQuery<HTMLElement>}
    */
-  parseResponse: function(responseText: string): JQuery<HTMLElement> {
+  public parseResponse(responseText: string): JQuery<HTMLElement> {
     this.currentHTML = responseText;
-    var $wrapper = $( $.parseHTML(responseText) );
-    var $title = $wrapper.filter('title');
+    const $wrapper = $( $.parseHTML(responseText) );
+    const $title = $wrapper.filter('title');
     if ($title.length) {
       document.title = $title.text();
     }
     return this.getContainer($wrapper);
-  },
+  }
 
   /**
    * Get the main barba wrapper by the ID `wrapperId`
@@ -69,15 +69,15 @@ var Dom = {
    * @memberOf Barba.Pjax.Dom
    * @return {JQuery<HTMLElement>} element
    */
-  getWrapper: function(): JQuery<HTMLElement> {
-    var $wrapper = $('#'+this.wrapperId);
+  public getWrapper(): JQuery<HTMLElement> {
+    const $wrapper = $('#' + this.wrapperId);
 
     if (!$wrapper) {
       throw new Error('Barba.js: wrapper not found!');
     }
 
     return $wrapper;
-  },
+  }
 
   /**
    * Get the container on the current DOM,
@@ -88,61 +88,59 @@ var Dom = {
    * @param  {HTMLElement} element
    * @return {HTMLElement}
    */
-  getContainer: function($element: JQuery<HTMLElement>): JQuery<HTMLElement> {
+  public getContainer($element?: JQuery<HTMLElement>): JQuery<HTMLElement> {
     if (!$element) {
       $element = $(document.body);
     }
     if (!$element) {
       throw new Error('Barba.js: DOM not ready!');
     }
-    var $container = this.parseContainer($element);
+    const $container = this.parseContainer($element);
     if (!$container) {
       throw new Error('Barba.js: no container found');
     }
     return $container;
-  },
+  }
 
   /**
    * Get the namespace of the container
    *
    * @memberOf Barba.Pjax.Dom
    * @private
-   * @param  {HTMLElement} element
-   * @return {String}
+   * @param  {JQuery<HTMLElement>} element
+   * @return {string}
    */
-  getNamespace: function($element: JQuery<HTMLElement>): string {
+  public getNamespace($element: JQuery<HTMLElement>): string {
     if ($element && $element.data()) {
-      return $element.data('namespace')
+      return $element.data('namespace');
     }
-
     return null;
-  },
+  }
 
   /**
    * Put the container on the page
    *
    * @memberOf Barba.Pjax.Dom
    * @private
-   * @param  {HTMLElement} element
+   * @param  {JQuery<HTMLElement>} element
    */
-  putContainer ($element: JQuery<HTMLElement>) {
+  public putContainer($element: JQuery<HTMLElement>) {
     $element.css('visibility', 'hidden');
-
-    var $wrapper = this.getWrapper();
+    const $wrapper = this.getWrapper();
     $wrapper.append($element);
-  },
+  }
 
   /**
    * Get container selector
    *
    * @memberOf Barba.Pjax.Dom
    * @private
-   * @param  {HTMLElement} element
-   * @return {HTMLElement} element
+   * @param  {JQuery<HTMLElement>} element
+   * @return {JQuery<HTMLElement>} element
    */
-  parseContainer ($element: JQuery<HTMLElement>): JQuery<HTMLElement> {
+  public parseContainer($element: JQuery<HTMLElement>): JQuery<HTMLElement> {
     return $element.find('.' + this.containerClass);
   }
-};
+}
 
 export { Dom };

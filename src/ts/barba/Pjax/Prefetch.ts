@@ -7,7 +7,8 @@ import { Pjax } from './Pjax';
  * @namespace Barba.Prefetch
  * @type {Object}
  */
-var Prefetch = {
+class Prefetch {
+
   /**
    * Class name used to ignore prefetch on links
    *
@@ -15,7 +16,9 @@ var Prefetch = {
    * @type {String}
    * @default
    */
-  ignoreClassLink: 'no-barba-prefetch',
+  public ignoreClassLink = 'no-barba-prefetch';
+
+  private pjax = new Pjax();
 
   /**
    * Init the event listener on mouseover and touchstart
@@ -23,14 +26,14 @@ var Prefetch = {
    *
    * @memberOf Barba.Prefetch
    */
-  init: function() {
+  public init() {
     if (!window.history.pushState) {
       return false;
     }
 
     document.body.addEventListener('mouseover', this.onLinkEnter.bind(this));
     document.body.addEventListener('touchstart', this.onLinkEnter.bind(this));
-  },
+  }
 
   /**
    * Callback for the mousehover/touchstart
@@ -39,10 +42,11 @@ var Prefetch = {
    * @private
    * @param  {Object} evt
    */
-  onLinkEnter: function(evt: MouseEvent) {
-    var el = (evt.target as HTMLAnchorElement);
+  public onLinkEnter(evt: MouseEvent) {
 
-    while (el && !Pjax.getHref(el)) {
+    let el = (evt.target as HTMLAnchorElement);
+
+    while (el && !this.pjax.getHref(el)) {
       el = (el.parentNode as HTMLAnchorElement); // TODO testme
     }
 
@@ -50,14 +54,14 @@ var Prefetch = {
       return;
     }
 
-    var url = Pjax.getHref(el);
+    const url = this.pjax.getHref(el);
 
-    //Check if the link is elegible for Pjax
-    if (Pjax.preventCheck(evt, el) && !Pjax.Cache.get(url)) {
-      var xhr = Utils.xhr(url);
-      Pjax.Cache.set(url, xhr);
+    // Check if the link is elegible for Pjax
+    if (this.pjax.preventCheck(evt, el) && !this.pjax.cache.get(url)) {
+      const xhr = Utils.xhr(url);
+      this.pjax.cache.set(url, xhr);
     }
   }
-};
+}
 
 export { Prefetch };

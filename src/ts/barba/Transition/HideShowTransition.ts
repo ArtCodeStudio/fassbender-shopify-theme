@@ -9,14 +9,14 @@ import { BaseTransition } from './BaseTransition';
  * @augments Barba.BaseTransition
  */
 class HideShowTransition extends BaseTransition {
-  start() {
+  public start() {
     this.newContainerLoading.then(this.finish.bind(this));
-  };
+  }
 
-  finish() {
+  public finish() {
     document.body.scrollTop = 0;
     this.done();
-  };
+  }
 }
 
 export { HideShowTransition };

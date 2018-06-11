@@ -1,5 +1,5 @@
 import { Dispatcher } from './Dispatcher';
-import { Utils } from './Utils'
+import { Utils } from './Utils';
 
 /**
  * BaseView to be extended
@@ -7,7 +7,7 @@ import { Utils } from './Utils'
  * @namespace Barba.BaseView
  * @type {Object}
  */
-var BaseView  = {
+abstract class BaseView {
   /**
    * Namespace of the view.
    * (need to be associated with the data-namespace of the container)
@@ -15,7 +15,11 @@ var BaseView  = {
    * @memberOf Barba.BaseView
    * @type {string}
    */
-  namespace: '',
+  protected namespace: '';
+
+  protected container: HTMLElement;
+
+  private dispatcher = new Dispatcher();
 
   /**
    * Helper to extend the object
@@ -24,9 +28,9 @@ var BaseView  = {
    * @param  {Object} newObject
    * @return {Object} newInheritObject
    */
-  extend: function(obj: object){
+  public extend(obj: object) {
     return Utils.extend(this, obj);
-  },
+  }
 
   /**
    * Init the view.
@@ -36,35 +40,32 @@ var BaseView  = {
    *
    * @memberOf Barba.BaseView
    */
-  init: function() {
-    var _this = this;
+  public init() {
+    const self = this;
 
-    Dispatcher.on('initStateChange',
-      function(newStatus: any, oldStatus: any) {
-        if (oldStatus && oldStatus.namespace === _this.namespace)
-          _this.onLeave();
+    this.dispatcher.on('initStateChange', (newStatus: any, oldStatus: any) => {
+      if (oldStatus && oldStatus.namespace === self.namespace) {
+        self.onLeave();
       }
-    );
+    });
 
-    Dispatcher.on('newPageReady',
-      function(newStatus: any, oldStatus: any, container: HTMLElement) {
-        _this.container = container;
-
-        if (newStatus.namespace === _this.namespace)
-          _this.onEnter();
+    this.dispatcher.on('newPageReady', (newStatus: any, oldStatus: any, container: HTMLElement) => {
+      self.container = container;
+      if (newStatus.namespace === self.namespace) {
+        self.onEnter();
       }
-    );
+    });
 
-    Dispatcher.on('transitionCompleted',
-      function(newStatus: any, oldStatus: any) {
-        if (newStatus.namespace === _this.namespace)
-          _this.onEnterCompleted();
-
-        if (oldStatus && oldStatus.namespace === _this.namespace)
-          _this.onLeaveCompleted();
+    this.dispatcher.on('transitionCompleted', (newStatus: any, oldStatus: any) => {
+      if (newStatus.namespace === self.namespace) {
+        self.onEnterCompleted();
       }
-    );
-  },
+
+      if (oldStatus && oldStatus.namespace === self.namespace) {
+        self.onLeaveCompleted();
+      }
+    });
+  }
 
  /**
   * This function will be fired when the container
@@ -73,7 +74,7 @@ var BaseView  = {
   * @memberOf Barba.BaseView
   * @abstract
   */
-  onEnter: function() {},
+ protected abstract onEnter(): any;
 
   /**
    * This function will be fired when the transition
@@ -82,7 +83,7 @@ var BaseView  = {
    * @memberOf Barba.BaseView
    * @abstract
    */
-  onEnterCompleted: function() {},
+  protected abstract onEnterCompleted(): any;
 
   /**
    * This function will be fired when the transition
@@ -91,7 +92,7 @@ var BaseView  = {
    * @memberOf Barba.BaseView
    * @abstract
    */
-  onLeave: function() {},
+  protected abstract onLeave(): any;
 
   /**
    * This function will be fired when the container
@@ -100,7 +101,7 @@ var BaseView  = {
    * @memberOf Barba.BaseView
    * @abstract
    */
-  onLeaveCompleted: function() {}
+  protected abstract onLeaveCompleted(): any;
 }
 
 export { BaseView };

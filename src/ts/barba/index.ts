@@ -1,31 +1,8 @@
-//Promise polyfill https://github.com/taylorhakes/promise-polyfill
-import Promise from 'promise-polyfill';
+export { BaseCache } from './Cache';
 
-import { BaseTransition } from './Transition/BaseTransition';
-import { BaseView } from './View';
-import { BaseCache } from './Cache';
-import { Dispatcher } from './Dispatcher';
-import { HistoryManager, Pjax, Prefetch, IState } from './Pjax';
-import { Utils } from './Utils';
+export { BaseTransition } from './Transition/BaseTransition';
+export { BaseView } from './View';
 
-declare global {
-  interface Window { Promise: PromiseConstructor; }
-}
-
-if (typeof Promise !== 'function') {
-  window.Promise = Promise;
-}
- 
- var Barba = {
-   version: '1.0.0-jquery',
-   BaseTransition: BaseTransition,
-   BaseView: BaseView,
-   BaseCache: BaseCache,
-   Dispatcher: Dispatcher,
-   HistoryManager: HistoryManager,
-   Pjax: Pjax,
-   Prefetch: Prefetch,
-   Utils: Utils
- };
- 
- export { Barba, IState };
+export { Dispatcher } from './Dispatcher';
+export { HistoryManager, IState, Pjax, Prefetch } from './Pjax';
+export { Utils } from './Utils';

@@ -1,12 +1,14 @@
 {
-  "extends": "tslint:recommended",
-  "rulesDirectory": [
-    "node_modules/rxjs-tslint"
-  ],
-  "rules": {
-    "rxjs-collapse-imports": true,
-    "rxjs-pipeable-operators-only": true,
-    "rxjs-no-static-observable-methods": true,
-    "rxjs-proper-imports": true
-  }
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "quotemark": [true, "single", "jsx-double"],
+        "max-line-length": [false],
+        "no-bitwise": [false],
+        "no-namespace": [false]
+    },
+    "rulesDirectory": []
 }

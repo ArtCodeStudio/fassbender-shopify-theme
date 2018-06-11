@@ -1,10 +1,13 @@
-import { Tetris } from './Tetris';
-import * as $ from 'jquery';
-import { Observable, Subject, ReplaySubject, from, of, range } from 'rxjs';
-import { Barba, IState } from './barba';
+import * as Debug from 'debug';
+import $ = require('jquery'); // not working on parcel.js: import * as $ from 'jquery';
 import * as Rivets from 'rivets';
 
-import * as Debug from 'debug';
+import { from, Observable, of, range, ReplaySubject, Subject } from 'rxjs';
+import { Tetris } from './Tetris';
+
+import * as Barba from './barba';
+
+// import '../scss/static/theme.scss';
 
 // declare global {
 //   interface Window {
@@ -17,29 +20,31 @@ import * as Debug from 'debug';
 // window.Barba = Barba;
 // window.rivets = Rivets;
 
-var $el: JQuery<HTMLElement>
+// let $el: JQuery<HTMLElement>
 
-console.log('Barba', Barba);
-console.log('Rivets', Rivets);
+// console.log('Barba', Barba);
+// console.log('Rivets', Rivets);
 
-let initBarba = () => {
-  console.log('initBarba');
+const initBarba = () => {
+  // console.log('initBarba');
 
-  Barba.Prefetch.init();
+  const prefetch = new Barba.Prefetch();
+  const dispatcher = new Barba.Dispatcher();
+  const pjax = new Barba.Pjax();
 
-  Barba.Dispatcher.on('newPageReady', (currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string) => {
+  prefetch.init();
+
+  dispatcher.on('newPageReady', (currentStatus: Barba.IState, prevStatus: Barba.IState, $container: JQuery<HTMLElement>, newPageRawHTML: string) => {
     // init Template
-    var data = $container.data();
-    console.log('newPageReady', currentStatus, );
-    if(data.template === 'page.tetris') {
-      let tetris = new Tetris();
+    const data = $container.data();
+    // console.log('newPageReady', currentStatus, );
+    if (data.template === 'page.tetris') {
+      const tetris = new Tetris();
       tetris.run();
     }
   });
-
-  
-  Barba.Pjax.start();
-}
+  pjax.start();
+};
 
 $(() => {
   initBarba();

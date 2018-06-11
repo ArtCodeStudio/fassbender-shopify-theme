@@ -6,26 +6,19 @@ import { Utils } from './Utils';
  * @namespace Barba.BaseCache
  * @type {Object}
  */
-var BaseCache = {
+class BaseCache {
+
   /**
    * The Object that keeps all the key value information
    *
    * @memberOf Barba.BaseCache
    * @type {Object}
    */
-  data: {},
+  public data: {[key: string]: any};
 
-  /**
-   * Helper to extend this object
-   *
-   * @memberOf Barba.BaseCache
-   * @private
-   * @param  {Object} newObject
-   * @return {Object} newInheritObject
-   */
-  extend: function(obj: Object) {
-    return Utils.extend(this, obj);
-  },
+  constructor() {
+    this.data = {};
+  }
 
   /**
    * Set a key and value data, mainly Barba is going to save promises
@@ -34,9 +27,9 @@ var BaseCache = {
    * @param {String} key
    * @param {*} value
    */
-  set: function(key: string, val: any) {
-    this.data[key] = val;
-  },
+  public set(key: string, val: any) {
+    return this.data[key] = val;
+  }
 
   /**
    * Retrieve the data using the key
@@ -45,18 +38,30 @@ var BaseCache = {
    * @param  {String} key
    * @return {*}
    */
-  get: function(key: string) {
+  public get(key: string) {
     return this.data[key];
-  },
+  }
 
   /**
    * Flush the cache
    *
    * @memberOf Barba.BaseCache
    */
-  reset: function() {
+  public reset() {
     this.data = {};
   }
-};
+
+  /**
+   * Helper to extend this object
+   *
+   * @memberOf Barba.BaseCache
+   * @private
+   * @param  {object} newObject
+   * @return {object} newInheritObject
+   */
+  private extend(obj: object) {
+    return Utils.extend(this, obj);
+  }
+}
 
 export { BaseCache };

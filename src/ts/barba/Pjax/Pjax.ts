@@ -1,59 +1,71 @@
-import { Utils } from '../Utils';
-
+import { BaseCache } from '../Cache';
 import { Dispatcher } from '../Dispatcher';
 import { HideShowTransition } from '../Transition';
-import { BaseCache } from '../Cache';
-
-import { HistoryManager } from './HistoryManager';
+import { Utils } from '../Utils';
 import { Dom } from './Dom';
+import { HistoryManager } from './HistoryManager';
 
 /**
-* Pjax is a static object with main function
-*
-* @namespace Barba.Pjax
-* @borrows Dom as Dom
-* @type {Object}
-*/
-var Pjax = {
- Dom: Dom,
- History: new HistoryManager(),
- Cache: BaseCache,
+ * Pjax is a static object with main function
+ *
+ * @namespace Barba.Pjax
+ * @borrows Dom as Dom
+ * @type {object}
+ */
+class Pjax {
+
+  private static instance: Pjax;
+
+  public dom = new Dom();
+  public history = new HistoryManager();
+  public cache = new BaseCache();
 
  /**
   * Indicate wether or not use the cache
   *
   * @memberOf Barba.Pjax
-  * @type {Boolean}
+  * @type {boolean}
   * @default
   */
- cacheEnabled: true,
+  public cacheEnabled: true;
+
+ /**
+  * Class name used to ignore links
+  *
+  * @memberOf Barba.Pjax
+  * @type {string}
+  * @default
+  */
+ public ignoreClassLink = 'no-barba';
 
  /**
   * Indicate if there is an animation in progress
   *
   * @memberOf Barba.Pjax
   * @readOnly
-  * @type {Boolean}
+  * @type {boolean}
   */
- transitionProgress: false,
+  public transitionProgress = false;
 
- /**
-  * Class name used to ignore links
-  *
-  * @memberOf Barba.Pjax
-  * @type {String}
-  * @default
-  */
- ignoreClassLink: 'no-barba',
+  private dispatcher = new Dispatcher();
+
+  constructor() {
+    if (Pjax.instance) {
+      return Pjax.instance;
+    }
+
+    Pjax.instance = this;
+    return Pjax.instance;
+  }
 
  /**
   * Function to be called to start Pjax
   *
   * @memberOf Barba.Pjax
   */
- start: function() {
-   this.init();
- },
+  public start() {
+    this.init();
+  }
 
  /**
   * Init the events
@@ -61,30 +73,28 @@ var Pjax = {
   * @memberOf Barba.Pjax
   * @private
   */
- init: function() {
-   this.Dom; 
-   var $container = this.Dom.getContainer();
-   var $wrapper = this.Dom.getWrapper();
+  public init() {
+    const $container = this.dom.getContainer();
+    const $wrapper = this.dom.getWrapper();
 
-   $wrapper.attr('aria-live', 'polite');
+    $wrapper.attr('aria-live', 'polite');
 
-   this.History.add(
-     this.getCurrentUrl(),
-     this.Dom.getNamespace($container)
-   );
+    this.history.add(
+      this.getCurrentUrl(),
+      this.dom.getNamespace($container),
+    );
 
-   //Fire for the current view.
-   Dispatcher.trigger('initStateChange', this.History.currentStatus());
-   Dispatcher.trigger('newPageReady',
-     this.History.currentStatus(),
-     {},
-     $container,
-     this.Dom.currentHTML
-   );
-   Dispatcher.trigger('transitionCompleted', this.History.currentStatus());
-
-   this.bindEvents();
- },
+    // Fire for the current view.
+    this.dispatcher.trigger('initStateChange', this.history.currentStatus());
+    this.dispatcher.trigger('newPageReady',
+      this.history.currentStatus(),
+      {},
+      $container,
+      this.dom.currentHTML,
+    );
+    this.dispatcher.trigger('transitionCompleted', this.history.currentStatus());
+    this.bindEvents();
+  }
 
  /**
   * Attach the eventlisteners
@@ -92,38 +102,38 @@ var Pjax = {
   * @memberOf Barba.Pjax
   * @private
   */
- bindEvents: function() {
-   document.addEventListener('click',
-     this.onLinkClick.bind(this)
-   );
+  public bindEvents() {
+    document.addEventListener('click',
+      this.onLinkClick.bind(this),
+    );
 
-   window.addEventListener('popstate',
-     this.onStateChange.bind(this)
-   );
- },
+    window.addEventListener('popstate',
+      this.onStateChange.bind(this),
+    );
+  }
 
  /**
   * Return the currentURL cleaned
   *
   * @memberOf Barba.Pjax
-  * @return {String} currentUrl
+  * @return {string} currentUrl
   */
- getCurrentUrl: function() {
-   return Utils.cleanLink(
-     Utils.getCurrentUrl()
-   );
- },
+  public getCurrentUrl() {
+    return Utils.cleanLink(
+      Utils.getCurrentUrl(),
+    );
+  }
 
  /**
   * Change the URL with pushstate and trigger the state change
   *
   * @memberOf Barba.Pjax
-  * @param {String} newUrl
+  * @param {string} newUrl
   */
- goTo: function(url: string) {
-   window.history.pushState(null, null, url);
-   this.onStateChange();
- },
+  public goTo(url: string) {
+    window.history.pushState(null, null, url);
+    this.onStateChange();
+  }
 
  /**
   * Force the browser to go to a certain url
@@ -132,51 +142,55 @@ var Pjax = {
   * @param {Location} url
   * @private
   */
- forceGoTo: function(url: Location) {
-   window.location = url;
- },
+ public forceGoTo(url: Location | string) {
+   if (url instanceof Location) {
+    window.location = url;
+   }
+   if (typeof url === 'string') {
+    window.location.href = url;
+   }
+  }
 
  /**
   * Load an url, will start an xhr request or load from the cache
   *
   * @memberOf Barba.Pjax
   * @private
-  * @param  {String} url
+  * @param  {string} url
   * @return {Promise<HTMLElement>}
   */
- load: function(url: string): Promise<HTMLElement> {
-   var deferred = Utils.deferred();
-   var _this = this;
-   var xhr;
+ public load(url: string): Promise<HTMLElement> {
+    const deferred = Utils.deferred();
+    const self = this;
+    let xhr;
 
-   xhr = this.Cache.get(url);
+    xhr = this.cache.get(url);
 
-   if (!xhr) {
-     xhr = Utils.xhr(url);
-     this.Cache.set(url, xhr);
-   }
+    if (!xhr) {
+      xhr = Utils.xhr(url);
+      this.cache.set(url, xhr);
+    }
 
-   xhr.then(
-     function(data: string) {
-       var $container = _this.Dom.parseResponse(data);
+    xhr.then((data: string) => {
+        const $container = self.dom.parseResponse(data);
 
-       _this.Dom.putContainer($container);
+        self.dom.putContainer($container);
 
-       if (!_this.cacheEnabled)
-         _this.Cache.reset();
+        if (!self.cacheEnabled) {
+          self.cache.reset();
+        }
 
-       deferred.resolve($container);
-     },
-     function() {
-       //Something went wrong (timeout, 404, 505...)
-       _this.forceGoTo(url);
+        deferred.resolve($container);
+      }, () => {
+        // Something went wrong (timeout, 404, 505...)
+        self.forceGoTo(url);
 
-       deferred.reject();
-     }
-   );
+        deferred.reject();
+      },
+    );
 
-   return deferred.promise;
- },
+    return deferred.promise;
+  }
 
  /**
   * Get the .href parameter out of an element
@@ -185,23 +199,23 @@ var Pjax = {
   * @private
   * @memberOf Barba.Pjax
   * @param  {HTMLAnchorElement} el
-  * @return {String} href
+  * @return {string} href
   */
- getHref: function(el: HTMLAnchorElement | SVGAElement): string {
-   if (!el) {
-     return undefined;
-   }
+ public getHref(el: HTMLAnchorElement | SVGAElement): string {
+    if (!el) {
+      return undefined;
+    }
 
-   if (el.getAttribute && typeof el.getAttribute('xlink:href') === 'string') {
-     return el.getAttribute('xlink:href');
-   }
+    if (el.getAttribute && typeof el.getAttribute('xlink:href') === 'string') {
+      return el.getAttribute('xlink:href');
+    }
 
-   if (typeof el.href === 'string') {
-     return el.href;
-   }
+    if (typeof el.href === 'string') {
+      return el.href;
+    }
 
-   return undefined;
- },
+    return undefined;
+  }
 
  /**
   * Callback called from click event
@@ -210,25 +224,25 @@ var Pjax = {
   * @private
   * @param {MouseEvent} evt
   */
- onLinkClick: function(evt: MouseEvent) {
-   var el = evt.target;
+ public onLinkClick(evt: MouseEvent) {
+    let el: HTMLAnchorElement = (evt.target as HTMLAnchorElement );
 
-   //Go up in the nodelist until we
-   //find something with an href
-   while (el && !this.getHref(el)) {
-     el = (el as HTMLElement).parentNode;
-   }
+    // Go up in the nodelist until we
+    // find something with an href
+    while (el && !this.getHref(el)) {
+      el = (el.parentNode as HTMLAnchorElement);
+    }
 
-   if (this.preventCheck(evt, el)) {
-     evt.stopPropagation();
-     evt.preventDefault();
+    if (this.preventCheck(evt, el)) {
+      evt.stopPropagation();
+      evt.preventDefault();
 
-     Dispatcher.trigger('linkClicked', el, evt);
+      this.dispatcher.trigger('linkClicked', el, evt);
 
-     var href = this.getHref(el);
-     this.goTo(href);
-   }
- },
+      const href = this.getHref(el);
+      this.goTo(href);
+    }
+  }
 
  /**
   * Determine if the link should be followed
@@ -236,51 +250,61 @@ var Pjax = {
   * @memberOf Barba.Pjax
   * @param  {MouseEvent} evt
   * @param  {HTMLAnchorElement} element
-  * @return {Boolean}
+  * @return {boolean}
   */
- preventCheck: function(evt: MouseEvent, element: HTMLAnchorElement): boolean {
-   if (!window.history.pushState)
-     return false;
+ public preventCheck(evt: MouseEvent, element: HTMLAnchorElement): boolean {
+    if (!window.history.pushState) {
+      return false;
+    }
 
-   var href = this.getHref(element);
+    const href = this.getHref(element);
 
-   //User
-   if (!element || !href)
-     return false;
+    // User
+    if (!element || !href) {
+      return false;
+    }
 
-   //Middle click, cmd click, and ctrl click
-   if (evt.which > 1 || evt.metaKey || evt.ctrlKey || evt.shiftKey || evt.altKey)
-     return false;
+    // Middle click, cmd click, and ctrl click
+    if (evt.which > 1 || evt.metaKey || evt.ctrlKey || evt.shiftKey || evt.altKey) {
+      return false;
+    }
 
-   //Ignore target with _blank target
-   if (element.target && element.target === '_blank')
-     return false;
+    // Ignore target with _blank target
+    if (element.target && element.target === '_blank') {
+      return false;
+    }
 
-   //Check if it's the same domain
-   if (window.location.protocol !== element.protocol || window.location.hostname !== element.hostname)
-     return false;
+    // Check if it's the same domain
+    if (window.location.protocol !== element.protocol || window.location.hostname !== element.hostname) {
+      return false;
+    }
 
-   //Check if the port is the same
-   if (Utils.getPort() !== Utils.getPort(element.port))
-     return false;
+    // Check if the port is the same
+    if (Utils.getPort() !== Utils.getPort(element.port)) {
+      return false;
+    }
 
-   //Ignore case when a hash is being tacked on the current URL
-   if (href.indexOf('#') > -1)
-     return false;
+    // Ignore case when a hash is being tacked on the current URL
+    if (href.indexOf('#') > -1) {
+      return false;
+    }
 
-   //Ignore case where there is download attribute
-   if (element.getAttribute && typeof element.getAttribute('download') === 'string')
-     return false;
+    // Ignore case where there is download attribute
+    if (element.getAttribute && typeof element.getAttribute('download') === 'string') {
+      return false;
+    }
 
-   //In case you're trying to load the same page
-   if (Utils.cleanLink(href) == Utils.cleanLink(location.href))
-     return false;
+    // In case you're trying to load the same page
+    if (Utils.cleanLink(href) === Utils.cleanLink(location.href)) {
+      return false;
+    }
 
-   if (element.classList.contains(this.ignoreClassLink))
-     return false;
+    if (element.classList.contains(this.ignoreClassLink)) {
+      return false;
+    }
 
-   return true;
- },
+    return true;
+  }
 
  /**
   * Return a transition object
@@ -288,10 +312,10 @@ var Pjax = {
   * @memberOf Barba.Pjax
   * @return {Barba.Transition} Transition object
   */
- getTransition: function() {
-   //User customizable
-   return new HideShowTransition();
- },
+  public getTransition() {
+    // User customizable
+    return new HideShowTransition();
+  }
 
  /**
   * Method called after a 'popstate' or from .goTo()
@@ -299,40 +323,42 @@ var Pjax = {
   * @memberOf Barba.Pjax
   * @private
   */
- onStateChange: function() {
-   var newUrl = this.getCurrentUrl();
+  public onStateChange() {
+    const newUrl = this.getCurrentUrl();
 
-   if (this.transitionProgress)
-     this.forceGoTo(newUrl);
+    if (this.transitionProgress) {
+      this.forceGoTo(newUrl);
+    }
 
-   if (this.History.currentStatus().url === newUrl)
-     return false;
+    if (this.history.currentStatus().url === newUrl) {
+      return false;
+    }
 
-   this.History.add(newUrl);
+    this.history.add(newUrl);
 
-   var newContainer = this.load(newUrl);
-   var transition = Object.create(this.getTransition());
+    const newContainer = this.load(newUrl);
+    const transition = Object.create(this.getTransition());
 
-   this.transitionProgress = true;
+    this.transitionProgress = true;
 
-   Dispatcher.trigger('initStateChange',
-     this.History.currentStatus(),
-     this.History.prevStatus()
-   );
+    this.dispatcher.trigger('initStateChange',
+      this.history.currentStatus(),
+      this.history.prevStatus(),
+    );
 
-   var transitionInstance = transition.init(
-     this.Dom.getContainer(),
-     newContainer
-   );
+    const transitionInstance = transition.init(
+      this.dom.getContainer(),
+      newContainer,
+    );
 
-   newContainer.then(
-     this.onNewContainerLoaded.bind(this)
-   );
+    newContainer.then(
+      this.onNewContainerLoaded.bind(this),
+    );
 
-   transitionInstance.then(
-     this.onTransitionEnd.bind(this)
-   );
- },
+    transitionInstance.then(
+      this.onTransitionEnd.bind(this),
+    );
+  }
 
  /**
   * Function called as soon the new container is ready
@@ -341,17 +367,17 @@ var Pjax = {
   * @private
   * @param {HTMLElement} container
   */
- onNewContainerLoaded: function(container: HTMLElement) {
-   var currentStatus = this.History.currentStatus();
-   currentStatus.namespace = this.Dom.getNamespace(container);
+  public onNewContainerLoaded($container: JQuery<HTMLElement>) {
+    const currentStatus = this.history.currentStatus();
+    currentStatus.namespace = this.dom.getNamespace($container);
 
-   Dispatcher.trigger('newPageReady',
-     this.History.currentStatus(),
-     this.History.prevStatus(),
-     container,
-     this.Dom.currentHTML
-   );
- },
+    this.dispatcher.trigger('newPageReady',
+      this.history.currentStatus(),
+      this.history.prevStatus(),
+      $container,
+      this.dom.currentHTML,
+    );
+  }
 
  /**
   * Function called as soon the transition is finished
@@ -359,14 +385,14 @@ var Pjax = {
   * @memberOf Barba.Pjax
   * @private
   */
- onTransitionEnd: function() {
-   this.transitionProgress = false;
+  public onTransitionEnd() {
+    this.transitionProgress = false;
 
-   Dispatcher.trigger('transitionCompleted',
-     this.History.currentStatus(),
-     this.History.prevStatus()
-   );
- }
-};
+    this.dispatcher.trigger('transitionCompleted',
+      this.history.currentStatus(),
+      this.history.prevStatus(),
+    );
+  }
+}
 
 export { Pjax };

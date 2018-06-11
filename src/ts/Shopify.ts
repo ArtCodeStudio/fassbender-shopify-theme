@@ -1,42 +1,40 @@
-
-
 class Shopify {
 
-  money_format = "${{amount}}";
+  public moneyFormat = '${{amount}}';
 
   /**
    * Money format handler
    * @see shopify's option_selection.js
-   * @param cents 
-   * @param format 
+   * @param cents
+   * @param format
    */
-  formatMoney(cents, format) {
-    if (typeof cents == 'string') { cents = cents.replace('.',''); }
-    var value = '';
-    var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
-    var formatString = (format || this.money_format);
+  public formatMoney(cents, format) {
+    if (typeof cents === 'string') { cents = cents.replace('.', ''); }
+    let value = '';
+    const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+    const formatString = (format || this.moneyFormat);
 
     function defaultOption(opt, def) {
-      return (typeof opt == 'undefined' ? def : opt);
+      return (typeof opt === 'undefined' ? def : opt);
     }
 
-    var formatWithDelimiters = (number, precision, thousands?, decimal?) => {
+    const formatWithDelimiters = (numb: number, precision, thousands?, decimal?) => {
       precision = defaultOption(precision, 2);
       thousands = defaultOption(thousands, ',');
       decimal   = defaultOption(decimal, '.');
 
-      if (isNaN(number) || number == null) { return 0; }
+      if (isNaN(numb) || numb == null) { return '0'; }
 
-      number = (number/100.0).toFixed(precision);
+      const numStr = (numb / 100.0).toFixed(precision);
 
-      var parts   = number.split('.'),
-          dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands),
-          cents   = parts[1] ? (decimal + parts[1]) : '';
+      const parts = numStr.split('.');
+      const dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+      const cent = parts[1] ? (decimal + parts[1]) : '';
 
-      return dollars + cents;
-    }
+      return dollars + cent;
+    };
 
-    switch(formatString.match(placeholderRegex)[1]) {
+    switch (formatString.match(placeholderRegex)[1]) {
       case 'amount':
         value = formatWithDelimiters(cents, 2);
         break;
@@ -53,5 +51,4 @@ class Shopify {
 
     return formatString.replace(placeholderRegex, value);
   }
-
 }

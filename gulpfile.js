@@ -2,31 +2,34 @@
   'use strict';
 }());
 
-var gulp          = require('gulp'),
-    gutil         = require('gulp-util'),
-    plumber       = require('gulp-plumber'),
-    argv          = require('yargs').argv,
-    concat        = require('gulp-concat'),
-    pjson         = require('./package.json'),
-    zip           = require('gulp-zip'),
-    SassImport    = require('./utils/sass_import.js'),
-    sass          = require('gulp-sass'),
-    jsoncombine   = require('gulp-jsoncombine'),
-    fs            = require('fs'),
-    util          = require('util'),
-    uglify        = require('gulp-uglify'),
-    rename        = require("gulp-rename"),
-    sourcemaps    = require('gulp-sourcemaps'),
-    browserify    = require('browserify'),
-    source        = require('vinyl-source-stream'),
-    tsify         = require('tsify'),
-    gutil         = require('gulp-util'),
-    watchify      = require('watchify'),
-    buffer        = require('vinyl-buffer'),
-    autoprefixer  = require('gulp-autoprefixer'),
-    shell         = require('gulp-shell'),
-    ts            = require('gulp-typescript'),
-    tsProject     = ts.createProject('tsconfig.json');
+const gulp          = require('gulp');
+const gutil         = require('gulp-util');
+const plumber       = require('gulp-plumber');
+const argv          = require('yargs').argv;
+const concat        = require('gulp-concat');
+const pjson         = require('./package.json');
+const zip           = require('gulp-zip');
+const SassImport    = require('./utils/sass_import.js');
+const sass          = require('gulp-sass');
+const jsoncombine   = require('gulp-jsoncombine');
+const fs            = require('fs');
+const util          = require('util');
+const uglify        = require('gulp-uglify');
+const rename        = require("gulp-rename");
+const sourcemaps    = require('gulp-sourcemaps');
+const browserify    = require('browserify');
+const source        = require('vinyl-source-stream');
+const tsify         = require('tsify');
+const watchify      = require('watchify');
+const buffer        = require('vinyl-buffer');
+const autoprefixer  = require('gulp-autoprefixer');
+const shell         = require('gulp-shell');
+const ts            = require('gulp-typescript');
+const tsProject     = ts.createProject('tsconfig.json');
+const parcel        = require('gulp-parcel');
+const webpack       = require('webpack');
+const gulpWebpack   = require('webpack-stream');
+const webpackConfig = require('./webpack.config.js');
 
 // list of settings files to include, in order of inclusion
 var settingsSchemas = [
@@ -56,10 +59,7 @@ var watchedBrowserify = watchify(browserify(browserfyConfig).plugin(tsify));
 
 var watchBrowserify = function() {
   return watchedBrowserify
-  .transform('babelify', {
-    presets: ['es2015'],
-    extensions: ['.ts']
-  })
+  .transform('babelify', {extensions: ['.ts']})
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(buffer())
@@ -98,15 +98,12 @@ gulp.task('zip', function () {
 });
 
 /**
- * Build typescript files to bundle.js
+ * Build typescript files to bundle.js with browserify and babelify
  */
-gulp.task('typescript', function() {
+gulp.task('build:ts:browserify', function() {
   return browserify(browserfyConfig)
   .plugin(tsify)
-  .transform('babelify', {
-      presets: ['es2015'],
-      extensions: ['.ts']
-  })
+  .transform('babelify', {extensions: ['.ts']})
   .bundle()
   .on('error', onError)
   .pipe(source('bundle.js'))
@@ -118,10 +115,31 @@ gulp.task('typescript', function() {
 });
 
 /**
+ * Build typescript files to bundle.js with parcel.js
+ */
+gulp.task('build:ts:parcel', function() {
+  return shell.task('parcel build ./src/ts/main.ts --out-dir theme/assets --out-file bundle.js');
+});
+
+gulp.task('build:ts:webpack', function() {
+  return gulp.src('src/ts/main.ts')
+    .pipe(gulpWebpack(webpackConfig, webpack))
+    .pipe(gulp.dest('./theme/assets/'));
+});
+
+/**
+ * Build typescript files to bundle.js with parcel.js
+ */
+gulp.task('build:ts:parcel', function() {
+  return shell.task('parcel build ./src/ts/main.ts --out-dir theme/assets --out-file bundle.js');
+});
+
+
+/**
  * concat all dynamic scss files to let it build from shopify's scss implementation on the server
  * TODO use https://www.npmjs.com/package/gulp-shopify-sass
  */
-gulp.task('sass-dynamic', function () {
+gulp.task('build:scss:dynamic', function () {
   var paths = new SassImport('./src/scss/dynamic/theme.scss');
   console.log(paths);
   return gulp.src(paths)
@@ -135,7 +153,7 @@ gulp.task('sass-dynamic', function () {
 /**
  * Build scss files to css
  */
-gulp.task('sass-static', function () {
+gulp.task('build:scss:static', function () {
 
   var sassOptions = {
     errLogToConsole: true,
@@ -171,22 +189,35 @@ gulp.task('theme_settings', function () {
     .pipe(gulp.dest('./theme/config/'));
 });
 
-gulp.task('watch-sass', function () {
+gulp.task('watch:scss', function () {
   // watch for sass changes
   gulp.watch([
     './src/scss/**/*.scss.liquid',
     './src/scss/**/*.scss'
-  ], ['sass']);
+  ], ['build:scss']);
 });
 
-gulp.task('watch-typescript', watchBrowserify);
+gulp.task('watch:ts:browserify', watchBrowserify);
 
-gulp.task('sass', ['sass-static', 'sass-dynamic']);
+gulp.task('watch:ts:webpack', function() {
+  var config = webpackConfig;
+  config.watch = true;
+  return gulp.src('src/ts/main.ts')
+    .pipe(gulpWebpack(config, webpack))
+    .pipe(gulp.dest('./theme/assets/'));
+});
 
-gulp.task('theme-watch', shell.task('cd ./theme; theme watch --force'));
 
-gulp.task('watch', ['watch-sass', 'watch-typescript', 'theme-watch']);
+gulp.task('watch:ts:parcel',
+  shell.task('parcel watch ./src/ts/main.ts --out-dir theme/assets --out-file bundle.js --https --hmr-hostname localhost')
+);
 
-gulp.task('build', ['sass', 'typescript']);
+gulp.task('build:scss', ['build:scss:static', 'build:scss:dynamic']);
+
+gulp.task('watch:theme', shell.task('cd ./theme; theme watch --force'));
+
+gulp.task('watch', ['watch:scss', 'watch:ts:parcel', 'watch:theme']);
+
+gulp.task('build', ['build:scss', 'build:ts:parcel']);
 
 gulp.task('default', ['watch']);

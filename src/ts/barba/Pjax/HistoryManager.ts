@@ -1,6 +1,6 @@
 interface IState {
-  url: string,
-  namespace: string
+  url: string;
+  namespace: string;
 }
 
 /**
@@ -10,6 +10,9 @@ interface IState {
  * @type {Object}
  */
 class HistoryManager {
+
+  private static instance: HistoryManager;
+
   /**
    * Keep track of the status in historic order
    *
@@ -17,10 +20,15 @@ class HistoryManager {
    * @readOnly
    * @type {Array}
    */
-  history: Array<IState> = new Array();;
+  private history: IState[] = new Array();
 
   constructor() {
-    
+    if (HistoryManager.instance) {
+      return HistoryManager.instance;
+    }
+
+    HistoryManager.instance = this;
+    return HistoryManager.instance;
   }
 
   /**
@@ -31,15 +39,15 @@ class HistoryManager {
    * @param {String} namespace
    * @private
    */
-  add(url: string, namespace: string) {
+  public add(url: string, namespace?: string) {
 
     if (!namespace) {
       namespace = undefined;
     }
 
     this.history.push({
-      url: url,
-      namespace: namespace
+      namespace,
+      url,
     });
   }
 
@@ -49,7 +57,7 @@ class HistoryManager {
    * @memberOf Barba.HistoryManager
    * @return {Object}
    */
-  currentStatus() {
+  public currentStatus() {
     return this.history[this.history.length - 1];
   }
 
@@ -59,14 +67,15 @@ class HistoryManager {
    * @memberOf Barba.HistoryManager
    * @return {Object}
    */
-  prevStatus() {
-    var history = this.history;
+  public prevStatus() {
+    const history = this.history;
 
-    if (history.length < 2)
+    if (history.length < 2) {
       return null;
+    }
 
     return history[history.length - 2];
   }
-};
+}
 
 export { HistoryManager, IState };

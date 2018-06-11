@@ -1,4 +1,294 @@
-(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+// modules are defined as an array
+// [ module function, map of requires ]
+//
+// map of requires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the require for previous bundles
+
+// eslint-disable-next-line no-global-assign
+parcelRequire = (function (modules, cache, entry, globalName) {
+  // Save the require from previous bundle to this closure if any
+  var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
+  var nodeRequire = typeof require === 'function' && require;
+
+  function newRequire(name, jumped) {
+    if (!cache[name]) {
+      if (!modules[name]) {
+        // if we cannot find the module within our internal map or
+        // cache jump to the current global require ie. the last bundle
+        // that was added to the page.
+        var currentRequire = typeof parcelRequire === 'function' && parcelRequire;
+        if (!jumped && currentRequire) {
+          return currentRequire(name, true);
+        }
+
+        // If there are other bundles on this page the require from the
+        // previous one is saved to 'previousRequire'. Repeat this as
+        // many times as there are bundles until the module is found or
+        // we exhaust the require chain.
+        if (previousRequire) {
+          return previousRequire(name, true);
+        }
+
+        // Try the node require function if it exists.
+        if (nodeRequire && typeof name === 'string') {
+          return nodeRequire(name);
+        }
+
+        var err = new Error('Cannot find module \'' + name + '\'');
+        err.code = 'MODULE_NOT_FOUND';
+        throw err;
+      }
+
+      localRequire.resolve = resolve;
+
+      var module = cache[name] = new newRequire.Module(name);
+
+      modules[name][0].call(module.exports, localRequire, module, module.exports, this);
+    }
+
+    return cache[name].exports;
+
+    function localRequire(x){
+      return newRequire(localRequire.resolve(x));
+    }
+
+    function resolve(x){
+      return modules[name][1][x] || x;
+    }
+  }
+
+  function Module(moduleName) {
+    this.id = moduleName;
+    this.bundle = newRequire;
+    this.exports = {};
+  }
+
+  newRequire.isParcelRequire = true;
+  newRequire.Module = Module;
+  newRequire.modules = modules;
+  newRequire.cache = cache;
+  newRequire.parent = previousRequire;
+
+  for (var i = 0; i < entry.length; i++) {
+    newRequire(entry[i]);
+  }
+
+  if (entry.length) {
+    // Expose entry point to Node, AMD or browser globals
+    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
+    var mainExports = newRequire(entry[entry.length - 1]);
+
+    // CommonJS
+    if (typeof exports === "object" && typeof module !== "undefined") {
+      module.exports = mainExports;
+
+    // RequireJS
+    } else if (typeof define === "function" && define.amd) {
+     define(function () {
+       return mainExports;
+     });
+
+    // <script>
+    } else if (globalName) {
+      this[globalName] = mainExports;
+    }
+  }
+
+  // Override the current require with this new one
+  return newRequire;
+})({17:[function(require,module,exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout() {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+})();
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch (e) {
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch (e) {
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e) {
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e) {
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while (len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) {
+    return [];
+};
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () {
+    return '/';
+};
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function () {
+    return 0;
+};
+},{}],3:[function(require,module,exports) {
+var global = arguments[3];
+var process = require("process");
+var define;
 /*!
  * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
@@ -10364,2151 +10654,15 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}],2:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],3:[function(require,module,exports){
-(function (setImmediate){
-'use strict';
-
-var promiseFinally = function(callback) {
-  var constructor = this.constructor;
-  return this.then(
-    function(value) {
-      return constructor.resolve(callback()).then(function() {
-        return value;
-      });
-    },
-    function(reason) {
-      return constructor.resolve(callback()).then(function() {
-        return constructor.reject(reason);
-      });
-    }
-  );
-};
-
-// Store setTimeout reference so promise-polyfill will be unaffected by
-// other code modifying setTimeout (like sinon.useFakeTimers())
-var setTimeoutFunc = setTimeout;
-
-function noop() {}
-
-// Polyfill for Function.prototype.bind
-function bind(fn, thisArg) {
-  return function() {
-    fn.apply(thisArg, arguments);
-  };
-}
-
-function Promise(fn) {
-  if (!(this instanceof Promise))
-    throw new TypeError('Promises must be constructed via new');
-  if (typeof fn !== 'function') throw new TypeError('not a function');
-  this._state = 0;
-  this._handled = false;
-  this._value = undefined;
-  this._deferreds = [];
-
-  doResolve(fn, this);
-}
-
-function handle(self, deferred) {
-  while (self._state === 3) {
-    self = self._value;
-  }
-  if (self._state === 0) {
-    self._deferreds.push(deferred);
-    return;
-  }
-  self._handled = true;
-  Promise._immediateFn(function() {
-    var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
-    if (cb === null) {
-      (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
-      return;
-    }
-    var ret;
-    try {
-      ret = cb(self._value);
-    } catch (e) {
-      reject(deferred.promise, e);
-      return;
-    }
-    resolve(deferred.promise, ret);
-  });
-}
-
-function resolve(self, newValue) {
-  try {
-    // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
-    if (newValue === self)
-      throw new TypeError('A promise cannot be resolved with itself.');
-    if (
-      newValue &&
-      (typeof newValue === 'object' || typeof newValue === 'function')
-    ) {
-      var then = newValue.then;
-      if (newValue instanceof Promise) {
-        self._state = 3;
-        self._value = newValue;
-        finale(self);
-        return;
-      } else if (typeof then === 'function') {
-        doResolve(bind(then, newValue), self);
-        return;
-      }
-    }
-    self._state = 1;
-    self._value = newValue;
-    finale(self);
-  } catch (e) {
-    reject(self, e);
-  }
-}
-
-function reject(self, newValue) {
-  self._state = 2;
-  self._value = newValue;
-  finale(self);
-}
-
-function finale(self) {
-  if (self._state === 2 && self._deferreds.length === 0) {
-    Promise._immediateFn(function() {
-      if (!self._handled) {
-        Promise._unhandledRejectionFn(self._value);
-      }
-    });
-  }
-
-  for (var i = 0, len = self._deferreds.length; i < len; i++) {
-    handle(self, self._deferreds[i]);
-  }
-  self._deferreds = null;
-}
-
-function Handler(onFulfilled, onRejected, promise) {
-  this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
-  this.onRejected = typeof onRejected === 'function' ? onRejected : null;
-  this.promise = promise;
-}
-
-/**
- * Take a potentially misbehaving resolver function and make sure
- * onFulfilled and onRejected are only called once.
- *
- * Makes no guarantees about asynchrony.
- */
-function doResolve(fn, self) {
-  var done = false;
-  try {
-    fn(
-      function(value) {
-        if (done) return;
-        done = true;
-        resolve(self, value);
-      },
-      function(reason) {
-        if (done) return;
-        done = true;
-        reject(self, reason);
-      }
-    );
-  } catch (ex) {
-    if (done) return;
-    done = true;
-    reject(self, ex);
-  }
-}
-
-Promise.prototype['catch'] = function(onRejected) {
-  return this.then(null, onRejected);
-};
-
-Promise.prototype.then = function(onFulfilled, onRejected) {
-  var prom = new this.constructor(noop);
-
-  handle(this, new Handler(onFulfilled, onRejected, prom));
-  return prom;
-};
-
-Promise.prototype['finally'] = promiseFinally;
-
-Promise.all = function(arr) {
-  return new Promise(function(resolve, reject) {
-    if (!arr || typeof arr.length === 'undefined')
-      throw new TypeError('Promise.all accepts an array');
-    var args = Array.prototype.slice.call(arr);
-    if (args.length === 0) return resolve([]);
-    var remaining = args.length;
-
-    function res(i, val) {
-      try {
-        if (val && (typeof val === 'object' || typeof val === 'function')) {
-          var then = val.then;
-          if (typeof then === 'function') {
-            then.call(
-              val,
-              function(val) {
-                res(i, val);
-              },
-              reject
-            );
-            return;
-          }
-        }
-        args[i] = val;
-        if (--remaining === 0) {
-          resolve(args);
-        }
-      } catch (ex) {
-        reject(ex);
-      }
-    }
-
-    for (var i = 0; i < args.length; i++) {
-      res(i, args[i]);
-    }
-  });
-};
-
-Promise.resolve = function(value) {
-  if (value && typeof value === 'object' && value.constructor === Promise) {
-    return value;
-  }
-
-  return new Promise(function(resolve) {
-    resolve(value);
-  });
-};
-
-Promise.reject = function(value) {
-  return new Promise(function(resolve, reject) {
-    reject(value);
-  });
-};
-
-Promise.race = function(values) {
-  return new Promise(function(resolve, reject) {
-    for (var i = 0, len = values.length; i < len; i++) {
-      values[i].then(resolve, reject);
-    }
-  });
-};
-
-// Use polyfill for setImmediate for performance gains
-Promise._immediateFn =
-  (typeof setImmediate === 'function' &&
-    function(fn) {
-      setImmediate(fn);
-    }) ||
-  function(fn) {
-    setTimeoutFunc(fn, 0);
-  };
-
-Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
-  if (typeof console !== 'undefined' && console) {
-    console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
-  }
-};
-
-module.exports = Promise;
-
-}).call(this,require("timers").setImmediate)
-
-},{"timers":6}],4:[function(require,module,exports){
-// Rivets.js
-// version: 0.9.6
-// author: Michael Richards
-// license: MIT
-(function() {
-  var Rivets, bindMethod, jQuery, unbindMethod, _ref,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-    __slice = [].slice,
-    __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
-
-  Rivets = {
-    options: ['prefix', 'templateDelimiters', 'rootInterface', 'preloadData', 'handler', 'executeFunctions'],
-    extensions: ['binders', 'formatters', 'components', 'adapters'],
-    "public": {
-      binders: {},
-      components: {},
-      formatters: {},
-      adapters: {},
-      prefix: 'rv',
-      templateDelimiters: ['{', '}'],
-      rootInterface: '.',
-      preloadData: true,
-      executeFunctions: false,
-      iterationAlias: function(modelName) {
-        return '%' + modelName + '%';
-      },
-      handler: function(context, ev, binding) {
-        return this.call(context, ev, binding.view.models);
-      },
-      configure: function(options) {
-        var descriptor, key, option, value;
-        if (options == null) {
-          options = {};
-        }
-        for (option in options) {
-          value = options[option];
-          if (option === 'binders' || option === 'components' || option === 'formatters' || option === 'adapters') {
-            for (key in value) {
-              descriptor = value[key];
-              Rivets[option][key] = descriptor;
-            }
-          } else {
-            Rivets["public"][option] = value;
-          }
-        }
-      },
-      bind: function(el, models, options) {
-        var view;
-        if (models == null) {
-          models = {};
-        }
-        if (options == null) {
-          options = {};
-        }
-        view = new Rivets.View(el, models, options);
-        view.bind();
-        return view;
-      },
-      init: function(component, el, data) {
-        var scope, template, view;
-        if (data == null) {
-          data = {};
-        }
-        if (el == null) {
-          el = document.createElement('div');
-        }
-        component = Rivets["public"].components[component];
-        template = component.template.call(this, el);
-        if (template instanceof HTMLElement) {
-          while (el.firstChild) {
-            el.removeChild(el.firstChild);
-          }
-          el.appendChild(template);
-        } else {
-          el.innerHTML = template;
-        }
-        scope = component.initialize.call(this, el, data);
-        view = new Rivets.View(el, scope);
-        view.bind();
-        return view;
-      }
-    }
-  };
-
-  if (window['jQuery'] || window['$']) {
-    jQuery = window['jQuery'] || window['$'];
-    _ref = 'on' in jQuery.prototype ? ['on', 'off'] : ['bind', 'unbind'], bindMethod = _ref[0], unbindMethod = _ref[1];
-    Rivets.Util = {
-      bindEvent: function(el, event, handler) {
-        return jQuery(el)[bindMethod](event, handler);
-      },
-      unbindEvent: function(el, event, handler) {
-        return jQuery(el)[unbindMethod](event, handler);
-      },
-      getInputValue: function(el) {
-        var $el;
-        $el = jQuery(el);
-        if ($el.attr('type') === 'checkbox') {
-          return $el.is(':checked');
-        } else {
-          return $el.val();
-        }
-      }
-    };
-  } else {
-    Rivets.Util = {
-      bindEvent: (function() {
-        if ('addEventListener' in window) {
-          return function(el, event, handler) {
-            return el.addEventListener(event, handler, false);
-          };
-        }
-        return function(el, event, handler) {
-          return el.attachEvent('on' + event, handler);
-        };
-      })(),
-      unbindEvent: (function() {
-        if ('removeEventListener' in window) {
-          return function(el, event, handler) {
-            return el.removeEventListener(event, handler, false);
-          };
-        }
-        return function(el, event, handler) {
-          return el.detachEvent('on' + event, handler);
-        };
-      })(),
-      getInputValue: function(el) {
-        var o, _i, _len, _results;
-        if (el.type === 'checkbox') {
-          return el.checked;
-        } else if (el.type === 'select-multiple') {
-          _results = [];
-          for (_i = 0, _len = el.length; _i < _len; _i++) {
-            o = el[_i];
-            if (o.selected) {
-              _results.push(o.value);
-            }
-          }
-          return _results;
-        } else {
-          return el.value;
-        }
-      }
-    };
-  }
-
-  Rivets.TypeParser = (function() {
-    function TypeParser() {}
-
-    TypeParser.types = {
-      primitive: 0,
-      keypath: 1
-    };
-
-    TypeParser.parse = function(string) {
-      if (/^'.*'$|^".*"$/.test(string)) {
-        return {
-          type: this.types.primitive,
-          value: string.slice(1, -1)
-        };
-      } else if (string === 'true') {
-        return {
-          type: this.types.primitive,
-          value: true
-        };
-      } else if (string === 'false') {
-        return {
-          type: this.types.primitive,
-          value: false
-        };
-      } else if (string === 'null') {
-        return {
-          type: this.types.primitive,
-          value: null
-        };
-      } else if (string === 'undefined') {
-        return {
-          type: this.types.primitive,
-          value: void 0
-        };
-      } else if (string === '') {
-        return {
-          type: this.types.primitive,
-          value: void 0
-        };
-      } else if (isNaN(Number(string)) === false) {
-        return {
-          type: this.types.primitive,
-          value: Number(string)
-        };
-      } else {
-        return {
-          type: this.types.keypath,
-          value: string
-        };
-      }
-    };
-
-    return TypeParser;
-
-  })();
-
-  Rivets.TextTemplateParser = (function() {
-    function TextTemplateParser() {}
-
-    TextTemplateParser.types = {
-      text: 0,
-      binding: 1
-    };
-
-    TextTemplateParser.parse = function(template, delimiters) {
-      var index, lastIndex, lastToken, length, substring, tokens, value;
-      tokens = [];
-      length = template.length;
-      index = 0;
-      lastIndex = 0;
-      while (lastIndex < length) {
-        index = template.indexOf(delimiters[0], lastIndex);
-        if (index < 0) {
-          tokens.push({
-            type: this.types.text,
-            value: template.slice(lastIndex)
-          });
-          break;
-        } else {
-          if (index > 0 && lastIndex < index) {
-            tokens.push({
-              type: this.types.text,
-              value: template.slice(lastIndex, index)
-            });
-          }
-          lastIndex = index + delimiters[0].length;
-          index = template.indexOf(delimiters[1], lastIndex);
-          if (index < 0) {
-            substring = template.slice(lastIndex - delimiters[1].length);
-            lastToken = tokens[tokens.length - 1];
-            if ((lastToken != null ? lastToken.type : void 0) === this.types.text) {
-              lastToken.value += substring;
-            } else {
-              tokens.push({
-                type: this.types.text,
-                value: substring
-              });
-            }
-            break;
-          }
-          value = template.slice(lastIndex, index).trim();
-          tokens.push({
-            type: this.types.binding,
-            value: value
-          });
-          lastIndex = index + delimiters[1].length;
-        }
-      }
-      return tokens;
-    };
-
-    return TextTemplateParser;
-
-  })();
-
-  Rivets.View = (function() {
-    function View(els, models, options) {
-      var k, option, v, _base, _i, _j, _len, _len1, _ref1, _ref2, _ref3, _ref4, _ref5;
-      this.els = els;
-      this.models = models;
-      if (options == null) {
-        options = {};
-      }
-      this.update = __bind(this.update, this);
-      this.publish = __bind(this.publish, this);
-      this.sync = __bind(this.sync, this);
-      this.unbind = __bind(this.unbind, this);
-      this.bind = __bind(this.bind, this);
-      this.select = __bind(this.select, this);
-      this.traverse = __bind(this.traverse, this);
-      this.build = __bind(this.build, this);
-      this.buildBinding = __bind(this.buildBinding, this);
-      this.bindingRegExp = __bind(this.bindingRegExp, this);
-      this.options = __bind(this.options, this);
-      if (!(this.els.jquery || this.els instanceof Array)) {
-        this.els = [this.els];
-      }
-      _ref1 = Rivets.extensions;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        option = _ref1[_i];
-        this[option] = {};
-        if (options[option]) {
-          _ref2 = options[option];
-          for (k in _ref2) {
-            v = _ref2[k];
-            this[option][k] = v;
-          }
-        }
-        _ref3 = Rivets["public"][option];
-        for (k in _ref3) {
-          v = _ref3[k];
-          if ((_base = this[option])[k] == null) {
-            _base[k] = v;
-          }
-        }
-      }
-      _ref4 = Rivets.options;
-      for (_j = 0, _len1 = _ref4.length; _j < _len1; _j++) {
-        option = _ref4[_j];
-        this[option] = (_ref5 = options[option]) != null ? _ref5 : Rivets["public"][option];
-      }
-      this.build();
-    }
-
-    View.prototype.options = function() {
-      var option, options, _i, _len, _ref1;
-      options = {};
-      _ref1 = Rivets.extensions.concat(Rivets.options);
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        option = _ref1[_i];
-        options[option] = this[option];
-      }
-      return options;
-    };
-
-    View.prototype.bindingRegExp = function() {
-      return new RegExp("^" + this.prefix + "-");
-    };
-
-    View.prototype.buildBinding = function(binding, node, type, declaration) {
-      var context, ctx, dependencies, keypath, options, pipe, pipes;
-      options = {};
-      pipes = (function() {
-        var _i, _len, _ref1, _results;
-        _ref1 = declaration.match(/((?:'[^']*')*(?:(?:[^\|']*(?:'[^']*')+[^\|']*)+|[^\|]+))|^$/g);
-        _results = [];
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          pipe = _ref1[_i];
-          _results.push(pipe.trim());
-        }
-        return _results;
-      })();
-      context = (function() {
-        var _i, _len, _ref1, _results;
-        _ref1 = pipes.shift().split('<');
-        _results = [];
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          ctx = _ref1[_i];
-          _results.push(ctx.trim());
-        }
-        return _results;
-      })();
-      keypath = context.shift();
-      options.formatters = pipes;
-      if (dependencies = context.shift()) {
-        options.dependencies = dependencies.split(/\s+/);
-      }
-      return this.bindings.push(new Rivets[binding](this, node, type, keypath, options));
-    };
-
-    View.prototype.build = function() {
-      var el, parse, _i, _len, _ref1;
-      this.bindings = [];
-      parse = (function(_this) {
-        return function(node) {
-          var block, childNode, delimiters, n, parser, text, token, tokens, _i, _j, _len, _len1, _ref1;
-          if (node.nodeType === 3) {
-            parser = Rivets.TextTemplateParser;
-            if (delimiters = _this.templateDelimiters) {
-              if ((tokens = parser.parse(node.data, delimiters)).length) {
-                if (!(tokens.length === 1 && tokens[0].type === parser.types.text)) {
-                  for (_i = 0, _len = tokens.length; _i < _len; _i++) {
-                    token = tokens[_i];
-                    text = document.createTextNode(token.value);
-                    node.parentNode.insertBefore(text, node);
-                    if (token.type === 1) {
-                      _this.buildBinding('TextBinding', text, null, token.value);
-                    }
-                  }
-                  node.parentNode.removeChild(node);
-                }
-              }
-            }
-          } else if (node.nodeType === 1) {
-            block = _this.traverse(node);
-          }
-          if (!block) {
-            _ref1 = (function() {
-              var _k, _len1, _ref1, _results;
-              _ref1 = node.childNodes;
-              _results = [];
-              for (_k = 0, _len1 = _ref1.length; _k < _len1; _k++) {
-                n = _ref1[_k];
-                _results.push(n);
-              }
-              return _results;
-            })();
-            for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-              childNode = _ref1[_j];
-              parse(childNode);
-            }
-          }
-        };
-      })(this);
-      _ref1 = this.els;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        el = _ref1[_i];
-        parse(el);
-      }
-      this.bindings.sort(function(a, b) {
-        var _ref2, _ref3;
-        return (((_ref2 = b.binder) != null ? _ref2.priority : void 0) || 0) - (((_ref3 = a.binder) != null ? _ref3.priority : void 0) || 0);
-      });
-    };
-
-    View.prototype.traverse = function(node) {
-      var attribute, attributes, binder, bindingRegExp, block, identifier, regexp, type, value, _i, _j, _len, _len1, _ref1, _ref2, _ref3;
-      bindingRegExp = this.bindingRegExp();
-      block = node.nodeName === 'SCRIPT' || node.nodeName === 'STYLE';
-      _ref1 = node.attributes;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        attribute = _ref1[_i];
-        if (bindingRegExp.test(attribute.name)) {
-          type = attribute.name.replace(bindingRegExp, '');
-          if (!(binder = this.binders[type])) {
-            _ref2 = this.binders;
-            for (identifier in _ref2) {
-              value = _ref2[identifier];
-              if (identifier !== '*' && identifier.indexOf('*') !== -1) {
-                regexp = new RegExp("^" + (identifier.replace(/\*/g, '.+')) + "$");
-                if (regexp.test(type)) {
-                  binder = value;
-                }
-              }
-            }
-          }
-          binder || (binder = this.binders['*']);
-          if (binder.block) {
-            block = true;
-            attributes = [attribute];
-          }
-        }
-      }
-      _ref3 = attributes || node.attributes;
-      for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
-        attribute = _ref3[_j];
-        if (bindingRegExp.test(attribute.name)) {
-          type = attribute.name.replace(bindingRegExp, '');
-          this.buildBinding('Binding', node, type, attribute.value);
-        }
-      }
-      if (!block) {
-        type = node.nodeName.toLowerCase();
-        if (this.components[type] && !node._bound) {
-          this.bindings.push(new Rivets.ComponentBinding(this, node, type));
-          block = true;
-        }
-      }
-      return block;
-    };
-
-    View.prototype.select = function(fn) {
-      var binding, _i, _len, _ref1, _results;
-      _ref1 = this.bindings;
-      _results = [];
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        binding = _ref1[_i];
-        if (fn(binding)) {
-          _results.push(binding);
-        }
-      }
-      return _results;
-    };
-
-    View.prototype.bind = function() {
-      var binding, _i, _len, _ref1;
-      _ref1 = this.bindings;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        binding = _ref1[_i];
-        binding.bind();
-      }
-    };
-
-    View.prototype.unbind = function() {
-      var binding, _i, _len, _ref1;
-      _ref1 = this.bindings;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        binding = _ref1[_i];
-        binding.unbind();
-      }
-    };
-
-    View.prototype.sync = function() {
-      var binding, _i, _len, _ref1;
-      _ref1 = this.bindings;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        binding = _ref1[_i];
-        if (typeof binding.sync === "function") {
-          binding.sync();
-        }
-      }
-    };
-
-    View.prototype.publish = function() {
-      var binding, _i, _len, _ref1;
-      _ref1 = this.select(function(b) {
-        var _ref1;
-        return (_ref1 = b.binder) != null ? _ref1.publishes : void 0;
-      });
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        binding = _ref1[_i];
-        binding.publish();
-      }
-    };
-
-    View.prototype.update = function(models) {
-      var binding, key, model, _i, _len, _ref1;
-      if (models == null) {
-        models = {};
-      }
-      for (key in models) {
-        model = models[key];
-        this.models[key] = model;
-      }
-      _ref1 = this.bindings;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        binding = _ref1[_i];
-        if (typeof binding.update === "function") {
-          binding.update(models);
-        }
-      }
-    };
-
-    return View;
-
-  })();
-
-  Rivets.Binding = (function() {
-    function Binding(view, el, type, keypath, options) {
-      this.view = view;
-      this.el = el;
-      this.type = type;
-      this.keypath = keypath;
-      this.options = options != null ? options : {};
-      this.getValue = __bind(this.getValue, this);
-      this.update = __bind(this.update, this);
-      this.unbind = __bind(this.unbind, this);
-      this.bind = __bind(this.bind, this);
-      this.publish = __bind(this.publish, this);
-      this.sync = __bind(this.sync, this);
-      this.set = __bind(this.set, this);
-      this.eventHandler = __bind(this.eventHandler, this);
-      this.formattedValue = __bind(this.formattedValue, this);
-      this.parseFormatterArguments = __bind(this.parseFormatterArguments, this);
-      this.parseTarget = __bind(this.parseTarget, this);
-      this.observe = __bind(this.observe, this);
-      this.setBinder = __bind(this.setBinder, this);
-      this.formatters = this.options.formatters || [];
-      this.dependencies = [];
-      this.formatterObservers = {};
-      this.model = void 0;
-      this.setBinder();
-    }
-
-    Binding.prototype.setBinder = function() {
-      var identifier, regexp, value, _ref1;
-      if (!(this.binder = this.view.binders[this.type])) {
-        _ref1 = this.view.binders;
-        for (identifier in _ref1) {
-          value = _ref1[identifier];
-          if (identifier !== '*' && identifier.indexOf('*') !== -1) {
-            regexp = new RegExp("^" + (identifier.replace(/\*/g, '.+')) + "$");
-            if (regexp.test(this.type)) {
-              this.binder = value;
-              this.args = new RegExp("^" + (identifier.replace(/\*/g, '(.+)')) + "$").exec(this.type);
-              this.args.shift();
-            }
-          }
-        }
-      }
-      this.binder || (this.binder = this.view.binders['*']);
-      if (this.binder instanceof Function) {
-        return this.binder = {
-          routine: this.binder
-        };
-      }
-    };
-
-    Binding.prototype.observe = function(obj, keypath, callback) {
-      return Rivets.sightglass(obj, keypath, callback, {
-        root: this.view.rootInterface,
-        adapters: this.view.adapters
-      });
-    };
-
-    Binding.prototype.parseTarget = function() {
-      var token;
-      token = Rivets.TypeParser.parse(this.keypath);
-      if (token.type === Rivets.TypeParser.types.primitive) {
-        return this.value = token.value;
-      } else {
-        this.observer = this.observe(this.view.models, this.keypath, this.sync);
-        return this.model = this.observer.target;
-      }
-    };
-
-    Binding.prototype.parseFormatterArguments = function(args, formatterIndex) {
-      var ai, arg, observer, processedArgs, _base, _i, _len;
-      args = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = args.length; _i < _len; _i++) {
-          arg = args[_i];
-          _results.push(Rivets.TypeParser.parse(arg));
-        }
-        return _results;
-      })();
-      processedArgs = [];
-      for (ai = _i = 0, _len = args.length; _i < _len; ai = ++_i) {
-        arg = args[ai];
-        processedArgs.push(arg.type === Rivets.TypeParser.types.primitive ? arg.value : ((_base = this.formatterObservers)[formatterIndex] || (_base[formatterIndex] = {}), !(observer = this.formatterObservers[formatterIndex][ai]) ? (observer = this.observe(this.view.models, arg.value, this.sync), this.formatterObservers[formatterIndex][ai] = observer) : void 0, observer.value()));
-      }
-      return processedArgs;
-    };
-
-    Binding.prototype.formattedValue = function(value) {
-      var args, fi, formatter, id, processedArgs, _i, _len, _ref1, _ref2;
-      _ref1 = this.formatters;
-      for (fi = _i = 0, _len = _ref1.length; _i < _len; fi = ++_i) {
-        formatter = _ref1[fi];
-        args = formatter.match(/[^\s']+|'([^']|'[^\s])*'|"([^"]|"[^\s])*"/g);
-        id = args.shift();
-        formatter = this.view.formatters[id];
-        processedArgs = this.parseFormatterArguments(args, fi);
-        if ((formatter != null ? formatter.read : void 0) instanceof Function) {
-          value = (_ref2 = formatter.read).call.apply(_ref2, [this.model, value].concat(__slice.call(processedArgs)));
-        } else if (formatter instanceof Function) {
-          value = formatter.call.apply(formatter, [this.model, value].concat(__slice.call(processedArgs)));
-        }
-      }
-      return value;
-    };
-
-    Binding.prototype.eventHandler = function(fn) {
-      var binding, handler;
-      handler = (binding = this).view.handler;
-      return function(ev) {
-        return handler.call(fn, this, ev, binding);
-      };
-    };
-
-    Binding.prototype.set = function(value) {
-      var _ref1;
-      value = value instanceof Function && !this.binder["function"] && Rivets["public"].executeFunctions ? this.formattedValue(value.call(this.model)) : this.formattedValue(value);
-      return (_ref1 = this.binder.routine) != null ? _ref1.call(this, this.el, value) : void 0;
-    };
-
-    Binding.prototype.sync = function() {
-      var dependency, observer;
-      return this.set((function() {
-        var _i, _j, _len, _len1, _ref1, _ref2, _ref3;
-        if (this.observer) {
-          if (this.model !== this.observer.target) {
-            _ref1 = this.dependencies;
-            for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-              observer = _ref1[_i];
-              observer.unobserve();
-            }
-            this.dependencies = [];
-            if (((this.model = this.observer.target) != null) && ((_ref2 = this.options.dependencies) != null ? _ref2.length : void 0)) {
-              _ref3 = this.options.dependencies;
-              for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
-                dependency = _ref3[_j];
-                observer = this.observe(this.model, dependency, this.sync);
-                this.dependencies.push(observer);
-              }
-            }
-          }
-          return this.observer.value();
-        } else {
-          return this.value;
-        }
-      }).call(this));
-    };
-
-    Binding.prototype.publish = function() {
-      var args, fi, fiReversed, formatter, id, lastformatterIndex, processedArgs, value, _i, _len, _ref1, _ref2, _ref3;
-      if (this.observer) {
-        value = this.getValue(this.el);
-        lastformatterIndex = this.formatters.length - 1;
-        _ref1 = this.formatters.slice(0).reverse();
-        for (fiReversed = _i = 0, _len = _ref1.length; _i < _len; fiReversed = ++_i) {
-          formatter = _ref1[fiReversed];
-          fi = lastformatterIndex - fiReversed;
-          args = formatter.split(/\s+/);
-          id = args.shift();
-          processedArgs = this.parseFormatterArguments(args, fi);
-          if ((_ref2 = this.view.formatters[id]) != null ? _ref2.publish : void 0) {
-            value = (_ref3 = this.view.formatters[id]).publish.apply(_ref3, [value].concat(__slice.call(processedArgs)));
-          }
-        }
-        return this.observer.setValue(value);
-      }
-    };
-
-    Binding.prototype.bind = function() {
-      var dependency, observer, _i, _len, _ref1, _ref2, _ref3;
-      this.parseTarget();
-      if ((_ref1 = this.binder.bind) != null) {
-        _ref1.call(this, this.el);
-      }
-      if ((this.model != null) && ((_ref2 = this.options.dependencies) != null ? _ref2.length : void 0)) {
-        _ref3 = this.options.dependencies;
-        for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
-          dependency = _ref3[_i];
-          observer = this.observe(this.model, dependency, this.sync);
-          this.dependencies.push(observer);
-        }
-      }
-      if (this.view.preloadData) {
-        return this.sync();
-      }
-    };
-
-    Binding.prototype.unbind = function() {
-      var ai, args, fi, observer, _i, _len, _ref1, _ref2, _ref3, _ref4;
-      if ((_ref1 = this.binder.unbind) != null) {
-        _ref1.call(this, this.el);
-      }
-      if ((_ref2 = this.observer) != null) {
-        _ref2.unobserve();
-      }
-      _ref3 = this.dependencies;
-      for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
-        observer = _ref3[_i];
-        observer.unobserve();
-      }
-      this.dependencies = [];
-      _ref4 = this.formatterObservers;
-      for (fi in _ref4) {
-        args = _ref4[fi];
-        for (ai in args) {
-          observer = args[ai];
-          observer.unobserve();
-        }
-      }
-      return this.formatterObservers = {};
-    };
-
-    Binding.prototype.update = function(models) {
-      var _ref1, _ref2;
-      if (models == null) {
-        models = {};
-      }
-      this.model = (_ref1 = this.observer) != null ? _ref1.target : void 0;
-      return (_ref2 = this.binder.update) != null ? _ref2.call(this, models) : void 0;
-    };
-
-    Binding.prototype.getValue = function(el) {
-      if (this.binder && (this.binder.getValue != null)) {
-        return this.binder.getValue.call(this, el);
-      } else {
-        return Rivets.Util.getInputValue(el);
-      }
-    };
-
-    return Binding;
-
-  })();
-
-  Rivets.ComponentBinding = (function(_super) {
-    __extends(ComponentBinding, _super);
-
-    function ComponentBinding(view, el, type) {
-      var attribute, bindingRegExp, propertyName, token, _i, _len, _ref1, _ref2;
-      this.view = view;
-      this.el = el;
-      this.type = type;
-      this.unbind = __bind(this.unbind, this);
-      this.bind = __bind(this.bind, this);
-      this.locals = __bind(this.locals, this);
-      this.component = this.view.components[this.type];
-      this["static"] = {};
-      this.observers = {};
-      this.upstreamObservers = {};
-      bindingRegExp = view.bindingRegExp();
-      _ref1 = this.el.attributes || [];
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        attribute = _ref1[_i];
-        if (!bindingRegExp.test(attribute.name)) {
-          propertyName = this.camelCase(attribute.name);
-          token = Rivets.TypeParser.parse(attribute.value);
-          if (__indexOf.call((_ref2 = this.component["static"]) != null ? _ref2 : [], propertyName) >= 0) {
-            this["static"][propertyName] = attribute.value;
-          } else if (token.type === Rivets.TypeParser.types.primitive) {
-            this["static"][propertyName] = token.value;
-          } else {
-            this.observers[propertyName] = attribute.value;
-          }
-        }
-      }
-    }
-
-    ComponentBinding.prototype.sync = function() {};
-
-    ComponentBinding.prototype.update = function() {};
-
-    ComponentBinding.prototype.publish = function() {};
-
-    ComponentBinding.prototype.locals = function() {
-      var key, observer, result, value, _ref1, _ref2;
-      result = {};
-      _ref1 = this["static"];
-      for (key in _ref1) {
-        value = _ref1[key];
-        result[key] = value;
-      }
-      _ref2 = this.observers;
-      for (key in _ref2) {
-        observer = _ref2[key];
-        result[key] = observer.value();
-      }
-      return result;
-    };
-
-    ComponentBinding.prototype.camelCase = function(string) {
-      return string.replace(/-([a-z])/g, function(grouped) {
-        return grouped[1].toUpperCase();
-      });
-    };
-
-    ComponentBinding.prototype.bind = function() {
-      var k, key, keypath, observer, option, options, scope, v, _base, _i, _j, _len, _len1, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7;
-      if (!this.bound) {
-        _ref1 = this.observers;
-        for (key in _ref1) {
-          keypath = _ref1[key];
-          this.observers[key] = this.observe(this.view.models, keypath, ((function(_this) {
-            return function(key) {
-              return function() {
-                return _this.componentView.models[key] = _this.observers[key].value();
-              };
-            };
-          })(this)).call(this, key));
-        }
-        this.bound = true;
-      }
-      if (this.componentView != null) {
-        this.componentView.bind();
-      } else {
-        this.el.innerHTML = this.component.template.call(this);
-        scope = this.component.initialize.call(this, this.el, this.locals());
-        this.el._bound = true;
-        options = {};
-        _ref2 = Rivets.extensions;
-        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-          option = _ref2[_i];
-          options[option] = {};
-          if (this.component[option]) {
-            _ref3 = this.component[option];
-            for (k in _ref3) {
-              v = _ref3[k];
-              options[option][k] = v;
-            }
-          }
-          _ref4 = this.view[option];
-          for (k in _ref4) {
-            v = _ref4[k];
-            if ((_base = options[option])[k] == null) {
-              _base[k] = v;
-            }
-          }
-        }
-        _ref5 = Rivets.options;
-        for (_j = 0, _len1 = _ref5.length; _j < _len1; _j++) {
-          option = _ref5[_j];
-          options[option] = (_ref6 = this.component[option]) != null ? _ref6 : this.view[option];
-        }
-        this.componentView = new Rivets.View(Array.prototype.slice.call(this.el.childNodes), scope, options);
-        this.componentView.bind();
-        _ref7 = this.observers;
-        for (key in _ref7) {
-          observer = _ref7[key];
-          this.upstreamObservers[key] = this.observe(this.componentView.models, key, ((function(_this) {
-            return function(key, observer) {
-              return function() {
-                return observer.setValue(_this.componentView.models[key]);
-              };
-            };
-          })(this)).call(this, key, observer));
-        }
-      }
-    };
-
-    ComponentBinding.prototype.unbind = function() {
-      var key, observer, _ref1, _ref2, _ref3;
-      _ref1 = this.upstreamObservers;
-      for (key in _ref1) {
-        observer = _ref1[key];
-        observer.unobserve();
-      }
-      _ref2 = this.observers;
-      for (key in _ref2) {
-        observer = _ref2[key];
-        observer.unobserve();
-      }
-      return (_ref3 = this.componentView) != null ? _ref3.unbind.call(this) : void 0;
-    };
-
-    return ComponentBinding;
-
-  })(Rivets.Binding);
-
-  Rivets.TextBinding = (function(_super) {
-    __extends(TextBinding, _super);
-
-    function TextBinding(view, el, type, keypath, options) {
-      this.view = view;
-      this.el = el;
-      this.type = type;
-      this.keypath = keypath;
-      this.options = options != null ? options : {};
-      this.sync = __bind(this.sync, this);
-      this.formatters = this.options.formatters || [];
-      this.dependencies = [];
-      this.formatterObservers = {};
-    }
-
-    TextBinding.prototype.binder = {
-      routine: function(node, value) {
-        return node.data = value != null ? value : '';
-      }
-    };
-
-    TextBinding.prototype.sync = function() {
-      return TextBinding.__super__.sync.apply(this, arguments);
-    };
-
-    return TextBinding;
-
-  })(Rivets.Binding);
-
-  Rivets["public"].binders.text = function(el, value) {
-    if (el.textContent != null) {
-      return el.textContent = value != null ? value : '';
-    } else {
-      return el.innerText = value != null ? value : '';
-    }
-  };
-
-  Rivets["public"].binders.html = function(el, value) {
-    return el.innerHTML = value != null ? value : '';
-  };
-
-  Rivets["public"].binders.show = function(el, value) {
-    return el.style.display = value ? '' : 'none';
-  };
-
-  Rivets["public"].binders.hide = function(el, value) {
-    return el.style.display = value ? 'none' : '';
-  };
-
-  Rivets["public"].binders.enabled = function(el, value) {
-    return el.disabled = !value;
-  };
-
-  Rivets["public"].binders.disabled = function(el, value) {
-    return el.disabled = !!value;
-  };
-
-  Rivets["public"].binders.checked = {
-    publishes: true,
-    priority: 2000,
-    bind: function(el) {
-      return Rivets.Util.bindEvent(el, 'change', this.publish);
-    },
-    unbind: function(el) {
-      return Rivets.Util.unbindEvent(el, 'change', this.publish);
-    },
-    routine: function(el, value) {
-      var _ref1;
-      if (el.type === 'radio') {
-        return el.checked = ((_ref1 = el.value) != null ? _ref1.toString() : void 0) === (value != null ? value.toString() : void 0);
-      } else {
-        return el.checked = !!value;
-      }
-    }
-  };
-
-  Rivets["public"].binders.unchecked = {
-    publishes: true,
-    priority: 2000,
-    bind: function(el) {
-      return Rivets.Util.bindEvent(el, 'change', this.publish);
-    },
-    unbind: function(el) {
-      return Rivets.Util.unbindEvent(el, 'change', this.publish);
-    },
-    routine: function(el, value) {
-      var _ref1;
-      if (el.type === 'radio') {
-        return el.checked = ((_ref1 = el.value) != null ? _ref1.toString() : void 0) !== (value != null ? value.toString() : void 0);
-      } else {
-        return el.checked = !value;
-      }
-    }
-  };
-
-  Rivets["public"].binders.value = {
-    publishes: true,
-    priority: 3000,
-    bind: function(el) {
-      if (!(el.tagName === 'INPUT' && el.type === 'radio')) {
-        this.event = el.tagName === 'SELECT' ? 'change' : 'input';
-        return Rivets.Util.bindEvent(el, this.event, this.publish);
-      }
-    },
-    unbind: function(el) {
-      if (!(el.tagName === 'INPUT' && el.type === 'radio')) {
-        return Rivets.Util.unbindEvent(el, this.event, this.publish);
-      }
-    },
-    routine: function(el, value) {
-      var o, _i, _len, _ref1, _ref2, _ref3, _results;
-      if (el.tagName === 'INPUT' && el.type === 'radio') {
-        return el.setAttribute('value', value);
-      } else if (window.jQuery != null) {
-        el = jQuery(el);
-        if ((value != null ? value.toString() : void 0) !== ((_ref1 = el.val()) != null ? _ref1.toString() : void 0)) {
-          return el.val(value != null ? value : '');
-        }
-      } else {
-        if (el.type === 'select-multiple') {
-          if (value != null) {
-            _results = [];
-            for (_i = 0, _len = el.length; _i < _len; _i++) {
-              o = el[_i];
-              _results.push(o.selected = (_ref2 = o.value, __indexOf.call(value, _ref2) >= 0));
-            }
-            return _results;
-          }
-        } else if ((value != null ? value.toString() : void 0) !== ((_ref3 = el.value) != null ? _ref3.toString() : void 0)) {
-          return el.value = value != null ? value : '';
-        }
-      }
-    }
-  };
-
-  Rivets["public"].binders["if"] = {
-    block: true,
-    priority: 4000,
-    bind: function(el) {
-      var attr, declaration;
-      if (this.marker == null) {
-        attr = [this.view.prefix, this.type].join('-').replace('--', '-');
-        declaration = el.getAttribute(attr);
-        this.marker = document.createComment(" rivets: " + this.type + " " + declaration + " ");
-        this.bound = false;
-        el.removeAttribute(attr);
-        el.parentNode.insertBefore(this.marker, el);
-        return el.parentNode.removeChild(el);
-      }
-    },
-    unbind: function() {
-      if (this.nested) {
-        this.nested.unbind();
-        return this.bound = false;
-      }
-    },
-    routine: function(el, value) {
-      var key, model, models, _ref1;
-      if (!!value === !this.bound) {
-        if (value) {
-          models = {};
-          _ref1 = this.view.models;
-          for (key in _ref1) {
-            model = _ref1[key];
-            models[key] = model;
-          }
-          (this.nested || (this.nested = new Rivets.View(el, models, this.view.options()))).bind();
-          this.marker.parentNode.insertBefore(el, this.marker.nextSibling);
-          return this.bound = true;
-        } else {
-          el.parentNode.removeChild(el);
-          this.nested.unbind();
-          return this.bound = false;
-        }
-      }
-    },
-    update: function(models) {
-      var _ref1;
-      return (_ref1 = this.nested) != null ? _ref1.update(models) : void 0;
-    }
-  };
-
-  Rivets["public"].binders.unless = {
-    block: true,
-    priority: 4000,
-    bind: function(el) {
-      return Rivets["public"].binders["if"].bind.call(this, el);
-    },
-    unbind: function() {
-      return Rivets["public"].binders["if"].unbind.call(this);
-    },
-    routine: function(el, value) {
-      return Rivets["public"].binders["if"].routine.call(this, el, !value);
-    },
-    update: function(models) {
-      return Rivets["public"].binders["if"].update.call(this, models);
-    }
-  };
-
-  Rivets["public"].binders['on-*'] = {
-    "function": true,
-    priority: 1000,
-    unbind: function(el) {
-      if (this.handler) {
-        return Rivets.Util.unbindEvent(el, this.args[0], this.handler);
-      }
-    },
-    routine: function(el, value) {
-      if (this.handler) {
-        Rivets.Util.unbindEvent(el, this.args[0], this.handler);
-      }
-      return Rivets.Util.bindEvent(el, this.args[0], this.handler = this.eventHandler(value));
-    }
-  };
-
-  Rivets["public"].binders['each-*'] = {
-    block: true,
-    priority: 4000,
-    bind: function(el) {
-      var attr, view, _i, _len, _ref1;
-      if (this.marker == null) {
-        attr = [this.view.prefix, this.type].join('-').replace('--', '-');
-        this.marker = document.createComment(" rivets: " + this.type + " ");
-        this.iterated = [];
-        el.removeAttribute(attr);
-        el.parentNode.insertBefore(this.marker, el);
-        el.parentNode.removeChild(el);
-      } else {
-        _ref1 = this.iterated;
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          view = _ref1[_i];
-          view.bind();
-        }
-      }
-    },
-    unbind: function(el) {
-      var view, _i, _len, _ref1;
-      if (this.iterated != null) {
-        _ref1 = this.iterated;
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          view = _ref1[_i];
-          view.unbind();
-        }
-      }
-    },
-    routine: function(el, collection) {
-      var binding, data, i, index, key, model, modelName, options, previous, template, view, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3;
-      modelName = this.args[0];
-      collection = collection || [];
-      if (this.iterated.length > collection.length) {
-        _ref1 = Array(this.iterated.length - collection.length);
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          i = _ref1[_i];
-          view = this.iterated.pop();
-          view.unbind();
-          this.marker.parentNode.removeChild(view.els[0]);
-        }
-      }
-      for (index = _j = 0, _len1 = collection.length; _j < _len1; index = ++_j) {
-        model = collection[index];
-        data = {
-          index: index
-        };
-        data[Rivets["public"].iterationAlias(modelName)] = index;
-        data[modelName] = model;
-        if (this.iterated[index] == null) {
-          _ref2 = this.view.models;
-          for (key in _ref2) {
-            model = _ref2[key];
-            if (data[key] == null) {
-              data[key] = model;
-            }
-          }
-          previous = this.iterated.length ? this.iterated[this.iterated.length - 1].els[0] : this.marker;
-          options = this.view.options();
-          options.preloadData = true;
-          template = el.cloneNode(true);
-          view = new Rivets.View(template, data, options);
-          view.bind();
-          this.iterated.push(view);
-          this.marker.parentNode.insertBefore(template, previous.nextSibling);
-        } else if (this.iterated[index].models[modelName] !== model) {
-          this.iterated[index].update(data);
-        }
-      }
-      if (el.nodeName === 'OPTION') {
-        _ref3 = this.view.bindings;
-        for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
-          binding = _ref3[_k];
-          if (binding.el === this.marker.parentNode && binding.type === 'value') {
-            binding.sync();
-          }
-        }
-      }
-    },
-    update: function(models) {
-      var data, key, model, view, _i, _len, _ref1;
-      data = {};
-      for (key in models) {
-        model = models[key];
-        if (key !== this.args[0]) {
-          data[key] = model;
-        }
-      }
-      _ref1 = this.iterated;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        view = _ref1[_i];
-        view.update(data);
-      }
-    }
-  };
-
-  Rivets["public"].binders['class-*'] = function(el, value) {
-    var elClass;
-    elClass = " " + el.className + " ";
-    if (!value === (elClass.indexOf(" " + this.args[0] + " ") !== -1)) {
-      return el.className = value ? "" + el.className + " " + this.args[0] : elClass.replace(" " + this.args[0] + " ", ' ').trim();
-    }
-  };
-
-  Rivets["public"].binders['*'] = function(el, value) {
-    if (value != null) {
-      return el.setAttribute(this.type, value);
-    } else {
-      return el.removeAttribute(this.type);
-    }
-  };
-
-  Rivets["public"].formatters['call'] = function() {
-    var args, value;
-    value = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-    return value.call.apply(value, [this].concat(__slice.call(args)));
-  };
-
-  Rivets["public"].adapters['.'] = {
-    id: '_rv',
-    counter: 0,
-    weakmap: {},
-    weakReference: function(obj) {
-      var id, _base, _name;
-      if (!obj.hasOwnProperty(this.id)) {
-        id = this.counter++;
-        Object.defineProperty(obj, this.id, {
-          value: id
-        });
-      }
-      return (_base = this.weakmap)[_name = obj[this.id]] || (_base[_name] = {
-        callbacks: {}
-      });
-    },
-    cleanupWeakReference: function(ref, id) {
-      if (!Object.keys(ref.callbacks).length) {
-        if (!(ref.pointers && Object.keys(ref.pointers).length)) {
-          return delete this.weakmap[id];
-        }
-      }
-    },
-    stubFunction: function(obj, fn) {
-      var map, original, weakmap;
-      original = obj[fn];
-      map = this.weakReference(obj);
-      weakmap = this.weakmap;
-      return obj[fn] = function() {
-        var callback, k, r, response, _i, _len, _ref1, _ref2, _ref3, _ref4;
-        response = original.apply(obj, arguments);
-        _ref1 = map.pointers;
-        for (r in _ref1) {
-          k = _ref1[r];
-          _ref4 = (_ref2 = (_ref3 = weakmap[r]) != null ? _ref3.callbacks[k] : void 0) != null ? _ref2 : [];
-          for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
-            callback = _ref4[_i];
-            callback();
-          }
-        }
-        return response;
-      };
-    },
-    observeMutations: function(obj, ref, keypath) {
-      var fn, functions, map, _base, _i, _len;
-      if (Array.isArray(obj)) {
-        map = this.weakReference(obj);
-        if (map.pointers == null) {
-          map.pointers = {};
-          functions = ['push', 'pop', 'shift', 'unshift', 'sort', 'reverse', 'splice'];
-          for (_i = 0, _len = functions.length; _i < _len; _i++) {
-            fn = functions[_i];
-            this.stubFunction(obj, fn);
-          }
-        }
-        if ((_base = map.pointers)[ref] == null) {
-          _base[ref] = [];
-        }
-        if (__indexOf.call(map.pointers[ref], keypath) < 0) {
-          return map.pointers[ref].push(keypath);
-        }
-      }
-    },
-    unobserveMutations: function(obj, ref, keypath) {
-      var idx, map, pointers;
-      if (Array.isArray(obj) && (obj[this.id] != null)) {
-        if (map = this.weakmap[obj[this.id]]) {
-          if (pointers = map.pointers[ref]) {
-            if ((idx = pointers.indexOf(keypath)) >= 0) {
-              pointers.splice(idx, 1);
-            }
-            if (!pointers.length) {
-              delete map.pointers[ref];
-            }
-            return this.cleanupWeakReference(map, obj[this.id]);
-          }
-        }
-      }
-    },
-    observe: function(obj, keypath, callback) {
-      var callbacks, desc, value;
-      callbacks = this.weakReference(obj).callbacks;
-      if (callbacks[keypath] == null) {
-        callbacks[keypath] = [];
-        desc = Object.getOwnPropertyDescriptor(obj, keypath);
-        if (!((desc != null ? desc.get : void 0) || (desc != null ? desc.set : void 0))) {
-          value = obj[keypath];
-          Object.defineProperty(obj, keypath, {
-            enumerable: true,
-            get: function() {
-              return value;
-            },
-            set: (function(_this) {
-              return function(newValue) {
-                var cb, map, _i, _len, _ref1;
-                if (newValue !== value) {
-                  _this.unobserveMutations(value, obj[_this.id], keypath);
-                  value = newValue;
-                  if (map = _this.weakmap[obj[_this.id]]) {
-                    callbacks = map.callbacks;
-                    if (callbacks[keypath]) {
-                      _ref1 = callbacks[keypath].slice();
-                      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-                        cb = _ref1[_i];
-                        if (__indexOf.call(callbacks[keypath], cb) >= 0) {
-                          cb();
-                        }
-                      }
-                    }
-                    return _this.observeMutations(newValue, obj[_this.id], keypath);
-                  }
-                }
-              };
-            })(this)
-          });
-        }
-      }
-      if (__indexOf.call(callbacks[keypath], callback) < 0) {
-        callbacks[keypath].push(callback);
-      }
-      return this.observeMutations(obj[keypath], obj[this.id], keypath);
-    },
-    unobserve: function(obj, keypath, callback) {
-      var callbacks, idx, map;
-      if (map = this.weakmap[obj[this.id]]) {
-        if (callbacks = map.callbacks[keypath]) {
-          if ((idx = callbacks.indexOf(callback)) >= 0) {
-            callbacks.splice(idx, 1);
-            if (!callbacks.length) {
-              delete map.callbacks[keypath];
-              this.unobserveMutations(obj[keypath], obj[this.id], keypath);
-            }
-          }
-          return this.cleanupWeakReference(map, obj[this.id]);
-        }
-      }
-    },
-    get: function(obj, keypath) {
-      return obj[keypath];
-    },
-    set: function(obj, keypath, value) {
-      return obj[keypath] = value;
-    }
-  };
-
-  Rivets.factory = function(sightglass) {
-    Rivets.sightglass = sightglass;
-    Rivets["public"]._ = Rivets;
-    return Rivets["public"];
-  };
-
-  if (typeof (typeof module !== "undefined" && module !== null ? module.exports : void 0) === 'object') {
-    module.exports = Rivets.factory(require('sightglass'));
-  } else if (typeof define === 'function' && define.amd) {
-    define(['sightglass'], function(sightglass) {
-      return this.rivets = Rivets.factory(sightglass);
-    });
-  } else {
-    this.rivets = Rivets.factory(sightglass);
-  }
-
-}).call(this);
-
-},{"sightglass":5}],5:[function(require,module,exports){
-(function() {
-  // Public sightglass interface.
-  function sightglass(obj, keypath, callback, options) {
-    return new Observer(obj, keypath, callback, options)
-  }
-
-  // Batteries not included.
-  sightglass.adapters = {}
-
-  // Constructs a new keypath observer and kicks things off.
-  function Observer(obj, keypath, callback, options) {
-    this.options = options || {}
-    this.options.adapters = this.options.adapters || {}
-    this.obj = obj
-    this.keypath = keypath
-    this.callback = callback
-    this.objectPath = []
-    this.update = this.update.bind(this)
-    this.parse()
-
-    if (isObject(this.target = this.realize())) {
-      this.set(true, this.key, this.target, this.callback)
-    }
-  }
-
-  // Tokenizes the provided keypath string into interface + path tokens for the
-  // observer to work with.
-  Observer.tokenize = function(keypath, interfaces, root) {
-    var tokens = []
-    var current = {i: root, path: ''}
-    var index, chr
-
-    for (index = 0; index < keypath.length; index++) {
-      chr = keypath.charAt(index)
-
-      if (!!~interfaces.indexOf(chr)) {
-        tokens.push(current)
-        current = {i: chr, path: ''}
-      } else {
-        current.path += chr
-      }
-    }
-
-    tokens.push(current)
-    return tokens
-  }
-
-  // Parses the keypath using the interfaces defined on the view. Sets variables
-  // for the tokenized keypath as well as the end key.
-  Observer.prototype.parse = function() {
-    var interfaces = this.interfaces()
-    var root, path
-
-    if (!interfaces.length) {
-      error('Must define at least one adapter interface.')
-    }
-
-    if (!!~interfaces.indexOf(this.keypath[0])) {
-      root = this.keypath[0]
-      path = this.keypath.substr(1)
-    } else {
-      if (typeof (root = this.options.root || sightglass.root) === 'undefined') {
-        error('Must define a default root adapter.')
-      }
-
-      path = this.keypath
-    }
-
-    this.tokens = Observer.tokenize(path, interfaces, root)
-    this.key = this.tokens.pop()
-  }
-
-  // Realizes the full keypath, attaching observers for every key and correcting
-  // old observers to any changed objects in the keypath.
-  Observer.prototype.realize = function() {
-    var current = this.obj
-    var unreached = false
-    var prev
-
-    this.tokens.forEach(function(token, index) {
-      if (isObject(current)) {
-        if (typeof this.objectPath[index] !== 'undefined') {
-          if (current !== (prev = this.objectPath[index])) {
-            this.set(false, token, prev, this.update)
-            this.set(true, token, current, this.update)
-            this.objectPath[index] = current
-          }
-        } else {
-          this.set(true, token, current, this.update)
-          this.objectPath[index] = current
-        }
-
-        current = this.get(token, current)
-      } else {
-        if (unreached === false) {
-          unreached = index
-        }
-
-        if (prev = this.objectPath[index]) {
-          this.set(false, token, prev, this.update)
-        }
-      }
-    }, this)
-
-    if (unreached !== false) {
-      this.objectPath.splice(unreached)
-    }
-
-    return current
-  }
-
-  // Updates the keypath. This is called when any intermediary key is changed.
-  Observer.prototype.update = function() {
-    var next, oldValue
-
-    if ((next = this.realize()) !== this.target) {
-      if (isObject(this.target)) {
-        this.set(false, this.key, this.target, this.callback)
-      }
-
-      if (isObject(next)) {
-        this.set(true, this.key, next, this.callback)
-      }
-
-      oldValue = this.value()
-      this.target = next
-
-      // Always call callback if value is a function. If not a function, call callback only if value changed
-      if (this.value() instanceof Function || this.value() !== oldValue) this.callback()
-    }
-  }
-
-  // Reads the current end value of the observed keypath. Returns undefined if
-  // the full keypath is unreachable.
-  Observer.prototype.value = function() {
-    if (isObject(this.target)) {
-      return this.get(this.key, this.target)
-    }
-  }
-
-  // Sets the current end value of the observed keypath. Calling setValue when
-  // the full keypath is unreachable is a no-op.
-  Observer.prototype.setValue = function(value) {
-    if (isObject(this.target)) {
-      this.adapter(this.key).set(this.target, this.key.path, value)
-    }
-  }
-
-  // Gets the provided key on an object.
-  Observer.prototype.get = function(key, obj) {
-    return this.adapter(key).get(obj, key.path)
-  }
-
-  // Observes or unobserves a callback on the object using the provided key.
-  Observer.prototype.set = function(active, key, obj, callback) {
-    var action = active ? 'observe' : 'unobserve'
-    this.adapter(key)[action](obj, key.path, callback)
-  }
-
-  // Returns an array of all unique adapter interfaces available.
-  Observer.prototype.interfaces = function() {
-    var interfaces = Object.keys(this.options.adapters)
-
-    Object.keys(sightglass.adapters).forEach(function(i) {
-      if (!~interfaces.indexOf(i)) {
-        interfaces.push(i)
-      }
-    })
-
-    return interfaces
-  }
-
-  // Convenience function to grab the adapter for a specific key.
-  Observer.prototype.adapter = function(key) {
-    return this.options.adapters[key.i] ||
-      sightglass.adapters[key.i]
-  }
-
-  // Unobserves the entire keypath.
-  Observer.prototype.unobserve = function() {
-    var obj
-
-    this.tokens.forEach(function(token, index) {
-      if (obj = this.objectPath[index]) {
-        this.set(false, token, obj, this.update)
-      }
-    }, this)
-
-    if (isObject(this.target)) {
-      this.set(false, this.key, this.target, this.callback)
-    }
-  }
-
-  // Check if a value is an object than can be observed.
-  function isObject(obj) {
-    return typeof obj === 'object' && obj !== null
-  }
-
-  // Error thrower.
-  function error(message) {
-    throw new Error('[sightglass] ' + message)
-  }
-
-  // Export module for Node and the browser.
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = sightglass
-  } else if (typeof define === 'function' && define.amd) {
-    define([], function() {
-      return this.sightglass = sightglass
-    })
-  } else {
-    this.sightglass = sightglass
-  }
-}).call(this);
-
-},{}],6:[function(require,module,exports){
-(function (setImmediate,clearImmediate){
-var nextTick = require('process/browser.js').nextTick;
-var apply = Function.prototype.apply;
-var slice = Array.prototype.slice;
-var immediateIds = {};
-var nextImmediateId = 0;
-
-// DOM APIs, for completeness
-
-exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-};
-exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-};
-exports.clearTimeout =
-exports.clearInterval = function(timeout) { timeout.close(); };
-
-function Timeout(id, clearFn) {
-  this._id = id;
-  this._clearFn = clearFn;
-}
-Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-Timeout.prototype.close = function() {
-  this._clearFn.call(window, this._id);
-};
-
-// Does not start the time, just sets up the members needed.
-exports.enroll = function(item, msecs) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = msecs;
-};
-
-exports.unenroll = function(item) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = -1;
-};
-
-exports._unrefActive = exports.active = function(item) {
-  clearTimeout(item._idleTimeoutId);
-
-  var msecs = item._idleTimeout;
-  if (msecs >= 0) {
-    item._idleTimeoutId = setTimeout(function onTimeout() {
-      if (item._onTimeout)
-        item._onTimeout();
-    }, msecs);
-  }
-};
-
-// That's not how node.js implements it but the exposed api is the same.
-exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
-  var id = nextImmediateId++;
-  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
-
-  immediateIds[id] = true;
-
-  nextTick(function onNextTick() {
-    if (immediateIds[id]) {
-      // fn.call() is faster so we optimize for the common use-case
-      // @see http://jsperf.com/call-apply-segu
-      if (args) {
-        fn.apply(null, args);
-      } else {
-        fn.call(null);
-      }
-      // Prevent ids from leaking
-      exports.clearImmediate(id);
-    }
-  });
-
-  return id;
-};
-
-exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
-  delete immediateIds[id];
-};
-}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-
-},{"process/browser.js":2,"timers":6}],7:[function(require,module,exports){
+},{"process":17}],2:[function(require,module,exports) {
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 Object.defineProperty(exports, "__esModule", { value: true });
-var $ = require("jquery");
+var $ = require("jquery"); // not working on parcel.js: import * as $ from 'jquery';
 var Direction;
 (function (Direction) {
     Direction[Direction["UP"] = 0] = "UP";
@@ -12531,39 +10685,14 @@ var Key;
  * Tetris based on https://github.com/jakesgordon/javascript-tetris
  * Copyright (c) 2011, 2012, 2013, 2014, 2015, 2016 Jake Gordon and contributors
  */
-var Tetris = /** @class */function () {
-    // randomChoice(choices) {
-    //   return choices[Math.round(random(0, choices.length-1))];
-    // };
+
+var Tetris = function () {
     function Tetris() {
-        // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-        // if (!window.requestAnimationFrame) {
-        //   window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
-        //     window.mozRequestAnimationFrame    ||
-        //     window.oRequestAnimationFrame      ||
-        //     window.msRequestAnimationFrame     ||
-        //     function(callback, element) {
-        //       window.setTimeout(callback, 1000 / 60);
-        //     };
-        // }
-        this.$canvas = $('#canvas');
-        this.$playBtn = $('#start');
-        this.$rows = $('#rows');
-        this.$score = $('#score');
-        this.ctx = this.$canvas.get(0).getContext('2d');
-        this.$ucanvas = $('#upcoming');
-        this.$menu = $('#menu').hide();
-        this.uctx = this.$ucanvas.get(0).getContext('2d');
+        _classCallCheck(this, Tetris);
+
         this.speed = { start: 0.6, decrement: 0.005, min: 0.1 }; // how long before piece drops by 1 row (seconds)
         this.nu = 5; // width/height of upcoming preview (in blocks)
-        this.vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); // viewport width
-        this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); // viewport height
-        this.aspectRatio = this.vh < this.vw ? [1, 2] : [2, 1]; // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
-        this.orientation = this.aspectRatio[0] < this.aspectRatio[1] ? 'landscape' : 'portrait';
-        this.nx = this.aspectRatio[1] * 10; // width of tetris court (in blocks)
-        this.ny = this.aspectRatio[0] * 10; // height of tetris court (in blocks)
-        this.lineWidthXl = 3;
-        //-------------------------------------------------------------------------
+        // -------------------------------------------------------------------------
         // tetris pieces
         //
         // blocks: each element represents a rotation of the piece (0, 90, 180, 270)
@@ -12577,7 +10706,7 @@ var Tetris = /** @class */function () {
         //                               ------
         //                               0x44C0
         //
-        //-------------------------------------------------------------------------
+        // -------------------------------------------------------------------------
         this.i = { name: 'i', size: 4, blocks: [0x0F00, 0x2222, 0x00F0, 0x4444], color: '#0A9177' };
         this.j = { name: 'j', size: 3, blocks: [0x44C0, 0x8E00, 0x6440, 0x0E20], color: '#AB1A62' };
         this.l = { name: 'l', size: 3, blocks: [0x4460, 0x0E80, 0xC440, 0x2E00], color: '#050506' };
@@ -12585,529 +10714,793 @@ var Tetris = /** @class */function () {
         this.s = { name: 's', size: 3, blocks: [0x06C0, 0x8C40, 0x6C00, 0x4620], color: '#AB1A62' };
         this.t = { name: 't', size: 3, blocks: [0x0E40, 0x4C40, 0x4E00, 0x4640], color: '#050506' };
         this.z = { name: 'z', size: 3, blocks: [0x0C60, 0x4C80, 0xC600, 0x2640], color: '#0A9177' };
-        //-----------------------------------------
+        // -----------------------------------------
         // start with 4 instances of each piece and
         // pick randomly until the 'bag is empty'
-        //-----------------------------------------
+        // -----------------------------------------
         this.pieces = new Array();
-        //-------------------------------------------------------------------------
+        // -------------------------------------------------------------------------
         // RENDERING
-        //-------------------------------------------------------------------------
+        // -------------------------------------------------------------------------
         this.invalid = {
             court: false,
             next: false,
-            score: false,
-            rows: false
+            rows: false,
+            score: false
         };
-        //-------------------------------------------------------------------------
-        // FINALLY, lets run the game
-        //-------------------------------------------------------------------------
-        // this.run();
-        console.log('tetris constructor', this);
-    }
-    //-------------------------------------------------------------------------
-    // base helper methods
-    //-------------------------------------------------------------------------
-    Tetris.prototype.get = function (id) {
-        return document.getElementById(id);
-    };
-    ;
-    Tetris.prototype.timestamp = function () {
-        return new Date().getTime();
-    };
-    ;
-    Tetris.prototype.random = function (min, max) {
-        return min + Math.random() * (max - min);
-    };
-    ;
-    //------------------------------------------------
-    // do the bit manipulation and iterate through each
-    // occupied block (x,y) for a given piece
-    //------------------------------------------------
-    Tetris.prototype.eachblock = function (type, x, y, dir, fn) {
-        var bit,
-            result,
-            row = 0,
-            col = 0,
-            blocks = type.blocks[dir];
-        for (bit = 0x8000; bit > 0; bit = bit >> 1) {
-            if (blocks & bit) {
-                fn(x + col, y + row);
-            }
-            if (++col === 4) {
-                col = 0;
-                ++row;
-            }
+        this.$canvas = $('#canvas');
+        this.$playBtn = $('#start');
+        this.$rows = $('#rows');
+        this.$score = $('#score');
+        this.$ucanvas = $('#upcoming');
+        this.$menu = $('#menu');
+        if (!this.$canvas.length) {
+            throw new Error('$canvas not set');
         }
-    };
-    ;
-    //-----------------------------------------------------
-    // check if a piece can fit into a position in the grid
-    //-----------------------------------------------------
-    Tetris.prototype.occupied = function (type, x, y, dir) {
-        var _this = this;
-        var result = false;
-        this.eachblock(type, x, y, dir, function (x, y) {
-            if (x < 0 || x >= _this.nx || y < 0 || y >= _this.ny || _this.getBlock(x, y)) result = true;
-        });
-        return result;
-    };
-    ;
-    Tetris.prototype.unoccupied = function (type, x, y, dir) {
-        return !this.occupied(type, x, y, dir);
-    };
-    ;
-    //-----------------------------------------
-    // start with 4 instances of each piece and
-    // pick randomly until the 'bag is empty'
-    //-----------------------------------------
-    Tetris.prototype.randomPiece = function () {
-        if (this.pieces.length == 0) {
-            this.pieces = [this.i, this.i, this.i, this.i, this.j, this.j, this.j, this.j, this.l, this.l, this.l, this.l, this.o, this.o, this.o, this.o, this.s, this.s, this.s, this.s, this.t, this.t, this.t, this.t, this.z, this.z, this.z, this.z];
+        this.ctx = this.$canvas.get(0).getContext('2d');
+        if (this.ctx === null) {
+            throw new Error('ctx not set');
         }
-        var type = this.pieces.splice(this.random(0, this.pieces.length - 1), 1)[0];
-        return { type: type, dir: Direction.UP, x: Math.round(this.random(0, this.nx - type.size)), y: 0 };
-    };
-    ;
-    Tetris.prototype.addEvents = function () {
-        var self = this;
-        document.addEventListener('keydown', function (event) {
-            self.keydown(event);
-        }, false);
-        window.addEventListener('resize', function (event) {
-            self.resize(event);
-        }, false);
-        // TODO https://github.com/benmajor/$-Touch-Events
-        // this.$canvas.on('singletap', this.tab);
-        // this.$canvas.on('swipe', this.swipe);
-        this.$playBtn.click(function () {
-            if (self.playing) {
-                self.lose();
-            } else {
-                self.play();
-            }
-        });
-    };
-    ;
-    Tetris.prototype.resize = function (event) {
+        this.uctx = this.$ucanvas.get(0).getContext('2d');
+        this.speed = { start: 0.6, decrement: 0.005, min: 0.1 }; // how long before piece drops by 1 row (seconds)
+        this.nu = 5; // width/height of upcoming preview (in blocks)
         this.vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); // viewport width
         this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); // viewport height
         this.aspectRatio = this.vh < this.vw ? [1, 2] : [2, 1]; // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
         this.orientation = this.aspectRatio[0] < this.aspectRatio[1] ? 'landscape' : 'portrait';
         this.nx = this.aspectRatio[1] * 10; // width of tetris court (in blocks)
         this.ny = this.aspectRatio[0] * 10; // height of tetris court (in blocks)
-        if (this.orientation === 'landscape') {
-            this.$canvas.height(this.$canvas.width() / this.aspectRatio[1]); // half height of width
-        } else {
-            this.$canvas.height(this.$canvas.width() * this.aspectRatio[0]); // double height of width
-        }
-        this.$canvas.attr('width', this.$canvas.width()); // set canvas logical size equal to its physical size
-        this.$canvas.attr('height', this.$canvas.height()); // (ditto)
-        this.$ucanvas.attr('width', this.$ucanvas.width());
-        this.$ucanvas.attr('height', this.$ucanvas.height());
-        this.$ucanvas.height(this.$ucanvas.width()); // 1:1
-        this.dx = this.$canvas.width() / this.nx; // pixel size of a single tetris block
-        this.dy = this.$canvas.height() / this.ny; // (ditto)
-        this.dnextx = this.$ucanvas.width() / this.nu; // pixel size of a single tetris block for the upcomming preview
-        this.dnexty = this.$ucanvas.height() / this.nu; // (ditto)
-        this.invalidate();
-        this.invalidateNext();
-    };
-    ;
-    // keyboard events for playing on desktop
-    Tetris.prototype.keydown = function (ev) {
-        var handled = false;
-        if (this.playing) {
-            switch (ev.keyCode) {
-                case Key.LEFT:
-                    this.actions.push(Direction.LEFT);
-                    handled = true;
-                    break;
-                case Key.RIGHT:
-                    this.actions.push(Direction.RIGHT);
-                    handled = true;
-                    break;
-                case Key.UP:
-                    this.actions.push(Direction.UP);
-                    handled = true;
-                    break;
-                case Key.DOWN:
-                    this.actions.push(Direction.DOWN);
-                    handled = true;
-                    break;
-                case Key.ESC:
-                    this.lose();
-                    handled = true;
-                    break;
-            }
-        } else if (ev.keyCode == Key.SPACE) {
-            this.play();
-            handled = true;
-        }
-        if (handled) ev.preventDefault(); // prevent arrow keys from scrolling the page (supported in IE9+ and all other browsers)
-    };
-    ;
-    // swipe gestures for playing on touch devices
-    Tetris.prototype.swipe = function (e, touch) {
-        var handled = false;
-        if (this.playing) {
-            switch (touch.direction) {
-                case 'left':
-                    this.actions.push(Direction.LEFT);
-                    handled = true;
-                    break;
-                case 'right':
-                    this.actions.push(Direction.RIGHT);
-                    handled = true;
-                    break;
-                case 'up':
-                    this.actions.push(Direction.UP);
-                    handled = true;
-                    break;
-                case 'down':
-                    this.actions.push(Direction.DOWN);
-                    handled = true;
-                    break;
-            }
-        }
-    };
-    ;
-    // tab gestures for playing on touch devices
-    Tetris.prototype.tab = function (e, touch) {
-        var handled = false;
-        if (this.playing) {
-            this.actions.push(Direction.UP);
-            handled = true;
-        }
-    };
-    ;
-    //-------------------------------------------------------------------------
-    // GAME LOGIC
-    //-------------------------------------------------------------------------
-    Tetris.prototype.play = function () {
-        this.$menu.show();
-        // $playBtn.prop('disabled', true);
-        this.$playBtn.text('Give Up');
+        this.lineWidthXl = 3;
+        this.$menu.hide();
+        // -------------------------------------------------------------------------
+        // FINALLY, lets run the game
+        // -------------------------------------------------------------------------
+        // this.run();
+        // console.log('tetris constructor', this);
+        this.resize();
         this.reset();
-        this.playing = true;
-    };
-    ;
-    Tetris.prototype.lose = function () {
-        // $playBtn.prop('disabled', false);
-        this.$playBtn.text('Play');
-        // $menu.hide();
-        this.setVisualScore();
-        this.playing = false;
-    };
-    ;
-    Tetris.prototype.setVisualScore = function (n) {
-        this.vscore = n || this.score;this.invalidateScore();
-    };
-    ;
-    Tetris.prototype.setScore = function (n) {
-        this.score = n;this.setVisualScore(n);
-    };
-    ;
-    Tetris.prototype.addScore = function (n) {
-        this.score = this.score + n;
-    };
-    ;
-    Tetris.prototype.clearScore = function () {
-        this.setScore(0);
-    };
-    ;
-    Tetris.prototype.clearRows = function () {
-        this.setRows(0);
-    };
-    ;
-    Tetris.prototype.setRows = function (n) {
-        this.rows = n;this.step = Math.max(this.speed.min, this.speed.start - this.speed.decrement * this.rows);this.invalidateRows();
-    };
-    ;
-    Tetris.prototype.addRows = function (n) {
-        this.setRows(this.rows + n);
-    };
-    ;
-    Tetris.prototype.getBlock = function (x, y) {
-        return this.blocks && this.blocks[x] ? this.blocks[x][y] : null;
-    };
-    ;
-    Tetris.prototype.setBlock = function (x, y, type) {
-        this.blocks[x] = this.blocks[x] || [];this.blocks[x][y] = type;this.invalidate();
-    };
-    ;
-    Tetris.prototype.clearBlocks = function () {
-        this.blocks = [];this.invalidate();
-    };
-    ;
-    Tetris.prototype.clearActions = function () {
-        this.actions = new Array();
-    };
-    ;
-    Tetris.prototype.setCurrentPiece = function (piece) {
-        this.current = piece || this.randomPiece();this.invalidate();
-    };
-    ;
-    Tetris.prototype.setNextPiece = function (piece) {
-        this.next = piece || this.randomPiece();this.invalidateNext();
-    };
-    ;
-    Tetris.prototype.reset = function () {
-        this.dt = 0;
-        this.clearActions();
-        this.clearBlocks();
-        this.clearRows();
-        this.clearScore();
-        this.setCurrentPiece(this.next);
-        this.setNextPiece();
-    };
-    ;
-    Tetris.prototype.update = function (idt) {
-        if (this.playing) {
-            if (this.vscore < this.score) {
-                this.setVisualScore(this.vscore + 1);
-            }
-            this.handle(this.actions.shift());
-            this.dt = this.dt + idt;
-            if (this.dt > this.step) {
-                this.dt = this.dt - this.step;
-                this.drop();
-            }
+    }
+    /**
+     * GAME LOOP
+     */
+
+
+    _createClass(Tetris, [{
+        key: "run",
+        value: function run() {
+            var _this = this;
+
+            // showStats(); // initialize FPS counter
+            this.addEvents(); // attach keydown and resize events
+            var now = this.timestamp();
+            var last = now;
+            var frame = function frame() {
+                now = _this.timestamp();
+                _this.update(Math.min(1, (now - last) / 1000.0)); // using requestAnimationFrame have to be able to handle large delta's caused when it 'hibernates' in a background or non-visible tab
+                _this.draw();
+                // stats.update();
+                last = now;
+                window.requestAnimationFrame(frame /*, $canvas.get(0)*/);
+            };
+            this.resize(); // setup all our sizing information
+            this.reset(); // reset the per-game variables
+            frame(); // start the first frame
         }
-    };
-    ;
-    Tetris.prototype.handle = function (action) {
-        switch (action) {
-            case Direction.LEFT:
-                this.move(Direction.LEFT);
-                break;
-            case Direction.RIGHT:
-                this.move(Direction.RIGHT);
-                break;
-            case Direction.UP:
-                this.rotate();
-                break;
-            case Direction.DOWN:
-                this.drop();
-                break;
+        /**
+         * base helper methods
+         */
+
+    }, {
+        key: "get",
+        value: function get(id) {
+            return document.getElementById(id);
         }
-    };
-    ;
-    Tetris.prototype.move = function (dir) {
-        console.log('move', dir);
-        var x = this.current.x;
-        var y = this.current.y;
-        switch (dir) {
-            case Direction.RIGHT:
-                x = x + 1;
-                break;
-            case Direction.LEFT:
-                x = x - 1;
-                break;
-            case Direction.DOWN:
-                y = y + 1;
-                break;
+    }, {
+        key: "timestamp",
+        value: function timestamp() {
+            return new Date().getTime();
         }
-        if (this.unoccupied(this.current.type, x, y, this.current.dir)) {
-            this.current.x = x;
-            this.current.y = y;
-            this.invalidate();
-            return true;
-        } else {
-            return false;
+    }, {
+        key: "random",
+        value: function random(min, max) {
+            return min + Math.random() * (max - min);
         }
-    };
-    ;
-    Tetris.prototype.rotate = function () {
-        var newdir = this.current.dir == Direction.MAX ? Direction.MIN : this.current.dir + 1;
-        if (this.unoccupied(this.current.type, this.current.x, this.current.y, newdir)) {
-            this.current.dir = newdir;
-            this.invalidate();
-        }
-    };
-    ;
-    Tetris.prototype.drop = function () {
-        if (!this.move(Direction.DOWN)) {
-            this.addScore(10);
-            this.dropPiece();
-            this.removeLines();
-            this.setCurrentPiece(this.next);
-            this.setNextPiece(this.randomPiece());
-            this.clearActions();
-            if (this.occupied(this.current.type, this.current.x, this.current.y, this.current.dir)) {
-                this.lose();
-            }
-        }
-    };
-    ;
-    Tetris.prototype.dropPiece = function () {
-        var _this = this;
-        this.eachblock(this.current.type, this.current.x, this.current.y, this.current.dir, function (x, y) {
-            _this.setBlock(x, y, _this.current.type);
-        });
-    };
-    ;
-    Tetris.prototype.removeLines = function () {
-        var x,
-            y,
-            complete,
-            n = 0;
-        for (y = this.ny; y > 0; --y) {
-            complete = true;
-            for (x = 0; x < this.nx; ++x) {
-                if (!this.getBlock(x, y)) complete = false;
-            }
-            if (complete) {
-                this.removeLine(y);
-                y = y + 1; // recheck same line
-                n++;
-            }
-        }
-        if (n > 0) {
-            this.addRows(n);
-            this.addScore(100 * Math.pow(2, n - 1)); // 1: 100, 2: 200, 3: 400, 4: 800
-        }
-    };
-    ;
-    Tetris.prototype.removeLine = function (n) {
-        var x, y;
-        for (y = n; y >= 0; --y) {
-            for (x = 0; x < this.nx; ++x) {
-                this.setBlock(x, y, y == 0 ? null : this.getBlock(x, y - 1));
-            }
-        }
-    };
-    ;
-    //-------------------------------------------------------------------------
-    // RENDERING
-    //-------------------------------------------------------------------------
-    Tetris.prototype.invalidate = function () {
-        this.invalid.court = true;
-    };
-    ;
-    Tetris.prototype.invalidateNext = function () {
-        this.invalid.next = true;
-    };
-    ;
-    Tetris.prototype.invalidateScore = function () {
-        this.invalid.score = true;
-    };
-    ;
-    Tetris.prototype.invalidateRows = function () {
-        this.invalid.rows = true;
-    };
-    ;
-    Tetris.prototype.draw = function () {
-        this.ctx.save();
-        this.ctx.lineWidth = this.lineWidthXl;
-        this.ctx.translate(this.lineWidthXl / 2, this.lineWidthXl / 2); // for crisp 1px black lines
-        this.drawCourt();
-        this.drawNext();
-        this.drawScore();
-        this.drawRows();
-        this.ctx.restore();
-    };
-    ;
-    // Spielfeld
-    Tetris.prototype.drawCourt = function () {
-        if (this.invalid.court) {
-            this.ctx.clearRect(0, 0, this.$canvas.width(), this.$canvas.height());
-            if (this.playing) this.drawPiece(this.ctx, this.current.type, this.current.x, this.current.y, this.current.dir, this.dx, this.dy);
-            var x = void 0,
-                y = void 0,
-                block = void 0;
-            for (y = 0; y < this.ny; y++) {
-                for (x = 0; x < this.nx; x++) {
-                    block = this.getBlock(x, y);
-                    if (block) {
-                        this.drawBlock(this.ctx, x, y, block.color, this.dx, this.dy);
-                    }
+        // private randomChoice(choices) {
+        //   return choices[Math.round(random(0, choices.length-1))];
+        // }
+        // ------------------------------------------------
+        // do the bit manipulation and iterate through each
+        // occupied block (x,y) for a given piece
+        // ------------------------------------------------
+
+    }, {
+        key: "eachblock",
+        value: function eachblock(type, x, y, dir, fn) {
+            var bit = void 0;
+            // let result;
+            var row = 0;
+            var col = 0;
+            var blocks = type.blocks[dir];
+            for (bit = 0x8000; bit > 0; bit = bit >> 1) {
+                if (blocks & bit) {
+                    fn(x + col, y + row);
+                }
+                if (++col === 4) {
+                    col = 0;
+                    ++row;
                 }
             }
-            this.ctx.strokeStyle = 'black';
+        }
+        // -----------------------------------------------------
+        // check if a piece can fit into a position in the grid
+        // -----------------------------------------------------
+
+    }, {
+        key: "occupied",
+        value: function occupied(type, x, y, dir) {
+            var _this2 = this;
+
+            var result = false;
+            this.eachblock(type, x, y, dir, function (currX, currY) {
+                if (currX < 0 || currX >= _this2.nx || currY < 0 || currY >= _this2.ny || _this2.getBlock(currX, currY)) {
+                    result = true;
+                }
+            });
+            return result;
+        }
+    }, {
+        key: "unoccupied",
+        value: function unoccupied(type, x, y, dir) {
+            return !this.occupied(type, x, y, dir);
+        }
+        /**
+         * start with 4 instances of each piece and
+         * pick randomly until the 'bag is empty'
+         */
+
+    }, {
+        key: "randomPiece",
+        value: function randomPiece() {
+            if (this.pieces.length === 0) {
+                this.pieces = [this.i, this.i, this.i, this.i, this.j, this.j, this.j, this.j, this.l, this.l, this.l, this.l, this.o, this.o, this.o, this.o, this.s, this.s, this.s, this.s, this.t, this.t, this.t, this.t, this.z, this.z, this.z, this.z];
+            }
+            var type = this.pieces.splice(this.random(0, this.pieces.length - 1), 1)[0];
+            return { type: type, dir: Direction.UP, x: Math.round(this.random(0, this.nx - type.size)), y: 0 };
+        }
+    }, {
+        key: "addEvents",
+        value: function addEvents() {
+            var self = this;
+            document.addEventListener('keydown', function (event) {
+                self.keydown(event);
+            }, false);
+            window.addEventListener('resize', function (event) {
+                self.resize(event);
+            }, false);
+            // TODO https://github.com/benmajor/$-Touch-Events
+            // this.$canvas.on('singletap', this.tab);
+            // this.$canvas.on('swipe', this.swipe);
+            this.$playBtn.click(function () {
+                if (self.playing) {
+                    self.lose();
+                } else {
+                    self.play();
+                }
+            });
+        }
+    }, {
+        key: "resize",
+        value: function resize(event) {
+            this.vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); // viewport width
+            this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); // viewport height
+            this.aspectRatio = this.vh < this.vw ? [1, 2] : [2, 1]; // Spielfeld Seitenverhältnis [1,2]: 1:2 [2,1]: 2:1
+            this.orientation = this.aspectRatio[0] < this.aspectRatio[1] ? 'landscape' : 'portrait';
+            this.nx = this.aspectRatio[1] * 10; // width of tetris court (in blocks)
+            this.ny = this.aspectRatio[0] * 10; // height of tetris court (in blocks)
+            if (this.orientation === 'landscape') {
+                this.$canvas.height(this.$canvas.width() / this.aspectRatio[1]); // half height of width
+            } else {
+                this.$canvas.height(this.$canvas.width() * this.aspectRatio[0]); // double height of width
+            }
+            this.$canvas.attr('width', this.$canvas.width()); // set canvas logical size equal to its physical size
+            this.$canvas.attr('height', this.$canvas.height()); // (ditto)
+            this.$ucanvas.attr('width', this.$ucanvas.width());
+            this.$ucanvas.attr('height', this.$ucanvas.height());
+            this.$ucanvas.height(this.$ucanvas.width()); // 1:1
+            this.dx = this.$canvas.width() / this.nx; // pixel size of a single tetris block
+            this.dy = this.$canvas.height() / this.ny; // (ditto)
+            this.dnextx = this.$ucanvas.width() / this.nu; // pixel size of a single tetris block for the upcomming preview
+            this.dnexty = this.$ucanvas.height() / this.nu; // (ditto)
+            this.invalidate();
+            this.invalidateNext();
+        }
+        // keyboard events for playing on desktop
+
+    }, {
+        key: "keydown",
+        value: function keydown(ev) {
+            var handled = false;
+            if (this.playing) {
+                switch (ev.keyCode) {
+                    case Key.LEFT:
+                        this.actions.push(Direction.LEFT);
+                        handled = true;
+                        break;
+                    case Key.RIGHT:
+                        this.actions.push(Direction.RIGHT);
+                        handled = true;
+                        break;
+                    case Key.UP:
+                        this.actions.push(Direction.UP);
+                        handled = true;
+                        break;
+                    case Key.DOWN:
+                        this.actions.push(Direction.DOWN);
+                        handled = true;
+                        break;
+                    case Key.ESC:
+                        this.lose();
+                        handled = true;
+                        break;
+                }
+            } else if (ev.keyCode === Key.SPACE) {
+                this.play();
+                handled = true;
+            }
+            if (handled) {
+                ev.preventDefault(); // prevent arrow keys from scrolling the page (supported in IE9+ and all other browsers)
+            }
+        }
+        // swipe gestures for playing on touch devices
+
+    }, {
+        key: "swipe",
+        value: function swipe(e, touch) {
+            var handled = false;
+            if (this.playing) {
+                switch (touch.direction) {
+                    case 'left':
+                        this.actions.push(Direction.LEFT);
+                        handled = true;
+                        break;
+                    case 'right':
+                        this.actions.push(Direction.RIGHT);
+                        handled = true;
+                        break;
+                    case 'up':
+                        this.actions.push(Direction.UP);
+                        handled = true;
+                        break;
+                    case 'down':
+                        this.actions.push(Direction.DOWN);
+                        handled = true;
+                        break;
+                }
+            }
+        }
+        // tab gestures for playing on touch devices
+
+    }, {
+        key: "tab",
+        value: function tab(e, touch) {
+            var handled = false;
+            if (this.playing) {
+                this.actions.push(Direction.UP);
+                handled = true;
+            }
+        }
+        /**
+         * GAME LOGIC
+         */
+        /**
+         *
+         *
+         * @private
+         * @memberof Tetris
+         */
+
+    }, {
+        key: "play",
+        value: function play() {
+            this.$menu.show();
+            // $playBtn.prop('disabled', true);
+            this.$playBtn.text('Give Up');
+            this.reset();
+            this.playing = true;
+        }
+    }, {
+        key: "lose",
+        value: function lose() {
+            // $playBtn.prop('disabled', false);
+            this.$playBtn.text('Play');
+            // $menu.hide();
+            this.setVisualScore();
+            this.playing = false;
+        }
+    }, {
+        key: "setVisualScore",
+        value: function setVisualScore(n) {
+            this.vscore = n || this.score;this.invalidateScore();
+        }
+    }, {
+        key: "setScore",
+        value: function setScore(n) {
+            this.score = n;this.setVisualScore(n);
+        }
+    }, {
+        key: "addScore",
+        value: function addScore(n) {
+            this.score = this.score + n;
+        }
+    }, {
+        key: "clearScore",
+        value: function clearScore() {
+            this.setScore(0);
+        }
+    }, {
+        key: "clearRows",
+        value: function clearRows() {
+            this.setRows(0);
+        }
+    }, {
+        key: "setRows",
+        value: function setRows(n) {
+            this.rows = n;this.step = Math.max(this.speed.min, this.speed.start - this.speed.decrement * this.rows);this.invalidateRows();
+        }
+    }, {
+        key: "addRows",
+        value: function addRows(n) {
+            this.setRows(this.rows + n);
+        }
+    }, {
+        key: "getBlock",
+        value: function getBlock(x, y) {
+            return this.blocks && this.blocks[x] ? this.blocks[x][y] : null;
+        }
+    }, {
+        key: "setBlock",
+        value: function setBlock(x, y, type) {
+            this.blocks[x] = this.blocks[x] || [];this.blocks[x][y] = type;this.invalidate();
+        }
+    }, {
+        key: "clearBlocks",
+        value: function clearBlocks() {
+            this.blocks = [];this.invalidate();
+        }
+    }, {
+        key: "clearActions",
+        value: function clearActions() {
+            this.actions = new Array();
+        }
+    }, {
+        key: "setCurrentPiece",
+        value: function setCurrentPiece(piece) {
+            this.current = piece || this.randomPiece();this.invalidate();
+        }
+    }, {
+        key: "setNextPiece",
+        value: function setNextPiece(piece) {
+            this.next = piece || this.randomPiece();this.invalidateNext();
+        }
+    }, {
+        key: "reset",
+        value: function reset() {
+            this.dt = 0;
+            this.clearActions();
+            this.clearBlocks();
+            this.clearRows();
+            this.clearScore();
+            this.setCurrentPiece(this.next);
+            this.setNextPiece();
+        }
+    }, {
+        key: "update",
+        value: function update(idt) {
+            if (this.playing) {
+                if (this.vscore < this.score) {
+                    this.setVisualScore(this.vscore + 1);
+                }
+                this.handle(this.actions.shift());
+                this.dt = this.dt + idt;
+                if (this.dt > this.step) {
+                    this.dt = this.dt - this.step;
+                    this.drop();
+                }
+            }
+        }
+    }, {
+        key: "handle",
+        value: function handle(action) {
+            switch (action) {
+                case Direction.LEFT:
+                    this.move(Direction.LEFT);
+                    break;
+                case Direction.RIGHT:
+                    this.move(Direction.RIGHT);
+                    break;
+                case Direction.UP:
+                    this.rotate();
+                    break;
+                case Direction.DOWN:
+                    this.drop();
+                    break;
+            }
+        }
+    }, {
+        key: "move",
+        value: function move(dir) {
+            // console.log('move', dir);
+            var x = this.current.x;
+            var y = this.current.y;
+            switch (dir) {
+                case Direction.RIGHT:
+                    x = x + 1;
+                    break;
+                case Direction.LEFT:
+                    x = x - 1;
+                    break;
+                case Direction.DOWN:
+                    y = y + 1;
+                    break;
+            }
+            if (this.unoccupied(this.current.type, x, y, this.current.dir)) {
+                this.current.x = x;
+                this.current.y = y;
+                this.invalidate();
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }, {
+        key: "rotate",
+        value: function rotate() {
+            var newdir = this.current.dir === Direction.MAX ? Direction.MIN : this.current.dir + 1;
+            if (this.unoccupied(this.current.type, this.current.x, this.current.y, newdir)) {
+                this.current.dir = newdir;
+                this.invalidate();
+            }
+        }
+    }, {
+        key: "drop",
+        value: function drop() {
+            if (!this.move(Direction.DOWN)) {
+                this.addScore(10);
+                this.dropPiece();
+                this.removeLines();
+                this.setCurrentPiece(this.next);
+                this.setNextPiece(this.randomPiece());
+                this.clearActions();
+                if (this.occupied(this.current.type, this.current.x, this.current.y, this.current.dir)) {
+                    this.lose();
+                }
+            }
+        }
+    }, {
+        key: "dropPiece",
+        value: function dropPiece() {
+            var _this3 = this;
+
+            this.eachblock(this.current.type, this.current.x, this.current.y, this.current.dir, function (x, y) {
+                _this3.setBlock(x, y, _this3.current.type);
+            });
+        }
+    }, {
+        key: "removeLines",
+        value: function removeLines() {
+            var x = void 0;
+            var y = void 0;
+            var complete = void 0;
+            var n = 0;
+            for (y = this.ny; y > 0; --y) {
+                complete = true;
+                for (x = 0; x < this.nx; ++x) {
+                    if (!this.getBlock(x, y)) {
+                        complete = false;
+                    }
+                }
+                if (complete) {
+                    this.removeLine(y);
+                    y = y + 1; // recheck same line
+                    n++;
+                }
+            }
+            if (n > 0) {
+                this.addRows(n);
+                this.addScore(100 * Math.pow(2, n - 1)); // 1: 100, 2: 200, 3: 400, 4: 800
+            }
+        }
+    }, {
+        key: "removeLine",
+        value: function removeLine(n) {
+            var x = void 0;
+            var y = void 0;
+            for (y = n; y >= 0; --y) {
+                for (x = 0; x < this.nx; ++x) {
+                    this.setBlock(x, y, y === 0 ? null : this.getBlock(x, y - 1));
+                }
+            }
+        }
+        /**
+         * RENDERING
+         */
+
+    }, {
+        key: "invalidate",
+        value: function invalidate() {
+            this.invalid.court = true;
+        }
+    }, {
+        key: "invalidateNext",
+        value: function invalidateNext() {
+            this.invalid.next = true;
+        }
+    }, {
+        key: "invalidateScore",
+        value: function invalidateScore() {
+            this.invalid.score = true;
+        }
+    }, {
+        key: "invalidateRows",
+        value: function invalidateRows() {
+            this.invalid.rows = true;
+        }
+    }, {
+        key: "draw",
+        value: function draw() {
+            this.ctx.save();
             this.ctx.lineWidth = this.lineWidthXl;
-            this.ctx.strokeRect(0, 0, this.nx * this.dx - this.lineWidthXl, this.ny * this.dy - this.lineWidthXl); // court boundary / Spielfeldrand
-            this.invalid.court = false;
+            this.ctx.translate(this.lineWidthXl / 2, this.lineWidthXl / 2); // for crisp 1px black lines
+            this.drawCourt();
+            this.drawNext();
+            this.drawScore();
+            this.drawRows();
+            this.ctx.restore();
         }
-    };
-    ;
-    Tetris.prototype.drawNext = function () {
-        if (this.invalid.next) {
-            var padding = (this.nu - this.next.type.size) / 2;
-            // padding = 1; // WORKAROUND
-            console.log('drawNext padding', padding, 'dnextx', this.dnextx, 'nu', this.nu, 'next', this.next);
-            this.uctx.save();
-            this.uctx.translate(this.lineWidthXl / 2, this.lineWidthXl / 2);
-            this.uctx.clearRect(0, 0, this.$ucanvas.width(), this.$ucanvas.height());
-            this.drawPiece(this.uctx, this.next.type, padding, padding, this.next.dir, this.dnextx, this.dnexty);
-            this.uctx.strokeStyle = 'black';
-            this.ctx.lineWidth = this.lineWidthXl;
-            this.uctx.strokeRect(0, 0, this.nu * this.dnextx - this.lineWidthXl, this.nu * this.dnexty - this.lineWidthXl);
-            this.uctx.restore();
-            this.invalid.next = false;
+        /**
+         * Spielfeld
+         *
+         * @private
+         * @memberof Tetris
+         */
+
+    }, {
+        key: "drawCourt",
+        value: function drawCourt() {
+            if (this.invalid.court) {
+                this.ctx.clearRect(0, 0, this.$canvas.width() || 0, this.$canvas.height() || 0);
+                if (this.playing) {
+                    this.drawPiece(this.ctx, this.current.type, this.current.x, this.current.y, this.current.dir, this.dx, this.dy);
+                }
+                var x = void 0;
+                var y = void 0;
+                var block = void 0;
+                for (y = 0; y < this.ny; y++) {
+                    for (x = 0; x < this.nx; x++) {
+                        block = this.getBlock(x, y);
+                        if (block) {
+                            this.drawBlock(this.ctx, x, y, block.color, this.dx, this.dy);
+                        }
+                    }
+                }
+                this.ctx.strokeStyle = 'black';
+                this.ctx.lineWidth = this.lineWidthXl;
+                this.ctx.strokeRect(0, 0, this.nx * this.dx - this.lineWidthXl, this.ny * this.dy - this.lineWidthXl); // court boundary / Spielfeldrand
+                this.invalid.court = false;
+            }
         }
-    };
-    ;
-    Tetris.prototype.drawScore = function () {
-        if (this.invalid.score) {
-            // html('score', ("00000" + Math.floor(vscore)).slice(-5));
-            this.$score.text(("00000" + Math.floor(this.vscore)).slice(-5));
-            this.invalid.score = false;
+    }, {
+        key: "drawNext",
+        value: function drawNext() {
+            if (this.invalid.next) {
+                var padding = (this.nu - this.next.type.size) / 2;
+                // padding = 1; // WORKAROUND
+                // console.log('drawNext padding', padding, 'dnextx',  this.dnextx, 'nu',  this.nu, 'next',  this.next);
+                this.uctx.save();
+                this.uctx.translate(this.lineWidthXl / 2, this.lineWidthXl / 2);
+                this.uctx.clearRect(0, 0, this.$ucanvas.width(), this.$ucanvas.height());
+                this.drawPiece(this.uctx, this.next.type, padding, padding, this.next.dir, this.dnextx, this.dnexty);
+                this.uctx.strokeStyle = 'black';
+                this.ctx.lineWidth = this.lineWidthXl;
+                this.uctx.strokeRect(0, 0, this.nu * this.dnextx - this.lineWidthXl, this.nu * this.dnexty - this.lineWidthXl);
+                this.uctx.restore();
+                this.invalid.next = false;
+            }
         }
-    };
-    ;
-    Tetris.prototype.drawRows = function () {
-        if (this.invalid.rows) {
-            //html('rows', rows);
-            this.$rows.text(this.rows);
-            this.invalid.rows = false;
+    }, {
+        key: "drawScore",
+        value: function drawScore() {
+            if (this.invalid.score) {
+                // html('score', ("00000" + Math.floor(vscore)).slice(-5));
+                this.$score.text(('00000' + Math.floor(this.vscore)).slice(-5));
+                this.invalid.score = false;
+            }
         }
-    };
-    ;
-    Tetris.prototype.drawPiece = function (ctx, type, x, y, dir, dx, dy) {
-        var _this = this;
-        this.eachblock(type, x, y, dir, function (x, y) {
-            _this.drawBlock(ctx, x, y, type.color, dx, dy);
-        });
-    };
-    ;
-    Tetris.prototype.drawBlock = function (ctx, x, y, color, dx, dy) {
-        ctx.fillStyle = 'transparent';
-        ctx.lineWidth = this.lineWidthXl;
-        ctx.strokeStyle = color;
-        ctx.fillRect(x * dx, y * dy, dx, dy);
-        ctx.strokeRect(x * dx, y * dy, dx, dy);
-    };
-    ;
-    //-------------------------------------------------------------------------
-    // GAME LOOP
-    //-------------------------------------------------------------------------
-    Tetris.prototype.run = function () {
-        var _this = this;
-        // showStats(); // initialize FPS counter
-        this.addEvents(); // attach keydown and resize events
-        var now = this.timestamp();
-        var last = now;
-        var frame = function frame() {
-            now = _this.timestamp();
-            _this.update(Math.min(1, (now - last) / 1000.0)); // using requestAnimationFrame have to be able to handle large delta's caused when it 'hibernates' in a background or non-visible tab
-            _this.draw();
-            // stats.update();
-            last = now;
-            window.requestAnimationFrame(frame /*, $canvas.get(0)*/);
-        };
-        this.resize(); // setup all our sizing information
-        this.reset(); // reset the per-game variables
-        frame(); // start the first frame
-    };
-    ;
+    }, {
+        key: "drawRows",
+        value: function drawRows() {
+            if (this.invalid.rows) {
+                // html('rows', rows);
+                this.$rows.text(this.rows);
+                this.invalid.rows = false;
+            }
+        }
+    }, {
+        key: "drawPiece",
+        value: function drawPiece(ctx, type, x, y, dir, dx, dy) {
+            var _this4 = this;
+
+            this.eachblock(type, x, y, dir, function (currX, currY) {
+                _this4.drawBlock(ctx, currX, currY, type.color, dx, dy);
+            });
+        }
+    }, {
+        key: "drawBlock",
+        value: function drawBlock(ctx, x, y, color, dx, dy) {
+            ctx.fillStyle = 'transparent';
+            ctx.lineWidth = this.lineWidthXl;
+            ctx.strokeStyle = color;
+            ctx.fillRect(x * dx, y * dy, dx, dy);
+            ctx.strokeRect(x * dx, y * dy, dx, dy);
+        }
+    }]);
+
     return Tetris;
 }();
-exports.Tetris = Tetris;
-;
 
-},{"jquery":1}],8:[function(require,module,exports){
+exports.Tetris = Tetris;
+},{"jquery":3}],8:[function(require,module,exports) {
 "use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Just an object with some helpful functions
+ *
+ * @type {Object}
+ * @namespace Barba.Utils
+ */
+
+var Utils = function () {
+    function Utils() {
+        _classCallCheck(this, Utils);
+    }
+
+    _createClass(Utils, null, [{
+        key: "getCurrentUrl",
+
+        /**
+         * Return the current url
+         *
+         * @memberOf Barba.Utils
+         * @return {string} currentUrl
+         */
+        value: function getCurrentUrl() {
+            return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search;
+        }
+        /**
+         * Given an url, return it without the hash
+         *
+         * @memberOf Barba.Utils
+         * @private
+         * @param  {string} url
+         * @return {string} newCleanUrl
+         */
+
+    }, {
+        key: "cleanLink",
+        value: function cleanLink(url) {
+            return url.replace(/#.*/, '');
+        }
+        /**
+         * Start an XMLHttpRequest() and return a Promise
+         *
+         * @memberOf Barba.Utils
+         * @param  {string} url
+         * @return {Promise}
+         */
+
+    }, {
+        key: "xhr",
+        value: function xhr(url) {
+            var deferred = this.deferred();
+            var req = new XMLHttpRequest();
+            req.onreadystatechange = function () {
+                if (req.readyState === 4) {
+                    if (req.status === 200) {
+                        return deferred.resolve(req.responseText);
+                    } else {
+                        return deferred.reject(new Error('xhr: HTTP code is not 200'));
+                    }
+                }
+            };
+            req.ontimeout = function () {
+                return deferred.reject(new Error('xhr: Timeout exceeded'));
+            };
+            req.open('GET', url);
+            req.timeout = this.xhrTimeout;
+            req.setRequestHeader('x-barba', 'yes');
+            req.send();
+            return deferred.promise;
+        }
+        /**
+         * Get obj and props and return a new object with the property merged
+         *
+         * @memberOf Barba.Utils
+         * @param  {object} obj
+         * @param  {any} props
+         * @return {object}
+         */
+
+    }, {
+        key: "extend",
+        value: function extend(obj, props) {
+            var newObj = Object.create(obj);
+            for (var prop in props) {
+                if (props.hasOwnProperty(prop)) {
+                    newObj[prop] = props[prop];
+                }
+            }
+            return newObj;
+        }
+        /**
+         * Return a new "Deferred" object
+         * https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred
+         *
+         * @memberOf Barba.Utils
+         * @return {IDeferred}
+         */
+
+    }, {
+        key: "deferred",
+        value: function deferred() {
+            var obj = {};
+            var prom = new Promise(function (resolve, reject) {
+                obj.resolve = resolve;
+                obj.reject = reject;
+            });
+            obj.promise = prom;
+            return obj;
+        }
+        /**
+         * Return the port number normalized, eventually you can pass a string to be normalized.
+         *
+         * @memberOf Barba.Utils
+         * @private
+         * @param  {String} p
+         * @return {Int} port
+         */
+
+    }, {
+        key: "getPort",
+        value: function getPort(p) {
+            var port = typeof p !== 'undefined' ? p : window.location.port;
+            var protocol = window.location.protocol;
+            if (port !== '') {
+                return Number(port);
+            }
+            if (protocol === 'http:') {
+                return 80;
+            }
+            if (protocol === 'https:') {
+                return 443;
+            }
+        }
+    }]);
+
+    return Utils;
+}();
+
+exports.Utils = Utils;
+},{}],5:[function(require,module,exports) {
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Utils_1 = require("./Utils");
@@ -13117,659 +11510,77 @@ var Utils_1 = require("./Utils");
  * @namespace Barba.BaseCache
  * @type {Object}
  */
-var BaseCache = {
-  /**
-   * The Object that keeps all the key value information
-   *
-   * @memberOf Barba.BaseCache
-   * @type {Object}
-   */
-  data: {},
-  /**
-   * Helper to extend this object
-   *
-   * @memberOf Barba.BaseCache
-   * @private
-   * @param  {Object} newObject
-   * @return {Object} newInheritObject
-   */
-  extend: function extend(obj) {
-    return Utils_1.Utils.extend(this, obj);
-  },
-  /**
-   * Set a key and value data, mainly Barba is going to save promises
-   *
-   * @memberOf Barba.BaseCache
-   * @param {String} key
-   * @param {*} value
-   */
-  set: function set(key, val) {
-    this.data[key] = val;
-  },
-  /**
-   * Retrieve the data using the key
-   *
-   * @memberOf Barba.BaseCache
-   * @param  {String} key
-   * @return {*}
-   */
-  get: function get(key) {
-    return this.data[key];
-  },
-  /**
-   * Flush the cache
-   *
-   * @memberOf Barba.BaseCache
-   */
-  reset: function reset() {
-    this.data = {};
-  }
-};
-exports.BaseCache = BaseCache;
 
-},{"./Utils":18}],9:[function(require,module,exports){
-"use strict";
+var BaseCache = function () {
+    function BaseCache() {
+        _classCallCheck(this, BaseCache);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Little Dispatcher inspired by MicroEvent.js
- *
- * @namespace Barba.Dispatcher
- * @type {Object}
- */
-var Dispatcher = {
-    /**
-     * Object that keeps all the events
-     *
-     * @memberOf Barba.Dispatcher
-     * @readOnly
-     * @type {Object}
-     */
-    events: {},
-    /**
-     * Bind a callback to an event
-     *
-     * @memberOf Barba.Dispatcher
-     * @param  {string} eventName
-     * @param  {Function} function
-     */
-    on: function on(e, f) {
-        this.events[e] = this.events[e] || [];
-        this.events[e].push(f);
-    },
-    /**
-     * Unbind event
-     *
-     * @memberOf Barba.Dispatcher
-     * @param  {string} eventName
-     * @param  {Function} function
-     */
-    off: function off(e, f) {
-        if (e in this.events === false) return;
-        this.events[e].splice(this.events[e].indexOf(f), 1);
-    },
-    /**
-     * Fire the event running all the event associated to it
-     *
-     * @memberOf Barba.Dispatcher
-     * @param  {string} eventName
-     * @param  {...*} args
-     */
-    trigger: function trigger(e) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        if (e in this.events === false) return;
-        for (var i = 0; i < this.events[e].length; i++) {
-            this.events[e][i].apply(this, Array.prototype.slice.call(arguments, 1));
-        }
+        this.data = {};
     }
-};
-exports.Dispatcher = Dispatcher;
+    /**
+     * Set a key and value data, mainly Barba is going to save promises
+     *
+     * @memberOf Barba.BaseCache
+     * @param {String} key
+     * @param {*} value
+     */
 
-},{}],10:[function(require,module,exports){
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var $ = require("jquery");
-/**
- * Object that is going to deal with DOM parsing/manipulation
- *
- * @namespace Barba.Pjax.Dom
- * @type {Object}
- */
-var Dom = {
-    /**
-     * The name of the data attribute on the container
-     *
-     * @memberOf Barba.Pjax.Dom
-     * @type {String}
-     * @default
-     */
-    dataNamespace: 'namespace',
-    /**
-     * Id of the main wrapper
-     *
-     * @memberOf Barba.Pjax.Dom
-     * @type {String}
-     * @default
-     */
-    wrapperId: 'barba-wrapper',
-    /**
-     * Class name used to identify the containers
-     *
-     * @memberOf Barba.Pjax.Dom
-     * @type {String}
-     * @default
-     */
-    containerClass: 'barba-container',
-    /**
-     * Full HTML String of the current page.
-     * By default is the innerHTML of the initial loaded page.
-     *
-     * Each time a new page is loaded, the value is the response of the xhr call.
-     *
-     * @memberOf Barba.Pjax.Dom
-     * @type {String}
-     */
-    currentHTML: document.documentElement.innerHTML,
-    /**
-     * Parse the responseText obtained from the xhr call
-     *
-     * @memberOf Barba.Pjax.Dom
-     * @private
-     * @param  {String} responseText
-     * @return {JQuery<HTMLElement>}
-     */
-    parseResponse: function parseResponse(responseText) {
-        this.currentHTML = responseText;
-        var $wrapper = $($.parseHTML(responseText));
-        var $title = $wrapper.filter('title');
-        if ($title.length) {
-            document.title = $title.text();
+    _createClass(BaseCache, [{
+        key: "set",
+        value: function set(key, val) {
+            return this.data[key] = val;
         }
-        return this.getContainer($wrapper);
-    },
-    /**
-     * Get the main barba wrapper by the ID `wrapperId`
-     *
-     * @memberOf Barba.Pjax.Dom
-     * @return {JQuery<HTMLElement>} element
-     */
-    getWrapper: function getWrapper() {
-        var $wrapper = $('#' + this.wrapperId);
-        if (!$wrapper) {
-            throw new Error('Barba.js: wrapper not found!');
-        }
-        return $wrapper;
-    },
-    /**
-     * Get the container on the current DOM,
-     * or from an HTMLElement passed via argument
-     *
-     * @memberOf Barba.Pjax.Dom
-     * @private
-     * @param  {HTMLElement} element
-     * @return {HTMLElement}
-     */
-    getContainer: function getContainer($element) {
-        if (!$element) {
-            $element = $(document.body);
-        }
-        if (!$element) {
-            throw new Error('Barba.js: DOM not ready!');
-        }
-        var $container = this.parseContainer($element);
-        if (!$container) {
-            throw new Error('Barba.js: no container found');
-        }
-        return $container;
-    },
-    /**
-     * Get the namespace of the container
-     *
-     * @memberOf Barba.Pjax.Dom
-     * @private
-     * @param  {HTMLElement} element
-     * @return {String}
-     */
-    getNamespace: function getNamespace($element) {
-        if ($element && $element.data()) {
-            return $element.data('namespace');
-        }
-        return null;
-    },
-    /**
-     * Put the container on the page
-     *
-     * @memberOf Barba.Pjax.Dom
-     * @private
-     * @param  {HTMLElement} element
-     */
-    putContainer: function putContainer($element) {
-        $element.css('visibility', 'hidden');
-        var $wrapper = this.getWrapper();
-        $wrapper.append($element);
-    },
-    /**
-     * Get container selector
-     *
-     * @memberOf Barba.Pjax.Dom
-     * @private
-     * @param  {HTMLElement} element
-     * @return {HTMLElement} element
-     */
-    parseContainer: function parseContainer($element) {
-        return $element.find('.' + this.containerClass);
-    }
-};
-exports.Dom = Dom;
-
-},{"jquery":1}],11:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * HistoryManager helps to keep track of the navigation
- *
- * @namespace Barba.HistoryManager
- * @type {Object}
- */
-var HistoryManager = /** @class */function () {
-    function HistoryManager() {
         /**
-         * Keep track of the status in historic order
+         * Retrieve the data using the key
          *
-         * @memberOf Barba.HistoryManager
-         * @readOnly
-         * @type {Array}
+         * @memberOf Barba.BaseCache
+         * @param  {String} key
+         * @return {*}
          */
-        this.history = new Array();
-    }
-    ;
-    /**
-     * Add a new set of url and namespace
-     *
-     * @memberOf Barba.HistoryManager
-     * @param {String} url
-     * @param {String} namespace
-     * @private
-     */
-    HistoryManager.prototype.add = function (url, namespace) {
-        if (!namespace) {
-            namespace = undefined;
+
+    }, {
+        key: "get",
+        value: function get(key) {
+            return this.data[key];
         }
-        this.history.push({
-            url: url,
-            namespace: namespace
-        });
-    };
-    /**
-     * Return information about the current status
-     *
-     * @memberOf Barba.HistoryManager
-     * @return {Object}
-     */
-    HistoryManager.prototype.currentStatus = function () {
-        return this.history[this.history.length - 1];
-    };
-    /**
-     * Return information about the previous status
-     *
-     * @memberOf Barba.HistoryManager
-     * @return {Object}
-     */
-    HistoryManager.prototype.prevStatus = function () {
-        var history = this.history;
-        if (history.length < 2) return null;
-        return history[history.length - 2];
-    };
-    return HistoryManager;
+        /**
+         * Flush the cache
+         *
+         * @memberOf Barba.BaseCache
+         */
+
+    }, {
+        key: "reset",
+        value: function reset() {
+            this.data = {};
+        }
+        /**
+         * Helper to extend this object
+         *
+         * @memberOf Barba.BaseCache
+         * @private
+         * @param  {object} newObject
+         * @return {object} newInheritObject
+         */
+
+    }, {
+        key: "extend",
+        value: function extend(obj) {
+            return Utils_1.Utils.extend(this, obj);
+        }
+    }]);
+
+    return BaseCache;
 }();
-exports.HistoryManager = HistoryManager;
-;
 
-},{}],12:[function(require,module,exports){
+exports.BaseCache = BaseCache;
+},{"./Utils":8}],9:[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var Utils_1 = require("../Utils");
-var Dispatcher_1 = require("../Dispatcher");
-var Transition_1 = require("../Transition");
-var Cache_1 = require("../Cache");
-var HistoryManager_1 = require("./HistoryManager");
-var Dom_1 = require("./Dom");
-/**
-* Pjax is a static object with main function
-*
-* @namespace Barba.Pjax
-* @borrows Dom as Dom
-* @type {Object}
-*/
-var Pjax = {
-    Dom: Dom_1.Dom,
-    History: new HistoryManager_1.HistoryManager(),
-    Cache: Cache_1.BaseCache,
-    /**
-     * Indicate wether or not use the cache
-     *
-     * @memberOf Barba.Pjax
-     * @type {Boolean}
-     * @default
-     */
-    cacheEnabled: true,
-    /**
-     * Indicate if there is an animation in progress
-     *
-     * @memberOf Barba.Pjax
-     * @readOnly
-     * @type {Boolean}
-     */
-    transitionProgress: false,
-    /**
-     * Class name used to ignore links
-     *
-     * @memberOf Barba.Pjax
-     * @type {String}
-     * @default
-     */
-    ignoreClassLink: 'no-barba',
-    /**
-     * Function to be called to start Pjax
-     *
-     * @memberOf Barba.Pjax
-     */
-    start: function start() {
-        this.init();
-    },
-    /**
-     * Init the events
-     *
-     * @memberOf Barba.Pjax
-     * @private
-     */
-    init: function init() {
-        this.Dom;
-        var $container = this.Dom.getContainer();
-        var $wrapper = this.Dom.getWrapper();
-        $wrapper.attr('aria-live', 'polite');
-        this.History.add(this.getCurrentUrl(), this.Dom.getNamespace($container));
-        //Fire for the current view.
-        Dispatcher_1.Dispatcher.trigger('initStateChange', this.History.currentStatus());
-        Dispatcher_1.Dispatcher.trigger('newPageReady', this.History.currentStatus(), {}, $container, this.Dom.currentHTML);
-        Dispatcher_1.Dispatcher.trigger('transitionCompleted', this.History.currentStatus());
-        this.bindEvents();
-    },
-    /**
-     * Attach the eventlisteners
-     *
-     * @memberOf Barba.Pjax
-     * @private
-     */
-    bindEvents: function bindEvents() {
-        document.addEventListener('click', this.onLinkClick.bind(this));
-        window.addEventListener('popstate', this.onStateChange.bind(this));
-    },
-    /**
-     * Return the currentURL cleaned
-     *
-     * @memberOf Barba.Pjax
-     * @return {String} currentUrl
-     */
-    getCurrentUrl: function getCurrentUrl() {
-        return Utils_1.Utils.cleanLink(Utils_1.Utils.getCurrentUrl());
-    },
-    /**
-     * Change the URL with pushstate and trigger the state change
-     *
-     * @memberOf Barba.Pjax
-     * @param {String} newUrl
-     */
-    goTo: function goTo(url) {
-        window.history.pushState(null, null, url);
-        this.onStateChange();
-    },
-    /**
-     * Force the browser to go to a certain url
-     *
-     * @memberOf Barba.Pjax
-     * @param {Location} url
-     * @private
-     */
-    forceGoTo: function forceGoTo(url) {
-        window.location = url;
-    },
-    /**
-     * Load an url, will start an xhr request or load from the cache
-     *
-     * @memberOf Barba.Pjax
-     * @private
-     * @param  {String} url
-     * @return {Promise<HTMLElement>}
-     */
-    load: function load(url) {
-        var deferred = Utils_1.Utils.deferred();
-        var _this = this;
-        var xhr;
-        xhr = this.Cache.get(url);
-        if (!xhr) {
-            xhr = Utils_1.Utils.xhr(url);
-            this.Cache.set(url, xhr);
-        }
-        xhr.then(function (data) {
-            var $container = _this.Dom.parseResponse(data);
-            _this.Dom.putContainer($container);
-            if (!_this.cacheEnabled) _this.Cache.reset();
-            deferred.resolve($container);
-        }, function () {
-            //Something went wrong (timeout, 404, 505...)
-            _this.forceGoTo(url);
-            deferred.reject();
-        });
-        return deferred.promise;
-    },
-    /**
-     * Get the .href parameter out of an element
-     * and handle special cases (like xlink:href)
-     *
-     * @private
-     * @memberOf Barba.Pjax
-     * @param  {HTMLAnchorElement} el
-     * @return {String} href
-     */
-    getHref: function getHref(el) {
-        if (!el) {
-            return undefined;
-        }
-        if (el.getAttribute && typeof el.getAttribute('xlink:href') === 'string') {
-            return el.getAttribute('xlink:href');
-        }
-        if (typeof el.href === 'string') {
-            return el.href;
-        }
-        return undefined;
-    },
-    /**
-     * Callback called from click event
-     *
-     * @memberOf Barba.Pjax
-     * @private
-     * @param {MouseEvent} evt
-     */
-    onLinkClick: function onLinkClick(evt) {
-        var el = evt.target;
-        //Go up in the nodelist until we
-        //find something with an href
-        while (el && !this.getHref(el)) {
-            el = el.parentNode;
-        }
-        if (this.preventCheck(evt, el)) {
-            evt.stopPropagation();
-            evt.preventDefault();
-            Dispatcher_1.Dispatcher.trigger('linkClicked', el, evt);
-            var href = this.getHref(el);
-            this.goTo(href);
-        }
-    },
-    /**
-     * Determine if the link should be followed
-     *
-     * @memberOf Barba.Pjax
-     * @param  {MouseEvent} evt
-     * @param  {HTMLAnchorElement} element
-     * @return {Boolean}
-     */
-    preventCheck: function preventCheck(evt, element) {
-        if (!window.history.pushState) return false;
-        var href = this.getHref(element);
-        //User
-        if (!element || !href) return false;
-        //Middle click, cmd click, and ctrl click
-        if (evt.which > 1 || evt.metaKey || evt.ctrlKey || evt.shiftKey || evt.altKey) return false;
-        //Ignore target with _blank target
-        if (element.target && element.target === '_blank') return false;
-        //Check if it's the same domain
-        if (window.location.protocol !== element.protocol || window.location.hostname !== element.hostname) return false;
-        //Check if the port is the same
-        if (Utils_1.Utils.getPort() !== Utils_1.Utils.getPort(element.port)) return false;
-        //Ignore case when a hash is being tacked on the current URL
-        if (href.indexOf('#') > -1) return false;
-        //Ignore case where there is download attribute
-        if (element.getAttribute && typeof element.getAttribute('download') === 'string') return false;
-        //In case you're trying to load the same page
-        if (Utils_1.Utils.cleanLink(href) == Utils_1.Utils.cleanLink(location.href)) return false;
-        if (element.classList.contains(this.ignoreClassLink)) return false;
-        return true;
-    },
-    /**
-     * Return a transition object
-     *
-     * @memberOf Barba.Pjax
-     * @return {Barba.Transition} Transition object
-     */
-    getTransition: function getTransition() {
-        //User customizable
-        return new Transition_1.HideShowTransition();
-    },
-    /**
-     * Method called after a 'popstate' or from .goTo()
-     *
-     * @memberOf Barba.Pjax
-     * @private
-     */
-    onStateChange: function onStateChange() {
-        var newUrl = this.getCurrentUrl();
-        if (this.transitionProgress) this.forceGoTo(newUrl);
-        if (this.History.currentStatus().url === newUrl) return false;
-        this.History.add(newUrl);
-        var newContainer = this.load(newUrl);
-        var transition = Object.create(this.getTransition());
-        this.transitionProgress = true;
-        Dispatcher_1.Dispatcher.trigger('initStateChange', this.History.currentStatus(), this.History.prevStatus());
-        var transitionInstance = transition.init(this.Dom.getContainer(), newContainer);
-        newContainer.then(this.onNewContainerLoaded.bind(this));
-        transitionInstance.then(this.onTransitionEnd.bind(this));
-    },
-    /**
-     * Function called as soon the new container is ready
-     *
-     * @memberOf Barba.Pjax
-     * @private
-     * @param {HTMLElement} container
-     */
-    onNewContainerLoaded: function onNewContainerLoaded(container) {
-        var currentStatus = this.History.currentStatus();
-        currentStatus.namespace = this.Dom.getNamespace(container);
-        Dispatcher_1.Dispatcher.trigger('newPageReady', this.History.currentStatus(), this.History.prevStatus(), container, this.Dom.currentHTML);
-    },
-    /**
-     * Function called as soon the transition is finished
-     *
-     * @memberOf Barba.Pjax
-     * @private
-     */
-    onTransitionEnd: function onTransitionEnd() {
-        this.transitionProgress = false;
-        Dispatcher_1.Dispatcher.trigger('transitionCompleted', this.History.currentStatus(), this.History.prevStatus());
-    }
-};
-exports.Pjax = Pjax;
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-},{"../Cache":8,"../Dispatcher":9,"../Transition":17,"../Utils":18,"./Dom":10,"./HistoryManager":11}],13:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Utils_1 = require("../Utils");
-var Pjax_1 = require("./Pjax");
-/**
- * Prefetch
- *
- * @namespace Barba.Prefetch
- * @type {Object}
- */
-var Prefetch = {
-    /**
-     * Class name used to ignore prefetch on links
-     *
-     * @memberOf Barba.Prefetch
-     * @type {String}
-     * @default
-     */
-    ignoreClassLink: 'no-barba-prefetch',
-    /**
-     * Init the event listener on mouseover and touchstart
-     * for the prefetch
-     *
-     * @memberOf Barba.Prefetch
-     */
-    init: function init() {
-        if (!window.history.pushState) {
-            return false;
-        }
-        document.body.addEventListener('mouseover', this.onLinkEnter.bind(this));
-        document.body.addEventListener('touchstart', this.onLinkEnter.bind(this));
-    },
-    /**
-     * Callback for the mousehover/touchstart
-     *
-     * @memberOf Barba.Prefetch
-     * @private
-     * @param  {Object} evt
-     */
-    onLinkEnter: function onLinkEnter(evt) {
-        var el = evt.target;
-        while (el && !Pjax_1.Pjax.getHref(el)) {
-            el = el.parentNode; // TODO testme
-        }
-        if (!el || el.classList.contains(this.ignoreClassLink)) {
-            return;
-        }
-        var url = Pjax_1.Pjax.getHref(el);
-        //Check if the link is elegible for Pjax
-        if (Pjax_1.Pjax.preventCheck(evt, el) && !Pjax_1.Pjax.Cache.get(url)) {
-            var xhr = Utils_1.Utils.xhr(url);
-            Pjax_1.Pjax.Cache.set(url, xhr);
-        }
-    }
-};
-exports.Prefetch = Prefetch;
-
-},{"../Utils":18,"./Pjax":12}],14:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var HistoryManager_1 = require("./HistoryManager");
-exports.HistoryManager = HistoryManager_1.HistoryManager;
-var Dom_1 = require("./Dom");
-exports.Dom = Dom_1.Dom;
-var Pjax_1 = require("./Pjax");
-exports.Pjax = Pjax_1.Pjax;
-var Prefetch_1 = require("./Prefetch");
-exports.Prefetch = Prefetch_1.Prefetch;
-
-},{"./Dom":10,"./HistoryManager":11,"./Pjax":12,"./Prefetch":13}],15:[function(require,module,exports){
-"use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Utils_1 = require("../Utils");
@@ -13779,242 +11590,174 @@ var Utils_1 = require("../Utils");
  * @namespace Barba.BaseTransition
  * @type {Object}
  */
-var BaseTransition = /** @class */function () {
-  function BaseTransition() {}
-  /**
-   * Helper to extend the object
-   *
-   * @memberOf Barba.BaseTransition
-   * @param  {Object} newObject
-   * @return {Object} newInheritObject
-   */
-  BaseTransition.prototype.extend = function (obj) {
-    return Utils_1.Utils.extend(this, obj);
-  };
-  ;
-  /**
-   * This function is called from Pjax module to initialize
-   * the transition.
-   *
-   * @memberOf Barba.BaseTransition
-   * @private
-   * @param  {HTMLElement} oldContainer
-   * @param  {Promise} newContainer
-   * @return {Promise}
-   */
-  BaseTransition.prototype.init = function ($oldContainer, $newContainer) {
-    var _this = this;
-    this.$oldContainer = $oldContainer;
-    var _newContainerPromise = $newContainer;
-    this.deferred = Utils_1.Utils.deferred();
-    var newContainerReady = Utils_1.Utils.deferred();
-    this.newContainerLoading = newContainerReady.promise;
-    this.start();
-    _newContainerPromise.then(function ($newContainer) {
-      _this.$newContainer = $newContainer;
-      newContainerReady.resolve();
-    });
-    return this.deferred.promise;
-  };
-  ;
-  /**
-   * This function needs to be called as soon the Transition is finished
-   *
-   * @memberOf Barba.BaseTransition
-   */
-  BaseTransition.prototype.done = function () {
-    // this.$oldContainer[0].parentNode.removeChild(this.$oldContainer[]);
-    this.$oldContainer.remove();
-    // this.newContainer.style.visibility = 'visible';
-    this.$newContainer.css('visibility', 'visible');
-    this.deferred.resolve();
-  };
-  ;
-  /**
-   * Constructor for your Transition
-   *
-   * @memberOf Barba.BaseTransition
-   * @abstract
-   */
-  BaseTransition.prototype.start = function () {};
-  ;
-  return BaseTransition;
-}();
-exports.BaseTransition = BaseTransition;
-;
 
-},{"../Utils":18}],16:[function(require,module,exports){
-"use strict";
-
-var __extends = undefined && undefined.__extends || function () {
-    var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-        d.__proto__ = b;
-    } || function (d, b) {
-        for (var p in b) {
-            if (b.hasOwnProperty(p)) d[p] = b[p];
-        }
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() {
-            this.constructor = d;
-        }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-}();
-Object.defineProperty(exports, "__esModule", { value: true });
-var BaseTransition_1 = require("./BaseTransition");
-/**
- * Basic Transition object, wait for the new Container to be ready,
- * scroll top, and finish the transition (removing the old container and displaying the new one)
- *
- * @private
- * @namespace Barba.HideShowTransition
- * @augments Barba.BaseTransition
- */
-var HideShowTransition = /** @class */function (_super) {
-    __extends(HideShowTransition, _super);
-    function HideShowTransition() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var BaseTransition = function () {
+    function BaseTransition() {
+        _classCallCheck(this, BaseTransition);
     }
-    HideShowTransition.prototype.start = function () {
-        this.newContainerLoading.then(this.finish.bind(this));
-    };
-    ;
-    HideShowTransition.prototype.finish = function () {
-        document.body.scrollTop = 0;
-        this.done();
-    };
-    ;
-    return HideShowTransition;
-}(BaseTransition_1.BaseTransition);
-exports.HideShowTransition = HideShowTransition;
 
-},{"./BaseTransition":15}],17:[function(require,module,exports){
+    _createClass(BaseTransition, [{
+        key: "extend",
+
+        /**
+         * Helper to extend the object
+         *
+         * @memberOf Barba.BaseTransition
+         * @param  {Object} newObject
+         * @return {Object} newInheritObject
+         */
+        value: function extend(obj) {
+            return Utils_1.Utils.extend(this, obj);
+        }
+        /**
+         * This function is called from Pjax module to initialize
+         * the transition.
+         *
+         * @memberOf Barba.BaseTransition
+         * @private
+         * @param  {HTMLElement} oldContainer
+         * @param  {Promise} newContainer
+         * @return {Promise}
+         */
+
+    }, {
+        key: "init",
+        value: function init($oldContainer, newContainer) {
+            var self = this;
+            this.$oldContainer = $oldContainer;
+            this.deferred = Utils_1.Utils.deferred();
+            var newContainerReady = Utils_1.Utils.deferred();
+            this.newContainerLoading = newContainerReady.promise;
+            this.start();
+            newContainer.then(function ($newContainer) {
+                self.$newContainer = $newContainer;
+                newContainerReady.resolve();
+            });
+            return this.deferred.promise;
+        }
+        /**
+         * This function needs to be called as soon the Transition is finished
+         *
+         * @memberOf Barba.BaseTransition
+         */
+
+    }, {
+        key: "done",
+        value: function done() {
+            // this.$oldContainer[0].parentNode.removeChild(this.$oldContainer[]);
+            this.$oldContainer.remove();
+            // this.newContainer.style.visibility = 'visible';
+            this.$newContainer.css('visibility', 'visible');
+            this.deferred.resolve();
+        }
+    }]);
+
+    return BaseTransition;
+}();
+
+exports.BaseTransition = BaseTransition;
+},{"../Utils":8}],7:[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var BaseTransition_1 = require("./BaseTransition");
-exports.BaseTransition = BaseTransition_1.BaseTransition;
-var HideShowTransition_1 = require("./HideShowTransition");
-exports.HideShowTransition = HideShowTransition_1.HideShowTransition;
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-},{"./BaseTransition":15,"./HideShowTransition":16}],18:[function(require,module,exports){
-"use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * Just an object with some helpful functions
+ * Little Dispatcher inspired by MicroEvent.js
  *
+ * @namespace Barba.Dispatcher
  * @type {Object}
- * @namespace Barba.Utils
  */
-var Utils = /** @class */function () {
-    function Utils() {}
+
+var Dispatcher = function () {
+    function Dispatcher() {
+        _classCallCheck(this, Dispatcher);
+
+        /**
+         * Object that keeps all the events
+         *
+         * @memberOf Barba.Dispatcher
+         * @readOnly
+         * @type {Object}
+         */
+        this.events = {};
+        if (Dispatcher.instance) {
+            return Dispatcher.instance;
+        }
+        Dispatcher.instance = this;
+    }
     /**
-     * Return the current url
+     * Bind a callback to an event
      *
-     * @memberOf Barba.Utils
-     * @return {string} currentUrl
+     * @memberOf Barba.Dispatcher
+     * @param  {string} eventName
+     * @param  {Function} function
      */
-    Utils.getCurrentUrl = function () {
-        return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search;
-    };
-    /**
-     * Given an url, return it without the hash
-     *
-     * @memberOf Barba.Utils
-     * @private
-     * @param  {string} url
-     * @return {string} newCleanUrl
-     */
-    Utils.cleanLink = function (url) {
-        return url.replace(/#.*/, '');
-    };
-    /**
-     * Start an XMLHttpRequest() and return a Promise
-     *
-     * @memberOf Barba.Utils
-     * @param  {string} url
-     * @return {Promise}
-     */
-    Utils.xhr = function (url) {
-        var deferred = this.deferred();
-        var req = new XMLHttpRequest();
-        req.onreadystatechange = function () {
-            if (req.readyState === 4) {
-                if (req.status === 200) {
-                    return deferred.resolve(req.responseText);
-                } else {
-                    return deferred.reject(new Error('xhr: HTTP code is not 200'));
+
+
+    _createClass(Dispatcher, [{
+        key: "on",
+        value: function on(e, f) {
+            this.events[e] = this.events[e] || [];
+            this.events[e].push(f);
+        }
+        /**
+         * Unbind event
+         *
+         * @memberOf Barba.Dispatcher
+         * @param  {string} eventName
+         * @param  {Function} function
+         */
+
+    }, {
+        key: "off",
+        value: function off(e, f) {
+            if (e in this.events === false) {
+                return;
+            }
+            this.events[e].splice(this.events[e].indexOf(f), 1);
+        }
+        /**
+         * Fire the event running all the event associated to it
+         *
+         * @memberOf Barba.Dispatcher
+         * @param  {string} eventName
+         * @param  {...*} args
+         */
+
+    }, {
+        key: "trigger",
+        value: function trigger(e) {
+            for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                args[_key - 1] = arguments[_key];
+            }
+
+            if (e in this.events === false) {
+                return;
+            }
+            for (var i in this.events[e]) {
+                if (this.events[e][i]) {
+                    this.events[e][i].apply(this, Array.prototype.slice.call(arguments, 1));
                 }
             }
-        };
-        req.ontimeout = function () {
-            return deferred.reject(new Error('xhr: Timeout exceeded'));
-        };
-        req.open('GET', url);
-        req.timeout = this.xhrTimeout;
-        req.setRequestHeader('x-barba', 'yes');
-        req.send();
-        return deferred.promise;
-    };
-    ;
-    /**
-     * Get obj and props and return a new object with the property merged
-     *
-     * @memberOf Barba.Utils
-     * @param  {Object} obj
-     * @param  {any} props
-     * @return {Object}
-     */
-    Utils.extend = function (obj, props) {
-        var newObj = Object.create(obj);
-        for (var prop in props) {
-            if (props.hasOwnProperty(prop)) {
-                newObj[prop] = props[prop];
-            }
+            // for (let i = 0; i < this.events[e].length; i++) {
+            //   this.events[e][i].apply(this, Array.prototype.slice.call(arguments, 1));
+            // }
         }
-        return newObj;
-    };
-    /**
-     * Return a new "Deferred" object
-     * https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred
-     *
-     * @memberOf Barba.Utils
-     * @return {Deferred}
-     */
-    Utils.deferred = function () {
-        var obj = {};
-        var prom = new window.Promise(function (resolve, reject) {
-            obj.resolve = resolve;
-            obj.reject = reject;
-        });
-        obj.promise = prom;
-        return obj;
-    };
-    /**
-     * Return the port number normalized, eventually you can pass a string to be normalized.
-     *
-     * @memberOf Barba.Utils
-     * @private
-     * @param  {String} p
-     * @return {Int} port
-     */
-    Utils.getPort = function (p) {
-        var port = typeof p !== 'undefined' ? p : window.location.port;
-        var protocol = window.location.protocol;
-        if (port != '') return parseInt(port);
-        if (protocol === 'http:') return 80;
-        if (protocol === 'https:') return 443;
-    };
-    return Utils;
-}();
-exports.Utils = Utils;
-;
+    }]);
 
-},{}],19:[function(require,module,exports){
+    return Dispatcher;
+}();
+
+exports.Dispatcher = Dispatcher;
+},{}],6:[function(require,module,exports) {
 "use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Dispatcher_1 = require("./Dispatcher");
@@ -14025,118 +11768,845 @@ var Utils_1 = require("./Utils");
  * @namespace Barba.BaseView
  * @type {Object}
  */
-var BaseView = {
-  /**
-   * Namespace of the view.
-   * (need to be associated with the data-namespace of the container)
-   *
-   * @memberOf Barba.BaseView
-   * @type {string}
-   */
-  namespace: '',
-  /**
-   * Helper to extend the object
-   *
-   * @memberOf Barba.BaseView
-   * @param  {Object} newObject
-   * @return {Object} newInheritObject
-   */
-  extend: function extend(obj) {
-    return Utils_1.Utils.extend(this, obj);
-  },
-  /**
-   * Init the view.
-   * P.S. Is suggested to init the view before starting Barba.Pjax.start(),
-   * in this way .onEnter() and .onEnterCompleted() will be fired for the current
-   * container when the page is loaded.
-   *
-   * @memberOf Barba.BaseView
-   */
-  init: function init() {
-    var _this = this;
-    Dispatcher_1.Dispatcher.on('initStateChange', function (newStatus, oldStatus) {
-      if (oldStatus && oldStatus.namespace === _this.namespace) _this.onLeave();
-    });
-    Dispatcher_1.Dispatcher.on('newPageReady', function (newStatus, oldStatus, container) {
-      _this.container = container;
-      if (newStatus.namespace === _this.namespace) _this.onEnter();
-    });
-    Dispatcher_1.Dispatcher.on('transitionCompleted', function (newStatus, oldStatus) {
-      if (newStatus.namespace === _this.namespace) _this.onEnterCompleted();
-      if (oldStatus && oldStatus.namespace === _this.namespace) _this.onLeaveCompleted();
-    });
-  },
-  /**
-   * This function will be fired when the container
-   * is ready and attached to the DOM.
-   *
-   * @memberOf Barba.BaseView
-   * @abstract
-   */
-  onEnter: function onEnter() {},
-  /**
-   * This function will be fired when the transition
-   * to this container has just finished.
-   *
-   * @memberOf Barba.BaseView
-   * @abstract
-   */
-  onEnterCompleted: function onEnterCompleted() {},
-  /**
-   * This function will be fired when the transition
-   * to a new container has just started.
-   *
-   * @memberOf Barba.BaseView
-   * @abstract
-   */
-  onLeave: function onLeave() {},
-  /**
-   * This function will be fired when the container
-   * has just been removed from the DOM.
-   *
-   * @memberOf Barba.BaseView
-   * @abstract
-   */
-  onLeaveCompleted: function onLeaveCompleted() {}
-};
+
+var BaseView = function () {
+    function BaseView() {
+        _classCallCheck(this, BaseView);
+
+        this.dispatcher = new Dispatcher_1.Dispatcher();
+    }
+    /**
+     * Helper to extend the object
+     *
+     * @memberOf Barba.BaseView
+     * @param  {Object} newObject
+     * @return {Object} newInheritObject
+     */
+
+
+    _createClass(BaseView, [{
+        key: "extend",
+        value: function extend(obj) {
+            return Utils_1.Utils.extend(this, obj);
+        }
+        /**
+         * Init the view.
+         * P.S. Is suggested to init the view before starting Barba.Pjax.start(),
+         * in this way .onEnter() and .onEnterCompleted() will be fired for the current
+         * container when the page is loaded.
+         *
+         * @memberOf Barba.BaseView
+         */
+
+    }, {
+        key: "init",
+        value: function init() {
+            var self = this;
+            this.dispatcher.on('initStateChange', function (newStatus, oldStatus) {
+                if (oldStatus && oldStatus.namespace === self.namespace) {
+                    self.onLeave();
+                }
+            });
+            this.dispatcher.on('newPageReady', function (newStatus, oldStatus, container) {
+                self.container = container;
+                if (newStatus.namespace === self.namespace) {
+                    self.onEnter();
+                }
+            });
+            this.dispatcher.on('transitionCompleted', function (newStatus, oldStatus) {
+                if (newStatus.namespace === self.namespace) {
+                    self.onEnterCompleted();
+                }
+                if (oldStatus && oldStatus.namespace === self.namespace) {
+                    self.onLeaveCompleted();
+                }
+            });
+        }
+    }]);
+
+    return BaseView;
+}();
+
 exports.BaseView = BaseView;
-
-},{"./Dispatcher":9,"./Utils":18}],20:[function(require,module,exports){
+},{"./Dispatcher":7,"./Utils":8}],11:[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-//Promise polyfill https://github.com/taylorhakes/promise-polyfill
-var promise_polyfill_1 = require("promise-polyfill");
-var BaseTransition_1 = require("./Transition/BaseTransition");
-var View_1 = require("./View");
-var Cache_1 = require("./Cache");
-var Dispatcher_1 = require("./Dispatcher");
-var Pjax_1 = require("./Pjax");
-var Utils_1 = require("./Utils");
-if (typeof promise_polyfill_1.default !== 'function') {
-    window.Promise = promise_polyfill_1.default;
-}
-var Barba = {
-    version: '1.0.0-jquery',
-    BaseTransition: BaseTransition_1.BaseTransition,
-    BaseView: View_1.BaseView,
-    BaseCache: Cache_1.BaseCache,
-    Dispatcher: Dispatcher_1.Dispatcher,
-    HistoryManager: Pjax_1.HistoryManager,
-    Pjax: Pjax_1.Pjax,
-    Prefetch: Pjax_1.Prefetch,
-    Utils: Utils_1.Utils
-};
-exports.Barba = Barba;
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-},{"./Cache":8,"./Dispatcher":9,"./Pjax":14,"./Transition/BaseTransition":15,"./Utils":18,"./View":19,"promise-polyfill":3}],21:[function(require,module,exports){
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * HistoryManager helps to keep track of the navigation
+ *
+ * @namespace Barba.HistoryManager
+ * @type {Object}
+ */
+
+var HistoryManager = function () {
+    function HistoryManager() {
+        _classCallCheck(this, HistoryManager);
+
+        /**
+         * Keep track of the status in historic order
+         *
+         * @memberOf Barba.HistoryManager
+         * @readOnly
+         * @type {Array}
+         */
+        this.history = new Array();
+        if (HistoryManager.instance) {
+            return HistoryManager.instance;
+        }
+        HistoryManager.instance = this;
+        return HistoryManager.instance;
+    }
+    /**
+     * Add a new set of url and namespace
+     *
+     * @memberOf Barba.HistoryManager
+     * @param {String} url
+     * @param {String} namespace
+     * @private
+     */
+
+
+    _createClass(HistoryManager, [{
+        key: "add",
+        value: function add(url, namespace) {
+            if (!namespace) {
+                namespace = undefined;
+            }
+            this.history.push({
+                namespace: namespace,
+                url: url
+            });
+        }
+        /**
+         * Return information about the current status
+         *
+         * @memberOf Barba.HistoryManager
+         * @return {Object}
+         */
+
+    }, {
+        key: "currentStatus",
+        value: function currentStatus() {
+            return this.history[this.history.length - 1];
+        }
+        /**
+         * Return information about the previous status
+         *
+         * @memberOf Barba.HistoryManager
+         * @return {Object}
+         */
+
+    }, {
+        key: "prevStatus",
+        value: function prevStatus() {
+            var history = this.history;
+            if (history.length < 2) {
+                return null;
+            }
+            return history[history.length - 2];
+        }
+    }]);
+
+    return HistoryManager;
+}();
+
+exports.HistoryManager = HistoryManager;
+},{}],12:[function(require,module,exports) {
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 Object.defineProperty(exports, "__esModule", { value: true });
-var Tetris_1 = require("./Tetris");
 var $ = require("jquery");
-var barba_1 = require("./barba");
-var Rivets = require("rivets");
+/**
+ * Object that is going to deal with DOM parsing/manipulation
+ *
+ * @namespace Barba.Pjax.Dom
+ * @type {Object}
+ */
+
+var Dom = function () {
+    function Dom() {
+        _classCallCheck(this, Dom);
+
+        /**
+         * The name of the data attribute on the container
+         *
+         * @memberOf Barba.Pjax.Dom
+         * @type {string}
+         * @default
+         */
+        this.dataNamespace = 'namespace';
+        /**
+         * Id of the main wrapper
+         *
+         * @memberOf Barba.Pjax.Dom
+         * @type {string}
+         * @default
+         */
+        this.wrapperId = 'barba-wrapper';
+        /**
+         * Class name used to identify the containers
+         *
+         * @memberOf Barba.Pjax.Dom
+         * @type {string}
+         * @default
+         */
+        this.containerClass = 'barba-container';
+    }
+    /**
+     * Parse the responseText obtained from the xhr call
+     *
+     * @memberOf Barba.Pjax.Dom
+     * @private
+     * @param  {string} responseText
+     * @return {JQuery<HTMLElement>}
+     */
+
+
+    _createClass(Dom, [{
+        key: "parseResponse",
+        value: function parseResponse(responseText) {
+            this.currentHTML = responseText;
+            var $wrapper = $($.parseHTML(responseText));
+            var $title = $wrapper.filter('title');
+            if ($title.length) {
+                document.title = $title.text();
+            }
+            return this.getContainer($wrapper);
+        }
+        /**
+         * Get the main barba wrapper by the ID `wrapperId`
+         *
+         * @memberOf Barba.Pjax.Dom
+         * @return {JQuery<HTMLElement>} element
+         */
+
+    }, {
+        key: "getWrapper",
+        value: function getWrapper() {
+            var $wrapper = $('#' + this.wrapperId);
+            if (!$wrapper) {
+                throw new Error('Barba.js: wrapper not found!');
+            }
+            return $wrapper;
+        }
+        /**
+         * Get the container on the current DOM,
+         * or from an HTMLElement passed via argument
+         *
+         * @memberOf Barba.Pjax.Dom
+         * @private
+         * @param  {HTMLElement} element
+         * @return {HTMLElement}
+         */
+
+    }, {
+        key: "getContainer",
+        value: function getContainer($element) {
+            if (!$element) {
+                $element = $(document.body);
+            }
+            if (!$element) {
+                throw new Error('Barba.js: DOM not ready!');
+            }
+            var $container = this.parseContainer($element);
+            if (!$container) {
+                throw new Error('Barba.js: no container found');
+            }
+            return $container;
+        }
+        /**
+         * Get the namespace of the container
+         *
+         * @memberOf Barba.Pjax.Dom
+         * @private
+         * @param  {JQuery<HTMLElement>} element
+         * @return {string}
+         */
+
+    }, {
+        key: "getNamespace",
+        value: function getNamespace($element) {
+            if ($element && $element.data()) {
+                return $element.data('namespace');
+            }
+            return null;
+        }
+        /**
+         * Put the container on the page
+         *
+         * @memberOf Barba.Pjax.Dom
+         * @private
+         * @param  {JQuery<HTMLElement>} element
+         */
+
+    }, {
+        key: "putContainer",
+        value: function putContainer($element) {
+            $element.css('visibility', 'hidden');
+            var $wrapper = this.getWrapper();
+            $wrapper.append($element);
+        }
+        /**
+         * Get container selector
+         *
+         * @memberOf Barba.Pjax.Dom
+         * @private
+         * @param  {JQuery<HTMLElement>} element
+         * @return {JQuery<HTMLElement>} element
+         */
+
+    }, {
+        key: "parseContainer",
+        value: function parseContainer($element) {
+            return $element.find('.' + this.containerClass);
+        }
+    }]);
+
+    return Dom;
+}();
+
+exports.Dom = Dom;
+},{"jquery":3}],16:[function(require,module,exports) {
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var BaseTransition_1 = require("./BaseTransition");
+/**
+ * Basic Transition object, wait for the new Container to be ready,
+ * scroll top, and finish the transition (removing the old container and displaying the new one)
+ *
+ * @private
+ * @namespace Barba.HideShowTransition
+ * @augments Barba.BaseTransition
+ */
+
+var HideShowTransition = function (_BaseTransition_1$Bas) {
+    _inherits(HideShowTransition, _BaseTransition_1$Bas);
+
+    function HideShowTransition() {
+        _classCallCheck(this, HideShowTransition);
+
+        return _possibleConstructorReturn(this, (HideShowTransition.__proto__ || Object.getPrototypeOf(HideShowTransition)).apply(this, arguments));
+    }
+
+    _createClass(HideShowTransition, [{
+        key: "start",
+        value: function start() {
+            this.newContainerLoading.then(this.finish.bind(this));
+        }
+    }, {
+        key: "finish",
+        value: function finish() {
+            document.body.scrollTop = 0;
+            this.done();
+        }
+    }]);
+
+    return HideShowTransition;
+}(BaseTransition_1.BaseTransition);
+
+exports.HideShowTransition = HideShowTransition;
+},{"./BaseTransition":9}],15:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var BaseTransition_1 = require("./BaseTransition");
+exports.BaseTransition = BaseTransition_1.BaseTransition;
+var HideShowTransition_1 = require("./HideShowTransition");
+exports.HideShowTransition = HideShowTransition_1.HideShowTransition;
+},{"./BaseTransition":9,"./HideShowTransition":16}],13:[function(require,module,exports) {
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Cache_1 = require("../Cache");
+var Dispatcher_1 = require("../Dispatcher");
+var Transition_1 = require("../Transition");
+var Utils_1 = require("../Utils");
+var Dom_1 = require("./Dom");
+var HistoryManager_1 = require("./HistoryManager");
+/**
+ * Pjax is a static object with main function
+ *
+ * @namespace Barba.Pjax
+ * @borrows Dom as Dom
+ * @type {object}
+ */
+
+var Pjax = function () {
+    function Pjax() {
+        _classCallCheck(this, Pjax);
+
+        this.dom = new Dom_1.Dom();
+        this.history = new HistoryManager_1.HistoryManager();
+        this.cache = new Cache_1.BaseCache();
+        /**
+         * Class name used to ignore links
+         *
+         * @memberOf Barba.Pjax
+         * @type {string}
+         * @default
+         */
+        this.ignoreClassLink = 'no-barba';
+        /**
+         * Indicate if there is an animation in progress
+         *
+         * @memberOf Barba.Pjax
+         * @readOnly
+         * @type {boolean}
+         */
+        this.transitionProgress = false;
+        this.dispatcher = new Dispatcher_1.Dispatcher();
+        if (Pjax.instance) {
+            return Pjax.instance;
+        }
+        Pjax.instance = this;
+        return Pjax.instance;
+    }
+    /**
+     * Function to be called to start Pjax
+     *
+     * @memberOf Barba.Pjax
+     */
+
+
+    _createClass(Pjax, [{
+        key: "start",
+        value: function start() {
+            this.init();
+        }
+        /**
+         * Init the events
+         *
+         * @memberOf Barba.Pjax
+         * @private
+         */
+
+    }, {
+        key: "init",
+        value: function init() {
+            var $container = this.dom.getContainer();
+            var $wrapper = this.dom.getWrapper();
+            $wrapper.attr('aria-live', 'polite');
+            this.history.add(this.getCurrentUrl(), this.dom.getNamespace($container));
+            // Fire for the current view.
+            this.dispatcher.trigger('initStateChange', this.history.currentStatus());
+            this.dispatcher.trigger('newPageReady', this.history.currentStatus(), {}, $container, this.dom.currentHTML);
+            this.dispatcher.trigger('transitionCompleted', this.history.currentStatus());
+            this.bindEvents();
+        }
+        /**
+         * Attach the eventlisteners
+         *
+         * @memberOf Barba.Pjax
+         * @private
+         */
+
+    }, {
+        key: "bindEvents",
+        value: function bindEvents() {
+            document.addEventListener('click', this.onLinkClick.bind(this));
+            window.addEventListener('popstate', this.onStateChange.bind(this));
+        }
+        /**
+         * Return the currentURL cleaned
+         *
+         * @memberOf Barba.Pjax
+         * @return {string} currentUrl
+         */
+
+    }, {
+        key: "getCurrentUrl",
+        value: function getCurrentUrl() {
+            return Utils_1.Utils.cleanLink(Utils_1.Utils.getCurrentUrl());
+        }
+        /**
+         * Change the URL with pushstate and trigger the state change
+         *
+         * @memberOf Barba.Pjax
+         * @param {string} newUrl
+         */
+
+    }, {
+        key: "goTo",
+        value: function goTo(url) {
+            window.history.pushState(null, null, url);
+            this.onStateChange();
+        }
+        /**
+         * Force the browser to go to a certain url
+         *
+         * @memberOf Barba.Pjax
+         * @param {Location} url
+         * @private
+         */
+
+    }, {
+        key: "forceGoTo",
+        value: function forceGoTo(url) {
+            if (url instanceof Location) {
+                window.location = url;
+            }
+            if (typeof url === 'string') {
+                window.location.href = url;
+            }
+        }
+        /**
+         * Load an url, will start an xhr request or load from the cache
+         *
+         * @memberOf Barba.Pjax
+         * @private
+         * @param  {string} url
+         * @return {Promise<HTMLElement>}
+         */
+
+    }, {
+        key: "load",
+        value: function load(url) {
+            var deferred = Utils_1.Utils.deferred();
+            var self = this;
+            var xhr = void 0;
+            xhr = this.cache.get(url);
+            if (!xhr) {
+                xhr = Utils_1.Utils.xhr(url);
+                this.cache.set(url, xhr);
+            }
+            xhr.then(function (data) {
+                var $container = self.dom.parseResponse(data);
+                self.dom.putContainer($container);
+                if (!self.cacheEnabled) {
+                    self.cache.reset();
+                }
+                deferred.resolve($container);
+            }, function () {
+                // Something went wrong (timeout, 404, 505...)
+                self.forceGoTo(url);
+                deferred.reject();
+            });
+            return deferred.promise;
+        }
+        /**
+         * Get the .href parameter out of an element
+         * and handle special cases (like xlink:href)
+         *
+         * @private
+         * @memberOf Barba.Pjax
+         * @param  {HTMLAnchorElement} el
+         * @return {string} href
+         */
+
+    }, {
+        key: "getHref",
+        value: function getHref(el) {
+            if (!el) {
+                return undefined;
+            }
+            if (el.getAttribute && typeof el.getAttribute('xlink:href') === 'string') {
+                return el.getAttribute('xlink:href');
+            }
+            if (typeof el.href === 'string') {
+                return el.href;
+            }
+            return undefined;
+        }
+        /**
+         * Callback called from click event
+         *
+         * @memberOf Barba.Pjax
+         * @private
+         * @param {MouseEvent} evt
+         */
+
+    }, {
+        key: "onLinkClick",
+        value: function onLinkClick(evt) {
+            var el = evt.target;
+            // Go up in the nodelist until we
+            // find something with an href
+            while (el && !this.getHref(el)) {
+                el = el.parentNode;
+            }
+            if (this.preventCheck(evt, el)) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                this.dispatcher.trigger('linkClicked', el, evt);
+                var href = this.getHref(el);
+                this.goTo(href);
+            }
+        }
+        /**
+         * Determine if the link should be followed
+         *
+         * @memberOf Barba.Pjax
+         * @param  {MouseEvent} evt
+         * @param  {HTMLAnchorElement} element
+         * @return {boolean}
+         */
+
+    }, {
+        key: "preventCheck",
+        value: function preventCheck(evt, element) {
+            if (!window.history.pushState) {
+                return false;
+            }
+            var href = this.getHref(element);
+            // User
+            if (!element || !href) {
+                return false;
+            }
+            // Middle click, cmd click, and ctrl click
+            if (evt.which > 1 || evt.metaKey || evt.ctrlKey || evt.shiftKey || evt.altKey) {
+                return false;
+            }
+            // Ignore target with _blank target
+            if (element.target && element.target === '_blank') {
+                return false;
+            }
+            // Check if it's the same domain
+            if (window.location.protocol !== element.protocol || window.location.hostname !== element.hostname) {
+                return false;
+            }
+            // Check if the port is the same
+            if (Utils_1.Utils.getPort() !== Utils_1.Utils.getPort(element.port)) {
+                return false;
+            }
+            // Ignore case when a hash is being tacked on the current URL
+            if (href.indexOf('#') > -1) {
+                return false;
+            }
+            // Ignore case where there is download attribute
+            if (element.getAttribute && typeof element.getAttribute('download') === 'string') {
+                return false;
+            }
+            // In case you're trying to load the same page
+            if (Utils_1.Utils.cleanLink(href) === Utils_1.Utils.cleanLink(location.href)) {
+                return false;
+            }
+            if (element.classList.contains(this.ignoreClassLink)) {
+                return false;
+            }
+            return true;
+        }
+        /**
+         * Return a transition object
+         *
+         * @memberOf Barba.Pjax
+         * @return {Barba.Transition} Transition object
+         */
+
+    }, {
+        key: "getTransition",
+        value: function getTransition() {
+            // User customizable
+            return new Transition_1.HideShowTransition();
+        }
+        /**
+         * Method called after a 'popstate' or from .goTo()
+         *
+         * @memberOf Barba.Pjax
+         * @private
+         */
+
+    }, {
+        key: "onStateChange",
+        value: function onStateChange() {
+            var newUrl = this.getCurrentUrl();
+            if (this.transitionProgress) {
+                this.forceGoTo(newUrl);
+            }
+            if (this.history.currentStatus().url === newUrl) {
+                return false;
+            }
+            this.history.add(newUrl);
+            var newContainer = this.load(newUrl);
+            var transition = Object.create(this.getTransition());
+            this.transitionProgress = true;
+            this.dispatcher.trigger('initStateChange', this.history.currentStatus(), this.history.prevStatus());
+            var transitionInstance = transition.init(this.dom.getContainer(), newContainer);
+            newContainer.then(this.onNewContainerLoaded.bind(this));
+            transitionInstance.then(this.onTransitionEnd.bind(this));
+        }
+        /**
+         * Function called as soon the new container is ready
+         *
+         * @memberOf Barba.Pjax
+         * @private
+         * @param {HTMLElement} container
+         */
+
+    }, {
+        key: "onNewContainerLoaded",
+        value: function onNewContainerLoaded($container) {
+            var currentStatus = this.history.currentStatus();
+            currentStatus.namespace = this.dom.getNamespace($container);
+            this.dispatcher.trigger('newPageReady', this.history.currentStatus(), this.history.prevStatus(), $container, this.dom.currentHTML);
+        }
+        /**
+         * Function called as soon the transition is finished
+         *
+         * @memberOf Barba.Pjax
+         * @private
+         */
+
+    }, {
+        key: "onTransitionEnd",
+        value: function onTransitionEnd() {
+            this.transitionProgress = false;
+            this.dispatcher.trigger('transitionCompleted', this.history.currentStatus(), this.history.prevStatus());
+        }
+    }]);
+
+    return Pjax;
+}();
+
+exports.Pjax = Pjax;
+},{"../Cache":5,"../Dispatcher":7,"../Transition":15,"../Utils":8,"./Dom":12,"./HistoryManager":11}],14:[function(require,module,exports) {
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Utils_1 = require("../Utils");
+var Pjax_1 = require("./Pjax");
+/**
+ * Prefetch
+ *
+ * @namespace Barba.Prefetch
+ * @type {Object}
+ */
+
+var Prefetch = function () {
+    function Prefetch() {
+        _classCallCheck(this, Prefetch);
+
+        /**
+         * Class name used to ignore prefetch on links
+         *
+         * @memberOf Barba.Prefetch
+         * @type {String}
+         * @default
+         */
+        this.ignoreClassLink = 'no-barba-prefetch';
+        this.pjax = new Pjax_1.Pjax();
+    }
+    /**
+     * Init the event listener on mouseover and touchstart
+     * for the prefetch
+     *
+     * @memberOf Barba.Prefetch
+     */
+
+
+    _createClass(Prefetch, [{
+        key: "init",
+        value: function init() {
+            if (!window.history.pushState) {
+                return false;
+            }
+            document.body.addEventListener('mouseover', this.onLinkEnter.bind(this));
+            document.body.addEventListener('touchstart', this.onLinkEnter.bind(this));
+        }
+        /**
+         * Callback for the mousehover/touchstart
+         *
+         * @memberOf Barba.Prefetch
+         * @private
+         * @param  {Object} evt
+         */
+
+    }, {
+        key: "onLinkEnter",
+        value: function onLinkEnter(evt) {
+            var el = evt.target;
+            while (el && !this.pjax.getHref(el)) {
+                el = el.parentNode; // TODO testme
+            }
+            if (!el || el.classList.contains(this.ignoreClassLink)) {
+                return;
+            }
+            var url = this.pjax.getHref(el);
+            // Check if the link is elegible for Pjax
+            if (this.pjax.preventCheck(evt, el) && !this.pjax.cache.get(url)) {
+                var xhr = Utils_1.Utils.xhr(url);
+                this.pjax.cache.set(url, xhr);
+            }
+        }
+    }]);
+
+    return Prefetch;
+}();
+
+exports.Prefetch = Prefetch;
+},{"../Utils":8,"./Pjax":13}],10:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var HistoryManager_1 = require("./HistoryManager");
+exports.HistoryManager = HistoryManager_1.HistoryManager;
+exports.IState = HistoryManager_1.IState;
+var Dom_1 = require("./Dom");
+exports.Dom = Dom_1.Dom;
+var Pjax_1 = require("./Pjax");
+exports.Pjax = Pjax_1.Pjax;
+var Prefetch_1 = require("./Prefetch");
+exports.Prefetch = Prefetch_1.Prefetch;
+},{"./HistoryManager":11,"./Dom":12,"./Pjax":13,"./Prefetch":14}],4:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Cache_1 = require("./Cache");
+exports.BaseCache = Cache_1.BaseCache;
+var BaseTransition_1 = require("./Transition/BaseTransition");
+exports.BaseTransition = BaseTransition_1.BaseTransition;
+var View_1 = require("./View");
+exports.BaseView = View_1.BaseView;
+var Dispatcher_1 = require("./Dispatcher");
+exports.Dispatcher = Dispatcher_1.Dispatcher;
+var Pjax_1 = require("./Pjax");
+exports.HistoryManager = Pjax_1.HistoryManager;
+exports.IState = Pjax_1.IState;
+exports.Pjax = Pjax_1.Pjax;
+exports.Prefetch = Pjax_1.Prefetch;
+var Utils_1 = require("./Utils");
+exports.Utils = Utils_1.Utils;
+},{"./Cache":5,"./Transition/BaseTransition":9,"./View":6,"./Dispatcher":7,"./Pjax":10,"./Utils":8}],1:[function(require,module,exports) {
+"use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) {
+        if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    }result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var $ = require("jquery"); // not working on parcel.js: import * as $ from 'jquery';
+var Tetris_1 = require("./Tetris");
+var Barba = __importStar(require("./barba"));
+// import '../scss/static/theme.scss';
 // declare global {
 //   interface Window {
 //     $: any;
@@ -14146,28 +12616,199 @@ var Rivets = require("rivets");
 // window.jQuery = $;
 // window.Barba = Barba;
 // window.rivets = Rivets;
-var $el;
-console.log('Barba', barba_1.Barba);
-console.log('Rivets', Rivets);
+// let $el: JQuery<HTMLElement>
+// console.log('Barba', Barba);
+// console.log('Rivets', Rivets);
 var initBarba = function initBarba() {
-    console.log('initBarba');
-    barba_1.Barba.Prefetch.init();
-    barba_1.Barba.Dispatcher.on('newPageReady', function (currentStatus, prevStatus, $container, newPageRawHTML) {
+    // console.log('initBarba');
+    var prefetch = new Barba.Prefetch();
+    var dispatcher = new Barba.Dispatcher();
+    var pjax = new Barba.Pjax();
+    prefetch.init();
+    dispatcher.on('newPageReady', function (currentStatus, prevStatus, $container, newPageRawHTML) {
         // init Template
         var data = $container.data();
-        console.log('newPageReady', currentStatus);
+        // console.log('newPageReady', currentStatus, );
         if (data.template === 'page.tetris') {
             var tetris = new Tetris_1.Tetris();
             tetris.run();
         }
     });
-    barba_1.Barba.Pjax.start();
+    pjax.start();
 };
 $(function () {
     initBarba();
 });
 // TODO slideshow inpirated by https://slideout.js.org/
+},{"jquery":3,"./Tetris":2,"./barba":4}],18:[function(require,module,exports) {
+var global = arguments[3];
+var OVERLAY_ID = '__parcel__error__overlay__';
 
-},{"./Tetris":7,"./barba":20,"jquery":1,"rivets":4}]},{},[21])
+var OldModule = module.bundle.Module;
 
-//# sourceMappingURL=bundle.js.map
+function Module(moduleName) {
+  OldModule.call(this, moduleName);
+  this.hot = {
+    data: module.bundle.hotData,
+    _acceptCallbacks: [],
+    _disposeCallbacks: [],
+    accept: function (fn) {
+      this._acceptCallbacks.push(fn || function () {});
+    },
+    dispose: function (fn) {
+      this._disposeCallbacks.push(fn);
+    }
+  };
+
+  module.bundle.hotData = null;
+}
+
+module.bundle.Module = Module;
+
+var parent = module.bundle.parent;
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+  var hostname = 'localhost' || location.hostname;
+  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '8080' + '/');
+  ws.onmessage = function (event) {
+    var data = JSON.parse(event.data);
+
+    if (data.type === 'update') {
+      data.assets.forEach(function (asset) {
+        hmrApply(global.parcelRequire, asset);
+      });
+
+      data.assets.forEach(function (asset) {
+        if (!asset.isNew) {
+          hmrAccept(global.parcelRequire, asset.id);
+        }
+      });
+      // Clear the console after HMR
+      console.clear();
+    }
+
+    if (data.type === 'reload') {
+      ws.close();
+      ws.onclose = function () {
+        location.reload();
+      };
+    }
+
+    if (data.type === 'error-resolved') {
+      console.log('[parcel] ✨ Error resolved');
+
+      removeErrorOverlay();
+    }
+
+    if (data.type === 'error') {
+      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
+
+      removeErrorOverlay();
+
+      var overlay = createErrorOverlay(data);
+      document.body.appendChild(overlay);
+    }
+  };
+}
+
+function removeErrorOverlay() {
+  var overlay = document.getElementById(OVERLAY_ID);
+  if (overlay) {
+    overlay.remove();
+  }
+}
+
+function createErrorOverlay(data) {
+  var overlay = document.createElement('div');
+  overlay.id = OVERLAY_ID;
+
+  // html encode message and stack trace
+  var message = document.createElement('div');
+  var stackTrace = document.createElement('pre');
+  message.innerText = data.error.message;
+  stackTrace.innerText = data.error.stack;
+
+  overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
+
+  return overlay;
+}
+
+function getParents(bundle, id) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return [];
+  }
+
+  var parents = [];
+  var k, d, dep;
+
+  for (k in modules) {
+    for (d in modules[k][1]) {
+      dep = modules[k][1][d];
+      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
+        parents.push(+k);
+      }
+    }
+  }
+
+  if (bundle.parent) {
+    parents = parents.concat(getParents(bundle.parent, id));
+  }
+
+  return parents;
+}
+
+function hmrApply(bundle, asset) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+
+  if (modules[asset.id] || !bundle.parent) {
+    var fn = new Function('require', 'module', 'exports', asset.generated.js);
+    asset.isNew = !modules[asset.id];
+    modules[asset.id] = [fn, asset.deps];
+  } else if (bundle.parent) {
+    hmrApply(bundle.parent, asset);
+  }
+}
+
+function hmrAccept(bundle, id) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+
+  if (!modules[id] && bundle.parent) {
+    return hmrAccept(bundle.parent, id);
+  }
+
+  var cached = bundle.cache[id];
+  bundle.hotData = {};
+  if (cached) {
+    cached.hot.data = bundle.hotData;
+  }
+
+  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
+    cached.hot._disposeCallbacks.forEach(function (cb) {
+      cb(bundle.hotData);
+    });
+  }
+
+  delete bundle.cache[id];
+  bundle(id);
+
+  cached = bundle.cache[id];
+  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+    cached.hot._acceptCallbacks.forEach(function (cb) {
+      cb();
+    });
+    return true;
+  }
+
+  return getParents(global.parcelRequire, id).some(function (id) {
+    return hmrAccept(global.parcelRequire, id);
+  });
+}
+},{}]},{},[18,1], null)
+//# sourceMappingURL=/bundle.map

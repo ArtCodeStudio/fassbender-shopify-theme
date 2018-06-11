@@ -1,7 +1,7 @@
 
-interface Deferred {
-  resolve: Function;
-  reject: Function;
+interface IDeferred {
+  resolve: any;
+  reject: any;
 }
 
 /**
@@ -19,7 +19,7 @@ class Utils {
    * @type {Number}
    * @default
    */
-  static xhrTimeout: 5000;
+  public static xhrTimeout: 5000;
 
   /**
    * Return the current url
@@ -27,7 +27,7 @@ class Utils {
    * @memberOf Barba.Utils
    * @return {string} currentUrl
    */
-  static getCurrentUrl(): string {
+  public static getCurrentUrl(): string {
     return window.location.protocol + '//' +
            window.location.host +
            window.location.pathname +
@@ -42,7 +42,7 @@ class Utils {
    * @param  {string} url
    * @return {string} newCleanUrl
    */
-  static cleanLink(url: string): string {
+  public static cleanLink(url: string): string {
     return url.replace(/#.*/, '');
   }
 
@@ -53,11 +53,11 @@ class Utils {
    * @param  {string} url
    * @return {Promise}
    */
-  static xhr(url: string) {
-    var deferred = this.deferred();
-    var req = new XMLHttpRequest();
+  public static xhr(url: string) {
+    const deferred = this.deferred();
+    const req = new XMLHttpRequest();
 
-    req.onreadystatechange = function() {
+    req.onreadystatechange = () => {
       if (req.readyState === 4) {
         if (req.status === 200) {
           return deferred.resolve(req.responseText);
@@ -67,7 +67,7 @@ class Utils {
       }
     };
 
-    req.ontimeout = function() {
+    req.ontimeout = () => {
       return deferred.reject(new Error('xhr: Timeout exceeded'));
     };
 
@@ -77,21 +77,21 @@ class Utils {
     req.send();
 
     return deferred.promise;
-  };
+  }
 
   /**
    * Get obj and props and return a new object with the property merged
    *
    * @memberOf Barba.Utils
-   * @param  {Object} obj
+   * @param  {object} obj
    * @param  {any} props
-   * @return {Object}
+   * @return {object}
    */
-  static extend(obj: Object, props: any): Object {
-    var newObj = Object.create(obj);
+  public static extend(obj: object, props: any): object {
+    const newObj = Object.create(obj);
 
-    for(var prop in props) {
-      if(props.hasOwnProperty(prop)) {
+    for (const prop in props) {
+      if (props.hasOwnProperty(prop)) {
         newObj[prop] = props[prop];
       }
     }
@@ -99,18 +99,16 @@ class Utils {
     return newObj;
   }
 
-
-
   /**
    * Return a new "Deferred" object
    * https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred
    *
    * @memberOf Barba.Utils
-   * @return {Deferred}
+   * @return {IDeferred}
    */
-  static deferred(): any {
-    var obj: any = {};
-    var prom = new window.Promise((resolve, reject) => {
+  public static deferred(): any {
+    const obj: any = {};
+    const prom = new Promise((resolve: any, reject: any) => {
       obj.resolve = resolve;
       obj.reject = reject;
     });
@@ -126,19 +124,21 @@ class Utils {
    * @param  {String} p
    * @return {Int} port
    */
-  static getPort(p?: string) {
-    var port = typeof p !== 'undefined' ? p : window.location.port;
-    var protocol = window.location.protocol;
+  public static getPort(p?: string) {
+    const port = typeof p !== 'undefined' ? p : window.location.port;
+    const protocol = window.location.protocol;
 
-    if (port != '')
-      return parseInt(port);
-
-    if (protocol === 'http:')
+    if (port !== '') {
+      return Number(port);
+    }
+    if (protocol === 'http:') {
       return 80;
+    }
 
-    if (protocol === 'https:')
+    if (protocol === 'https:') {
       return 443;
+    }
   }
-};
+}
 
 export { Utils };

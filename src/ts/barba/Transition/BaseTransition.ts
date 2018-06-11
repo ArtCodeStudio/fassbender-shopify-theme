@@ -6,24 +6,24 @@ import { Utils } from '../Utils';
  * @namespace Barba.BaseTransition
  * @type {Object}
  */
-class BaseTransition {
+abstract class BaseTransition {
   /**
    * @memberOf Barba.BaseTransition
    * @type {JQuery<HTMLElement>}
    */
-  $oldContainer: JQuery<HTMLElement>;
+  public $oldContainer: JQuery<HTMLElement>;
 
   /**
    * @memberOf Barba.BaseTransition
    * @type {JQuery<HTMLElement>}
    */
-  $newContainer: JQuery<HTMLElement>;
+  public $newContainer: JQuery<HTMLElement>;
 
   /**
    * @memberOf Barba.BaseTransition
    * @type {Promise}
    */
-  newContainerLoading: Promise<JQuery<HTMLElement>>;
+  public newContainerLoading: Promise<JQuery<HTMLElement>>;
 
   private deferred: any; // TODO type
 
@@ -34,9 +34,9 @@ class BaseTransition {
    * @param  {Object} newObject
    * @return {Object} newInheritObject
    */
-  extend (obj: Object) {
+  public extend(obj: object) {
     return Utils.extend(this, obj);
-  };
+  }
 
   /**
    * This function is called from Pjax module to initialize
@@ -48,38 +48,37 @@ class BaseTransition {
    * @param  {Promise} newContainer
    * @return {Promise}
    */
-  init($oldContainer: JQuery<HTMLElement>, $newContainer: Promise<JQuery<HTMLElement>>) {
-    var _this = this;
+  public init($oldContainer: JQuery<HTMLElement>, newContainer: Promise<JQuery<HTMLElement>>) {
+    const self = this;
 
     this.$oldContainer = $oldContainer;
-    let _newContainerPromise = $newContainer;
 
     this.deferred = Utils.deferred();
-    let newContainerReady = Utils.deferred();
+    const newContainerReady = Utils.deferred();
     this.newContainerLoading = newContainerReady.promise;
 
     this.start();
 
-    _newContainerPromise.then(function($newContainer: JQuery<HTMLElement>) {
-      _this.$newContainer = $newContainer;
+    newContainer.then(($newContainer: JQuery<HTMLElement>) => {
+      self.$newContainer = $newContainer;
       newContainerReady.resolve();
     });
 
     return this.deferred.promise;
-  };
+  }
 
   /**
    * This function needs to be called as soon the Transition is finished
    *
    * @memberOf Barba.BaseTransition
    */
-  done() {
+  public done() {
     // this.$oldContainer[0].parentNode.removeChild(this.$oldContainer[]);
     this.$oldContainer.remove();
     // this.newContainer.style.visibility = 'visible';
     this.$newContainer.css('visibility', 'visible');
     this.deferred.resolve();
-  };
+  }
 
   /**
    * Constructor for your Transition
@@ -87,9 +86,7 @@ class BaseTransition {
    * @memberOf Barba.BaseTransition
    * @abstract
    */
-  start() {
-
-  };
-};
+  public abstract start(): any;
+}
 
 export { BaseTransition };

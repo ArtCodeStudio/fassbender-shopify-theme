@@ -1,11 +1,12 @@
 // https://github.com/asvd/dragscroll
-var mousemove = 'mousemove';
-var mouseup = 'mouseup';
-var mousedown = 'mousedown';
-var newScrollX, newScrollY;
+let mousemove = 'mousemove';
+let mouseup = 'mouseup';
+let mousedown = 'mousedown';
+let newScrollX;
+let newScrollY;
 
-var dragged = [];
-var reset = function() {
+let dragged = [];
+let reset = function() {
     for (let i = 0; i < dragged.length;) {
         let el = dragged[i++];
         el = el.container || el;
