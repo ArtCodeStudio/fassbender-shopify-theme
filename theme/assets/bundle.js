@@ -1,294 +1,431 @@
-// modules are defined as an array
-// [ module function, map of requires ]
-//
-// map of requires is short require name -> numeric require
-//
-// anything defined in a previous bundle is accessed via the
-// orig method which is the require for previous bundles
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+(function (process){
+/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
 
-// eslint-disable-next-line no-global-assign
-parcelRequire = (function (modules, cache, entry, globalName) {
-  // Save the require from previous bundle to this closure if any
-  var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
-  var nodeRequire = typeof require === 'function' && require;
+exports = module.exports = require('./debug');
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome
+               && 'undefined' != typeof chrome.storage
+                  ? chrome.storage.local
+                  : localstorage();
 
-  function newRequire(name, jumped) {
-    if (!cache[name]) {
-      if (!modules[name]) {
-        // if we cannot find the module within our internal map or
-        // cache jump to the current global require ie. the last bundle
-        // that was added to the page.
-        var currentRequire = typeof parcelRequire === 'function' && parcelRequire;
-        if (!jumped && currentRequire) {
-          return currentRequire(name, true);
-        }
+/**
+ * Colors.
+ */
 
-        // If there are other bundles on this page the require from the
-        // previous one is saved to 'previousRequire'. Repeat this as
-        // many times as there are bundles until the module is found or
-        // we exhaust the require chain.
-        if (previousRequire) {
-          return previousRequire(name, true);
-        }
+exports.colors = [
+  '#0000CC', '#0000FF', '#0033CC', '#0033FF', '#0066CC', '#0066FF', '#0099CC',
+  '#0099FF', '#00CC00', '#00CC33', '#00CC66', '#00CC99', '#00CCCC', '#00CCFF',
+  '#3300CC', '#3300FF', '#3333CC', '#3333FF', '#3366CC', '#3366FF', '#3399CC',
+  '#3399FF', '#33CC00', '#33CC33', '#33CC66', '#33CC99', '#33CCCC', '#33CCFF',
+  '#6600CC', '#6600FF', '#6633CC', '#6633FF', '#66CC00', '#66CC33', '#9900CC',
+  '#9900FF', '#9933CC', '#9933FF', '#99CC00', '#99CC33', '#CC0000', '#CC0033',
+  '#CC0066', '#CC0099', '#CC00CC', '#CC00FF', '#CC3300', '#CC3333', '#CC3366',
+  '#CC3399', '#CC33CC', '#CC33FF', '#CC6600', '#CC6633', '#CC9900', '#CC9933',
+  '#CCCC00', '#CCCC33', '#FF0000', '#FF0033', '#FF0066', '#FF0099', '#FF00CC',
+  '#FF00FF', '#FF3300', '#FF3333', '#FF3366', '#FF3399', '#FF33CC', '#FF33FF',
+  '#FF6600', '#FF6633', '#FF9900', '#FF9933', '#FFCC00', '#FFCC33'
+];
 
-        // Try the node require function if it exists.
-        if (nodeRequire && typeof name === 'string') {
-          return nodeRequire(name);
-        }
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
 
-        var err = new Error('Cannot find module \'' + name + '\'');
-        err.code = 'MODULE_NOT_FOUND';
-        throw err;
-      }
-
-      localRequire.resolve = resolve;
-
-      var module = cache[name] = new newRequire.Module(name);
-
-      modules[name][0].call(module.exports, localRequire, module, module.exports, this);
-    }
-
-    return cache[name].exports;
-
-    function localRequire(x){
-      return newRequire(localRequire.resolve(x));
-    }
-
-    function resolve(x){
-      return modules[name][1][x] || x;
-    }
+function useColors() {
+  // NB: In an Electron preload script, document will be defined but not fully
+  // initialized. Since we know we're in Chrome, we'll just detect this case
+  // explicitly
+  if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
+    return true;
   }
 
-  function Module(moduleName) {
-    this.id = moduleName;
-    this.bundle = newRequire;
-    this.exports = {};
+  // Internet Explorer and Edge do not support colors.
+  if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
+    return false;
   }
 
-  newRequire.isParcelRequire = true;
-  newRequire.Module = Module;
-  newRequire.modules = modules;
-  newRequire.cache = cache;
-  newRequire.parent = previousRequire;
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
+    // is firebug? http://stackoverflow.com/a/398120/376773
+    (typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
+    // is firefox >= v31?
+    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+    (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+    // double check webkit in userAgent just in case we are in a worker
+    (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+}
 
-  for (var i = 0; i < entry.length; i++) {
-    newRequire(entry[i]);
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function(v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
   }
+};
 
-  if (entry.length) {
-    // Expose entry point to Node, AMD or browser globals
-    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
-    var mainExports = newRequire(entry[entry.length - 1]);
 
-    // CommonJS
-    if (typeof exports === "object" && typeof module !== "undefined") {
-      module.exports = mainExports;
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
 
-    // RequireJS
-    } else if (typeof define === "function" && define.amd) {
-     define(function () {
-       return mainExports;
-     });
+function formatArgs(args) {
+  var useColors = this.useColors;
 
-    // <script>
-    } else if (globalName) {
-      this[globalName] = mainExports;
+  args[0] = (useColors ? '%c' : '')
+    + this.namespace
+    + (useColors ? ' %c' : ' ')
+    + args[0]
+    + (useColors ? '%c ' : ' ')
+    + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return;
+
+  var c = 'color: ' + this.color;
+  args.splice(1, 0, c, 'color: inherit')
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-zA-Z%]/g, function(match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
     }
-  }
+  });
 
-  // Override the current require with this new one
-  return newRequire;
-})({17:[function(require,module,exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
+  args.splice(lastC, 0, c);
 }
-function defaultClearTimeout() {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-})();
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch (e) {
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch (e) {
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e) {
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e) {
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
 
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console
+    && console.log
+    && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
     } else {
-        queueIndex = -1;
+      exports.storage.debug = namespaces;
     }
-    if (queue.length) {
-        drainQueue();
-    }
+  } catch(e) {}
 }
 
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
 
-    var len = queue.length;
-    while (len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
+function load() {
+  var r;
+  try {
+    r = exports.storage.debug;
+  } catch(e) {}
+
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (!r && typeof process !== 'undefined' && 'env' in process) {
+    r = process.env.DEBUG;
+  }
+
+  return r;
 }
 
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
 
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
+exports.enable(load());
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage() {
+  try {
+    return window.localStorage;
+  } catch (e) {}
 }
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
 
-function noop() {}
+}).call(this,require('_process'))
 
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
+},{"./debug":2,"_process":5}],2:[function(require,module,exports){
 
-process.listeners = function (name) {
-    return [];
-};
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
 
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
+exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
+exports.coerce = coerce;
+exports.disable = disable;
+exports.enable = enable;
+exports.enabled = enabled;
+exports.humanize = require('ms');
 
-process.cwd = function () {
-    return '/';
-};
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function () {
-    return 0;
-};
-},{}],3:[function(require,module,exports) {
-var global = arguments[3];
-var process = require("process");
-var define;
+/**
+ * Active `debug` instances.
+ */
+exports.instances = [];
+
+/**
+ * The currently active debug mode names, and names to skip.
+ */
+
+exports.names = [];
+exports.skips = [];
+
+/**
+ * Map of special "%n" handling functions, for the debug "format" argument.
+ *
+ * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+ */
+
+exports.formatters = {};
+
+/**
+ * Select a color.
+ * @param {String} namespace
+ * @return {Number}
+ * @api private
+ */
+
+function selectColor(namespace) {
+  var hash = 0, i;
+
+  for (i in namespace) {
+    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
+  }
+
+  return exports.colors[Math.abs(hash) % exports.colors.length];
+}
+
+/**
+ * Create a debugger with the given `namespace`.
+ *
+ * @param {String} namespace
+ * @return {Function}
+ * @api public
+ */
+
+function createDebug(namespace) {
+
+  var prevTime;
+
+  function debug() {
+    // disabled?
+    if (!debug.enabled) return;
+
+    var self = debug;
+
+    // set `diff` timestamp
+    var curr = +new Date();
+    var ms = curr - (prevTime || curr);
+    self.diff = ms;
+    self.prev = prevTime;
+    self.curr = curr;
+    prevTime = curr;
+
+    // turn the `arguments` into a proper Array
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+
+    args[0] = exports.coerce(args[0]);
+
+    if ('string' !== typeof args[0]) {
+      // anything else let's inspect with %O
+      args.unshift('%O');
+    }
+
+    // apply any `formatters` transformations
+    var index = 0;
+    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
+      // if we encounter an escaped % then don't increase the array index
+      if (match === '%%') return match;
+      index++;
+      var formatter = exports.formatters[format];
+      if ('function' === typeof formatter) {
+        var val = args[index];
+        match = formatter.call(self, val);
+
+        // now we need to remove `args[index]` since it's inlined in the `format`
+        args.splice(index, 1);
+        index--;
+      }
+      return match;
+    });
+
+    // apply env-specific formatting (colors, etc.)
+    exports.formatArgs.call(self, args);
+
+    var logFn = debug.log || exports.log || console.log.bind(console);
+    logFn.apply(self, args);
+  }
+
+  debug.namespace = namespace;
+  debug.enabled = exports.enabled(namespace);
+  debug.useColors = exports.useColors();
+  debug.color = selectColor(namespace);
+  debug.destroy = destroy;
+
+  // env-specific initialization logic for debug instances
+  if ('function' === typeof exports.init) {
+    exports.init(debug);
+  }
+
+  exports.instances.push(debug);
+
+  return debug;
+}
+
+function destroy () {
+  var index = exports.instances.indexOf(this);
+  if (index !== -1) {
+    exports.instances.splice(index, 1);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
+ * Enables a debug mode by namespaces. This can include modes
+ * separated by a colon and wildcards.
+ *
+ * @param {String} namespaces
+ * @api public
+ */
+
+function enable(namespaces) {
+  exports.save(namespaces);
+
+  exports.names = [];
+  exports.skips = [];
+
+  var i;
+  var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+  var len = split.length;
+
+  for (i = 0; i < len; i++) {
+    if (!split[i]) continue; // ignore empty strings
+    namespaces = split[i].replace(/\*/g, '.*?');
+    if (namespaces[0] === '-') {
+      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+    } else {
+      exports.names.push(new RegExp('^' + namespaces + '$'));
+    }
+  }
+
+  for (i = 0; i < exports.instances.length; i++) {
+    var instance = exports.instances[i];
+    instance.enabled = exports.enabled(instance.namespace);
+  }
+}
+
+/**
+ * Disable debug output.
+ *
+ * @api public
+ */
+
+function disable() {
+  exports.enable('');
+}
+
+/**
+ * Returns true if the given mode name is enabled, false otherwise.
+ *
+ * @param {String} name
+ * @return {Boolean}
+ * @api public
+ */
+
+function enabled(name) {
+  if (name[name.length - 1] === '*') {
+    return true;
+  }
+  var i, len;
+  for (i = 0, len = exports.skips.length; i < len; i++) {
+    if (exports.skips[i].test(name)) {
+      return false;
+    }
+  }
+  for (i = 0, len = exports.names.length; i < len; i++) {
+    if (exports.names[i].test(name)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Coerce `val`.
+ *
+ * @param {Mixed} val
+ * @return {Mixed}
+ * @api private
+ */
+
+function coerce(val) {
+  if (val instanceof Error) return val.stack || val.message;
+  return val;
+}
+
+},{"ms":4}],3:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
@@ -10654,7 +10791,2039 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{"process":17}],2:[function(require,module,exports) {
+},{}],4:[function(require,module,exports){
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return;
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name;
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's';
+}
+
+},{}],5:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],6:[function(require,module,exports){
+// Rivets.js
+// version: 0.9.6
+// author: Michael Richards
+// license: MIT
+(function() {
+  var Rivets, bindMethod, jQuery, unbindMethod, _ref,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __slice = [].slice,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  Rivets = {
+    options: ['prefix', 'templateDelimiters', 'rootInterface', 'preloadData', 'handler', 'executeFunctions'],
+    extensions: ['binders', 'formatters', 'components', 'adapters'],
+    "public": {
+      binders: {},
+      components: {},
+      formatters: {},
+      adapters: {},
+      prefix: 'rv',
+      templateDelimiters: ['{', '}'],
+      rootInterface: '.',
+      preloadData: true,
+      executeFunctions: false,
+      iterationAlias: function(modelName) {
+        return '%' + modelName + '%';
+      },
+      handler: function(context, ev, binding) {
+        return this.call(context, ev, binding.view.models);
+      },
+      configure: function(options) {
+        var descriptor, key, option, value;
+        if (options == null) {
+          options = {};
+        }
+        for (option in options) {
+          value = options[option];
+          if (option === 'binders' || option === 'components' || option === 'formatters' || option === 'adapters') {
+            for (key in value) {
+              descriptor = value[key];
+              Rivets[option][key] = descriptor;
+            }
+          } else {
+            Rivets["public"][option] = value;
+          }
+        }
+      },
+      bind: function(el, models, options) {
+        var view;
+        if (models == null) {
+          models = {};
+        }
+        if (options == null) {
+          options = {};
+        }
+        view = new Rivets.View(el, models, options);
+        view.bind();
+        return view;
+      },
+      init: function(component, el, data) {
+        var scope, template, view;
+        if (data == null) {
+          data = {};
+        }
+        if (el == null) {
+          el = document.createElement('div');
+        }
+        component = Rivets["public"].components[component];
+        template = component.template.call(this, el);
+        if (template instanceof HTMLElement) {
+          while (el.firstChild) {
+            el.removeChild(el.firstChild);
+          }
+          el.appendChild(template);
+        } else {
+          el.innerHTML = template;
+        }
+        scope = component.initialize.call(this, el, data);
+        view = new Rivets.View(el, scope);
+        view.bind();
+        return view;
+      }
+    }
+  };
+
+  if (window['jQuery'] || window['$']) {
+    jQuery = window['jQuery'] || window['$'];
+    _ref = 'on' in jQuery.prototype ? ['on', 'off'] : ['bind', 'unbind'], bindMethod = _ref[0], unbindMethod = _ref[1];
+    Rivets.Util = {
+      bindEvent: function(el, event, handler) {
+        return jQuery(el)[bindMethod](event, handler);
+      },
+      unbindEvent: function(el, event, handler) {
+        return jQuery(el)[unbindMethod](event, handler);
+      },
+      getInputValue: function(el) {
+        var $el;
+        $el = jQuery(el);
+        if ($el.attr('type') === 'checkbox') {
+          return $el.is(':checked');
+        } else {
+          return $el.val();
+        }
+      }
+    };
+  } else {
+    Rivets.Util = {
+      bindEvent: (function() {
+        if ('addEventListener' in window) {
+          return function(el, event, handler) {
+            return el.addEventListener(event, handler, false);
+          };
+        }
+        return function(el, event, handler) {
+          return el.attachEvent('on' + event, handler);
+        };
+      })(),
+      unbindEvent: (function() {
+        if ('removeEventListener' in window) {
+          return function(el, event, handler) {
+            return el.removeEventListener(event, handler, false);
+          };
+        }
+        return function(el, event, handler) {
+          return el.detachEvent('on' + event, handler);
+        };
+      })(),
+      getInputValue: function(el) {
+        var o, _i, _len, _results;
+        if (el.type === 'checkbox') {
+          return el.checked;
+        } else if (el.type === 'select-multiple') {
+          _results = [];
+          for (_i = 0, _len = el.length; _i < _len; _i++) {
+            o = el[_i];
+            if (o.selected) {
+              _results.push(o.value);
+            }
+          }
+          return _results;
+        } else {
+          return el.value;
+        }
+      }
+    };
+  }
+
+  Rivets.TypeParser = (function() {
+    function TypeParser() {}
+
+    TypeParser.types = {
+      primitive: 0,
+      keypath: 1
+    };
+
+    TypeParser.parse = function(string) {
+      if (/^'.*'$|^".*"$/.test(string)) {
+        return {
+          type: this.types.primitive,
+          value: string.slice(1, -1)
+        };
+      } else if (string === 'true') {
+        return {
+          type: this.types.primitive,
+          value: true
+        };
+      } else if (string === 'false') {
+        return {
+          type: this.types.primitive,
+          value: false
+        };
+      } else if (string === 'null') {
+        return {
+          type: this.types.primitive,
+          value: null
+        };
+      } else if (string === 'undefined') {
+        return {
+          type: this.types.primitive,
+          value: void 0
+        };
+      } else if (string === '') {
+        return {
+          type: this.types.primitive,
+          value: void 0
+        };
+      } else if (isNaN(Number(string)) === false) {
+        return {
+          type: this.types.primitive,
+          value: Number(string)
+        };
+      } else {
+        return {
+          type: this.types.keypath,
+          value: string
+        };
+      }
+    };
+
+    return TypeParser;
+
+  })();
+
+  Rivets.TextTemplateParser = (function() {
+    function TextTemplateParser() {}
+
+    TextTemplateParser.types = {
+      text: 0,
+      binding: 1
+    };
+
+    TextTemplateParser.parse = function(template, delimiters) {
+      var index, lastIndex, lastToken, length, substring, tokens, value;
+      tokens = [];
+      length = template.length;
+      index = 0;
+      lastIndex = 0;
+      while (lastIndex < length) {
+        index = template.indexOf(delimiters[0], lastIndex);
+        if (index < 0) {
+          tokens.push({
+            type: this.types.text,
+            value: template.slice(lastIndex)
+          });
+          break;
+        } else {
+          if (index > 0 && lastIndex < index) {
+            tokens.push({
+              type: this.types.text,
+              value: template.slice(lastIndex, index)
+            });
+          }
+          lastIndex = index + delimiters[0].length;
+          index = template.indexOf(delimiters[1], lastIndex);
+          if (index < 0) {
+            substring = template.slice(lastIndex - delimiters[1].length);
+            lastToken = tokens[tokens.length - 1];
+            if ((lastToken != null ? lastToken.type : void 0) === this.types.text) {
+              lastToken.value += substring;
+            } else {
+              tokens.push({
+                type: this.types.text,
+                value: substring
+              });
+            }
+            break;
+          }
+          value = template.slice(lastIndex, index).trim();
+          tokens.push({
+            type: this.types.binding,
+            value: value
+          });
+          lastIndex = index + delimiters[1].length;
+        }
+      }
+      return tokens;
+    };
+
+    return TextTemplateParser;
+
+  })();
+
+  Rivets.View = (function() {
+    function View(els, models, options) {
+      var k, option, v, _base, _i, _j, _len, _len1, _ref1, _ref2, _ref3, _ref4, _ref5;
+      this.els = els;
+      this.models = models;
+      if (options == null) {
+        options = {};
+      }
+      this.update = __bind(this.update, this);
+      this.publish = __bind(this.publish, this);
+      this.sync = __bind(this.sync, this);
+      this.unbind = __bind(this.unbind, this);
+      this.bind = __bind(this.bind, this);
+      this.select = __bind(this.select, this);
+      this.traverse = __bind(this.traverse, this);
+      this.build = __bind(this.build, this);
+      this.buildBinding = __bind(this.buildBinding, this);
+      this.bindingRegExp = __bind(this.bindingRegExp, this);
+      this.options = __bind(this.options, this);
+      if (!(this.els.jquery || this.els instanceof Array)) {
+        this.els = [this.els];
+      }
+      _ref1 = Rivets.extensions;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        option = _ref1[_i];
+        this[option] = {};
+        if (options[option]) {
+          _ref2 = options[option];
+          for (k in _ref2) {
+            v = _ref2[k];
+            this[option][k] = v;
+          }
+        }
+        _ref3 = Rivets["public"][option];
+        for (k in _ref3) {
+          v = _ref3[k];
+          if ((_base = this[option])[k] == null) {
+            _base[k] = v;
+          }
+        }
+      }
+      _ref4 = Rivets.options;
+      for (_j = 0, _len1 = _ref4.length; _j < _len1; _j++) {
+        option = _ref4[_j];
+        this[option] = (_ref5 = options[option]) != null ? _ref5 : Rivets["public"][option];
+      }
+      this.build();
+    }
+
+    View.prototype.options = function() {
+      var option, options, _i, _len, _ref1;
+      options = {};
+      _ref1 = Rivets.extensions.concat(Rivets.options);
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        option = _ref1[_i];
+        options[option] = this[option];
+      }
+      return options;
+    };
+
+    View.prototype.bindingRegExp = function() {
+      return new RegExp("^" + this.prefix + "-");
+    };
+
+    View.prototype.buildBinding = function(binding, node, type, declaration) {
+      var context, ctx, dependencies, keypath, options, pipe, pipes;
+      options = {};
+      pipes = (function() {
+        var _i, _len, _ref1, _results;
+        _ref1 = declaration.match(/((?:'[^']*')*(?:(?:[^\|']*(?:'[^']*')+[^\|']*)+|[^\|]+))|^$/g);
+        _results = [];
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          pipe = _ref1[_i];
+          _results.push(pipe.trim());
+        }
+        return _results;
+      })();
+      context = (function() {
+        var _i, _len, _ref1, _results;
+        _ref1 = pipes.shift().split('<');
+        _results = [];
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          ctx = _ref1[_i];
+          _results.push(ctx.trim());
+        }
+        return _results;
+      })();
+      keypath = context.shift();
+      options.formatters = pipes;
+      if (dependencies = context.shift()) {
+        options.dependencies = dependencies.split(/\s+/);
+      }
+      return this.bindings.push(new Rivets[binding](this, node, type, keypath, options));
+    };
+
+    View.prototype.build = function() {
+      var el, parse, _i, _len, _ref1;
+      this.bindings = [];
+      parse = (function(_this) {
+        return function(node) {
+          var block, childNode, delimiters, n, parser, text, token, tokens, _i, _j, _len, _len1, _ref1;
+          if (node.nodeType === 3) {
+            parser = Rivets.TextTemplateParser;
+            if (delimiters = _this.templateDelimiters) {
+              if ((tokens = parser.parse(node.data, delimiters)).length) {
+                if (!(tokens.length === 1 && tokens[0].type === parser.types.text)) {
+                  for (_i = 0, _len = tokens.length; _i < _len; _i++) {
+                    token = tokens[_i];
+                    text = document.createTextNode(token.value);
+                    node.parentNode.insertBefore(text, node);
+                    if (token.type === 1) {
+                      _this.buildBinding('TextBinding', text, null, token.value);
+                    }
+                  }
+                  node.parentNode.removeChild(node);
+                }
+              }
+            }
+          } else if (node.nodeType === 1) {
+            block = _this.traverse(node);
+          }
+          if (!block) {
+            _ref1 = (function() {
+              var _k, _len1, _ref1, _results;
+              _ref1 = node.childNodes;
+              _results = [];
+              for (_k = 0, _len1 = _ref1.length; _k < _len1; _k++) {
+                n = _ref1[_k];
+                _results.push(n);
+              }
+              return _results;
+            })();
+            for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+              childNode = _ref1[_j];
+              parse(childNode);
+            }
+          }
+        };
+      })(this);
+      _ref1 = this.els;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        el = _ref1[_i];
+        parse(el);
+      }
+      this.bindings.sort(function(a, b) {
+        var _ref2, _ref3;
+        return (((_ref2 = b.binder) != null ? _ref2.priority : void 0) || 0) - (((_ref3 = a.binder) != null ? _ref3.priority : void 0) || 0);
+      });
+    };
+
+    View.prototype.traverse = function(node) {
+      var attribute, attributes, binder, bindingRegExp, block, identifier, regexp, type, value, _i, _j, _len, _len1, _ref1, _ref2, _ref3;
+      bindingRegExp = this.bindingRegExp();
+      block = node.nodeName === 'SCRIPT' || node.nodeName === 'STYLE';
+      _ref1 = node.attributes;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        attribute = _ref1[_i];
+        if (bindingRegExp.test(attribute.name)) {
+          type = attribute.name.replace(bindingRegExp, '');
+          if (!(binder = this.binders[type])) {
+            _ref2 = this.binders;
+            for (identifier in _ref2) {
+              value = _ref2[identifier];
+              if (identifier !== '*' && identifier.indexOf('*') !== -1) {
+                regexp = new RegExp("^" + (identifier.replace(/\*/g, '.+')) + "$");
+                if (regexp.test(type)) {
+                  binder = value;
+                }
+              }
+            }
+          }
+          binder || (binder = this.binders['*']);
+          if (binder.block) {
+            block = true;
+            attributes = [attribute];
+          }
+        }
+      }
+      _ref3 = attributes || node.attributes;
+      for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+        attribute = _ref3[_j];
+        if (bindingRegExp.test(attribute.name)) {
+          type = attribute.name.replace(bindingRegExp, '');
+          this.buildBinding('Binding', node, type, attribute.value);
+        }
+      }
+      if (!block) {
+        type = node.nodeName.toLowerCase();
+        if (this.components[type] && !node._bound) {
+          this.bindings.push(new Rivets.ComponentBinding(this, node, type));
+          block = true;
+        }
+      }
+      return block;
+    };
+
+    View.prototype.select = function(fn) {
+      var binding, _i, _len, _ref1, _results;
+      _ref1 = this.bindings;
+      _results = [];
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        binding = _ref1[_i];
+        if (fn(binding)) {
+          _results.push(binding);
+        }
+      }
+      return _results;
+    };
+
+    View.prototype.bind = function() {
+      var binding, _i, _len, _ref1;
+      _ref1 = this.bindings;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        binding = _ref1[_i];
+        binding.bind();
+      }
+    };
+
+    View.prototype.unbind = function() {
+      var binding, _i, _len, _ref1;
+      _ref1 = this.bindings;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        binding = _ref1[_i];
+        binding.unbind();
+      }
+    };
+
+    View.prototype.sync = function() {
+      var binding, _i, _len, _ref1;
+      _ref1 = this.bindings;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        binding = _ref1[_i];
+        if (typeof binding.sync === "function") {
+          binding.sync();
+        }
+      }
+    };
+
+    View.prototype.publish = function() {
+      var binding, _i, _len, _ref1;
+      _ref1 = this.select(function(b) {
+        var _ref1;
+        return (_ref1 = b.binder) != null ? _ref1.publishes : void 0;
+      });
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        binding = _ref1[_i];
+        binding.publish();
+      }
+    };
+
+    View.prototype.update = function(models) {
+      var binding, key, model, _i, _len, _ref1;
+      if (models == null) {
+        models = {};
+      }
+      for (key in models) {
+        model = models[key];
+        this.models[key] = model;
+      }
+      _ref1 = this.bindings;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        binding = _ref1[_i];
+        if (typeof binding.update === "function") {
+          binding.update(models);
+        }
+      }
+    };
+
+    return View;
+
+  })();
+
+  Rivets.Binding = (function() {
+    function Binding(view, el, type, keypath, options) {
+      this.view = view;
+      this.el = el;
+      this.type = type;
+      this.keypath = keypath;
+      this.options = options != null ? options : {};
+      this.getValue = __bind(this.getValue, this);
+      this.update = __bind(this.update, this);
+      this.unbind = __bind(this.unbind, this);
+      this.bind = __bind(this.bind, this);
+      this.publish = __bind(this.publish, this);
+      this.sync = __bind(this.sync, this);
+      this.set = __bind(this.set, this);
+      this.eventHandler = __bind(this.eventHandler, this);
+      this.formattedValue = __bind(this.formattedValue, this);
+      this.parseFormatterArguments = __bind(this.parseFormatterArguments, this);
+      this.parseTarget = __bind(this.parseTarget, this);
+      this.observe = __bind(this.observe, this);
+      this.setBinder = __bind(this.setBinder, this);
+      this.formatters = this.options.formatters || [];
+      this.dependencies = [];
+      this.formatterObservers = {};
+      this.model = void 0;
+      this.setBinder();
+    }
+
+    Binding.prototype.setBinder = function() {
+      var identifier, regexp, value, _ref1;
+      if (!(this.binder = this.view.binders[this.type])) {
+        _ref1 = this.view.binders;
+        for (identifier in _ref1) {
+          value = _ref1[identifier];
+          if (identifier !== '*' && identifier.indexOf('*') !== -1) {
+            regexp = new RegExp("^" + (identifier.replace(/\*/g, '.+')) + "$");
+            if (regexp.test(this.type)) {
+              this.binder = value;
+              this.args = new RegExp("^" + (identifier.replace(/\*/g, '(.+)')) + "$").exec(this.type);
+              this.args.shift();
+            }
+          }
+        }
+      }
+      this.binder || (this.binder = this.view.binders['*']);
+      if (this.binder instanceof Function) {
+        return this.binder = {
+          routine: this.binder
+        };
+      }
+    };
+
+    Binding.prototype.observe = function(obj, keypath, callback) {
+      return Rivets.sightglass(obj, keypath, callback, {
+        root: this.view.rootInterface,
+        adapters: this.view.adapters
+      });
+    };
+
+    Binding.prototype.parseTarget = function() {
+      var token;
+      token = Rivets.TypeParser.parse(this.keypath);
+      if (token.type === Rivets.TypeParser.types.primitive) {
+        return this.value = token.value;
+      } else {
+        this.observer = this.observe(this.view.models, this.keypath, this.sync);
+        return this.model = this.observer.target;
+      }
+    };
+
+    Binding.prototype.parseFormatterArguments = function(args, formatterIndex) {
+      var ai, arg, observer, processedArgs, _base, _i, _len;
+      args = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = args.length; _i < _len; _i++) {
+          arg = args[_i];
+          _results.push(Rivets.TypeParser.parse(arg));
+        }
+        return _results;
+      })();
+      processedArgs = [];
+      for (ai = _i = 0, _len = args.length; _i < _len; ai = ++_i) {
+        arg = args[ai];
+        processedArgs.push(arg.type === Rivets.TypeParser.types.primitive ? arg.value : ((_base = this.formatterObservers)[formatterIndex] || (_base[formatterIndex] = {}), !(observer = this.formatterObservers[formatterIndex][ai]) ? (observer = this.observe(this.view.models, arg.value, this.sync), this.formatterObservers[formatterIndex][ai] = observer) : void 0, observer.value()));
+      }
+      return processedArgs;
+    };
+
+    Binding.prototype.formattedValue = function(value) {
+      var args, fi, formatter, id, processedArgs, _i, _len, _ref1, _ref2;
+      _ref1 = this.formatters;
+      for (fi = _i = 0, _len = _ref1.length; _i < _len; fi = ++_i) {
+        formatter = _ref1[fi];
+        args = formatter.match(/[^\s']+|'([^']|'[^\s])*'|"([^"]|"[^\s])*"/g);
+        id = args.shift();
+        formatter = this.view.formatters[id];
+        processedArgs = this.parseFormatterArguments(args, fi);
+        if ((formatter != null ? formatter.read : void 0) instanceof Function) {
+          value = (_ref2 = formatter.read).call.apply(_ref2, [this.model, value].concat(__slice.call(processedArgs)));
+        } else if (formatter instanceof Function) {
+          value = formatter.call.apply(formatter, [this.model, value].concat(__slice.call(processedArgs)));
+        }
+      }
+      return value;
+    };
+
+    Binding.prototype.eventHandler = function(fn) {
+      var binding, handler;
+      handler = (binding = this).view.handler;
+      return function(ev) {
+        return handler.call(fn, this, ev, binding);
+      };
+    };
+
+    Binding.prototype.set = function(value) {
+      var _ref1;
+      value = value instanceof Function && !this.binder["function"] && Rivets["public"].executeFunctions ? this.formattedValue(value.call(this.model)) : this.formattedValue(value);
+      return (_ref1 = this.binder.routine) != null ? _ref1.call(this, this.el, value) : void 0;
+    };
+
+    Binding.prototype.sync = function() {
+      var dependency, observer;
+      return this.set((function() {
+        var _i, _j, _len, _len1, _ref1, _ref2, _ref3;
+        if (this.observer) {
+          if (this.model !== this.observer.target) {
+            _ref1 = this.dependencies;
+            for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+              observer = _ref1[_i];
+              observer.unobserve();
+            }
+            this.dependencies = [];
+            if (((this.model = this.observer.target) != null) && ((_ref2 = this.options.dependencies) != null ? _ref2.length : void 0)) {
+              _ref3 = this.options.dependencies;
+              for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+                dependency = _ref3[_j];
+                observer = this.observe(this.model, dependency, this.sync);
+                this.dependencies.push(observer);
+              }
+            }
+          }
+          return this.observer.value();
+        } else {
+          return this.value;
+        }
+      }).call(this));
+    };
+
+    Binding.prototype.publish = function() {
+      var args, fi, fiReversed, formatter, id, lastformatterIndex, processedArgs, value, _i, _len, _ref1, _ref2, _ref3;
+      if (this.observer) {
+        value = this.getValue(this.el);
+        lastformatterIndex = this.formatters.length - 1;
+        _ref1 = this.formatters.slice(0).reverse();
+        for (fiReversed = _i = 0, _len = _ref1.length; _i < _len; fiReversed = ++_i) {
+          formatter = _ref1[fiReversed];
+          fi = lastformatterIndex - fiReversed;
+          args = formatter.split(/\s+/);
+          id = args.shift();
+          processedArgs = this.parseFormatterArguments(args, fi);
+          if ((_ref2 = this.view.formatters[id]) != null ? _ref2.publish : void 0) {
+            value = (_ref3 = this.view.formatters[id]).publish.apply(_ref3, [value].concat(__slice.call(processedArgs)));
+          }
+        }
+        return this.observer.setValue(value);
+      }
+    };
+
+    Binding.prototype.bind = function() {
+      var dependency, observer, _i, _len, _ref1, _ref2, _ref3;
+      this.parseTarget();
+      if ((_ref1 = this.binder.bind) != null) {
+        _ref1.call(this, this.el);
+      }
+      if ((this.model != null) && ((_ref2 = this.options.dependencies) != null ? _ref2.length : void 0)) {
+        _ref3 = this.options.dependencies;
+        for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
+          dependency = _ref3[_i];
+          observer = this.observe(this.model, dependency, this.sync);
+          this.dependencies.push(observer);
+        }
+      }
+      if (this.view.preloadData) {
+        return this.sync();
+      }
+    };
+
+    Binding.prototype.unbind = function() {
+      var ai, args, fi, observer, _i, _len, _ref1, _ref2, _ref3, _ref4;
+      if ((_ref1 = this.binder.unbind) != null) {
+        _ref1.call(this, this.el);
+      }
+      if ((_ref2 = this.observer) != null) {
+        _ref2.unobserve();
+      }
+      _ref3 = this.dependencies;
+      for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
+        observer = _ref3[_i];
+        observer.unobserve();
+      }
+      this.dependencies = [];
+      _ref4 = this.formatterObservers;
+      for (fi in _ref4) {
+        args = _ref4[fi];
+        for (ai in args) {
+          observer = args[ai];
+          observer.unobserve();
+        }
+      }
+      return this.formatterObservers = {};
+    };
+
+    Binding.prototype.update = function(models) {
+      var _ref1, _ref2;
+      if (models == null) {
+        models = {};
+      }
+      this.model = (_ref1 = this.observer) != null ? _ref1.target : void 0;
+      return (_ref2 = this.binder.update) != null ? _ref2.call(this, models) : void 0;
+    };
+
+    Binding.prototype.getValue = function(el) {
+      if (this.binder && (this.binder.getValue != null)) {
+        return this.binder.getValue.call(this, el);
+      } else {
+        return Rivets.Util.getInputValue(el);
+      }
+    };
+
+    return Binding;
+
+  })();
+
+  Rivets.ComponentBinding = (function(_super) {
+    __extends(ComponentBinding, _super);
+
+    function ComponentBinding(view, el, type) {
+      var attribute, bindingRegExp, propertyName, token, _i, _len, _ref1, _ref2;
+      this.view = view;
+      this.el = el;
+      this.type = type;
+      this.unbind = __bind(this.unbind, this);
+      this.bind = __bind(this.bind, this);
+      this.locals = __bind(this.locals, this);
+      this.component = this.view.components[this.type];
+      this["static"] = {};
+      this.observers = {};
+      this.upstreamObservers = {};
+      bindingRegExp = view.bindingRegExp();
+      _ref1 = this.el.attributes || [];
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        attribute = _ref1[_i];
+        if (!bindingRegExp.test(attribute.name)) {
+          propertyName = this.camelCase(attribute.name);
+          token = Rivets.TypeParser.parse(attribute.value);
+          if (__indexOf.call((_ref2 = this.component["static"]) != null ? _ref2 : [], propertyName) >= 0) {
+            this["static"][propertyName] = attribute.value;
+          } else if (token.type === Rivets.TypeParser.types.primitive) {
+            this["static"][propertyName] = token.value;
+          } else {
+            this.observers[propertyName] = attribute.value;
+          }
+        }
+      }
+    }
+
+    ComponentBinding.prototype.sync = function() {};
+
+    ComponentBinding.prototype.update = function() {};
+
+    ComponentBinding.prototype.publish = function() {};
+
+    ComponentBinding.prototype.locals = function() {
+      var key, observer, result, value, _ref1, _ref2;
+      result = {};
+      _ref1 = this["static"];
+      for (key in _ref1) {
+        value = _ref1[key];
+        result[key] = value;
+      }
+      _ref2 = this.observers;
+      for (key in _ref2) {
+        observer = _ref2[key];
+        result[key] = observer.value();
+      }
+      return result;
+    };
+
+    ComponentBinding.prototype.camelCase = function(string) {
+      return string.replace(/-([a-z])/g, function(grouped) {
+        return grouped[1].toUpperCase();
+      });
+    };
+
+    ComponentBinding.prototype.bind = function() {
+      var k, key, keypath, observer, option, options, scope, v, _base, _i, _j, _len, _len1, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7;
+      if (!this.bound) {
+        _ref1 = this.observers;
+        for (key in _ref1) {
+          keypath = _ref1[key];
+          this.observers[key] = this.observe(this.view.models, keypath, ((function(_this) {
+            return function(key) {
+              return function() {
+                return _this.componentView.models[key] = _this.observers[key].value();
+              };
+            };
+          })(this)).call(this, key));
+        }
+        this.bound = true;
+      }
+      if (this.componentView != null) {
+        this.componentView.bind();
+      } else {
+        this.el.innerHTML = this.component.template.call(this);
+        scope = this.component.initialize.call(this, this.el, this.locals());
+        this.el._bound = true;
+        options = {};
+        _ref2 = Rivets.extensions;
+        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+          option = _ref2[_i];
+          options[option] = {};
+          if (this.component[option]) {
+            _ref3 = this.component[option];
+            for (k in _ref3) {
+              v = _ref3[k];
+              options[option][k] = v;
+            }
+          }
+          _ref4 = this.view[option];
+          for (k in _ref4) {
+            v = _ref4[k];
+            if ((_base = options[option])[k] == null) {
+              _base[k] = v;
+            }
+          }
+        }
+        _ref5 = Rivets.options;
+        for (_j = 0, _len1 = _ref5.length; _j < _len1; _j++) {
+          option = _ref5[_j];
+          options[option] = (_ref6 = this.component[option]) != null ? _ref6 : this.view[option];
+        }
+        this.componentView = new Rivets.View(Array.prototype.slice.call(this.el.childNodes), scope, options);
+        this.componentView.bind();
+        _ref7 = this.observers;
+        for (key in _ref7) {
+          observer = _ref7[key];
+          this.upstreamObservers[key] = this.observe(this.componentView.models, key, ((function(_this) {
+            return function(key, observer) {
+              return function() {
+                return observer.setValue(_this.componentView.models[key]);
+              };
+            };
+          })(this)).call(this, key, observer));
+        }
+      }
+    };
+
+    ComponentBinding.prototype.unbind = function() {
+      var key, observer, _ref1, _ref2, _ref3;
+      _ref1 = this.upstreamObservers;
+      for (key in _ref1) {
+        observer = _ref1[key];
+        observer.unobserve();
+      }
+      _ref2 = this.observers;
+      for (key in _ref2) {
+        observer = _ref2[key];
+        observer.unobserve();
+      }
+      return (_ref3 = this.componentView) != null ? _ref3.unbind.call(this) : void 0;
+    };
+
+    return ComponentBinding;
+
+  })(Rivets.Binding);
+
+  Rivets.TextBinding = (function(_super) {
+    __extends(TextBinding, _super);
+
+    function TextBinding(view, el, type, keypath, options) {
+      this.view = view;
+      this.el = el;
+      this.type = type;
+      this.keypath = keypath;
+      this.options = options != null ? options : {};
+      this.sync = __bind(this.sync, this);
+      this.formatters = this.options.formatters || [];
+      this.dependencies = [];
+      this.formatterObservers = {};
+    }
+
+    TextBinding.prototype.binder = {
+      routine: function(node, value) {
+        return node.data = value != null ? value : '';
+      }
+    };
+
+    TextBinding.prototype.sync = function() {
+      return TextBinding.__super__.sync.apply(this, arguments);
+    };
+
+    return TextBinding;
+
+  })(Rivets.Binding);
+
+  Rivets["public"].binders.text = function(el, value) {
+    if (el.textContent != null) {
+      return el.textContent = value != null ? value : '';
+    } else {
+      return el.innerText = value != null ? value : '';
+    }
+  };
+
+  Rivets["public"].binders.html = function(el, value) {
+    return el.innerHTML = value != null ? value : '';
+  };
+
+  Rivets["public"].binders.show = function(el, value) {
+    return el.style.display = value ? '' : 'none';
+  };
+
+  Rivets["public"].binders.hide = function(el, value) {
+    return el.style.display = value ? 'none' : '';
+  };
+
+  Rivets["public"].binders.enabled = function(el, value) {
+    return el.disabled = !value;
+  };
+
+  Rivets["public"].binders.disabled = function(el, value) {
+    return el.disabled = !!value;
+  };
+
+  Rivets["public"].binders.checked = {
+    publishes: true,
+    priority: 2000,
+    bind: function(el) {
+      return Rivets.Util.bindEvent(el, 'change', this.publish);
+    },
+    unbind: function(el) {
+      return Rivets.Util.unbindEvent(el, 'change', this.publish);
+    },
+    routine: function(el, value) {
+      var _ref1;
+      if (el.type === 'radio') {
+        return el.checked = ((_ref1 = el.value) != null ? _ref1.toString() : void 0) === (value != null ? value.toString() : void 0);
+      } else {
+        return el.checked = !!value;
+      }
+    }
+  };
+
+  Rivets["public"].binders.unchecked = {
+    publishes: true,
+    priority: 2000,
+    bind: function(el) {
+      return Rivets.Util.bindEvent(el, 'change', this.publish);
+    },
+    unbind: function(el) {
+      return Rivets.Util.unbindEvent(el, 'change', this.publish);
+    },
+    routine: function(el, value) {
+      var _ref1;
+      if (el.type === 'radio') {
+        return el.checked = ((_ref1 = el.value) != null ? _ref1.toString() : void 0) !== (value != null ? value.toString() : void 0);
+      } else {
+        return el.checked = !value;
+      }
+    }
+  };
+
+  Rivets["public"].binders.value = {
+    publishes: true,
+    priority: 3000,
+    bind: function(el) {
+      if (!(el.tagName === 'INPUT' && el.type === 'radio')) {
+        this.event = el.tagName === 'SELECT' ? 'change' : 'input';
+        return Rivets.Util.bindEvent(el, this.event, this.publish);
+      }
+    },
+    unbind: function(el) {
+      if (!(el.tagName === 'INPUT' && el.type === 'radio')) {
+        return Rivets.Util.unbindEvent(el, this.event, this.publish);
+      }
+    },
+    routine: function(el, value) {
+      var o, _i, _len, _ref1, _ref2, _ref3, _results;
+      if (el.tagName === 'INPUT' && el.type === 'radio') {
+        return el.setAttribute('value', value);
+      } else if (window.jQuery != null) {
+        el = jQuery(el);
+        if ((value != null ? value.toString() : void 0) !== ((_ref1 = el.val()) != null ? _ref1.toString() : void 0)) {
+          return el.val(value != null ? value : '');
+        }
+      } else {
+        if (el.type === 'select-multiple') {
+          if (value != null) {
+            _results = [];
+            for (_i = 0, _len = el.length; _i < _len; _i++) {
+              o = el[_i];
+              _results.push(o.selected = (_ref2 = o.value, __indexOf.call(value, _ref2) >= 0));
+            }
+            return _results;
+          }
+        } else if ((value != null ? value.toString() : void 0) !== ((_ref3 = el.value) != null ? _ref3.toString() : void 0)) {
+          return el.value = value != null ? value : '';
+        }
+      }
+    }
+  };
+
+  Rivets["public"].binders["if"] = {
+    block: true,
+    priority: 4000,
+    bind: function(el) {
+      var attr, declaration;
+      if (this.marker == null) {
+        attr = [this.view.prefix, this.type].join('-').replace('--', '-');
+        declaration = el.getAttribute(attr);
+        this.marker = document.createComment(" rivets: " + this.type + " " + declaration + " ");
+        this.bound = false;
+        el.removeAttribute(attr);
+        el.parentNode.insertBefore(this.marker, el);
+        return el.parentNode.removeChild(el);
+      }
+    },
+    unbind: function() {
+      if (this.nested) {
+        this.nested.unbind();
+        return this.bound = false;
+      }
+    },
+    routine: function(el, value) {
+      var key, model, models, _ref1;
+      if (!!value === !this.bound) {
+        if (value) {
+          models = {};
+          _ref1 = this.view.models;
+          for (key in _ref1) {
+            model = _ref1[key];
+            models[key] = model;
+          }
+          (this.nested || (this.nested = new Rivets.View(el, models, this.view.options()))).bind();
+          this.marker.parentNode.insertBefore(el, this.marker.nextSibling);
+          return this.bound = true;
+        } else {
+          el.parentNode.removeChild(el);
+          this.nested.unbind();
+          return this.bound = false;
+        }
+      }
+    },
+    update: function(models) {
+      var _ref1;
+      return (_ref1 = this.nested) != null ? _ref1.update(models) : void 0;
+    }
+  };
+
+  Rivets["public"].binders.unless = {
+    block: true,
+    priority: 4000,
+    bind: function(el) {
+      return Rivets["public"].binders["if"].bind.call(this, el);
+    },
+    unbind: function() {
+      return Rivets["public"].binders["if"].unbind.call(this);
+    },
+    routine: function(el, value) {
+      return Rivets["public"].binders["if"].routine.call(this, el, !value);
+    },
+    update: function(models) {
+      return Rivets["public"].binders["if"].update.call(this, models);
+    }
+  };
+
+  Rivets["public"].binders['on-*'] = {
+    "function": true,
+    priority: 1000,
+    unbind: function(el) {
+      if (this.handler) {
+        return Rivets.Util.unbindEvent(el, this.args[0], this.handler);
+      }
+    },
+    routine: function(el, value) {
+      if (this.handler) {
+        Rivets.Util.unbindEvent(el, this.args[0], this.handler);
+      }
+      return Rivets.Util.bindEvent(el, this.args[0], this.handler = this.eventHandler(value));
+    }
+  };
+
+  Rivets["public"].binders['each-*'] = {
+    block: true,
+    priority: 4000,
+    bind: function(el) {
+      var attr, view, _i, _len, _ref1;
+      if (this.marker == null) {
+        attr = [this.view.prefix, this.type].join('-').replace('--', '-');
+        this.marker = document.createComment(" rivets: " + this.type + " ");
+        this.iterated = [];
+        el.removeAttribute(attr);
+        el.parentNode.insertBefore(this.marker, el);
+        el.parentNode.removeChild(el);
+      } else {
+        _ref1 = this.iterated;
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          view = _ref1[_i];
+          view.bind();
+        }
+      }
+    },
+    unbind: function(el) {
+      var view, _i, _len, _ref1;
+      if (this.iterated != null) {
+        _ref1 = this.iterated;
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          view = _ref1[_i];
+          view.unbind();
+        }
+      }
+    },
+    routine: function(el, collection) {
+      var binding, data, i, index, key, model, modelName, options, previous, template, view, _i, _j, _k, _len, _len1, _len2, _ref1, _ref2, _ref3;
+      modelName = this.args[0];
+      collection = collection || [];
+      if (this.iterated.length > collection.length) {
+        _ref1 = Array(this.iterated.length - collection.length);
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          i = _ref1[_i];
+          view = this.iterated.pop();
+          view.unbind();
+          this.marker.parentNode.removeChild(view.els[0]);
+        }
+      }
+      for (index = _j = 0, _len1 = collection.length; _j < _len1; index = ++_j) {
+        model = collection[index];
+        data = {
+          index: index
+        };
+        data[Rivets["public"].iterationAlias(modelName)] = index;
+        data[modelName] = model;
+        if (this.iterated[index] == null) {
+          _ref2 = this.view.models;
+          for (key in _ref2) {
+            model = _ref2[key];
+            if (data[key] == null) {
+              data[key] = model;
+            }
+          }
+          previous = this.iterated.length ? this.iterated[this.iterated.length - 1].els[0] : this.marker;
+          options = this.view.options();
+          options.preloadData = true;
+          template = el.cloneNode(true);
+          view = new Rivets.View(template, data, options);
+          view.bind();
+          this.iterated.push(view);
+          this.marker.parentNode.insertBefore(template, previous.nextSibling);
+        } else if (this.iterated[index].models[modelName] !== model) {
+          this.iterated[index].update(data);
+        }
+      }
+      if (el.nodeName === 'OPTION') {
+        _ref3 = this.view.bindings;
+        for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
+          binding = _ref3[_k];
+          if (binding.el === this.marker.parentNode && binding.type === 'value') {
+            binding.sync();
+          }
+        }
+      }
+    },
+    update: function(models) {
+      var data, key, model, view, _i, _len, _ref1;
+      data = {};
+      for (key in models) {
+        model = models[key];
+        if (key !== this.args[0]) {
+          data[key] = model;
+        }
+      }
+      _ref1 = this.iterated;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        view = _ref1[_i];
+        view.update(data);
+      }
+    }
+  };
+
+  Rivets["public"].binders['class-*'] = function(el, value) {
+    var elClass;
+    elClass = " " + el.className + " ";
+    if (!value === (elClass.indexOf(" " + this.args[0] + " ") !== -1)) {
+      return el.className = value ? "" + el.className + " " + this.args[0] : elClass.replace(" " + this.args[0] + " ", ' ').trim();
+    }
+  };
+
+  Rivets["public"].binders['*'] = function(el, value) {
+    if (value != null) {
+      return el.setAttribute(this.type, value);
+    } else {
+      return el.removeAttribute(this.type);
+    }
+  };
+
+  Rivets["public"].formatters['call'] = function() {
+    var args, value;
+    value = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+    return value.call.apply(value, [this].concat(__slice.call(args)));
+  };
+
+  Rivets["public"].adapters['.'] = {
+    id: '_rv',
+    counter: 0,
+    weakmap: {},
+    weakReference: function(obj) {
+      var id, _base, _name;
+      if (!obj.hasOwnProperty(this.id)) {
+        id = this.counter++;
+        Object.defineProperty(obj, this.id, {
+          value: id
+        });
+      }
+      return (_base = this.weakmap)[_name = obj[this.id]] || (_base[_name] = {
+        callbacks: {}
+      });
+    },
+    cleanupWeakReference: function(ref, id) {
+      if (!Object.keys(ref.callbacks).length) {
+        if (!(ref.pointers && Object.keys(ref.pointers).length)) {
+          return delete this.weakmap[id];
+        }
+      }
+    },
+    stubFunction: function(obj, fn) {
+      var map, original, weakmap;
+      original = obj[fn];
+      map = this.weakReference(obj);
+      weakmap = this.weakmap;
+      return obj[fn] = function() {
+        var callback, k, r, response, _i, _len, _ref1, _ref2, _ref3, _ref4;
+        response = original.apply(obj, arguments);
+        _ref1 = map.pointers;
+        for (r in _ref1) {
+          k = _ref1[r];
+          _ref4 = (_ref2 = (_ref3 = weakmap[r]) != null ? _ref3.callbacks[k] : void 0) != null ? _ref2 : [];
+          for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
+            callback = _ref4[_i];
+            callback();
+          }
+        }
+        return response;
+      };
+    },
+    observeMutations: function(obj, ref, keypath) {
+      var fn, functions, map, _base, _i, _len;
+      if (Array.isArray(obj)) {
+        map = this.weakReference(obj);
+        if (map.pointers == null) {
+          map.pointers = {};
+          functions = ['push', 'pop', 'shift', 'unshift', 'sort', 'reverse', 'splice'];
+          for (_i = 0, _len = functions.length; _i < _len; _i++) {
+            fn = functions[_i];
+            this.stubFunction(obj, fn);
+          }
+        }
+        if ((_base = map.pointers)[ref] == null) {
+          _base[ref] = [];
+        }
+        if (__indexOf.call(map.pointers[ref], keypath) < 0) {
+          return map.pointers[ref].push(keypath);
+        }
+      }
+    },
+    unobserveMutations: function(obj, ref, keypath) {
+      var idx, map, pointers;
+      if (Array.isArray(obj) && (obj[this.id] != null)) {
+        if (map = this.weakmap[obj[this.id]]) {
+          if (pointers = map.pointers[ref]) {
+            if ((idx = pointers.indexOf(keypath)) >= 0) {
+              pointers.splice(idx, 1);
+            }
+            if (!pointers.length) {
+              delete map.pointers[ref];
+            }
+            return this.cleanupWeakReference(map, obj[this.id]);
+          }
+        }
+      }
+    },
+    observe: function(obj, keypath, callback) {
+      var callbacks, desc, value;
+      callbacks = this.weakReference(obj).callbacks;
+      if (callbacks[keypath] == null) {
+        callbacks[keypath] = [];
+        desc = Object.getOwnPropertyDescriptor(obj, keypath);
+        if (!((desc != null ? desc.get : void 0) || (desc != null ? desc.set : void 0))) {
+          value = obj[keypath];
+          Object.defineProperty(obj, keypath, {
+            enumerable: true,
+            get: function() {
+              return value;
+            },
+            set: (function(_this) {
+              return function(newValue) {
+                var cb, map, _i, _len, _ref1;
+                if (newValue !== value) {
+                  _this.unobserveMutations(value, obj[_this.id], keypath);
+                  value = newValue;
+                  if (map = _this.weakmap[obj[_this.id]]) {
+                    callbacks = map.callbacks;
+                    if (callbacks[keypath]) {
+                      _ref1 = callbacks[keypath].slice();
+                      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+                        cb = _ref1[_i];
+                        if (__indexOf.call(callbacks[keypath], cb) >= 0) {
+                          cb();
+                        }
+                      }
+                    }
+                    return _this.observeMutations(newValue, obj[_this.id], keypath);
+                  }
+                }
+              };
+            })(this)
+          });
+        }
+      }
+      if (__indexOf.call(callbacks[keypath], callback) < 0) {
+        callbacks[keypath].push(callback);
+      }
+      return this.observeMutations(obj[keypath], obj[this.id], keypath);
+    },
+    unobserve: function(obj, keypath, callback) {
+      var callbacks, idx, map;
+      if (map = this.weakmap[obj[this.id]]) {
+        if (callbacks = map.callbacks[keypath]) {
+          if ((idx = callbacks.indexOf(callback)) >= 0) {
+            callbacks.splice(idx, 1);
+            if (!callbacks.length) {
+              delete map.callbacks[keypath];
+              this.unobserveMutations(obj[keypath], obj[this.id], keypath);
+            }
+          }
+          return this.cleanupWeakReference(map, obj[this.id]);
+        }
+      }
+    },
+    get: function(obj, keypath) {
+      return obj[keypath];
+    },
+    set: function(obj, keypath, value) {
+      return obj[keypath] = value;
+    }
+  };
+
+  Rivets.factory = function(sightglass) {
+    Rivets.sightglass = sightglass;
+    Rivets["public"]._ = Rivets;
+    return Rivets["public"];
+  };
+
+  if (typeof (typeof module !== "undefined" && module !== null ? module.exports : void 0) === 'object') {
+    module.exports = Rivets.factory(require('sightglass'));
+  } else if (typeof define === 'function' && define.amd) {
+    define(['sightglass'], function(sightglass) {
+      return this.rivets = Rivets.factory(sightglass);
+    });
+  } else {
+    this.rivets = Rivets.factory(sightglass);
+  }
+
+}).call(this);
+
+},{"sightglass":7}],7:[function(require,module,exports){
+(function() {
+  // Public sightglass interface.
+  function sightglass(obj, keypath, callback, options) {
+    return new Observer(obj, keypath, callback, options)
+  }
+
+  // Batteries not included.
+  sightglass.adapters = {}
+
+  // Constructs a new keypath observer and kicks things off.
+  function Observer(obj, keypath, callback, options) {
+    this.options = options || {}
+    this.options.adapters = this.options.adapters || {}
+    this.obj = obj
+    this.keypath = keypath
+    this.callback = callback
+    this.objectPath = []
+    this.update = this.update.bind(this)
+    this.parse()
+
+    if (isObject(this.target = this.realize())) {
+      this.set(true, this.key, this.target, this.callback)
+    }
+  }
+
+  // Tokenizes the provided keypath string into interface + path tokens for the
+  // observer to work with.
+  Observer.tokenize = function(keypath, interfaces, root) {
+    var tokens = []
+    var current = {i: root, path: ''}
+    var index, chr
+
+    for (index = 0; index < keypath.length; index++) {
+      chr = keypath.charAt(index)
+
+      if (!!~interfaces.indexOf(chr)) {
+        tokens.push(current)
+        current = {i: chr, path: ''}
+      } else {
+        current.path += chr
+      }
+    }
+
+    tokens.push(current)
+    return tokens
+  }
+
+  // Parses the keypath using the interfaces defined on the view. Sets variables
+  // for the tokenized keypath as well as the end key.
+  Observer.prototype.parse = function() {
+    var interfaces = this.interfaces()
+    var root, path
+
+    if (!interfaces.length) {
+      error('Must define at least one adapter interface.')
+    }
+
+    if (!!~interfaces.indexOf(this.keypath[0])) {
+      root = this.keypath[0]
+      path = this.keypath.substr(1)
+    } else {
+      if (typeof (root = this.options.root || sightglass.root) === 'undefined') {
+        error('Must define a default root adapter.')
+      }
+
+      path = this.keypath
+    }
+
+    this.tokens = Observer.tokenize(path, interfaces, root)
+    this.key = this.tokens.pop()
+  }
+
+  // Realizes the full keypath, attaching observers for every key and correcting
+  // old observers to any changed objects in the keypath.
+  Observer.prototype.realize = function() {
+    var current = this.obj
+    var unreached = false
+    var prev
+
+    this.tokens.forEach(function(token, index) {
+      if (isObject(current)) {
+        if (typeof this.objectPath[index] !== 'undefined') {
+          if (current !== (prev = this.objectPath[index])) {
+            this.set(false, token, prev, this.update)
+            this.set(true, token, current, this.update)
+            this.objectPath[index] = current
+          }
+        } else {
+          this.set(true, token, current, this.update)
+          this.objectPath[index] = current
+        }
+
+        current = this.get(token, current)
+      } else {
+        if (unreached === false) {
+          unreached = index
+        }
+
+        if (prev = this.objectPath[index]) {
+          this.set(false, token, prev, this.update)
+        }
+      }
+    }, this)
+
+    if (unreached !== false) {
+      this.objectPath.splice(unreached)
+    }
+
+    return current
+  }
+
+  // Updates the keypath. This is called when any intermediary key is changed.
+  Observer.prototype.update = function() {
+    var next, oldValue
+
+    if ((next = this.realize()) !== this.target) {
+      if (isObject(this.target)) {
+        this.set(false, this.key, this.target, this.callback)
+      }
+
+      if (isObject(next)) {
+        this.set(true, this.key, next, this.callback)
+      }
+
+      oldValue = this.value()
+      this.target = next
+
+      // Always call callback if value is a function. If not a function, call callback only if value changed
+      if (this.value() instanceof Function || this.value() !== oldValue) this.callback()
+    }
+  }
+
+  // Reads the current end value of the observed keypath. Returns undefined if
+  // the full keypath is unreachable.
+  Observer.prototype.value = function() {
+    if (isObject(this.target)) {
+      return this.get(this.key, this.target)
+    }
+  }
+
+  // Sets the current end value of the observed keypath. Calling setValue when
+  // the full keypath is unreachable is a no-op.
+  Observer.prototype.setValue = function(value) {
+    if (isObject(this.target)) {
+      this.adapter(this.key).set(this.target, this.key.path, value)
+    }
+  }
+
+  // Gets the provided key on an object.
+  Observer.prototype.get = function(key, obj) {
+    return this.adapter(key).get(obj, key.path)
+  }
+
+  // Observes or unobserves a callback on the object using the provided key.
+  Observer.prototype.set = function(active, key, obj, callback) {
+    var action = active ? 'observe' : 'unobserve'
+    this.adapter(key)[action](obj, key.path, callback)
+  }
+
+  // Returns an array of all unique adapter interfaces available.
+  Observer.prototype.interfaces = function() {
+    var interfaces = Object.keys(this.options.adapters)
+
+    Object.keys(sightglass.adapters).forEach(function(i) {
+      if (!~interfaces.indexOf(i)) {
+        interfaces.push(i)
+      }
+    })
+
+    return interfaces
+  }
+
+  // Convenience function to grab the adapter for a specific key.
+  Observer.prototype.adapter = function(key) {
+    return this.options.adapters[key.i] ||
+      sightglass.adapters[key.i]
+  }
+
+  // Unobserves the entire keypath.
+  Observer.prototype.unobserve = function() {
+    var obj
+
+    this.tokens.forEach(function(token, index) {
+      if (obj = this.objectPath[index]) {
+        this.set(false, token, obj, this.update)
+      }
+    }, this)
+
+    if (isObject(this.target)) {
+      this.set(false, this.key, this.target, this.callback)
+    }
+  }
+
+  // Check if a value is an object than can be observed.
+  function isObject(obj) {
+    return typeof obj === 'object' && obj !== null
+  }
+
+  // Error thrower.
+  function error(message) {
+    throw new Error('[sightglass] ' + message)
+  }
+
+  // Export module for Node and the browser.
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = sightglass
+  } else if (typeof define === 'function' && define.amd) {
+    define([], function() {
+      return this.sightglass = sightglass
+    })
+  } else {
+    this.sightglass = sightglass
+  }
+}).call(this);
+
+},{}],8:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Debug = require("debug");
+var $ = require("jquery");
+var Utils_1 = require("../Utils");
+var binders = {};
+exports.binders = binders;
+var debug = Debug('rivets:binders');
+binders.html = function (el, value) {
+    var $el = $(el);
+    if (!Utils_1.Utils.isString(value)) {
+        value = $el.attr('rv-html');
+    }
+    debug('rv-html', $el, value);
+    $(el).html(value);
+};
+binders['append-html'] = function (el, value) {
+    var $el = $(el);
+    if (!Utils_1.Utils.isString(value)) {
+        value = $el.attr('rv-append-html');
+    }
+    debug('rv-append-html', $el, value);
+    var htmlNodes = $.parseHTML(value);
+    $(el).append(htmlNodes);
+};
+binders.mailto = function (el, value) {
+    $(el).attr('href', 'mailto:' + value);
+};
+binders.tel = function (el, value) {
+    $(el).attr('href', 'tel:' + value);
+};
+binders['background-image'] = function (el, value) {
+    var $el = $(el);
+    $el.css('background-image', 'url(' + value + ')');
+};
+binders['image-box'] = function (el, value) {
+    var $el = $(el);
+    $el.addClass('image-box');
+    if (value) {
+        var ratioStrings = value.split(':');
+        var ratios = new Array();
+        ratios[0] = Number(ratioStrings[0]);
+        ratios[1] = Number(ratioStrings[1]);
+        var heightInPercent = ratios[1] / ratios[0] * 100;
+        var ratioClass = 'ratio-' + ratios[0] + '-' + ratios[1];
+        var style = 'padding-top: ' + heightInPercent + '%;';
+        $el.addClass(ratioClass);
+        $('head').append('<style>.image-box.' + ratioClass + ':before{' + style + '}</style>');
+        debug('ratio', value, style);
+    }
+};
+
+},{"../Utils":11,"debug":1,"jquery":3}],9:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Rivets = require("rivets");
+exports.Rivets = Rivets;
+var Utils_1 = require("../Utils");
+exports.Utils = Utils_1.Utils;
+var binders_1 = require("./binders");
+exports.binders = binders_1.binders;
+// use all custom binders
+Rivets.binders = Utils_1.Utils.concat(false, Rivets.binders, binders_1.binders);
+
+},{"../Utils":11,"./binders":8,"rivets":6}],10:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -11349,20 +13518,18 @@ var Tetris = function () {
 }();
 
 exports.Tetris = Tetris;
-},{"jquery":3}],8:[function(require,module,exports) {
+
+},{"jquery":3}],11:[function(require,module,exports){
 "use strict";
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Just an object with some helpful functions
- *
- * @type {Object}
- * @namespace Barba.Utils
- */
+var $ = require("jquery");
 
 var Utils = function () {
     function Utils() {
@@ -11370,124 +13537,157 @@ var Utils = function () {
     }
 
     _createClass(Utils, null, [{
-        key: "getCurrentUrl",
+        key: "isUndefined",
 
         /**
-         * Return the current url
-         *
-         * @memberOf Barba.Utils
-         * @return {string} currentUrl
+         * Check if value is undefined
          */
-        value: function getCurrentUrl() {
-            return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search;
+        value: function isUndefined(value) {
+            return typeof value === 'undefined';
         }
         /**
-         * Given an url, return it without the hash
-         *
-         * @memberOf Barba.Utils
-         * @private
-         * @param  {string} url
-         * @return {string} newCleanUrl
+         * Check if value is undefined
          */
 
     }, {
-        key: "cleanLink",
-        value: function cleanLink(url) {
-            return url.replace(/#.*/, '');
+        key: "isDefined",
+        value: function isDefined(value) {
+            return !this.isUndefined(value);
         }
         /**
-         * Start an XMLHttpRequest() and return a Promise
-         *
-         * @memberOf Barba.Utils
-         * @param  {string} url
-         * @return {Promise}
+         * Check if value is a function
          */
 
     }, {
-        key: "xhr",
-        value: function xhr(url) {
-            var deferred = this.deferred();
-            var req = new XMLHttpRequest();
-            req.onreadystatechange = function () {
-                if (req.readyState === 4) {
-                    if (req.status === 200) {
-                        return deferred.resolve(req.responseText);
-                    } else {
-                        return deferred.reject(new Error('xhr: HTTP code is not 200'));
-                    }
-                }
-            };
-            req.ontimeout = function () {
-                return deferred.reject(new Error('xhr: Timeout exceeded'));
-            };
-            req.open('GET', url);
-            req.timeout = this.xhrTimeout;
-            req.setRequestHeader('x-barba', 'yes');
-            req.send();
-            return deferred.promise;
+        key: "isFunction",
+        value: function isFunction(value) {
+            return typeof value === 'function';
         }
         /**
-         * Get obj and props and return a new object with the property merged
+         * Check if variable is an Array
+         * @see https://stackoverflow.com/a/4775737/1465919
+         */
+
+    }, {
+        key: "isArray",
+        value: function isArray(value) {
+            return Object.prototype.toString.call(value) === '[object Array]';
+        }
+        /**
+         * Check whether variable is number or string in JavaScript
+         * @see https://stackoverflow.com/a/1421988/1465919
+         */
+
+    }, {
+        key: "isNumbern",
+        value: function isNumbern(value) {
+            return !isNaN(parseFloat(value)) && !isNaN(value - 0);
+        }
+        /**
+         * heck if type is Object
+         * @see https://stackoverflow.com/a/4775737/1465919
+         */
+
+    }, {
+        key: "isObject",
+        value: function isObject(value) {
+            return this.isDefined(value) && (typeof value === "undefined" ? "undefined" : _typeof(value)) === 'object';
+        }
+        /**
+         * Check if type is Boolean
+         * @see https://stackoverflow.com/a/28814615/1465919
+         */
+
+    }, {
+        key: "isBoolean",
+        value: function isBoolean(value) {
+            return (typeof value === "undefined" ? "undefined" : _typeof(value)) === _typeof(true);
+        }
+        /**
+         * Check if value is a string
+         */
+
+    }, {
+        key: "isString",
+        value: function isString(value) {
+            return this.isDefined(value) && typeof value === 'string';
+        }
+        /**
+         * Check if string contains a number
+         */
+
+    }, {
+        key: "stringHasNumber",
+        value: function stringHasNumber(value) {
+            return this.isString(value) && /\d/.test(value);
+        }
+        /**
+         * Check if string contains only numbers
+         */
+
+    }, {
+        key: "stringHasOnlyNumber",
+        value: function stringHasOnlyNumber(value) {
+            return (/^\d+$/.test(value)
+            );
+        }
+        /**
+         * Check if string contains only numbers, +, - and ()
+         */
+
+    }, {
+        key: "stringIsPhoneNumber",
+        value: function stringIsPhoneNumber(value) {
+            return (/^[0-9 ()+-]+$/.test(value)
+            );
+        }
+        /**
+         * Just get the digits of a string, useful to remove px pixel from css value
          *
-         * @memberOf Barba.Utils
-         * @param  {object} obj
-         * @param  {any} props
-         * @return {object}
+         * @see http://stackoverflow.com/a/1100653/1465919
+         */
+
+    }, {
+        key: "justDigits",
+        value: function justDigits(str) {
+            var num = str.replace(/[^-\d\.]/g, '');
+            if (!Utils.isNumbern(num)) {
+                return 0;
+            } else {
+                return Number(num);
+            }
+        }
+        /**
+         * Merge the contents of two or more objects together into the first object.
+         * @param {boolean} deep If true, the merge becomes recursive (aka. deep copy).
+         * @param {object} target An object that will receive the new properties if additional objects are passed in or that will extend the jQuery namespace if it is the sole argument.
+         * @param {object} object1 An object containing additional properties to merge in.
+         * @param {object} objectN Additional objects containing properties to merge in.
          */
 
     }, {
         key: "extend",
-        value: function extend(obj, props) {
-            var newObj = Object.create(obj);
-            for (var prop in props) {
-                if (props.hasOwnProperty(prop)) {
-                    newObj[prop] = props[prop];
-                }
+        value: function extend(deep, target, object1, objectN) {
+            var result = void 0;
+            if (deep) {
+                result = $.extend(true, target, object1, objectN);
+            } else {
+                // Passing false for deep argument is not supported.
+                result = $.extend(target, object1, objectN);
             }
-            return newObj;
+            return result;
         }
         /**
-         * Return a new "Deferred" object
-         * https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred
-         *
-         * @memberOf Barba.Utils
-         * @return {IDeferred}
+         * Concat the contents of two objects together into the first object.
+         * @param {boolean} deep If true, the merge becomes recursive (aka. deep copy).
+         * @param {object} object1 An first object containing properties to concat.
+         * @param {object} object2 The second object containing properties to concat.
          */
 
     }, {
-        key: "deferred",
-        value: function deferred() {
-            var obj = {};
-            var prom = new Promise(function (resolve, reject) {
-                obj.resolve = resolve;
-                obj.reject = reject;
-            });
-            obj.promise = prom;
-            return obj;
-        }
-        /**
-         * Return the port number normalized, eventually you can pass a string to be normalized.
-         *
-         * @memberOf Barba.Utils
-         * @private
-         * @param  {String} p
-         * @return {Int} port
-         */
-
-    }, {
-        key: "getPort",
-        value: function getPort(p) {
-            var port = typeof p !== 'undefined' ? p : window.location.port;
-            var protocol = window.location.protocol;
-            if (port !== '') {
-                return Number(port);
-            }
-            if (protocol === 'http:') {
-                return 80;
-            }
-            if (protocol === 'https:') {
-                return 443;
-            }
+        key: "concat",
+        value: function concat(deep, object1, object2) {
+            return this.extend(deep, {}, object1, object2);
         }
     }]);
 
@@ -11495,7 +13695,8 @@ var Utils = function () {
 }();
 
 exports.Utils = Utils;
-},{}],5:[function(require,module,exports) {
+
+},{"jquery":3}],12:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -11575,88 +13776,8 @@ var BaseCache = function () {
 }();
 
 exports.BaseCache = BaseCache;
-},{"./Utils":8}],9:[function(require,module,exports) {
-"use strict";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Utils_1 = require("../Utils");
-/**
- * BaseTransition to extend
- *
- * @namespace Barba.BaseTransition
- * @type {Object}
- */
-
-var BaseTransition = function () {
-    function BaseTransition() {
-        _classCallCheck(this, BaseTransition);
-    }
-
-    _createClass(BaseTransition, [{
-        key: "extend",
-
-        /**
-         * Helper to extend the object
-         *
-         * @memberOf Barba.BaseTransition
-         * @param  {Object} newObject
-         * @return {Object} newInheritObject
-         */
-        value: function extend(obj) {
-            return Utils_1.Utils.extend(this, obj);
-        }
-        /**
-         * This function is called from Pjax module to initialize
-         * the transition.
-         *
-         * @memberOf Barba.BaseTransition
-         * @private
-         * @param  {HTMLElement} oldContainer
-         * @param  {Promise} newContainer
-         * @return {Promise}
-         */
-
-    }, {
-        key: "init",
-        value: function init($oldContainer, newContainer) {
-            var self = this;
-            this.$oldContainer = $oldContainer;
-            this.deferred = Utils_1.Utils.deferred();
-            var newContainerReady = Utils_1.Utils.deferred();
-            this.newContainerLoading = newContainerReady.promise;
-            this.start();
-            newContainer.then(function ($newContainer) {
-                self.$newContainer = $newContainer;
-                newContainerReady.resolve();
-            });
-            return this.deferred.promise;
-        }
-        /**
-         * This function needs to be called as soon the Transition is finished
-         *
-         * @memberOf Barba.BaseTransition
-         */
-
-    }, {
-        key: "done",
-        value: function done() {
-            // this.$oldContainer[0].parentNode.removeChild(this.$oldContainer[]);
-            this.$oldContainer.remove();
-            // this.newContainer.style.visibility = 'visible';
-            this.$newContainer.css('visibility', 'visible');
-            this.deferred.resolve();
-        }
-    }]);
-
-    return BaseTransition;
-}();
-
-exports.BaseTransition = BaseTransition;
-},{"../Utils":8}],7:[function(require,module,exports) {
+},{"./Utils":22}],13:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -11752,171 +13873,8 @@ var Dispatcher = function () {
 }();
 
 exports.Dispatcher = Dispatcher;
-},{}],6:[function(require,module,exports) {
-"use strict";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Dispatcher_1 = require("./Dispatcher");
-var Utils_1 = require("./Utils");
-/**
- * BaseView to be extended
- *
- * @namespace Barba.BaseView
- * @type {Object}
- */
-
-var BaseView = function () {
-    function BaseView() {
-        _classCallCheck(this, BaseView);
-
-        this.dispatcher = new Dispatcher_1.Dispatcher();
-    }
-    /**
-     * Helper to extend the object
-     *
-     * @memberOf Barba.BaseView
-     * @param  {Object} newObject
-     * @return {Object} newInheritObject
-     */
-
-
-    _createClass(BaseView, [{
-        key: "extend",
-        value: function extend(obj) {
-            return Utils_1.Utils.extend(this, obj);
-        }
-        /**
-         * Init the view.
-         * P.S. Is suggested to init the view before starting Barba.Pjax.start(),
-         * in this way .onEnter() and .onEnterCompleted() will be fired for the current
-         * container when the page is loaded.
-         *
-         * @memberOf Barba.BaseView
-         */
-
-    }, {
-        key: "init",
-        value: function init() {
-            var self = this;
-            this.dispatcher.on('initStateChange', function (newStatus, oldStatus) {
-                if (oldStatus && oldStatus.namespace === self.namespace) {
-                    self.onLeave();
-                }
-            });
-            this.dispatcher.on('newPageReady', function (newStatus, oldStatus, container) {
-                self.container = container;
-                if (newStatus.namespace === self.namespace) {
-                    self.onEnter();
-                }
-            });
-            this.dispatcher.on('transitionCompleted', function (newStatus, oldStatus) {
-                if (newStatus.namespace === self.namespace) {
-                    self.onEnterCompleted();
-                }
-                if (oldStatus && oldStatus.namespace === self.namespace) {
-                    self.onLeaveCompleted();
-                }
-            });
-        }
-    }]);
-
-    return BaseView;
-}();
-
-exports.BaseView = BaseView;
-},{"./Dispatcher":7,"./Utils":8}],11:[function(require,module,exports) {
-"use strict";
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * HistoryManager helps to keep track of the navigation
- *
- * @namespace Barba.HistoryManager
- * @type {Object}
- */
-
-var HistoryManager = function () {
-    function HistoryManager() {
-        _classCallCheck(this, HistoryManager);
-
-        /**
-         * Keep track of the status in historic order
-         *
-         * @memberOf Barba.HistoryManager
-         * @readOnly
-         * @type {Array}
-         */
-        this.history = new Array();
-        if (HistoryManager.instance) {
-            return HistoryManager.instance;
-        }
-        HistoryManager.instance = this;
-        return HistoryManager.instance;
-    }
-    /**
-     * Add a new set of url and namespace
-     *
-     * @memberOf Barba.HistoryManager
-     * @param {String} url
-     * @param {String} namespace
-     * @private
-     */
-
-
-    _createClass(HistoryManager, [{
-        key: "add",
-        value: function add(url, namespace) {
-            if (!namespace) {
-                namespace = undefined;
-            }
-            this.history.push({
-                namespace: namespace,
-                url: url
-            });
-        }
-        /**
-         * Return information about the current status
-         *
-         * @memberOf Barba.HistoryManager
-         * @return {Object}
-         */
-
-    }, {
-        key: "currentStatus",
-        value: function currentStatus() {
-            return this.history[this.history.length - 1];
-        }
-        /**
-         * Return information about the previous status
-         *
-         * @memberOf Barba.HistoryManager
-         * @return {Object}
-         */
-
-    }, {
-        key: "prevStatus",
-        value: function prevStatus() {
-            var history = this.history;
-            if (history.length < 2) {
-                return null;
-            }
-            return history[history.length - 2];
-        }
-    }]);
-
-    return HistoryManager;
-}();
-
-exports.HistoryManager = HistoryManager;
-},{}],12:[function(require,module,exports) {
+},{}],14:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -12075,68 +14033,114 @@ var Dom = function () {
 }();
 
 exports.Dom = Dom;
-},{"jquery":3}],16:[function(require,module,exports) {
+
+},{"jquery":3}],15:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 Object.defineProperty(exports, "__esModule", { value: true });
-var BaseTransition_1 = require("./BaseTransition");
 /**
- * Basic Transition object, wait for the new Container to be ready,
- * scroll top, and finish the transition (removing the old container and displaying the new one)
+ * HistoryManager helps to keep track of the navigation
  *
- * @private
- * @namespace Barba.HideShowTransition
- * @augments Barba.BaseTransition
+ * @namespace Barba.HistoryManager
+ * @type {Object}
  */
 
-var HideShowTransition = function (_BaseTransition_1$Bas) {
-    _inherits(HideShowTransition, _BaseTransition_1$Bas);
+var HistoryManager = function () {
+    function HistoryManager() {
+        _classCallCheck(this, HistoryManager);
 
-    function HideShowTransition() {
-        _classCallCheck(this, HideShowTransition);
-
-        return _possibleConstructorReturn(this, (HideShowTransition.__proto__ || Object.getPrototypeOf(HideShowTransition)).apply(this, arguments));
-    }
-
-    _createClass(HideShowTransition, [{
-        key: "start",
-        value: function start() {
-            this.newContainerLoading.then(this.finish.bind(this));
+        /**
+         * Keep track of the status in historic order
+         *
+         * @memberOf Barba.HistoryManager
+         * @readOnly
+         * @type {Array}
+         */
+        this.history = new Array();
+        if (HistoryManager.instance) {
+            return HistoryManager.instance;
         }
+        HistoryManager.instance = this;
+        return HistoryManager.instance;
+    }
+    /**
+     * Add a new set of url and namespace
+     *
+     * @memberOf Barba.HistoryManager
+     * @param {String} url
+     * @param {String} namespace
+     * @private
+     */
+
+
+    _createClass(HistoryManager, [{
+        key: "add",
+        value: function add(url, namespace) {
+            if (!namespace) {
+                namespace = undefined;
+            }
+            this.history.push({
+                namespace: namespace,
+                url: url
+            });
+        }
+        /**
+         * Return information about the current status
+         *
+         * @memberOf Barba.HistoryManager
+         * @return {Object}
+         */
+
     }, {
-        key: "finish",
-        value: function finish() {
-            document.body.scrollTop = 0;
-            this.done();
+        key: "currentStatus",
+        value: function currentStatus() {
+            return this.history[this.history.length - 1];
+        }
+        /**
+         * Return information about the previous status
+         *
+         * @memberOf Barba.HistoryManager
+         * @return {Object}
+         */
+
+    }, {
+        key: "prevStatus",
+        value: function prevStatus() {
+            var history = this.history;
+            if (history.length < 2) {
+                return null;
+            }
+            return history[history.length - 2];
         }
     }]);
 
-    return HideShowTransition;
-}(BaseTransition_1.BaseTransition);
+    return HistoryManager;
+}();
 
-exports.HideShowTransition = HideShowTransition;
-},{"./BaseTransition":9}],15:[function(require,module,exports) {
+exports.HistoryManager = HistoryManager;
+
+},{}],16:[function(require,module,exports){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var BaseTransition_1 = require("./BaseTransition");
-exports.BaseTransition = BaseTransition_1.BaseTransition;
-var HideShowTransition_1 = require("./HideShowTransition");
-exports.HideShowTransition = HideShowTransition_1.HideShowTransition;
-},{"./BaseTransition":9,"./HideShowTransition":16}],13:[function(require,module,exports) {
-"use strict";
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Cache_1 = require("../Cache");
@@ -12189,7 +14193,6 @@ var Pjax = function () {
      * @memberOf Barba.Pjax
      */
 
-
     _createClass(Pjax, [{
         key: "start",
         value: function start() {
@@ -12211,7 +14214,7 @@ var Pjax = function () {
             this.history.add(this.getCurrentUrl(), this.dom.getNamespace($container));
             // Fire for the current view.
             this.dispatcher.trigger('initStateChange', this.history.currentStatus());
-            this.dispatcher.trigger('newPageReady', this.history.currentStatus(), {}, $container, this.dom.currentHTML);
+            this.dispatcher.trigger('newPageReady', this.history.currentStatus(), {}, $container, this.dom.currentHTML, true);
             this.dispatcher.trigger('transitionCompleted', this.history.currentStatus());
             this.bindEvents();
         }
@@ -12451,7 +14454,7 @@ var Pjax = function () {
          *
          * @memberOf Barba.Pjax
          * @private
-         * @param {HTMLElement} container
+         * @param {JQuery<HTMLElement>} $container
          */
 
     }, {
@@ -12459,7 +14462,7 @@ var Pjax = function () {
         value: function onNewContainerLoaded($container) {
             var currentStatus = this.history.currentStatus();
             currentStatus.namespace = this.dom.getNamespace($container);
-            this.dispatcher.trigger('newPageReady', this.history.currentStatus(), this.history.prevStatus(), $container, this.dom.currentHTML);
+            this.dispatcher.trigger('newPageReady', this.history.currentStatus(), this.history.prevStatus(), $container, this.dom.currentHTML, false);
         }
         /**
          * Function called as soon the transition is finished
@@ -12480,7 +14483,8 @@ var Pjax = function () {
 }();
 
 exports.Pjax = Pjax;
-},{"../Cache":5,"../Dispatcher":7,"../Transition":15,"../Utils":8,"./Dom":12,"./HistoryManager":11}],14:[function(require,module,exports) {
+
+},{"../Cache":12,"../Dispatcher":13,"../Transition":21,"../Utils":22,"./Dom":14,"./HistoryManager":15}],17:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -12559,20 +14563,385 @@ var Prefetch = function () {
 }();
 
 exports.Prefetch = Prefetch;
-},{"../Utils":8,"./Pjax":13}],10:[function(require,module,exports) {
+
+},{"../Utils":22,"./Pjax":16}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var HistoryManager_1 = require("./HistoryManager");
 exports.HistoryManager = HistoryManager_1.HistoryManager;
-exports.IState = HistoryManager_1.IState;
 var Dom_1 = require("./Dom");
 exports.Dom = Dom_1.Dom;
 var Pjax_1 = require("./Pjax");
 exports.Pjax = Pjax_1.Pjax;
 var Prefetch_1 = require("./Prefetch");
 exports.Prefetch = Prefetch_1.Prefetch;
-},{"./HistoryManager":11,"./Dom":12,"./Pjax":13,"./Prefetch":14}],4:[function(require,module,exports) {
+
+},{"./Dom":14,"./HistoryManager":15,"./Pjax":16,"./Prefetch":17}],19:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Utils_1 = require("../Utils");
+/**
+ * BaseTransition to extend
+ *
+ * @namespace Barba.BaseTransition
+ * @type {Object}
+ */
+
+var BaseTransition = function () {
+    function BaseTransition() {
+        _classCallCheck(this, BaseTransition);
+    }
+
+    _createClass(BaseTransition, [{
+        key: "extend",
+
+        /**
+         * Helper to extend the object
+         *
+         * @memberOf Barba.BaseTransition
+         * @param  {Object} newObject
+         * @return {Object} newInheritObject
+         */
+        value: function extend(obj) {
+            return Utils_1.Utils.extend(this, obj);
+        }
+        /**
+         * This function is called from Pjax module to initialize
+         * the transition.
+         *
+         * @memberOf Barba.BaseTransition
+         * @private
+         * @param  {HTMLElement} oldContainer
+         * @param  {Promise} newContainer
+         * @return {Promise}
+         */
+
+    }, {
+        key: "init",
+        value: function init($oldContainer, newContainer) {
+            var self = this;
+            this.$oldContainer = $oldContainer;
+            this.deferred = Utils_1.Utils.deferred();
+            var newContainerReady = Utils_1.Utils.deferred();
+            this.newContainerLoading = newContainerReady.promise;
+            this.start();
+            newContainer.then(function ($newContainer) {
+                self.$newContainer = $newContainer;
+                newContainerReady.resolve();
+            });
+            return this.deferred.promise;
+        }
+        /**
+         * This function needs to be called as soon the Transition is finished
+         *
+         * @memberOf Barba.BaseTransition
+         */
+
+    }, {
+        key: "done",
+        value: function done() {
+            // this.$oldContainer[0].parentNode.removeChild(this.$oldContainer[]);
+            this.$oldContainer.remove();
+            // this.newContainer.style.visibility = 'visible';
+            this.$newContainer.css('visibility', 'visible');
+            this.deferred.resolve();
+        }
+    }]);
+
+    return BaseTransition;
+}();
+
+exports.BaseTransition = BaseTransition;
+
+},{"../Utils":22}],20:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var BaseTransition_1 = require("./BaseTransition");
+/**
+ * Basic Transition object, wait for the new Container to be ready,
+ * scroll top, and finish the transition (removing the old container and displaying the new one)
+ *
+ * @private
+ * @namespace Barba.HideShowTransition
+ * @augments Barba.BaseTransition
+ */
+
+var HideShowTransition = function (_BaseTransition_1$Bas) {
+    _inherits(HideShowTransition, _BaseTransition_1$Bas);
+
+    function HideShowTransition() {
+        _classCallCheck(this, HideShowTransition);
+
+        return _possibleConstructorReturn(this, (HideShowTransition.__proto__ || Object.getPrototypeOf(HideShowTransition)).apply(this, arguments));
+    }
+
+    _createClass(HideShowTransition, [{
+        key: "start",
+        value: function start() {
+            this.newContainerLoading.then(this.finish.bind(this));
+        }
+    }, {
+        key: "finish",
+        value: function finish() {
+            document.body.scrollTop = 0;
+            this.done();
+        }
+    }]);
+
+    return HideShowTransition;
+}(BaseTransition_1.BaseTransition);
+
+exports.HideShowTransition = HideShowTransition;
+
+},{"./BaseTransition":19}],21:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var BaseTransition_1 = require("./BaseTransition");
+exports.BaseTransition = BaseTransition_1.BaseTransition;
+var HideShowTransition_1 = require("./HideShowTransition");
+exports.HideShowTransition = HideShowTransition_1.HideShowTransition;
+
+},{"./BaseTransition":19,"./HideShowTransition":20}],22:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Just an object with some helpful functions
+ *
+ * @type {Object}
+ * @namespace Barba.Utils
+ */
+
+var Utils = function () {
+    function Utils() {
+        _classCallCheck(this, Utils);
+    }
+
+    _createClass(Utils, null, [{
+        key: "getCurrentUrl",
+
+        /**
+         * Return the current url
+         *
+         * @memberOf Barba.Utils
+         * @return {string} currentUrl
+         */
+        value: function getCurrentUrl() {
+            return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search;
+        }
+        /**
+         * Given an url, return it without the hash
+         *
+         * @memberOf Barba.Utils
+         * @private
+         * @param  {string} url
+         * @return {string} newCleanUrl
+         */
+
+    }, {
+        key: "cleanLink",
+        value: function cleanLink(url) {
+            return url.replace(/#.*/, '');
+        }
+        /**
+         * Start an XMLHttpRequest() and return a Promise
+         *
+         * @memberOf Barba.Utils
+         * @param  {string} url
+         * @return {Promise}
+         */
+
+    }, {
+        key: "xhr",
+        value: function xhr(url) {
+            var deferred = this.deferred();
+            var req = new XMLHttpRequest();
+            req.onreadystatechange = function () {
+                if (req.readyState === 4) {
+                    if (req.status === 200) {
+                        return deferred.resolve(req.responseText);
+                    } else {
+                        return deferred.reject(new Error('xhr: HTTP code is not 200'));
+                    }
+                }
+            };
+            req.ontimeout = function () {
+                return deferred.reject(new Error('xhr: Timeout exceeded'));
+            };
+            req.open('GET', url);
+            req.timeout = this.xhrTimeout;
+            req.setRequestHeader('x-barba', 'yes');
+            req.send();
+            return deferred.promise;
+        }
+        /**
+         * Get obj and props and return a new object with the property merged
+         *
+         * @memberOf Barba.Utils
+         * @param  {object} obj
+         * @param  {any} props
+         * @return {object}
+         */
+
+    }, {
+        key: "extend",
+        value: function extend(obj, props) {
+            var newObj = Object.create(obj);
+            for (var prop in props) {
+                if (props.hasOwnProperty(prop)) {
+                    newObj[prop] = props[prop];
+                }
+            }
+            return newObj;
+        }
+        /**
+         * Return a new "Deferred" object
+         * https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred
+         *
+         * @memberOf Barba.Utils
+         * @return {IDeferred}
+         */
+
+    }, {
+        key: "deferred",
+        value: function deferred() {
+            var obj = {};
+            var prom = new Promise(function (resolve, reject) {
+                obj.resolve = resolve;
+                obj.reject = reject;
+            });
+            obj.promise = prom;
+            return obj;
+        }
+        /**
+         * Return the port number normalized, eventually you can pass a string to be normalized.
+         *
+         * @memberOf Barba.Utils
+         * @private
+         * @param  {String} p
+         * @return {Int} port
+         */
+
+    }, {
+        key: "getPort",
+        value: function getPort(p) {
+            var port = typeof p !== 'undefined' ? p : window.location.port;
+            var protocol = window.location.protocol;
+            if (port !== '') {
+                return Number(port);
+            }
+            if (protocol === 'http:') {
+                return 80;
+            }
+            if (protocol === 'https:') {
+                return 443;
+            }
+        }
+    }]);
+
+    return Utils;
+}();
+
+exports.Utils = Utils;
+
+},{}],23:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Dispatcher_1 = require("./Dispatcher");
+var Utils_1 = require("./Utils");
+/**
+ * BaseView to be extended
+ *
+ * @namespace Barba.BaseView
+ * @type {Object}
+ */
+
+var BaseView = function () {
+    function BaseView() {
+        _classCallCheck(this, BaseView);
+
+        this.dispatcher = new Dispatcher_1.Dispatcher();
+    }
+    /**
+     * Helper to extend the object
+     *
+     * @memberOf Barba.BaseView
+     * @param  {Object} newObject
+     * @return {Object} newInheritObject
+     */
+
+
+    _createClass(BaseView, [{
+        key: "extend",
+        value: function extend(obj) {
+            return Utils_1.Utils.extend(this, obj);
+        }
+        /**
+         * Init the view.
+         * P.S. Is suggested to init the view before starting Barba.Pjax.start(),
+         * in this way .onEnter() and .onEnterCompleted() will be fired for the current
+         * container when the page is loaded.
+         *
+         * @memberOf Barba.BaseView
+         */
+
+    }, {
+        key: "init",
+        value: function init() {
+            var self = this;
+            this.dispatcher.on('initStateChange', function (newStatus, oldStatus) {
+                if (oldStatus && oldStatus.namespace === self.namespace) {
+                    self.onLeave();
+                }
+            });
+            this.dispatcher.on('newPageReady', function (newStatus, oldStatus, container) {
+                self.container = container;
+                if (newStatus.namespace === self.namespace) {
+                    self.onEnter();
+                }
+            });
+            this.dispatcher.on('transitionCompleted', function (newStatus, oldStatus) {
+                if (newStatus.namespace === self.namespace) {
+                    self.onEnterCompleted();
+                }
+                if (oldStatus && oldStatus.namespace === self.namespace) {
+                    self.onLeaveCompleted();
+                }
+            });
+        }
+    }]);
+
+    return BaseView;
+}();
+
+exports.BaseView = BaseView;
+
+},{"./Dispatcher":13,"./Utils":22}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -12586,48 +14955,31 @@ var Dispatcher_1 = require("./Dispatcher");
 exports.Dispatcher = Dispatcher_1.Dispatcher;
 var Pjax_1 = require("./Pjax");
 exports.HistoryManager = Pjax_1.HistoryManager;
-exports.IState = Pjax_1.IState;
 exports.Pjax = Pjax_1.Pjax;
 exports.Prefetch = Pjax_1.Prefetch;
 var Utils_1 = require("./Utils");
 exports.Utils = Utils_1.Utils;
-},{"./Cache":5,"./Transition/BaseTransition":9,"./View":6,"./Dispatcher":7,"./Pjax":10,"./Utils":8}],1:[function(require,module,exports) {
+
+},{"./Cache":12,"./Dispatcher":13,"./Pjax":18,"./Transition/BaseTransition":19,"./Utils":22,"./View":23}],25:[function(require,module,exports){
 "use strict";
 
-var __importStar = this && this.__importStar || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) {
-        if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    }result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var $ = require("jquery"); // not working on parcel.js: import * as $ from 'jquery';
+// import Rivets = require('rivets');
+var Rivets_1 = require("./Rivets");
+// import { from, Observable, of, range, ReplaySubject, Subject } from 'rxjs';
+var Barba = require("./barba");
 var Tetris_1 = require("./Tetris");
-var Barba = __importStar(require("./barba"));
-// import '../scss/static/theme.scss';
-// declare global {
-//   interface Window {
-//     $: any;
-//   }
-//   interface Window {  }
-// }
-// window.jQuery = $;
-// window.Barba = Barba;
-// window.rivets = Rivets;
-// let $el: JQuery<HTMLElement>
-// console.log('Barba', Barba);
-// console.log('Rivets', Rivets);
 var initBarba = function initBarba() {
     // console.log('initBarba');
     var prefetch = new Barba.Prefetch();
     var dispatcher = new Barba.Dispatcher();
     var pjax = new Barba.Pjax();
     prefetch.init();
-    dispatcher.on('newPageReady', function (currentStatus, prevStatus, $container, newPageRawHTML) {
+    dispatcher.on('newPageReady', function (currentStatus, prevStatus, $container, newPageRawHTML, isInit) {
         // init Template
         var data = $container.data();
+        Rivets_1.Rivets.bind($container, window.model);
         // console.log('newPageReady', currentStatus, );
         if (data.template === 'page.tetris') {
             var tetris = new Tetris_1.Tetris();
@@ -12638,177 +14990,10 @@ var initBarba = function initBarba() {
 };
 $(function () {
     initBarba();
+    Rivets_1.Rivets.bind($('#rivets-top, #rivets-bottom'), window.model);
 });
 // TODO slideshow inpirated by https://slideout.js.org/
-},{"jquery":3,"./Tetris":2,"./barba":4}],18:[function(require,module,exports) {
-var global = arguments[3];
-var OVERLAY_ID = '__parcel__error__overlay__';
 
-var OldModule = module.bundle.Module;
+},{"./Rivets":9,"./Tetris":10,"./barba":24,"jquery":3}]},{},[25])
 
-function Module(moduleName) {
-  OldModule.call(this, moduleName);
-  this.hot = {
-    data: module.bundle.hotData,
-    _acceptCallbacks: [],
-    _disposeCallbacks: [],
-    accept: function (fn) {
-      this._acceptCallbacks.push(fn || function () {});
-    },
-    dispose: function (fn) {
-      this._disposeCallbacks.push(fn);
-    }
-  };
-
-  module.bundle.hotData = null;
-}
-
-module.bundle.Module = Module;
-
-var parent = module.bundle.parent;
-if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
-  var hostname = 'localhost' || location.hostname;
-  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '8080' + '/');
-  ws.onmessage = function (event) {
-    var data = JSON.parse(event.data);
-
-    if (data.type === 'update') {
-      data.assets.forEach(function (asset) {
-        hmrApply(global.parcelRequire, asset);
-      });
-
-      data.assets.forEach(function (asset) {
-        if (!asset.isNew) {
-          hmrAccept(global.parcelRequire, asset.id);
-        }
-      });
-      // Clear the console after HMR
-      console.clear();
-    }
-
-    if (data.type === 'reload') {
-      ws.close();
-      ws.onclose = function () {
-        location.reload();
-      };
-    }
-
-    if (data.type === 'error-resolved') {
-      console.log('[parcel] ✨ Error resolved');
-
-      removeErrorOverlay();
-    }
-
-    if (data.type === 'error') {
-      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
-
-      removeErrorOverlay();
-
-      var overlay = createErrorOverlay(data);
-      document.body.appendChild(overlay);
-    }
-  };
-}
-
-function removeErrorOverlay() {
-  var overlay = document.getElementById(OVERLAY_ID);
-  if (overlay) {
-    overlay.remove();
-  }
-}
-
-function createErrorOverlay(data) {
-  var overlay = document.createElement('div');
-  overlay.id = OVERLAY_ID;
-
-  // html encode message and stack trace
-  var message = document.createElement('div');
-  var stackTrace = document.createElement('pre');
-  message.innerText = data.error.message;
-  stackTrace.innerText = data.error.stack;
-
-  overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
-
-  return overlay;
-}
-
-function getParents(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return [];
-  }
-
-  var parents = [];
-  var k, d, dep;
-
-  for (k in modules) {
-    for (d in modules[k][1]) {
-      dep = modules[k][1][d];
-      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
-        parents.push(+k);
-      }
-    }
-  }
-
-  if (bundle.parent) {
-    parents = parents.concat(getParents(bundle.parent, id));
-  }
-
-  return parents;
-}
-
-function hmrApply(bundle, asset) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-
-  if (modules[asset.id] || !bundle.parent) {
-    var fn = new Function('require', 'module', 'exports', asset.generated.js);
-    asset.isNew = !modules[asset.id];
-    modules[asset.id] = [fn, asset.deps];
-  } else if (bundle.parent) {
-    hmrApply(bundle.parent, asset);
-  }
-}
-
-function hmrAccept(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-
-  if (!modules[id] && bundle.parent) {
-    return hmrAccept(bundle.parent, id);
-  }
-
-  var cached = bundle.cache[id];
-  bundle.hotData = {};
-  if (cached) {
-    cached.hot.data = bundle.hotData;
-  }
-
-  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
-    cached.hot._disposeCallbacks.forEach(function (cb) {
-      cb(bundle.hotData);
-    });
-  }
-
-  delete bundle.cache[id];
-  bundle(id);
-
-  cached = bundle.cache[id];
-  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
-    cached.hot._acceptCallbacks.forEach(function (cb) {
-      cb();
-    });
-    return true;
-  }
-
-  return getParents(global.parcelRequire, id).some(function (id) {
-    return hmrAccept(global.parcelRequire, id);
-  });
-}
-},{}]},{},[18,1], null)
-//# sourceMappingURL=/bundle.map
+//# sourceMappingURL=bundle.js.map

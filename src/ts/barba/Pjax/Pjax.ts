@@ -91,6 +91,7 @@ class Pjax {
       {},
       $container,
       this.dom.currentHTML,
+      true, // true if this is the first time newPageReady is tiggered / true on initialisation
     );
     this.dispatcher.trigger('transitionCompleted', this.history.currentStatus());
     this.bindEvents();
@@ -365,9 +366,9 @@ class Pjax {
   *
   * @memberOf Barba.Pjax
   * @private
-  * @param {HTMLElement} container
+  * @param {JQuery<HTMLElement>} $container
   */
-  public onNewContainerLoaded($container: JQuery<HTMLElement>) {
+ protected onNewContainerLoaded($container: JQuery<HTMLElement>) {
     const currentStatus = this.history.currentStatus();
     currentStatus.namespace = this.dom.getNamespace($container);
 
@@ -376,6 +377,7 @@ class Pjax {
       this.history.prevStatus(),
       $container,
       this.dom.currentHTML,
+      false, // true if this is the first time newPageReady is tiggered / true on initialisation
     );
   }
 
@@ -385,7 +387,7 @@ class Pjax {
   * @memberOf Barba.Pjax
   * @private
   */
-  public onTransitionEnd() {
+  protected onTransitionEnd() {
     this.transitionProgress = false;
 
     this.dispatcher.trigger('transitionCompleted',

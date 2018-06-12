@@ -1,5 +1,7 @@
-interface IEvent {
-  [eventName: string]: Array<(any)>;
+type EventCallback = (...args: any[]) => any;
+
+interface IEvents {
+  [eventName: string]: EventCallback[];
 }
 
 /**
@@ -17,7 +19,7 @@ class Dispatcher {
    * @readOnly
    * @type {Object}
    */
-  private events: IEvent = {};
+  private events: IEvents = {};
 
   constructor() {
     if (Dispatcher.instance) {
@@ -34,7 +36,7 @@ class Dispatcher {
    * @param  {string} eventName
    * @param  {Function} function
    */
-  public on(e: string, f: any) {
+  public on(e: string, f: EventCallback) {
     this.events[e] = this.events[e] || [];
     this.events[e].push(f);
   }
@@ -46,7 +48,7 @@ class Dispatcher {
    * @param  {string} eventName
    * @param  {Function} function
    */
-  public off(e: string, f: any) {
+  public off(e: string, f: EventCallback) {
     if (e in this.events === false) {
       return;
     }

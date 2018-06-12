@@ -31,15 +31,19 @@
 
 <body id="{{ page_title | handle }}">
 
-  {% include 'jumplink-navigation' %}
+  <div id="rivets-top">
+    {% include 'jumplink-navigation' %}
+  </div>
 
   <div id="barba-wrapper">
     <div class="barba-container" {% include 'jumplink-utils-barba-container-attributes' %}>
       {{ content_for_layout }}
     </div>
   </div>
-
-  {% include 'jumplink-footer' %}
+  
+  <div id="rivets-bottom">
+    {% include 'jumplink-footer' %}
+  </div>
 
 </body>
 </html>

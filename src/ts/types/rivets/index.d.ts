@@ -16,7 +16,7 @@ declare module 'rivets' {
   }
 
     // Global binders.
-  export let binders: object;
+  export let binders: any;
 
   // Global components.
   export let components: object;
@@ -25,7 +25,7 @@ declare module 'rivets' {
   export let formatters: object;
 
   // Global sightglass adapters.
-  export let adapters: object;
+  export let adapters: any;
 
   // Default attribute prefix.
   export let prefix: string;

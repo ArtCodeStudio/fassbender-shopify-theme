@@ -128,14 +128,6 @@ gulp.task('build:ts:webpack', function() {
 });
 
 /**
- * Build typescript files to bundle.js with parcel.js
- */
-gulp.task('build:ts:parcel', function() {
-  return shell.task('parcel build ./src/ts/main.ts --out-dir theme/assets --out-file bundle.js');
-});
-
-
-/**
  * concat all dynamic scss files to let it build from shopify's scss implementation on the server
  * TODO use https://www.npmjs.com/package/gulp-shopify-sass
  */
@@ -191,7 +183,7 @@ gulp.task('theme_settings', function () {
 
 gulp.task('watch:scss', function () {
   // watch for sass changes
-  gulp.watch([
+  return gulp.watch([
     './src/scss/**/*.scss.liquid',
     './src/scss/**/*.scss'
   ], ['build:scss']);
@@ -200,24 +192,22 @@ gulp.task('watch:scss', function () {
 gulp.task('watch:ts:browserify', watchBrowserify);
 
 gulp.task('watch:ts:webpack', function() {
-  var config = webpackConfig;
-  config.watch = true;
+  var webpackWatchConfig = webpackConfig;
+  webpackWatchConfig.watch = true;
   return gulp.src('src/ts/main.ts')
-    .pipe(gulpWebpack(config, webpack))
+    .pipe(gulpWebpack(webpackWatchConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
 });
 
 
-gulp.task('watch:ts:parcel',
-  shell.task('parcel watch ./src/ts/main.ts --out-dir theme/assets --out-file bundle.js --https --hmr-hostname localhost')
-);
+gulp.task('watch:ts:parcel', shell.task('parcel watch ./src/ts/main.ts --out-dir theme/assets --out-file bundle.js --hmr-hostname localhost'));
 
 gulp.task('build:scss', ['build:scss:static', 'build:scss:dynamic']);
 
 gulp.task('watch:theme', shell.task('cd ./theme; theme watch --force'));
 
-gulp.task('watch', ['watch:scss', 'watch:ts:parcel', 'watch:theme']);
+gulp.task('watch', ['watch:scss', 'watch:ts:browserify', 'watch:theme']);
 
-gulp.task('build', ['build:scss', 'build:ts:parcel']);
+gulp.task('build', ['build:scss', 'build:ts:browserify']);
 
 gulp.task('default', ['watch']);

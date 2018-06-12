@@ -4,6 +4,10 @@
 
 <script>
 
+  window.model = window.model || {};
+
+  window.model.system = {};
+
   {% assign quote = '"' %}
   {% assign escapedQuote = '\"' %}
 
@@ -65,72 +69,62 @@
   /**
   * Theme Settings
   */
-  window.settings = {{ settings | json }};
-  window.settings.nested = adhesiveKeyObjectToNestedObject(window.settings, '_');
-
-  /**
-  * Navigation
-  */
-  window.settings.linklists = {};
-
-  /**
-  * General
-  */
-  window.general = window.general || {};
-
+  window.model.system.themeSettings = adhesiveKeyObjectToNestedObject({{ settings | json }}, '_');
 
   /**
    * Cart
+   * This is dynamic
    */
-  window.cart = window.cart || {{ cart | json }};
+  // window.model.system.cart = window.cart || {{ cart | json }};
 
   /**
-   * Product
+   * Urls
    */
-  window.product = window.product || {};
-  window.product.noImageSrc = "{{ 'no-image.png' | asset_url }}";
+  window.model.system.urls = window.urls || {};
+  window.model.system.urls.noImageSrc = "{{ 'no-image.png' | asset_url }}";
 
   /**
    * Translations
    */
-  window.translations = window.translations || {};
+  window.model.system.translations = window.model.system.translations || {};
 
-  window.translations.cart = {};
-  window.translations.cart.general = {};
-  window.translations.cart.general.add_to_cart = {{ 'cart.general.add_to_cart' | t | json }};
-  window.translations.cart.general.pre_order = {{ 'cart.general.pre_order' | t | json }};
-  window.translations.cart.general.empty = {{ 'cart.general.empty' | t | json }};
-  window.translations.cart.general.savings_html = {{ 'cart.general.savings_html' | t: price: '[savings]' | json }};
-  window.translations.cart.general.added = {{ 'cart.general.added' | t | json }};
-  window.translations.cart.general.removed = {{ 'cart.general.removed' | t | json }};
-  window.translations.cart.general.updated = {{ 'cart.general.updated' | t | json }};
-  window.translations.cart.general.can_not_add_to_cart = {{ 'cart.general.can_not_add_to_cart' | t | json }};
+  window.model.system.translations.cart = {};
+  window.model.system.translations.cart.general = {};
+  window.model.system.translations.cart.general.add_to_cart = {{ 'cart.general.add_to_cart' | t | json }};
+  window.model.system.translations.cart.general.pre_order = {{ 'cart.general.pre_order' | t | json }};
+  window.model.system.translations.cart.general.empty = {{ 'cart.general.empty' | t | json }};
+  window.model.system.translations.cart.general.savings_html = {{ 'cart.general.savings_html' | t: price: '[savings]' | json }};
+  window.model.system.translations.cart.general.added = {{ 'cart.general.added' | t | json }};
+  window.model.system.translations.cart.general.removed = {{ 'cart.general.removed' | t | json }};
+  window.model.system.translations.cart.general.updated = {{ 'cart.general.updated' | t | json }};
+  window.model.system.translations.cart.general.can_not_add_to_cart = {{ 'cart.general.can_not_add_to_cart' | t | json }};
 
-  window.translations.product = {};
-  window.translations.product.general = {};
-  window.translations.product.general.sold_out = {{ 'product.general.sold_out' | t | json }};
-  window.translations.product.general.available = {{ 'product.general.available' | t | json }};
-  window.translations.product.general.backordner_possible = {{ 'product.general.backordner_possible' | t | json }};
-  window.translations.product.general.unavailable = {{ 'product.general.unavailable' | t | json }};
-  window.translations.product.general.legal_price_text = {{ 'product.general.legal_price_text' | t: vat_rate: '[vat_rate]' | json }};
+  window.model.system.translations.product = {};
+  window.model.system.translations.product.general = {};
+  window.model.system.translations.product.general.sold_out = {{ 'product.general.sold_out' | t | json }};
+  window.model.system.translations.product.general.available = {{ 'product.general.available' | t | json }};
+  window.model.system.translations.product.general.backordner_possible = {{ 'product.general.backordner_possible' | t | json }};
+  window.model.system.translations.product.general.unavailable = {{ 'product.general.unavailable' | t | json }};
+  window.model.system.translations.product.general.legal_price_text = {{ 'product.general.legal_price_text' | t: vat_rate: '[vat_rate]' | json }};
 
-  window.translations.wishlist = {};
-  window.translations.wishlist.general = {};
-  window.translations.wishlist.general.wishlist = {{ 'wishlist.general.wishlist' | t | json }};
-  window.translations.wishlist.general.empty = {{ 'wishlist.general.empty' | t | json }};
-  window.translations.wishlist.general.empty_message = {{ 'wishlist.general.empty_message' | t | json }};
-  window.translations.wishlist.general.login_text = {{ 'wishlist.general.login_text' | t | json }};
-  window.translations.wishlist.general.added = {{ 'wishlist.general.added' | t: title: '[title]' | json }};
-  window.translations.wishlist.general.removed = {{ 'wishlist.general.removed' | t: title: '[title]' | json }};
-  window.translations.wishlist.general.clear = {{ 'wishlist.general.clear' | t | json }};
-  window.translations.wishlist.general.emptied = {{ 'wishlist.general.emptied' | t | json }};
-  window.translations.wishlist.general.remove = {{ 'wishlist.general.remove' | t | json }};
-  window.translations.wishlist.general.add = {{ 'wishlist.general.add' | t | json }};
-  window.translations.wishlist.general.show = {{ 'wishlist.general.show' | t | json }};
-  window.translations.wishlist.general.continue = {{ 'wishlist.general.continue' | t | json }};
+  window.model.system.translations.wishlist = {};
+  window.model.system.translations.wishlist.general = {};
+  window.model.system.translations.wishlist.general.wishlist = {{ 'wishlist.general.wishlist' | t | json }};
+  window.model.system.translations.wishlist.general.empty = {{ 'wishlist.general.empty' | t | json }};
+  window.model.system.translations.wishlist.general.empty_message = {{ 'wishlist.general.empty_message' | t | json }};
+  window.model.system.translations.wishlist.general.login_text = {{ 'wishlist.general.login_text' | t | json }};
+  window.model.system.translations.wishlist.general.added = {{ 'wishlist.general.added' | t: title: '[title]' | json }};
+  window.model.system.translations.wishlist.general.removed = {{ 'wishlist.general.removed' | t: title: '[title]' | json }};
+  window.model.system.translations.wishlist.general.clear = {{ 'wishlist.general.clear' | t | json }};
+  window.model.system.translations.wishlist.general.emptied = {{ 'wishlist.general.emptied' | t | json }};
+  window.model.system.translations.wishlist.general.remove = {{ 'wishlist.general.remove' | t | json }};
+  window.model.system.translations.wishlist.general.add = {{ 'wishlist.general.add' | t | json }};
+  window.model.system.translations.wishlist.general.show = {{ 'wishlist.general.show' | t | json }};
+  window.model.system.translations.wishlist.general.continue = {{ 'wishlist.general.continue' | t | json }};
 
-  window.customer = {% include 'jumplink-utils-json-customer' %}; // {{ customer | json }} not allowed for this object
-  window.settings.linklists = {% include 'jumplink-utils-json-linklists' %}; // {{ linklists | json }} not allowed for this object
+  window.model.system.customer = {% include 'jumplink-utils-json-customer' %}; // {{ customer | json }} not allowed for this object
+  
+  window.model.system.linklists = {% include 'jumplink-utils-json-linklists' %}; // {{ linklists | json }} not allowed for this object
 
   /**
   * Money / Currency
@@ -138,7 +132,7 @@
   * @see https://help.shopify.com/themes/liquid/filters/money-filters
   * @see https://help.shopify.com/manual/payment-settings/currency-formatting
   */
-  var setShopifyCurrencyFormatter = function (moneyString) {
+  window.model.system.setShopifyCurrencyFormatter = function (moneyString) {
 
     if(moneyString.indexOf('1,134.65') > -1) {
       return moneyString.replace('1,134.65', '{% raw %}{{ amount }}{% endraw %}');
@@ -172,38 +166,37 @@
 
 
   /**
-  * Shop
+  * shop settings
   */
-  window.shop =   window.shop || {};
+  window.model.system.shopSettings = window.model.system.shopSettings || {};
   
-  window.shop.money_with_currency_format = {{ shop.money_with_currency_format | json }};
-  window.shop.money_format = setShopifyCurrencyFormatter(moneyString);
-  window.shop.moneyFormat = window.shop.money_format;
-  window.shop.moneyWithCurrencyFormat = window.shop.money_with_currency_format;
+  window.model.system.shopSettings.money_with_currency_format = {{ shop.money_with_currency_format | json }};
+  window.model.system.shopSettings.money_format = window.model.system.setShopifyCurrencyFormatter(moneyString);
+  window.model.system.shopSettings.moneyFormat = window.model.system.shopSettings.money_format;
+  window.model.system.shopSettings.moneyWithCurrencyFormat = window.model.system.shopSettings.money_with_currency_format;
 
-  window.shop.collections_count = {{ shop.collections_count | json }};
-  window.shop.currency = {{ shop.currency | json }};
-  window.shop.description = {{ shop.description | json }};
-  window.shop.domain = '{{ shop.domain }}';
-  window.shop.email = {{ shop.email | json }};
-  window.shop.enabled_payment_types = {{ shop.enabled_payment_types | json }};
-  window.shop.metafields = {{ shop.metafields | json }};
-  window.shop.money_with_currency_format = {{ shop.money_with_currency_format | json }};
-  window.shop.name = {{ shop.name | json }};
-  window.shop.permanent_domain = {{ shop.permanent_domain | json }};
-  window.shop.products_count = {{ shop.products_count | json }};
-  window.shop.types = {{ shop.types | json }};
-  window.shop.url = {{ shop.url | json }};
-  window.shop.secure_url = {{ shop.secure_url | json }};
-  window.shop.vendors = {{ shop.vendors | json }};
-  window.shop.locale = {{ shop.locale | json }};
+  window.model.system.shopSettings.collections_count = {{ shop.collections_count | json }};
+  window.model.system.shopSettings.currency = {{ shop.currency | json }};
+  window.model.system.shopSettings.description = {{ shop.description | json }};
+  window.model.system.shopSettings.domain = '{{ shop.domain }}';
+  window.model.system.shopSettings.email = {{ shop.email | json }};
+  window.model.system.shopSettings.enabled_payment_types = {{ shop.enabled_payment_types | json }};
+  window.model.system.shopSettings.metafields = {{ shop.metafields | json }};
+  window.model.system.shopSettings.name = {{ shop.name | json }};
+  window.model.system.shopSettings.permanent_domain = {{ shop.permanent_domain | json }};
+  window.model.system.shopSettings.products_count = {{ shop.products_count | json }};
+  window.model.system.shopSettings.types = {{ shop.types | json }};
+  window.model.system.shopSettings.url = {{ shop.url | json }};
+  window.model.system.shopSettings.secure_url = {{ shop.secure_url | json }};
+  window.model.system.shopSettings.vendors = {{ shop.vendors | json }};
+  window.model.system.shopSettings.locale = {{ shop.locale | json }};
 
   /**
    * Templates
    */
-  window.templates = window.templates || {}
+  window.model.system.templates = window.model.system.templates || {}
 
   {% capture tplJumplinkInstafeedItem %}{% include 'jumplink-tpl-instafeed-item' %}{% endcapture %}
-  window.templates.instafeedItem  = "{{ tplJumplinkInstafeedItem | strip_newlines | replace: quote, escapedQuote }}";
+  window.model.system.templates.instafeedItem  = "{{ tplJumplinkInstafeedItem | strip_newlines | replace: quote, escapedQuote }}";
 
 </script>

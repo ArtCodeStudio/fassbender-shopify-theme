@@ -1,29 +1,17 @@
 import * as Debug from 'debug';
 import $ = require('jquery'); // not working on parcel.js: import * as $ from 'jquery';
-import * as Rivets from 'rivets';
+// import Rivets = require('rivets');
+import { Rivets } from './Rivets';
 
-import { from, Observable, of, range, ReplaySubject, Subject } from 'rxjs';
-import { Tetris } from './Tetris';
-
+// import { from, Observable, of, range, ReplaySubject, Subject } from 'rxjs';
 import * as Barba from './barba';
+import { Tetris } from './Tetris';
+// import { Utils } from './Utils';
 
-// import '../scss/static/theme.scss';
-
-// declare global {
-//   interface Window {
-//     $: any;
-//   }
-//   interface Window {  }
-// }
-
-// window.jQuery = $;
-// window.Barba = Barba;
-// window.rivets = Rivets;
-
-// let $el: JQuery<HTMLElement>
-
-// console.log('Barba', Barba);
-// console.log('Rivets', Rivets);
+declare global {
+  // tslint:disable: interface-name
+  interface Window { model: any; }
+}
 
 const initBarba = () => {
   // console.log('initBarba');
@@ -34,9 +22,12 @@ const initBarba = () => {
 
   prefetch.init();
 
-  dispatcher.on('newPageReady', (currentStatus: Barba.IState, prevStatus: Barba.IState, $container: JQuery<HTMLElement>, newPageRawHTML: string) => {
+  dispatcher.on('newPageReady', (currentStatus: Barba.IState, prevStatus: Barba.IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, isInit: boolean) => {
     // init Template
     const data = $container.data();
+
+    Rivets.bind($container, window.model);
+
     // console.log('newPageReady', currentStatus, );
     if (data.template === 'page.tetris') {
       const tetris = new Tetris();
@@ -48,6 +39,7 @@ const initBarba = () => {
 
 $(() => {
   initBarba();
+  Rivets.bind($('#rivets-top, #rivets-bottom'), window.model);
 });
 
 // TODO slideshow inpirated by https://slideout.js.org/
