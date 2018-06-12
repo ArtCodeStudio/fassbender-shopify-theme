@@ -1,2 +1,2 @@
-export { BaseTransition } from './BaseTransition';
+export { BaseTransition, ITransition } from './BaseTransition';
 export { HideShowTransition } from './HideShowTransition';

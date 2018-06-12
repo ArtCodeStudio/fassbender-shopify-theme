@@ -12759,6 +12759,82 @@ process.umask = function() { return 0; };
 },{}],8:[function(require,module,exports){
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Debug = require("debug");
+var BaseTransition_1 = require("../barba/Transition/BaseTransition");
+var Utils_1 = require("../barba/Utils");
+var Rivets_1 = require("../Rivets");
+/**
+ * Basic Transition object, wait for the new Container to be ready,
+ * scroll top, and finish the transition (removing the old container and displaying the new one)
+ *
+ * @private
+ */
+
+var BarbaBaseTransition = function (_BaseTransition_1$Bas) {
+    _inherits(BarbaBaseTransition, _BaseTransition_1$Bas);
+
+    function BarbaBaseTransition() {
+        _classCallCheck(this, BarbaBaseTransition);
+
+        var _this = _possibleConstructorReturn(this, (BarbaBaseTransition.__proto__ || Object.getPrototypeOf(BarbaBaseTransition)).apply(this, arguments));
+
+        _this.debug = Debug('rivets:BarbaBaseTransition');
+        _this.view = null;
+        return _this;
+    }
+
+    _createClass(BarbaBaseTransition, [{
+        key: "init",
+        value: function init($oldContainer, newContainer) {
+            var self = this;
+            this.$oldContainer = $oldContainer;
+            this.debug('init');
+            this.deferred = Utils_1.Utils.deferred();
+            var newContainerReady = Utils_1.Utils.deferred();
+            this.newContainerLoading = newContainerReady.promise;
+            this.start();
+            newContainer.then(function ($newContainer) {
+                self.$newContainer = $newContainer;
+                newContainerReady.resolve();
+            });
+            return this.deferred.promise;
+        }
+    }, {
+        key: "start",
+        value: function start() {
+            if (this.view !== null) {
+                this.view.unbind();
+            }
+            this.debug('BarbaBaseTransition start');
+            this.newContainerLoading.then(this.finish.bind(this));
+        }
+    }, {
+        key: "finish",
+        value: function finish($container) {
+            document.body.scrollTop = 0;
+            this.view = Rivets_1.Rivets.bind(this.$newContainer, window.model);
+            this.debug('BarbaBaseTransition finish');
+            this.done();
+        }
+    }]);
+
+    return BarbaBaseTransition;
+}(BaseTransition_1.BaseTransition);
+
+exports.BarbaBaseTransition = BarbaBaseTransition;
+
+},{"../Rivets":10,"../barba/Transition/BaseTransition":20,"../barba/Utils":23,"debug":1}],9:[function(require,module,exports){
+"use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 var Debug = require("debug");
 var $ = require("jquery");
@@ -12810,7 +12886,7 @@ binders['image-box'] = function (el, value) {
     }
 };
 
-},{"../Utils":11,"debug":1,"jquery":3}],9:[function(require,module,exports){
+},{"../Utils":12,"debug":1,"jquery":3}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -12818,12 +12894,14 @@ var Rivets = require("rivets");
 exports.Rivets = Rivets;
 var Utils_1 = require("../Utils");
 exports.Utils = Utils_1.Utils;
+var BarbaBaseTransition_1 = require("./BarbaBaseTransition");
+exports.BarbaBaseTransition = BarbaBaseTransition_1.BarbaBaseTransition;
 var binders_1 = require("./binders");
 exports.binders = binders_1.binders;
 // use all custom binders
 Rivets.binders = Utils_1.Utils.concat(false, Rivets.binders, binders_1.binders);
 
-},{"../Utils":11,"./binders":8,"rivets":6}],10:[function(require,module,exports){
+},{"../Utils":12,"./BarbaBaseTransition":8,"./binders":9,"rivets":6}],11:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -13519,7 +13597,7 @@ var Tetris = function () {
 
 exports.Tetris = Tetris;
 
-},{"jquery":3}],11:[function(require,module,exports){
+},{"jquery":3}],12:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -13696,7 +13774,7 @@ var Utils = function () {
 
 exports.Utils = Utils;
 
-},{"jquery":3}],12:[function(require,module,exports){
+},{"jquery":3}],13:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -13777,7 +13855,7 @@ var BaseCache = function () {
 
 exports.BaseCache = BaseCache;
 
-},{"./Utils":22}],13:[function(require,module,exports){
+},{"./Utils":23}],14:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -13874,7 +13952,7 @@ var Dispatcher = function () {
 
 exports.Dispatcher = Dispatcher;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -14034,7 +14112,7 @@ var Dom = function () {
 
 exports.Dom = Dom;
 
-},{"jquery":3}],15:[function(require,module,exports){
+},{"jquery":3}],16:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -14123,7 +14201,7 @@ var HistoryManager = function () {
 
 exports.HistoryManager = HistoryManager;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () {
@@ -14158,20 +14236,11 @@ var HistoryManager_1 = require("./HistoryManager");
  */
 
 var Pjax = function () {
-    function Pjax() {
+    function Pjax(transition) {
         _classCallCheck(this, Pjax);
 
         this.dom = new Dom_1.Dom();
         this.history = new HistoryManager_1.HistoryManager();
-        this.cache = new Cache_1.BaseCache();
-        /**
-         * Class name used to ignore links
-         *
-         * @memberOf Barba.Pjax
-         * @type {string}
-         * @default
-         */
-        this.ignoreClassLink = 'no-barba';
         /**
          * Indicate if there is an animation in progress
          *
@@ -14181,20 +14250,31 @@ var Pjax = function () {
          */
         this.transitionProgress = false;
         this.dispatcher = new Dispatcher_1.Dispatcher();
-        if (Pjax.instance) {
-            return Pjax.instance;
+        console.log('constructor', transition);
+        if (transition) {
+            this.transition = transition;
+        } else {
+            this.transition = new Transition_1.HideShowTransition();
         }
-        Pjax.instance = this;
-        return Pjax.instance;
     }
     /**
-     * Function to be called to start Pjax
+     * Get the .href parameter out of an element
+     * and handle special cases (like xlink:href)
      *
+     * @private
      * @memberOf Barba.Pjax
+     * @param  {HTMLAnchorElement} el
+     * @return {string} href
      */
 
     _createClass(Pjax, [{
         key: "start",
+
+        /**
+         * Function to be called to start Pjax
+         *
+         * @memberOf Barba.Pjax
+         */
         value: function start() {
             this.init();
         }
@@ -14280,7 +14360,7 @@ var Pjax = function () {
          * @memberOf Barba.Pjax
          * @private
          * @param  {string} url
-         * @return {Promise<HTMLElement>}
+         * @return {Promise<JQuery<HTMLElement>>}
          */
 
     }, {
@@ -14289,16 +14369,16 @@ var Pjax = function () {
             var deferred = Utils_1.Utils.deferred();
             var self = this;
             var xhr = void 0;
-            xhr = this.cache.get(url);
+            xhr = Pjax.cache.get(url);
             if (!xhr) {
                 xhr = Utils_1.Utils.xhr(url);
-                this.cache.set(url, xhr);
+                Pjax.cache.set(url, xhr);
             }
             xhr.then(function (data) {
                 var $container = self.dom.parseResponse(data);
                 self.dom.putContainer($container);
                 if (!self.cacheEnabled) {
-                    self.cache.reset();
+                    Pjax.cache.reset();
                 }
                 deferred.resolve($container);
             }, function () {
@@ -14307,30 +14387,6 @@ var Pjax = function () {
                 deferred.reject();
             });
             return deferred.promise;
-        }
-        /**
-         * Get the .href parameter out of an element
-         * and handle special cases (like xlink:href)
-         *
-         * @private
-         * @memberOf Barba.Pjax
-         * @param  {HTMLAnchorElement} el
-         * @return {string} href
-         */
-
-    }, {
-        key: "getHref",
-        value: function getHref(el) {
-            if (!el) {
-                return undefined;
-            }
-            if (el.getAttribute && typeof el.getAttribute('xlink:href') === 'string') {
-                return el.getAttribute('xlink:href');
-            }
-            if (typeof el.href === 'string') {
-                return el.href;
-            }
-            return undefined;
         }
         /**
          * Callback called from click event
@@ -14346,16 +14402,97 @@ var Pjax = function () {
             var el = evt.target;
             // Go up in the nodelist until we
             // find something with an href
-            while (el && !this.getHref(el)) {
+            while (el && !Pjax.getHref(el)) {
                 el = el.parentNode;
             }
-            if (this.preventCheck(evt, el)) {
+            if (Pjax.preventCheck(evt, el)) {
                 evt.stopPropagation();
                 evt.preventDefault();
                 this.dispatcher.trigger('linkClicked', el, evt);
-                var href = this.getHref(el);
+                var href = Pjax.getHref(el);
                 this.goTo(href);
             }
+        }
+        /**
+         * Return a transition object
+         *
+         * @memberOf Barba.Pjax
+         * @return {Barba.Transition} Transition object
+         */
+
+    }, {
+        key: "getTransition",
+        value: function getTransition() {
+            // User customizable
+            return this.transition;
+        }
+        /**
+         * Method called after a 'popstate' or from .goTo()
+         *
+         * @memberOf Barba.Pjax
+         * @private
+         */
+
+    }, {
+        key: "onStateChange",
+        value: function onStateChange() {
+            var newUrl = this.getCurrentUrl();
+            if (this.transitionProgress) {
+                this.forceGoTo(newUrl);
+            }
+            if (this.history.currentStatus().url === newUrl) {
+                return false;
+            }
+            this.history.add(newUrl);
+            var $newContainer = this.load(newUrl);
+            var transition = this.getTransition();
+            this.transitionProgress = true;
+            this.dispatcher.trigger('initStateChange', this.history.currentStatus(), this.history.prevStatus());
+            var transitionInstance = transition.init(this.dom.getContainer(), $newContainer);
+            $newContainer.then(this.onNewContainerLoaded.bind(this));
+            transitionInstance.then(this.onTransitionEnd.bind(this));
+        }
+        /**
+         * Function called as soon the new container is ready
+         *
+         * @memberOf Barba.Pjax
+         * @private
+         * @param {JQuery<HTMLElement>} $container
+         */
+
+    }, {
+        key: "onNewContainerLoaded",
+        value: function onNewContainerLoaded($container) {
+            var currentStatus = this.history.currentStatus();
+            currentStatus.namespace = this.dom.getNamespace($container);
+            this.dispatcher.trigger('newPageReady', this.history.currentStatus(), this.history.prevStatus(), $container, this.dom.currentHTML, false);
+        }
+        /**
+         * Function called as soon the transition is finished
+         *
+         * @memberOf Barba.Pjax
+         * @private
+         */
+
+    }, {
+        key: "onTransitionEnd",
+        value: function onTransitionEnd() {
+            this.transitionProgress = false;
+            this.dispatcher.trigger('transitionCompleted', this.history.currentStatus(), this.history.prevStatus());
+        }
+    }], [{
+        key: "getHref",
+        value: function getHref(el) {
+            if (!el) {
+                return undefined;
+            }
+            if (el.getAttribute && typeof el.getAttribute('xlink:href') === 'string') {
+                return el.getAttribute('xlink:href');
+            }
+            if (typeof el.href === 'string') {
+                return el.href;
+            }
+            return undefined;
         }
         /**
          * Determine if the link should be followed
@@ -14410,86 +14547,40 @@ var Pjax = function () {
             }
             return true;
         }
-        /**
-         * Return a transition object
-         *
-         * @memberOf Barba.Pjax
-         * @return {Barba.Transition} Transition object
-         */
-
-    }, {
-        key: "getTransition",
-        value: function getTransition() {
-            // User customizable
-            return new Transition_1.HideShowTransition();
-        }
-        /**
-         * Method called after a 'popstate' or from .goTo()
-         *
-         * @memberOf Barba.Pjax
-         * @private
-         */
-
-    }, {
-        key: "onStateChange",
-        value: function onStateChange() {
-            var newUrl = this.getCurrentUrl();
-            if (this.transitionProgress) {
-                this.forceGoTo(newUrl);
-            }
-            if (this.history.currentStatus().url === newUrl) {
-                return false;
-            }
-            this.history.add(newUrl);
-            var newContainer = this.load(newUrl);
-            var transition = Object.create(this.getTransition());
-            this.transitionProgress = true;
-            this.dispatcher.trigger('initStateChange', this.history.currentStatus(), this.history.prevStatus());
-            var transitionInstance = transition.init(this.dom.getContainer(), newContainer);
-            newContainer.then(this.onNewContainerLoaded.bind(this));
-            transitionInstance.then(this.onTransitionEnd.bind(this));
-        }
-        /**
-         * Function called as soon the new container is ready
-         *
-         * @memberOf Barba.Pjax
-         * @private
-         * @param {JQuery<HTMLElement>} $container
-         */
-
-    }, {
-        key: "onNewContainerLoaded",
-        value: function onNewContainerLoaded($container) {
-            var currentStatus = this.history.currentStatus();
-            currentStatus.namespace = this.dom.getNamespace($container);
-            this.dispatcher.trigger('newPageReady', this.history.currentStatus(), this.history.prevStatus(), $container, this.dom.currentHTML, false);
-        }
-        /**
-         * Function called as soon the transition is finished
-         *
-         * @memberOf Barba.Pjax
-         * @private
-         */
-
-    }, {
-        key: "onTransitionEnd",
-        value: function onTransitionEnd() {
-            this.transitionProgress = false;
-            this.dispatcher.trigger('transitionCompleted', this.history.currentStatus(), this.history.prevStatus());
-        }
     }]);
 
     return Pjax;
 }();
+/**
+ * Class name used to ignore links
+ *
+ * @memberOf Barba.Pjax
+ * @type {string}
+ * @default
+ */
 
+Pjax.ignoreClassLink = 'no-barba';
+Pjax.cache = new Cache_1.BaseCache();
 exports.Pjax = Pjax;
 
-},{"../Cache":12,"../Dispatcher":13,"../Transition":21,"../Utils":22,"./Dom":14,"./HistoryManager":15}],17:[function(require,module,exports){
+},{"../Cache":13,"../Dispatcher":14,"../Transition":22,"../Utils":23,"./Dom":15,"./HistoryManager":16}],18:[function(require,module,exports){
 "use strict";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Utils_1 = require("../Utils");
@@ -14513,7 +14604,6 @@ var Prefetch = function () {
          * @default
          */
         this.ignoreClassLink = 'no-barba-prefetch';
-        this.pjax = new Pjax_1.Pjax();
     }
     /**
      * Init the event listener on mouseover and touchstart
@@ -14521,7 +14611,6 @@ var Prefetch = function () {
      *
      * @memberOf Barba.Prefetch
      */
-
 
     _createClass(Prefetch, [{
         key: "init",
@@ -14544,17 +14633,17 @@ var Prefetch = function () {
         key: "onLinkEnter",
         value: function onLinkEnter(evt) {
             var el = evt.target;
-            while (el && !this.pjax.getHref(el)) {
+            while (el && !Pjax_1.Pjax.getHref(el)) {
                 el = el.parentNode; // TODO testme
             }
             if (!el || el.classList.contains(this.ignoreClassLink)) {
                 return;
             }
-            var url = this.pjax.getHref(el);
+            var url = Pjax_1.Pjax.getHref(el);
             // Check if the link is elegible for Pjax
-            if (this.pjax.preventCheck(evt, el) && !this.pjax.cache.get(url)) {
+            if (Pjax_1.Pjax.preventCheck(evt, el) && !Pjax_1.Pjax.cache.get(url)) {
                 var xhr = Utils_1.Utils.xhr(url);
-                this.pjax.cache.set(url, xhr);
+                Pjax_1.Pjax.cache.set(url, xhr);
             }
         }
     }]);
@@ -14564,7 +14653,7 @@ var Prefetch = function () {
 
 exports.Prefetch = Prefetch;
 
-},{"../Utils":22,"./Pjax":16}],18:[function(require,module,exports){
+},{"../Utils":23,"./Pjax":17}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -14577,7 +14666,7 @@ exports.Pjax = Pjax_1.Pjax;
 var Prefetch_1 = require("./Prefetch");
 exports.Prefetch = Prefetch_1.Prefetch;
 
-},{"./Dom":14,"./HistoryManager":15,"./Pjax":16,"./Prefetch":17}],19:[function(require,module,exports){
+},{"./Dom":15,"./HistoryManager":16,"./Pjax":17,"./Prefetch":18}],20:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -14585,6 +14674,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var Debug = require("debug");
 var Utils_1 = require("../Utils");
 /**
  * BaseTransition to extend
@@ -14596,33 +14686,32 @@ var Utils_1 = require("../Utils");
 var BaseTransition = function () {
     function BaseTransition() {
         _classCallCheck(this, BaseTransition);
+
+        this.debug = Debug('rivets:BaseTransition');
     }
+    /**
+     * Helper to extend the object
+     *
+     * @memberOf Barba.BaseTransition
+     * @param  {Object} newObject
+     * @return {Object} newInheritObject
+     */
+    // public extend(obj: object) {
+    //   return Utils.extend(this, obj);
+    // }
+    /**
+     * This function is called from Pjax module to initialize
+     * the transition.
+     *
+     * @memberOf Barba.BaseTransition
+     * @private
+     * @param  {HTMLElement} oldContainer
+     * @param  {Promise} newContainer
+     * @return {Promise}
+     */
+
 
     _createClass(BaseTransition, [{
-        key: "extend",
-
-        /**
-         * Helper to extend the object
-         *
-         * @memberOf Barba.BaseTransition
-         * @param  {Object} newObject
-         * @return {Object} newInheritObject
-         */
-        value: function extend(obj) {
-            return Utils_1.Utils.extend(this, obj);
-        }
-        /**
-         * This function is called from Pjax module to initialize
-         * the transition.
-         *
-         * @memberOf Barba.BaseTransition
-         * @private
-         * @param  {HTMLElement} oldContainer
-         * @param  {Promise} newContainer
-         * @return {Promise}
-         */
-
-    }, {
         key: "init",
         value: function init($oldContainer, newContainer) {
             var self = this;
@@ -14646,6 +14735,7 @@ var BaseTransition = function () {
     }, {
         key: "done",
         value: function done() {
+            this.debug('done');
             // this.$oldContainer[0].parentNode.removeChild(this.$oldContainer[]);
             this.$oldContainer.remove();
             // this.newContainer.style.visibility = 'visible';
@@ -14659,7 +14749,7 @@ var BaseTransition = function () {
 
 exports.BaseTransition = BaseTransition;
 
-},{"../Utils":22}],20:[function(require,module,exports){
+},{"../Utils":23,"debug":1}],21:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -14671,6 +14761,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var Debug = require("debug");
 var BaseTransition_1 = require("./BaseTransition");
 /**
  * Basic Transition object, wait for the new Container to be ready,
@@ -14687,7 +14778,10 @@ var HideShowTransition = function (_BaseTransition_1$Bas) {
     function HideShowTransition() {
         _classCallCheck(this, HideShowTransition);
 
-        return _possibleConstructorReturn(this, (HideShowTransition.__proto__ || Object.getPrototypeOf(HideShowTransition)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (HideShowTransition.__proto__ || Object.getPrototypeOf(HideShowTransition)).apply(this, arguments));
+
+        _this.debug = Debug('barba:HideShowTransition');
+        return _this;
     }
 
     _createClass(HideShowTransition, [{
@@ -14708,7 +14802,7 @@ var HideShowTransition = function (_BaseTransition_1$Bas) {
 
 exports.HideShowTransition = HideShowTransition;
 
-},{"./BaseTransition":19}],21:[function(require,module,exports){
+},{"./BaseTransition":20,"debug":1}],22:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -14717,7 +14811,7 @@ exports.BaseTransition = BaseTransition_1.BaseTransition;
 var HideShowTransition_1 = require("./HideShowTransition");
 exports.HideShowTransition = HideShowTransition_1.HideShowTransition;
 
-},{"./BaseTransition":19,"./HideShowTransition":20}],22:[function(require,module,exports){
+},{"./BaseTransition":20,"./HideShowTransition":21}],23:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -14864,7 +14958,7 @@ var Utils = function () {
 
 exports.Utils = Utils;
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -14941,7 +15035,7 @@ var BaseView = function () {
 
 exports.BaseView = BaseView;
 
-},{"./Dispatcher":13,"./Utils":22}],24:[function(require,module,exports){
+},{"./Dispatcher":14,"./Utils":23}],25:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -14960,7 +15054,7 @@ exports.Prefetch = Pjax_1.Prefetch;
 var Utils_1 = require("./Utils");
 exports.Utils = Utils_1.Utils;
 
-},{"./Cache":12,"./Dispatcher":13,"./Pjax":18,"./Transition/BaseTransition":19,"./Utils":22,"./View":23}],25:[function(require,module,exports){
+},{"./Cache":13,"./Dispatcher":14,"./Pjax":19,"./Transition/BaseTransition":20,"./Utils":23,"./View":24}],26:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -14974,12 +15068,11 @@ var initBarba = function initBarba() {
     // console.log('initBarba');
     var prefetch = new Barba.Prefetch();
     var dispatcher = new Barba.Dispatcher();
-    var pjax = new Barba.Pjax();
+    var pjax = new Barba.Pjax(new Rivets_1.BarbaBaseTransition());
     prefetch.init();
     dispatcher.on('newPageReady', function (currentStatus, prevStatus, $container, newPageRawHTML, isInit) {
         // init Template
         var data = $container.data();
-        Rivets_1.Rivets.bind($container, window.model);
         // console.log('newPageReady', currentStatus, );
         if (data.template === 'page.tetris') {
             var tetris = new Tetris_1.Tetris();
@@ -14994,6 +15087,6 @@ $(function () {
 });
 // TODO slideshow inpirated by https://slideout.js.org/
 
-},{"./Rivets":9,"./Tetris":10,"./barba":24,"jquery":3}]},{},[25])
+},{"./Rivets":10,"./Tetris":11,"./barba":25,"jquery":3}]},{},[26])
 
 //# sourceMappingURL=bundle.js.map

@@ -1,4 +1,15 @@
+import * as Debug from 'debug';
 import { Utils } from '../Utils';
+
+interface ITransition {
+  // $oldContainer: JQuery<HTMLElement>;
+  // $newContainer: JQuery<HTMLElement>;
+  // newContainerLoading: Promise<JQuery<HTMLElement>>;
+  // extend(obj: object): object;
+  init($oldContainer: JQuery<HTMLElement>, newContainer: Promise<JQuery<HTMLElement>>): Promise<void>;
+  done(): void;
+  start(): any;
+}
 
 /**
  * BaseTransition to extend
@@ -6,26 +17,28 @@ import { Utils } from '../Utils';
  * @namespace Barba.BaseTransition
  * @type {Object}
  */
-abstract class BaseTransition {
+abstract class BaseTransition implements ITransition {
   /**
    * @memberOf Barba.BaseTransition
    * @type {JQuery<HTMLElement>}
    */
-  public $oldContainer: JQuery<HTMLElement>;
+  protected $oldContainer: JQuery<HTMLElement>;
 
   /**
    * @memberOf Barba.BaseTransition
    * @type {JQuery<HTMLElement>}
    */
-  public $newContainer: JQuery<HTMLElement>;
+  protected $newContainer: JQuery<HTMLElement>;
 
   /**
    * @memberOf Barba.BaseTransition
    * @type {Promise}
    */
-  public newContainerLoading: Promise<JQuery<HTMLElement>>;
+  protected newContainerLoading: Promise<JQuery<HTMLElement>>;
 
-  private deferred: any; // TODO type
+  protected deferred: any; // TODO type
+
+  protected debug = Debug('rivets:BaseTransition');
 
   /**
    * Helper to extend the object
@@ -34,9 +47,9 @@ abstract class BaseTransition {
    * @param  {Object} newObject
    * @return {Object} newInheritObject
    */
-  public extend(obj: object) {
-    return Utils.extend(this, obj);
-  }
+  // public extend(obj: object) {
+  //   return Utils.extend(this, obj);
+  // }
 
   /**
    * This function is called from Pjax module to initialize
@@ -48,7 +61,7 @@ abstract class BaseTransition {
    * @param  {Promise} newContainer
    * @return {Promise}
    */
-  public init($oldContainer: JQuery<HTMLElement>, newContainer: Promise<JQuery<HTMLElement>>) {
+  public init($oldContainer: JQuery<HTMLElement>, newContainer: Promise<JQuery<HTMLElement>>): Promise<void> {
     const self = this;
 
     this.$oldContainer = $oldContainer;
@@ -73,6 +86,7 @@ abstract class BaseTransition {
    * @memberOf Barba.BaseTransition
    */
   public done() {
+    this.debug('done');
     // this.$oldContainer[0].parentNode.removeChild(this.$oldContainer[]);
     this.$oldContainer.remove();
     // this.newContainer.style.visibility = 'visible';
@@ -89,4 +103,4 @@ abstract class BaseTransition {
   public abstract start(): any;
 }
 
-export { BaseTransition };
+export { BaseTransition, ITransition };

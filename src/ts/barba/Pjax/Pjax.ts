@@ -1,6 +1,6 @@
 import { BaseCache } from '../Cache';
 import { Dispatcher } from '../Dispatcher';
-import { HideShowTransition } from '../Transition';
+import { HideShowTransition, ITransition } from '../Transition';
 import { Utils } from '../Utils';
 import { Dom } from './Dom';
 import { HistoryManager } from './HistoryManager';
@@ -14,11 +14,106 @@ import { HistoryManager } from './HistoryManager';
  */
 class Pjax {
 
-  private static instance: Pjax;
+  /**
+   * Class name used to ignore links
+   *
+   * @memberOf Barba.Pjax
+   * @type {string}
+   * @default
+   */
+  public static ignoreClassLink = 'no-barba';
+
+  public static cache = new BaseCache();
+
+  /**
+   * Get the .href parameter out of an element
+   * and handle special cases (like xlink:href)
+   *
+   * @private
+   * @memberOf Barba.Pjax
+   * @param  {HTMLAnchorElement} el
+   * @return {string} href
+   */
+   public static getHref(el: HTMLAnchorElement | SVGAElement): string {
+    if (!el) {
+      return undefined;
+    }
+
+    if (el.getAttribute && typeof el.getAttribute('xlink:href') === 'string') {
+      return el.getAttribute('xlink:href');
+    }
+
+    if (typeof el.href === 'string') {
+      return el.href;
+    }
+
+    return undefined;
+  }
+
+  /**
+   * Determine if the link should be followed
+   *
+   * @memberOf Barba.Pjax
+   * @param  {MouseEvent} evt
+   * @param  {HTMLAnchorElement} element
+   * @return {boolean}
+   */
+  public static preventCheck(evt: MouseEvent, element: HTMLAnchorElement): boolean {
+    if (!window.history.pushState) {
+      return false;
+    }
+
+    const href = this.getHref(element);
+
+    // User
+    if (!element || !href) {
+      return false;
+    }
+
+    // Middle click, cmd click, and ctrl click
+    if (evt.which > 1 || evt.metaKey || evt.ctrlKey || evt.shiftKey || evt.altKey) {
+      return false;
+    }
+
+    // Ignore target with _blank target
+    if (element.target && element.target === '_blank') {
+      return false;
+    }
+
+    // Check if it's the same domain
+    if (window.location.protocol !== element.protocol || window.location.hostname !== element.hostname) {
+      return false;
+    }
+
+    // Check if the port is the same
+    if (Utils.getPort() !== Utils.getPort(element.port)) {
+      return false;
+    }
+
+    // Ignore case when a hash is being tacked on the current URL
+    if (href.indexOf('#') > -1) {
+      return false;
+    }
+
+    // Ignore case where there is download attribute
+    if (element.getAttribute && typeof element.getAttribute('download') === 'string') {
+      return false;
+    }
+
+    // In case you're trying to load the same page
+    if (Utils.cleanLink(href) === Utils.cleanLink(location.href)) {
+      return false;
+    }
+
+    if (element.classList.contains(this.ignoreClassLink)) {
+      return false;
+    }
+
+    return true;
+  }
 
   public dom = new Dom();
   public history = new HistoryManager();
-  public cache = new BaseCache();
 
  /**
   * Indicate wether or not use the cache
@@ -28,15 +123,6 @@ class Pjax {
   * @default
   */
   public cacheEnabled: true;
-
- /**
-  * Class name used to ignore links
-  *
-  * @memberOf Barba.Pjax
-  * @type {string}
-  * @default
-  */
- public ignoreClassLink = 'no-barba';
 
  /**
   * Indicate if there is an animation in progress
@@ -49,13 +135,16 @@ class Pjax {
 
   private dispatcher = new Dispatcher();
 
-  constructor() {
-    if (Pjax.instance) {
-      return Pjax.instance;
+  private transition: ITransition;
+
+  constructor(transition?: ITransition) {
+
+    if (transition) {
+      this.transition = transition;
+    } else {
+      this.transition = new HideShowTransition();
     }
 
-    Pjax.instance = this;
-    return Pjax.instance;
   }
 
  /**
@@ -158,18 +247,18 @@ class Pjax {
   * @memberOf Barba.Pjax
   * @private
   * @param  {string} url
-  * @return {Promise<HTMLElement>}
+  * @return {Promise<JQuery<HTMLElement>>}
   */
- public load(url: string): Promise<HTMLElement> {
+ public load(url: string): Promise<JQuery<HTMLElement>> {
     const deferred = Utils.deferred();
     const self = this;
     let xhr;
 
-    xhr = this.cache.get(url);
+    xhr = Pjax.cache.get(url);
 
     if (!xhr) {
       xhr = Utils.xhr(url);
-      this.cache.set(url, xhr);
+      Pjax.cache.set(url, xhr);
     }
 
     xhr.then((data: string) => {
@@ -178,7 +267,7 @@ class Pjax {
         self.dom.putContainer($container);
 
         if (!self.cacheEnabled) {
-          self.cache.reset();
+          Pjax.cache.reset();
         }
 
         deferred.resolve($container);
@@ -194,31 +283,6 @@ class Pjax {
   }
 
  /**
-  * Get the .href parameter out of an element
-  * and handle special cases (like xlink:href)
-  *
-  * @private
-  * @memberOf Barba.Pjax
-  * @param  {HTMLAnchorElement} el
-  * @return {string} href
-  */
- public getHref(el: HTMLAnchorElement | SVGAElement): string {
-    if (!el) {
-      return undefined;
-    }
-
-    if (el.getAttribute && typeof el.getAttribute('xlink:href') === 'string') {
-      return el.getAttribute('xlink:href');
-    }
-
-    if (typeof el.href === 'string') {
-      return el.href;
-    }
-
-    return undefined;
-  }
-
- /**
   * Callback called from click event
   *
   * @memberOf Barba.Pjax
@@ -230,81 +294,19 @@ class Pjax {
 
     // Go up in the nodelist until we
     // find something with an href
-    while (el && !this.getHref(el)) {
+    while (el && !Pjax.getHref(el)) {
       el = (el.parentNode as HTMLAnchorElement);
     }
 
-    if (this.preventCheck(evt, el)) {
+    if (Pjax.preventCheck(evt, el)) {
       evt.stopPropagation();
       evt.preventDefault();
 
       this.dispatcher.trigger('linkClicked', el, evt);
 
-      const href = this.getHref(el);
+      const href = Pjax.getHref(el);
       this.goTo(href);
     }
-  }
-
- /**
-  * Determine if the link should be followed
-  *
-  * @memberOf Barba.Pjax
-  * @param  {MouseEvent} evt
-  * @param  {HTMLAnchorElement} element
-  * @return {boolean}
-  */
- public preventCheck(evt: MouseEvent, element: HTMLAnchorElement): boolean {
-    if (!window.history.pushState) {
-      return false;
-    }
-
-    const href = this.getHref(element);
-
-    // User
-    if (!element || !href) {
-      return false;
-    }
-
-    // Middle click, cmd click, and ctrl click
-    if (evt.which > 1 || evt.metaKey || evt.ctrlKey || evt.shiftKey || evt.altKey) {
-      return false;
-    }
-
-    // Ignore target with _blank target
-    if (element.target && element.target === '_blank') {
-      return false;
-    }
-
-    // Check if it's the same domain
-    if (window.location.protocol !== element.protocol || window.location.hostname !== element.hostname) {
-      return false;
-    }
-
-    // Check if the port is the same
-    if (Utils.getPort() !== Utils.getPort(element.port)) {
-      return false;
-    }
-
-    // Ignore case when a hash is being tacked on the current URL
-    if (href.indexOf('#') > -1) {
-      return false;
-    }
-
-    // Ignore case where there is download attribute
-    if (element.getAttribute && typeof element.getAttribute('download') === 'string') {
-      return false;
-    }
-
-    // In case you're trying to load the same page
-    if (Utils.cleanLink(href) === Utils.cleanLink(location.href)) {
-      return false;
-    }
-
-    if (element.classList.contains(this.ignoreClassLink)) {
-      return false;
-    }
-
-    return true;
   }
 
  /**
@@ -313,9 +315,9 @@ class Pjax {
   * @memberOf Barba.Pjax
   * @return {Barba.Transition} Transition object
   */
-  public getTransition() {
+  public getTransition(): ITransition {
     // User customizable
-    return new HideShowTransition();
+    return this.transition;
   }
 
  /**
@@ -337,8 +339,8 @@ class Pjax {
 
     this.history.add(newUrl);
 
-    const newContainer = this.load(newUrl);
-    const transition = Object.create(this.getTransition());
+    const $newContainer = this.load(newUrl);
+    const transition = this.getTransition();
 
     this.transitionProgress = true;
 
@@ -349,10 +351,10 @@ class Pjax {
 
     const transitionInstance = transition.init(
       this.dom.getContainer(),
-      newContainer,
+      $newContainer,
     );
 
-    newContainer.then(
+    $newContainer.then(
       this.onNewContainerLoaded.bind(this),
     );
 

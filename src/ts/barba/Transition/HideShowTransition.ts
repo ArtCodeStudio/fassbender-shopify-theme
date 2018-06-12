@@ -1,4 +1,5 @@
-import { BaseTransition } from './BaseTransition';
+import * as Debug from 'debug';
+import { BaseTransition, ITransition } from './BaseTransition';
 
 /**
  * Basic Transition object, wait for the new Container to be ready,
@@ -8,7 +9,10 @@ import { BaseTransition } from './BaseTransition';
  * @namespace Barba.HideShowTransition
  * @augments Barba.BaseTransition
  */
-class HideShowTransition extends BaseTransition {
+class HideShowTransition extends BaseTransition implements ITransition {
+
+  protected debug = Debug('barba:HideShowTransition');
+
   public start() {
     this.newContainerLoading.then(this.finish.bind(this));
   }

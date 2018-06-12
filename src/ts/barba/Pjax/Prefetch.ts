@@ -18,8 +18,6 @@ class Prefetch {
    */
   public ignoreClassLink = 'no-barba-prefetch';
 
-  private pjax = new Pjax();
-
   /**
    * Init the event listener on mouseover and touchstart
    * for the prefetch
@@ -46,7 +44,7 @@ class Prefetch {
 
     let el = (evt.target as HTMLAnchorElement);
 
-    while (el && !this.pjax.getHref(el)) {
+    while (el && !Pjax.getHref(el)) {
       el = (el.parentNode as HTMLAnchorElement); // TODO testme
     }
 
@@ -54,12 +52,12 @@ class Prefetch {
       return;
     }
 
-    const url = this.pjax.getHref(el);
+    const url = Pjax.getHref(el);
 
     // Check if the link is elegible for Pjax
-    if (this.pjax.preventCheck(evt, el) && !this.pjax.cache.get(url)) {
+    if (Pjax.preventCheck(evt, el) && !Pjax.cache.get(url)) {
       const xhr = Utils.xhr(url);
-      this.pjax.cache.set(url, xhr);
+      Pjax.cache.set(url, xhr);
     }
   }
 }
