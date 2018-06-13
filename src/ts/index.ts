@@ -1,5 +1,5 @@
 // import Debug from 'debug';
-import $ from 'jquery';
+import JQuery from 'jquery';
 import { View } from './View';
 // import Rivets = require('rivets');
 // import { from, Observable, of, range, ReplaySubject, Subject } from 'rxjs';
@@ -10,8 +10,8 @@ declare global {
   interface Window { model: any; }
 }
 
-$((jQuery) => {
-  const view = new View(jQuery);
+JQuery(() => {
+  const view = new View();
 });
 
 // TODO slideshow inpirated by https://slideout.js.org/

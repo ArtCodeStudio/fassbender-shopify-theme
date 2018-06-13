@@ -1,11 +1,12 @@
 {
   "files": [
-    "src/ts/main.ts"
+    "src/ts/index.ts"
   ],
   "compileOnSave": false,
   "compilerOptions": {
     // "strict": true,
     // "allowJs": true,
+    "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "outDir": "./theme/assets/",
     "baseUrl": "src",

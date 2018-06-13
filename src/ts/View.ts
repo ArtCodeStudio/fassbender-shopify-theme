@@ -1,3 +1,4 @@
+import JQuery from 'jquery';
 import * as Barba from './barba';
 import { Rivets } from './Rivets';
 import { Tetris } from './Tetris';
@@ -10,9 +11,9 @@ export class View {
   private outsite: any;
   private insite: any;
 
-  constructor($) {
+  constructor() {
 
-    this.outsite = Rivets.bind($('#rivets-top, #rivets-bottom'), window.model);
+    this.outsite = Rivets.bind(JQuery('#rivets-top, #rivets-bottom'), window.model);
 
     this.dispatcher.on('newPageReady', (currentStatus: Barba.IState, prevStatus: Barba.IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, isInit: boolean) => {
       this.insite = Rivets.bind($container, window.model);

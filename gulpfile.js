@@ -122,17 +122,32 @@ gulp.task('build:ts:parcel', function() {
   return shell.task('parcel build ./src/ts/index.ts --out-dir theme/assets --out-file bundle.js');
 });
 
-gulp.task('build:ts:webpack', function() {
+/** 
+ * Use TypeScript Compiler for type check
+ */
+gulp.task('build:ts:typecheck', shell.task('npm run type-check'));
+
+/** 
+ * Use TypeScript Compiler for type check
+ */
+gulp.task('watch:ts:typecheck', shell.task('npm run type-check -- --watch'));
+
+
+/**
+ * Uses Babel to build TypeScript
+ * @see https://github.com/Microsoft/TypeScript-Babel-Starter
+ */
+gulp.task('build:ts:webpack', gulp.series(['build:ts:typecheck', function() {
   return gulp.src('src/ts/index.ts')
     .pipe(gulpWebpack(webpackConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
-});
+}]));
 
-gulp.task('build:ts:webpack:tsloader', function() {
+gulp.task('build:ts:webpack:tsloader', gulp.series(['build:ts:typecheck', function() {
   return gulp.src('src/ts/index.ts')
     .pipe(gulpWebpack(webpackTSLoaderConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
-});
+}]));
 
 
 
@@ -200,22 +215,25 @@ gulp.task('watch:scss', function () {
 
 gulp.task('watch:ts:browserify', watchBrowserify);
 
-
-gulp.task('watch:ts:webpack', function() {
+/**
+ * Uses Babel to build TypeScript
+ * @see https://github.com/Microsoft/TypeScript-Babel-Starter
+ */
+gulp.task('watch:ts:webpack', gulp.parallel(['watch:ts:typecheck', function() {
   var webpackWatchConfig = webpackConfig;
   webpackWatchConfig.watch = true;
   return gulp.src('src/ts/index.ts')
     .pipe(gulpWebpack(webpackWatchConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
-});
+}]));
 
-gulp.task('watch:ts:webpack:tsloader', function() {
+gulp.task('watch:ts:webpack:tsloader', gulp.parallel(['watch:ts:typecheck', function() {
   var webpackWatchConfig = webpackTSLoaderConfig;
   webpackWatchConfig.watch = true;
   return gulp.src('src/ts/index.ts')
     .pipe(gulpWebpack(webpackWatchConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
-});
+  }]));
 
 
 gulp.task('watch:ts:parcel', shell.task('parcel watch ./src/ts/index.ts --out-dir theme/assets --out-file bundle.js --hmr-hostname localhost'));
