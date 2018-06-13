@@ -1,7 +1,7 @@
-import * as Debug from 'debug';
+import Debug from 'debug';
 import { Utils } from '../Utils';
 
-interface ITransition {
+export interface ITransition {
   // $oldContainer: JQuery<HTMLElement>;
   // $newContainer: JQuery<HTMLElement>;
   // newContainerLoading: Promise<JQuery<HTMLElement>>;
@@ -17,7 +17,7 @@ interface ITransition {
  * @namespace Barba.BaseTransition
  * @type {Object}
  */
-abstract class BaseTransition implements ITransition {
+export abstract class BaseTransition implements ITransition {
   /**
    * @memberOf Barba.BaseTransition
    * @type {JQuery<HTMLElement>}
@@ -38,7 +38,7 @@ abstract class BaseTransition implements ITransition {
 
   protected deferred: any; // TODO type
 
-  protected debug = Debug('rivets:BaseTransition');
+  protected debug = Debug('barba:BaseTransition');
 
   /**
    * Helper to extend the object
@@ -102,5 +102,3 @@ abstract class BaseTransition implements ITransition {
    */
   public abstract start(): any;
 }
-
-export { BaseTransition, ITransition };

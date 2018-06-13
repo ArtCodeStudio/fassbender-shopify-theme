@@ -29,7 +29,8 @@ const tsProject     = ts.createProject('tsconfig.json');
 const parcel        = require('gulp-parcel');
 const webpack       = require('webpack');
 const gulpWebpack   = require('webpack-stream');
-const webpackConfig = require('./webpack.config.js');
+const webpackTSLoaderConfig = require('./webpack.config.ts-loader');
+const webpackConfig = require('./webpack.config');
 
 // list of settings files to include, in order of inclusion
 var settingsSchemas = [
@@ -50,7 +51,7 @@ var settingsSchemas = [
 var browserfyConfig = {
   basedir: '.',
   debug: true,
-  entries: ['src/ts/main.ts'],
+  entries: ['src/ts/index.ts'],
   cache: {},
   packageCache: {}
 };
@@ -118,14 +119,22 @@ gulp.task('build:ts:browserify', function() {
  * Build typescript files to bundle.js with parcel.js
  */
 gulp.task('build:ts:parcel', function() {
-  return shell.task('parcel build ./src/ts/main.ts --out-dir theme/assets --out-file bundle.js');
+  return shell.task('parcel build ./src/ts/index.ts --out-dir theme/assets --out-file bundle.js');
 });
 
 gulp.task('build:ts:webpack', function() {
-  return gulp.src('src/ts/main.ts')
+  return gulp.src('src/ts/index.ts')
     .pipe(gulpWebpack(webpackConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
 });
+
+gulp.task('build:ts:webpack:tsloader', function() {
+  return gulp.src('src/ts/index.ts')
+    .pipe(gulpWebpack(webpackTSLoaderConfig, webpack))
+    .pipe(gulp.dest('./theme/assets/'));
+});
+
+
 
 /**
  * concat all dynamic scss files to let it build from shopify's scss implementation on the server
@@ -186,28 +195,37 @@ gulp.task('watch:scss', function () {
   return gulp.watch([
     './src/scss/**/*.scss.liquid',
     './src/scss/**/*.scss'
-  ], ['build:scss']);
+  ], gulp.parallel(['build:scss']));
 });
 
 gulp.task('watch:ts:browserify', watchBrowserify);
 
+
 gulp.task('watch:ts:webpack', function() {
   var webpackWatchConfig = webpackConfig;
   webpackWatchConfig.watch = true;
-  return gulp.src('src/ts/main.ts')
+  return gulp.src('src/ts/index.ts')
+    .pipe(gulpWebpack(webpackWatchConfig, webpack))
+    .pipe(gulp.dest('./theme/assets/'));
+});
+
+gulp.task('watch:ts:webpack:tsloader', function() {
+  var webpackWatchConfig = webpackTSLoaderConfig;
+  webpackWatchConfig.watch = true;
+  return gulp.src('src/ts/index.ts')
     .pipe(gulpWebpack(webpackWatchConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
 });
 
 
-gulp.task('watch:ts:parcel', shell.task('parcel watch ./src/ts/main.ts --out-dir theme/assets --out-file bundle.js --hmr-hostname localhost'));
+gulp.task('watch:ts:parcel', shell.task('parcel watch ./src/ts/index.ts --out-dir theme/assets --out-file bundle.js --hmr-hostname localhost'));
 
-gulp.task('build:scss', ['build:scss:static', 'build:scss:dynamic']);
+gulp.task('build:scss', gulp.parallel(['build:scss:static', 'build:scss:dynamic']));
 
-gulp.task('watch:theme', shell.task('cd ./theme; theme watch --force'));
+gulp.task('watch:theme', gulp.parallel(shell.task('cd ./theme; theme watch --force')));
 
-gulp.task('watch', ['watch:scss', 'watch:ts:browserify', 'watch:theme']);
+gulp.task('watch', gulp.parallel(['watch:scss', 'watch:ts:webpack', 'watch:theme']));
 
-gulp.task('build', ['build:scss', 'build:ts:browserify']);
+gulp.task('build', gulp.parallel(['build:scss', 'build:ts:webpack']));
 
-gulp.task('default', ['watch']);
+gulp.task('default', gulp.parallel(['watch']));

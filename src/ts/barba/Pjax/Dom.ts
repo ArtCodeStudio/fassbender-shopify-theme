@@ -1,4 +1,4 @@
-import $ = require('jquery');
+import $ from 'jquery';
 
 /**
  * Object that is going to deal with DOM parsing/manipulation

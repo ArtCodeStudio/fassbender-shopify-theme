@@ -1,7 +1,6 @@
-import * as Debug from 'debug';
-import { BaseTransition, ITransition } from '../barba/Transition/BaseTransition';
-import { Utils } from '../barba/Utils';
-import { IView, Rivets } from '../Rivets';
+import Debug from 'debug';
+import { Utils } from '../Utils';
+import { BaseTransition, ITransition } from './BaseTransition';
 
 declare global {
   // tslint:disable: interface-name
@@ -14,11 +13,9 @@ declare global {
  *
  * @private
  */
-class BarbaBaseTransition extends BaseTransition implements ITransition {
+class CustomTransition extends BaseTransition implements ITransition {
 
-  protected debug = Debug('rivets:BarbaBaseTransition');
-
-  private view: IView = null;
+  protected debug = Debug('rivets:CustomTransition');
 
   public init($oldContainer: JQuery<HTMLElement>, newContainer: Promise<JQuery<HTMLElement>>): Promise<void> {
     const self = this;
@@ -41,20 +38,17 @@ class BarbaBaseTransition extends BaseTransition implements ITransition {
   }
 
   public start() {
-    if (this.view !== null) {
-      this.view.unbind();
-    }
-    this.debug('BarbaBaseTransition start');
+    this.debug('CustomTransition start');
     this.newContainerLoading.then(this.finish.bind(this));
   }
 
   public finish($container: JQuery<HTMLElement>) {
     document.body.scrollTop = 0;
-    this.view = Rivets.bind(this.$newContainer, window.model);
-    this.debug('BarbaBaseTransition finish');
+    // this.view = Rivets.bind(this.$newContainer, window.model);
+    this.debug('CustomTransition finish');
     this.done();
   }
 
 }
 
-export { BarbaBaseTransition };
+export { CustomTransition };

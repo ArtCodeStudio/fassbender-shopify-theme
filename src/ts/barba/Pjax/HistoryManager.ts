@@ -1,4 +1,4 @@
-interface IState {
+export interface IState {
   url: string;
   namespace: string;
 }
@@ -9,7 +9,7 @@ interface IState {
  * @namespace Barba.HistoryManager
  * @type {Object}
  */
-class HistoryManager {
+export class HistoryManager {
 
   private static instance: HistoryManager;
 
@@ -77,5 +77,3 @@ class HistoryManager {
     return history[history.length - 2];
   }
 }
-
-export { HistoryManager, IState };

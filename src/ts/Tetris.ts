@@ -1,4 +1,4 @@
-import $ = require('jquery'); // not working on parcel.js: import * as $ from 'jquery';
+import $ from 'jquery';
 
 enum Direction {
   UP = 0,

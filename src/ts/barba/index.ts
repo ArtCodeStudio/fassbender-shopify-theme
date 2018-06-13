@@ -1,6 +1,6 @@
 export { BaseCache } from './Cache';
 
-export { BaseTransition } from './Transition/BaseTransition';
+export { BaseTransition, CustomTransition, HideShowTransition } from './Transition';
 export { BaseView } from './View';
 
 export { Dispatcher } from './Dispatcher';

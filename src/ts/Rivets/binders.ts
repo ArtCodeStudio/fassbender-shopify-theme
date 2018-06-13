@@ -1,5 +1,5 @@
-import * as Debug from 'debug';
-import $ = require('jquery');
+import Debug from 'debug';
+import $ from 'jquery';
 import { Utils } from '../Utils';
 
 const binders: any = {};
