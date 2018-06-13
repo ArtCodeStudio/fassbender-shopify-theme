@@ -150,26 +150,10 @@ gulp.task('build:ts:webpack:tsloader', gulp.series(['build:ts:typecheck', functi
 }]));
 
 
-
-/**
- * concat all dynamic scss files to let it build from shopify's scss implementation on the server
- * TODO use https://www.npmjs.com/package/gulp-shopify-sass
- */
-gulp.task('build:scss:dynamic', function () {
-  var paths = new SassImport('./src/scss/dynamic/theme.scss');
-  console.log(paths);
-  return gulp.src(paths)
-    .pipe(plumber({
-      errorHandler: onError
-    }))
-    .pipe(concat('theme.scss.liquid'))
-    .pipe(gulp.dest('./theme/assets/'));
-});
-
 /**
  * Build scss files to css
  */
-gulp.task('build:scss:static', function () {
+gulp.task('build:scss', function () {
 
   var sassOptions = {
     errLogToConsole: true,
@@ -178,7 +162,7 @@ gulp.task('build:scss:static', function () {
 
   return gulp
     // Find all `.scss` files from the `stylesheets/` folder
-    .src('./src/scss/static/theme.scss')
+    .src('./src/scss/theme.scss')
     // .pipe(sourcemaps.init())
     // Run Sass on those files
     .pipe(sass(sassOptions).on('error', onError))
@@ -238,7 +222,7 @@ gulp.task('watch:ts:webpack:tsloader', gulp.parallel(['watch:ts:typecheck', func
 
 gulp.task('watch:ts:parcel', shell.task('parcel watch ./src/ts/index.ts --out-dir theme/assets --out-file bundle.js --hmr-hostname localhost'));
 
-gulp.task('build:scss', gulp.parallel(['build:scss:static', 'build:scss:dynamic']));
+gulp.task('build:scss', gulp.parallel(['build:scss', 'build:scss']));
 
 gulp.task('watch:theme', gulp.parallel(shell.task('cd ./theme; theme watch --force')));
 

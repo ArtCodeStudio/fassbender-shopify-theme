@@ -1,11 +1,11 @@
-import { Utils } from '../Utils';
+import { Utils } from '../../Utils';
 import { Pjax } from './Pjax';
 
 /**
  * Prefetch
  *
  * @namespace Barba.Prefetch
- * @type {Object}
+ * @type {object}
  */
 class Prefetch {
 
@@ -38,7 +38,7 @@ class Prefetch {
    *
    * @memberOf Barba.Prefetch
    * @private
-   * @param  {Object} evt
+   * @param  {object} evt
    */
   public onLinkEnter(evt: MouseEvent) {
 

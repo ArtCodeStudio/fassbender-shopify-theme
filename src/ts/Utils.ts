@@ -1,6 +1,27 @@
 import $ from 'jquery';
 
+// TODO
+export interface IDeferred {
+  resolve: any;
+  reject: any;
+}
+
+/**
+ * Just an Class with some helpful functions
+ *
+ * @export
+ * @class Utils
+ */
 export class Utils {
+
+  /**
+   * Time in millisecond after the xhr request goes in timeout
+   *
+   * @memberOf Barba.Utils
+   * @type {Number}
+   * @default
+   */
+  public static xhrTimeout: 5000;
 
   /**
    * Check if value is undefined
@@ -102,9 +123,11 @@ export class Utils {
    * @param {boolean} deep If true, the merge becomes recursive (aka. deep copy).
    * @param {object} target An object that will receive the new properties if additional objects are passed in or that will extend the jQuery namespace if it is the sole argument.
    * @param {object} object1 An object containing additional properties to merge in.
-   * @param {object} objectN Additional objects containing properties to merge in.
+   * @param {object} [objectN] Additional objects containing properties to merge in.
+   * @returns
+   * @memberof Utils
    */
-  public static extend(deep: boolean, target: object, object1: object, objectN: object) {
+  public static extend(deep: boolean, target: object, object1: object, objectN?: object) {
     let result;
     if (deep) {
       result = $.extend(true, target, object1, objectN);
@@ -123,6 +146,105 @@ export class Utils {
    */
   public static concat(deep: boolean, object1: object, object2: object) {
     return this.extend(deep, {}, object1, object2);
+  }
+
+  /**
+   * Start an XMLHttpRequest() and return a Promise
+   *
+   * @memberOf Barba.Utils
+   * @param  {string} url
+   * @return {Promise}
+   */
+  public static xhr(url: string) {
+    const deferred = this.deferred();
+    const req = new XMLHttpRequest();
+
+    req.onreadystatechange = () => {
+      if (req.readyState === 4) {
+        if (req.status === 200) {
+          return deferred.resolve(req.responseText);
+        } else {
+          return deferred.reject(new Error('xhr: HTTP code is not 200'));
+        }
+      }
+    };
+
+    req.ontimeout = () => {
+      return deferred.reject(new Error('xhr: Timeout exceeded'));
+    };
+
+    req.open('GET', url);
+    req.timeout = this.xhrTimeout;
+    req.setRequestHeader('x-barba', 'yes');
+    req.send();
+
+    return deferred.promise;
+  }
+
+  /**
+   * Return a new "Deferred" object
+   * https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred
+   *
+   * @memberOf Barba.Utils
+   * @return {IDeferred}
+   */
+  public static deferred(): any {
+    const obj: any = {};
+    const prom = new Promise((resolve: any, reject: any) => {
+      obj.resolve = resolve;
+      obj.reject = reject;
+    });
+    obj.promise = prom;
+    return obj;
+  }
+
+  /**
+   * Return the current url
+   *
+   * @memberOf Barba.Utils
+   * @return {string} currentUrl
+   */
+  public static getCurrentUrl(): string {
+    return window.location.protocol + '//' +
+           window.location.host +
+           window.location.pathname +
+           window.location.search;
+  }
+
+  /**
+   * Given an url, return it without the hash
+   *
+   * @memberOf Barba.Utils
+   * @private
+   * @param  {string} url
+   * @return {string} newCleanUrl
+   */
+  public static cleanLink(url: string): string {
+    return url.replace(/#.*/, '');
+  }
+
+  /**
+   * Return the port number normalized, eventually you can pass a string to be normalized.
+   *
+   * @memberOf Barba.Utils
+   * @private
+   * @param  {String} p
+   * @return {Int} port
+   */
+  public static getPort(p?: string) {
+    const port = typeof p !== 'undefined' ? p : window.location.port;
+    const protocol = window.location.protocol;
+
+    if (port !== '') {
+      return Number(port);
+    }
+    if (protocol === 'http:') {
+      return 80;
+    }
+
+    if (protocol === 'https:') {
+      return 443;
+    }
   }
 
 }

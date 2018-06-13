@@ -1,0 +1,14 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+#barba-wrapper, .barba-container {
+    // width: 100vw;
+    overflow: hidden;
+}
+
+#rivets-top {
+    position: absolute;
+    width: 100%;
+}

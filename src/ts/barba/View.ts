@@ -1,5 +1,5 @@
-import { Dispatcher } from './Dispatcher';
-import { Utils } from './Utils';
+import { Dispatcher } from '../Dispatcher';
+import { Utils } from '../Utils';
 
 /**
  * BaseView to be extended
@@ -29,7 +29,7 @@ abstract class BaseView {
    * @return {Object} newInheritObject
    */
   public extend(obj: object) {
-    return Utils.extend(this, obj);
+    return Utils.extend(false, this, obj);
   }
 
   /**

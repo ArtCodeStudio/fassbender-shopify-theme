@@ -196,7 +196,13 @@
    */
   window.model.system.templates = window.model.system.templates || {}
 
-  {% capture tplJumplinkInstafeedItem %}{% include 'jumplink-tpl-instafeed-item' %}{% endcapture %}
-  window.model.system.templates.instafeedItem  = "{{ tplJumplinkInstafeedItem | strip_newlines | replace: quote, escapedQuote }}";
+  {% capture jumplinkTpl %}{% include 'jumplink-tpl-instafeed-item' %}{% endcapture %}
+  window.model.system.templates.instafeedItem = "{{ jumplinkTpl | strip_newlines | strip | replace: quote, escapedQuote }}";
+
+  {% capture jumplinkTpl %}{% include 'jumplink-tpl-slideout' %}{% endcapture %}
+  window.model.system.templates.slideout = "{{ jumplinkTpl | strip_newlines | strip | replace: quote, escapedQuote }}";
+
+  {% capture jumplinkTpl %}{% include 'jumplink-tpl-nav-items' %}{% endcapture %}
+  window.model.system.templates.navItems = "{{ jumplinkTpl | strip_newlines | strip | replace: quote, escapedQuote }}";
 
 </script>

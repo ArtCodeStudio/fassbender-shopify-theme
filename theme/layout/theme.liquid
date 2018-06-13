@@ -35,14 +35,18 @@
     {% include 'jumplink-navigation' %}
   </div>
 
-  <div id="barba-wrapper">
-    <div class="barba-container" {% include 'jumplink-utils-barba-container-attributes' %}>
-      {{ content_for_layout }}
+  <div id="slideout-panel">
+    <div id="barba-wrapper">
+      <div class="barba-container" {% include 'jumplink-utils-barba-container-attributes' %}>
+        {{ content_for_layout }}
+      </div>
     </div>
-  </div>
   
-  <div id="rivets-bottom">
-    {% include 'jumplink-footer' %}
+  
+    <div id="rivets-bottom">
+      {% include 'jumplink-footer' %}
+    </div>
+
   </div>
 
 </body>

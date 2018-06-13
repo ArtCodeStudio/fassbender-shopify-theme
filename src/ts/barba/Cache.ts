@@ -1,4 +1,4 @@
-import { Utils } from './Utils';
+import { Utils } from '../Utils';
 
 /**
  * BaseCache it's a simple static cache
@@ -60,7 +60,7 @@ class BaseCache {
    * @return {object} newInheritObject
    */
   private extend(obj: object) {
-    return Utils.extend(this, obj);
+    return Utils.extend(false, this, obj);
   }
 }
 

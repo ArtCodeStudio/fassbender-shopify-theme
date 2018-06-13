@@ -9438,10 +9438,16 @@ a.text-dark:hover, a.text-dark:focus {
 
 html, body {
   height: 100%;
+  width: 100%;
 }
 
 #barba-wrapper, .barba-container {
   overflow: hidden;
+}
+
+#rivets-top {
+  position: absolute;
+  width: 100%;
 }
 
 .brand-01 {
@@ -9470,6 +9476,15 @@ html, body {
   text-decoration: none;
 }
 
+.navbar-main .subbar .nav-link {
+  font-size: 0.8rem;
+  padding: 0.5rem 0.4rem;
+}
+
+.navbar-main .mainbar .nav-link {
+  font-size: 20px;
+}
+
 /*
  * Disable antialising when scaling images
  * @see https://stackoverflow.com/a/14068216/1465919
@@ -9490,6 +9505,45 @@ html, body {
   /* CSS3 Proposed                  */
   -ms-interpolation-mode: nearest-neighbor;
   /* IE8+  */
+}
+
+slideout.slideout-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  width: 256px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  display: none;
+  background-color: #000;
+  color: #fff;
+}
+
+slideout.slideout-menu-right {
+  right: 0;
+}
+
+slideout.slideout-menu-left {
+  left: 0;
+}
+
+.slideout-panel {
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+  overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+  display: block;
 }
 
 #itkanzlei_img_copyright, #itkanzlei_img_copyright {
