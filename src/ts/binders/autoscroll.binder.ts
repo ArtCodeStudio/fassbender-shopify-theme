@@ -5,15 +5,19 @@ import { Utils } from '../Utils';
 export interface IOptions {
   angle: 'vertical' | 'horizontal';
   direction: 1 | -1;
+  jumps: number;
+  delay: number;
 }
 
 const debug = Debug('binders:autoscroll');
 
 // TODO try alternative version from https://www.sitepoint.com/community/t/auto-scrolling-a-div-with-overflow-scroll-auto/2291/3
-const initAutoscroll = ($el: JQuery<HTMLElement>, direction: 1 | -1 = 1) => {
-  const jumps = 4;
+const initAutoscroll = ($el: JQuery<HTMLElement>, options: IOptions) => {
+  let direction = options.direction;
+  const jumps = options.jumps;
+  const delay = options.delay;
   let stop = false;
-  const delay = 120;
+  
   let position = null;
   const maxScrollWidth = $el.prop('scrollWidth') - $el.outerWidth();
 
@@ -94,7 +98,7 @@ export const autoscrollBinder = () => {
     $el.addClass(`rv-autoscroll-${options.angle}`);
 
     setTimeout(() => {
-      initAutoscroll($el, options.direction);
+      initAutoscroll($el, options);
     }, 1000);
 
   };
