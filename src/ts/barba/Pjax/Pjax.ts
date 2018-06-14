@@ -1,4 +1,4 @@
-import { Dispatcher } from '../../Dispatcher';
+import { Dispatcher } from '../../dispatcher';
 import { Utils } from '../../Utils';
 import { BaseCache } from '../Cache';
 import { HideShowTransition, ITransition } from '../Transition';
@@ -33,7 +33,7 @@ class Pjax {
    * @param  {HTMLAnchorElement} element
    * @return {boolean}
    */
-  public static preventCheck(evt: MouseEvent, element: HTMLAnchorElement): boolean {
+  public static preventCheck(evt: JQuery.Event<HTMLElement, null>, element: HTMLAnchorElement): boolean {
     if (!window.history.pushState) {
       return false;
     }
@@ -161,10 +161,10 @@ class Pjax {
   * @memberOf Barba.Pjax
   * @return {string} currentUrl
   */
- public getCurrentUrl() {
-  return Utils.cleanLink(
-    Utils.getCurrentUrl(),
-  );
+  public getCurrentUrl() {
+    return Utils.cleanLink(
+      Utils.getUrl(),
+    );
   }
 
   /**
@@ -173,9 +173,19 @@ class Pjax {
    * @memberOf Barba.Pjax
    * @param {string} newUrl
    */
-  public goTo(url: string) {
-    window.history.pushState(null, null, url);
-    this.onStateChange();
+  public goTo(url: string, newTab?: boolean) {
+    if (newTab) {
+      const win = window.open(url, '_blank');
+      return win.focus();
+    }
+
+    if (url.indexOf('http') !== 0) {
+      window.history.pushState(null, null, url);
+      return this.onStateChange();
+    }
+
+    // fallback
+    this.forceGoTo(url);
   }
 
  /**
@@ -196,9 +206,10 @@ class Pjax {
   * @protected
   */
  protected bindEvents() {
-    document.addEventListener('click',
-      this.onLinkClick.bind(this),
-    );
+    // we use the rv-router for this
+    // document.addEventListener('click',
+    //   this.onLinkClick.bind(this),
+    // );
 
     window.addEventListener('popstate',
       this.onStateChange.bind(this),
@@ -269,7 +280,7 @@ class Pjax {
   * @protected
   * @param {MouseEvent} evt
   */
- protected onLinkClick(evt: MouseEvent) {
+ protected onLinkClick(evt: JQuery.Event<HTMLElement, null>) {
     let el: HTMLAnchorElement = (evt.target as HTMLAnchorElement );
 
     // Go up in the nodelist until we

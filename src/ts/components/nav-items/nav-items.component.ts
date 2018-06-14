@@ -1,5 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
+import template from './nav-items.component.html';
 
 declare global {
   // tslint:disable: interface-name
@@ -11,13 +12,13 @@ declare global {
  */
 export const navItems = {
   template() {
-    return window.model.system.templates.navItems;
+    return template;
   },
   initialize(el: HTMLElement, data: any) {
     const controller = this;
     const $el = $(el);
     const debug = Debug('rivets:nav-items');
-    debug('initialize', data);
+    debug('initialize', data, template);
 
     controller.linklist = data.linklist;
 

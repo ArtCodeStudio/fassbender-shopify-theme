@@ -1,3 +1,4 @@
+import Debug from 'debug';
 import { Utils } from '../../Utils';
 import { Pjax } from './Pjax';
 
@@ -18,6 +19,8 @@ class Prefetch {
    */
   public ignoreClassLink = 'no-barba-prefetch';
 
+  private debug = Debug('Prefetch');
+
   /**
    * Init the event listener on mouseover and touchstart
    * for the prefetch
@@ -29,8 +32,9 @@ class Prefetch {
       return false;
     }
 
-    document.body.addEventListener('mouseover', this.onLinkEnter.bind(this));
-    document.body.addEventListener('touchstart', this.onLinkEnter.bind(this));
+    // We do this with rv-route
+    // document.body.addEventListener('mouseover', this.onLinkEnter.bind(this));
+    // document.body.addEventListener('touchstart', this.onLinkEnter.bind(this));
   }
 
   /**
@@ -40,19 +44,23 @@ class Prefetch {
    * @private
    * @param  {object} evt
    */
-  public onLinkEnter(evt: MouseEvent) {
+  public onLinkEnter(evt: JQuery.Event<HTMLElement, null>, url?: string) {
 
     let el = (evt.target as HTMLAnchorElement);
 
-    while (el && !Pjax.getHref(el)) {
-      el = (el.parentNode as HTMLAnchorElement); // TODO testme
+    if (!url) {
+      while (el && !Pjax.getHref(el)) {
+        el = (el.parentNode as HTMLAnchorElement); // TODO testme
+      }
+
+      if (!el || el.classList.contains(this.ignoreClassLink)) {
+        return;
+      }
+
+      url = Pjax.getHref(el);
     }
 
-    if (!el || el.classList.contains(this.ignoreClassLink)) {
-      return;
-    }
-
-    const url = Pjax.getHref(el);
+    this.debug('onLinkEnter', url);
 
     // Check if the link is elegible for Pjax
     if (Pjax.preventCheck(evt, el) && !Pjax.cache.get(url)) {

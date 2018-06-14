@@ -1,6 +1,6 @@
 import Rivets from 'rivets';
-import { navItems } from './navItems';
-import { slideout } from './slideout';
+import { navItems } from './nav-items/nav-items.component';
+import { slideout } from './slideout/slideout.component';
 
 const components: any = Rivets.components;
 

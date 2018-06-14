@@ -13,11 +13,22 @@ module.exports = {
       extensions: ['.ts', '.tsx', '.js', '.json']
     },
     module: {
-      rules: [{
-        // Include ts, tsx, and js files.
-        test: /\.(tsx?)|(js)$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      }],
+      rules: [
+        {
+          // Include ts, tsx, and js files.
+          test: /\.(tsx?)|(js)$/,
+          exclude: /node_modules/,
+          loader: 'babel-loader',
+        },
+        {
+          test: /\.html$/,
+          use: [ {
+            loader: 'html-loader',
+            options: {
+              minimize: true
+            }
+          }]
+        },
+      ],
     }
 };

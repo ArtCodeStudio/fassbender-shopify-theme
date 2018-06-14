@@ -1,6 +1,8 @@
+
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
+import template from './slideout.component.html';
 
 declare global {
   // tslint:disable: interface-name
@@ -13,7 +15,7 @@ declare global {
  */
 export const slideout = {
   template() {
-    return window.model.system.templates.slideout;
+    return template;
   },
   initialize(el: HTMLElement, data: any) {
     const controller = this;

@@ -1,17 +1,17 @@
 import Debug from 'debug';
 import JQuery from 'jquery';
 import Rivets from 'rivets';
-import * as Barba from './barba';
-import { binders } from './Binders';
-import { components } from './Components';
-import { Dispatcher } from './Dispatcher';
-import { Tetris } from './Tetris';
+import {CustomTransition, IState, Pjax, Prefetch } from './barba';
+import { binders, routeBinder } from './binders';
+import { components } from './components';
+import { Dispatcher } from './dispatcher';
+import { Tetris } from './tetris';
 
 export class View {
 
-  private prefetch = new Barba.Prefetch();
+  private prefetch = new Prefetch();
   private dispatcher = new Dispatcher();
-  private pjax = new Barba.Pjax(new Barba.CustomTransition());
+  private pjax = new Pjax(new CustomTransition());
   private outsite: any = null;
   private insite: any = null;
   private debug = Debug('View');
@@ -21,9 +21,11 @@ export class View {
     Rivets.binders = binders;
     Rivets.components = components;
 
+    Rivets.binders.route = routeBinder(this.dispatcher, this.pjax, this.prefetch);
+
     this.outsite = Rivets.bind(JQuery('#rivets-top, #rivets-bottom'), window.model);
 
-    this.dispatcher.on('newPageReady', (currentStatus: Barba.IState, prevStatus: Barba.IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, isInit: boolean) => {
+    this.dispatcher.on('newPageReady', (currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, isInit: boolean) => {
       this.debug('newPageReady');
       // unbind the old rivets view
       if (!isInit && this.insite !== null) {

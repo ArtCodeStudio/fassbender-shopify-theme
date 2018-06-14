@@ -1,4 +1,4 @@
-import { Dispatcher } from '../Dispatcher';
+import { Dispatcher } from '../dispatcher';
 import { Utils } from '../Utils';
 
 /**

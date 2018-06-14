@@ -199,16 +199,37 @@ export class Utils {
   }
 
   /**
+   * get hostname an path of address bar
+   * @see http://stackoverflow.com/a/736970/1465919
+   *
+   * @example
+   * var l = getLocation("http://example.com/path");
+   * console.debug(l.hostname)
+   * >> "example.com"
+   * console.debug(l.pathname)
+   * >> "/path"
+   */
+  public static getLocation(url?: string): Location {
+    if (!url) {
+      return window.location;
+    }
+    // l.href = href;
+    const l = ($(`<a href="${url}"></a>`)[0] as HTMLAnchorElement as HTMLHyperlinkElementUtils as Location);
+    return l;
+  }
+
+  /**
    * Return the current url
    *
    * @memberOf Barba.Utils
    * @return {string} currentUrl
    */
-  public static getCurrentUrl(): string {
-    return window.location.protocol + '//' +
-           window.location.host +
-           window.location.pathname +
-           window.location.search;
+  public static getUrl(url?: string): string {
+    const location = Utils.getLocation(url);
+    return location.protocol + '//' +
+      location.host +
+      location.pathname +
+      location.search;
   }
 
   /**
@@ -231,9 +252,10 @@ export class Utils {
    * @param  {String} p
    * @return {Int} port
    */
-  public static getPort(p?: string) {
-    const port = typeof p !== 'undefined' ? p : window.location.port;
-    const protocol = window.location.protocol;
+  public static getPort(p?: string, url?: string) {
+    const location = Utils.getLocation(url);
+    const port = typeof p !== 'undefined' ? p : location.port;
+    const protocol = location.protocol;
 
     if (port !== '') {
       return Number(port);
@@ -245,6 +267,54 @@ export class Utils {
     if (protocol === 'https:') {
       return 443;
     }
+  }
+
+  /**
+   * Test if url is absolute or relative
+   */
+  public static isAbsoluteUrl(url: string) {
+    const pat = /^https?:\/\//i;
+    return pat.test(url);
+  }
+
+  /**
+   * get param from hash
+   */
+  public static getUrlParameter(name: string, url: string) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+    const results = regex.exec(url);
+    if (!results) {
+      return null;
+    }
+    if (!results[2]) {
+      return '';
+    }
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
+  /**
+   * Get hash from address bar or url if set
+   */
+  public static getHash(url?: string) {
+    return Utils.getLocation(url).hash;
+  }
+
+  /**
+   * Change hash from address bar
+   */
+  public static updateHash(hash: string) {
+    return window.location.hash = hash;
+  }
+
+  /**
+   * Remove hash from address bar
+   */
+  public static removeHash() {
+    return history.pushState('', document.title, window.location.pathname + window.location.search);
   }
 
 }
