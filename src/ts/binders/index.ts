@@ -5,6 +5,7 @@ import { Utils } from '../Utils';
 
 export { routeBinder } from './route.binder';
 export { slideoutTogglerBinder } from './slideout-toggler.binder';
+export { autoscrollBinder } from './autoscroll.binder';
 
 const binders: any = Rivets.binders;
 const debug = Debug('rivets:binders');

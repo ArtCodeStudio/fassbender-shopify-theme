@@ -1,3 +1,7 @@
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/mixins';
+
 $font-gt-walsheim-eot-path: "./font-GT-Walsheim-Light.eot" !default;
 $font-gt-walsheim-woff-path: "./font-GT-Walsheim-Light.woff" !default;
 $font-gt-walsheim-ttf-path: "./font-GT-Walsheim-Light.ttf" !default;
@@ -10,3 +14,12 @@ $font-gt-walsheim-bold-otf-path: "./font-GT-Walsheim-Bold.otf" !default;
 
 $light:         $white;
 $dark:          $black;
+
+$font-weight-light:           300;
+$font-weight-normal:          400;
+$font-weight-bold:            700;
+
+$link-color:                $dark;
+$link-decoration:           underline;
+$link-hover-color:          lighten($dark, 15%);
+$link-hover-decoration:     underline;

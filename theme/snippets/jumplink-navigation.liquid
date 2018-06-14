@@ -21,22 +21,20 @@
     </div>
   </div>
   <div class="row mainbar">
-    <div class="col-auto" style="pointer-events: all;">
-      <a href="/" class="brand-mix">
+    <div class="col-auto d-flex align-items-center">
+      <a href="/" class="brand-mix" style="pointer-events: all;">
         <div class="font-weight-bold brand-text">Art</div>
         <img class="brand-image" src="{{ 'icon_heart_px.png' | asset_url }}" alt="{{ shop.name | strip_html }}">
         <div class="font-weight-bold brand-text">Code</div>
         <div class="font-weight-normal brand-text hidden-xs-down">&nbsp;Studio</div>
       </a>
     </div>
-    <div class="ml-auto col-auto d-flex" style="pointer-events: all;">
-      <div class="">
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" rv-slideout-toggler="right" href="#">Info</a>
-          </li>
-        </ul>
-      </div>
+    <div class="ml-auto col-auto d-flex align-items-center">
+      <ul class="nav" style="pointer-events: all;">
+        <li class="nav-item">
+          <a class="nav-link" rv-slideout-toggler="right" href="#">Info</a>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

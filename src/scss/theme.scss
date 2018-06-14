@@ -2,15 +2,17 @@
 
 @import 'flexbox';
 
-@import '../../node_modules/bootstrap/scss/bootstrap.scss';
-
 @import 'variables';
 // @import 'variables.scss.liquid';
+
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
 
 @import 'layout';
 @import 'fonts';
 @import 'branding';
 @import 'navbar';
+@import 'nav';
 @import 'sidebar';
 @import 'images';
 @import 'pagination';
@@ -26,7 +28,7 @@
 @import 'colors';
 
 @import 'components/_index';
-
+@import 'binders/_index';
 
 @import 'customers';
 @import 'list-collections';

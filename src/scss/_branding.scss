@@ -1,4 +1,5 @@
 .brand-dark, .brand-light, .brand-mix {
+  text-decoration: none;
   color: $black;
   .brand-text {
     @extend .text-uppercase;

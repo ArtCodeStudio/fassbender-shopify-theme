@@ -1,0 +1,16 @@
+.rv-autoscroll-horizontal {
+  overflow-x: hidden;
+
+  @extend .d-flex;
+  @extend .flex-nowrap;
+  white-space: nowrap;
+
+  nav-items {
+    .nav {
+      @extend .d-flex;
+      @extend .flex-nowrap;
+      white-space: nowrap;
+    }
+
+  }
+}

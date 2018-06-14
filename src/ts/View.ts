@@ -2,7 +2,7 @@ import Debug from 'debug';
 import JQuery from 'jquery';
 import Rivets from 'rivets';
 import { CustomTransition, IState, Pjax, Prefetch } from './barba';
-import { binders, routeBinder, slideoutTogglerBinder } from './binders';
+import { autoscrollBinder, binders, routeBinder, slideoutTogglerBinder } from './binders';
 import { components, slideoutComponent } from './components';
 import { Dispatcher } from './dispatcher';
 import { Tetris } from './tetris';
@@ -25,7 +25,8 @@ export class View {
     // Set binders
     Rivets.binders = binders; // TODO seperate binders
     Rivets.binders.route = routeBinder(this.dispatcher, this.pjax, this.prefetch);
-    Rivets.binders['slideout-toggler'] = slideoutTogglerBinder(this.dispatcher, this.pjax, this.prefetch);
+    Rivets.binders['slideout-toggler'] = slideoutTogglerBinder(this.dispatcher);
+    Rivets.binders.autoscroll = autoscrollBinder();
 
     this.outsite = Rivets.bind(JQuery('#rivets-top, #rivets-bottom'), window.model);
 

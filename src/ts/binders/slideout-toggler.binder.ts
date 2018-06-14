@@ -1,15 +1,13 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
-import { Pjax, Prefetch } from '../barba';
 import { Dispatcher } from '../dispatcher';
-import { Utils } from '../Utils';
 import { TypingTextService } from './../typing-text.service';
 
 /**
  * Slideout click event to toggle the slideout
  */
-export const slideoutTogglerBinder = (dispatcher: Dispatcher, pjax: Pjax, prefetch: Prefetch) => {
+export const slideoutTogglerBinder = (dispatcher: Dispatcher) => {
 
   const debug = Debug('binders:slideout-toggler');
 
@@ -35,6 +33,8 @@ export const slideoutTogglerBinder = (dispatcher: Dispatcher, pjax: Pjax, prefet
       slideout.on('beforeopen', () => {
         text = $el.html();
         // $el.html('Close');
+        $el.css('color', 'white');
+        $el.css('min-height', $el.outerHeight());
         typetext.delete(() => {
           debug('delete Close done');
           typetext.write('Close');
@@ -43,8 +43,10 @@ export const slideoutTogglerBinder = (dispatcher: Dispatcher, pjax: Pjax, prefet
 
       slideout.on('beforeclose', () => {
         // $el.html(text);
+        $el.css('min-height', $el.outerHeight());
         typetext.delete(() => {
           debug(`delete ${text} done`);
+          $el.css('color', 'black');
           typetext.write(text);
         });
       });
