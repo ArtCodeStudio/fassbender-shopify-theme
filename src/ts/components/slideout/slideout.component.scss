@@ -4,12 +4,10 @@ slideout {
     top: 0;
     bottom: 0;
     z-index: 0;
-    width: 256px;
+    width: 100vw;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     display: none;
-    background-color: $dark;
-    color: $light;
   }
 
   &.slideout-menu-right {
@@ -18,6 +16,31 @@ slideout {
 
   &.slideout-menu-left {
     left: 0;
+  }
+
+  .nav-link {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  &.slideout-light {
+    background-color: $light;
+    color: $dark;
+    .nav-link {
+      color: $dark;
+    }
+  }
+
+  &.slideout-dark {
+    background-color: $dark;
+    color: $light;
+    .nav-link {
+      color: $light;
+    }
+  }
+
+  nav-items {
+    padding-top: 130px;
   }
 }
 

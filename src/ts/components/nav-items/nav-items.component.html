@@ -1,5 +1,6 @@
-<ul class="nav" rv-add-class="linklist.handle">
-  <li class="nav-item" rv-each-link="linklist.links">
-    <a class="nav-link" rv-class-active="link.active" rv-route="link.href" rv-href="link.href" rv-title="link.title">{link.text}</a>
-  </li>
-</ul>
+
+<nav class="nav" rv-add-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical">
+  <div class="nav-item" rv-each-link="linklist.links">
+    <a class="nav-link" rv-class-active="link.active" rv-route="link.href" rv-href="link.href">{link.text}</a>
+  </div>
+</nav>

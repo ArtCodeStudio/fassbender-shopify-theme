@@ -1,4 +1,4 @@
-.brand-01 {
+.brand-dark, .brand-light, .brand-mix {
   color: $black;
   .brand-text {
     @extend .text-uppercase;
@@ -20,5 +20,32 @@
   }
   &:hover {
     text-decoration: none;
+  }
+}
+
+.brand-light {
+  .brand-text {
+    color: $light;
+  }
+  img {
+    filter: invert(100%);
+  }
+}
+
+.brand-mix {
+  .brand-text {
+    color: $light;
+  }
+  img {
+    filter: invert(0);
+  }
+
+  &:hover {
+    .brand-text {
+      color: $dark;
+    }
+    img {
+      filter: invert(100%);
+    }
   }
 }

@@ -317,4 +317,13 @@ export class Utils {
     return history.pushState('', document.title, window.location.pathname + window.location.search);
   }
 
+  public static getViewportDimensions()  {
+    const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    return {
+      h,
+      w,
+    };
+  }
+
 }

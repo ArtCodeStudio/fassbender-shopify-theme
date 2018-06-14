@@ -193,7 +193,8 @@ gulp.task('watch:scss', function () {
   // watch for sass changes
   return gulp.watch([
     './src/scss/**/*.scss.liquid',
-    './src/scss/**/*.scss'
+    './src/scss/**/*.scss',
+    './src/ts/**/*.scss'
   ], gulp.parallel(['build:scss']));
 });
 

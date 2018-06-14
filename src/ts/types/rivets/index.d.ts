@@ -19,10 +19,10 @@ declare module 'rivets' {
   export let binders: any;
 
   // Global components.
-  export let components: object;
+  export let components: any;
 
   // Global formatters.
-  export let formatters: object;
+  export let formatters: any;
 
   // Global sightglass adapters.
   export let adapters: any;

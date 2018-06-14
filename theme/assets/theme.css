@@ -9158,7 +9158,7 @@ button.bg-dark:focus {
   text-align: justify !important;
 }
 
-.text-nowrap, .brand-01 .brand-text {
+.text-nowrap, .brand-dark .brand-text, .brand-light .brand-text, .brand-mix .brand-text {
   white-space: nowrap !important;
 }
 
@@ -9232,7 +9232,7 @@ button.bg-dark:focus {
   text-transform: lowercase !important;
 }
 
-.text-uppercase, .brand-01 .brand-text {
+.text-uppercase, .brand-dark .brand-text, .brand-light .brand-text, .brand-mix .brand-text {
   text-transform: uppercase !important;
 }
 
@@ -9443,6 +9443,7 @@ html, body {
 
 #barba-wrapper, .barba-container {
   overflow: hidden;
+  min-height: 60vh;
 }
 
 #rivets-top {
@@ -9450,21 +9451,21 @@ html, body {
   width: 100%;
 }
 
-.brand-01 {
+.brand-dark, .brand-light, .brand-mix {
   color: #000;
 }
 
-.brand-01 .brand-text {
+.brand-dark .brand-text, .brand-light .brand-text, .brand-mix .brand-text {
   font-size: 20px;
   letter-spacing: 0.1em;
   display: inline-block;
 }
 
-.brand-01 .font-weight-thin {
+.brand-dark .font-weight-thin, .brand-light .font-weight-thin, .brand-mix .font-weight-thin {
   font-weight: 400;
 }
 
-.brand-01 img {
+.brand-dark img, .brand-light img, .brand-mix img {
   display: inline-block;
   height: 16px;
   margin-bottom: 4px;
@@ -9472,8 +9473,35 @@ html, body {
   margin-left: 1px;
 }
 
-.brand-01:hover {
+.brand-dark:hover, .brand-light:hover, .brand-mix:hover {
   text-decoration: none;
+}
+
+.brand-light .brand-text {
+  color: #fff;
+}
+
+.brand-light img {
+  -webkit-filter: invert(100%);
+          filter: invert(100%);
+}
+
+.brand-mix .brand-text {
+  color: #fff;
+}
+
+.brand-mix img {
+  -webkit-filter: invert(0);
+          filter: invert(0);
+}
+
+.brand-mix:hover .brand-text {
+  color: #000;
+}
+
+.brand-mix:hover img {
+  -webkit-filter: invert(100%);
+          filter: invert(100%);
 }
 
 .navbar-main .subbar .nav-link {
@@ -9489,7 +9517,7 @@ html, body {
  * Disable antialising when scaling images
  * @see https://stackoverflow.com/a/14068216/1465919
  */
-.pixelated, .brand-01 img {
+.pixelated, .brand-dark img, .brand-light img, .brand-mix img {
   image-rendering: optimizeSpeed;
   /* STOP SMOOTHING, GIVE ME SPEED  */
   image-rendering: -moz-crisp-edges;
@@ -9512,12 +9540,10 @@ slideout.slideout-menu {
   top: 0;
   bottom: 0;
   z-index: 0;
-  width: 256px;
+  width: 100vw;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   display: none;
-  background-color: #000;
-  color: #fff;
 }
 
 slideout.slideout-menu-right {
@@ -9526,6 +9552,33 @@ slideout.slideout-menu-right {
 
 slideout.slideout-menu-left {
   left: 0;
+}
+
+slideout .nav-link {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+slideout.slideout-light {
+  background-color: #fff;
+  color: #000;
+}
+
+slideout.slideout-light .nav-link {
+  color: #000;
+}
+
+slideout.slideout-dark {
+  background-color: #000;
+  color: #fff;
+}
+
+slideout.slideout-dark .nav-link {
+  color: #fff;
+}
+
+slideout nav-items {
+  padding-top: 130px;
 }
 
 .slideout-panel {
@@ -9543,6 +9596,10 @@ slideout.slideout-menu-left {
 }
 
 .slideout-open .slideout-menu {
+  display: block;
+}
+
+nav-items {
   display: block;
 }
 

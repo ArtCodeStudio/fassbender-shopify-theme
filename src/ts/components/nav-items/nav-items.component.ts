@@ -21,6 +21,8 @@ export const navItems = {
     debug('initialize', data, template);
 
     controller.linklist = data.linklist;
+    controller.pills = data.pills;
+    controller.vertical = data.vertical;
 
     // setTimeout(() => {
 

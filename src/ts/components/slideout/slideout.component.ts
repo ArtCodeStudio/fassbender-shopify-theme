@@ -1,7 +1,8 @@
-
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
+import { Dispatcher } from '../../dispatcher';
+import { Utils } from './../../Utils';
 import template from './slideout.component.html';
 
 declare global {
@@ -13,40 +14,57 @@ declare global {
  * slideout
  * @see https://github.com/mango/slideout
  */
-export const slideout = {
-  template() {
-    return template;
-  },
-  initialize(el: HTMLElement, data: any) {
-    const controller = this;
-    const $el = $(el);
-    const debug = Debug('rivets:slideout');
+export const slideoutComponent = (dispatcher: Dispatcher) => {
 
-    controller.linklist = window.model.system.linklists['main-menu'];
+  return {
+    template() {
+      return template;
+    },
+    initialize(el: HTMLElement, data: any) {
+      const controller = this;
+      const $el = $(el);
+      const debug = Debug('rivets:slideout');
 
-    debug('initialize');
+      controller.linklist = window.model.system.linklists['main-menu'];
 
-    setTimeout(() => {
-      const options = {
-        menu: el,
-        padding: 256,
-        panel: document.getElementById('slideout-panel'),
-        side: ('right' as 'right' | 'left' ),
-        tolerance: 70,
-      };
+      debug('initialize');
 
-      const slideoutElement = new Slideout(options);
+      setTimeout(() => {
+        const options = {
+          duration: 800,
+          menu: el,
+          padding: Utils.getViewportDimensions().w,
+          panel: document.getElementById('slideout-panel'),
+          side: ('right' as 'right' | 'left' ),
+          tolerance: 70,
+        };
 
-      slideoutElement.on('open', () => {
-        debug('open');
-      });
+        let slideout = new Slideout(options);
+        dispatcher.trigger('slideout.component:initialize', slideout);
 
-      $(`.toggle-slideout-${options.side}`).on('click', () => {
-        slideoutElement.toggle();
-    });
+        // WORKAROUND for viewport width
+        $( window ).resize(() => {
+          if (!(slideout as any)._opened) {
+            slideout.destroy();
+            options.padding = Utils.getViewportDimensions().w;
+            slideout = new Slideout(options);
+            dispatcher.trigger('slideout.component:initialize', slideout);
+          }
 
-    }, 0);
+          debug('resize', slideout);
+        });
 
-    return controller;
-  },
+        dispatcher.on('initStateChange', () => {
+          slideout.close();
+        });
+
+        slideout.on('open', () => {
+          debug('open');
+        });
+
+      }, 0);
+
+      return controller;
+    },
+  };
 };

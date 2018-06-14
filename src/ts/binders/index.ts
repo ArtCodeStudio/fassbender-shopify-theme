@@ -3,7 +3,8 @@ import $ from 'jquery';
 import Rivets from 'rivets';
 import { Utils } from '../Utils';
 
-export { routeBinder } from './route/route.binder';
+export { routeBinder } from './route.binder';
+export { slideoutTogglerBinder } from './slideout-toggler.binder';
 
 const binders: any = Rivets.binders;
 const debug = Debug('rivets:binders');

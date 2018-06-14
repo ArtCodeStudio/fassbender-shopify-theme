@@ -1,18 +1,18 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { Pjax, Prefetch } from '../../barba';
-import { Dispatcher } from '../../dispatcher';
-import { Utils } from '../../Utils';
+import { Pjax, Prefetch } from '../barba';
+import { Dispatcher } from '../dispatcher';
+import { Utils } from '../Utils';
 
+/**
+ * Open link with pajax if the route is not the active route
+ * Sets also the element active if his url is the current url
+ */
 export const routeBinder = (dispatcher: Dispatcher, pjax: Pjax, prefetch: Prefetch) => {
 
   const debug = Debug('binders:route');
 
-  /**
-   * Open link with pajax if the route is not the active route
-   * Sets also the element active if his url is the current url
-   */
-  const binder = (el: HTMLElement, url: string) => {
+  return (el: HTMLElement, url: string) => {
     const $el = $(el);
     let newTab = false;
     const usePajax = true;
@@ -84,6 +84,4 @@ export const routeBinder = (dispatcher: Dispatcher, pjax: Pjax, prefetch: Prefet
 
     checkURL(url);
   };
-
-  return binder;
 };
