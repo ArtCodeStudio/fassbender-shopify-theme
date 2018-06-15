@@ -56,7 +56,7 @@ export class Utils {
    * Check whether variable is number or string in JavaScript
    * @see https://stackoverflow.com/a/1421988/1465919
    */
-  public static isNumbern(value?: any): boolean {
+  public static isNumber(value?: any): boolean {
     return !isNaN(parseFloat(value)) && !isNaN(value - 0);
   }
 
@@ -111,7 +111,7 @@ export class Utils {
    */
   public static justDigits(str: string) {
     const num = str.replace(/[^-\d\.]/g, '');
-    if (!Utils.isNumbern(num)) {
+    if (!Utils.isNumber(num)) {
       return 0;
     } else {
       return Number(num);
@@ -325,5 +325,32 @@ export class Utils {
       w,
     };
   }
+
+  /**
+   * Format a monetary amount using Shopify's formatMoney if available.
+   * If it's not available, just return the value.
+   * @source https://github.com/discolabs/cartjs/blob/master/src/utils.coffee
+   * @source https://github.com/JumpLinkNetwork/shopify-productjs/blob/master/src/utilities.js
+   */
+  // public static formatMoney(value, format, formatName, currency) {
+  //   var _ref, _ref1;
+  //   if (currency == null) {
+  //     currency = '';
+  //   }
+  //   if (!currency) {
+  //     currency = ProductJS.settings.currency;
+  //   }
+  //   if ((window.Currency != null) && currency !== ProductJS.settings.currency) {
+  //     value = Currency.convert(value, ProductJS.settings.currency, currency);
+  //     if ((((_ref = window.Currency) != null ? _ref.moneyFormats : void 0) != null) && (currency in window.Currency.moneyFormats)) {
+  //       format = window.Currency.moneyFormats[currency][formatName];
+  //     }
+  //   }
+  //   if (((_ref1 = window.Shopify) != null ? _ref1.formatMoney : void 0) != null) {
+  //     return Shopify.formatMoney(value, format);
+  //   } else {
+  //     return value;
+  //   }
+  // }
 
 }

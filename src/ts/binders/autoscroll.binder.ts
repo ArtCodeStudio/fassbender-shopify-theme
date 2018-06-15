@@ -7,6 +7,7 @@ export interface IOptions {
   direction: 1 | -1;
   jumps: number;
   delay: number;
+  width?: string;
 }
 
 const debug = Debug('binders:autoscroll');
@@ -17,7 +18,6 @@ const initAutoscroll = ($el: JQuery<HTMLElement>, options: IOptions) => {
   const jumps = options.jumps;
   const delay = options.delay;
   let stop = false;
-  
   let position = null;
   const maxScrollWidth = $el.prop('scrollWidth') - $el.outerWidth();
 
@@ -57,6 +57,7 @@ const initAutoscroll = ($el: JQuery<HTMLElement>, options: IOptions) => {
     setTimeout(() => {
         if ($el.filter(':hover').length) {
           stop = true;
+          direction *= -1;
         }
     }, 10);
   };
@@ -93,6 +94,10 @@ export const autoscrollBinder = () => {
 
     if (Utils.isString(optionsString)) {
       options = JSON.parse(optionsString);
+    }
+
+    if (Utils.isString(options.width)) {
+      $el.css('width', options.width);
     }
 
     $el.addClass(`rv-autoscroll-${options.angle}`);

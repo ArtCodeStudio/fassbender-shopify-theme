@@ -94,4 +94,21 @@ binders['remove-class'] = (el: HTMLElement, value: string) => {
   return value;
 };
 
+binders['for-*-*'] = function(el: HTMLElement, value: any) {
+  const $el = $(el);
+  const start = Number(this.args[0]);
+  const end = Number(this.args[1]);
+  debug('start', start, 'end', end);
+  let html = $el.html();
+  for (let index = start; index < end; index++) {
+    // $el.children().clone().appendTo($el);
+    debug('index', index);
+    // html += html;
+  }
+  debug('html', html);
+  // $el.html('test');
+
+  return value;
+};
+
 export { binders };

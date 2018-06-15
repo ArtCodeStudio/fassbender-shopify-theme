@@ -5,6 +5,7 @@ import { CustomTransition, IState, Pjax, Prefetch } from './barba';
 import { autoscrollBinder, binders, routeBinder, slideoutTogglerBinder } from './binders';
 import { components, slideoutComponent } from './components';
 import { Dispatcher } from './dispatcher';
+import { formatters } from './formatters';
 import { Tetris } from './tetris';
 
 export class View {
@@ -20,7 +21,10 @@ export class View {
 
     // Set components
     Rivets.components = components; // TODO seperate components
-    Rivets.components.slideout = slideoutComponent(this.dispatcher);
+    (Rivets.components as any).slideout = slideoutComponent(this.dispatcher);
+
+    // Set formatters https://github.com/QAPInt/rivets
+    (Rivets.formatters as any).get = formatters.get; // TODO seperate formatters
 
     // Set binders
     Rivets.binders = binders; // TODO seperate binders
@@ -28,7 +32,7 @@ export class View {
     Rivets.binders['slideout-toggler'] = slideoutTogglerBinder(this.dispatcher);
     Rivets.binders.autoscroll = autoscrollBinder();
 
-    this.outsite = Rivets.bind(JQuery('#rivets-top, #rivets-bottom'), window.model);
+    this.outsite = Rivets.bind(JQuery('#rivets-top, #rivets-bottom').get(), window.model);
 
     this.dispatcher.on('newPageReady', (currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, isInit: boolean) => {
       this.debug('newPageReady');
@@ -37,7 +41,7 @@ export class View {
         this.insite.unbind();
       }
       // bind the new container
-      this.insite = Rivets.bind($container, window.model);
+      this.insite = Rivets.bind($container.get(), window.model);
 
       // init Template
       const data = $container.data();

@@ -78,12 +78,6 @@
   // window.model.system.cart = window.cart || {{ cart | json }};
 
   /**
-   * Urls
-   */
-  window.model.system.urls = window.urls || {};
-  window.model.system.urls.noImageSrc = "{{ 'no-image.png' | asset_url }}";
-
-  /**
    * Translations
    */
   window.model.system.translations = window.model.system.translations || {};
@@ -166,8 +160,8 @@
 
 
   /**
-  * shop settings
-  */
+   * shop settings
+   */
   window.model.system.shopSettings = window.model.system.shopSettings || {};
   
   window.model.system.shopSettings.money_with_currency_format = {{ shop.money_with_currency_format | json }};
@@ -190,5 +184,14 @@
   window.model.system.shopSettings.secure_url = {{ shop.secure_url | json }};
   window.model.system.shopSettings.vendors = {{ shop.vendors | json }};
   window.model.system.shopSettings.locale = {{ shop.locale | json }};
+
+  /**
+   * assets
+   * TODO generate a list of assets
+   */
+  window.model.system.assets = window.model.system.assets || {};
+  window.model.system.assets['no-image.png'] = {{ 'no-image.png' | asset_url | json }};
+  window.model.system.assets['icon_heart_px.png'] = {{ 'icon_heart_px.png' | asset_url | json }};
+
 
 </script>

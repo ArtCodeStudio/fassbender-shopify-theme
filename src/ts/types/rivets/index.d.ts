@@ -1,62 +1,95 @@
-// Type definitions for rivets 0.9
-// Project: http://rivetsjs.com/
-// Definitions by:  Trevor Baron <https://github.com/TrevorDev>
-//                  Jakub Matjanowski <https://github.com/matjanos>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
-
-/// <reference types="jquery" />
-
 declare module 'rivets' {
-
-  export interface IView {
-    build(): void;
-    bind(): void;
-    unbind(): void;
-  }
-
-    // Global binders.
-  export let binders: any;
-
-  // Global components.
-  export let components: any;
-
-  // Global formatters.
-  export let formatters: any;
-
-  // Global sightglass adapters.
-  export let adapters: any;
-
-  // Default attribute prefix.
-  export let prefix: string;
-
-  // Default template delimiters.
-  export let templateDelimiters: string[];
-
-  // Default sightglass root interface.
-  export let rootInterface: string;
-
-  // Preload data by default.
-  export let preloadData: boolean;
-
-  export function handler(context: any, ev: Event, biding: any): void;
-
-  export function configure(options?: {
+  // TODO: check if these are correct:
+  export interface Options {
     // Attribute prefix in templates
     prefix?: string;
 
-    // Preload templates with initial data on bind
+    //Preload templates with initial data on bind
     preloadData?: boolean;
 
-    // Root sightglass interface for keypaths
+    //Root sightglass interface for keypaths
     rootInterface?: string;
 
     // Template delimiters for text bindings
-    templateDelimiters?: string[]
+    templateDelimiters?: Array<string>
 
     // Augment the event handler of the on-* binder
-    handler?(context: any, ev: Event, biding: any): void;
-  }): void;
+    handler?: Function;
+  }
 
-  export function bind(element: HTMLElement | HTMLElement[] | JQuery, models: object, options?: object): IView;
+  export interface Observer {
+    unobserve: () => any
+    value: () => any
+  }
+
+  export interface View extends Options {
+    models: Object
+    options: () => Options
+    build(): void
+    bind(): void
+    unbind(): void
+    addBinding(node: HTMLElement, type: Binder<any> | string, declaration: string): Binding
+  }
+
+  export interface Binding {
+    view: View
+    unbind: () => void
+    observe: (obj: Object, keypath: string, callback: (newValue: any) => void) => Observer
+    keypath: string
+    args: string[]
+    eventHandler: (handler: (event: Event) => void) => () => any
+    binderData: any
+  }
+
+  export interface FunctionalBinder<ValueType> {
+    (this: Binding, element: HTMLElement, value: ValueType): void
+  }
+
+  export interface Binder<ValueType> {
+    routine?: (this: Binding, element: HTMLElement, value: ValueType) => void
+    bind?: (this: Binding, element: HTMLElement) => void
+    unbind?: (this: Binding, element: HTMLElement) => void
+    update?: (this: Binding, model: ValueType) => void
+    getValue?: (this: Binding, element: HTMLElement) => void
+    block?: boolean
+    function?: boolean
+  }
+
+  export interface Component {
+    template?: string | (() => string) | (() => HTMLElement);
+  }
+
+  export interface Binders {
+    [name: string]: Binder<any> | FunctionalBinder<any>;
+  }
+
+  export interface Rivets extends Options{
+    // Global binders.
+    binders: Binders;
+
+    // Global components.
+    components: Object;
+
+    // Global formatters.
+    formatters: Object;
+
+    // Global sightglass adapters.
+    adapters: Object;
+
+    handler(context: any, ev: Event, biding: any): void;
+
+    configure(options?: Options): void;
+
+    // bind(element: HTMLElement, models: Object, options?: Object): View;
+    // bind(element: JQuery, models: Object, options?: Object): View;
+    bind(element: HTMLElement | Array<HTMLElement> | JQuery<HTMLElement>, models: any, options?: any): View;
+
+    _: {
+      sightglass: any
+    }
+  }
+
+  export const rivets: Rivets
+
+  // export default rivets
 }
