@@ -1,6 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
+import { Component } from 'tinybind';
 import { Dispatcher } from '../../dispatcher';
 import { Utils } from './../../Utils';
 import template from './slideout.component.html';
@@ -16,19 +17,19 @@ declare global {
  */
 export const slideoutComponent = (dispatcher: Dispatcher) => {
 
-  return {
+  const debug = Debug('rivets:slideout');
+
+  const component: Component = {
     template() {
       return template;
     },
+
     initialize(el: HTMLElement, data: any) {
-      const controller = this;
-      const $el = $(el);
-      const debug = Debug('rivets:slideout');
+      const scope = this;
+      scope.linklist = window.model.system.linklists['main-menu']; // data.linklist;
+      scope.system = window.model.system;
 
-      controller.linklist =  window.model.system.linklists['main-menu']; // data.linklist;
-      controller.system = window.model.system;
-
-      debug('initialize', controller);
+      debug('initialize', this);
 
       setTimeout(() => {
         const options = {
@@ -65,7 +66,9 @@ export const slideoutComponent = (dispatcher: Dispatcher) => {
 
       }, 0);
 
-      return controller;
+      return scope;
     },
   };
+
+  return component;
 };
