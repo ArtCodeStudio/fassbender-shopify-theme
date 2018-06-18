@@ -1,8 +1,9 @@
 import Debug from 'debug';
 import JQuery from 'jquery';
-import Rivets from 'rivets';
+import tinybind from 'tinybind';
 import { CustomTransition, IState, Pjax, Prefetch } from './barba';
 import { autoscrollBinder, binders, routeBinder, slideoutTogglerBinder } from './binders';
+// import { components, slideoutComponent } from './components';
 import { components, slideoutComponent } from './components';
 import { Dispatcher } from './dispatcher';
 import { formatters } from './formatters';
@@ -20,19 +21,19 @@ export class View {
   constructor() {
 
     // Set components
-    Rivets.components = components; // TODO seperate components
-    (Rivets.components as any).slideout = slideoutComponent(this.dispatcher);
+    tinybind.components = components; // TODO seperate components
+    tinybind.components.slideout = slideoutComponent(this.dispatcher);
 
     // Set formatters https://github.com/QAPInt/rivets
-    (Rivets.formatters as any).get = formatters.get; // TODO seperate formatters
+    (tinybind.formatters as any).get = formatters.get; // TODO seperate formatters
 
     // Set binders
-    Rivets.binders = binders; // TODO seperate binders
-    Rivets.binders.route = routeBinder(this.dispatcher, this.pjax, this.prefetch);
-    Rivets.binders['slideout-toggler'] = slideoutTogglerBinder(this.dispatcher);
-    Rivets.binders.autoscroll = autoscrollBinder();
+    tinybind.binders = binders; // TODO seperate binders
+    tinybind.binders.route = routeBinder(this.dispatcher, this.pjax, this.prefetch);
+    tinybind.binders['slideout-toggler'] = slideoutTogglerBinder(this.dispatcher);
+    tinybind.binders.autoscroll = autoscrollBinder();
 
-    this.outsite = Rivets.bind(JQuery('#rivets-top, #rivets-bottom').get(), window.model);
+    this.outsite = tinybind.bind(JQuery('#rivets-top, #rivets-bottom').get(), window.model);
 
     this.dispatcher.on('newPageReady', (currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, isInit: boolean) => {
       this.debug('newPageReady');
@@ -41,7 +42,7 @@ export class View {
         this.insite.unbind();
       }
       // bind the new container
-      this.insite = Rivets.bind($container.get(), window.model);
+      this.insite = tinybind.bind($container.get(), window.model);
 
       // init Template
       const data = $container.data();

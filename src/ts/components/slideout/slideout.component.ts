@@ -25,11 +25,10 @@ export const slideoutComponent = (dispatcher: Dispatcher) => {
       const $el = $(el);
       const debug = Debug('rivets:slideout');
 
+      controller.linklist =  window.model.system.linklists['main-menu']; // data.linklist;
       controller.system = window.model.system;
 
-      controller.linklist = window.model.system.linklists['main-menu'];
-
-      debug('initialize');
+      debug('initialize', controller);
 
       setTimeout(() => {
         const options = {

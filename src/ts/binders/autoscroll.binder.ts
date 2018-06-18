@@ -80,21 +80,10 @@ const initAutoscroll = ($el: JQuery<HTMLElement>, options: IOptions) => {
  */
 export const autoscrollBinder = () => {
 
-  return (el: HTMLElement, optionsString: string) => {
+  return (el: HTMLElement, options?: IOptions) => {
     const $el = $(el);
 
-    let options: IOptions = null;
-
-    // if options injected with just with a json string
-    if (!Utils.isString(optionsString)) {
-      optionsString = $el.attr('rv-autoscroll');
-    }
-
-    debug('init', el, optionsString);
-
-    if (Utils.isString(optionsString)) {
-      options = JSON.parse(optionsString);
-    }
+    debug('init', options);
 
     if (Utils.isString(options.width)) {
       $el.css('width', options.width);

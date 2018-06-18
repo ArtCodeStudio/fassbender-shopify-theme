@@ -1,13 +1,13 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import Rivets from 'rivets';
+import tinybind from 'tinybind';
 import { Utils } from '../Utils';
 
 export { routeBinder } from './route.binder';
 export { slideoutTogglerBinder } from './slideout-toggler.binder';
 export { autoscrollBinder } from './autoscroll.binder';
 
-const binders: any = Rivets.binders;
+const binders = tinybind.binders;
 const debug = Debug('rivets:binders');
 
 binders.html = (el: HTMLElement, value: string) => {
@@ -68,7 +68,8 @@ binders['image-box'] = (el: HTMLElement, value: string) => {
  */
 binders['class-*'] = function(el: HTMLElement, value: string) {
   const $el = $(el);
-  const className = this.args[0];
+  debug(this.arg);
+  const className = this.arg[0];
   // debug('class-*', className, value);
   if (value) {
     $el.addClass(className);
@@ -96,10 +97,10 @@ binders['remove-class'] = (el: HTMLElement, value: string) => {
 
 binders['for-*-*'] = function(el: HTMLElement, value: any) {
   const $el = $(el);
-  const start = Number(this.args[0]);
-  const end = Number(this.args[1]);
+  const start = Number(this.arg[0]);
+  const end = Number(this.arg[1]);
   debug('start', start, 'end', end);
-  let html = $el.html();
+  const html = $el.html();
   for (let index = start; index < end; index++) {
     // $el.children().clone().appendTo($el);
     debug('index', index);
