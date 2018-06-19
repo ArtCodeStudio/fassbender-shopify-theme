@@ -1,16 +1,17 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
-import { IOneWayBinder, ITwoWayBinder } from 'tinybind';
+import { IOneWayBinder } from 'tinybind';
 import { Dispatcher } from '../dispatcher';
 import { TypingTextService } from './../typing-text.service';
+import { BinderWrapper } from './binders.service';
 
 export type TSide = 'right' | 'left';
 
 /**
  * Slideout click event to toggle the slideout
  */
-export const slideoutTogglerBinder = (dispatcher: Dispatcher) => {
+export const slideoutTogglerBinder: BinderWrapper = (dispatcher: Dispatcher) => {
 
   const name = 'slideout-toggler';
 

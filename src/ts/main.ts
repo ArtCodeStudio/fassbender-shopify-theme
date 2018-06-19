@@ -3,7 +3,7 @@ import JQuery from 'jquery';
 import { View } from 'tinybind';
 import tinybind from 'tinybind';
 import { CustomTransition, IState, Pjax, Prefetch } from './barba';
-import { autoscrollBinder, routeBinder, slideoutTogglerBinder } from './binders';
+import { autoscrollBinder, BindersService, removeClassBinder, routeBinder, slideoutTogglerBinder } from './binders';
 import { navItems, slideoutComponent } from './components';
 import { Dispatcher } from './dispatcher';
 import { get } from './formatters';
@@ -23,7 +23,7 @@ export class Main {
     dynamic: null,
     static: null,
   };
-  private insite: View = null;
+  private binderRegister = new BindersService(tinybind);
   private debug = Debug('View');
 
   constructor() {
@@ -36,9 +36,10 @@ export class Main {
     tinybind.formatters.get = get;
 
     // Regist binders
-    tinybind.binders.route = routeBinder(this.dispatcher, this.pjax, this.prefetch).binder;
-    tinybind.binders['slideout-toggler'] = slideoutTogglerBinder(this.dispatcher).binder;
-    tinybind.binders.autoscroll = autoscrollBinder().binder;
+    this.binderRegister.registWrapper(routeBinder(this.dispatcher, this.pjax, this.prefetch));
+    this.binderRegister.registWrapper(slideoutTogglerBinder(this.dispatcher));
+    this.binderRegister.registWrapper(autoscrollBinder());
+    this.binderRegister.registWrapper(removeClassBinder());
 
     this.views.static = tinybind.bind(JQuery('body').get(), window.model);
 

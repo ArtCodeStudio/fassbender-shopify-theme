@@ -1,66 +1,30 @@
 import Debug from 'debug';
 import { Utils } from '../Utils';
 
+// compare functions
+export { and } from './and.formatter';
+export { eq } from './eq.formatter';
+export { ne } from './ne.formatter';
+export { lt } from './lt.formatter';
+export { elt } from './elt.formatter';
+export { or } from './or.formatter';
+
+// strings and array functions
+export { first } from './first.formatter';
+export { last } from './last.formatter';
+export { contains } from './contains.formatter';
+export { get } from './get.formatter';
+export { match } from './match.formatter';
+
 /**
  * Add useful general-purpose formatters for Rivets.js
- * Some formatters from cart.js
- * @see https://github.com/discolabs/cartjs/blob/master/src/rivets.coffee#L52
- * @see https://github.com/matthieuriolo/rivetsjs-stdlib/blob/master/src/rivetsstdlib.js
- * @see https://github.com/JumpLinkNetwork/shopify-productjs/blob/master/src/utilities.js
+ * Some formatters from cart.js and rivetsjs-stdlib
+ * @see https://github.com/discolabs/cartjs/
+ * @see https://github.com/matthieuriolo/rivetsjs-stdlib
+ * @see https://github.com/JumpLinkNetwork/shopify-productjs
  */
 
 const debug = Debug('rivets:formatters');
-
-/**
- * a === b
- */
-export const eq = (a: any, b: any) => {
-  return a === b;
-};
-
-/**
- * a !== b
- */
-export const ueq = (a: any, b: any) => {
-  return a !== b;
-};
-
-export const includes = (a: string, b: string) => {
-  return a.indexOf(b) >= 0;
-};
-
-export const match = (a: string, regexp: string, flags?: string) => {
-  return a.match(new RegExp(regexp, flags));
-};
-
-export const lt = (a: number, b: number) => {
-  debug('[lt]', a, b);
-  return a < b;
-};
-
-/**
- * a <= b
- */
-export const elt = (a: number, b: number) => {
-  debug('[elt]', a, b);
-  return a <= b;
-};
-
-/**
- * a > b
- */
-export const gt = (a: number, b: number) => {
-  debug('[gt]', a, b);
-  return a > b;
-};
-
-/**
- * a >= b
- */
-export const egt = (a: number, b: number) => {
-  debug('[egt]', a, b);
-  return a >= b;
-};
 
 /**
  * !a
@@ -71,20 +35,6 @@ export const not = (a: boolean) => {
 
 export const empty = (a: any[] | string ) => {
   return !count(a);
-};
-
-/**
- * a && b
- */
-export const and = (a: boolean, b: boolean) => {
-  return a && b;
-};
-
-/**
- * a || b
- */
-export const or = (a: boolean, b: boolean) => {
-  return a || b;
 };
 
 /**
@@ -192,17 +142,6 @@ export const pluralize = (input: any, singular: string, plural: string) => {
 };
 
 /**
- * Get property of object or array
- * @see https://gist.github.com/der-On/cdafe908847e2b882691
- */
-export const get = (obj: any | any[], key: string | number) => {
-  if (Utils.isObject(obj) || Utils.isArray(obj)) {
-    return obj[key];
-  }
-  return null;
-};
-
-/**
  * Set property of object
  * @see https://gist.github.com/der-On/cdafe908847e2b882691
  */
@@ -212,20 +151,6 @@ export const set = (obj: any | any[], key: string | number, value: any) => {
   }
 
   return obj;
-};
-
-/**
- * Array formatter to get the first element of an array
- */
-export const first = (arr: any[]) => {
-  return get(arr, 0);
-};
-
-/**
- * Array formatter to get the last element of an array
- */
-export const last = (array: any[]) => {
-  return get(array, array.length - 1);
 };
 
 /**
@@ -349,39 +274,6 @@ export const defaultValue = (value: any, args: any) => {
  */
 export const json = (object: any) => {
   return JSON.stringify(object);
-};
-
-/**
- * True if array / string contains property / substring or containts property with value
- * @see https://gist.github.com/der-On/cdafe908847e2b882691
- */
-export const contains = (value: string | any | any[], attr: string, search: string) => {
-
-    // console.log("contains", value, attr, search);
-
-    if (!Utils.isArray(value) || !Utils.isObject(value) || !Utils.isString(value)) {
-      return false;
-    }
-
-    if (Utils.isUndefined(search)) {
-      search = attr;
-    }
-
-    if (Utils.isString(value)) {
-      return (value.indexOf(search) !== -1);
-    }
-
-    if (Utils.isArray(value)) {
-      for (const key in value) {
-        if ((value.hasOwnProperty(key).hasOwnProperty(attr)) || (Utils.isDefined(value[key]) && Utils.isDefined(value[key][attr]))) {
-          if (value[key][attr] === search) {
-            return true;
-          }
-        }
-      }
-    }
-
-    return false;
 };
 
 /**

@@ -4,12 +4,13 @@ import { IOneWayBinder, ITwoWayBinder } from 'tinybind';
 import { Pjax, Prefetch } from '../barba';
 import { Dispatcher } from '../dispatcher';
 import { Utils } from '../Utils';
+import { BinderWrapper } from './binders.service';
 
 /**
  * Open link with pajax if the route is not the active route
  * Sets also the element active if his url is the current url
  */
-export const routeBinder = (dispatcher: Dispatcher, pjax: Pjax, prefetch: Prefetch) => {
+export const routeBinder: BinderWrapper = (dispatcher: Dispatcher, pjax: Pjax, prefetch: Prefetch) => {
 
   const name = 'route';
 

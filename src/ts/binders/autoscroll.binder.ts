@@ -2,6 +2,7 @@ import Debug from 'debug';
 import $ from 'jquery';
 import { IOneWayBinder, ITwoWayBinder } from 'tinybind';
 import { Utils } from '../Utils';
+import { BinderWrapper } from './binders.service';
 
 export interface IOptions {
   angle: 'vertical' | 'horizontal';
@@ -14,7 +15,7 @@ export interface IOptions {
 /**
  * Slideout click event to toggle the slideout
  */
-export const autoscrollBinder = () => {
+export const autoscrollBinder: BinderWrapper = () => {
 
   const debug = Debug('binders:autoscroll');
 
