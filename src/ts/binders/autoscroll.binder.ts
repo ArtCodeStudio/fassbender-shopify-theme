@@ -1,5 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
+import { IOneWayBinder, ITwoWayBinder } from 'tinybind';
 import { Utils } from '../Utils';
 
 export interface IOptions {
@@ -10,77 +11,79 @@ export interface IOptions {
   width?: string;
 }
 
-const debug = Debug('binders:autoscroll');
-
-// TODO try alternative version from https://www.sitepoint.com/community/t/auto-scrolling-a-div-with-overflow-scroll-auto/2291/3
-const initAutoscroll = ($el: JQuery<HTMLElement>, options: IOptions) => {
-  let direction = options.direction;
-  const jumps = options.jumps;
-  const delay = options.delay;
-  let stop = false;
-  let position = null;
-  const maxScrollWidth = $el.prop('scrollWidth') - $el.outerWidth();
-
-  if (direction < 0) {
-    // start right
-    $el.scrollLeft(maxScrollWidth);
-  } else {
-    // start left
-    $el.scrollLeft(0);
-  }
-
-  const scroll = () => {
-    if (stop) {
-      // do nothing
-      return setTimeout(scroll, 200);
-    }
-
-    position = $el.scrollLeft();
-    if (direction > 0) {
-      position = position + jumps;
-    } else {
-      position = position - jumps;
-    }
-
-    if ( position <= 5) {
-      direction = 1;
-    } else if (position >= maxScrollWidth) {
-      direction = -1;
-    }
-
-    return $el.animate({
-      scrollLeft: position,
-    }, delay, 'linear', scroll);
-  };
-
-  const mouseIn = () => {
-    setTimeout(() => {
-        if ($el.filter(':hover').length) {
-          stop = true;
-          direction *= -1;
-        }
-    }, 10);
-  };
-
-  const mouseOut = () => {
-    setTimeout(() => {
-      if (stop && !$el.filter(':hover').length) {
-        stop = false;
-      }
-    }, 500);
-  };
-
-  $el.hover(mouseIn, mouseOut);
-
-  return setTimeout(scroll, 0);
-};
-
 /**
  * Slideout click event to toggle the slideout
  */
 export const autoscrollBinder = () => {
 
-  return (el: HTMLElement, options?: IOptions) => {
+  const debug = Debug('binders:autoscroll');
+
+  const name = 'autoscroll';
+
+  // TODO try alternative version from https://www.sitepoint.com/community/t/auto-scrolling-a-div-with-overflow-scroll-auto/2291/3
+  const initAutoscroll = ($el: JQuery<HTMLElement>, options: IOptions) => {
+    let direction = options.direction;
+    const jumps = options.jumps;
+    const delay = options.delay;
+    let stop = false;
+    let position = null;
+    const maxScrollWidth = $el.prop('scrollWidth') - $el.outerWidth();
+
+    if (direction < 0) {
+      // start right
+      $el.scrollLeft(maxScrollWidth);
+    } else {
+      // start left
+      $el.scrollLeft(0);
+    }
+
+    const scroll = () => {
+      if (stop) {
+        // do nothing
+        return setTimeout(scroll, 200);
+      }
+
+      position = $el.scrollLeft();
+      if (direction > 0) {
+        position = position + jumps;
+      } else {
+        position = position - jumps;
+      }
+
+      if ( position <= 5) {
+        direction = 1;
+      } else if (position >= maxScrollWidth) {
+        direction = -1;
+      }
+
+      return $el.animate({
+        scrollLeft: position,
+      }, delay, 'linear', scroll);
+    };
+
+    const mouseIn = () => {
+      setTimeout(() => {
+          if ($el.filter(':hover').length) {
+            stop = true;
+            direction *= -1;
+          }
+      }, 10);
+    };
+
+    const mouseOut = () => {
+      setTimeout(() => {
+        if (stop && !$el.filter(':hover').length) {
+          stop = false;
+        }
+      }, 500);
+    };
+
+    $el.hover(mouseIn, mouseOut);
+
+    return setTimeout(scroll, 0);
+  };
+
+  const binder: IOneWayBinder<IOptions> = (el: HTMLElement, options?: IOptions) => {
     const $el = $(el);
 
     debug('init', options);
@@ -95,5 +98,10 @@ export const autoscrollBinder = () => {
       initAutoscroll($el, options);
     }, 1000);
 
+  };
+
+  return {
+    binder,
+    name,
   };
 };

@@ -9,32 +9,31 @@ import { Utils } from '../Utils';
  * @see https://github.com/JumpLinkNetwork/shopify-productjs/blob/master/src/utilities.js
  */
 
-const formatters: any = {};
 const debug = Debug('rivets:formatters');
 
 /**
  * a === b
  */
-formatters.eq = (a: any, b: any) => {
+export const eq = (a: any, b: any) => {
   return a === b;
 };
 
 /**
  * a !== b
  */
-formatters.ueq = (a: any, b: any) => {
+export const ueq = (a: any, b: any) => {
   return a !== b;
 };
 
-formatters.includes = (a: string, b: string) => {
+export const includes = (a: string, b: string) => {
   return a.indexOf(b) >= 0;
 };
 
-formatters.match = (a: string, regexp: string, flags?: string) => {
+export const match = (a: string, regexp: string, flags?: string) => {
   return a.match(new RegExp(regexp, flags));
 };
 
-formatters.lt = (a: number, b: number) => {
+export const lt = (a: number, b: number) => {
   debug('[lt]', a, b);
   return a < b;
 };
@@ -42,7 +41,7 @@ formatters.lt = (a: number, b: number) => {
 /**
  * a <= b
  */
-formatters.elt = (a: number, b: number) => {
+export const elt = (a: number, b: number) => {
   debug('[elt]', a, b);
   return a <= b;
 };
@@ -50,7 +49,7 @@ formatters.elt = (a: number, b: number) => {
 /**
  * a > b
  */
-formatters.gt = (a: number, b: number) => {
+export const gt = (a: number, b: number) => {
   debug('[gt]', a, b);
   return a > b;
 };
@@ -58,7 +57,7 @@ formatters.gt = (a: number, b: number) => {
 /**
  * a >= b
  */
-formatters.egt = (a: number, b: number) => {
+export const egt = (a: number, b: number) => {
   debug('[egt]', a, b);
   return a >= b;
 };
@@ -66,25 +65,25 @@ formatters.egt = (a: number, b: number) => {
 /**
  * !a
  */
-formatters.not = (a: boolean) => {
+export const not = (a: boolean) => {
   return !a;
 };
 
-formatters.empty = (a: any[] | string ) => {
-  return !formatters.size(a);
+export const empty = (a: any[] | string ) => {
+  return !count(a);
 };
 
 /**
  * a && b
  */
-formatters.and = (a: boolean, b: boolean) => {
+export const and = (a: boolean, b: boolean) => {
   return a && b;
 };
 
 /**
  * a || b
  */
-formatters.or = (a: boolean, b: boolean) => {
+export const or = (a: boolean, b: boolean) => {
   return a || b;
 };
 
@@ -92,7 +91,7 @@ formatters.or = (a: boolean, b: boolean) => {
  * parse json string to object
  * @example <div rv-class='"["col-2", "col-3", "col-4", "col-5", "col-6"]" | parse | random'>
  */
-formatters.parse = (jsonString: string) => {
+export const parse = (jsonString: string) => {
   if (Utils.isString(jsonString)) {
     const object = JSON.parse(jsonString);
     return object;
@@ -104,7 +103,7 @@ formatters.parse = (jsonString: string) => {
  * Get a back random value of array
  * @example <div rv-class='"["col-2", "col-3", "col-4", "col-5", "col-6"]" | parse | random'>
  */
-formatters.random = (array: any[]) => {
+export const random = (array: any[]) => {
     if (Utils.isArray(array)) {
         const value = array[Math.floor(Math.random() * array.length)];
         return value;
@@ -116,7 +115,7 @@ formatters.random = (array: any[]) => {
  * Adds a number to an output.
  * @see https://help.shopify.com/themes/liquid/filters/math-filters#plus
  */
-formatters.plus = (a: string | number, b: string | number) => {
+export const plus = (a: string | number, b: string | number) => {
   return Number(a) + Number(b);
 };
 
@@ -124,7 +123,7 @@ formatters.plus = (a: string | number, b: string | number) => {
  * Subtracts a number from an output.
  * @see https://help.shopify.com/themes/liquid/filters/math-filters#minus
  */
-formatters.minus = (a: string | number, b: string | number) => {
+export const minus = (a: string | number, b: string | number) => {
   return Number(a) - Number(b);
 };
 
@@ -132,7 +131,7 @@ formatters.minus = (a: string | number, b: string | number) => {
  * Multiplies an output by a number.
  * @see https://help.shopify.com/themes/liquid/filters/math-filters#times
  */
-formatters.times = (a: string | number, b: string | number) => {
+export const times = (a: string | number, b: string | number) => {
   return Number(a) * Number(b);
 };
 
@@ -140,7 +139,7 @@ formatters.times = (a: string | number, b: string | number) => {
  * Divides an output by a number. The output is rounded down to the nearest integer.
  * @see https://help.shopify.com/themes/liquid/filters/math-filters#divided_by
  */
-formatters.divided_by = (a: string | number, b: string | number) => {
+export const dividedBy = (a: string | number, b: string | number) => {
   return Number(a) / Number(b);
 };
 
@@ -148,7 +147,7 @@ formatters.divided_by = (a: string | number, b: string | number) => {
  * Divides an output by a number and returns the remainder.
  * @see https://help.shopify.com/themes/liquid/filters/math-filters#modulo
  */
-formatters.modulo = (a: string | number, b: string | number) => {
+export const modulo = (a: string | number, b: string | number) => {
   return Number(a) % Number(b);
 };
 
@@ -156,7 +155,7 @@ formatters.modulo = (a: string | number, b: string | number) => {
  * Prepends characters to a string.
  * @see https://help.shopify.com/themes/liquid/filters/string-filters#prepend
  */
-formatters.prepend = (a: string, b: string) => {
+export const prepend = (a: string, b: string) => {
   return b + a;
 };
 
@@ -164,7 +163,7 @@ formatters.prepend = (a: string, b: string) => {
  * Appends characters to a string.
  * @see https://help.shopify.com/themes/liquid/filters/string-filters#append
  */
-formatters.append = (a: string, b: string) => {
+export const append = (a: string, b: string) => {
   return a + b;
 };
 
@@ -174,11 +173,11 @@ formatters.append = (a: string, b: string) => {
  * If no second parameter is given, a substring of one character will be returned.
  * @see https://help.shopify.com/themes/liquid/filters/string-filters#slice
  */
-formatters.slice = (value: any, start: number, end: number) => {
+export const slice = (value: any, start: number, end: number) => {
   return value.slice(start, end);
 };
 
-formatters.pluralize = (input: any, singular: string, plural: string) => {
+export const pluralize = (input: any, singular: string, plural: string) => {
   if (plural === null) {
     plural = singular + 's';
   }
@@ -193,24 +192,51 @@ formatters.pluralize = (input: any, singular: string, plural: string) => {
 };
 
 /**
- * Array formatter to get value by index
+ * Get property of object or array
+ * @see https://gist.github.com/der-On/cdafe908847e2b882691
  */
-formatters.index = (array: any[], index: number) => {
-  return (array && array.length >= index) ? array[index] : null;
+export const get = (obj: any | any[], key: string | number) => {
+  if (Utils.isObject(obj) || Utils.isArray(obj)) {
+    return obj[key];
+  }
+  return null;
+};
+
+/**
+ * Set property of object
+ * @see https://gist.github.com/der-On/cdafe908847e2b882691
+ */
+export const set = (obj: any | any[], key: string | number, value: any) => {
+  if (Utils.isObject(obj) || Utils.isArray(obj)) {
+    obj[key] = value;
+  }
+
+  return obj;
 };
 
 /**
  * Array formatter to get the first element of an array
  */
-formatters.first = (array: any[]) => {
-  return (array && array.length) ? array[0] : null;
+export const first = (arr: any[]) => {
+  return get(arr, 0);
 };
 
 /**
  * Array formatter to get the last element of an array
  */
-formatters.last = (array: any[]) => {
-  return (array && array.length) ? array[array.length - 1] : null;
+export const last = (array: any[]) => {
+  return get(array, array.length - 1);
+};
+
+/**
+ * Returns true if value index it the last index of the array. Returns false if it is not the last index.
+ * ```
+ *  <div rv-each-image="product.images" rv-hide="product.images | last %image%"></div>
+ * ```
+ * @see https://help.shopify.com/themes/liquid/objects/for-loops#forloop-last
+ */
+export const isLast = (array: any[], i: number) => {
+  return (array.length === i + 1);
 };
 
 /**
@@ -219,7 +245,7 @@ formatters.last = (array: any[]) => {
  * @param symbol Currency symbol or identifier to be displayed. (optional)
  * @see https://docs.angularjs.org/api/ng/filter/currency
  */
-formatters.currency = (amount: number, symbol: string) => {
+export const currency = (amount: number, symbol: string) => {
     let result = amount.toFixed(2).toString().replace('.', ',');
     if (symbol) {
       result = result + symbol;
@@ -228,15 +254,15 @@ formatters.currency = (amount: number, symbol: string) => {
 };
 
 // Add Shopify-specific formatters for Rivets.js.
-// formatters.money = (value, currency) => {
+// export const money = (value, currency) => {
 //   return Utils.formatMoney(value, ProductJS.settings.moneyFormat, 'money_format', currency);
 // };
 
-// formatters.money_with_currency = (value, currency) => {
+// export const moneyWithCurrency = (value, currency) => {
 //   return Utils.formatMoney(value, ProductJS.settings.moneyWithCurrencyFormat, 'money_with_currency_format', currency);
 // };
 
-// formatters.weight = (grams) => {
+// export const weight = (grams) => {
 //   switch (CartJS.settings.weightUnit) {
 //     case 'kg':
 //       return (grams / 1000).toFixed(CartJS.settings.weightPrecision);
@@ -251,20 +277,15 @@ formatters.currency = (amount: number, symbol: string) => {
 
 /**
  * Formats the product variant's weight. The weight unit is set in General Settings.
- * @see https://help.shopify.com/themes/liquid/filters/additional-filters#weight_with_unit
+ * @see https://help.shopify.com/themes/liquid/filters/additional-filters#weightWithUnit
  */
-// formatters.weight_with_unit = (grams) => {
-//   return formatters.weight(grams) + CartJS.settings.weightUnit;
+// export const weightWithUnit = (grams) => {
+//   return export const weight(grams) + CartJS.settings.weightUnit;
 // };
 
-// formatters.product_image_size = (src, size) => {
+// export const productImageSize = (src, size) => {
 //   return CartJS.Utils.getSizedImageUrl(src, size);
 // };
-
-// Add camelCase aliases for underscore formatters.
-formatters.moneyWithCurrency = formatters.money_with_currency;
-formatters.weightWithUnit = formatters.weight_with_unit;
-formatters.productImageSize = formatters.product_image_size;
 
 // Additional formatters for ProductJS
 
@@ -272,25 +293,15 @@ formatters.productImageSize = formatters.product_image_size;
  * Returns the size of a string (the number of characters) or an array (the number of elements).
  * @see https://help.shopify.com/themes/liquid/filters/array-filters#size
  */
-formatters.size = (array: any[]) => {
-  return (array && array.length) ? array.length : 0;
+export const count = (value: any[] | string) => {
+  return (value && value.length) ? value.length : 0;
 };
-
-/**
- * Alias for size formatter
- */
-formatters.length = formatters.size;
-
-/**
- * Alias for size formatter
- */
-formatters.count = formatters.size;
 
 /**
  * Strips tabs, spaces, and newlines (all whitespace) from the left and right side of a string.
  * @see https://help.shopify.com/themes/liquid/filters/string-filters#strip
  */
-formatters.strip = (str: string) => {
+export const strip = (str: string) => {
   return $.trim(str);
 };
 
@@ -298,7 +309,7 @@ formatters.strip = (str: string) => {
  * Converts a string into uppercase.
  * @see https://help.shopify.com/themes/liquid/filters/string-filters#upcase
  */
-formatters.upcase = (str: string) =>  {
+export const upcase = (str: string) =>  {
   return str.toUpperCase();
 };
 
@@ -306,7 +317,7 @@ formatters.upcase = (str: string) =>  {
  * Converts a string into lowercase.
  * @see https://help.shopify.com/themes/liquid/filters/string-filters#downcase
  */
-formatters.downcase = (str: string) => {
+export const downcase = (str: string) => {
   return str.toLowerCase();
 };
 
@@ -314,10 +325,10 @@ formatters.downcase = (str: string) => {
  * Formats a string into a handle.
  * @see https://help.shopify.com/themes/liquid/filters/string-filters#handle-handleize
  */
-formatters.handleize = (str: string) => {
-  str = formatters.strip(str);
+export const handleize = (str: string) => {
+  str = strip(str);
   str = str.replace(/[^\w\s]/gi, ''); // http://stackoverflow.com/a/4374890
-  str = formatters.downcase(str);
+  str = downcase(str);
   return str.replace(/ /g, '-');
 };
 
@@ -325,15 +336,18 @@ formatters.handleize = (str: string) => {
  * Set default value
  * @see https://gist.github.com/der-On/cdafe908847e2b882691
  */
-formatters.default = (value: any, args: any) => {
-  return (typeof value !== 'undefined' && value !== null) ? value : args;
+export const defaultValue = (value: any, args: any) => {
+  if (Utils.isDefined(value)) {
+    return value;
+  }
+  return args;
 };
 
 /**
  * Converts a string into JSON format.
  * @see https://help.shopify.com/themes/liquid/filters/additional-filters#json
  */
-formatters.json = (object: any) => {
+export const json = (object: any) => {
   return JSON.stringify(object);
 };
 
@@ -341,7 +355,7 @@ formatters.json = (object: any) => {
  * True if array / string contains property / substring or containts property with value
  * @see https://gist.github.com/der-On/cdafe908847e2b882691
  */
-formatters.contains = (value: string | any | any[], attr: string, search: string) => {
+export const contains = (value: string | any | any[], attr: string, search: string) => {
 
     // console.log("contains", value, attr, search);
 
@@ -374,7 +388,7 @@ formatters.contains = (value: string | any | any[], attr: string, search: string
  * Just get the digits of a string, useful to remove px from css value
  * @see http://stackoverflow.com/a/1100653/1465919
  */
-formatters.justDigits = (str: string) => {
+export const justDigits = (str: string) => {
   if (Utils.isNumber(str)) {
     return str;
   }
@@ -390,62 +404,26 @@ formatters.justDigits = (str: string) => {
  * Prüft ob eine Zahl gerade ist oder nicht
  * Check if a number is even or not
  */
-formatters.even = (num: number) => {
+export const even = (num: number) => {
   return (num % 2) === 0;
 };
 
-formatters.uneven = (num: number) => {
+export const uneven = (num: number) => {
   return (num % 2) !== 0;
 };
 
 /**
  * Check if value is a string
  */
-formatters.isString = (str: string) => {
+export const isString = (str: string) => {
     return Utils.isString(str);
 };
 
 /**
  * Check if value is a string and not empty
  */
-formatters.filledString = (str: string) => {
-    return Utils.isString(str) && !formatters.empty(str.replace(/\s/g, ''));
-};
-
-/**
- * Returns true if value index it the last index of the array. Returns false if it is not the last index.
- * ```
- *  <div rv-each-image="product.images" rv-hide="product.images | last %image%"></div>
- * ```
- * @see https://help.shopify.com/themes/liquid/objects/for-loops#forloop-last
- */
-formatters.last = (array: any[], index: number) => {
-  return (array.length === index + 1);
-};
-
-/**
- * Get property of object or array
- * @see https://gist.github.com/der-On/cdafe908847e2b882691
- */
-formatters.get = (obj: any, key: string) => {
-  debug('get', obj, key);
-  if (Utils.isObject(obj) || Utils.isArray(obj)) {
-    debug('get', obj, key, obj[key]);
-    return obj[key];
-  }
-  return null;
-};
-
-/**
- * Set property of object
- * @see https://gist.github.com/der-On/cdafe908847e2b882691
- */
-formatters.set = (obj: any, key: string, value: any) => {
-  if (obj && typeof obj === 'object') {
-    obj[key] = value;
-  }
-
-  return obj;
+export const filledString = (str: string) => {
+    return Utils.isString(str) && !empty(str.replace(/\s/g, ''));
 };
 
 // Additional formatters for Textilyze
@@ -454,8 +432,8 @@ formatters.set = (obj: any, key: string, value: any) => {
  * greatest common divisor (GCD) useful to calculate the ratio
  * @see https://stackoverflow.com/a/1186465/1465919
  */
-formatters.gcd = (a: number, b: number) => {
-  return (b === 0) ? a : formatters.gcd(b, a % b);
+export const gcd = (a: number, b: number): number => {
+  return (b === 0) ? a : gcd(b, a % b);
 };
 
 // Date formatters
@@ -463,27 +441,27 @@ formatters.gcd = (a: number, b: number) => {
 
 /* date s */
 
-// formatters.date = (target, format) => {
+// export const date = (target, format) => {
 //   return moment(target).format(format || 'DD.MM.YYYY');
 // };
 
-// formatters.time = (target, format) => {
+// export const time = (target, format) => {
 //   return moment(target).format(format || 'HH:mm');
 // };
 
-// formatters.datetime = (target, format) => {
+// export const datetime = (target, format) => {
 //   return moment(target).format(format);
 // };
 
-// formatters.toTimestamp = (target) => {
+// export const toTimestamp = (target) => {
 //   return moment(target).format('X');
 // };
 
-// formatters.toDate = (target) => {
+// export const toDate = (target) => {
 //   return moment.unix(target).toDate();
 // };
 
-// formatters.toMoment = (target) => {
+// export const toMoment = (target) => {
 //   return moment(target);
 // };
 
@@ -491,11 +469,11 @@ formatters.gcd = (a: number, b: number) => {
  * Get the duration between two dates
  * @example  {startAt | duration endAt | asHours }
  */
-// formatters.duration = (start, end) => {
+// export const duration = (start, end) => {
 //   return moment.duration(moment(end).diff(start));
 // };
 
-// formatters.asHours = (date) => {
+// export const asHours = (date) => {
 //   return date.asHours();
 // };
 
@@ -509,8 +487,6 @@ formatters.gcd = (a: number, b: number) => {
  *
  * @see {@link http://momentjs.com/docs/#/displaying} for format options.
  */
-// formatters.dateFormat = (target, val) => {
+// export const dateFormat = (target, val) => {
 //   return moment(target).format(val);
 // };
-
-export { formatters };

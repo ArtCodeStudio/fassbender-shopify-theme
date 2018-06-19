@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
-import { Component } from 'tinybind';
+import { IComponent } from 'tinybind';
 import { Dispatcher } from '../../dispatcher';
 import { Utils } from './../../Utils';
 import template from './slideout.component.html';
@@ -19,7 +19,7 @@ export const slideoutComponent = (dispatcher: Dispatcher) => {
 
   const debug = Debug('rivets:slideout');
 
-  const component: Component = {
+  const component: IComponent = {
     template() {
       return template;
     },

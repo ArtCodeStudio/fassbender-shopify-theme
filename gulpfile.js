@@ -51,7 +51,7 @@ var settingsSchemas = [
 var browserfyConfig = {
   basedir: '.',
   debug: true,
-  entries: ['src/ts/index.ts'],
+  entries: ['src/ts/main.ts'],
   cache: {},
   packageCache: {}
 };
@@ -119,7 +119,7 @@ gulp.task('build:ts:browserify', function() {
  * Build typescript files to bundle.js with parcel.js
  */
 gulp.task('build:ts:parcel', function() {
-  return shell.task('parcel build ./src/ts/index.ts --out-dir theme/assets --out-file bundle.js');
+  return shell.task('parcel build ./src/ts/main.ts --out-dir theme/assets --out-file bundle.js');
 });
 
 /** 
@@ -138,13 +138,13 @@ gulp.task('watch:ts:typecheck', shell.task('npm run type-check -- --watch'));
  * @see https://github.com/Microsoft/TypeScript-Babel-Starter
  */
 gulp.task('build:ts:webpack', gulp.series(['build:ts:typecheck', function() {
-  return gulp.src('src/ts/index.ts')
+  return gulp.src('src/ts/main.ts')
     .pipe(gulpWebpack(webpackConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
 }]));
 
 gulp.task('build:ts:webpack:tsloader', gulp.series(['build:ts:typecheck', function() {
-  return gulp.src('src/ts/index.ts')
+  return gulp.src('src/ts/main.ts')
     .pipe(gulpWebpack(webpackTSLoaderConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
 }]));
@@ -207,7 +207,7 @@ gulp.task('watch:ts:browserify', watchBrowserify);
 gulp.task('watch:ts:webpack', gulp.parallel(['watch:ts:typecheck', function() {
   var webpackWatchConfig = webpackConfig;
   webpackWatchConfig.watch = true;
-  return gulp.src('src/ts/index.ts')
+  return gulp.src('src/ts/main.ts')
     .pipe(gulpWebpack(webpackWatchConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
 }]));
@@ -215,13 +215,13 @@ gulp.task('watch:ts:webpack', gulp.parallel(['watch:ts:typecheck', function() {
 gulp.task('watch:ts:webpack:tsloader', gulp.parallel(['watch:ts:typecheck', function() {
   var webpackWatchConfig = webpackTSLoaderConfig;
   webpackWatchConfig.watch = true;
-  return gulp.src('src/ts/index.ts')
+  return gulp.src('src/ts/main.ts')
     .pipe(gulpWebpack(webpackWatchConfig, webpack))
     .pipe(gulp.dest('./theme/assets/'));
   }]));
 
 
-gulp.task('watch:ts:parcel', shell.task('parcel watch ./src/ts/index.ts --out-dir theme/assets --out-file bundle.js --hmr-hostname localhost'));
+gulp.task('watch:ts:parcel', shell.task('parcel watch ./src/ts/main.ts --out-dir theme/assets --out-file bundle.js --hmr-hostname localhost'));
 
 gulp.task('build:scss', gulp.parallel(['build:scss', 'build:scss']));
 

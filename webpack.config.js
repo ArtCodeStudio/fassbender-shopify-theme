@@ -2,7 +2,7 @@ var path = require('path');
 
 module.exports = {
     // Change to your "entry-point".
-    entry: './src/ts/index.ts',
+    entry: './src/ts/main.ts',
     devtool: 'inline-source-map',
     mode: 'production', //, 'development',
     output: {

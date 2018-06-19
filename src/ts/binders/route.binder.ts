@@ -1,5 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
+import { IOneWayBinder, ITwoWayBinder } from 'tinybind';
 import { Pjax, Prefetch } from '../barba';
 import { Dispatcher } from '../dispatcher';
 import { Utils } from '../Utils';
@@ -10,9 +11,11 @@ import { Utils } from '../Utils';
  */
 export const routeBinder = (dispatcher: Dispatcher, pjax: Pjax, prefetch: Prefetch) => {
 
+  const name = 'route';
+
   const debug = Debug('binders:route');
 
-  return (el: HTMLElement, url: string) => {
+  const binder: IOneWayBinder<string> = (el: HTMLElement, url: string) => {
     const $el = $(el);
     let newTab = false;
     const usePajax = true;
@@ -83,5 +86,10 @@ export const routeBinder = (dispatcher: Dispatcher, pjax: Pjax, prefetch: Prefet
     }
 
     checkURL(url);
+  };
+
+  return {
+    binder,
+    name,
   };
 };

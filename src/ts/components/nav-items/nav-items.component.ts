@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import $ from 'jquery';
+import { IComponent } from 'tinybind';
 import template from './nav-items.component.html';
 
 declare global {
@@ -10,24 +10,25 @@ declare global {
 /**
  * nav-items
  */
-export const navItems = {
-  template() {
-    return template;
-  },
-  initialize(el: HTMLElement, data: any) {
-    const controller = this;
-    const $el = $(el);
-    const debug = Debug('rivets:nav-items');
-    debug('initialize', data, template);
+export const navItems = () => {
 
-    controller.linklist = data.linklist;
-    controller.pills = data.pills;
-    controller.vertical = data.vertical;
+  const debug = Debug('rivets:slideout');
 
-    // setTimeout(() => {
+  const component: IComponent = {
+    template() {
+      return template;
+    },
 
-    // }, 0);
+    initialize(el: HTMLElement, data: any) {
+      const scope = this;
+      debug('initialize', data, template);
 
-    return controller;
-  },
+      scope.linklist = data.linklist;
+      scope.pills = data.pills;
+      scope.vertical = data.vertical;
+      return scope;
+    },
+  };
+
+  return component;
 };

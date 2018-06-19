@@ -1,17 +1,22 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
+import { IOneWayBinder, ITwoWayBinder } from 'tinybind';
 import { Dispatcher } from '../dispatcher';
 import { TypingTextService } from './../typing-text.service';
+
+export type TSide = 'right' | 'left';
 
 /**
  * Slideout click event to toggle the slideout
  */
 export const slideoutTogglerBinder = (dispatcher: Dispatcher) => {
 
+  const name = 'slideout-toggler';
+
   const debug = Debug('binders:slideout-toggler');
 
-  return (el: HTMLElement, side: 'right' | 'left') => {
+  const binder: IOneWayBinder<TSide> = (el: HTMLElement, side: TSide) => {
     const $el = $(el);
     debug('init', el, side);
     let slideout: Slideout = null;
@@ -50,8 +55,11 @@ export const slideoutTogglerBinder = (dispatcher: Dispatcher) => {
           typetext.write(text);
         });
       });
-
     });
+  };
 
+  return {
+    binder,
+    name,
   };
 };

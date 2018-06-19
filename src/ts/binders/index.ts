@@ -1,16 +1,15 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import tinybind from 'tinybind';
+import { IOneWayBinder } from 'tinybind';
 import { Utils } from '../Utils';
 
 export { routeBinder } from './route.binder';
 export { slideoutTogglerBinder } from './slideout-toggler.binder';
 export { autoscrollBinder } from './autoscroll.binder';
 
-const binders = tinybind.binders;
 const debug = Debug('rivets:binders');
 
-binders.html = (el: HTMLElement, value: string) => {
+export const html: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);
   if (!Utils.isString(value)) {
     value = $el.attr('rv-html');
@@ -19,7 +18,7 @@ binders.html = (el: HTMLElement, value: string) => {
   $(el).html(value);
 };
 
-binders['append-html'] = (el: HTMLElement, value: string) => {
+export const appendHtml: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);
   if (!Utils.isString(value)) {
     value = $el.attr('rv-append-html');
@@ -29,20 +28,20 @@ binders['append-html'] = (el: HTMLElement, value: string) => {
   $(el).append(htmlNodes);
 };
 
-binders.mailto = (el: HTMLElement, value: string) => {
+export const mailto: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   $(el).attr('href', 'mailto:' + value);
 };
 
-binders.tel = (el: HTMLElement, value: string) => {
+export const tel: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   $(el).attr('href', 'tel:' + value);
 };
 
-binders['background-image'] = (el: HTMLElement, value: string) => {
+export const backgroundImage: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);
   $el.css('background-image', 'url(' + value + ')');
 };
 
-binders['image-box'] = (el: HTMLElement, value: string) => {
+export const imageBox: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);
   $el.addClass('image-box');
   if (value) {
@@ -60,13 +59,14 @@ binders['image-box'] = (el: HTMLElement, value: string) => {
 };
 
 /**
+ * class-*
  * class-[classname]
  *
  * Custom version of class-[classname]
  * Adds a class (whatever value is in place of [classname]) on the element when the value evaluates to true and removes that class if the value evaluates to false.
  * @see http://rivetsjs.com/docs/reference/#class-[classname]
  */
-binders['class-*'] = function(el: HTMLElement, value: string) {
+export const classAny: IOneWayBinder<string> = function(el: HTMLElement, value: string) {
   const $el = $(el);
   debug(this.arg);
   const className = this.arg[0];
@@ -79,7 +79,12 @@ binders['class-*'] = function(el: HTMLElement, value: string) {
   return value;
 };
 
-binders['add-class'] = (el: HTMLElement, value: string) => {
+/**
+ * add-class
+ * @param el
+ * @param value
+ */
+export const addClass: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);
   if (value) {
     $el.addClass(value);
@@ -87,7 +92,10 @@ binders['add-class'] = (el: HTMLElement, value: string) => {
   return value;
 };
 
-binders['remove-class'] = (el: HTMLElement, value: string) => {
+/**
+ * remove-class
+ */
+export const removeClass: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);
   if (value) {
     $el.removeClass(value);
@@ -95,21 +103,23 @@ binders['remove-class'] = (el: HTMLElement, value: string) => {
   return value;
 };
 
-binders['for-*-*'] = function(el: HTMLElement, value: any) {
+/**
+ * for-*-*
+ * for-from-to
+ */
+export const forFromTo: IOneWayBinder<any> = function(el: HTMLElement, value: any) {
   const $el = $(el);
   const start = Number(this.arg[0]);
   const end = Number(this.arg[1]);
   debug('start', start, 'end', end);
-  const html = $el.html();
+  const htmlString = $el.html();
   for (let index = start; index < end; index++) {
     // $el.children().clone().appendTo($el);
     debug('index', index);
     // html += html;
   }
-  debug('html', html);
+  debug('html', htmlString);
   // $el.html('test');
 
   return value;
 };
-
-export { binders };
