@@ -1,4 +1,4 @@
-import { Utils } from '../Utils';
+import { Utils } from '../services/Utils';
 
 /**
  * True if array / string contains property / substring or containts property with value

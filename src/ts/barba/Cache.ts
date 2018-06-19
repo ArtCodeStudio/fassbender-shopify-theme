@@ -1,4 +1,4 @@
-import { Utils } from '../Utils';
+import { Utils } from '../services/Utils';
 
 /**
  * BaseCache it's a simple static cache

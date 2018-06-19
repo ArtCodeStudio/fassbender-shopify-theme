@@ -3,7 +3,7 @@ import $ from 'jquery';
 import Slideout from 'slideout';
 import { IComponent } from 'tinybind';
 import { Dispatcher } from '../../dispatcher';
-import { Utils } from './../../Utils';
+import { Utils } from './../../services/Utils';
 import template from './slideout.component.html';
 
 declare global {
@@ -17,7 +17,7 @@ declare global {
  */
 export const slideoutComponent = (dispatcher: Dispatcher) => {
 
-  const debug = Debug('rivets:slideout');
+  const debug = Debug('component:slideout');
 
   const component: IComponent = {
     template() {

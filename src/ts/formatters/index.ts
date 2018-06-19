@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { Utils } from '../Utils';
+import { Utils } from '../services/Utils';
 
 // compare functions
 export { and } from './and.formatter';
@@ -9,12 +9,16 @@ export { lt } from './lt.formatter';
 export { elt } from './elt.formatter';
 export { or } from './or.formatter';
 
+export { not } from './not.formatter';
+
 // strings and array functions
 export { first } from './first.formatter';
 export { last } from './last.formatter';
 export { contains } from './contains.formatter';
 export { get } from './get.formatter';
 export { match } from './match.formatter';
+
+export { debug } from './debug.formatter';
 
 /**
  * Add useful general-purpose formatters for Rivets.js
@@ -25,13 +29,6 @@ export { match } from './match.formatter';
  */
 
 const debug = Debug('rivets:formatters');
-
-/**
- * !a
- */
-export const not = (a: boolean) => {
-  return !a;
-};
 
 export const empty = (a: any[] | string ) => {
   return !count(a);

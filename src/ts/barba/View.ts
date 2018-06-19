@@ -1,5 +1,5 @@
 import { Dispatcher } from '../dispatcher';
-import { Utils } from '../Utils';
+import { Utils } from '../services/Utils';
 
 /**
  * BaseView to be extended

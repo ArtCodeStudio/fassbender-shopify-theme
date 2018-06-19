@@ -12,7 +12,7 @@ declare global {
  */
 export const navItems = () => {
 
-  const debug = Debug('rivets:slideout');
+  const debug = Debug('component:nav-items');
 
   const component: IComponent = {
     template() {
@@ -25,7 +25,7 @@ export const navItems = () => {
 
       scope.linklist = data.linklist;
       scope.pills = data.pills;
-      scope.vertical = data.vertical;
+      scope.vertical = !!data.vertical;
       return scope;
     },
   };

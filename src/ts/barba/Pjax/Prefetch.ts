@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { Utils } from '../../Utils';
+import { Utils } from '../../services/Utils';
 import { Pjax } from './Pjax';
 
 /**

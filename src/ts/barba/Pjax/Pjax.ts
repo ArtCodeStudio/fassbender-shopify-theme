@@ -1,5 +1,5 @@
 import { Dispatcher } from '../../dispatcher';
-import { Utils } from '../../Utils';
+import { Utils } from '../../services/Utils';
 import { BaseCache } from '../Cache';
 import { HideShowTransition, ITransition } from '../Transition';
 import { Dom } from './Dom';

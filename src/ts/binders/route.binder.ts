@@ -1,9 +1,9 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { IOneWayBinder, ITwoWayBinder } from 'tinybind';
+import { IOneWayBinder } from 'tinybind';
 import { Pjax, Prefetch } from '../barba';
 import { Dispatcher } from '../dispatcher';
-import { Utils } from '../Utils';
+import { Utils } from '../services/Utils';
 import { BinderWrapper } from './binders.service';
 
 /**

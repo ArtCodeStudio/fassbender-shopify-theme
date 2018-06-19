@@ -1,5 +1,5 @@
 import { IOneWayBinder } from 'tinybind';
-import { Utils } from '../Utils';
+import { Utils } from '../services/Utils';
 import { BinderWrapper } from './binders.service';
 
 /**

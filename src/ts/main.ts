@@ -3,11 +3,11 @@ import JQuery from 'jquery';
 import { View } from 'tinybind';
 import tinybind from 'tinybind';
 import { CustomTransition, IState, Pjax, Prefetch } from './barba';
-import { autoscrollBinder, BindersService, removeClassBinder, routeBinder, slideoutTogglerBinder } from './binders';
+import { addClassBinder, autoscrollBinder, BindersService, removeClassBinder, routeBinder, slideoutTogglerBinder } from './binders';
 import { navItems, slideoutComponent } from './components';
 import { Dispatcher } from './dispatcher';
-import { get } from './formatters';
-import { Tetris } from './tetris';
+import { get, not } from './formatters';
+import { Tetris } from './services/tetris';
 
 export interface IViews {
   dynamic: View;
@@ -34,12 +34,14 @@ export class Main {
 
     // Regist formatters
     tinybind.formatters.get = get;
+    tinybind.formatters.not = not;
 
     // Regist binders
     this.binderRegister.registWrapper(routeBinder(this.dispatcher, this.pjax, this.prefetch));
     this.binderRegister.registWrapper(slideoutTogglerBinder(this.dispatcher));
     this.binderRegister.registWrapper(autoscrollBinder());
     this.binderRegister.registWrapper(removeClassBinder());
+    this.binderRegister.registWrapper(addClassBinder());
 
     this.views.static = tinybind.bind(JQuery('body').get(), window.model);
 

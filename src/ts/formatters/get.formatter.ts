@@ -1,4 +1,4 @@
-import { Utils } from '../Utils';
+import { Utils } from '../services/Utils';
 
 /**
  * Get property of object or array

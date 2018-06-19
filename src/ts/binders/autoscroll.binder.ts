@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import { IOneWayBinder, ITwoWayBinder } from 'tinybind';
-import { Utils } from '../Utils';
+import { Utils } from '../services/Utils';
 import { BinderWrapper } from './binders.service';
 
 export interface IOptions {
@@ -21,6 +21,17 @@ export const autoscrollBinder: BinderWrapper = () => {
 
   const name = 'autoscroll';
 
+  const getWidth = ($el: JQuery<HTMLElement>, options: IOptions) => {
+    let w;
+    if (options.width === '100vw') {
+      w = Utils.getViewportDimensions().w;
+    } else {
+      // todo just digits
+      w = $el.prop('scrollWidth') - $el.outerWidth();
+    }
+    return w;
+  };
+
   // TODO try alternative version from https://www.sitepoint.com/community/t/auto-scrolling-a-div-with-overflow-scroll-auto/2291/3
   const initAutoscroll = ($el: JQuery<HTMLElement>, options: IOptions) => {
     let direction = options.direction;
@@ -28,7 +39,11 @@ export const autoscrollBinder: BinderWrapper = () => {
     const delay = options.delay;
     let stop = false;
     let position = null;
-    const maxScrollWidth = $el.prop('scrollWidth') - $el.outerWidth();
+    let maxScrollWidth = getWidth($el, options);
+
+    $( window ).resize(() => {
+      maxScrollWidth = getWidth($el, options);
+    });
 
     if (direction < 0) {
       // start right
@@ -90,7 +105,12 @@ export const autoscrollBinder: BinderWrapper = () => {
     debug('init', options);
 
     if (Utils.isString(options.width)) {
-      $el.css('width', options.width);
+      if (options.width === '100vw') {
+        // Utils.getViewportDimensions().w
+        $el.css('width', options.width);
+      } else {
+        $el.css('width', options.width);
+      }
     }
 
     $el.addClass(`rv-autoscroll-${options.angle}`);

@@ -3,7 +3,7 @@ import $ from 'jquery';
 import Slideout from 'slideout';
 import { IOneWayBinder } from 'tinybind';
 import { Dispatcher } from '../dispatcher';
-import { TypingTextService } from './../typing-text.service';
+import { TypingTextService } from './../services/typing-text.service';
 import { BinderWrapper } from './binders.service';
 
 export type TSide = 'right' | 'left';

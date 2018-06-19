@@ -1,7 +1,8 @@
 import Debug from 'debug';
 
-const consoleDebug = Debug('rivets:formatters');
+const consoleDebug = Debug('formatter');
 
-export const debug = (target) => {
-  return consoleDebug(target);
+export const debug = (target: any) => {
+  consoleDebug(target);
+  return target;
 };

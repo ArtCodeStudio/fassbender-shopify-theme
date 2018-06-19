@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { Utils } from '../../Utils';
+import { Utils } from '../../services/Utils';
 
 export interface ITransition {
   // $oldContainer: JQuery<HTMLElement>;

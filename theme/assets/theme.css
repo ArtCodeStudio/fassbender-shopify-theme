@@ -9612,9 +9612,18 @@ nav-items {
   display: block;
 }
 
+[rv-autoscroll] {
+  display: none;
+}
+
 .rv-autoscroll-horizontal {
   overflow-x: hidden;
+  max-width: 100%;
   white-space: nowrap;
+}
+
+.rv-autoscroll-horizontal nav-items {
+  padding-top: 0 !important;
 }
 
 .rv-autoscroll-horizontal nav-items .nav {
