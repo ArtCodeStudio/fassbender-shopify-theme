@@ -189,6 +189,8 @@
    * assets
    * TODO generate a list of assets
    */
+  window.model.system.assetsPath = {{ 'favicon.ico' | asset_url | replace: 'favicon.ico', '[fileName]' | json | }};
+  window.model.system.assetsPath = window.model.system.assetsPath.substring(0, window.model.system.assetsPath.indexOf('[fileName]'))
   window.model.system.assets = window.model.system.assets || {};
   window.model.system.assets['no-image.png'] = {{ 'no-image.png' | asset_url | json }};
   window.model.system.assets['icon_heart_px.png'] = {{ 'icon_heart_px.png' | asset_url | json }};

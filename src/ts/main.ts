@@ -2,11 +2,27 @@ import Debug from 'debug';
 import JQuery from 'jquery';
 import { View } from 'tinybind';
 import tinybind from 'tinybind';
-import { CustomTransition, IState, Pjax, Prefetch } from './barba';
-import { addClassBinder, autoscrollBinder, BindersService, removeClassBinder, routeBinder, slideoutTogglerBinder } from './binders';
-import { navItems, slideoutComponent } from './components';
+import {
+  CustomTransition,
+  IState,
+  Pjax,
+  Prefetch,
+} from './barba';
+import {
+  addClassBinder,
+  autoscrollBinder,
+  BindersService,
+  removeClassBinder,
+  routeBinder,
+  slideoutTogglerBinder,
+} from './binders';
+import {
+  iconsetComponent,
+  navItems,
+  slideoutComponent,
+} from './components';
 import { Dispatcher } from './dispatcher';
-import { get, not } from './formatters';
+import { debug, get, not } from './formatters';
 import { Tetris } from './services/tetris';
 
 export interface IViews {
@@ -31,6 +47,7 @@ export class Main {
     // Regist components
     tinybind.components['nav-items'] = navItems();
     tinybind.components.slideout = slideoutComponent(this.dispatcher);
+    tinybind.components.iconset = iconsetComponent();
 
     // Regist formatters
     tinybind.formatters.get = get;

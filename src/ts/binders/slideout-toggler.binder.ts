@@ -21,8 +21,9 @@ export const slideoutTogglerBinder: BinderWrapper = (dispatcher: Dispatcher) => 
     const $el = $(el);
     debug('init', el, side);
     let slideout: Slideout = null;
-    let text = $el.html();
-    const typetext = new TypingTextService($el[0], 2000);
+    const $text = $el.find('.text');
+    let text = $text.html();
+    const typetext = new TypingTextService($text[0], 2000);
     // typetext.auto(['Info', 'Close']);
 
     dispatcher.on('slideout.component:initialize', (newSlideout: Slideout) => {
@@ -37,7 +38,7 @@ export const slideoutTogglerBinder: BinderWrapper = (dispatcher: Dispatcher) => 
       });
 
       slideout.on('beforeopen', () => {
-        text = $el.html();
+        text = $text.html();
         // $el.html('Close');
         $el.css('color', 'white');
         $el.css('min-height', $el.outerHeight());

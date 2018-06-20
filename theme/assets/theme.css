@@ -6593,7 +6593,7 @@ button.bg-dark:focus {
   display: table-cell !important;
 }
 
-.d-flex, .rv-autoscroll-horizontal, .rv-autoscroll-horizontal nav-items .nav {
+.d-flex, .nav-link, .rv-autoscroll-horizontal, .rv-autoscroll-horizontal nav-items .nav {
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;
@@ -6930,7 +6930,7 @@ button.bg-dark:focus {
           align-items: flex-end !important;
 }
 
-.align-items-center {
+.align-items-center, .nav-link {
   -webkit-box-align: center !important;
       -ms-flex-align: center !important;
           align-items: center !important;
@@ -9610,6 +9610,187 @@ slideout nav-items {
 
 nav-items {
   display: block;
+}
+
+.iconset {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.iconset.color-black {
+  color: #000;
+}
+
+.iconset.color-stroke-black svg path {
+  stroke: #000 !important;
+}
+
+.iconset.color-gray {
+  color: colors("gray");
+}
+
+.iconset.color-stroke-gray svg path {
+  stroke: colors("gray") !important;
+}
+
+.iconset.color-gray-light {
+  color: colors("gray-light");
+}
+
+.iconset.color-stroke-gray-light svg path {
+  stroke: colors("gray-light") !important;
+}
+
+.iconset.color-gray-lighter {
+  color: colors("gray-lighter");
+}
+
+.iconset.color-stroke-gray-lighter svg path {
+  stroke: colors("gray-lighter") !important;
+}
+
+.iconset.color-white {
+  color: colors("white");
+}
+
+.iconset.color-stroke-white svg {
+  stroke: colors("white") !important;
+}
+
+.iconset.color-stroke-white svg * {
+  stroke: colors("white") !important;
+}
+
+.iconset.color-primary {
+  color: #007bff;
+}
+
+.iconset.color-stroke-primary svg {
+  stroke: #007bff !important;
+}
+
+.iconset.color-stroke-primary svg * {
+  stroke: #007bff !important;
+}
+
+.iconset.color-success {
+  color: #28a745;
+}
+
+.iconset.color-stroke-success svg {
+  stroke: #28a745 !important;
+}
+
+.iconset.color-stroke-success svg * {
+  stroke: #28a745 !important;
+}
+
+.iconset.color-info {
+  color: #17a2b8;
+}
+
+.iconset.color-stroke-info svg {
+  stroke: #17a2b8 !important;
+}
+
+.iconset.color-stroke-info svg * {
+  stroke: #17a2b8 !important;
+}
+
+.iconset.fill-warning, .iconset.warning {
+  color: #ffc107;
+}
+
+.iconset.stroke-warning svg {
+  stroke: #ffc107 !important;
+}
+
+.iconset.stroke-warning svg * {
+  stroke: #ffc107 !important;
+}
+
+.iconset.fill-danger, .iconset.danger {
+  color: #dc3545;
+}
+
+.iconset.stroke-danger svg {
+  stroke: #dc3545 !important;
+}
+
+.iconset.stroke-danger svg * {
+  stroke: #dc3545 !important;
+}
+
+a .iconset.fill-link-color, a .iconset.link-color {
+  color: #000;
+}
+
+a:hover .iconset.fill-link-color, a:hover .iconset.link-color {
+  color: #262626;
+}
+
+a .iconset.stroke-link-color svg {
+  stroke: #000 !important;
+}
+
+a .iconset.stroke-link-color svg * {
+  stroke: #000 !important;
+}
+
+a:hover .iconset.stroke-link-color svg {
+  stroke: #262626 !important;
+}
+
+a:hover .iconset.stroke-link-color svg * {
+  stroke: #262626 !important;
+}
+
+.rotate-0 {
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+}
+
+.rotate-45 {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.rotate-90 {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.rotate-135 {
+  -webkit-transform: rotate(135deg);
+          transform: rotate(135deg);
+}
+
+.rotate-180 {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.rotate-225 {
+  -webkit-transform: rotate(225deg);
+          transform: rotate(225deg);
+}
+
+.rotate-270 {
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.rotate-315 {
+  -webkit-transform: rotate(315deg);
+          transform: rotate(315deg);
+}
+
+.rotate-0, .rotate-45, .rotate-90, .rotate-135, .rotate-180, .rotate-225, .rotate-270, .rotate-315 {
+  -webkit-transition: -webkit-transform 0.5s ease;
+  transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, -webkit-transform 0.5s ease;
 }
 
 [rv-autoscroll] {

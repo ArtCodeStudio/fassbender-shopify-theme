@@ -1,3 +1,5 @@
 .nav-link {
   text-decoration: none;
+  @extend .d-flex;
+  @extend .align-items-center;
 }
