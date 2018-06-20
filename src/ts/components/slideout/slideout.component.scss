@@ -1,11 +1,12 @@
 slideout {
+  font-size: 20px;
   &.slideout-menu {
     position: fixed;
     top: 0;
     bottom: 0;
     z-index: 0;
     width: 100vw;
-    overflow-y: scroll;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     display: none;
   }
@@ -16,11 +17,6 @@ slideout {
 
   &.slideout-menu-left {
     left: 0;
-  }
-
-  .nav-link {
-    font-size: 20px;
-    font-weight: $font-weight-bold;
   }
 
   &.slideout-light {
@@ -60,4 +56,10 @@ slideout {
 
 .slideout-open .slideout-menu {
   display: block;
+}
+
+.top .nav-link {
+  font-size: 20px;
+  font-weight: $font-weight-bold;
+  padding-left: 0;
 }

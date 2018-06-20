@@ -17,7 +17,7 @@ export interface IOptions {
  */
 export const autoscrollBinder: BinderWrapper = () => {
 
-  const debug = Debug('binders:autoscroll');
+  const debug = Debug('binder:autoscroll');
 
   const name = 'autoscroll';
 
@@ -101,9 +101,7 @@ export const autoscrollBinder: BinderWrapper = () => {
 
   const binder: IOneWayBinder<IOptions> = (el: HTMLElement, options?: IOptions) => {
     const $el = $(el);
-
-    debug('init', options);
-
+    // debug('init', options);
     if (Utils.isString(options.width)) {
       if (options.width === '100vw') {
         // Utils.getViewportDimensions().w

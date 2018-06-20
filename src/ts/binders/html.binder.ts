@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import { IOneWayBinder } from 'tinybind';
 import { Utils } from '../services/Utils';
 import { BinderWrapper } from './binders.service';

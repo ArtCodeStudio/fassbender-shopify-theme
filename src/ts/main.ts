@@ -12,17 +12,25 @@ import {
   addClassBinder,
   autoscrollBinder,
   BindersService,
+  htmlBinder,
   removeClassBinder,
   routeBinder,
   slideoutTogglerBinder,
+  valueBinder,
 } from './binders';
 import {
+  contactComponent,
   iconsetComponent,
-  navItems,
+  navItemsComponent,
   slideoutComponent,
 } from './components';
 import { Dispatcher } from './dispatcher';
-import { debug, get, not } from './formatters';
+import {
+  debug,
+  defaultFormatter,
+  get,
+  not,
+} from './formatters';
 import { Tetris } from './services/tetris';
 
 export interface IViews {
@@ -45,11 +53,14 @@ export class Main {
   constructor() {
 
     // Regist components
-    tinybind.components['nav-items'] = navItems();
+    tinybind.components.contact = contactComponent();
+    tinybind.components['nav-items'] = navItemsComponent();
     tinybind.components.slideout = slideoutComponent(this.dispatcher);
     tinybind.components.iconset = iconsetComponent();
 
     // Regist formatters
+    tinybind.formatters.debug = debug;
+    tinybind.formatters.default = defaultFormatter;
     tinybind.formatters.get = get;
     tinybind.formatters.not = not;
 
@@ -57,8 +68,10 @@ export class Main {
     this.binderRegister.registWrapper(routeBinder(this.dispatcher, this.pjax, this.prefetch));
     this.binderRegister.registWrapper(slideoutTogglerBinder(this.dispatcher));
     this.binderRegister.registWrapper(autoscrollBinder());
+    this.binderRegister.registWrapper(htmlBinder());
     this.binderRegister.registWrapper(removeClassBinder());
     this.binderRegister.registWrapper(addClassBinder());
+    this.binderRegister.registWrapper(valueBinder());
 
     this.views.static = tinybind.bind(JQuery('body').get(), window.model);
 

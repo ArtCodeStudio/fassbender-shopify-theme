@@ -1,8 +1,8 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
-import { IComponent } from 'tinybind';
 import { Dispatcher } from '../../dispatcher';
+import { ICustomComponent } from '../index';
 import { Utils } from './../../services/Utils';
 import template from './slideout.component.html';
 
@@ -19,7 +19,9 @@ export const slideoutComponent = (dispatcher: Dispatcher) => {
 
   const debug = Debug('component:slideout');
 
-  const component: IComponent = {
+  const component: ICustomComponent = {
+    name: 'slideout',
+
     template() {
       return template;
     },

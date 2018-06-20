@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { IComponent } from 'tinybind';
+import { ICustomComponent } from '../index';
 import template from './nav-items.component.html';
 
 declare global {
@@ -10,11 +10,13 @@ declare global {
 /**
  * nav-items
  */
-export const navItems = () => {
+export const navItemsComponent = () => {
 
   const debug = Debug('component:nav-items');
 
-  const component: IComponent = {
+  const component: ICustomComponent = {
+    name: 'nav-items',
+
     template() {
       return template;
     },

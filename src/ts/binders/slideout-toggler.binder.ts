@@ -22,6 +22,7 @@ export const slideoutTogglerBinder: BinderWrapper = (dispatcher: Dispatcher) => 
     debug('init', el, side);
     let slideout: Slideout = null;
     const $text = $el.find('.text');
+    const $subbarNavLinks = $('.subbar .nav-link');
     let text = $text.html();
     const typetext = new TypingTextService($text[0], 2000);
     // typetext.auto(['Info', 'Close']);
@@ -41,7 +42,9 @@ export const slideoutTogglerBinder: BinderWrapper = (dispatcher: Dispatcher) => 
         text = $text.html();
         // $el.html('Close');
         $el.css('color', 'white');
-        $el.css('min-height', $el.outerHeight());
+        $subbarNavLinks.css('color', 'white');
+
+        // $el.css('min-height', $el.outerHeight());
         typetext.delete(() => {
           debug('delete Close done');
           typetext.write('Close');
@@ -50,10 +53,11 @@ export const slideoutTogglerBinder: BinderWrapper = (dispatcher: Dispatcher) => 
 
       slideout.on('beforeclose', () => {
         // $el.html(text);
-        $el.css('min-height', $el.outerHeight());
+        // $el.css('min-height', $el.outerHeight());
         typetext.delete(() => {
           debug(`delete ${text} done`);
-          $el.css('color', 'black');
+          $el.css('color', 'unset');
+          $subbarNavLinks.css('color', 'unset');
           typetext.write(text);
         });
       });

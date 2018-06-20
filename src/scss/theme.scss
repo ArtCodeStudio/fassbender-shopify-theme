@@ -27,9 +27,6 @@
 @import 'position';
 @import 'colors';
 
-@import 'components/_index';
-@import 'binders/_index';
-
 @import 'customers';
 @import 'list-collections';
 @import 'collection';
@@ -39,9 +36,8 @@
 @import 'blog';
 @import 'templates';
 @import 'dropdown';
-// @import 'alertify_variables';
-@import 'alertify';
-@import 'app-it-recht-kanzlei';
-@import 'morphext';
 @import 'tetris';
 @import 'sections';
+
+@import '../ts/components/index';
+@import '../ts/binders/index';

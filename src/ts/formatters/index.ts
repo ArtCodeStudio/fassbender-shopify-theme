@@ -9,6 +9,7 @@ export { lt } from './lt.formatter';
 export { elt } from './elt.formatter';
 export { or } from './or.formatter';
 
+export { defaultFormatter } from './default.formatter';
 export { not } from './not.formatter';
 
 // strings and array functions
@@ -28,7 +29,7 @@ export { debug } from './debug.formatter';
  * @see https://github.com/JumpLinkNetwork/shopify-productjs
  */
 
-const debug = Debug('rivets:formatters');
+const debug = Debug('formatter');
 
 export const empty = (a: any[] | string ) => {
   return !count(a);
@@ -252,17 +253,6 @@ export const handleize = (str: string) => {
   str = str.replace(/[^\w\s]/gi, ''); // http://stackoverflow.com/a/4374890
   str = downcase(str);
   return str.replace(/ /g, '-');
-};
-
-/**
- * Set default value
- * @see https://gist.github.com/der-On/cdafe908847e2b882691
- */
-export const defaultValue = (value: any, args: any) => {
-  if (Utils.isDefined(value)) {
-    return value;
-  }
-  return args;
 };
 
 /**

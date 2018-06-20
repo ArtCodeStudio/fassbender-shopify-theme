@@ -15,3 +15,4 @@ export { htmlBinder } from './html.binder';
 export { appendHtmlBinder } from './append-html.binder';
 export { imageBoxBinder } from './image-box.binder';
 export { backgroundImageBinder } from './background-image.binder';
+export { valueBinder } from './value.binder';
