@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
-import { IOneWayBinder } from 'tinybind';
+import { IOneWayBinder } from '../tinybind';
 import { Dispatcher } from '../dispatcher';
 import { TypingTextService } from './../services/typing-text.service';
 import { BinderWrapper } from './binders.service';

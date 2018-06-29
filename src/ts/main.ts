@@ -1,7 +1,8 @@
 import Debug from 'debug';
 import JQuery from 'jquery';
-import { View } from 'tinybind';
-import tinybind from 'tinybind';
+
+import { tinybind, View } from './tinybind';
+
 import {
   CustomTransition,
   IState,
@@ -52,6 +53,8 @@ export class Main {
 
   constructor() {
 
+    console.log(tinybind);
+
     // Regist components
     tinybind.components.contact = contactComponent();
     tinybind.components['nav-items'] = navItemsComponent();
@@ -73,7 +76,7 @@ export class Main {
     this.binderRegister.registWrapper(addClassBinder());
     this.binderRegister.registWrapper(valueBinder());
 
-    this.views.static = tinybind.bind(JQuery('body').get(), window.model);
+    this.views.static = tinybind.bind(JQuery('body')[0], window.model);
 
     this.dispatcher.on('newPageReady', (currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, isInit: boolean) => {
       this.debug('newPageReady');
@@ -82,7 +85,7 @@ export class Main {
         this.views.dynamic.unbind();
       }
       // bind the new container
-      this.views.dynamic = tinybind.bind($container.get(), window.model);
+      this.views.dynamic = tinybind.bind($container[0], window.model);
 
       // init Template
       const data = $container.data();

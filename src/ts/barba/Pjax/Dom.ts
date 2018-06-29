@@ -60,7 +60,7 @@ class Dom {
     if ($title.length) {
       document.title = $title.text();
     }
-    return this.getContainer($wrapper);
+    return this.getContainer(($wrapper as any));
   }
 
   /**

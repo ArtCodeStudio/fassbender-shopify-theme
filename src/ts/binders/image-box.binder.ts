@@ -1,4 +1,4 @@
-import { IOneWayBinder } from 'tinybind';
+import { IOneWayBinder } from '../tinybind';
 import { BinderWrapper } from './binders.service';
 
 export const imageBox: IOneWayBinder<string> = (el: HTMLElement, value: string) => {

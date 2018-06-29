@@ -1,4 +1,4 @@
-import { IOneWayBinder } from 'tinybind';
+import { IOneWayBinder } from '../tinybind';
 import { Utils } from '../services/Utils';
 import { BinderWrapper } from './binders.service';
 

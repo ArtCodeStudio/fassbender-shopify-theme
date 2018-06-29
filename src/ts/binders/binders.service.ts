@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { Binder, IBinders, Tinybind} from 'tinybind';
+import { Binder, IBinders, ITinybind} from '../tinybind';
 
 export interface IBinderWrapperResult {
   name: string;
@@ -9,13 +9,13 @@ export interface IBinderWrapperResult {
 export type BinderWrapper = (...deps: any[]) => IBinderWrapperResult;
 
 export class BindersService {
-  private tinybind: Tinybind;
+  private tinybind: ITinybind;
   private debug = Debug('binders:binder-service');
-  constructor(tinybind: Tinybind) {
+  constructor(tinybind: ITinybind) {
     this.tinybind = tinybind;
   }
 
-  public registWrapper(binderWrapper: IBinderWrapperResult, name?: string): IBinders {
+  public registWrapper(binderWrapper: IBinderWrapperResult, name?: string): IBinders<any> {
     if (!name) {
       name = binderWrapper.name;
     }
@@ -24,7 +24,7 @@ export class BindersService {
     return this.tinybind.binders;
   }
 
-  public regist(binder: Binder<any>, name?: string): IBinders {
+  public regist(binder: Binder<any>, name?: string): IBinders<any> {
     if (!name) {
       if (binder.hasOwnProperty('constructor')) {
         name = binder.constructor.name;

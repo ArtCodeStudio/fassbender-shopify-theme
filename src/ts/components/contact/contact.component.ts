@@ -15,7 +15,7 @@ export const contactComponent = () => {
 
   const debug = Debug('component:contact');
 
-  const component: ICustomComponent = {
+  const component: ICustomComponent<any> = {
 
     name: 'contact',
 

@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { IOneWayBinder, ITwoWayBinder } from 'tinybind';
+import { IOneWayBinder, ITwoWayBinder } from '../tinybind';
 import { Utils } from '../services/Utils';
 import { BinderWrapper } from './binders.service';
 

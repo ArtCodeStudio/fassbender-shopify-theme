@@ -14,7 +14,7 @@ export const navItemsComponent = () => {
 
   const debug = Debug('component:nav-items');
 
-  const component: ICustomComponent = {
+  const component: ICustomComponent<any> = {
     name: 'nav-items',
 
     template() {

@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { ITwoWayBinder } from 'tinybind';
+import { ITwoWayBinder } from '../tinybind';
 import { Utils } from '../services/Utils';
 import { BinderWrapper } from './binders.service';
 
@@ -12,64 +12,64 @@ export const valueBinder: BinderWrapper = () => {
   const debug = Debug('binder:value');
   const name = 'value';
   const value: ITwoWayBinder<string> = {
-    bind(el) {
+    bind(el: HTMLElement) {
       debug('bind', this);
-      this.data = {};
-      this.data.$el = $(el);
-      this.data.type = this.data.$el.prop('type');
-      this.data.tagName = this.data.$el.prop('tagName');
-      this.data.contenteditable = this.data.$el.attr('contenteditable') ? true : false;
-      this.data.$el.on('change input keyup paste blur focus', () => {
+      this.customData = {};
+      this.customData.$el = $(el);
+      this.customData.type = this.customData.$el.prop('type');
+      this.customData.tagName = this.customData.$el.prop('tagName');
+      this.customData.contenteditable = this.customData.$el.attr('contenteditable') ? true : false;
+      this.customData.$el.on('change input keyup paste blur focus', () => {
         this.publish();
       });
     },
 
-    unbind(el) {
-      this.data.$el.off('change input keyup paste blur focus');
-      delete this.data;
+    unbind(el: HTMLElement) {
+      this.customData.$el.off('change input keyup paste blur focus');
+      delete this.customData;
     },
 
-    routine(el, newValue) {
+    routine(el: HTMLInputElement, newValue: string) {
       debug('routine newValue', newValue);
       if (Utils.isString(newValue)) {
         const oldValue = this.getValue(el);
         debug('routine', oldValue, newValue);
         if (oldValue !== newValue) {
-          switch (this.data.tagName) {
+          switch (this.customData.tagName) {
             case 'INPUT':
-              this.data.$el.val(newValue);
+              this.customData.$el.val(newValue);
               break;
             case 'TEXTAREA':
-              this.data.$el.val(newValue);
+              this.customData.$el.val(newValue);
               break;
             default:
               // e.g. on contenteditable
-              this.data.$el.html(newValue);
+              this.customData.$el.html(newValue);
               break;
           }
         }
       }
     },
 
-    getValue(el) {
+    getValue(el: HTMLElement) {
       let val;
-      switch (this.data.tagName) {
+      switch (this.customData.tagName) {
         case 'INPUT':
-          switch (this.data.type) {
+          switch (this.customData.type) {
             case 'number':
-            val = parseFloat(this.data.$el.val()) || 0;
+            val = parseFloat(this.customData.$el.val()) || 0;
             break;
             default:
-              val = this.data.$el.val().toString();
+              val = this.customData.$el.val().toString();
               break;
           }
           break;
         case 'TEXTAREA':
-          val = this.data.$el.val().toString();
+          val = this.customData.$el.val().toString();
           break;
         default:
           // e.g. on contenteditable
-          val = this.data.$el.html();
+          val = this.customData.$el.html();
           break;
       }
       debug('getValue', val);

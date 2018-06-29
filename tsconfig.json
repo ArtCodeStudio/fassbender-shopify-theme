@@ -15,7 +15,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es6", // Can I do this and transform it to es5 with babel?
+    "target": "es6",
     "module": "commonjs",
     "typeRoots": [
       "node_modules/@types",

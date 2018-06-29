@@ -15,7 +15,7 @@ export const iconsetComponent = () => {
 
   const debug = Debug('component:iconset');
 
-  const component: ICustomComponent = {
+  const component: ICustomComponent<any> = {
 
     name: 'iconset',
 

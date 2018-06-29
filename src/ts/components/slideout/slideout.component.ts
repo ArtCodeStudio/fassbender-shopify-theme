@@ -19,7 +19,7 @@ export const slideoutComponent = (dispatcher: Dispatcher) => {
 
   const debug = Debug('component:slideout');
 
-  const component: ICustomComponent = {
+  const component: ICustomComponent<any> = {
     name: 'slideout',
 
     template() {
