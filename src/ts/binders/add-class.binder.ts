@@ -1,6 +1,5 @@
 import $ from 'jquery';
-import { IOneWayBinder } from '../tinybind';
-import { BinderWrapper } from './binders.service';
+import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind';
 
 /**
  * add-class

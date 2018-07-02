@@ -1,7 +1,6 @@
 import $ from 'jquery';
-import { IOneWayBinder } from '../tinybind';
+import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind';
 import { Utils } from '../services/Utils';
-import { BinderWrapper } from './binders.service';
 
 /**
  * mailto

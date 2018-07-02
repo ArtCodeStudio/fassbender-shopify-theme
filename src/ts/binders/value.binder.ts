@@ -1,8 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { ITwoWayBinder } from '../tinybind';
+import { ITwoWayBinder, BinderWrapper } from '../../modules/tinybind';
 import { Utils } from '../services/Utils';
-import { BinderWrapper } from './binders.service';
 
 /**
  * value for inpouts, textareas and contenteditables

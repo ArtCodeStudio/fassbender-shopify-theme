@@ -1,5 +1,4 @@
-import { IOneWayBinder } from '../tinybind';
-import { BinderWrapper } from './binders.service';
+import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind';
 
 export const imageBox: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);

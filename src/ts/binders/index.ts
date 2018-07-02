@@ -1,8 +1,7 @@
 
-export { BindersService, BinderWrapper } from './binders.service';
+export { BindersService, BinderWrapper } from '../../modules/tinybind';
 
 // binders
-export { routeBinder } from './route.binder';
 export { slideoutTogglerBinder } from './slideout-toggler.binder';
 export { autoscrollBinder } from './autoscroll.binder';
 export { mailtoBinder } from './mailto.binder';

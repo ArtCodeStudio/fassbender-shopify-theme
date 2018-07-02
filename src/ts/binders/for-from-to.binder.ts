@@ -1,6 +1,5 @@
 import Debug from 'debug';
-import { IOneWayBinder } from '../tinybind';
-import { BinderWrapper } from './binders.service';
+import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind';
 
 /**
  * for-*-*

@@ -48,6 +48,14 @@ export const parse = (jsonString: string) => {
 };
 
 /**
+ * Converts a string into JSON format.
+ * @see https://help.shopify.com/themes/liquid/filters/additional-filters#json
+ */
+export const json = (object: any) => {
+  return JSON.stringify(object);
+};
+
+/**
  * Get a back random value of array
  * @example <div rv-class='"["col-2", "col-3", "col-4", "col-5", "col-6"]" | parse | random'>
  */
@@ -253,14 +261,6 @@ export const handleize = (str: string) => {
   str = str.replace(/[^\w\s]/gi, ''); // http://stackoverflow.com/a/4374890
   str = downcase(str);
   return str.replace(/ /g, '-');
-};
-
-/**
- * Converts a string into JSON format.
- * @see https://help.shopify.com/themes/liquid/filters/additional-filters#json
- */
-export const json = (object: any) => {
-  return JSON.stringify(object);
 };
 
 /**

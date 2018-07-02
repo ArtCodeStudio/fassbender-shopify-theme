@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
-import { Dispatcher } from '../../dispatcher';
+import { Dispatcher } from '../../../modules/tinybind/binders/router/barba';
 import { ICustomComponent } from '../index';
 import { Utils } from './../../services/Utils';
 import template from './slideout.component.html';
