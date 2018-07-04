@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { IOneWayBinder, ITwoWayBinder, BinderWrapper } from '../../modules/tinybind/index';
+import { IOneWayBinder, ITwoWayBinder, BinderWrapper } from '../tinybind';
 import { Utils } from '../services/Utils';
 
 export interface IOptions {
@@ -26,7 +26,7 @@ export const autoscrollBinder: BinderWrapper = () => {
       w = Utils.getViewportDimensions().w;
     } else {
       // todo just digits
-      w = $el.prop('scrollWidth') - $el.outerWidth();
+      w = $el.prop('scrollWidth') - ($el.outerWidth() || 0);
     }
     return w;
   };
@@ -58,7 +58,7 @@ export const autoscrollBinder: BinderWrapper = () => {
         return setTimeout(scroll, 200);
       }
 
-      position = $el.scrollLeft();
+      position = $el.scrollLeft() || 0;
       if (direction > 0) {
         position = position + jumps;
       } else {
@@ -98,10 +98,10 @@ export const autoscrollBinder: BinderWrapper = () => {
     return setTimeout(scroll, 0);
   };
 
-  const binder: IOneWayBinder<IOptions> = (el: HTMLElement, options?: IOptions) => {
+  const binder: IOneWayBinder<IOptions> = (el: HTMLElement, options: IOptions) => {
     const $el = $(el);
     // debug('init', options);
-    if (Utils.isString(options.width)) {
+    if (options && options.width && Utils.isString(options.width)) {
       if (options.width === '100vw') {
         // Utils.getViewportDimensions().w
         $el.css('width', options.width);

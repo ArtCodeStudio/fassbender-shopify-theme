@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { ITwoWayBinder, BinderWrapper } from '../../modules/tinybind/index';
+import { ITwoWayBinder, BinderWrapper } from '../tinybind';
 import { Utils } from '../services/Utils';
 
 /**
@@ -28,10 +28,11 @@ export const valueBinder: BinderWrapper = () => {
       delete this.customData;
     },
 
-    routine(el: HTMLInputElement, newValue: string) {
+    routine(el: HTMLElement, newValue: string) {
+      el = (el as HTMLInputElement );
       debug('routine newValue', newValue);
       if (Utils.isString(newValue)) {
-        const oldValue = this.getValue(el);
+        const oldValue = this.getValue((el as HTMLInputElement));
         debug('routine', oldValue, newValue);
         if (oldValue !== newValue) {
           switch (this.customData.tagName) {

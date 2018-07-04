@@ -1,4 +1,4 @@
-import { Utils as tinybindUtils } from '../../modules/tinybind/utils';
+import { Utils as tinybindUtils } from '../tinybind';
 
 /**
  * Just an Class with some helpful functions

@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { IComponentWrapperResult } from '../../../modules/tinybind/index';
+import { IComponentWrapperResult } from '../../tinybind';
 import template from './contact.component.html';
 
 declare global {

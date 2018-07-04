@@ -1,8 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
-import { Dispatcher } from '../../../modules/tinybind/binders/router/barba/dispatcher';
-import { IComponentWrapperResult } from '../../../modules/tinybind/index';
+import { IComponentWrapperResult, Dispatcher } from '../../tinybind';
 import { Utils } from './../../services/Utils';
 import template from './slideout.component.html';
 
@@ -34,11 +33,15 @@ export const slideoutComponent = (dispatcher: Dispatcher) => {
       debug('initialize', this);
 
       setTimeout(() => {
-        const options = {
+        const panel = document.getElementById('slideout-panel');
+        if(!panel) {
+          throw new Error('Element with id slideout-panel not found!');
+        }
+        const options: Slideout.Options = {
           duration: 800,
           menu: el,
           padding: Utils.getViewportDimensions().w,
-          panel: document.getElementById('slideout-panel'),
+          panel: panel,
           side: ('right' as 'right' | 'left' ),
           tolerance: 70,
         };

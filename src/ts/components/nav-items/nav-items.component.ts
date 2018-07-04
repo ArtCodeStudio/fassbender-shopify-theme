@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { IComponentWrapperResult } from '../../../modules/tinybind/index';
+import { IComponentWrapperResult } from '../../tinybind';
 import template from './nav-items.component.html';
 
 declare global {

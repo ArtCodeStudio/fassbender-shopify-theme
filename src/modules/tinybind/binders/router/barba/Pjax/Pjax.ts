@@ -1,9 +1,14 @@
+export * from './HistoryManager';
+export * from './Dom';
+export * from './Prefetch';
+
 import { Dispatcher } from '../dispatcher';
 import { Utils } from '../../../../utils';
 import { BaseCache } from '../Cache';
-import { HideShowTransition, ITransition } from '../Transition/index';
+import { HideShowTransition, ITransition } from '../Transition/Transition';
 import { Dom } from './Dom';
 import { HistoryManager } from './HistoryManager';
+
 
 /**
  * Pjax is a static object with main function
@@ -381,6 +386,7 @@ class Pjax {
       this.history.prevStatus(),
       $container,
       this.dom.currentHTML,
+      $container.data(),
       false, // true if this is the first time newPageReady is tiggered / true on initialisation
     );
   }
@@ -427,6 +433,7 @@ class Pjax {
       {},
       $container,
       this.dom.currentHTML,
+      $container.data(),
       true, // true if this is the first time newPageReady is tiggered / true on initialisation
     );
     this.dispatcher.trigger('transitionCompleted', this.history.currentStatus());

@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind/index';
+import { IOneWayBinder, BinderWrapper } from '../tinybind';
 
 /**
  * for-*-*
@@ -10,8 +10,8 @@ export const forFromToBinder: BinderWrapper = () => {
   const debug = Debug('binders:' + name);
   const binder: IOneWayBinder<string> = function(el: HTMLElement, value: any) {
     const $el = $(el);
-    const start = Number(this.args[0]);
-    const end = Number(this.args[1]);
+    const start = Number((this as any).args[0]);
+    const end = Number((this as any).args[1]);
     debug('start', start, 'end', end);
     const htmlString = $el.html();
     for (let index = start; index < end; index++) {

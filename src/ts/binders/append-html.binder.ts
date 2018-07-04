@@ -1,4 +1,4 @@
-import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind/index';
+import { IOneWayBinder, BinderWrapper } from '../tinybind';
 import { Utils } from '../services/Utils';
 
 /**
@@ -9,7 +9,7 @@ export const appendHtmlBinder: BinderWrapper = () => {
   const appendHtml: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
     const $el = $(el);
     if (!Utils.isString(value)) {
-      value = $el.attr('rv-append-html');
+      value = $el.attr('rv-append-html') || '';
     }
     const htmlNodes = $.parseHTML(value);
     $(el).append(htmlNodes);

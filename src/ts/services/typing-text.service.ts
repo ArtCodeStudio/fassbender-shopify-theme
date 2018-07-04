@@ -3,7 +3,7 @@
  */
 export class TypingTextService {
 
-  private toRotate: string[];
+  private toRotate: string[] = new Array<string>();
   private el: HTMLElement;
   private loopNum = 0;
   private period: number;
@@ -38,7 +38,9 @@ export class TypingTextService {
     this.fullTxt = fullTxt;
     this.txt = '';
     this.isDeleting = false;
-    this.writeTick(cb);
+    if(cb) {
+      this.writeTick(cb);
+    }
   }
 
   private tick() {
@@ -78,7 +80,7 @@ export class TypingTextService {
     let delta = 300 - Math.random() * 100;
     delta /= 2;
 
-    this.txt = this.fullTxt.substring(0, this.txt.length - 1);
+    this.txt = this.fullTxt ? this.fullTxt.substring(0, this.txt.length - 1) : '';
     this.el.innerHTML = this.txt;
 
     if (this.txt === '') {
@@ -99,7 +101,7 @@ export class TypingTextService {
   }
 
   private writeTick(cb: () => void) {
-    this.txt = this.fullTxt.substring(0, this.txt.length + 1);
+    this.txt = this.fullTxt ? this.fullTxt.substring(0, this.txt.length + 1) : '';
 
     this.el.innerHTML = this.txt;
 

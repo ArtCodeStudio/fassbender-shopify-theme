@@ -1,9 +1,9 @@
 import $ from 'jquery';
-import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind/index';
+import { IOneWayBinder, BinderWrapper } from '../tinybind';
 
 export const classAddRemove: IOneWayBinder<string> = function(el: HTMLElement, value: string) {
   const $el = $(el);
-  const className = this.args[0];
+  const className = (this as any).args[0];
   // debug('class-*', className, value);
   if (value) {
     $el.addClass(className);

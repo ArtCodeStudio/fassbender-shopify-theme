@@ -1,8 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
-import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind/index';
-import { Dispatcher } from '../../modules/tinybind/binders/router/barba/dispatcher';
+import { IOneWayBinder, BinderWrapper, Dispatcher } from '../tinybind';
 import { TypingTextService } from './../services/typing-text.service';
 
 export type TSide = 'right' | 'left';
@@ -19,7 +18,7 @@ export const slideoutTogglerBinder: BinderWrapper = (dispatcher: Dispatcher) => 
   const binder: IOneWayBinder<TSide> = (el: HTMLElement, side: TSide) => {
     const $el = $(el);
     debug('init', el, side);
-    let slideout: Slideout = null;
+    let slideout: Slideout | null = null;
     const $text = $el.find('.text');
     const $subbarNavLinks = $('.subbar .nav-link');
     let text = $text.html();
@@ -33,8 +32,11 @@ export const slideoutTogglerBinder: BinderWrapper = (dispatcher: Dispatcher) => 
       }
       slideout = newSlideout;
 
+
       $el.on('click', () => {
-        slideout.toggle();
+        if(slideout) {
+          slideout.toggle();
+        }
       });
 
       slideout.on('beforeopen', () => {
