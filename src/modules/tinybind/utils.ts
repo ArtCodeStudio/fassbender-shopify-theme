@@ -1,3 +1,11 @@
+import jQuery from 'jquery';
+
+// TODO
+export interface IDeferred {
+  resolve: any;
+  reject: any;
+}
+
 export const mergeObject = (target: any, obj: any) => {
   if (obj) {
     Object.keys(obj).forEach((key) => {
@@ -63,14 +71,6 @@ export const getInputValue = (el: HTMLSelectElement | HTMLInputElement) => {
   } else {
     return el.value;
   }
-}
-
-import $ from 'jquery';
-
-// TODO
-export interface IDeferred {
-  resolve: any;
-  reject: any;
 }
 
 /**
@@ -197,10 +197,10 @@ export class Utils {
   public static extend(deep: boolean, target: object, object1: object, objectN?: object) {
     let result;
     if (deep) {
-      result = $.extend(true, target, object1, objectN);
+      result = jQuery.extend(true, target, object1, objectN);
     } else {
       // Passing false for deep argument is not supported.
-      result = $.extend(target, object1, objectN);
+      result = jQuery.extend(target, object1, objectN);
     }
     return result;
   }
@@ -281,7 +281,7 @@ export class Utils {
       return window.location;
     }
     // l.href = href;
-    const l = ($(`<a href="${url}"></a>`)[0] as HTMLAnchorElement as HTMLHyperlinkElementUtils as Location);
+    const l = (jQuery(`<a href="${url}"></a>`)[0] as HTMLAnchorElement as HTMLHyperlinkElementUtils as Location);
     return l;
   }
 

@@ -1,85 +1,54 @@
 import Debug from 'debug';
 import JQuery from 'jquery';
 
-import { Tetris } from './services/tetris';
-import { tinybind, View } from '../modules/tinybind';
+// import { Tetris } from './services/tetris';
+import { tinybind, View } from '../modules/tinybind/index';
 
-import { Dispatcher} from '../modules/tinybind/binders/router/barba';
+import { Dispatcher } from '../modules/tinybind/binders/router/barba/dispatcher';
 
-import {
-  CustomTransition,
-  IState,
-  Pjax,
-  Prefetch,
-} from '../modules/tinybind/binders/router/barba';
 import {
   addClassBinder,
   autoscrollBinder,
-  BindersService,
-  htmlBinder,
   removeClassBinder,
   slideoutTogglerBinder,
   valueBinder,
-} from './binders';
+} from './binders/index';
 import {
   contactComponent,
   iconsetComponent,
   navItemsComponent,
   slideoutComponent,
-} from './components';
-import {
-  debug,
-  defaultFormatter,
-  get,
-  not,
-} from './formatters';
-
-export interface IViews {
-  dynamic: View;
-  static: View;
-}
+} from './components/index';
 
 export class Main {
 
   // private prefetch = new Prefetch();
   private dispatcher = new Dispatcher();
   //  private pjax = new Pjax(new CustomTransition());
-  private views: IViews = {
-    dynamic: null,
-    static: null,
-  };
-  private binderRegister = new BindersService(tinybind);
+  private view: View;
   private debug = Debug('View');
+  private tinybind = tinybind;
 
   constructor() {
 
-    console.log(tinybind);
-
     // Regist components
-    tinybind.components.contact = contactComponent();
-    tinybind.components['nav-items'] = navItemsComponent();
-    tinybind.components.slideout = slideoutComponent(this.dispatcher);
-    tinybind.components.iconset = iconsetComponent();
-
-    // Regist formatters
-    tinybind.formatters.debug = debug;
-    tinybind.formatters.default = defaultFormatter;
-    tinybind.formatters.get = get;
-    tinybind.formatters.not = not;
+    this.tinybind.componentService.regist(contactComponent());
+    this.tinybind.componentService.regist(navItemsComponent());
+    this.tinybind.componentService.regist(slideoutComponent(this.dispatcher));
+    this.tinybind.componentService.regist(iconsetComponent());
 
     // Regist binders
-    this.binderRegister.registWrapper(slideoutTogglerBinder(this.dispatcher));
-    this.binderRegister.registWrapper(autoscrollBinder());
-    this.binderRegister.registWrapper(htmlBinder());
-    this.binderRegister.registWrapper(removeClassBinder());
-    this.binderRegister.registWrapper(addClassBinder());
-    this.binderRegister.registWrapper(valueBinder());
+    this.tinybind.binderService.registWrapper(slideoutTogglerBinder(this.dispatcher));
+    this.tinybind.binderService.registWrapper(autoscrollBinder());
+    this.tinybind.binderService.registWrapper(removeClassBinder());
+    this.tinybind.binderService.registWrapper(addClassBinder());
+    this.tinybind.binderService.registWrapper(valueBinder());
 
-    this.views.static = tinybind.bind(JQuery('body')[0], window.model);
+    this.view = this.tinybind.bind(JQuery('body')[0], window.model);
 
   }
 }
 
 JQuery(() => {
-  const view = new Main();
+  const main = new Main();
 });

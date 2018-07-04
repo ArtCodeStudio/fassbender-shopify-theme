@@ -4,15 +4,13 @@
     [
       "@babel/preset-env", {
         "targets": {
-          "chrome": 52,
-          "browsers": ["last 2 versions", "ie >= 10", "safari >= 8"]
+          "browsers": ["ie >= 11", "safari >= 9", "chrome >= 52", "edge >= 17"]
         }
       }
     ]
   ],
   "plugins": [
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-object-rest-spread",
-    "@babel/plugin-proposal-export-default-from"
+    "@babel/proposal-class-properties",
+    "@babel/proposal-object-rest-spread"
   ]
 }

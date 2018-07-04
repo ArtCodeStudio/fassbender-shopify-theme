@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind';
+import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind/index';
 
 export const backgroundImage: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);

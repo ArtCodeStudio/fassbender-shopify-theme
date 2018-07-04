@@ -9,7 +9,7 @@
     "sass_php": "php ./vendor/bin/pscss ./dist/scss/theme.scss",
     "sass_ruby": "sass ./dist/scss/theme.scss",
     "type-check": "tsc --noEmit",
-    "webpack": "webpack",
+    "webpack": "webpack --display-modules",
     "build": "npm run type-check && npm run webpack",
     "watch": "webpack --watch --env.dev"
   },

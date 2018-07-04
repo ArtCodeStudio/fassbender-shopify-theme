@@ -1,8 +1,8 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
-import { Dispatcher } from '../../../modules/tinybind/binders/router/barba';
-import { ICustomComponent } from '../index';
+import { Dispatcher } from '../../../modules/tinybind/binders/router/barba/dispatcher';
+import { IComponentWrapperResult } from '../../../modules/tinybind/index';
 import { Utils } from './../../services/Utils';
 import template from './slideout.component.html';
 
@@ -19,7 +19,7 @@ export const slideoutComponent = (dispatcher: Dispatcher) => {
 
   const debug = Debug('component:slideout');
 
-  const component: ICustomComponent<any> = {
+  const component: IComponentWrapperResult<any> = {
     name: 'slideout',
 
     template() {
@@ -27,7 +27,7 @@ export const slideoutComponent = (dispatcher: Dispatcher) => {
     },
 
     initialize(el: HTMLElement, data: any) {
-      const scope = this;
+      const scope = (this as any);
       scope.linklist = window.model.system.linklists['main-menu']; // data.linklist;
       scope.system = window.model.system;
 

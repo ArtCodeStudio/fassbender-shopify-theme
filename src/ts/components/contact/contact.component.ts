@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { ICustomComponent } from '../index';
+import { IComponentWrapperResult } from '../../../modules/tinybind/index';
 import template from './contact.component.html';
 
 declare global {
@@ -15,7 +15,7 @@ export const contactComponent = () => {
 
   const debug = Debug('component:contact');
 
-  const component: ICustomComponent<any> = {
+  const component: IComponentWrapperResult<any> = {
 
     name: 'contact',
 
@@ -24,7 +24,7 @@ export const contactComponent = () => {
     },
 
     initialize(el: HTMLElement, data: any) {
-      const scope = this;
+      const scope = (this as any);
       const $el = $(el);
       scope.name = '';
       scope.message = '';

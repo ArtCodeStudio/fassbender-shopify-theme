@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { ICustomComponent } from '../index';
+import { IComponentWrapperResult } from '../../../modules/tinybind/index';
 import template from './nav-items.component.html';
 
 declare global {
@@ -14,7 +14,7 @@ export const navItemsComponent = () => {
 
   const debug = Debug('component:nav-items');
 
-  const component: ICustomComponent<any> = {
+  const component: IComponentWrapperResult<any> = {
     name: 'nav-items',
 
     template() {
@@ -22,7 +22,7 @@ export const navItemsComponent = () => {
     },
 
     initialize(el: HTMLElement, data: any) {
-      const scope = this;
+      const scope = (this as any);
       debug('initialize', data, template);
 
       scope.linklist = data.linklist;

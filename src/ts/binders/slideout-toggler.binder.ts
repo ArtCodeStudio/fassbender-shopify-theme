@@ -1,8 +1,8 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import Slideout from 'slideout';
-import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind';
-import { Dispatcher } from '../../modules/tinybind/binders/router/barba';
+import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind/index';
+import { Dispatcher } from '../../modules/tinybind/binders/router/barba/dispatcher';
 import { TypingTextService } from './../services/typing-text.service';
 
 export type TSide = 'right' | 'left';

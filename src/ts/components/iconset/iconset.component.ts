@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { ICustomComponent } from '../index';
+import { IComponentWrapperResult } from '../../../modules/tinybind/index';
 import template from './iconset.component.html';
 
 declare global {
@@ -15,7 +15,7 @@ export const iconsetComponent = () => {
 
   const debug = Debug('component:iconset');
 
-  const component: ICustomComponent<any> = {
+  const component: IComponentWrapperResult<any> = {
 
     name: 'iconset',
 

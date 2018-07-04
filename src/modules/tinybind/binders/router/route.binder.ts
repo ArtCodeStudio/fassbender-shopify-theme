@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import { IOneWayBinder, BinderWrapper } from '../../binder.service';
-import { Pjax, Prefetch, Dispatcher } from './barba';
+import { Pjax, Prefetch, Dispatcher } from './barba/barba';
 import { Utils } from '../../utils';
 
 /**
@@ -9,11 +9,6 @@ import { Utils } from '../../utils';
  * Sets also the element active if his url is the current url
  */
 export const routeBinder: BinderWrapper = (dispatcher: Dispatcher, pjax: Pjax, prefetch: Prefetch) => {
-
-  // TODO make to singleton
-  // const dispatcher = new Dispatcher();
-  // const pjax = new Pjax();
-  // const prefetch = new Prefetch();
 
   const name = 'route';
   const debug = Debug('binders:route');

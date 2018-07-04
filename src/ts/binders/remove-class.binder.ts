@@ -1,4 +1,4 @@
-import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind';
+import { IOneWayBinder, BinderWrapper } from '../../modules/tinybind/index';
 
 export const removeClass: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);

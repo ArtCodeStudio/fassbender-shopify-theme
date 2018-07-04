@@ -15,7 +15,8 @@ const copyModule = function (module) {
   console.log(target, source);
   shell.rm('-rf', target);
   shell.cp('-R', source, target);
-}
+  console.log('done');
+};
 
 // Copy files from linked node modules otherwise they are not correctly transpiled by babel
 // see https://github.com/kalisio/kdk/issues/28 for details
@@ -25,7 +26,7 @@ module.exports = {
   // Change to your "entry-point".
   entry: './src/ts/main.ts',
   devtool: 'inline-source-map',
-  mode: 'production', //, 'development',
+  mode: 'development', //, 'production',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'theme/assets/')
@@ -41,6 +42,10 @@ module.exports = {
         exclude: /node_modules/,
         // exclude: path.resolve(__dirname, './node_modules/'),
         // include: fs.realpathSync(path.resolve(__dirname, './src/modules/tinybind')),
+        // include: fs.realpathSync(path.resolve(__dirname, './node_modules/tinybind/src/')),
+        // include: [
+        //   path.resolve(__dirname, "src"),
+        // ],
         loader: 'babel-loader',
       },
       {
