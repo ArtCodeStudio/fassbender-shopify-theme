@@ -6,23 +6,6 @@
         "id": "debug",
         "label": "Enable debug mode",
         "default": false
-    },
-    {
-        "type": "checkbox",
-        "id": "cart",
-        "label": "Cart",
-        "default": false,
-        "info": "Activates the Cart"
-    },
-    {
-        "type": "paragraph",
-        "content": "See [currency formatting options](https:\/\/help.shopify.com\/manual\/payment-settings\/currency-formatting) and [money filters](https:\/\/help.shopify.com\/themes\/liquid\/filters\/money-filters) for more details"
-    },
-    {
-        "type": "checkbox",
-        "id": "money_with_currency",
-        "label": "Money with currency",
-        "default": true
     }
   ]
 }

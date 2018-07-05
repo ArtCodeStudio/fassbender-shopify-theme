@@ -1,6 +1,6 @@
 {
-  "name": "art-code-studio-shopify-theme",
-  "version": "0.0.3",
+  "name": "fassbender-shopify-theme",
+  "version": "0.0.1",
   "description": "Shopify theme based on Bootstrap 4",
   "main": "src/ts/main.ts",
   "typings": "src/ts/types",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.mediamor.de/jumplink.eu/art-code-studio-shopify-theme"
+    "url": "https://git.mediamor.de/jumplink.eu/fassbender-shopify-theme"
   },
   "keywords": [
     "JumpLink",

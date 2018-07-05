@@ -10,18 +10,9 @@ const jsoncombine   = require('gulp-jsoncombine');
 
 // list of settings files to include, in order of inclusion
 var settingsSchemas = [
-  'bootstrap',
+  'theme_info',
   'general',
-  'barba',
-  'navbar',
-  'footer',
   'home',
-  'about',
-  'list-collections',
-  'collection',
-  'apps',
-  'notifications',
-  // 'customers',
 ];
 
 // Basic error messages output to the console.
