@@ -2,8 +2,22 @@ import Debug from 'debug';
 import JQuery from 'jquery';
 
 // import { Tetris } from './services/tetris';
-import { Tinybind, View, Dispatcher, routerBinders, basicBinders, compareFormatters, mathFormatters, propertyFormatters, specialFormatters, stringFormatters } from './tinybind';
-// import { tinybind, View } from 'tinybind';
+import {
+  Tinybind,
+  View,
+  Dispatcher,
+
+  // binders
+  routerBinders,
+  basicBinders,
+  
+  // formatters
+  compareFormatters,
+  mathFormatters,
+  propertyFormatters,
+  specialFormatters,
+  stringFormatters,
+} from './tinybind';
 
 import {
   addClassBinder,

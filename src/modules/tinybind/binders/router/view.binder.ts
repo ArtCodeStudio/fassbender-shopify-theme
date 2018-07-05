@@ -38,8 +38,8 @@ const viewBinder: BinderWrapper = (dispatcher: Dispatcher, pjax: Pjax, prefetch:
 
       debug('newPageReady dataset:', dataset);
 
-      // if this is the first time the page will be loaded we do not need to reparse the container
-      // because they are already parsed by the parent view and is not loaded with pajax 
+      // if this is the first time the page will be loaded we do not need to rebind the container
+      // because they are already bind with the parent view ( because they are not loaded by pajax) 
       if(!isInit) {
         // bind the new container
         self.customData.nested = new RivetsView($container[0], self.view.models, self.view.options);
