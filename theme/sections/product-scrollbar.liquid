@@ -1,0 +1,41 @@
+<div rv-shopify-section-product-scrollbar='{{ collections[section.settings.collection] | json }}' class="container-fluid">
+  {{collection[section.settings.collection] | json}}
+  <div class="row flex-nowrap scrollbar-invisible scrollbar-x-scroll-on-hover" rv-scrollbar-dragable="">
+    <div class="col-3"></div>
+    {% for product in collections[section.settings.collection].products %}
+      {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
+      <div class="col-6 px-0 content-box ratio-3-4">
+        <img class="content" src="{{ product.featured_image | img_url: '1200x800', scale: 2 }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
+      </div>
+    {% endfor %}
+  </div>
+  <div class="row">
+    <div class="col-12 text-center">
+      {title}
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Products Scrollbar",
+    "class": "product-scrollbar",
+    "max_blocks": 10,
+    "settings": [
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      }
+    ],
+    "blocks": [],
+    "presets": [
+      {
+        "category": "Custom Content",
+        "name": "Products Scrollbar",
+        "blocks": []
+      }
+    ]
+  }
+{% endschema %}

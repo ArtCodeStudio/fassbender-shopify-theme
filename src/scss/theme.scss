@@ -1,19 +1,12 @@
 @import 'charset';
-
-@import 'flexbox';
-
 @import 'variables';
-// @import 'variables.scss.liquid';
-
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
-
 
 @import 'layout';
 @import 'fonts';
 @import 'branding';
 @import 'navbar';
 @import 'nav';
-@import 'sidebar';
 @import 'images';
 @import 'pagination';
 @import 'footer';
@@ -27,6 +20,9 @@
 @import 'position';
 @import 'colors';
 
+@import 'aspect-ratio';
+@import 'scrollbars';
+
 @import 'customers';
 @import 'list-collections';
 @import 'collection';
@@ -36,7 +32,6 @@
 @import 'blog';
 @import 'templates';
 @import 'dropdown';
-@import 'tetris';
 @import 'sections';
 
 @import '../ts/components/index';

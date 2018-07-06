@@ -8,10 +8,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "sass_php": "php ./vendor/bin/pscss ./dist/scss/theme.scss",
     "sass_ruby": "sass ./dist/scss/theme.scss",
-    "type-check": "node ./utils/copy_modules.js && tsc --noEmit",
+    "copy-modules": "node ./utils/copy_modules.js",
+    "type-check": "npm run copy-modules && tsc --noEmit",
     "webpack": "webpack",
     "build": "npm run type-check && npm run webpack",
-    "watch": "theme watch --dir './theme' & webpack --watch --env.dev"
+    "watch": "npm run copy-modules && theme watch --dir './theme' & webpack --watch --env.dev"
   },
   "repository": {
     "type": "git",

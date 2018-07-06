@@ -1,0 +1,89 @@
+{% assign articleHandle = section.settings.storie | remove_first: "/blogs/" %}
+{% assign article = articles[articleHandle] %}
+
+{% assign block_length = section.blocks | size %}
+{% if block_length <= 1 %}
+  {% assign contentBoxClass = "ratio-3-2" %}
+  {% assign imageSize = "1200x800" %}
+{% else %}
+  {% assign contentBoxClass = "ratio-3-4" %}
+  {% assign imageSize = "1200x1600" %}
+{% endif %}
+
+<a href="{{section.settings.storie}}" rv-shopify-section='{{ section.settings | json }}' class="d-block container-fluid position-relative" style="background-color: {{ section.settings.color }};">
+  <div class="row">
+    {% for block in section.blocks %}
+      {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
+      <div class="col px-0 content-box {{contentBoxClass}}">
+        <img class="content" src="{{ block.settings.image | img_url: imageSize, scale: 2 }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
+      </div>
+    {% endfor %}
+  </div>
+  <div class="row position-absolute bottom-0 w-100" style="background-color: {{ section.settings.color | color_modify: 'alpha', 0.5 }};">
+    <div class="col-12 text-center" style="padding: {{ section.settings.title_spacing }}px 0;">
+      {{ article.title }}
+    </div>
+  </div>
+</a>
+
+{% schema %}
+  {
+    "name": "One Storie",
+    "class": "one-storie",
+    "max_blocks": 2,
+    "settings": [
+      {
+        "type": "url",
+        "id": "storie",
+        "label": "Storie"
+      },
+      {
+        "type":      "color",
+        "id":        "color",
+        "label":     "Color",
+        "default":   "#ffffff"
+      },
+      {
+        "type":   "range",
+        "id":     "title_spacing",
+        "min":       0,
+        "max":       100,
+        "step":      1,
+        "unit":      "px",
+        "label":     "Title spacing",
+        "default":   7
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image",
+        "type": "image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type":   "range",
+            "id":     "spacing",
+            "min":       0,
+            "max":       100,
+            "step":      1,
+            "unit":      "px",
+            "label":     "Spacing",
+            "default":   0
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Custom Content",
+        "name": "One Storie",
+        "blocks": []
+      }
+    ]
+  }
+{% endschema %}

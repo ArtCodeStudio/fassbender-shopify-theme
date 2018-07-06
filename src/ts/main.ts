@@ -25,6 +25,7 @@ import {
   removeClassBinder,
   slideoutTogglerBinder,
   valueBinder,
+  scrollbarDragableBinder,
 } from './binders/index';
 import {
   contactComponent,
@@ -55,12 +56,14 @@ export class Main {
     // Regist binders
     this.tinybind.binderService.regists(routerBinders);
     this.tinybind.binderService.regists(basicBinders);
+    this.tinybind.binderService.regist(scrollbarDragableBinder());
     this.tinybind.binderService.registWrapper(slideoutTogglerBinder(this.dispatcher));
     this.tinybind.binderService.registWrapper(autoscrollBinder());
     this.tinybind.binderService.registWrapper(removeClassBinder());
     this.tinybind.binderService.registWrapper(addClassBinder());
     this.tinybind.binderService.registWrapper(valueBinder());
 
+    // Regist formatters
     this.tinybind.formatterService.regists(compareFormatters);
     this.tinybind.formatterService.regists(mathFormatters);
     this.tinybind.formatterService.regists(propertyFormatters);

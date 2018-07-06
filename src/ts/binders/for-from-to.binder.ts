@@ -6,7 +6,7 @@ import { IOneWayBinder, BinderWrapper } from '../tinybind';
  * for-from-to
  */
 export const forFromToBinder: BinderWrapper = () => {
-  const name = 'for-*.*';
+  const name = 'for-*-*';
   const debug = Debug('binders:' + name);
   const binder: IOneWayBinder<string> = function(el: HTMLElement, value: any) {
     const $el = $(el);

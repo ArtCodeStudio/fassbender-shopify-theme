@@ -12,3 +12,4 @@ export { appendHtmlBinder } from './append-html.binder';
 export { imageBoxBinder } from './image-box.binder';
 export { backgroundImageBinder } from './background-image.binder';
 export { valueBinder } from './value.binder';
+export { scrollbarDragableBinder } from './scrollbar/scrollbar-dragable.binder';
