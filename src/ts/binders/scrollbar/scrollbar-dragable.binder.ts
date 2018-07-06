@@ -19,7 +19,7 @@ export class Dragscroll {
     e.preventDefault();
   }
 
-  mu <EventListener> () {
+  mu <EventListener> (e: MouseEvent) {
     this.pushed = false;
   }
 
