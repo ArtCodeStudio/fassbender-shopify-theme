@@ -1,11 +1,11 @@
-<div rv-shopify-section-product-scrollbar='{{ collections[section.settings.collection] | json }}' class="container-fluid">
+<shopify-section-product-scrollbar class="d-block container-fluid">
   <div class="row flex-nowrap scrollbar-invisible scrollbar-x-scroll-on-hover" rv-scrollbar-dragable="">
     <div class="col-3"></div>
     {% for product in collections[section.settings.collection].products %}
       {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
-      <a href="{{product.url}}" class="col-6 px-0 content-box ratio-3-4">
+      <div rv-on-tap="onProductTap" rv-on-mouseenter="onProductMouseenter" data-url="{{product.url}}" class="col-6 px-0 content-box ratio-3-4 product-{{product.handle}}">
         <img class="content" src="{{ product.featured_image | img_url: '1200x800', scale: 2 }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
-      </a>
+      </div>
     {% endfor %}
   </div>
   <div class="row">
@@ -13,7 +13,7 @@
       {title}
     </div>
   </div>
-</div>
+</shopify-section-product-scrollbar>
 
 
 {% schema %}

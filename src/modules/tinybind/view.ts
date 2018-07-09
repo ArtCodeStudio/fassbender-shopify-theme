@@ -1,8 +1,8 @@
 import { IViewOptions, Tinybind } from './tinybind';
 import { Binder, ITwoWayBinder } from './binder.service';
-import { Binding } from './binding';
+import { Binding, IBindable } from './binding';
 import { ComponentBinding, IBoundElement } from './component-binding';
-import { parseTemplate } from './parsers';
+import { parseNode, parseDeclaration } from './parsers';
 
 export type TBlock = boolean;
 
@@ -14,22 +14,44 @@ export interface IDataElement extends HTMLElement {
  * A collection of bindings built from a set of parent nodes.
  */
 export class View {
+  public static DECLARATION_SPLIT = /((?:'[^']*')*(?:(?:[^\|']*(?:'[^']*')+[^\|']*)+|[^\|]+))|^$/g;
 
-  els: HTMLCollection | HTMLElement[] | Node[];
-  models: any;
-  options: IViewOptions;
-  bindings: Binding[] = [];
-  componentView: View | null = null;
+  public static textBinder: ITwoWayBinder<string> = {
+    routine: (node: IDataElement, value: string) => {
+      node.data = (value != null) ? value : '';
+    },
+  };
 
-  static DECLARATION_SPLIT = /((?:'[^']*')*(?:(?:[^\|']*(?:'[^']*')+[^\|']*)+|[^\|]+))|^$/g;
+  public static bindingComparator = (a: IBindable, b: IBindable) => {
+    const aPriority = a.binder ? ((a.binder as ITwoWayBinder<any>).priority || 0) : 0;
+    const bPriority = b.binder ? ((b.binder as ITwoWayBinder<any>).priority || 0) : 0;
+    return bPriority - aPriority;
+  }
+
+  public static create(binding: Binding, models: any, anchorEl: HTMLElement | Node | null) {
+    const template = binding.el.cloneNode(true);
+    const view = new View((template as Node), models, binding.view.options);
+    view.bind();
+    if (!binding || !binding.marker || binding.marker.parentNode === null) {
+      throw new Error('[View] No parent node for binding!');
+    }
+    binding.marker.parentNode.insertBefore(template, anchorEl);
+    return view;
+  }
+
+  public els: HTMLCollection | HTMLElement[] | Node[];
+  public models: any;
+  public options: IViewOptions;
+  public bindings: IBindable[] = [];
+  // public componentView: View | null = null;
 
   /**
    * The DOM elements and the model objects for binding are passed into the
    * constructor along with any local options that should be used throughout the
    * context of the view and it's bindings.
-   * @param els 
-   * @param models 
-   * @param options 
+   * @param els
+   * @param models
+   * @param options
    */
   constructor(els: HTMLCollection | HTMLElement | Node, models: any, options: IViewOptions) {
     if (els instanceof Array) {
@@ -43,89 +65,8 @@ export class View {
     this.build();
   }
 
-  static textBinder: ITwoWayBinder<string> = {
-    routine: (node: IDataElement, value: string) => {
-      node.data = (value != null) ? value : '';
-    }
-  };
-    
-  static bindingComparator = (a: Binding, b: Binding) => {
-    let aPriority = a.binder ? ((a.binder as ITwoWayBinder<any>).priority || 0) : 0;
-    let bPriority = b.binder ? ((b.binder as ITwoWayBinder<any>).priority || 0) : 0;
-    return bPriority - aPriority;
-  };
-
-  public static parseNode(view: View, node: IDataElement, templateDelimiters: Array<string>) {
-    let block: TBlock = false;
-
-    // if node.nodeType === Node.TEXT_NODE
-    node = ( node as IDataElement);
-    if (node.nodeType === 3) {
-      let tokens = null;
-
-      // TODO why check data?
-      if(node.data) {
-        tokens = parseTemplate(node.data, templateDelimiters);
-      }
-
-      if (tokens && tokens.length) {
-        if(!node.parentNode) {
-          throw new Error('[View] Node (TEXT_NODE) has no parent node');
-        }
-        for (let i = 0; i < tokens.length; i++) {
-          let token = tokens[i];
-          let text = document.createTextNode(token.value);
-          node.parentNode.insertBefore(text, node);
-          if (token.type === 1) {
-            view.buildBinding(text, null, token.value, View.textBinder, null);
-          }
-        }
-        node.parentNode.removeChild(node);
-      }
-      block = true;
-    } else if (node.nodeType === 1) {
-      block = view.traverse(node);
-    }
-
-    if (!block) {
-      if(node.childNodes) {
-        for (let i = 0; i < node.childNodes.length; i++) {
-          View.parseNode(view, (node.childNodes[i] as IDataElement), templateDelimiters);
-        }
-      }
-    }
-  }
-
-  public static parseDeclaration(declaration: string) {
-    let matches = declaration.match(View.DECLARATION_SPLIT);
-    if(matches === null) {
-      throw new Error('[View] No matches');
-    }
-    let pipes = matches.map((str: string) => {
-      return str.trim();
-    });
-    let keypath = pipes.shift() || null;
-    return {
-      keypath,
-      pipes,
-    }
-  }
-
-  public static create(binding: Binding, models: any, anchorEl: HTMLElement | Node | null) {
-    let template = binding.el.cloneNode(true);
-    let view = new View((template as Node), models, binding.view.options);
-    view.bind();
-    if(!binding || !binding.marker || binding.marker.parentNode === null) {
-      throw new Error('[View] No parent node for binding!');
-    }
-  
-    binding.marker.parentNode.insertBefore(template, anchorEl);
-  
-    return view;
-  }
-
   public buildBinding(node: HTMLElement | Text, type: string | null, declaration: string, binder: Binder<any>, args: string[] | null) {
-    const parsedDeclaration = View.parseDeclaration(declaration);
+    const parsedDeclaration = parseDeclaration(declaration);
     const keypath = parsedDeclaration.keypath;
     const pipes = parsedDeclaration.pipes;
     this.bindings.push(new Binding((this as View), (node as HTMLElement), type, keypath, binder, args, pipes));
@@ -135,38 +76,42 @@ export class View {
    * Parses the DOM tree and builds `Binding` instances for every matched
    * binding declaration.
    */
-  build() {
+  public build() {
     this.bindings = [];
 
-    let elements = this.els, i, len;
+    const elements = this.els;
+    let i: number;
+    let len: number;
     for (i = 0, len = elements.length; i < len; i++) {
-      if(! this.options.templateDelimiters) {
-        throw new Error('templateDelimiters required')
+      if (! this.options.templateDelimiters) {
+        throw new Error('templateDelimiters required');
       }
-      View.parseNode(this, (elements[i] as IDataElement), this.options.templateDelimiters);
+      parseNode(this, (elements[i] as IDataElement), this.options.templateDelimiters);
     }
 
     this.bindings.sort(View.bindingComparator);
   }
 
-  traverse(node: IBoundElement): TBlock {
+  public traverse(node: IBoundElement): TBlock {
 
     // TODO
     let bindingPrefix = this.options.prefix;
-    if(!bindingPrefix) {
+    if (!bindingPrefix) {
       throw new Error('prefix is required');
     }
     bindingPrefix = bindingPrefix + '-';
 
     let block = node.nodeName === 'SCRIPT' || node.nodeName === 'STYLE';
-    let attributes = node.attributes;
-    let bindInfos = [];
-    let starBinders = this.options.starBinders;
-    var type, binder, identifier, args;
-
+    const attributes = node.attributes;
+    const bindInfos = [];
+    const starBinders = this.options.starBinders;
+    let type;
+    let binder;
+    let identifier;
+    let args;
 
     for (let i = 0, len = attributes.length; i < len; i++) {
-      let attribute = attributes[i];
+      const attribute = attributes[i];
       // if attribute starts with the binding prefix. E.g. rv
       if (attribute.name.indexOf(bindingPrefix) === 0) {
         type = attribute.name.slice(bindingPrefix.length);
@@ -194,12 +139,12 @@ export class View {
           return true;
         }
 
-        bindInfos.push({attr: attribute, binder: binder, type: type, args: args});
+        bindInfos.push({attr: attribute, binder, type, args});
       }
     }
 
     for (let i = 0; i < bindInfos.length; i++) {
-      let bindInfo = bindInfos[i];
+      const bindInfo = bindInfos[i];
       this.buildBinding(node, bindInfo.type, bindInfo.attr.value, bindInfo.binder, bindInfo.args);
       node.removeAttribute(bindInfo.attr.name);
     }
@@ -220,8 +165,8 @@ export class View {
   /**
    * Binds all of the current bindings for this view.
    */
-  bind() {
-    this.bindings.forEach(binding => {
+  public bind() {
+    this.bindings.forEach((binding) => {
       binding.bind();
     });
   }
@@ -229,32 +174,34 @@ export class View {
   /**
    * Unbinds all of the current bindings for this view.
    */
-  unbind() {
-    if(Array.isArray(this.bindings)) {
-      this.bindings.forEach(binding => {
+  public unbind() {
+    if (Array.isArray(this.bindings)) {
+      this.bindings.forEach((binding) => {
         binding.unbind();
       });
     }
-    if(this.componentView) {
-      this.componentView.unbind();
-    }
+    // if(this.componentView) {
+    //   this.componentView.unbind();
+    // }
   }
 
   /**
    * Syncs up the view with the model by running the routines on all bindings.
    */
-  sync() {
-    this.bindings.forEach(binding => {
-      binding.sync();
+  public sync() {
+    this.bindings.forEach((binding) => {
+      if (binding.sync) {
+        binding.sync();
+      }
     });
   }
 
   /**
    * Publishes the input values from the view back to the model (reverse sync).
    */
-  publish() {
-    this.bindings.forEach(binding => {
-      if (binding.binder && (binding.binder as ITwoWayBinder<any>).publishes) {
+  public publish() {
+    this.bindings.forEach((binding) => {
+      if (binding.binder && binding.publish && (binding.binder as ITwoWayBinder<any>).publishes) {
         binding.publish();
       }
     });
@@ -262,14 +209,14 @@ export class View {
 
   /**
    * Updates the view's models along with any affected bindings.
-   * @param models 
+   * @param models
    */
-  update(models: any = {}) {
-    Object.keys(models).forEach(key => {
+  public update(models: any = {}) {
+    Object.keys(models).forEach((key) => {
       this.models[key] = models[key];
     });
 
-    this.bindings.forEach(binding => {
+    this.bindings.forEach((binding) => {
       if (binding.update) {
         binding.update(models);
       }

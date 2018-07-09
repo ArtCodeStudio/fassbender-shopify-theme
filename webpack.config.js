@@ -1,8 +1,24 @@
 // https://github.com/Microsoft/TypeScript-Babel-Starter
 // https://florianbrinkmann.com/4849/sass-webpack/
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        sourceMap: true,
+        uglifyOptions: {
+          compress: true,
+          mangle: true,
+          output: {
+            beautify: false,
+            comments: false,
+          }
+        }
+      })
+    ]
+  },
   // Change to your "entry-point".
   entry: ['./src/ts/main.ts', './src/scss/theme.scss' ],
   devtool: 'inline-source-map',
@@ -12,6 +28,7 @@ module.exports = {
     path: path.resolve(__dirname, 'theme/assets/')
   },
   resolve: {
+    modules: [ 'node_modules', 'src/modules' ],
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
   module: {

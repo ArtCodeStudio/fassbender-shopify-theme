@@ -2,13 +2,12 @@ export * from './HistoryManager';
 export * from './Dom';
 export * from './Prefetch';
 
-import { Dispatcher } from '../dispatcher';
+import { GlobalEvent } from '../../../../global-event';
 import { Utils } from '../../../../utils';
 import { BaseCache } from '../Cache';
 import { HideShowTransition, ITransition } from '../Transition/Transition';
 import { Dom } from './Dom';
 import { HistoryManager } from './HistoryManager';
-
 
 /**
  * Pjax is a static object with main function
@@ -100,20 +99,20 @@ class Pjax {
    * @param  {HTMLAnchorElement} el
    * @return {string} href
    */
-  public static getHref(el: HTMLAnchorElement | SVGAElement): string {
+  public static getHref(el: HTMLAnchorElement | SVGAElement): string | undefined {
     if (el.getAttribute && typeof el.getAttribute('xlink:href') === 'string') {
-      const href = el.getAttribute('xlink:href');
-      if(href !== null) {
-        return href;
-      }
+      return el.getAttribute('xlink:href') || undefined;
     }
 
     if (typeof(el.href) === 'string') {
       return el.href;
     }
 
-    throw new Error('Can\t parse href');
+    return undefined;
   }
+
+  /** singleton instance */
+  private static instance: Pjax;
 
   public dom?: Dom;
   public history = new HistoryManager();
@@ -136,12 +135,19 @@ class Pjax {
   */
   public transitionProgress: boolean = false;
 
-  private dispatcher = new Dispatcher();
+  private dispatcher = new GlobalEvent();
 
-  private transition: ITransition = new HideShowTransition();;
+  private transition: ITransition = new HideShowTransition();
 
+  /**
+   * Creates an singleton instance of Dispatcher.
+   */
   constructor() {
+    if (Pjax.instance) {
+      return Pjax.instance;
+    }
 
+    Pjax.instance = this;
   }
 
  /**
@@ -181,7 +187,7 @@ class Pjax {
   public goTo(url: string, newTab?: boolean) {
     if (newTab) {
       const win = window.open(url, '_blank');
-      if(win) {
+      if (win) {
         return win.focus();
       }
       return false;
@@ -309,7 +315,7 @@ class Pjax {
       this.dispatcher.trigger('linkClicked', el, evt);
 
       const href = Pjax.getHref(el);
-      if(!href) {
+      if (!href) {
         throw new Error('href is null');
       }
       this.goTo(href);
@@ -337,7 +343,6 @@ class Pjax {
 
     const $newContainer = this.load(newUrl);
 
-    
     const transition = this.getTransition();
 
     this.transitionProgress = true;

@@ -1,16 +1,18 @@
 import Debug from 'debug';
-import JQuery from 'jquery';
+import JQuery from './jquery';
+
+// (window as any).$ = JQuery;
 
 // import { Tetris } from './services/tetris';
 import {
   Tinybind,
   View,
-  Dispatcher,
+  GlobalEvent,
 
   // binders
   routerBinders,
-  basicBinders,
-  
+  basicBindersWrapper,
+
   // formatters
   compareFormatters,
   mathFormatters,
@@ -23,7 +25,6 @@ import {
   addClassBinder,
   autoscrollBinder,
   removeClassBinder,
-  slideoutTogglerBinder,
   valueBinder,
   scrollbarDragableBinder,
 } from './binders/index';
@@ -31,33 +32,34 @@ import {
   contactComponent,
   iconsetComponent,
   navItemsComponent,
-  slideoutComponent,
+  shopifySectionProductScrollbarComponent,
 } from './components/index';
 
 export class Main {
 
   // private prefetch = new Prefetch();
-  private dispatcher = new Dispatcher();
+  private dispatcher = new GlobalEvent();
   //  private pjax = new Pjax(new CustomTransition());
   private view: View;
   private debug = Debug('main');
-  private tinybind = new Tinybind();;
+  private tinybind = new Tinybind();
 
   constructor() {
 
-    this.debug('init the main application')
+    this.debug('init the main application');
 
     // Regist components
     this.tinybind.componentService.regist(contactComponent());
     this.tinybind.componentService.regist(navItemsComponent());
-    this.tinybind.componentService.regist(slideoutComponent(this.dispatcher));
     this.tinybind.componentService.regist(iconsetComponent());
+    this.tinybind.componentService.regist(shopifySectionProductScrollbarComponent(JQuery));
 
     // Regist binders
+    const basicBinders = basicBindersWrapper(JQuery);
+    // console.error('basicBinders', basicBinders);
     this.tinybind.binderService.regists(routerBinders);
     this.tinybind.binderService.regists(basicBinders);
     this.tinybind.binderService.regist(scrollbarDragableBinder());
-    this.tinybind.binderService.registWrapper(slideoutTogglerBinder(this.dispatcher));
     this.tinybind.binderService.registWrapper(autoscrollBinder());
     this.tinybind.binderService.registWrapper(removeClassBinder());
     this.tinybind.binderService.registWrapper(addClassBinder());
@@ -75,6 +77,6 @@ export class Main {
   }
 }
 
-JQuery(() => {
+JQuery(($: JQueryStatic) => {
   const main = new Main();
 });

@@ -1,6 +1,5 @@
 
 // binders
-export { slideoutTogglerBinder } from './slideout-toggler.binder';
 export { autoscrollBinder } from './autoscroll.binder';
 export { mailtoBinder } from './mailto.binder';
 export { telBinder } from './tel.binder';

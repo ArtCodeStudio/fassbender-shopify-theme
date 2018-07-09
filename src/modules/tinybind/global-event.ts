@@ -9,9 +9,10 @@ interface IEvents {
  *
  * @type {object}
  */
-class Dispatcher {
-  // TODO make global dispatcher optional
-  private static instance: Dispatcher;
+class GlobalEvent {
+
+  /** singleton instance */
+  private static instance: GlobalEvent;
   /**
    * Object that keeps all the events
    *
@@ -26,11 +27,11 @@ class Dispatcher {
    * @memberof Dispatcher
    */
   constructor() {
-    if (Dispatcher.instance) {
-      return Dispatcher.instance;
+    if (GlobalEvent.instance) {
+      return GlobalEvent.instance;
     }
 
-    Dispatcher.instance = this;
+    GlobalEvent.instance = this;
   }
 
   /**
@@ -72,15 +73,10 @@ class Dispatcher {
       return;
     }
 
-    for (const i in this.events[e]) {
-      if (this.events[e][i]) {
-        this.events[e][i].apply(this, Array.prototype.slice.call(arguments, 1));
-      }
+    for (let i = 0; i < this.events[e].length; i++) {
+      this.events[e][i].apply(this, args);
     }
-    // for (let i = 0; i < this.events[e].length; i++) {
-    //   this.events[e][i].apply(this, Array.prototype.slice.call(arguments, 1));
-    // }
   }
 }
 
-export { Dispatcher };
+export { GlobalEvent };

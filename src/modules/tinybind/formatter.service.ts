@@ -1,9 +1,16 @@
 import Debug from 'debug';
-export interface IFormatter {
+
+export interface IOneWayFormatter {
   (val: any, ...args: any[]): any;
   read?: (result: string, ...processedArgs: string[]) => void;
-  publish?: (result: string, ...processedArgs: string[]) => void;
 }
+
+export interface IOneTwoFormatter {
+  read: (result: string, ...processedArgs: string[]) => void;
+  publish: (result: string, ...processedArgs: string[]) => void;
+}
+
+export type IFormatter = IOneWayFormatter | IOneTwoFormatter;
 
 export interface IFormatters {
   [name: string]: IFormatter;
@@ -14,7 +21,7 @@ export class FormatterService {
   private debug = Debug('formatters:FormatterService');
 
   /**
-   * 
+   *
    */
   constructor(formatters: IFormatters) {
     this.formatters = formatters;
@@ -23,7 +30,7 @@ export class FormatterService {
   /**
    * Regist a formatter with his name
    * @param component
-   * @param name 
+   * @param name
    */
   public regist(component: IFormatter, name?: string): IFormatters {
     if (!name) {
@@ -49,15 +56,14 @@ export class FormatterService {
 
   /**
    * Regist a set of formatters
-   * @param formatters 
+   * @param formatters
    */
   public regists(formatters: IFormatters): IFormatters {
     for (const name in formatters) {
       if (formatters.hasOwnProperty(name)) {
-        this.regist(formatters[name], name)
+        this.regist(formatters[name], name);
       }
     }
     return this.formatters;
   }
-
 }

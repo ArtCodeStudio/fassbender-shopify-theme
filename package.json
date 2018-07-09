@@ -12,7 +12,7 @@
     "type-check": "npm run copy-modules && tsc --noEmit",
     "webpack": "webpack",
     "build": "npm run type-check && npm run webpack",
-    "watch": "npm run copy-modules && theme watch --dir './theme' & webpack --watch --env.dev"
+    "watch": "npm run copy-modules && theme watch --dir './theme' --force & webpack --watch --env.dev"
   },
   "repository": {
     "type": "git",
@@ -30,14 +30,14 @@
   },
   "homepage": "https://art-code-studio.myshopify.com",
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.51",
-    "@babel/core": "^7.0.0-beta.51",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.51",
-    "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.51",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.51",
-    "@babel/preset-env": "^7.0.0-beta.51",
-    "@babel/preset-typescript": "^7.0.0-beta.51",
-    "autoprefixer": "^8.6.4",
+    "@babel/cli": "^7.0.0-beta.52",
+    "@babel/core": "^7.0.0-beta.52",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.52",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.52",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.52",
+    "@babel/preset-env": "^7.0.0-beta.52",
+    "@babel/preset-typescript": "^7.0.0-beta.52",
+    "autoprefixer": "^8.6.5",
     "babel-loader": "^8.0.0-beta.4",
     "babelify": "^8.0.0",
     "browserify": "^16.2.2",
@@ -53,7 +53,7 @@
     "gulp-zip": "^3.2.0",
     "html-loader": "^0.5.5",
     "jshint": "^2.9.5",
-    "node-sass": "^4.9.1",
+    "node-sass": "^4.9.2",
     "parcel-bundler": "^1.9.3",
     "postcss-cli": "^5.0.1",
     "postcss-loader": "^2.1.5",
@@ -75,12 +75,10 @@
   "dependencies": {
     "@types/debug": "^0.0.30",
     "@types/jquery": "^3.3.4",
-    "@types/slideout": "^0.1.19",
     "bootstrap": "^4.1.1",
     "debug": "^3.1.0",
     "jquery": "^3.3.1",
     "rxjs": "^6.2.1",
-    "slideout": "^1.0.1",
     "tinybind": "github:JumpLinkNetwork/tinybind#master"
   }
 }

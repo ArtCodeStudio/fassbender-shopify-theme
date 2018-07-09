@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { Binding } from './binding';
+import { Binding, IBindable } from './binding';
 /**
  * One way binder interface
  */
@@ -19,7 +19,7 @@ export interface ITwoWayBinder<ValueType> {
   publishes?: boolean;
   priority?: number;
   /**
-   * If you want to save custom data in this use this object
+   * If you want to save custom data in your binder logic
    */
   customData?: any;
 }
@@ -27,7 +27,7 @@ export interface ITwoWayBinder<ValueType> {
 /**
  * A binder can be a one way binder or a two way binder
  */
-export type Binder<ValueType> = IOneWayBinder<ValueType> | ITwoWayBinder<ValueType>
+export type Binder<ValueType> = IOneWayBinder<ValueType> | ITwoWayBinder<ValueType> | IBindable;
 
 /**
  * A list of binders with any key name
@@ -54,8 +54,8 @@ export class BindersService {
   private debug = Debug('binders:BindersService');
 
   /**
-   * 
-   * @param binders 
+   *
+   * @param binders;
    */
   constructor(binders: IBinders<any>) {
     this.binders = binders;
@@ -64,7 +64,7 @@ export class BindersService {
   /**
    * Regist a binder wrapper
    * @param binder
-   * @param name 
+   * @param name
    */
   public registWrapper(binderWrapper: IBinderWrapperResult, name?: string): IBinders<any> {
     if (!name) {
@@ -78,19 +78,17 @@ export class BindersService {
   /**
    * Regist a binder with his name
    * @param binder
-   * @param name 
+   * @param name
    */
   public regist(binder: Binder<any> | IBinderWrapperResult, name?: string): IBinders<any> {
-    
-    if (binder.hasOwnProperty('name')) {
+
+    if (binder.hasOwnProperty('binder')) {
       binder = (binder as IBinderWrapperResult);
       if (!name) {
         name = (binder as any).name;
       }
       binder = binder.binder;
     }
-
-    binder = (binder as Binder<any>);
 
     this.debug('name', name, binder);
 
@@ -99,21 +97,20 @@ export class BindersService {
     }
 
     // if Binder<any>
-    this.binders[name] = binder;
+    this.binders[name] = (binder as Binder<any>);
     return this.binders;
   }
 
   /**
    * Regist a set of binders
-   * @param binders 
+   * @param binders
    */
   public regists(binders: IBinders<any>): IBinders<any> {
     for (const name in binders) {
       if (binders.hasOwnProperty(name)) {
-        this.regist(binders[name], name)
+        this.regist(binders[name], name);
       }
     }
     return this.binders;
   }
-
 }

@@ -12,7 +12,7 @@ const copyModule = function (module) {
   shell.exec(`npm link ${module}`);
   const source = fs.realpathSync(path.resolve(__dirname, `./../node_modules/${module}/src`));
   const target = path.resolve(__dirname, `./../src/modules/${module}`);
-  console.log(target, source);
+  console.log(`${source} -> ${target}`);
   shell.rm('-rf', target);
   shell.cp('-R', source, target);
   console.log('done');

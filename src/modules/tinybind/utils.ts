@@ -6,20 +6,9 @@ export interface IDeferred {
   reject: any;
 }
 
-export const mergeObject = (target: any, obj: any) => {
-  if (obj) {
-    Object.keys(obj).forEach((key) => {
-      if (!target[key] || target[key] === {}) {
-        target[key] = obj[key];
-      }
-    });
-  }
-  return target;
-};
-
 /**
  * Test if string is a json string
- * @param str 
+ * @param str
  */
 export const isJson = (str: string) => {
   try {
@@ -32,7 +21,7 @@ export const isJson = (str: string) => {
 
 /**
  * Check if a value is an object than can be observed.
- * @param obj 
+ * @param obj
  */
 export const isObject = (obj: object) => {
   return typeof obj === 'object' && obj !== null;
@@ -49,14 +38,14 @@ export const times = (n: number, cb: () => void) => {
 };
 
 /**
- * 
+ *
  */
 export const getInputValue = (el: HTMLSelectElement | HTMLInputElement) => {
-  let results: string[] = [];
+  const results: string[] = [];
   if (el.type === 'checkbox') {
     return (el as HTMLInputElement).checked;
   } else if (el.type === 'select-multiple') {
-    let options:HTMLOptionsCollection = (el as HTMLSelectElement).options;
+    const options: HTMLOptionsCollection = (el as HTMLSelectElement).options;
 
     for (const key in options) {
       if (options.hasOwnProperty(key)) {
@@ -71,7 +60,7 @@ export const getInputValue = (el: HTMLSelectElement | HTMLInputElement) => {
   } else {
     return el.value;
   }
-}
+};
 
 /**
  * Just an Class with some helpful functions
@@ -211,7 +200,7 @@ export class Utils {
    * @param {object} object1 An first object containing properties to concat.
    * @param {object} object2 The second object containing properties to concat.
    */
-  public static concat(deep: boolean, object1: object, object2: object) {
+  public static concat(deep: boolean, object1: object, object2: object): any {
     return this.extend(deep, {}, object1, object2);
   }
 

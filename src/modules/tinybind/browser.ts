@@ -1,3 +1,5 @@
+import JQuery from 'jquery';
+
 import {
   Tinybind,
 
@@ -9,8 +11,13 @@ import {
   stringFormatters,
 
   // binders
-  basicBinders,
+  basicBindersWrapper,
   routerBinders,
+
+  // classes
+  GlobalEvent,
+  Pjax,
+  Prefetch,
 } from './index';
 
 // Global tinybind object
@@ -24,7 +31,12 @@ tinybind.formatterService.regists(specialFormatters);
 tinybind.formatterService.regists(stringFormatters);
 
 // regist binders
-tinybind.binderService.regists(basicBinders);
+tinybind.binderService.regists(basicBindersWrapper(JQuery));
 tinybind.binderService.regists(routerBinders);
+
+/** Additional global exports */
+(window as any).globalEvents = new GlobalEvent();
+(window as any).pjax = new Pjax();
+(window as any).prefetch = new Prefetch();
 
 export default tinybind;

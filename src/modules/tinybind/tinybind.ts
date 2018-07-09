@@ -1,19 +1,16 @@
-import { mergeObject } from './utils';
+import { Utils } from './utils';
 import { parseTemplate, parseType } from './parsers';
 import { IFormatters, FormatterService } from './formatter.service';
-import { compareFormatters, mathFormatters, propertyFormatters, specialFormatters, stringFormatters } from './formatters/index';
-import { Binding } from './binding';
+import { Binding, IBindable } from './binding';
 import { adapter } from './adapter';
 
-import { basicBinders } from './binders/basic/basic.binders';
-// import { routerBinders } from './binders/router/router.binders';
 import { IBinders, BindersService } from './binder.service';
 import { View } from './view';
 import { IAdapters } from './adapter';
 import { Observer, Root } from './observer';
 import { IComponents, ComponentService } from './component.service';
 
-interface IExtensions {
+export interface IExtensions {
   binders: IBinders<any>;
   formatters: IFormatters;
   components: IComponents;
@@ -31,10 +28,10 @@ export interface IOptions {
   rootInterface?: string;
 
   /** Template delimiters for text bindings */
-  templateDelimiters?: Array<string>
+  templateDelimiters?: Array<string>;
 
   /** Augment the event handler of the on-* binder */
-  handler?: Function;
+  handler?: (this: any, context: any, ev: Event, binding: Binding, el: HTMLElement) => void;
 }
 
 export declare interface IOptionsParam extends IExtensions, IOptions {}
@@ -46,6 +43,30 @@ export declare interface IViewOptions extends IOptionsParam {
 }
 
 export class Tinybind {
+
+  /**
+   * Default event handler, calles the function defined in his binder
+   * @see Binding.eventHandler
+   * @param el The element the event was triggered from
+   */
+  public static handler(this: any, context: any, ev: Event, binding: Binding, el: HTMLElement) {
+    this.call(context, ev, binding.view.models, el);
+  }
+
+  /**
+   * Sets the attribute on the element. If no binder above is matched it will fall
+   * back to using this binder.
+   */
+  public static fallbackBinder(this: Binding, el: HTMLElement, value: any) {
+    if (!this.type) {
+      throw new Error('Can\'t set atttribute of ' + this.type);
+    }
+    if (value != null) {
+      el.setAttribute(this.type, value);
+    } else {
+      el.removeAttribute(this.type);
+    }
+  }
 
   public binderService: BindersService;
 
@@ -66,25 +87,6 @@ export class Tinybind {
   public  adapters: IAdapters = {
     '.': adapter,
   };
- 
-  /** Default attribute prefix. */
-  private _prefix = 'rv';
-
-  /** Default attribute full prefix. */
-  private _fullPrefix = 'rv-';
-
-  get prefix() {
-    return this._prefix;
-  };
-
-  get fullPrefix() {
-    return this._fullPrefix;
-  };
-
-  set prefix(value) {
-    this._prefix = value;
-    this._fullPrefix = value + '-';
-  };
 
   public parseTemplate = parseTemplate;
 
@@ -96,9 +98,27 @@ export class Tinybind {
   /** Default sightglass root interface. */
   public rootInterface = '.';
 
-
   /** Preload data by default. */
   public preloadData = true;
+
+  /** Default attribute prefix. */
+  private _prefix = 'rv';
+
+  /** Default attribute full prefix. */
+  private _fullPrefix = 'rv-';
+
+  set prefix(value) {
+    this._prefix = value;
+    this._fullPrefix = value + '-';
+  }
+
+  get prefix() {
+    return this._prefix;
+  }
+
+  get fullPrefix() {
+    return this._fullPrefix;
+  }
 
   constructor() {
     this.binderService = new BindersService(this.binders);
@@ -107,54 +127,32 @@ export class Tinybind {
   }
 
   /**
-   * Default event handler.
-   */
-  public static handler(this: any, context: any, ev: Event, binding: Binding) {
-    this.call(context, ev, binding.view.models);
-  }
-
-  /**
-   * Sets the attribute on the element. If no binder above is matched it will fall
-   * back to using this binder.
-   */
-  public static fallbackBinder(this: Binding, el: HTMLElement, value: any) {
-    if (!this.type) {
-      throw new Error('Can\'t set atttribute of ' + this.type);
-    }
-    if (value != null) {
-      el.setAttribute(this.type, value);
-    } else {
-      el.removeAttribute(this.type);
-    }
-  }
-
-  /**
    * Merges an object literal into the corresponding global options.
-   * @param options 
+   * @param options
    */
   public configure(options: any) {
     if (!options) {
       return;
     }
 
-    Object.keys(options).forEach(option => {
-      let value = options[option];
-      switch(option) {
+    Object.keys(options).forEach( (option) => {
+      const value = options[option];
+      switch (option) {
         case 'binders':
-          mergeObject(this.binders, value);
-        break;
+          this.binders = Utils.concat(false, this.binders, value);
+          break;
         case 'formatters':
-          mergeObject(this.formatters, value);
-        break;
+          this.formatters = Utils.concat(false, this.formatters, value);
+          break;
         case 'components':
-          mergeObject(this.components, value);
-        break;
+          this.components = Utils.concat(false, this.components, value);
+          break;
         case 'adapters':
-          mergeObject(this.adapters, value);
-        break;
+          this.adapters = Utils.concat(false, this.adapters, value);
+          break;
         case 'adapter':
-          mergeObject(this.adapters, value);
-        break;
+          this.adapters = Utils.concat(false, this.adapters, value);
+          break;
         case 'prefix':
           this.prefix = value;
           break;
@@ -178,14 +176,14 @@ export class Tinybind {
           break;
         default:
           console.warn('Option not supported', option, value);
-        break;
+          break;
       }
     });
   }
 
   /**
    * Initializes a new instance of a component on the specified element and
-   * returns a tinybind.View instance.	
+   * returns a tinybind.View instance.
    */
   public init(componentKey: string, el: HTMLElement, data = {}) {
     if (!el) {
@@ -194,9 +192,9 @@ export class Tinybind {
 
     const component = this.components[componentKey];
     el.innerHTML = component.template.call(this, el);
-    let scope = component.initialize.call(this, el, data);
+    const scope = component.initialize.call(this, el, data);
 
-    let view = this.bind(el, scope);
+    const view = this.bind(el, scope);
     view.bind();
     return view;
   }
@@ -204,49 +202,51 @@ export class Tinybind {
   /**
    * Binds some data to a template / element. Returns a tinybind.View instance.
    */
-  bind(el: HTMLElement, models: any, options?: IOptionsParam) {
-    let viewOptions: IViewOptions = {
+  public bind(el: HTMLElement, models: any, options?: IOptionsParam) {
+    const viewOptions: IViewOptions = {
       // EXTENSIONS
-      binders: <IBinders<any>> Object.create(null),
-      formatters: <IFormatters> Object.create(null),
-      components: <IComponents> Object.create(null),
       adapters: <IAdapters> Object.create(null),
+      binders: <IBinders<any>> Object.create(null),
+      components: <IComponents> Object.create(null),
+      formatters: <IFormatters> Object.create(null),
+
       // other
       starBinders: Object.create(null),
+
       // sightglass
       rootInterface: <Root> Object.create(null),
     };
     models = models || Object.create(null);
     // options = options || {};
 
-    if(options) {
-      mergeObject(viewOptions.binders, options.binders);
-      mergeObject(viewOptions.formatters, options.formatters);
-      mergeObject(viewOptions.components, options.components);
-      mergeObject(viewOptions.adapters, options.adapters);
+    if (options) {
+      viewOptions.binders = Utils.concat(false, viewOptions.binders, options.binders);
+      viewOptions.formatters = Utils.concat(false, viewOptions.formatters, options.formatters);
+      viewOptions.components = Utils.concat(false, viewOptions.components, options.components);
+      viewOptions.adapters = Utils.concat(false, viewOptions.adapters, options.adapters);
     }
 
-    viewOptions.prefix = options && options.prefix ? options.prefix : this.prefix
-    viewOptions.templateDelimiters = options && options.templateDelimiters ? options.templateDelimiters : this.templateDelimiters
-    viewOptions.rootInterface = options && options.rootInterface ? options.rootInterface : this.rootInterface
-    viewOptions.preloadData = options && options.preloadData ? options.preloadData : this.preloadData
-    viewOptions.handler = options && options.handler ? options.handler : Tinybind.handler
+    viewOptions.prefix = options && options.prefix ? options.prefix : this.prefix;
+    viewOptions.templateDelimiters = options && options.templateDelimiters ? options.templateDelimiters : this.templateDelimiters;
+    viewOptions.rootInterface = options && options.rootInterface ? options.rootInterface : this.rootInterface;
+    viewOptions.preloadData = options && options.preloadData ? options.preloadData : this.preloadData;
+    viewOptions.handler = options && options.handler ? options.handler : Tinybind.handler;
 
     // merge extensions
-    mergeObject(viewOptions.binders, this.binders);
-    mergeObject(viewOptions.formatters, this.formatters);
-    mergeObject(viewOptions.components, this.components);
-    mergeObject(viewOptions.adapters, this.adapters);
+    viewOptions.binders = Utils.concat(false, viewOptions.binders, this.binders);
+    viewOptions.formatters = Utils.concat(false, viewOptions.formatters, this.formatters);
+    viewOptions.components = Utils.concat(false, viewOptions.components, this.components);
+    viewOptions.adapters = Utils.concat(false, viewOptions.adapters, this.adapters);
 
     // get all starBinders from available binders
-    viewOptions.starBinders = Object.keys(viewOptions.binders).filter(function (key) {
+    viewOptions.starBinders = Object.keys(viewOptions.binders).filter((key) => {
       return key.indexOf('*') > 0;
     });
 
     Observer.updateOptions(viewOptions);
 
-    let view = new View(el, models, viewOptions);
+    const view = new View(el, models, viewOptions);
     view.bind();
     return view;
   }
-};
+}
