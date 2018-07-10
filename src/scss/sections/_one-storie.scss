@@ -1,0 +1,23 @@
+.has-xs-spacing {
+  @include media-breakpoint-only(xs) {
+    padding: 10px 10px 40px 10px !important;
+  }
+}
+
+.has-sm-spacing {
+  @include media-breakpoint-only(sm) {
+    padding: 10px 10px 40px 10px !important;
+  }
+}
+
+.title-xs-spacing {
+  @include media-breakpoint-only(xs) {
+    padding: 7px 0 !important;
+  }
+}
+
+.title-sm-spacing {
+  @include media-breakpoint-only(sm) {
+    padding: 7px 0 !important;
+  }
+}

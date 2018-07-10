@@ -4,7 +4,7 @@
     {% for product in collections[section.settings.collection].products %}
       {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
       <div rv-on-tap="onProductTap" rv-on-mouseenter="onProductMouseenter" data-url="{{product.url}}" class="col-6 px-0 content-box ratio-3-4 product-{{product.handle}}">
-        <img class="content" src="{{ product.featured_image | img_url: '1200x800', scale: 2 }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
+        <img class="content" src="{{ product.featured_image | img_url: '1200x800', scale: 2 }}" alt="{{image.alt}}" />
       </div>
     {% endfor %}
   </div>

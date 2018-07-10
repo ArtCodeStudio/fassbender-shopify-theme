@@ -26,13 +26,15 @@ export const shopifySectionProductScrollbarComponent = ($: JQueryStatic) => {
     initialize(el: HTMLElement, data: any) {
       this.customData = {};
       this.$el = $(el);
-      const scope = (this as any);
+      const scope = this;
       debug('initialize', data);
 
+      /**
+       * Just open the product url
+       */
       scope.onProductTap = (event: JQuery.Event<HTMLElement, null>, _: any, eventEl: HTMLElement) => {
         const url = $(eventEl).data('url');
         pjax.goTo(url);
-        debug('onProductTap', url);
       };
 
       /**
@@ -41,7 +43,6 @@ export const shopifySectionProductScrollbarComponent = ($: JQueryStatic) => {
       scope.onProductMouseenter = (event: JQuery.Event<HTMLElement, null>, _: any, eventEl: HTMLElement) => {
         const url = $(eventEl).data('url');
         prefetch.onLinkEnter(event, url);
-        debug('onProductMouseenter', url);
       };
 
       return scope;

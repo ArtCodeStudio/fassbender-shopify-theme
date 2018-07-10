@@ -3,24 +3,41 @@
 
 {% assign block_length = section.blocks | size %}
 {% if block_length <= 1 %}
-  {% assign contentBoxClass = "ratio-3-2" %}
+  {% assign ratioClass = "ratio-3-2" %}
   {% assign imageSize = "1200x800" %}
 {% else %}
-  {% assign contentBoxClass = "ratio-3-4" %}
+  {% assign ratioClass = "ratio-3-4" %}
   {% assign imageSize = "1200x1600" %}
 {% endif %}
 
 <a href="{{section.settings.storie}}" rv-shopify-section='{{ section.settings | json }}' class="d-block container-fluid position-relative" style="background-color: {{ section.settings.color }};">
   <div class="row">
     {% for block in section.blocks %}
+
+      {% assign contentBoxClass = ratioClass %}
+
+      {% if block.settings.spacing > 0 %}
+        {% assign imageHasSpacing = true %}
+      {% else %}
+        {% assign imageHasSpacing = false %}
+      {% endif %}
+
+      
+      {% assign imageClass = 'content' %}
+      {% if imageHasSpacing %}
+        {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
+      {% else %}
+
+      {% endif %}
+
       {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
       <div class="col px-0 content-box {{contentBoxClass}}">
-        <img class="content" src="{{ block.settings.image | img_url: imageSize, scale: 2 }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
+        <img class="{{imageClass}}" src="{{ block.settings.image | img_url: imageSize, scale: 2 }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
       </div>
     {% endfor %}
   </div>
   <div class="row position-absolute bottom-0 w-100" style="background-color: {{ section.settings.color | color_modify: 'alpha', 0.5 }};">
-    <div class="col-12 text-center" style="padding: {{ section.settings.title_spacing }}px 0;">
+    <div class="col-12 text-center title-xs-spacing title-sm-spacing" style="padding: {{ section.settings.title_spacing }}px 0;">
       {{ article.title }}
     </div>
   </div>
