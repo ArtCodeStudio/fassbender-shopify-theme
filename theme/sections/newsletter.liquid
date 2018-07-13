@@ -1,0 +1,49 @@
+{% capture name %}
+  <span class="text-danger" contenteditable="true" rv-value="name | def 'Name'" rv-on-focus="selectAll"></span>
+{% endcapture %}
+
+{% capture email %}
+  <span class="text-danger" contenteditable="true" rv-value="email | def 'E-Mail'" rv-on-focus="selectAll"></span>
+{% endcapture %}
+
+<rv-newsletter class="d-block container-fluid text-center py-5" style="background-color:{{ section.settings.color }};">
+  <div class="py-5">
+    <h1 class="h6">{{ 'title' | t }}</h1>
+    <p>{{ 'content_html' | t: name: name, email: email }}</p>
+
+    <a class="" href="#" rv-on-click="send">Absenden</a>
+  </div>
+</rv-newsletter>
+
+{% schema %}
+  {
+    "name": "Newsletter",
+    "class": "newsletter",
+    "settings": [
+      {
+        "type":      "color",
+        "id":        "color",
+        "label":     "Color",
+        "default":   "#F9DFD2"
+      }
+    ],
+    "blocks": [],
+    "presets": [
+      {
+        "category": "Forms",
+        "name": "Newsletter",
+        "blocks": []
+      }
+    ],
+    "locales": {
+      "en": {
+        "title": "Discover Fassbender's World",
+        "content_html": "I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}."
+      },
+      "de": {
+        "title": "Discover Fassbender's World",
+        "content_html": "I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}."
+      }
+    }
+  }
+{% endschema %}

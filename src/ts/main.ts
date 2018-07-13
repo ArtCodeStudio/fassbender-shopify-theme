@@ -1,9 +1,6 @@
 import Debug from 'debug';
 import JQuery from './jquery';
 
-// (window as any).$ = JQuery;
-
-// import { Tetris } from './services/tetris';
 import {
   Tinybind,
   View,
@@ -25,22 +22,17 @@ import {
   addClassBinder,
   autoscrollBinder,
   removeClassBinder,
-  valueBinder,
   scrollbarDragableBinder,
 } from './binders/index';
 import {
-  contactComponent,
+  NewsletterComponent,
   iconsetComponent,
   navItemsComponent,
-  productScrollbarComponent,
-  ProductScrollbarRibaComponent,
+  ProductScrollbarComponent,
 } from './components/index';
 
 export class Main {
 
-  // private prefetch = new Prefetch();
-  private dispatcher = new GlobalEvent();
-  //  private pjax = new Pjax(new CustomTransition());
   private view: View;
   private debug = Debug('main');
   private tinybind = new Tinybind();
@@ -50,11 +42,11 @@ export class Main {
     this.debug('init the main application');
 
     // Regist components
-    this.tinybind.componentService.regist(contactComponent());
+    this.tinybind.componentService.regist(NewsletterComponent);
     this.tinybind.componentService.regist(navItemsComponent());
     this.tinybind.componentService.regist(iconsetComponent());
     // this.tinybind.componentService.regist(productScrollbarComponent());
-    this.tinybind.componentService.regist(ProductScrollbarRibaComponent, ProductScrollbarRibaComponent.tagName);
+    this.tinybind.componentService.regist(ProductScrollbarComponent);
 
     // Regist binders
     const basicBinders = basicBindersWrapper(JQuery);
@@ -65,7 +57,7 @@ export class Main {
     this.tinybind.binderService.registWrapper(autoscrollBinder());
     this.tinybind.binderService.registWrapper(removeClassBinder());
     this.tinybind.binderService.registWrapper(addClassBinder());
-    this.tinybind.binderService.registWrapper(valueBinder());
+    // this.tinybind.binderService.registWrapper(valueBinder());
 
     // Regist formatters
     this.tinybind.formatterService.regists(compareFormatters);
@@ -75,9 +67,6 @@ export class Main {
     this.tinybind.formatterService.regists(stringFormatters);
 
     this.view = this.tinybind.bind(JQuery('body')[0], window.model);
-
-    // Define custom Elements always after tinybind.bind
-    // customElements.define(ProductScrollbarRibaComponent.tagName, ProductScrollbarRibaComponent);
 
   }
 }

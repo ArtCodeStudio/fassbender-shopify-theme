@@ -1,3 +1,5 @@
+{% section 'story-header' %}
+
 <div class="container">
 
   {% paginate blog.articles by 5 %}
@@ -16,9 +18,9 @@
 
       {% for article in blog.articles %}
         {% if forloop.last %}
-          {% include 'article-list-item', border: false %}
+          {% include 'jumplink-article-list-item', border: false %}
         {% else %}
-          {% include 'article-list-item', border: true %}
+          {% include 'jumplink-article-list-item', border: true %}
         {% endif %}
       {% endfor %}
 

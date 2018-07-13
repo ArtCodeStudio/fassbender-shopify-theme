@@ -21,7 +21,7 @@ module.exports = {
   },
   // Change to your "entry-point".
   entry: ['./src/ts/main.ts', './src/scss/theme.scss' ],
-  devtool: 'inline-source-map',
+  // devtool: 'inline-source-map',
   mode: 'production', //, 'development',
   output: {
     filename: 'bundle.js',

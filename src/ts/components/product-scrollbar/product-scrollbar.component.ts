@@ -2,13 +2,18 @@ import Debug from 'debug';
 import { Pjax, Prefetch, RibaComponent, Binding } from '../../tinybind';
 import $ from '../../jquery';
 
-class ProductScrollbarRibaComponent extends RibaComponent {
+export class ProductScrollbarComponent extends RibaComponent {
 
   public static tagName: string = 'rv-product-scrollbar';
 
   protected debug = Debug('component:rv-product-scrollbar');
 
-  protected scope: any = {};
+  protected scope: any = {
+    onScroll: this.onScroll,
+    onProductTap: this.onProductTap,
+    onProductMouseenter: this.onProductMouseenter,
+    title: 'Please choose a product',
+  };
 
   // private model: any = {};
   private pjax = new Pjax();
@@ -19,16 +24,7 @@ class ProductScrollbarRibaComponent extends RibaComponent {
     super(element);
     const $el = $(this.el);
     this.$products = $el.find('.content-box');
-
-    this.scope.onScroll = this.onScroll;
-    this.scope.onProductTap = this.onProductTap;
-    this.scope.onProductMouseenter = this.onProductMouseenter;
-
-    this.scope.title = 'Please choose a product';
-
     this.bind();
-
-    this.debug('constructor', this);
   }
 
   /**
@@ -86,8 +82,3 @@ class ProductScrollbarRibaComponent extends RibaComponent {
     return null;
   }
 }
-
-// (ProductScrollbarRibaComponent as any).prototype.__proto__ = HTMLElement.prototype;
-// (ProductScrollbarRibaComponent as any).__proto__ = HTMLElement;
-
-export { ProductScrollbarRibaComponent };
