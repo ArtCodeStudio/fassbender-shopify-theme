@@ -9,10 +9,10 @@
     "sass_php": "php ./vendor/bin/pscss ./dist/scss/theme.scss",
     "sass_ruby": "sass ./dist/scss/theme.scss",
     "copy-modules": "node ./utils/copy_modules.js",
-    "type-check": "npm run copy-modules && tsc --noEmit",
+    "type-check": "tslint -c tslint.json 'src/**/*.ts' && tsc --noEmit",
     "webpack": "webpack",
-    "build": "npm run type-check && npm run webpack",
-    "watch": "npm run copy-modules && theme watch --dir './theme' --force & webpack --watch --env.dev"
+    "build": "npm run copy-modules && npm run type-check && npm run webpack && theme upload --dir ./theme assets/bundle.js assets/bundle.css --force",
+    "watch": "npm run copy-modules && npm run type-check && theme watch --dir './theme' --force & webpack --watch --env.dev"
   },
   "repository": {
     "type": "git",
@@ -75,6 +75,7 @@
   "dependencies": {
     "@types/debug": "^0.0.30",
     "@types/jquery": "^3.3.4",
+    "@webcomponents/webcomponentsjs": "^2.0.2",
     "bootstrap": "^4.1.1",
     "debug": "^3.1.0",
     "jquery": "^3.3.1",

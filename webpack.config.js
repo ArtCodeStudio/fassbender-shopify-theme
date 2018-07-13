@@ -36,7 +36,6 @@ module.exports = {
       // typescritpt and javascript
       {
         test: /\.(tsx?)|(js)$/,
-        exclude: /node_modules/,
         loader: 'babel-loader',
       },
       // html templates

@@ -32,7 +32,8 @@ import {
   contactComponent,
   iconsetComponent,
   navItemsComponent,
-  shopifySectionProductScrollbarComponent,
+  productScrollbarComponent,
+  ProductScrollbarRibaComponent,
 } from './components/index';
 
 export class Main {
@@ -52,7 +53,8 @@ export class Main {
     this.tinybind.componentService.regist(contactComponent());
     this.tinybind.componentService.regist(navItemsComponent());
     this.tinybind.componentService.regist(iconsetComponent());
-    this.tinybind.componentService.regist(shopifySectionProductScrollbarComponent(JQuery));
+    // this.tinybind.componentService.regist(productScrollbarComponent());
+    this.tinybind.componentService.regist(ProductScrollbarRibaComponent, ProductScrollbarRibaComponent.tagName);
 
     // Regist binders
     const basicBinders = basicBindersWrapper(JQuery);
@@ -73,6 +75,9 @@ export class Main {
     this.tinybind.formatterService.regists(stringFormatters);
 
     this.view = this.tinybind.bind(JQuery('body')[0], window.model);
+
+    // Define custom Elements always after tinybind.bind
+    // customElements.define(ProductScrollbarRibaComponent.tagName, ProductScrollbarRibaComponent);
 
   }
 }

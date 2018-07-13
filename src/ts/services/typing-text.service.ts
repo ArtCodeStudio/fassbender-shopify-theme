@@ -38,7 +38,7 @@ export class TypingTextService {
     this.fullTxt = fullTxt;
     this.txt = '';
     this.isDeleting = false;
-    if(cb) {
+    if (cb) {
       this.writeTick(cb);
     }
   }

@@ -1,8 +1,6 @@
-/// <reference types="jquery" /> 
+/// <reference types="jquery" />
 
-interface IJQueryTouchEvents {
-  (jQuery: JQueryStatic): JQueryStatic;
-}
+type IJQueryTouchEvents = (jQuery: JQueryStatic) => JQueryStatic;
 
 declare module 'jquery-touch-events' {
   const jqueryTouchEvents: IJQueryTouchEvents;

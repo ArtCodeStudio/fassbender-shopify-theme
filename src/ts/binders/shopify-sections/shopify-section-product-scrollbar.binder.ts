@@ -9,7 +9,6 @@ export const productScrollbarBinder: BinderWrapper = () => {
   const binder: IOneWayBinder<string> = (el: HTMLElement, data: any) => {
     const debug = Debug('binders:shopify-section-product-scrollbar');
     debug('ready');
-
   };
   return {
     binder,
