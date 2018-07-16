@@ -1,5 +1,6 @@
 {
-  "name": "Art + Code Studio",
+  "name": "Fassbender",
+  "short_name": "Fassbender",
   "icons": [
     {
       "src": "assets\/favicon-android-chrome-192x192.png",
