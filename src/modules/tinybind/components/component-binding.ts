@@ -1,13 +1,13 @@
-import { IOptionsParam, IViewOptions } from './tinybind';
-import { PRIMITIVE, KEYPATH, parseType, parseDeclaration } from './parsers';
-import { IFormatterObservers, IBindable } from './binding';
-import { IBinders } from './binder.service';
-import { IFormatters } from './formatter.service';
-import { View } from './view';
+import { IOptionsParam, IViewOptions } from '../tinybind';
+import { PRIMITIVE, KEYPATH, parseType, parseDeclaration } from '../parsers';
+import { IFormatterObservers, IBindable } from '../binding';
+import { IBinders } from '../binder.service';
+import { IFormatters } from '../formatter.service';
+import { View } from '../view';
 import { IClassicComponent, IComponents } from './component.service';
-import { Observer, IObservers, IObserverSyncCallback } from './observer';
-import { IAdapters } from './adapter';
-import { Utils } from './utils';
+import { Observer, IObservers, IObserverSyncCallback } from '../observer';
+import { IAdapters } from '../adapter';
+import { Utils } from '../utils';
 
 export interface IBoundElement extends HTMLElement {
   _bound?: boolean;

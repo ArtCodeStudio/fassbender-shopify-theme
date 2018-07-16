@@ -26,7 +26,7 @@ import {
 } from './binders/index';
 import {
   NewsletterComponent,
-  iconsetComponent,
+  IconsetComponent,
   navItemsComponent,
   ProductScrollbarComponent,
 } from './components/index';
@@ -44,7 +44,7 @@ export class Main {
     // Regist components
     this.tinybind.componentService.regist(NewsletterComponent);
     this.tinybind.componentService.regist(navItemsComponent());
-    this.tinybind.componentService.regist(iconsetComponent());
+    this.tinybind.componentService.regist(IconsetComponent);
     // this.tinybind.componentService.regist(productScrollbarComponent());
     this.tinybind.componentService.regist(ProductScrollbarComponent);
 

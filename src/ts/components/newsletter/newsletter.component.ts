@@ -1,16 +1,15 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent } from '../../tinybind';
+import { ShopifySectionComponent, RibaComponent } from '../../tinybind';
 import template from './newsletter.component.html';
-
-declare global {
-  // tslint:disable: interface-name
-  interface Window { model: any; }
-}
 
 export class NewsletterComponent extends RibaComponent {
 
   public static tagName: string = 'rv-newsletter';
+
+  static get observedAttributes() {
+    return [];
+  }
 
   protected debug = Debug('component:' + NewsletterComponent.tagName);
 
@@ -25,7 +24,7 @@ export class NewsletterComponent extends RibaComponent {
     super(element);
     const $el = $(this.el);
 
-    this.bind();
+    this.init(NewsletterComponent.observedAttributes);
   }
 
   public send() {
@@ -38,6 +37,6 @@ export class NewsletterComponent extends RibaComponent {
   }
 
   protected template() {
-    return null; // template;
+    return null;
   }
 }

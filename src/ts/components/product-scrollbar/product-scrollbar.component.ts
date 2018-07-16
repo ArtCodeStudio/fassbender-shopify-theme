@@ -1,10 +1,15 @@
+/* tslint:disable:max-classes-per-file */
 import Debug from 'debug';
-import { Pjax, Prefetch, RibaComponent, Binding } from '../../tinybind';
+import { Pjax, Prefetch, Binding, RibaComponent, ShopifySectionComponent } from '../../tinybind';
 import $ from '../../jquery';
 
-export class ProductScrollbarComponent extends RibaComponent {
+export class ProductScrollbarComponent extends ShopifySectionComponent {
 
   public static tagName: string = 'rv-product-scrollbar';
+
+  static get observedAttributes() {
+    return [];
+  }
 
   protected debug = Debug('component:rv-product-scrollbar');
 
@@ -24,7 +29,7 @@ export class ProductScrollbarComponent extends RibaComponent {
     super(element);
     const $el = $(this.el);
     this.$products = $el.find('.content-box');
-    this.bind();
+    this.init(ProductScrollbarComponent.observedAttributes);
   }
 
   /**

@@ -1,9 +1,9 @@
 import Debug from 'debug';
-import { IBinders } from './binder.service';
-import { IFormatters } from './formatter.service';
-import { IAdapters } from './adapter';
-import { IBindable } from './binding';
-import { RibaComponentClass, RibaComponent } from './webcomponent';
+import { IBinders } from '../binder.service';
+import { IFormatters } from '../formatter.service';
+import { IAdapters } from '../adapter';
+import { IBindable } from '../binding';
+import { RibaComponent } from './riba-component';
 
 export type Scope = any;
 

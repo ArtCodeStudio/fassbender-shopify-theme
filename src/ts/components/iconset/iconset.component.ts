@@ -1,38 +1,71 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { IComponentWrapperResult } from '../../tinybind';
+import { RibaComponent } from '../../tinybind';
 import template from './iconset.component.html';
 
-declare global {
-  // tslint:disable: interface-name
-  interface Window { model: any; }
-}
+export class IconsetComponent extends RibaComponent {
 
-/**
- * nav-items
- */
-export const iconsetComponent = () => {
+  public static tagName: string = 'rv-iconset';
 
-  const debug = Debug('component:iconset');
+  protected debug = Debug('component:' + IconsetComponent.tagName);
 
-  const component: IComponentWrapperResult<any> = {
+  static get observedAttributes() {
+    return ['size', 'name', 'src', 'color', 'direction'];
+  }
 
-    name: 'iconset',
+  protected scope: any = {};
 
-    template() {
-      return template;
-    },
+  protected $el: JQuery<HTMLElement>;
 
-    initialize(el: HTMLElement, data: any) {
-      const scope = this;
-      const $el = $(el);
-      const src = data.src || window.model.system.assetsPath + data.name;
-      const color = data.color || null;
-      const direction = data.direction || 'top';
-      const size = data.size || 32;
-      let classString = `iconset direction-${direction} size-${size} color-${color}`;
-      debug('initialize', data, template);
+  constructor(element?: HTMLElement) {
+    super(element);
+    const scope = this;
+    this.$el = $(this.el);
+    this.$el
+    .attr('aria-hidden', 'true')
+    .attr('role', 'img')
+    .addClass('iconset');
 
+    // set default values
+    this.attributeChangedCallback('size', null, 32, null);
+    this.attributeChangedCallback('direction', null, 'top', null);
+
+    this.init(IconsetComponent.observedAttributes);
+  }
+
+  public attributeChangedCallback(name: string, oldValue: any, newValue: any, namespace: string | null) {
+    this.debug('attributeChangedCallback', name, oldValue, newValue, namespace);
+    // injects the changed attributes to scope
+    super.attributeChangedCallback(name, oldValue, newValue, namespace);
+
+    if (name === 'src') {
+      this.$el
+      .load(newValue);
+    }
+
+    if (name === 'color') {
+      this.$el
+      .css({color: newValue})
+      .removeClass ((index, className) => {
+        return (className.match (/(^|\s)color-\S+/g) || []).join(' ');
+      })
+      .addClass(`color-${newValue}`);
+    }
+
+    if (name === 'size') {
+      const size = newValue;
+      this.debug('set size', this.$el);
+      this.$el
+      .css({height: size, width: size})
+      .removeClass((index, className) => {
+        return (className.match (/(^|\s)size-\S+/g) || []).join(' ');
+      })
+      .addClass(`size-${size}`);
+    }
+
+    if (name === 'direction') {
+      const direction = newValue;
+      let classString = `direction-${direction}`;
       if (direction === 'left' ) {
         classString += ' rotate-270';
       } else if ( direction === 'left-top' || direction === 'left-up' || direction === 'top-left' || direction === 'up-left' ) {
@@ -50,21 +83,19 @@ export const iconsetComponent = () => {
       } else if ( direction === 'left-bottom' || direction === 'left-down' || direction === 'bottom-left' || direction === 'down-left' ) {
         classString += ' rotate-225';
       }
-
-      $(el)
-      .load( src )
-      .css({
-        color,
-        height: size + 'px',
-        width: size + 'px',
+      this.$el
+      .css({height: newValue, width: newValue})
+      .removeClass((index, className) => {
+        return (className.match (/(^|\s)direction-\S+/g) || []).join(' ');
       })
-      .addClass(classString)
-      .attr('aria-hidden', 'true')
-      .attr('role', 'img');
+      .removeClass((index, className) => {
+        return (className.match (/(^|\s)rotate-\S+/g) || []).join(' ');
+      })
+      .addClass(classString);
+    }
+  }
 
-      return scope;
-    },
-  };
-
-  return component;
-};
+  protected template() {
+    return template;
+  }
+}
