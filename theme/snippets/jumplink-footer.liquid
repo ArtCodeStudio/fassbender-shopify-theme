@@ -1,3 +1,51 @@
-<footer class="footer pb-2">
-  TODO
+<footer class="container-fluid footer pointer-events-none" style="background-color:#F9DFD2;">
+  {% comment %}
+    MAINBAR
+  {% endcomment %}
+  <div class="row mainbar">
+
+    {% comment %}
+      MAINBAR LEFT
+    {% endcomment %}
+    <div class="col-auto">
+      FASSBENDER
+    </div>
+
+    {% comment %}
+      MAINBAR RIGHT
+    {% endcomment %}
+    <div class="ml-auto col-auto d-flex align-items-center">
+      <shopify-linklist class="col-auto pointer-events-all" rv-linklist="system.linklists.footer | json" vertical="false"></shopify-linklist>
+    </div>
+  </div>
+
+  {% comment %}
+    SUBBAR
+  {% endcomment %}
+  <div class="row subbar pt-2">
+    <div class="col d-flex">
+      <div class="mr-auto">
+         
+        <ul class="nav small" style="pointer-events: all;">
+          <li class="nav-item">
+            <div class="nav-link">
+              2018 FASSBENDER. All rights reserved
+            </div>
+          </li>   
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Projected by Art+Code Studio
+            </a>
+          </li>    
+          <li class="nav-item">
+            <a class="nav-link" rv-slideout-toggler="right" href="#">
+              Legal Area
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
 </footer>

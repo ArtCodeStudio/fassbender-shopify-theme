@@ -1,14 +1,14 @@
 {
     {% if customer %}
-    {% comment %}
-    accepts_marketing:
-    {% endcomment %}
-    addresses: [
-        {% for address in customer.addresses %}
-            {{ address | json }},
-        {% endfor %}
-    ],
-    first_name: "{{ customer.first_name }}",
-    addresses_count: {{customer.addresses_count}},
+        {% comment %}
+        accepts_marketing:
+        {% endcomment %}
+        "addresses": [
+            {% for address in customer.addresses %}
+                {{ address | json }},
+            {% endfor %}
+        ],
+        "first_name": {{ customer.first_name | json}},
+        "addresses_count": {{customer.addresses_count | json}},
     {% endif %}
 }

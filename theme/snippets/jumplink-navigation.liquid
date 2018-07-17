@@ -1,35 +1,67 @@
-<div class="container-fluid fixed-top navbar-main" style="pointer-events: none;">
-  <div class="row subbar">
+<div class="container-fluid fixed-top navbar-main pointer-events-none">
+  {% comment %}
+    SUBBAR
+  {% endcomment %}
+  <div class="row subbar pt-2">
     <div class="col d-flex">
       <div class="ml-auto">
          
-        <ul class="nav" style="pointer-events: all;">
+        <ul class="nav pointer-events-all">
           <li class="nav-item">
             <div class="nav-text">
               Welcome to the online home of covering trends, fashion inspiration and heigh end ready to wear pieces.
             </div>
           </li>
         </ul>
+
       </div>
     </div>
   </div>
+
+  {% comment %}
+    MAINBAR
+  {% endcomment %}
   <div class="row mainbar">
-    <div class="col-auto d-flex align-items-center">
-      <a href="/" class="brand" style="pointer-events: all;">
-        <rv-iconset rv-src="'{{ 'logo.svg' | asset_url }}'" name="'logo.svg'" size="64"></rv-iconset>
-      </a>
+
+    {% comment %}
+      MAINBAR LEFT
+    {% endcomment %}
+    <div class="col-auto" style="position: fixed; width: auto; z-index: 1;">
+      <div class="row">
+        <a class="col-auto brand pointer-events-all" rv-route="/" href="/">
+          <rv-iconset rv-src="'{{ 'iconset-logo.svg' | asset_url }}'" height="64" width="47"></rv-iconset>
+        </a>
+      </div>
+      <div class="row pt-4">
+        <shopify-linklist class="col-auto pointer-events-all" name="main-menu" vertical="true" pills="false"></shopify-linklist>
+      </div>
+
+      <div class="row pt-4">
+        <shopify-filter class="col-auto pointer-events-all"></shopify-filter>
+      </div>
     </div>
+
+    {% comment %}
+      MAINBAR RIGHT
+    {% endcomment %}
     <div class="ml-auto col-auto d-flex align-items-center">
       <ul class="nav" style="pointer-events: all;">
         <li class="nav-item">
+          <a class="nav-link" href="#">
+            <rv-iconset rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="24"></rv-iconset>
+          </a>
+        </li>   
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Cart
+          </a>
+        </li>    
+        <li class="nav-item">
           <a class="nav-link" rv-slideout-toggler="right" href="#">
-            <span class="text">Info</span>
-            <rv-iconset rv-src="'{{ 'iconset_icon_dots.svg' | asset_url }}'"></rv-iconset>
+            <rv-iconset rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" size="24"></rv-iconset>
           </a>
         </li>
       </ul>
     </div>
   </div>
 </div>
-
-<slideout class="slideout-dark"></slideout> 

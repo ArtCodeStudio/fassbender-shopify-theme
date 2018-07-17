@@ -1,0 +1,26 @@
+{
+  {% if article %}
+    "author": "{{ article.author }}",
+    "comments": [
+      {% for comment in article.comments %}
+        {{ comments | json }},
+      {% endfor %}
+    ],
+    "comments_count": {{article.comments_count | json}},
+    "comments_enabled": {{article.comments_enabled? | json}},
+    "comment_post_url": {{article.comment_post_url | json}},
+    "content": {{article.content | json}},
+    "created_at": {{article.created_at | json}},
+    "excerpt": {{article.excerpt | json}},
+    "excerpt_or_content": {{article.excerpt_or_content | json}},
+    "handle": {{article.handle | json}},
+    "id": {{article.id | json}},
+    "image": {{article.image | json}},
+    "moderated": {{article.moderated? | json}},
+    "published_at": {{article.published_at | json}},
+    "tags": {{article.tags | json}},
+    "title": {{article.title | json}},
+    "url": {{article.url | json}},
+    "user": {{article.user | json}}
+  {% endif %}
+}

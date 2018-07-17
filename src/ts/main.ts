@@ -27,9 +27,15 @@ import {
 import {
   NewsletterComponent,
   IconsetComponent,
-  navItemsComponent,
+  ShopifyLinklistComponent,
+  ShopifyFilterComponent,
   ProductScrollbarComponent,
 } from './components/index';
+
+declare global {
+  // tslint:disable: interface-name
+  interface Window { model: any; }
+}
 
 export class Main {
 
@@ -43,7 +49,8 @@ export class Main {
 
     // Regist components
     this.tinybind.componentService.regist(NewsletterComponent);
-    this.tinybind.componentService.regist(navItemsComponent());
+    this.tinybind.componentService.regist(ShopifyLinklistComponent);
+    this.tinybind.componentService.regist(ShopifyFilterComponent);
     this.tinybind.componentService.regist(IconsetComponent);
     // this.tinybind.componentService.regist(productScrollbarComponent());
     this.tinybind.componentService.regist(ProductScrollbarComponent);

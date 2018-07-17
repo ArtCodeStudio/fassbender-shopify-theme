@@ -1,0 +1,21 @@
+
+
+.custom-radio {
+  .custom-control-input ~ .custom-control-label {
+    &::before {
+      background-color: transparent;
+    }
+    &::after {
+      background-image: $custom-radio-indicator-icon-unchecked;
+    }
+  }
+
+  .custom-control-input:checked ~ .custom-control-label {
+    &::before {
+      background-color: transparent;
+    }
+    &::after {
+      background-image: $custom-radio-indicator-icon-checked;
+    }
+  }
+}

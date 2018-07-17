@@ -3,3 +3,15 @@
   @extend .d-flex;
   @extend .align-items-center;
 }
+
+.nav-item:first-child {
+  .nav-link {
+    padding-left: 0;
+  }
+}
+
+.nav-item:last-child {
+  .nav-link {
+    padding-right: 0;
+  }
+}

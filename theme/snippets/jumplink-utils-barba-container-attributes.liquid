@@ -38,13 +38,6 @@ data-seo-page_description={{ page_description | json }}
 
   data-product-metafields-cf='{{product.metafields.c_f | json | replace: "'", "&#39;"}}'
 
-  data-product-images-count={{ product.images | size | json }}
-
-  {% for image in product.images %}
-    data-product-image-grande{{forloop.index0}}="{{ image | img_url: 'grande' }}"
-    data-product-image-master{{forloop.index0}}="{{ image | img_url: 'master' }}"
-  {% endfor %}
-
   {% if collection.previous_product %}
     data-product-prev-url="{{collection.previous_product}}"
   {% endif %}
@@ -66,11 +59,6 @@ data-seo-page_description={{ page_description | json }}
   {% paginate collection.products by settings.products_per_page %}
 
     data-collection-products-count={{collection.products | size | json }}
-
-    {% for product in collection.products %}
-      data-collection-product{{forloop.index0}}-featured-image-grande="{{ product | img_url: 'grande' }}"
-      data-collection-product{{forloop.index0}}-featured-image-original="{{ product | img_url: 'original' }}"
-    {% endfor %}
 
     {% if paginate.previous.is_link %}
       data-paginate-previous-url="{{ paginate.previous.url }}"
@@ -119,23 +107,13 @@ data-seo-page_description={{ page_description | json }}
 {% endif %}
 
 {% if cart %}
-  data-cart='{{cart | json | replace: "'", "&#39;"}}'
-{% endif %}
-
-{% if newHash %}
-  data-new-hash="{{newHash}}"
-{% else %}
-  data-new-hash=false
+  data-cart={{cart | json}}
 {% endif %}
 
 {% if blog %}
-  data-blog="true"
-  data-blog-articles-count="{{blog.articles_count}}"
-  data-blog-comments-enabled="{{blog.comments_enabled?}}"
-  data-blog-handle="{{blog.handle}}"
-  data-blog-id="{{blog.id}}"
-  data-blog-moderated="{{blog.moderated?}}"
-  data-blog-next-article="{{blog.next_article}}"
-  data-blog-previous-article="{{blog.previous_article}}"
-  data-blog-tags="{{blog.tags}}"
+  data-blog='{% include 'jumplink-utils-json-blog' %}'
+{% endif %}
+
+{% if article %}
+  data-article='{% include 'jumplink-utils-json-article' %}'
 {% endif %}

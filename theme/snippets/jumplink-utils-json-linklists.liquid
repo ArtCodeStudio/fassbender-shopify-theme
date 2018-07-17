@@ -1,5 +1,5 @@
 {
     {% for linklist in linklists %}
-        {% include 'jumplink-utils-json-linklist' %},
+        {% include 'jumplink-utils-json-linklist', linklist: linklist %},
     {% endfor %}
 }

@@ -10,7 +10,7 @@ export class IconsetComponent extends RibaComponent {
   protected debug = Debug('component:' + IconsetComponent.tagName);
 
   static get observedAttributes() {
-    return ['size', 'name', 'src', 'color', 'direction'];
+    return ['size', 'width', 'height', 'name', 'src', 'color', 'direction'];
   }
 
   protected scope: any = {};
@@ -19,7 +19,6 @@ export class IconsetComponent extends RibaComponent {
 
   constructor(element?: HTMLElement) {
     super(element);
-    const scope = this;
     this.$el = $(this.el);
     this.$el
     .attr('aria-hidden', 'true')
@@ -27,10 +26,10 @@ export class IconsetComponent extends RibaComponent {
     .addClass('iconset');
 
     // set default values
-    this.attributeChangedCallback('size', null, 32, null);
+    // this.attributeChangedCallback('size', null, 32, null);
     this.attributeChangedCallback('direction', null, 'top', null);
 
-    this.init(IconsetComponent.observedAttributes);
+    this.init(IconsetComponent.observedAttributes, false);
   }
 
   public attributeChangedCallback(name: string, oldValue: any, newValue: any, namespace: string | null) {
@@ -61,6 +60,28 @@ export class IconsetComponent extends RibaComponent {
         return (className.match (/(^|\s)size-\S+/g) || []).join(' ');
       })
       .addClass(`size-${size}`);
+    }
+
+    if (name === 'width') {
+      const width = newValue;
+      this.debug('set width', this.$el);
+      this.$el
+      .css({width})
+      .removeClass((index, className) => {
+        return (className.match (/(^|\s)width-\S+/g) || []).join(' ');
+      })
+      .addClass(`width-${width}`);
+    }
+
+    if (name === 'height') {
+      const height = newValue;
+      this.debug('set height', this.$el);
+      this.$el
+      .css({height})
+      .removeClass((index, className) => {
+        return (className.match (/(^|\s)height-\S+/g) || []).join(' ');
+      })
+      .addClass(`height-${height}`);
     }
 
     if (name === 'direction') {

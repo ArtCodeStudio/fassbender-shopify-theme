@@ -1,20 +1,14 @@
-'{{linklist.handle}}': {
+{{linklist.handle | json}}: {
     {% if linklist.handle %}
-        'handle': '{{linklist.handle}}',
+        "handle": {{linklist.handle | json}},
     {% endif %}
     {% if linklist.id %}
-        'id': '{{linklist.id}}',
+        "id": {{linklist.id | json}},
     {% endif %}
     {% if linklist.links %}
-        'links': {% include 'jumplink-utils-json-links' %},
+        "links": {% include "jumplink-utils-json-links", links: linklist.links %},
     {% endif %}
     {% if linklist.title %}
-        'title': '{{linklist.title}}',
-        'text': '{{linklist.title}}', {% comment %} bootstrap-treeview  {% endcomment %}
-    {% endif %}
-
-    {% assign child_list_handle = linklist.title | handle %}
-    {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
-        'nodes': [],
+        "title": {{linklist.title | json}}
     {% endif %}
 }
