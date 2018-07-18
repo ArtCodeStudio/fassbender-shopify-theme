@@ -32,7 +32,14 @@ export class ShopifyLinklistComponent extends RibaComponent {
     }
   }
 
+  /**
+   * Only set the component template if there no childs already
+   */
   protected template() {
-    return template;
+    if (this.el.hasChildNodes()) {
+      return null;
+    } else {
+      return template;
+    }
   }
 }

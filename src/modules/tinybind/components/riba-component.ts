@@ -8,7 +8,7 @@ import Debug from 'debug';
 import { View } from '../view';
 import { Tinybind, EventHandler } from '../tinybind';
 import { Binding } from '../binding';
-import { isJson } from '../utils';
+import { isJson, camelCase } from '../utils';
 import { FakeHTMLElement } from './fake-html-element';
 
 export type TemplateFunction = () => string | null;
@@ -93,6 +93,15 @@ export abstract class RibaComponent extends FakeHTMLElement {
   }
 
   /**
+   * Extra call formatter to avoid the "this" context problem
+   */
+  protected callFormatterHandler(self: this): any {
+    return (fn: (...args: any[]) => any, ...args: any[]) => {
+      return fn.apply(self, args);
+    };
+  }
+
+  /**
    * Default custom Element method
    * Invoked when the custom element is first connected to the document's DOM.
    */
@@ -125,6 +134,7 @@ export abstract class RibaComponent extends FakeHTMLElement {
    */
   protected attributeChangedCallback(attributeName: string, oldValue: any, newValue: any, namespace: string | null) {
     newValue = this.parseAttribute(newValue);
+    attributeName = camelCase(attributeName);
     this.debug('attributeChangedCallback called', attributeName, oldValue, newValue, namespace);
 
     // automatically inject observed attributes to view scope
@@ -146,6 +156,9 @@ export abstract class RibaComponent extends FakeHTMLElement {
     this.tinybind = new Tinybind();
     const viewOptions = this.tinybind.getViewOptions({
       handler: this.eventHandler(this),
+      formatters: {
+        call: this.callFormatterHandler(this),
+      },
     });
 
     if (!this.el) {

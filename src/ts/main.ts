@@ -19,9 +19,7 @@ import {
 } from './tinybind';
 
 import {
-  addClassBinder,
   autoscrollBinder,
-  removeClassBinder,
   scrollbarDragableBinder,
 } from './binders/index';
 import {
@@ -62,9 +60,6 @@ export class Main {
     this.tinybind.binderService.regists(basicBinders);
     this.tinybind.binderService.regist(scrollbarDragableBinder());
     this.tinybind.binderService.registWrapper(autoscrollBinder());
-    this.tinybind.binderService.registWrapper(removeClassBinder());
-    this.tinybind.binderService.registWrapper(addClassBinder());
-    // this.tinybind.binderService.registWrapper(valueBinder());
 
     // Regist formatters
     this.tinybind.formatterService.regists(compareFormatters);

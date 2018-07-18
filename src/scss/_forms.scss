@@ -19,3 +19,19 @@
     }
   }
 }
+
+.custom-control-input:focus~.custom-control-label:before {
+  box-shadow: none; // 0 0 0 1px #000, 0 0 0 0.2rem rgba(0, 0, 0, 0);
+}
+
+.custom-control {
+  min-height: 1.5em;
+  padding-left: 1.5em;
+}
+
+.custom-control-label:after, .custom-control-label:before {
+  top: .25em;
+  left: -1.5em;
+  width: 1em;
+  height: 1em;
+}

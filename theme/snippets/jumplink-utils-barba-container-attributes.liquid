@@ -2,7 +2,7 @@
   {% assign template = 'no-barba' %}
 {% endif %}
 
-{% assign namespace = template | replace: '.', ' ' | truncatewords: 1, '' | handle %}
+{% assign namespace = template | replace: '.', ' ' | truncatewords: 1, '' | handleize %}
 data-title="{% include 'jumplink-utils-get-title' %}"
 data-namespace="{{ namespace }}"
 data-template="{{ template }}"

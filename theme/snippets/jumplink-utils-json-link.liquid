@@ -1,9 +1,11 @@
 {
     "active": {{link.active | json}},
     "child_active": {{link.child_active | json}},
+    "level": {{level | json}},
     "levels": {{link.levels | json}},
     {% if link.links %}
-        "links": {% include "jumplink-utils-json-links", links: link.links %},
+        {% assign newlevel = level | plus: 1 %}
+        "links": {% include "jumplink-utils-json-links", links: link.links, level: newlevel %},
     {% endif %}
     {% comment %} BlogDrop {% endcomment %}
     {% if link.object.articles %}

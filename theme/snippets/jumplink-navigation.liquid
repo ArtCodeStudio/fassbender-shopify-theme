@@ -37,7 +37,21 @@
       </div>
 
       <div class="row pt-4">
-        <shopify-filter class="col-auto pointer-events-all"></shopify-filter>
+
+        <shopify-filter class="col-auto pointer-events-all" rv-namespace="dataset.namespace" rv-template-directory="dataset.templateDirectory">
+          <nav class="nav flex-column" rv-add-class="linklist.handle">
+            <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace templateDirectory">
+              <a class="nav-link" rv-add-class="'level-' | append link.level" rv-class-active="link.active" rv-route="link.url" rv-href="link.url">{link.title}</a>
+              <div class="nav-item small" rv-each-sublink="link.links">
+                <div class="custom-control custom-radio">
+                  <input type="radio" rv-id="sublink.handle" rv-name="link.handle" class="custom-control-input">
+                  <label class="custom-control-label" rv-for="sublink.handle">{sublink.title}</label>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </shopify-filter>
+
       </div>
     </div>
 

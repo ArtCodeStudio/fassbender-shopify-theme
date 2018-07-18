@@ -1,15 +1,15 @@
 {% section 'story-header' %}
 
-<div class="container">
+<div class="container-fluid">
 
   {% paginate blog.articles by 5 %}
 
     {% if current_tags %}
-      <h1 class="hidden">
+      <h1>
         {{ blog.title | link_to: blog.url }}<span class="quiet">&raquo;</span>{{ current_tags.first }}
       </h1>
     {% else %}
-      <h1 class="hidden">
+      <h1>
         {{ blog.title }}
       </h1>
     {% endif %}
@@ -17,14 +17,10 @@
     <div class="articles">
 
       {% for article in blog.articles %}
-        {% if forloop.last %}
-          {% include 'jumplink-article-list-item', border: false %}
-        {% else %}
-          {% include 'jumplink-article-list-item', border: true %}
-        {% endif %}
+        {% include 'jumplink-article-list-item' %}
       {% endfor %}
 
-      {% include 'pagination' %}
+      {% include 'jumplink-pagination' %}
 
     </div>
 

@@ -1,14 +1,7 @@
 {{linklist.handle | json}}: {
-    {% if linklist.handle %}
-        "handle": {{linklist.handle | json}},
-    {% endif %}
-    {% if linklist.id %}
-        "id": {{linklist.id | json}},
-    {% endif %}
-    {% if linklist.links %}
-        "links": {% include "jumplink-utils-json-links", links: linklist.links %},
-    {% endif %}
-    {% if linklist.title %}
-        "title": {{linklist.title | json}}
-    {% endif %}
+    "handle": {{linklist.handle | json}},
+    "id": {{linklist.id | json}},
+    "levels": {{linklist.levels | json}},
+    "links": {% include "jumplink-utils-json-links", links: linklist.links, level: 0 %},
+    "title": {{linklist.title | json}}
 }
