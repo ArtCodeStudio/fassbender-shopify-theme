@@ -32,6 +32,10 @@ export class ShopifyLinklistComponent extends RibaComponent {
     }
   }
 
+  protected requiredAttributes() {
+    return ['linklist'];
+  }
+
   /**
    * Only set the component template if there no childs already
    */

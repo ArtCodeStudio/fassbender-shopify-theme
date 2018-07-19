@@ -1,0 +1,28 @@
+{% assign ratioClass = "ratio-3-2" %}
+{% assign imageSize = "1200x800" %}
+{% assign imageSpacing = 0 %}
+
+<div class="container-fluid" style="background-color: {{color}};">
+  <article class="row" data-handle="{{article.handle}}">
+
+    <div class="col-12 px-0 content-box {{ratioClass}}">
+      <img class="content" src="{{ article.image | img_url: imageSize, scale: 2 }}" alt="{{article.image.alt}}" style="padding: {{imageSpacing}}px" />
+    </div>
+
+    <div class="col-12 p-5 magazine-columns">
+      <h1>{{article.title}}</h1>
+      <p><small><strong>
+        <span>{{ article.published_at | time_tag: '%d. %B %Y' }} </span>
+        <span class="pl-3">By {{article.user.first_name }} {{article.user.last_name}}</span>
+      </strong></small></p>
+      <hr>
+      {{ article.excerpt_or_content }}
+      <hr>
+      <p><small><strong>
+        <span>Share this article</span>
+        <span class="pl-3">{ comments | count } Comments</span>
+        <a class="ml-auto float-right" rv-route="'{{article.url}}'">View Article</a>
+      </strong></small></p>
+    </div>
+  </article>
+</div>

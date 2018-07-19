@@ -1,4 +1,3 @@
-
 // binders
 export { autoscrollBinder } from './autoscroll.binder';
 export { mailtoBinder } from './mailto.binder';

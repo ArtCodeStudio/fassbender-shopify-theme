@@ -75,6 +75,10 @@ export class ProductScrollbarComponent extends ShopifySectionComponent {
     }
   }
 
+  protected requiredAttributes() {
+    return [];
+  }
+
   /**
    * Default custom Element method
    * Invoked when the custom element is first connected to the document's DOM.

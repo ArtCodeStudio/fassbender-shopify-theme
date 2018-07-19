@@ -50,14 +50,11 @@ export class Main {
     this.tinybind.componentService.regist(ShopifyLinklistComponent);
     this.tinybind.componentService.regist(ShopifyFilterComponent);
     this.tinybind.componentService.regist(IconsetComponent);
-    // this.tinybind.componentService.regist(productScrollbarComponent());
     this.tinybind.componentService.regist(ProductScrollbarComponent);
 
     // Regist binders
-    const basicBinders = basicBindersWrapper(JQuery);
-    // console.error('basicBinders', basicBinders);
     this.tinybind.binderService.regists(routerBinders);
-    this.tinybind.binderService.regists(basicBinders);
+    this.tinybind.binderService.regists(basicBindersWrapper(JQuery));
     this.tinybind.binderService.regist(scrollbarDragableBinder());
     this.tinybind.binderService.registWrapper(autoscrollBinder());
 

@@ -15,6 +15,8 @@ export class IconsetComponent extends RibaComponent {
 
   protected scope: any = {};
 
+  protected autobind = false;
+
   protected $el: JQuery<HTMLElement>;
 
   constructor(element?: HTMLElement) {
@@ -29,7 +31,7 @@ export class IconsetComponent extends RibaComponent {
     // this.attributeChangedCallback('size', null, 32, null);
     this.attributeChangedCallback('direction', null, 'top', null);
 
-    this.init(IconsetComponent.observedAttributes, false);
+    this.init(IconsetComponent.observedAttributes);
   }
 
   public attributeChangedCallback(name: string, oldValue: any, newValue: any, namespace: string | null) {

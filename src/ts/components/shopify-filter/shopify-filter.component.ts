@@ -6,6 +6,7 @@ interface IScope {
   linklist: any;
   show: any;
   namespace?: string;
+  type: any;
 }
 
 /**
@@ -18,31 +19,50 @@ export class ShopifyFilterComponent extends RibaComponent {
   protected debug = Debug('component:' + ShopifyFilterComponent.tagName);
 
   static get observedAttributes() {
-    return ['namespace', 'linklist', 'template-directory'];
+    return ['namespace', 'linklist', 'template'];
   }
 
   protected scope: IScope = {
     linklist: window.model.system.linklists.filter,
     show: this.show,
+    type: this.type,
   };
 
   constructor(element?: HTMLElement) {
     super(element);
-
+    this.debug('constructor', this);
     this.init(ShopifyFilterComponent.observedAttributes);
   }
 
-  public show(handle: string, namespace: string, templateDirectory: string): boolean {
-    this.debug('show', namespace, handle, templateDirectory);
-    switch (handle) {
+  public show(filterHandle: string, namespace: string, shopifyTemplate: any): boolean {
+    this.debug('show', filterHandle, namespace, shopifyTemplate);
+    switch (filterHandle) {
       case 'stories':
         return namespace === 'blog';
       case 'account':
-        return templateDirectory === 'customers';
+        return namespace === 'cart' || shopifyTemplate.directory === 'customers';
+      case 'legal-area':
+        return shopifyTemplate.template === 'page.legals';
       default:
         break;
     }
     return true;
+  }
+
+  public type(filterHandle: string): string {
+    this.debug('type', filterHandle);
+    switch (filterHandle) {
+      case 'stories':
+        return 'filter';
+      case 'legal-area':
+        case 'scrollspy':
+      default:
+        return 'routes';
+    }
+  }
+
+  protected requiredAttributes() {
+    return ['namespace', 'template'];
   }
 
   /**

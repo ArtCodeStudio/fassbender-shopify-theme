@@ -26,6 +26,11 @@ export abstract class RibaComponent extends FakeHTMLElement {
 
   protected abstract scope: any;
 
+  /**
+   * If true the component will automatically bind the component to riba if all required attributes are setted
+   */
+  protected autobind: boolean = true;
+
   private attributeObserverFallback?: MutationObserver;
 
   constructor(element?: HTMLElement) {
@@ -40,12 +45,18 @@ export abstract class RibaComponent extends FakeHTMLElement {
     } else {
       throw new Error(`element is required on browsers without custom elements support`);
     }
-
   }
 
   protected abstract template(): string | null;
 
-  protected init(observedAttributes: string[], autobind = true) {
+  /**
+   * returns a list of attributes wich are required until the riba binding starts
+   */
+  protected requiredAttributes(): string[] {
+    return [];
+  }
+
+  protected init(observedAttributes: string[]) {
 
     // if innerHTML is null this component uses the innerHTML which he already has!
     const template = this.template();
@@ -56,10 +67,23 @@ export abstract class RibaComponent extends FakeHTMLElement {
 
     this.initAttributeObserver(observedAttributes);
 
-    if (autobind) {
+    if (this.autobind) {
       this.bind();
     }
+  }
 
+  /**
+   * Check if all attributes required for bind are set
+   */
+  protected checkRequiredAttributes() {
+    let allDefined = true;
+    const requiredAttributes = this.requiredAttributes();
+    requiredAttributes.forEach((requiredAttribute: string) => {
+      if (!this.scope.hasOwnProperty(requiredAttribute)) {
+        allDefined = false;
+      }
+    });
+    return allDefined;
   }
 
   protected parseAttribute(attr: string | null) {
@@ -139,6 +163,10 @@ export abstract class RibaComponent extends FakeHTMLElement {
 
     // automatically inject observed attributes to view scope
     this.scope[attributeName] = newValue;
+
+    if (this.autobind) {
+      this.bind();
+    }
   }
 
   /**
@@ -153,6 +181,15 @@ export abstract class RibaComponent extends FakeHTMLElement {
   }
 
   protected bind() {
+    if (this.view) {
+      this.debug('component already bounded');
+      return;
+    }
+
+    if (!this.checkRequiredAttributes()) {
+      this.debug('not all required attributes are set for bind');
+      return;
+    }
     this.tinybind = new Tinybind();
     const viewOptions = this.tinybind.getViewOptions({
       handler: this.eventHandler(this),

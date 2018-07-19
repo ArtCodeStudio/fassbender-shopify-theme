@@ -70,14 +70,13 @@
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.11.0",
     "webpack": "^4.16.1",
-    "webpack-cli": "^3.0.8",
+    "webpack-cli": "^3.1.0",
     "webpack-stream": "^4.0.3",
     "yargs": "^5.0.0"
   },
   "dependencies": {
     "@types/debug": "^0.0.30",
     "@types/jquery": "^3.3.4",
-    "@webcomponents/webcomponentsjs": "^2.0.2",
     "bootstrap": "^4.1.1",
     "debug": "^3.1.0",
     "jquery": "^3.3.1",

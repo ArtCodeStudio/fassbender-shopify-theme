@@ -36,6 +36,10 @@ export class NewsletterComponent extends RibaComponent {
     window.getSelection().selectAllChildren(eventEl);
   }
 
+  protected requiredAttributes() {
+    return [];
+  }
+
   protected template() {
     return null;
   }

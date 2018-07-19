@@ -1,29 +1,6 @@
-{% section 'story-header' %}
-
-<div class="container-fluid">
-
-  {% paginate blog.articles by 5 %}
-
-    {% if current_tags %}
-      <h1>
-        {{ blog.title | link_to: blog.url }}<span class="quiet">&raquo;</span>{{ current_tags.first }}
-      </h1>
-    {% else %}
-      <h1>
-        {{ blog.title }}
-      </h1>
-    {% endif %}
-
-    <div class="articles">
-
-      {% for article in blog.articles %}
-        {% include 'jumplink-article-list-item' %}
-      {% endfor %}
-
-      {% include 'jumplink-pagination' %}
-
-    </div>
-
-  {% endpaginate %}
-
-</div>
+{% paginate blog.articles by 5 %}
+  {% for article in blog.articles %}
+    {% include 'jumplink-article-list-item' %}
+  {% endfor %}
+  {% include 'jumplink-pagination' %}
+{% endpaginate %}
