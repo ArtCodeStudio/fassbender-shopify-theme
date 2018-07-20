@@ -36,11 +36,13 @@
       </div>
     {% endfor %}
   </div>
-  <div class="row position-absolute bottom-0 w-100" style="background-color: {{ section.settings.color | color_modify: 'alpha', 0.5 }};">
-    <div class="col-12 text-center title-xs-spacing title-sm-spacing" style="padding: {{ section.settings.title_spacing }}px 0;">
-      {{ article.title }}
+  {% if article.title %}
+    <div class="row position-absolute bottom-0 w-100" style="background-color: {{ section.settings.color | color_modify: 'alpha', 0.5 }};">
+      <div class="col-12 text-center title-xs-spacing title-sm-spacing" style="padding: {{ section.settings.title_spacing }}px 0;">
+        {{ article.title }}
+      </div>
     </div>
-  </div>
+  {% endif %}
 </a>
 
 {% schema %}

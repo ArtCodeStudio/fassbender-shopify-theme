@@ -9,20 +9,18 @@
   {% assign imageSize = "1200x1600" %}
 {% endif %}
 
-{% assign spacings = '39,100,39' | split: ',' %}
+{% assign spacings = '0,0,0' | split: ',' %}
 
 {% assign title_spacing = 7 %}
-
-{% assign title_under_image = 1 %}
 
 {% capture titleStyle %}
   {% if color %}
     background-color:{{ color | color_modify: 'alpha', 0.5 }};
   {% endif %}
-  bottom: {{spacings[title_under_image] | abs | minus: 50}}px;
 {% endcapture %}
 
-<a href="{{article.url}}" class="d-block container-fluid position-relative jumplink-article-list-item-view-2-grid-2-images" style="background-color: {{ color }};">
+
+<a href="{{article.url}}" class="d-block container-fluid position-relative jumplink-article-list-item-view-one-story" style="background-color: {{ color }};">
   <div class="row">
     {% for image in images %}
 
@@ -42,29 +40,19 @@
       {% if imageHasSpacing %}
         {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
       {% else %}
-        {% assign imageClass = imageClass %}
+
       {% endif %}
 
+      {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
       <div class="col px-0 content-box {{contentBoxClass}}">
         <img class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
-      
-        {% comment %} title for medium and heigher {% endcomment %}
-        {% if article.title and forloop.index0 == title_under_image %}
-          <div class="position-absolute w-100 d-none d-md-block" style="{{ titleStyle }}">
-            <div class="text-center text-truncate" style="padding: {{ title_spacing }}px 0;">
-              {{ article.title }}
-            </div>
-          </div>
-        {% endif %}
-      
       </div>
     {% endfor %}
   </div>
 
-  {% comment %} title for smartphones {% endcomment %}
   {% if article.title %}
-    <div class="row position-absolute bottom-xs-0 bottom-sm-0 w-100 d-block d-md-none" style="{{ titleStyle }}">
-      <div class="col-12 text-center title-xs-spacing title-sm-spacing text-truncate">
+    <div class="row position-absolute bottom-0 w-100" style="{{ titleStyle }}">
+      <div class="col-12 text-center title-xs-spacing title-sm-spacing text-truncate" style="padding: {{ title_spacing }}px 0;">
         {{ article.title }}
       </div>
     </div>

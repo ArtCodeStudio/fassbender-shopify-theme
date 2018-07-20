@@ -4,7 +4,7 @@
       "all_tags": {{ blog.all_tags | json}},
       "articles": [
         {% for article in blog.articles %}
-          {% include 'jumplink-utils-json-article' %}
+          {% include 'jumplink-utils-json-article' %},
           {% comment %} {{article.handle | json}} {% endcomment %}
         {% endfor %}
       ],
@@ -21,4 +21,4 @@
     {% endif %}
   }
 {% endcapture %}
-{{ blogJsonString | strip_newlines | strip }}
+{{ blogJsonString | strip_newlines | strip | replace: "'", "&#39;" }}

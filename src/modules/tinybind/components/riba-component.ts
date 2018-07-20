@@ -73,7 +73,11 @@ export abstract class RibaComponent extends FakeHTMLElement {
   }
 
   /**
-   * Check if all attributes required for bind are set
+   * Required attributes before the view is bound
+   *
+   * The attributeChangedCallback is called for each attribute wich updates the riba view each time
+   * which can have a big impact on performance or required attributes are not yet available which can lead to errors.
+   * So define required attriutes and the view is ony bind the first time after all this attributes are transmitted.
    */
   protected checkRequiredAttributes() {
     let allDefined = true;

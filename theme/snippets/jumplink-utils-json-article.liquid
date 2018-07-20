@@ -26,4 +26,4 @@
     {% endif %}
   }
 {% endcapture %}
-{{ articleJsonString | strip_newlines | strip }}
+{{ articleJsonString | strip_newlines | strip | replace: "'", "&#39;" }}

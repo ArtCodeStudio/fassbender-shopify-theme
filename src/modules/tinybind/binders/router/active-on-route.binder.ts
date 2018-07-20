@@ -12,9 +12,17 @@ export const activeOnRouteBinderWrapper: BinderWrapper = (dispatcher: GlobalEven
         if (urlToCheck) {
           if (Utils.onRoute(urlToCheck)) {
             $el.addClass('active');
+            // check if element is radio input
+            if ($el.is(':radio')) {
+              $el.prop('checked', true);
+            }
             return true;
           }
           $el.removeClass('active');
+          // uncheck if element is radio input
+          if ($el.is(':radio')) {
+            $el.prop('checked', false);
+          }
         }
         return false;
       };

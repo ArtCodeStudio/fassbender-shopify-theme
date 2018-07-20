@@ -1,11 +1,17 @@
 {% assign type = article.metafields["global"]["type"] %}
 {% assign color = article.metafields["global"]["color"] %}
 
+{% comment %} Merged featured images and metaflied images to array {% endcomment %}
+{% capture imagesString %}{% if article.image %}{{ article.image.src | img_url: 'master' }}%break%{% endif %}{% if article.metafields["global"]["Image-2"] %}{{ article.metafields["global"]["Image-2"] }}%break%{% endif %}{% if article.metafields["global"]["Image-3"] %}{{ article.metafields["global"]["Image-3"] }}%break%{% endif %}{% endcapture %}
+{% assign images = imagesString | split: '%break%' %}
+
 {% case type %}
   {% when 'magazine' %}
     {% include 'jumplink-article-list-item-view-magazine', color: color %}
   {% when '2-grid-2-images' %}
-    {% include 'jumplink-article-list-item-view-2-grid-2-images', color: color %}
+    {% include 'jumplink-article-list-item-view-2-grid-2-images', color: color, images: images %}
+  {% when 'one-story' %}
+    {% include 'jumplink-article-list-item-view-one-story', color: color, images: images %}
   {% when '2-grid-story-product' %}
     {% include 'jumplink-article-list-item-view-2-grid-story-product', color: color, productDirection: 'right' %}
   {% when '2-grid-product-story' %}

@@ -43,6 +43,7 @@
             <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template">
               
               <a class="nav-link" rv-add-class="'level-' | append link.level" rv-class-active="link.active" rv-route="link.url" rv-href="link.url">{link.title}</a>
+              
               <div class="small" rv-if="type | call link.handle | eq 'routes'">
                 <strong>Type</strong>
                 <div class="nav-item" rv-each-sublink="link.links">

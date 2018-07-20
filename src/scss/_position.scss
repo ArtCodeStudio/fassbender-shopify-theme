@@ -10,3 +10,33 @@
 .right-0 {
   right: 0;
 }
+
+@include media-breakpoint-only(xs) {
+  .bottom-xs-0 {
+    bottom: 0 !important;
+  }
+  .top-xs-0 {
+    top: 0 !important;
+  }
+  .left-xs-0 {
+    left: 0 !important;
+  }
+  .right-xs-0 {
+    right: 0 !important;
+  }
+}
+
+@include media-breakpoint-only(sm) {
+  .bottom-sm-0 {
+    bottom: 0 !important;
+  }
+  .top-sm-0 {
+    top: 0 !important;
+  }
+  .left-sm-0 {
+    left: 0 !important;
+  }
+  .right-sm-0 {
+    right: 0 !important;
+  }
+}

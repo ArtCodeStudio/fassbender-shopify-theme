@@ -1,1 +1,40 @@
-jumplink-article-view-2-grid-story-product
+{% assign product = all_products[article.metafields["global"]["product-handle"]] %}
+{% assign articleImageSize = "1200x1600" %}
+{% capture articleTitleStyle %}
+  {% if color %}
+    background-color:{{ color | color_modify: 'alpha', 0.5 }};
+  {% endif %}
+{% endcapture %}
+
+<a href="{{article.url}}" class="d-block container-fluid position-relative jumplink-article-list-item-view-2-grid-story-product">
+  <div class="row">
+
+    <div class="col px-0 content-box ratio-3-4" style="background-color: {{ color }};">
+      <img class="content has-xs-spacing has-sm-spacing" rv-src="'{{ article.image | img_url: articleImageSize}}'" alt="{{acticle.title}}" style="padding: 52px" />
+    
+      {% comment %} title for medium and heigher {% endcomment %}
+      {% if article.title %}
+        <div class="position-absolute w-100 bottom-0" style="{{ articleTitleStyle }}">
+          <div class="text-center title-xs-spacing title-sm-spacing text-truncate" style="padding: 14px 0;">
+            {{ article.title }}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="col px-0 content-box ratio-3-4">
+      <img class="content has-xs-spacing has-sm-spacing" rv-src="'{{ product.featured_image | img_url: articleImageSize}}'" alt="{{product.featured_image.alt}}"  style="padding-bottom: 52px;"/>
+    
+      {% if product.title %}
+        <div class="position-absolute w-100 bottom-0">
+          <div class="text-center title-xs-spacing title-sm-spacing text-truncate" style="padding: 14px 0;">
+            {{ product.title }}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+
+</a>

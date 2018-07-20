@@ -1,79 +1,60 @@
-{% comment %}
-  Set ratio
-{% endcomment %}
-{% include 'jumplink-logic-aspect-ratio', default_ratio: settings.products_aspect_ratio %}
 
-{% comment %}
-  Is the current product unlocked?
-{% endcomment %}
-{% include 'app-jumplink-ec-logic-product-unlocked' %}
-
-{% if unlocked %}
-  {% assign on_sale = false %}
-  {% if product.compare_at_price > product.price %}
-    {% assign on_sale = true %}
-  {% endif %}
-
-  <div id="{{ product.handle }}" class="product-item {% unless product.available %}sold-out{% endunless %} {% if on_sale %}on-sale{% endif %} mx-2 my-4">
-
-    <div class="image-wrap">  
-      <a href="{{ product.url | within: collection }}">
-        {% if product.featured_image %}
-          {% assign featured_image_src = product | img_url: 'grande' %}
-          {% assign images_length =  product.images | size %}
-          {% if images_length > 1 %}
-            {% assign hover_image_src = product.images[1] | product_img_url: 'grande' %}
-            {% if featured_image_src == hover_image_src %}
-              {% assign hover_image_src = product.images[0] | product_img_url: 'grande' %}
-            {% endif %}
-            <div class="background-box background-size-{{ background_size }} {{ ratio }}" style="background-image: url({{ featured_image_src }});" data-image-featured-src="{{ featured_image_src }}" data-image-hover-src="{{ hover_image_src }}" title="{{ product.featured_image.alt | escape }}"></div>
-          {% else %}
-            <div class="background-box background-size-{{ background_size }} {{ ratio }}" style="background-image: url({{ featured_image_src }});" title="{{ product.featured_image.alt | escape }}"></div>
-          {% endif %}
-        {% else %}
-          <div class="background-box background-size-{{ background_size }} {{ ratio }}" style="background-image: url({{ 'no-image.png' | asset_url }});" title="{{ product.featured_image.alt | escape }}"></div>
-        {% endif %}
-        <div class="caption">
-          {% if settings.products_show_vendor %}
-            <p class="vendor text-nowrap">
-              {{ product.vendor }}
-            </p>
-          {% endif %}
-          
-          {% if settings.products_show_title %}
-            <p class="title text-nowrap">
-              {{ product.title }}
-            </p>
-          {% endif %}
-
-          {% if settings.products_show_price %}
-            <p class="price text-nowrap">
-              {% assign price = product.price %}
-              {% if on_sale %}
-                <span class="text-danger text-nowrap">
-                  {% include 'jumplink-get-price' with price %}
-                </span>
-                {% assign price = product.compare_at_price %}
-              <span>
-                <s class="compare-at-price text-nowrap">
-                  {% include 'jumplink-get-price' with price %}
-                </s>
-              </span>
-              {% else %}
-                {% include 'jumplink-get-price' with price %}
-              {% endif %}
-            </p>
-          {% endif %}
-
-          {% comment %}
-            All themes by Shopify should support the Product Reviews app out of the box.
-            https://apps.shopify.com/product-reviews
-          {% endcomment %}
-          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
-        </div>
-      </a>
-    </div>
-  </div>
-{% else %}
-  {% comment %}TODO Placeholder?{% endcomment %}
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
 {% endif %}
+
+<div id="{{ product.handle }}" class="product-item {% unless product.available %}sold-out{% endunless %} {% if on_sale %}on-sale{% endif %} mx-2 my-4">
+
+  <div class="image-wrap">  
+    <a href="{{ product.url | within: collection }}">
+      {% if product.featured_image %}
+        {% assign featured_image_src = product | img_url: 'grande' %}
+        {% assign images_length =  product.images | size %}
+        {% if images_length > 1 %}
+          {% assign hover_image_src = product.images[1] | product_img_url: 'grande' %}
+          {% if featured_image_src == hover_image_src %}
+            {% assign hover_image_src = product.images[0] | product_img_url: 'grande' %}
+          {% endif %}
+          <div class="background-box background-size-{{ background_size }} {{ ratio }}" style="background-image: url({{ featured_image_src }});" data-image-featured-src="{{ featured_image_src }}" data-image-hover-src="{{ hover_image_src }}" title="{{ product.featured_image.alt | escape }}"></div>
+        {% else %}
+          <div class="background-box background-size-{{ background_size }} {{ ratio }}" style="background-image: url({{ featured_image_src }});" title="{{ product.featured_image.alt | escape }}"></div>
+        {% endif %}
+      {% else %}
+        <div class="background-box background-size-{{ background_size }} {{ ratio }}" style="background-image: url({{ 'no-image.png' | asset_url }});" title="{{ product.featured_image.alt | escape }}"></div>
+      {% endif %}
+      <div class="caption">
+        <p class="vendor text-nowrap">
+          {{ product.vendor }}
+        </p>
+        
+        <p class="title text-nowrap">
+          {{ product.title }}
+        </p>
+
+        <p class="price text-nowrap">
+          {% assign price = product.price %}
+          {% if on_sale %}
+            <span class="text-danger text-nowrap">
+              {% include 'jumplink-get-price' with price %}
+            </span>
+            {% assign price = product.compare_at_price %}
+          <span>
+            <s class="compare-at-price text-nowrap">
+              {% include 'jumplink-get-price' with price %}
+            </s>
+          </span>
+          {% else %}
+            {% include 'jumplink-get-price' with price %}
+          {% endif %}
+        </p>
+
+        {% comment %}
+          All themes by Shopify should support the Product Reviews app out of the box.
+          https://apps.shopify.com/product-reviews
+        {% endcomment %}
+        <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+      </div>
+    </a>
+  </div>
+</div>

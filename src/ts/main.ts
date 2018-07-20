@@ -16,6 +16,9 @@ import {
   propertyFormatters,
   specialFormatters,
   stringFormatters,
+
+  // shopify extensions
+  shopifyExtension,
 } from './tinybind';
 
 import {
@@ -64,6 +67,8 @@ export class Main {
     this.tinybind.formatterService.regists(propertyFormatters);
     this.tinybind.formatterService.regists(specialFormatters);
     this.tinybind.formatterService.regists(stringFormatters);
+
+    this.tinybind.formatterService.regists(shopifyExtension.formatters);
 
     this.view = this.tinybind.bind(JQuery('body')[0], window.model);
 
