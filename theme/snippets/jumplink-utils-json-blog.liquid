@@ -15,7 +15,7 @@
       "moderated": {{blog.moderated? | json}},
       "next_article": {{blog.next_article  | json}},
       "previous_article": {{blog.previous_article | json}},
-      "tags": {{blog.tags | json}},
+      "tags": {% include 'jumplink-utils-json-tags', tags: blog.tags %},
       "title": {{blog.title  | json}},
       "url": {{blog.url | json}}
     {% endif %}

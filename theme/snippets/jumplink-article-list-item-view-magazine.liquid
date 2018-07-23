@@ -2,7 +2,7 @@
 {% assign imageSize = "1200x800" %}
 {% assign imageSpacing = 0 %}
 
-<div class="container-fluid" style="background-color: {{color}};">
+<div class="container-fluid jumplink-article-list-item jumplink-article-list-item-view-magazine" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' style="background-color: {{color}};">
   <article class="row" data-handle="{{article.handle}}">
 
     <div class="col-12 px-0 content-box {{ratioClass}}">

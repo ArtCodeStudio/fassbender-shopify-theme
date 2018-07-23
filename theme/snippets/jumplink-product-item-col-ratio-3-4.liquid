@@ -1,0 +1,22 @@
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+{% endif %}
+
+<rv-product-item class="col {{ orderClass }} px-0 content-box ratio-3-4">
+  <a href="{{product.url}}">
+    <img class="content has-xs-spacing has-sm-spacing" rv-src="'{{ product.featured_image | img_url: articleImageSize}}'" alt="{{product.featured_image.alt}}"  style="padding-bottom: 52px;"/>
+  </a>
+  <div class="position-absolute w-100 bottom-0">
+    <div class="row m-0">
+      <div class="col text-left text-truncate">
+        <strong>{{ product.title }}</strong><br />
+        {{ product.price | money }}
+      </div>
+      <div class="col text-right text-truncate">
+        <a href="#">Add</a>
+      </div>
+    </div>
+  </div>
+</rv-product-item>

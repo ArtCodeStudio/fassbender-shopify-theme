@@ -1,4 +1,4 @@
-rv-iconset {
+rv-icon {
   display: inline-flex;
 
   svg {
@@ -130,13 +130,13 @@ rv-iconset {
 
 a {
   // fill color
-  .iconset {
+  .icon {
     &.fill-link-color, &.link-color {
       color: $link-color;
     }
   }
   &:hover {
-    .iconset {
+    .icon {
       &.fill-link-color, &.link-color {
         color: $link-hover-color;
       }
@@ -144,7 +144,7 @@ a {
   }
 
   // stroke color
-  .iconset {
+  .icon {
     &.stroke-link-color {
       svg {
         stroke: $link-color !important;
@@ -155,7 +155,7 @@ a {
     }
   }
   &:hover {
-    .iconset {
+    .icon {
       &.stroke-link-color {
         svg {
           stroke: $link-hover-color !important;

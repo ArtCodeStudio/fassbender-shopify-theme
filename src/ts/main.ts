@@ -27,7 +27,7 @@ import {
 } from './binders/index';
 import {
   NewsletterComponent,
-  IconsetComponent,
+  IconComponent,
   ShopifyLinklistComponent,
   ShopifyFilterComponent,
   ProductScrollbarComponent,
@@ -48,11 +48,15 @@ export class Main {
 
     this.debug('init the main application');
 
+    window.model.filter = {
+      stories: 'all',
+    };
+
     // Regist components
     this.tinybind.componentService.regist(NewsletterComponent);
     this.tinybind.componentService.regist(ShopifyLinklistComponent);
     this.tinybind.componentService.regist(ShopifyFilterComponent);
-    this.tinybind.componentService.regist(IconsetComponent);
+    this.tinybind.componentService.regist(IconComponent);
     this.tinybind.componentService.regist(ProductScrollbarComponent);
 
     // Regist binders

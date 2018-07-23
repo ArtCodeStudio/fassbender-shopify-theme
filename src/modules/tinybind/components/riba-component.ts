@@ -111,6 +111,17 @@ export abstract class RibaComponent extends FakeHTMLElement {
   }
 
   /**
+   * Event handler to liste for publish binder event for two-way-binding in web components
+   */
+  protected publish(name: string, newValue: any, namespace: string | null) {
+    this.el.dispatchEvent(new CustomEvent('publish-binder-change:' + name, { detail: {
+      name,
+      newValue,
+      namespace: null, // TODO
+    }}));
+  }
+
+  /**
    * Returns an event handler for the bindings (most on-*) insite this component.
    */
   protected eventHandler(self: RibaComponent): EventHandler {
@@ -125,7 +136,28 @@ export abstract class RibaComponent extends FakeHTMLElement {
    */
   protected callFormatterHandler(self: this): any {
     return (fn: (...args: any[]) => any, ...args: any[]) => {
+      self.debug('callFormatterHandler', this, fn);
       return fn.apply(self, args);
+    };
+  }
+
+  /**
+   * Extra args formatter to avoid the "this" context problem
+   *
+   * Sets arguments to a function without directly call them
+   * @param fn The function you wish to call
+   * @param args the parameters you wish to call the function with
+   */
+  protected argsFormatterHandler(self: this): any {
+    return (fn: (...args: any[]) => any, ...fnArgs: any[]): any => {
+      return (event: Event, scope: any, el: HTMLElement, binding: any) => {
+        // append the event handler args to passed args
+        fnArgs.push(event);
+        fnArgs.push(scope);
+        fnArgs.push(el);
+        fnArgs.push(binding);
+        return fn.apply(self, fnArgs);
+      };
     };
   }
 
@@ -150,6 +182,8 @@ export abstract class RibaComponent extends FakeHTMLElement {
     if (this.attributeObserverFallback) {
       this.attributeObserverFallback.disconnect();
     }
+
+    this.el.removeEventListener('binder-changed', this.BinderChangedEventHandler);
   }
 
   /**
@@ -165,12 +199,30 @@ export abstract class RibaComponent extends FakeHTMLElement {
     attributeName = camelCase(attributeName);
     this.debug('attributeChangedCallback called', attributeName, oldValue, newValue, namespace);
 
+    if (this.scope && this.scope[attributeName]) {
+      oldValue = this.scope[attributeName];
+    }
+
     // automatically inject observed attributes to view scope
     this.scope[attributeName] = newValue;
+
+    // call custom attribute changed callback with parsed values
+    this.parsedAttributeChangedCallback(attributeName, oldValue, newValue, namespace);
 
     if (this.autobind) {
       this.bind();
     }
+  }
+
+  /**
+   * Similar to attributeChangedCallback but attribute arguments are already parsed as they are stored in the scope
+   * @param attributeName
+   * @param oldValue
+   * @param newValue
+   * @param namespace
+   */
+  protected parsedAttributeChangedCallback(attributeName: string, oldValue: any, newValue: any, namespace: string | null) {
+    this.debug('parsedAttributeChangedCallback called', attributeName, oldValue, newValue, namespace);
   }
 
   /**
@@ -185,6 +237,7 @@ export abstract class RibaComponent extends FakeHTMLElement {
   }
 
   protected bind() {
+    this.beforeBind();
     if (this.view) {
       this.debug('component already bounded');
       return;
@@ -199,6 +252,7 @@ export abstract class RibaComponent extends FakeHTMLElement {
       handler: this.eventHandler(this),
       formatters: {
         call: this.callFormatterHandler(this),
+        args: this.argsFormatterHandler(this),
       },
     });
 
@@ -209,12 +263,25 @@ export abstract class RibaComponent extends FakeHTMLElement {
     this.view = new View(Array.prototype.slice.call(this.el.childNodes), this.scope, viewOptions);
     this.scope = this.view.models;
     this.view.bind();
-
+    this.afterBind();
     return this.view;
   }
 
+  protected beforeBind() {
+    this.debug('beforeBind');
+  }
+
+  protected afterBind() {
+    this.debug('afterBind');
+  }
+
+  private BinderChangedEventHandler(event: Event) {
+    const data = ( event as CustomEvent ).detail;
+    this.attributeChangedCallback(data.name, data.oldValue, data.oldValue, data.namespace);
+  }
+
   /**
-   *
+   * Event handler to listen attribute change event as fallback for MutationObserver
    */
   private initAttributeObserver(observedAttributes: string[]) {
 
@@ -242,10 +309,7 @@ export abstract class RibaComponent extends FakeHTMLElement {
         });
       } else {
         // use attribute change event as fallback for MutationObserver
-        this.el.addEventListener('attribute-changed', (event) => {
-          const data = ( event as CustomEvent ).detail;
-          this.attributeChangedCallback(data.name, data.oldValue, data.oldValue, data.namespace);
-        });
+        this.el.addEventListener('binder-changed', this.BinderChangedEventHandler);
       }
 
       // call attributeChangedCallback for all already setted static attributes

@@ -19,7 +19,7 @@
       "image": {{article.image | json}},
       "moderated": {{article.moderated? | json}},
       "published_at": {{article.published_at | json}},
-      "tags": {{article.tags | json}},
+      "tags": {% include 'jumplink-utils-json-tags', tags: article.tags %},
       "title": {{article.title | json}},
       "url": {{article.url | json}},
       "user": {{article.user | json}}

@@ -1,0 +1,11 @@
+<a class="col px-0 content-box ratio-3-4" href="{{article.url}}" style="background-color: {{ color }};">
+  <img class="content has-xs-spacing has-sm-spacing" rv-src="'{{ article.image | img_url: articleImageSize}}'" alt="{{acticle.title}}" style="padding: 52px" />
+
+  {% if article.title %}
+    <div class="position-absolute w-100 bottom-0" style="{{ articleTitleStyle }}">
+      <div class="text-center title-xs-spacing title-sm-spacing text-truncate" style="padding: 14px 0;">
+        {{ article.title }}
+      </div>
+    </div>
+  {% endif %}
+</a>

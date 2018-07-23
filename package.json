@@ -13,7 +13,8 @@
     "ts-watch": "webpack --watch",
     "ts-test": "tslint -c tslint.json 'src/**/*.ts' && tsc --noEmit",
     "build": "npm run copy-modules && npm run ts-test && npm run ts && npm run sass",
-    "watch": "npm run copy-modules && npm run ts-test && theme watch --dir './theme' --force & npm run ts-watch & npm run sass-watch"
+    "_watch": "theme watch --dir './theme' --force & npm run ts-watch & npm run sass-watch",
+    "watch": "npm run copy-modules && npm run ts-test && npm run _watch"
   },
   "repository": {
     "type": "git",

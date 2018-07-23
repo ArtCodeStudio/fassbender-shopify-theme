@@ -1,4 +1,4 @@
-{% assign articleHandle = section.settings.storie | remove_first: "/blogs/" %}
+{% assign articleHandle = section.settings.story | remove_first: "/blogs/" %}
 {% assign article = articles[articleHandle] %}
 
 {% assign block_length = section.blocks | size %}
@@ -10,7 +10,7 @@
   {% assign imageSize = "1200x1600" %}
 {% endif %}
 
-<a href="{{section.settings.storie}}" rv-shopify-section='{{ section.settings | json }}' class="d-block container-fluid position-relative" style="background-color: {{ section.settings.color }};">
+<a href="{{section.settings.story}}" rv-shopify-section='{{ section.settings | json }}' class="d-block container-fluid position-relative" style="background-color: {{ section.settings.color }};">
   <div class="row">
     {% for block in section.blocks %}
 
@@ -22,12 +22,9 @@
         {% assign imageHasSpacing = false %}
       {% endif %}
 
-      
       {% assign imageClass = 'content' %}
       {% if imageHasSpacing %}
         {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
-      {% else %}
-
       {% endif %}
 
       {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
@@ -47,14 +44,14 @@
 
 {% schema %}
   {
-    "name": "One Storie",
-    "class": "one-storie",
+    "name": "One Story",
+    "class": "one-story",
     "max_blocks": 2,
     "settings": [
       {
         "type": "url",
-        "id": "storie",
-        "label": "Storie"
+        "id": "story",
+        "label": "Story"
       },
       {
         "type":      "color",
@@ -100,7 +97,7 @@
     "presets": [
       {
         "category": "Custom Content",
-        "name": "One Storie",
+        "name": "One Story",
         "blocks": []
       }
     ]

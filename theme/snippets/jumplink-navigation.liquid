@@ -29,7 +29,7 @@
     <div class="col-auto" style="position: fixed; width: auto; z-index: 1;">
       <div class="row">
         <a class="col-auto brand pointer-events-all" rv-route="/" href="/">
-          <rv-iconset rv-src="'{{ 'iconset-logo.svg' | asset_url }}'" height="64" width="47"></rv-iconset>
+          <rv-icon rv-src="'{{ 'iconset-logo.svg' | asset_url }}'" height="64" width="47"></rv-icon>
         </a>
       </div>
       <div class="row pt-4">
@@ -37,8 +37,7 @@
       </div>
 
       <div class="row pt-4">
-
-        <shopify-filter class="col-auto pointer-events-all" rv-namespace="dataset.namespace" rv-template="dataset.template | json">
+        <shopify-filter class="col-auto pointer-events-all" rv-namespace="dataset.namespace" rv-template="dataset.template | json" rv-filter="filter | json">
           <nav class="nav flex-column" rv-add-class="linklist.handle">
             <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template">
               
@@ -69,7 +68,7 @@
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
                     <input type="radio" rv-id="sublink.handle" rv-name="link.handle" class="custom-control-input">
-                    <label class="custom-control-label" rv-for="sublink.handle">{sublink.title}</label>
+                    <label class="custom-control-label" rv-for="sublink.handle" rv-on-click="filterBy | args link.handle sublink.url">{sublink.title}</label>
                   </div>
                 </div>
               </div>
@@ -88,7 +87,7 @@
       <ul class="nav" style="pointer-events: all;">
         <li class="nav-item">
           <a class="nav-link" href="#">
-            <rv-iconset rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="24"></rv-iconset>
+            <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="24"></rv-icon>
           </a>
         </li>   
         <li class="nav-item">
@@ -98,7 +97,7 @@
         </li>    
         <li class="nav-item">
           <a class="nav-link" rv-slideout-toggler="right" href="#">
-            <rv-iconset rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" size="24"></rv-iconset>
+            <rv-icon rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" size="24"></rv-icon>
           </a>
         </li>
       </ul>

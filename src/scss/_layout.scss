@@ -8,3 +8,7 @@ html, body {
     overflow: hidden;
     min-height: calc(100vh - 73px);
 }
+
+.container, .container-fluid {
+    display: block;
+}

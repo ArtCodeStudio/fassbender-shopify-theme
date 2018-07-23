@@ -1,13 +1,13 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import { RibaComponent } from '../../tinybind';
-import template from './iconset.component.html';
+import template from './icon.component.html';
 
-export class IconsetComponent extends RibaComponent {
+export class IconComponent extends RibaComponent {
 
-  public static tagName: string = 'rv-iconset';
+  public static tagName: string = 'rv-icon';
 
-  protected debug = Debug('component:' + IconsetComponent.tagName);
+  protected debug = Debug('component:' + IconComponent.tagName);
 
   static get observedAttributes() {
     return ['size', 'width', 'height', 'name', 'src', 'color', 'direction'];
@@ -31,7 +31,7 @@ export class IconsetComponent extends RibaComponent {
     // this.attributeChangedCallback('size', null, 32, null);
     this.attributeChangedCallback('direction', null, 'top', null);
 
-    this.init(IconsetComponent.observedAttributes);
+    this.init(IconComponent.observedAttributes);
   }
 
   public attributeChangedCallback(name: string, oldValue: any, newValue: any, namespace: string | null) {

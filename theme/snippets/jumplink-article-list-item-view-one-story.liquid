@@ -20,7 +20,7 @@
 {% endcapture %}
 
 
-<a href="{{article.url}}" class="d-block container-fluid position-relative jumplink-article-list-item-view-one-story" style="background-color: {{ color }};">
+<a href="{{article.url}}" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' class="container-fluid position-relative jumplink-article-list-item jumplink-article-list-item-view-one-story" style="background-color: {{ color }};">
   <div class="row">
     {% for image in images %}
 

@@ -13,9 +13,9 @@
   {% when 'one-story' %}
     {% include 'jumplink-article-list-item-view-one-story', color: color, images: images %}
   {% when '2-grid-story-product' %}
-    {% include 'jumplink-article-list-item-view-2-grid-story-product', color: color, productDirection: 'right' %}
+    {% include 'jumplink-article-list-item-view-2-grid-story-product', color: color, productOrderClass: 'order-last' %}
   {% when '2-grid-product-story' %}
-    {% include 'jumplink-article-list-item-view-2-grid-story-product', color: color, productDirection: 'left' %}
+    {% include 'jumplink-article-list-item-view-2-grid-story-product', color: color, productOrderClass: 'order-first' %}
   {% else %}
     {% include 'jumplink-article-list-item-view-magazine', color: color %}
 {% endcase %}

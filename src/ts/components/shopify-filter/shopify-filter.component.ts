@@ -1,12 +1,15 @@
 import Debug from 'debug';
-import { RibaComponent } from '../../tinybind';
+import { RibaComponent, Binding } from '../../tinybind';
 import template from './shopify-filter.component.html';
+import $ from '../../jquery';
 
 interface IScope {
   linklist: any;
   show: any;
   namespace?: string;
   type: any;
+  filterBy: any;
+  filter?: any;
 }
 
 /**
@@ -19,13 +22,14 @@ export class ShopifyFilterComponent extends RibaComponent {
   protected debug = Debug('component:' + ShopifyFilterComponent.tagName);
 
   static get observedAttributes() {
-    return ['namespace', 'linklist', 'template'];
+    return ['namespace', 'linklist', 'template', 'filter'];
   }
 
   protected scope: IScope = {
     linklist: window.model.system.linklists.filter,
     show: this.show,
     type: this.type,
+    filterBy: this.filterBy,
   };
 
   constructor(element?: HTMLElement) {
@@ -61,8 +65,79 @@ export class ShopifyFilterComponent extends RibaComponent {
     }
   }
 
+  public filterBy(handle: string, tagName: string, event?: Event, scope?: any, el?: HTMLLabelElement) {
+    tagName = tagName.replace('#', '');
+
+    const self = this;
+
+    // WORKAROUND because I can't check the middle radio button (wt..?!)
+    if (el && el.parentNode) {
+     const radioElement = (el.parentNode.childNodes[1] as HTMLInputElement);
+     radioElement.checked = true;
+
+     this.debug('checked', radioElement);
+    }
+
+    this.scope.filter[handle] = tagName;
+
+    // TODO this as binder?
+    $('.jumplink-article-list-item').each((i: number, curEl: HTMLElement) => {
+      const $listItem = $(curEl);
+      if (tagName === 'all') {
+        $listItem.removeAttr('hidden');
+        return;
+      }
+
+      const data = $listItem.data();
+      if (data.tags.indexOf(tagName) <= -1) {
+        self.debug('hide', $listItem);
+        // $listItem.hide();
+        $listItem.attr('hidden', 'hidden');
+      } else {
+        self.debug('show', $listItem);
+        // $listItem.show();
+        $listItem.removeAttr('hidden');
+      }
+      self.debug('jumplink-article-list-item', data, $listItem);
+    });
+
+    // to data binding for filter
+    this.publish('filter', this.scope.filter, null);
+
+    this.debug('filterBy', handle, tagName);
+  }
+
   protected requiredAttributes() {
-    return ['namespace', 'template'];
+    return ['namespace', 'template', 'filter'];
+  }
+
+  protected parsedAttributeChangedCallback(attributeName: string, oldValue: any, newValue: any, namespace: string | null) {
+    this.debug('parsedAttributeChangedCallback', attributeName, oldValue, newValue, namespace);
+    if (attributeName === 'filter') {
+      if (newValue) {
+        for (const handle in newValue) {
+
+          if (newValue.hasOwnProperty(handle)) {
+            const tagName = newValue[handle];
+            this.filterBy(handle, tagName, undefined, undefined, document.querySelectorAll(`label[for="${tagName}"]`)[0] as HTMLLabelElement);
+          }
+        }
+      }
+
+    }
+  }
+
+  protected afterBind() {
+    this.debug('afterBind');
+    if (this.scope.filter) {
+      for (const handle in this.scope.filter) {
+
+        if (this.scope.filter.hasOwnProperty(handle)) {
+          const tagName = this.scope.filter[handle];
+          this.filterBy(handle, tagName, undefined, undefined, document.querySelectorAll(`label[for="${tagName}"]`)[0] as HTMLLabelElement);
+        }
+      }
+    }
   }
 
   /**
