@@ -3,6 +3,9 @@
   "extends": [
     "tslint:recommended"
   ],
+  "linterOptions": {
+    "exclude": ["src/ts/types/**"]
+  },
   "jsRules": {},
   "rules": {
     "quotemark": [true, "single", "jsx-double"],

@@ -4,9 +4,17 @@
   {% assign on_sale = true %}
 {% endif %}
 
-<rv-product-item class="col {{ orderClass }} px-0 content-box ratio-3-4">
-  <a href="{{product.url}}">
-    <img class="content has-xs-spacing has-sm-spacing" rv-src="'{{ product.featured_image | img_url: articleImageSize}}'" alt="{{product.featured_image.alt}}"  style="padding-bottom: 52px;"/>
+{% if colClass == blank %}
+  {% assign colClass = 'col' %}
+{% endif %}
+
+{% if imageSize == blank %}
+  {% assign imageSize = '1200x1600' %}
+{% endif %}
+
+<rv-shopify-product-item rv-product="{{product | json}}" class="{{colClass}} {{ orderClass }} px-0 content-box ratio-3-4">
+  <a href="{{product.url | within: collection }}">
+    <img class="content has-xs-spacing has-sm-spacing" rv-src="'{{ product.featured_image | img_url: imageSize}}'" alt="{{product.featured_image.alt}}"  style="padding-bottom: 52px;"/>
   </a>
   <div class="position-absolute w-100 bottom-0">
     <div class="row m-0">
@@ -19,4 +27,4 @@
       </div>
     </div>
   </div>
-</rv-product-item>
+</rv-shopify-product-item>

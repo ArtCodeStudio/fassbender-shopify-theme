@@ -5,10 +5,10 @@
         {% endcomment %}
         "addresses": [
             {% for address in customer.addresses %}
-                {{ address | json }},
+                {{ address | json }}{% if forloop.last != true %},{% endif %}
             {% endfor %}
         ],
         "first_name": {{ customer.first_name | json}},
-        "addresses_count": {{customer.addresses_count | json}},
+        "addresses_count": {{customer.addresses_count | json}}
     {% endif %}
 }

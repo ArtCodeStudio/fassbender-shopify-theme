@@ -127,7 +127,7 @@ export class ShopifyFilterComponent extends RibaComponent {
     }
   }
 
-  protected afterBind() {
+  protected async afterBind() {
     this.debug('afterBind');
     if (this.scope.filter) {
       for (const handle in this.scope.filter) {
@@ -140,10 +140,8 @@ export class ShopifyFilterComponent extends RibaComponent {
     }
   }
 
-  /**
-   * Only set the component template if there no childs already
-   */
   protected template() {
+    // Only set the component template if there no childs already
     if (this.el.hasChildNodes()) {
       return null;
     } else {

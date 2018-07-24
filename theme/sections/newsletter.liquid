@@ -1,9 +1,9 @@
 {% capture name %}
-  <span class="text-danger" contenteditable="true" rv-value="name | def 'Name'" rv-on-focus="selectAll"></span>
+  <span class="text-danger" contenteditable="true" rv-value="name | default 'Name'" rv-on-focus="selectAll"></span>
 {% endcapture %}
 
 {% capture email %}
-  <span class="text-danger" contenteditable="true" rv-value="email | def 'E-Mail'" rv-on-focus="selectAll"></span>
+  <span class="text-danger" contenteditable="true" rv-value="email | default 'E-Mail'" rv-on-focus="selectAll"></span>
 {% endcapture %}
 
 <rv-newsletter class="d-block container-fluid text-center py-5" style="background-color:{{ section.settings.color }};">

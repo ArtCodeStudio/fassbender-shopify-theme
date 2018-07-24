@@ -3,7 +3,11 @@ import { IOneWayBinder, BinderWrapper } from '../tinybind';
 
 export const backgroundImage: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);
-  $el.css('background-image', 'url(' + value + ')');
+  if (value) {
+    $el.css('background-image', 'url(' + value + ')');
+  } else {
+    $el.css('background-image', '');
+  }
 };
 
 /**

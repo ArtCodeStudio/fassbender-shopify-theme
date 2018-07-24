@@ -1,5 +1,5 @@
 [
   {% for link in links %}
-    {% include 'jumplink-utils-json-link', link: link, level: level %},
+    {% include 'jumplink-utils-json-link', link: link, level: level %}{% if forloop.last != true %},{% endif %}
   {% endfor %}
 ]

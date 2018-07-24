@@ -1,69 +1,68 @@
-{% comment %}
-  Do we have a collection that has the same name as our product vendor name?
-  If we do, let's have the vendor link point to it.
-  If not, we will point to the automatic vendor collection.
-{% endcomment %}
-{% assign product_vendor_handle = product.vendor | handle %}
-{% if collections[product_vendor_handle].handle == product_vendor_handle %}
-  {% assign vendor_url = collections[product_vendor_handle].url %}
-{% else %}
-  {% assign vendor_url = product.vendor | url_for_vendor %}
-{% endif %}
+<rv-shopify-product handle="{{product.handle}}" extras='{% include 'jumplink-utils-json-product-extras' %}'>
+  <div class="container-fluid">
+    <div class="row">
 
-{% comment %}
-  Is the current product unlocked?
-{% endcomment %}
-{% include 'app-jumplink-ec-logic-product-unlocked' %}
-
-{% if unlocked %}
-  {% include 'jumplink-breadcrumbs-slide-buttons' %}
-
-  <div class="container">
-    <div data-product-handle="{{product.handle}}" class="product handle-{{product.handle}}" id="handle-{{product.handle}}" itemscope itemtype="http://schema.org/Product">
-      
-      <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
-      <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
-      <meta itemprop="brand" content="{{ product.vendor }}" />
-      <meta itemprop="name" content="{{ product.title }}" />
-      <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
-      <meta itemprop="price" content="{{ product.price | money }}" />
-      <meta itemprop="offers" itemscope itemtype="http://schema.org/Offer" />
-
-      {% if product.available %}
-        <link itemprop="availability" href="http://schema.org/InStock" />
-      {% else %}
-        <link itemprop="availability" href="http://schema.org/OutOfStock" />
-      {% endif %}
-
-
-      <form action="/cart/add" method="post" enctype="multipart/form-data">
-
-        <div class="row">
-
-          <div data-barba="freeze" data-collection-filter="true" class="col-xs-12 col-md-4 col-lg-3">
-            {% include 'jumplink-filter' %}
-          </div>
-          
-          <div class="product-photos col-xs-12 col-md-4 offset-md-4 col-lg-5 offset-lg-3 mb-1">
-            {% comment %}
-              Set ratio
-            {% endcomment %}
-            {% include 'jumplink-logic-aspect-ratio', default_ratio: settings.products_aspect_ratio %}
-            <product-images-slick product="product" show-thums="true" in-b2bcart="false" with-fullscreen-modal="true" has-parent-modal="false" background-class="'background-box background-size-{{ background_size }} {{ ratio }}'"></product-images-slick>
-          </div>
-          
-          <div class="product-details col-xs-12 col-md-4">
-            <product product="product" vendor-url="'{{ vendor_url }}'"></product>
-          </div>
-        
+      {% comment %} selected variant image {% endcomment %}
+      <div class="col-12 px-0">
+        <div class="content-box ratio-3-2">      
+          <img class="content" src="{{ product.featured_image.src | img_url: '1905x1270', scale: 2 }}" rv-src="variant.featured_image.src | img_url: '1905x1270'" alt="{{image.alt}}" />
         </div>
-      </form>
+      </div>
 
+      {% comment %} images wich are not in any variant {% endcomment %}
+      {% assign index = 0 %}
+      {% for image in product.images %}
+        {% assign index = index | plus: 1 %}
+        {% assign isVariantImage = false %}
+        {% for variant in product.variants %}
+          {% if image == variant.featured_image.src %}
+            {% assign isVariantImage = true %}
+          {% endif %}
+        {% endfor %}
+
+        {% if isVariantImage == false %}
+          {% if index >= 1 and index <= 2 %}
+            {% assign colClass='col-12 col-md-6' %}
+            {% assign aspectRatio='ratio-3-4'  %}
+            {% assign imageSize='960x1280'  %}
+          {% else %}
+            {% assign colClass='col-12 col-md' %}
+            {% assign aspectRatio='ratio-3-4'  %}
+            {% assign imageSize='960x1280'  %}
+          {% endif %}
+
+          {% if index == 4 %}
+            {% comment %} new row {% endcomment %}
+            </div><div class="row">
+          {% endif %}
+
+          <div class="{{ colClass }} px-0">
+            <div class="content-box {{ aspectRatio }}">      
+              <img class="content" src="{{ image.src | img_url: imageSize, scale: 2 }}" alt="{{image.alt}}" />
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
     </div>
   </div>
 
-{% else %}
-  <div class="col-xs-12">
-    {% include 'jumplink-collection-locked' %}
-  </div>
-{% endif %}
+  <div class="container-fluid fixed-bottom">
+    <div class="row">
+      <div class="col-6">
+        <div class="variant-chooser">
+          <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
+            <div rv-each-color="option.values" class="col-auto px-1" rv-on-click="onClickColor | args color">
+              <div class="styleicon-circle" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <strong>{{product.title}}</strong>
+          <p rv-text="variant.price">{{product.price | money}}</p>
+        </div>
+      </div>
+      <div class="col-6"></div>
+    </div>
+  </div> 
+
+</rv-shopify-product>

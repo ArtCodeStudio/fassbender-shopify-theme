@@ -1,4 +1,6 @@
-import { Utils as tinybindUtils } from '../tinybind';
+import { Utils as tinybindUtils, getJSON } from '../tinybind';
+
+export { getJSON };
 
 /**
  * Just an Class with some helpful functions

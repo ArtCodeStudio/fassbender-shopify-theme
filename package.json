@@ -59,8 +59,7 @@
     "parcel-bundler": "^1.9.7",
     "postcss-cli": "^5.0.1",
     "postcss-loader": "^2.1.5",
-    "postcss-modules": "^1.1.0",
-    "promise-polyfill": "^8.0.0",
+    "postcss-modules": "^1.3.0",
     "sass-loader": "^7.0.3",
     "shelljs": "^0.8.2",
     "style-loader": "^0.21.0",
@@ -70,17 +69,20 @@
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.11.0",
-    "webpack": "^4.16.1",
+    "webpack": "^4.16.2",
     "webpack-cli": "^3.1.0",
     "webpack-stream": "^4.0.3",
     "yargs": "^5.0.0"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0-beta.54",
     "@types/debug": "^0.0.30",
-    "@types/jquery": "^3.3.4",
+    "@types/jquery": "^3.3.5",
+    "@types/promise-polyfill": "^6.0.0",
     "bootstrap": "^4.1.1",
     "debug": "^3.1.0",
     "jquery": "^3.3.1",
+    "promise-polyfill": "^8.0.0",
     "rxjs": "^6.2.2",
     "tinybind": "github:JumpLinkNetwork/tinybind#master"
   }

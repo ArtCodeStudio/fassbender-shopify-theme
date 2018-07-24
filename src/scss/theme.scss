@@ -20,23 +20,26 @@
 @import 'position';
 @import 'colors';
 
+// custom extensions
 @import 'aspect-ratio';
 @import 'scrollbars';
+@import 'dropdown';
+@import 'sections';
+@import 'cursor';
+@import 'pointer-events';
+@import 'styleicons';
+@import 'development';
 
+// templates
 @import 'customers';
 @import 'list-collections';
 @import 'collection';
 @import 'product';
 @import 'cart';
-@import 'filter';
-@import 'blog';
+@import 'filter'; // TODO
 @import 'templates';
-@import 'dropdown';
-@import 'sections';
-@import 'cursor';
-@import 'pointer-events';
 
+// components, binders and sections
 @import '../ts/components/index';
 @import '../ts/binders/index';
 @import 'sections/index';
-@import 'templates/blog';

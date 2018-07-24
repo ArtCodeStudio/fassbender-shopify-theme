@@ -17,26 +17,6 @@ data-seo-page_description={{ page_description | json }}
 
 {% if product %}
   data-handle={{ product.handle | json }}
-  data-product-url="{{collection.url}}{{product.url}}"
-  data-product-title='{{product.title | replace: "'", "&#39;"}}'
-  data-product='{{product | json | replace: "'", "&#39;"}}'
-
-  {% for variant in product.variants %}
-    data-product-variant{{variant.id}}-incoming='{{variant.incoming | json}}'
-    data-product-variant{{variant.id}}-next-incoming-date='{{variant.next_incoming_date}}'
-  {% endfor %}
-
-  data-product-metafields-global='{{product.metafields.global | json | replace: "'", "&#39;"}}'
-
-  data-product-metafields-cf='{{product.metafields.c_f | json | replace: "'", "&#39;"}}'
-
-  {% if collection.previous_product %}
-    data-product-prev-url="{{collection.previous_product}}"
-  {% endif %}
-
-  {% if collection.next_product %}
-    data-product-next-url="{{collection.next_product}}"
-  {% endif %}
 {% endif %}
 
 {% if collection %}
@@ -95,9 +75,13 @@ data-seo-page_description={{ page_description | json }}
   {% endif %}
 {% endif %}
 
+
+{% comment %}
+Use the Shopify Ajax API to get the cart 
 {% if cart %}
   data-cart={{cart | json}}
 {% endif %}
+{% endcomment %}
 
 {% if blog %}
   data-handle={{ blog.handle | json }}

@@ -22,7 +22,7 @@ import {
 } from './tinybind';
 
 import {
-  autoscrollBinder,
+  backgroundImageBinder,
   scrollbarDragableBinder,
 } from './binders/index';
 import {
@@ -30,6 +30,9 @@ import {
   IconComponent,
   ShopifyLinklistComponent,
   ShopifyFilterComponent,
+  ShopifyArticleItemComponent,
+  ShopifyProductComponent,
+  ShopifyProductItemComponent,
   ProductScrollbarComponent,
 } from './components/index';
 
@@ -58,12 +61,14 @@ export class Main {
     this.tinybind.componentService.regist(ShopifyFilterComponent);
     this.tinybind.componentService.regist(IconComponent);
     this.tinybind.componentService.regist(ProductScrollbarComponent);
+    this.tinybind.componentService.regist(ShopifyProductItemComponent);
+    this.tinybind.componentService.regist(ShopifyProductComponent);
 
     // Regist binders
     this.tinybind.binderService.regists(routerBinders);
     this.tinybind.binderService.regists(basicBindersWrapper(JQuery));
     this.tinybind.binderService.regist(scrollbarDragableBinder());
-    this.tinybind.binderService.registWrapper(autoscrollBinder());
+    this.tinybind.binderService.regist(backgroundImageBinder());
 
     // Regist formatters
     this.tinybind.formatterService.regists(compareFormatters);

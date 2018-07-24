@@ -1,10 +1,10 @@
 <div class="container-fluid">
-  {% paginate collection.products by settings.products_per_page %}
+  {% paginate collection.products by 50 %}
     <div class="row">
         {% for product in collection.products %}
-          {% include 'jumplink-product-grid-item' with settings.products_per_page %}
+          {% include 'jumplink-product-item-col-ratio-3-4' with product, collection, colClass: 'col-6' %}
         {% endfor %}
-        {% include 'jumplink-pagination', show_all_active: true %}
     </div>
+    {% include 'jumplink-pagination', show_all_active: true %}
   {% endpaginate %}
 </div>

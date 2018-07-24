@@ -1,10 +1,7 @@
 {% capture linklistsJsonString %}
 {
     {% for linklist in linklists %}
-        {% include 'jumplink-utils-json-linklist', linklist: linklist %},
+        {% include 'jumplink-utils-json-linklist', linklist: linklist %}{% if forloop.last != true %},{% endif %}
     {% endfor %}
 }
-{% endcapture %}
-
-
-{{ linklistsJsonString | strip_newlines | strip | replace: "'", "&#39;" }}
+{% endcapture %}{{ linklistsJsonString | strip_newlines | strip | replace: "'", "&#39;" }}

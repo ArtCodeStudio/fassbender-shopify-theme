@@ -1,13 +1,15 @@
 {% capture blogJsonString %}
   {
     {% if blog %}
-      "all_tags": {{ blog.all_tags | json}},
-      "articles": [
-        {% for article in blog.articles %}
-          {% include 'jumplink-utils-json-article' %},
-          {% comment %} {{article.handle | json}} {% endcomment %}
-        {% endfor %}
-      ],
+      "all_tags": {% include 'jumplink-utils-json-tags', tags: blog.all_tags %},
+      {% if full %}
+        "articles": [
+          {% for article in blog.articles %}
+            {% include 'jumplink-utils-json-article' %}{% if forloop.last != true %},{% endif %}
+            {% comment %} {{article.handle | json}} {% endcomment %}
+          {% endfor %}
+        ],
+      {% endif %}
       "articles_count": {{blog.articles_count | json}},
       "comments_enabled": {{blog.comments_enabled? | json}},
       "handle": {{blog.handle | json}},
@@ -20,5 +22,4 @@
       "url": {{blog.url | json}}
     {% endif %}
   }
-{% endcapture %}
-{{ blogJsonString | strip_newlines | strip | replace: "'", "&#39;" }}
+{% endcapture %}{{ blogJsonString | strip_newlines | strip | replace: "'", "&#39;" }}
