@@ -54,11 +54,10 @@ export class ShopifyProductComponent extends RibaComponent {
         }
       });
     }
-    return result;
+    return this.prepairVariant(result);
   }
 
   public getVariant(id: number) {
-    this.debug('selectVariant');
     let result = null;
     // this.scope.variant =
     if (this.scope.product) {
@@ -68,7 +67,8 @@ export class ShopifyProductComponent extends RibaComponent {
         }
       });
     }
-    return result;
+    this.debug('selectVariant', result);
+    return this.prepairVariant(result);
   }
 
   /**
@@ -100,7 +100,8 @@ export class ShopifyProductComponent extends RibaComponent {
     .then((product: IShopifyProduct) => {
       this.debug('JSON Data: ', product );
       this.scope.product = product;
-      this.scope.variant = this.scope.product.variants[0];
+      // set the first variant to the selected one
+      this.scope.variant = this.prepairVariant(this.scope.product.variants[0]);
       // this.scope.images = this.getImages();
       return product;
     })
@@ -124,5 +125,31 @@ export class ShopifyProductComponent extends RibaComponent {
     } else {
       return template;
     }
+  }
+
+  /**
+   * prepair variant, e.g. fix missing image etc
+   * @param variant
+   */
+  private prepairVariant(variant: IShopifyProductVariant | null) {
+    if (variant === null) {
+      return null;
+    }
+    // If variant has no image use the default product image
+    if (variant.featured_image === null && this.scope.product) {
+      variant.featured_image = {
+        src: this.scope.product.featured_image,
+        position: 0,
+        product_id: this.scope.product.id,
+        variant_ids: [],
+        alt: this.scope.product.title,
+        created_at: this.scope.product.created_at,
+        height: 0,
+        width: 0,
+        id: 0,
+        updated_at: this.scope.product.updated_at,
+      };
+    }
+    return variant;
   }
 }
