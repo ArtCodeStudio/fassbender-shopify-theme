@@ -1,7 +1,7 @@
 import { IBindable } from '../../binding';
 import { ITwoWayBinder, BinderWrapper } from '../../binder.service';
 import { View } from '../../view';
-import { times, Utils } from '../../utils';
+import { times } from '../../utils';
 
 export const eachStarBinder: ITwoWayBinder<any[]> = {
   block: true,
