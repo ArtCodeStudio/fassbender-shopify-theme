@@ -1,61 +1,41 @@
 <rv-shopify-product handle="{{product.handle}}" extras='{% include 'jumplink-utils-json-product-extras' %}'>
   <div class="container-fluid">
     <div class="row">
-
-      {% comment %} selected variant image {% endcomment %}
+      {% comment %} selected variant featured_image image {% endcomment %}
       <div class="col-12 px-0">
         <div class="content-box ratio-3-2">      
           <img class="content" src="{{ product.featured_image.src | img_url: '1905x1270', scale: 2 }}" rv-src="variant.featured_image.src | img_url: '1905x1270'" alt="{{image.alt}}" />
         </div>
       </div>
-
-      {% if product.variants[0].featured_image == blank %}
-        {% assign noVariantImage = true %}
-      {% else %}
-        {% assign noVariantImage = false %}
-      {% endif %}
-
-      {% comment %} images wich are not in any variant {% endcomment %}
-      {% assign index = 0 %}
-      {% for image in product.images %}
-        {% assign index = index | plus: 1 %}
-        {% assign isVariantImage = false %}
-        {% for variant in product.variants %}
-          {% if image == variant.featured_image.src %}
-            {% assign isVariantImage = true %}
-          {% endif %}
-
-          {% comment %} if the variant has no image the featured_image is the variant image {% endcomment %}
-          {% if noVariantImage == true and image == product.featured_image %}
-            {% assign isVariantImage = true %}
-          {% endif %}
-
-        {% endfor %}
-
-        {% if isVariantImage == false %}
-          {% if index >= 1 and index <= 2 %}
-            {% assign colClass='col-12 col-md-6' %}
-            {% assign aspectRatio='ratio-3-4'  %}
-            {% assign imageSize='960x1280'  %}
-          {% else %}
-            {% assign colClass='col-12 col-md' %}
-            {% assign aspectRatio='ratio-3-4'  %}
-            {% assign imageSize='960x1280'  %}
-          {% endif %}
-
-          {% if index == 4 %}
-            {% comment %} new row {% endcomment %}
-            </div><div class="row">
-          {% endif %}
-
-          <div class="{{ colClass }} px-0">
-            <div class="content-box {{ aspectRatio }}">      
-              <img class="content" src="{{ image.src | img_url: imageSize, scale: 2 }}" alt="{{image.alt}}" />
-            </div>
-          </div>
-        {% endif %}
-      {% endfor %}
     </div>
+
+    <div class="row">
+      {% comment %} Other variant images {% endcomment %}
+      <div rv-range-each-image-0-1="variant.images" class="'col-12 col-md px-0" >
+        <div class="content-box ratio-3-4">      
+          <img class="content" rv-src="image | img_url: '960x1280' 2" alt="variant.title" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      {% comment %} Other variant images {% endcomment %}
+      <div rv-range-each-image-2-4="variant.images" class="'col-12 col-md px-0" >
+        <div class="content-box ratio-3-4">      
+          <img class="content" rv-src="image | img_url: '960x1280' 2" alt="variant.title" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row" rv-if="variant.images | count | egt 5">
+      <div rv-range-each-image-5-x="variant.images" class="'col-12 col-md px-0">
+        <div class="content-box ratio-3-4">      
+          <img class="content" rv-src="image | img_url: '960x1280' 2" alt="variant.title" />
+        </div>
+      </div>
+    </div>
+
+
   </div>
 
   <div class="container-fluid fixed-bottom">
@@ -64,7 +44,7 @@
         <div class="variant-chooser">
           <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
             <div rv-each-color="option.values" class="col-auto px-1" rv-on-click="onClickColor | args color">
-              <div class="styleicon-circle" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
+              <div class="styleicon-circle" rv-class="color" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
             </div>
           </div>
         </div>

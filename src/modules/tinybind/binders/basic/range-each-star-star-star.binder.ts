@@ -3,7 +3,7 @@ import { ITwoWayBinder, BinderWrapper } from '../../binder.service';
 import { View } from '../../view';
 import { times, Utils } from '../../utils';
 
-export const eachStarBinder: ITwoWayBinder<any[]> = {
+export const rangeEachStarFromToBinder: ITwoWayBinder<any[]> = {
   block: true,
   priority: 4000,
 
@@ -34,12 +34,24 @@ export const eachStarBinder: ITwoWayBinder<any[]> = {
     }
   },
 
-  routine(el, collection) {
+  routine(el, originalCollection) {
     if (this.args === null) {
       throw new Error('args is null');
     }
     const modelName = this.args[0] as string;
-    collection = collection || [];
+    originalCollection = originalCollection || [];
+    // start value to iterate over
+    const start = Number(this.args[1] || 0);
+    // end value to iterate over
+    let end = Number(Utils.isNumber(this.args[2]) ? this.args[2] : originalCollection.length - 1);
+
+    if (end > originalCollection.length - 1) {
+      end = originalCollection.length - 1;
+    }
+
+    const collection = originalCollection.slice(start, 1 + end);
+
+    // console.warn('start end', modelName, start, end);
 
     // TODO support object keys to iterate over
     if (!Array.isArray(collection)) {
@@ -50,8 +62,9 @@ export const eachStarBinder: ITwoWayBinder<any[]> = {
     const indexProp = el.getAttribute('index-property') || this.getIterationAlias(modelName);
 
     collection.forEach((model, index) => {
+      // iterate only if loop is between range
       const scope: any = {$parent: this.view.models};
-      scope[indexProp] = index;
+      scope[indexProp] = index + start;
       scope[modelName] = model;
       let view = this.customData.iterated[index];
 
@@ -89,14 +102,14 @@ export const eachStarBinder: ITwoWayBinder<any[]> = {
               throw new Error('Marker has no parent node');
             }
             this.marker.parentNode.insertBefore(nextView.els[0], view.els[0]);
-            nextView.models[indexProp] = index;
+            nextView.models[indexProp] = index + start;
           } else {
             // new model
             nextView = View.create(this, scope, view.els[0]);
           }
           this.customData.iterated.splice(index, 0, nextView);
         } else {
-          view.models[indexProp] = index;
+          view.models[indexProp] = index + start;
         }
       }
     });
@@ -140,14 +153,15 @@ export const eachStarBinder: ITwoWayBinder<any[]> = {
 };
 
 /**
- * each-*
- * Appends bound instances of the element in place for each item in the array.
+ * each-*-*-*
+ * wich means each-[modelname]-[startrange]-[endrange]
+ * Appends bound instances of the element in place for each item in the array but only if index is in range
  */
-export const eachStarBinderWrapper: BinderWrapper = () => {
-  const name = 'each-*';
+export const rangeEachStarFromToBinderWrapper: BinderWrapper = () => {
+  const name = 'range-each-*-*-*';
 
   return {
-    binder: eachStarBinder,
+    binder: rangeEachStarFromToBinder,
     name,
   };
 };
