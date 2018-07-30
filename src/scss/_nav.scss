@@ -15,3 +15,23 @@
     padding-right: 0;
   }
 }
+
+.nav-tabs {
+  &.nav-tabs-underline {
+    border: none;
+    font-size: .9rem;
+    .nav-item {
+      margin-bottom: 0;
+    }
+
+    .nav-link {
+      border-width: 0 0 $nav-tabs-border-width 0;
+      
+      // &.show      
+      &.active {
+        border-color: $nav-tabs-link-active-border-color;
+        color: $nav-tabs-link-active-color !important;
+      }
+    }
+  }
+}

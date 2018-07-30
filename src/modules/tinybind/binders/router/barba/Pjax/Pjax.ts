@@ -81,12 +81,21 @@ class Pjax {
       return false;
     }
 
-    // In case you're trying to load the same page
-    if (Utils.cleanLink(href) === Utils.cleanLink(location.href)) {
+    // Ignore case if router binder manages the link TODO use tinybind prefix
+    if (element.getAttribute && typeof element.hasAttribute('rv-route')) {
       return false;
     }
 
     if (element.classList.contains(this.ignoreClassLink)) {
+      return false;
+    }
+
+    if (element.classList.contains(this.ignoreClassLink)) {
+      return false;
+    }
+
+    // In case you're trying to load the same page
+    if (Utils.cleanLink(href) === Utils.cleanLink(location.href)) {
       return false;
     }
 
@@ -112,7 +121,19 @@ class Pjax {
     }
 
     if (typeof(el.href) === 'string') {
-      return el.href;
+      let href =  el.href;
+
+      // normalize url
+      if (href && Utils.isAbsoluteUrl(href)) {
+        const location = Utils.getLocation();
+        const host = location.protocol + '//' + location.hostname;
+        // if is not an external link
+        if (href.indexOf(host) === 0) {
+          // get relative href
+          href = href.replace(host, '');
+        }
+      }
+      return href;
     }
 
     return undefined;
@@ -192,7 +213,8 @@ class Pjax {
    * @memberOf Barba.Pjax
    * @param {string} newUrl
    */
-  public goTo(url: string, newTab?: boolean) {
+  public goTo(url: string, newTab = false) {
+    this.debug('goTo', url, newTab);
     if (newTab) {
       const win = window.open(url, '_blank');
       if (win) {
@@ -328,6 +350,7 @@ class Pjax {
       if (!href) {
         throw new Error('href is null');
       }
+
       this.goTo(href);
     }
   }

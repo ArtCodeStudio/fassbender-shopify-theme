@@ -1,0 +1,11 @@
+.text-serif {
+  font-family: $font-family-serif;
+}
+
+.text-sans-serif {
+  font-family: $font-family-base;
+}
+
+h1, .h1 {
+  @extend .text-serif;
+}

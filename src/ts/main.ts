@@ -24,6 +24,9 @@ import {
 import {
   backgroundImageBinder,
   scrollbarDragableBinder,
+  collapseBinder,
+  expanOnUrlBinder,
+  collapseOnUrlBinder,
 } from './binders/index';
 import {
   NewsletterComponent,
@@ -34,6 +37,7 @@ import {
   ShopifyProductComponent,
   ShopifyProductItemComponent,
   ProductScrollbarComponent,
+  TabsComponent,
 } from './components/index';
 
 declare global {
@@ -63,12 +67,16 @@ export class Main {
     this.tinybind.componentService.regist(ProductScrollbarComponent);
     this.tinybind.componentService.regist(ShopifyProductItemComponent);
     this.tinybind.componentService.regist(ShopifyProductComponent);
+    this.tinybind.componentService.regist(TabsComponent);
 
     // Regist binders
     this.tinybind.binderService.regists(routerBinders);
     this.tinybind.binderService.regists(basicBindersWrapper(JQuery));
     this.tinybind.binderService.regist(scrollbarDragableBinder());
     this.tinybind.binderService.regist(backgroundImageBinder());
+    this.tinybind.binderService.regist(collapseBinder());
+    this.tinybind.binderService.regist(expanOnUrlBinder());
+    this.tinybind.binderService.regist(collapseOnUrlBinder());
 
     // Regist formatters
     this.tinybind.formatterService.regists(compareFormatters);

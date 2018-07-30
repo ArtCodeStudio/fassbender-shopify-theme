@@ -33,12 +33,17 @@
         </a>
       </div>
       <div class="row pt-4">
-        <shopify-linklist class="col-auto pointer-events-all" name="main-menu" vertical="true" pills="false"></shopify-linklist>
+        <div class="col-auto pointer-events-all font-weight-bold">
+          <div rv-bs4-collapse="'#sidenav-main-menu'" class="sidenav-main-menu-toggler nav-item nav-link pl-0 cursor-pointer">
+            +
+          </div>
+          <shopify-linklist rv-bs4-expan-on-url="'/'" class="" id="sidenav-main-menu" name="main-menu" vertical="true" pills="false"></shopify-linklist>
+        </div>
       </div>
 
       <div class="row pt-4">
         <shopify-filter class="col-auto pointer-events-all" rv-namespace="dataset.namespace" rv-template="dataset.template | json" rv-filter="filter | json">
-          <nav class="nav flex-column" rv-add-class="linklist.handle">
+          <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
             <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template">
               
               <a class="nav-link" rv-add-class="'level-' | append link.level" rv-class-active="link.active" rv-route="link.url" rv-href="link.url">{link.title}</a>

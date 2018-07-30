@@ -35,6 +35,81 @@
       </div>
     </div>
 
+    <bs4-tabs class="row pt-5">
+      <div class="col-12 product-tab-list nav nav-tabs nav-tabs-underline d-flex flex-nowrap justify-content-center" id="product-{{product.handle}}-tab-list" role="tablist">
+        {% comment %} Product Tab Titles {% endcomment %}
+        {% for i in (1..6) %}
+          {% assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" %}
+          {% assign tabTitle = product.metafields["global"][tabTitleIndex] %}
+          {% if tabTitle != blank %}
+            <a
+              class="nav-item nav-link"
+              href="#tab-content-{{ tabTitle | handleize }}"
+              id="tab-title-{{ tabTitle | handleize }}"
+              role="tab"
+              aria-controls="tab-content-{{ tabTitle | handleize }}"
+              aria-selected="false"
+            >
+              {{ tabTitle }}
+            </a>
+          {% endif %}
+        {% endfor %}
+        {% comment %} Product STATIC Tab Titles {% endcomment %}
+        {% for i in (1..6) %}
+          {% assign tabIndex = "tab-static-" | append: forloop.index | append: ".tab-sta" %}
+          {% assign tabTitle = product.metafields[tabIndex]["tab-static-title"] %}
+          {% if tabTitle != blank %}
+            <a
+              class="nav-item nav-link"
+              href="#tab-content-{{ tabTitle | handleize }}"
+              id="tab-title-{{ tabTitle | handleize }}"
+              role="tab"
+              aria-controls="tab-content-{{ tabTitle | handleize }}"
+              aria-selected="false"
+            >
+              {{ tabTitle }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="col-12 col-md-6 tab-content product-tab-content px-5 mx-auto" id="product-{{product.handle}}-tab-content">
+        {% comment %} Product Tab Contents {% endcomment %}
+        {% for i in (1..6) %}
+          {% assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" %}
+          {% assign tabContentIndex = "tab-" | append: forloop.index | append: "-content" %}
+          {% assign tabTitle = product.metafields["global"][tabTitleIndex] %}
+          {% assign tabContent = product.metafields["global"][tabContentIndex] %}
+          {% if tabTitle != blank %}
+            <div
+              class="tab-pane"
+              id="tab-content-{{ tabTitle | handleize }}"
+              role="tabpanel"
+              aria-labelledby="tab-title-{{ tabTitle | handleize }}"
+            >
+              {{ tabContent }}
+            </div>
+          {% endif %}
+        {% endfor %}
+        {% comment %} Product STATIC Tab Contents {% endcomment %}
+        {% for i in (1..6) %}
+          {% assign tabIndex = "tab-static-" | append: forloop.index | append: ".tab-sta" %}
+          {% assign tabTitle = product.metafields[tabIndex]["tab-static-title"] %}
+          {% assign tabContent = product.metafields[tabIndex]["tab-static-content"] %}
+          {% if tabTitle != blank %}
+            <div
+              class="tab-pane"
+              id="tab-content-{{ tabTitle | handleize }}"
+              role="tabpanel"
+              aria-labelledby="tab-title-{{ tabTitle | handleize }}"
+            >
+              {{ tabContent }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+    </bs4-tabs>
 
   </div>
 

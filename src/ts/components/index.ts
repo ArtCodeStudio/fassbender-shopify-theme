@@ -6,3 +6,4 @@ export { ShopifyArticleItemComponent } from './shopify-article-item/shopify-arti
 export { ShopifyProductComponent } from './shopify-product/shopify-product.component';
 export { ShopifyProductItemComponent } from './shopify-product-item/shopify-product-item.component';
 export { ProductScrollbarComponent } from './product-scrollbar/product-scrollbar.component';
+export { TabsComponent } from './bs4/tabs/tabs.component';
