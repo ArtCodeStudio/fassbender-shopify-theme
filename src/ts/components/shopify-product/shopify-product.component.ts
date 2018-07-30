@@ -162,7 +162,10 @@ export class ShopifyProductComponent extends RibaComponent {
 
       // remove variant images from copied array
       this.scope.product.variants.forEach((variant: IShopifyProductVariant) => {
-        const index = this.indexOfUrl(generalImages, variant.featured_image.src);
+        let index = -1;
+        if (variant.featured_image !== null && variant.featured_image.src) {
+          index = this.indexOfUrl(generalImages, variant.featured_image.src);
+        }
         if (index >= 0) {
           generalImages.splice(index, 1);
         }

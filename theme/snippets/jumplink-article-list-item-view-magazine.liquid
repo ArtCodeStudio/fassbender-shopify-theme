@@ -9,7 +9,7 @@
       <img class="content" src="{{ article.image | img_url: imageSize, scale: 2 }}" alt="{{article.image.alt}}" style="padding: {{imageSpacing}}px" />
     </div>
 
-    <div class="col-12 p-5 magazine-columns">
+    <div class="col-12 p-5 magazine-columns has-xs-spacing">
       <h1>{{article.title}}</h1>
       <p><small><strong>
         <span>{{ article.published_at | time_tag: '%d. %B %Y' }} </span>

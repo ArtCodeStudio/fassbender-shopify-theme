@@ -89,7 +89,7 @@ export class ShopifyFilterComponent extends RibaComponent {
       }
 
       const data = $listItem.data();
-      if (data.tags.indexOf(tagName) <= -1) {
+      if (this.indexOfIgnoreCase(data.tags, tagName) <= -1) {
         self.debug('hide', $listItem);
         // $listItem.hide();
         $listItem.attr('hidden', 'hidden');
@@ -148,4 +148,17 @@ export class ShopifyFilterComponent extends RibaComponent {
       return template;
     }
   }
+
+  private indexOfIgnoreCase(arr: string[], value: string) {
+    value = value.toLowerCase();
+    let index = -1;
+    for (let i = 0; i < arr.length; i++) {
+      const str = arr[i];
+      if (str.toLowerCase() === value) {
+        index = i;
+      }
+    }
+    return index;
+  }
+
 }

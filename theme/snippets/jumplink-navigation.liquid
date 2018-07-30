@@ -1,8 +1,9 @@
-<div class="container-fluid fixed-top navbar-main pointer-events-none">
+{% comment %} Navigation Desktop {% endcomment %}
+<div class="container-fluid fixed-top navbar-main pointer-events-none d-none d-lg-block">
   {% comment %}
     SUBBAR
   {% endcomment %}
-  <div class="row subbar pt-2">
+  <div class="row subbar pt-2 font-weight-bold text-serif">
     <div class="col d-flex">
       <div class="ml-auto">
          
@@ -28,7 +29,7 @@
     {% endcomment %}
     <div class="col-auto" style="position: fixed; width: auto; z-index: 1;">
       <div class="row">
-        <a class="col-auto brand pointer-events-all" rv-route="/" href="/">
+        <a class="col-auto brand pointer-events-all" rv-on-route-active="'/'" rv-route="'/'" href="/">
           <rv-icon rv-src="'{{ 'iconset-logo.svg' | asset_url }}'" height="64" width="47"></rv-icon>
         </a>
       </div>
@@ -46,14 +47,14 @@
           <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
             <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template">
               
-              <a class="nav-link" rv-add-class="'level-' | append link.level" rv-class-active="link.active" rv-route="link.url" rv-href="link.url">{link.title}</a>
+              <a class="nav-link" rv-add-class="'level-' | append link.level" rv-class-active="link.active" rv-on-route-active="link.url" rv-route="link.url" rv-href="link.url">{link.title}</a>
               
               <div class="small" rv-if="type | call link.handle | eq 'routes'">
                 <strong>Type</strong>
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
-                    <input type="radio" rv-id="sublink.handle" rv-name="link.handle" rv-route="sublink.url" rv-checked-on-route="sublink.url" class="custom-control-input">
-                    <label class="custom-control-label" rv-route="sublink.url" rv-for="sublink.handle">{sublink.title}</label>
+                    <input type="radio" rv-id="sublink.handle" rv-name="link.handle" rv-on-route-active="sublink.url" rv-route="sublink.url" rv-checked-on-route="sublink.url" class="custom-control-input">
+                    <label class="custom-control-label" rv-on-route-active="sublink.url" rv-route="sublink.url" rv-for="sublink.handle">{sublink.title}</label>
                   </div>
                 </div>
               </div>
@@ -91,7 +92,7 @@
     <div class="ml-auto col-auto d-flex align-items-center">
       <ul class="nav" style="pointer-events: all;">
         <li class="nav-item">
-          <a class="nav-link" href="/search">
+          <a class="nav-link" href="/search" rv-on-route-active="'/search'" rv-route="'/search'">
             <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="24"></rv-icon>
           </a>
         </li>   
@@ -108,4 +109,10 @@
       </ul>
     </div>
   </div>
+</div>
+
+{% comment %} Navigation Smartphone {% endcomment %}
+<div class="container-fluid fixed-top pointer-events-none d-block d-lg-none text-center logo-text-sm">
+  <a class="pointer-events-all" rv-on-route-active="'/'" rv-route="'/'" href="/">FASSBENDER</a>
+  
 </div>

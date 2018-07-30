@@ -2,11 +2,18 @@
   <div class="container-fluid">
     <div class="row">
       {% comment %} selected variant featured_image image {% endcomment %}
-      <div class="col-12 px-0">
+      <div class="col-12 px-0 d-none d-md-block">
         <div class="content-box ratio-3-2">      
           <img class="content" src="{{ product.featured_image.src | img_url: '1905x1270', scale: 2 }}" rv-src="variant.featured_image.src | img_url: '1905x1270'" alt="{{image.alt}}" />
         </div>
       </div>
+
+      <div class="col-12 px-0 d-block d-md-none">
+        <div class="content-box ratio-3-4">      
+          <img class="content" src="{{ product.featured_image.src | img_url: '960x1280', scale: 2 }}" rv-src="variant.featured_image.src | img_url: '960x1280'" alt="{{image.alt}}" />
+        </div>
+      </div>
+
     </div>
 
     <div class="row">
