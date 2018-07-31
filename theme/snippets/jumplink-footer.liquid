@@ -8,15 +8,52 @@
     {% comment %}
       MAINBAR LEFT
     {% endcomment %}
-    <div class="col-auto">
-      FASSBENDER
+    <div class="col-auto pointer-events-all logo-text-lg">
+      <a rv-on-route-active="'/'" rv-route="'/'" href="/">FASSBENDER</a>
     </div>
 
     {% comment %}
       MAINBAR RIGHT
     {% endcomment %}
     <div class="ml-auto col-auto d-flex align-items-center">
-      <shopify-linklist class="col-auto pointer-events-all small" rv-linklist="system.linklists.footer | json" vertical="false"></shopify-linklist>
+      <shopify-linklist class="col-auto pointer-events-all small" rv-linklist="system.linklists.footer | json" vertical="false">
+        <nav class="nav" rv-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
+          <div class="nav-item" rv-each-link="linklist.links" >
+            <a
+              class="nav-link"
+              rv-class-active="link.active"
+              rv-hide="link.url | eq '/account/login'"
+              rv-on-route-active="link.url"
+              rv-route="link.url" rv-href="link.url"
+            >{link.title}</a>
+          </div>
+
+          <div class="nav-item">
+            <bs4-dropdown class="dropup d-block">
+              <a class="nav-link dropdown-toggle" data-offset="-350" rv-on-click="toggle" href="#" role="button" id="dropdownMenuSignUp" aria-haspopup="true" aria-expanded="false">
+                Sign Up
+              </a>
+              
+              <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuSignUp" x-placement="top left" style="width: 400px;">
+                
+                <p>
+                  The store is not yet unlocked, but this will be the case in a few weeks.<br />Many Thanks.
+                </p> 
+                {% comment %} <p><strong>Discover Fassbender's World</strong></p>
+                <p>
+                  I want news and inspiration about Stories and Collections.<br>
+                  Take my Name and E-Mail.
+                </p> {% endcomment %}
+              </div>
+            </bs4-dropdown>
+          </div>
+
+          <a class="nav-item nav-link py-0 d-flex justify-content-center" rv-on-route-active="'/blogs/blog'" rv-route="'/blogs/blog'">
+            <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-eye.svg' | asset_url }}'" height="26" width="26"></rv-icon>
+          </a>
+
+        </nav>
+      </shopify-linklist>
     </div>
   </div>
 
@@ -34,12 +71,25 @@
             </div>
           </li>   
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              Projected by Art+Code Studio
-            </a>
+            <bs4-dropdown class="dropdown-invert dropup d-block">
+              <a class="nav-link dropdown-toggle" rv-on-click="toggle" href="#" role="button" id="dropdownMenuArtCode" aria-haspopup="true" aria-expanded="false">
+                Projected by Art+Code Studio
+              </a>
+              
+              <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuArtCode" style="width: 400px;">
+                <p><small>
+                  The Art+Code Studio accepts that every client is unique, each
+                  project requires a different approach and that all projects
+                  need to be launched with an open mind. In order for us to do
+                  collaborate closely with our clients to discover the potential
+                  and erect a creative and beautiful solutions. Just drop us an
+                  email <a href="mailto:hi@artandcode.studio">hi@artandcode.studio</a>
+                </small></p>
+              </div>
+            </bs4-dropdown>
           </li>    
           <li class="nav-item">
-            <a class="nav-link" rv-slideout-toggler="right" href="#">
+            <a class="nav-link" rv-on-route-active="'/pages/legal-area'" rv-route="'/pages/legal-area'" href="/pages/legal-area">
               Legal Area
             </a>
           </li>
@@ -52,18 +102,35 @@
 </footer>
 
 {% comment %} footer smartphone {% endcomment %}
-<div class="container-fluid d-block d-lg-none bg-white fixed-bottom py-1">
+<div class="container-fluid d-block d-lg-none bg-white fixed-bottom">
   <div class="row">
-    <a class="col d-flex justify-content-center" rv-on-route-active="'/blogs/blog'" rv-route="'/blogs/blog'">
+    <a class="col d-flex justify-content-center py-2" rv-on-route-active="'/blogs/blog'" rv-route="'/blogs/blog'">
       <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-eye.svg' | asset_url }}'" height="32" width="32"></rv-icon>
     </a>
 
-    <div class="col d-flex justify-content-center">
-      <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" height="32" width="32"></rv-icon>
+    <div class="col d-flex justify-content-center py-2" rv-class-active="fullscreenMenuOpen" rv-on-click="assign | args 'fullscreenMenuOpen' true" rv-hide="fullscreenMenuOpen">
+      <rv-icon href="#" class="cursor-pointer" rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" height="32" width="32"></rv-icon>
     </div>
 
-    <a class="col d-flex justify-content-center" rv-on-route-active="'/cart'" rv-route="'/cart'" href="/cart">
+    <div class="col d-flex justify-content-center py-2" rv-class-active="fullscreenMenuOpen" rv-on-click="assign | args 'fullscreenMenuOpen' false" rv-show="fullscreenMenuOpen">
+      <rv-icon href="#" class="cursor-pointer" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" height="32" width="32"></rv-icon>
+    </div>
+
+    <a class="col d-flex justify-content-center py-2" rv-on-route-active="'/cart'" rv-route="'/cart'" href="/cart">
       <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-shopping-bag.svg' | asset_url }}'" height="32" width="32"></rv-icon>
     </a>
   </div>
+</div>
+
+<div class="fullscreen-menu d-flex flex-column justify-content-center align-items-center text-center font-weight-bold" rv-show="fullscreenMenuOpen">
+  <shopify-linklist class="" id="toggle-menu" name="toggle-menu" vertical="true" pills="false">
+    <nav class="nav" rv-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
+      <div class="nav-item" rv-each-link="linklist.links">
+        <a class="nav-link justify-content-center" rv-class-active="link.active" rv-on-route-active="link.url" rv-route="link.url" rv-href="link.url">{link.title}</a>
+      </div>
+    </nav>
+  </shopify-linklist>
+  <a class="nav-link" href="/search" rv-on-route-active="'/search'" rv-route="'/search'">
+    <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="32"></rv-icon>
+  </a>
 </div>

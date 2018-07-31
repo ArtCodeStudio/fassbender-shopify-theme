@@ -38,6 +38,7 @@ import {
   ShopifyProductItemComponent,
   ProductScrollbarComponent,
   TabsComponent,
+  DropdownComponent,
 } from './components/index';
 
 declare global {
@@ -68,6 +69,7 @@ export class Main {
     this.tinybind.componentService.regist(ShopifyProductItemComponent);
     this.tinybind.componentService.regist(ShopifyProductComponent);
     this.tinybind.componentService.regist(TabsComponent);
+    this.tinybind.componentService.regist(DropdownComponent);
 
     // Regist binders
     this.tinybind.binderService.regists(routerBinders);
@@ -86,6 +88,14 @@ export class Main {
     this.tinybind.formatterService.regists(stringFormatters);
 
     this.tinybind.formatterService.regists(shopifyExtension.formatters);
+
+    window.model.assign = function(key: string, value: any) {
+      this[key] = value;
+    };
+
+    // window.model.toggle = function(key: string, value: boolean) {
+    //   this[key] = !this[key];
+    // };
 
     this.view = this.tinybind.bind(JQuery('body')[0], window.model);
 

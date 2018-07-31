@@ -1,51 +1,5 @@
 <div class="container pt-5">
     <div class="row">
-
-        {% if settings.apps_jumplink_exclusive_collections %}
-            <div class="col-xs-12 col-md-9">
-
-                {% assign collectionHandles = customer.metafields.c_f.jumplink_unlocked_collections | strip | remove: ' ' | split: ',' %}
-
-                <h1>{{'customer.account.unlocked_title' | t}}</h1>
-
-                {% if collections.frontpage.products.size > 0 %}
-                    <div class="alert alert-danger" role="alert">
-                        {{'customer.account.no_unlocks' | t}}
-                    </div>
-                {% else %}
-                    <div class="row">
-                        {% for handle in collectionHandles %}
-                            {% assign collection = collections[handle] %}
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                                {% include 'jumplink-collection-grid-item' %}
-                            </div>                        
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                <h1 class="mt-4">{{'customer.account.locked_title' | t}}</h1>
-
-                {% paginate collections by settings.collections_per_page %}
-                    <div class="row">
-                        {% for collection in collections %}
-                            {% comment %}
-                            Is the current collection unlocked?
-                            {% endcomment %}
-                            {% include 'app-jumplink-ec-logic-collection-unlocked' %}
-
-                            {% unless unlocked %}
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                                    {% include 'jumplink-collection-grid-item' %}
-                                </div>
-                            {% endunless %}
-                        {% endfor %}
-                    </div>
-                    {% include 'jumplink-pagination', show_all_active: false %}
-                {% endpaginate %}
-
-            </div>
-        {% endif %}
-
         <div class="col-xs-12 col-md-3">
             <hr>
             <h1 class="mb-3">{{ 'customer.account.title' | t }}</h1>

@@ -11,6 +11,58 @@ export { getJSON };
 export class Utils extends tinybindUtils {
 
   /**
+   * Shoutout AngusCroll (https://goo.gl/pxwQGp)
+   * @param obj
+   */
+  public static toType(obj: any) {
+    return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
+  }
+
+  /**
+   *
+   * @see https://github.com/twbs/bootstrap/blob/v4-dev/js/src/util.js#L124
+   */
+  public static isElement(obj: Element | Element[]) {
+    return ((obj as Element[])[0] || obj).nodeType;
+  }
+
+  /**
+   *
+   * @param componentName
+   * @param config
+   * @param configTypes
+   */
+  public static typeCheckConfig(componentName: string, config: any, configTypes: any) {
+    for (const property in configTypes) {
+      if (Object.prototype.hasOwnProperty.call(configTypes, property)) {
+        const expectedTypes = configTypes[property];
+        const value         = config[property];
+        const valueType     = value && Utils.isElement(value) ? 'element' : Utils.toType(value);
+
+        if (!new RegExp(expectedTypes).test(valueType)) {
+          throw new Error(
+            `${componentName.toUpperCase()}: ` +
+            `Option "${property}" provided type "${valueType}" ` +
+            `but expected type "${expectedTypes}".`);
+        }
+      }
+    }
+  }
+
+  public static getSelectorFromElement(element: Element) {
+    let selector = element.getAttribute('data-target');
+    if (!selector || selector === '#') {
+      selector = element.getAttribute('href') || '';
+    }
+
+    try {
+      return document.querySelector(selector) ? selector : null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  /**
    * Which HTML element is the target of the event
    * @see https://gist.github.com/electricg/4435259
    */

@@ -9,7 +9,9 @@ module.exports = {
         sourceMap: true,
         uglifyOptions: {
           compress: true,
-          mangle: true,
+          mangle: {
+            safari10: true
+          }, // FIXME SyntaxError: Cannot declare a let variable twice: 'e'. on Safari 10
           output: {
             beautify: false,
             comments: false,
@@ -21,7 +23,7 @@ module.exports = {
   // Change to your "entry-point".
   entry: ['./src/ts/main.ts'],
   // devtool: 'inline-source-map',
-  mode: 'production', //, 'development',
+  mode: 'production', // 'development', //'production', 
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'theme/assets/')

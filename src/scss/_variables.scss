@@ -41,7 +41,7 @@ $grays: map-merge((
 $blue:    #007bff !default;
 $indigo:  #6610f2 !default;
 $purple:  #8660ca;
-$pink:    #e29d7a;
+$pink:    #D9998F;
 $red:     #dc3545 !default;
 $orange:  #fd7e14 !default;
 $yellow:  #ffc107 !default;
@@ -66,13 +66,13 @@ $colors: map-merge((
   "gray-dark":  $gray-800
 ), $colors);
 
-$primary:       $blue !default;
+$primary:       $pink;
 $secondary:     $gray-600 !default;
 $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
 $danger:        $purple;
-$light:         $white;
+$light:         #F9DFD2; // $white;
 $dark:          $black;
 
 $theme-colors: ();
@@ -102,8 +102,8 @@ $yiq-text-light:            $white !default;
 //
 // Quickly modify global styling by enabling or disabling optional features.
 
-$enable-caret:              true !default;
-$enable-rounded:            true !default;
+$enable-caret:              false;
+$enable-rounded:            false;
 $enable-shadows:            false !default;
 $enable-gradients:          false !default;
 $enable-transitions:        true !default;
@@ -220,7 +220,7 @@ $box-shadow-sm:               0 .125rem .25rem rgba($black, .075) !default;
 $box-shadow:                  0 .5rem 1rem rgba($black, .15) !default;
 $box-shadow-lg:               0 1rem 3rem rgba($black, .175) !default;
 
-$component-active-color:      $white;
+$component-active-color:      $pink; // $white;
 $component-active-bg:         $black;
 
 $caret-width:                 .3em !default;
@@ -261,7 +261,7 @@ $h6-font-size:                $font-size-base !default;
 
 $headings-margin-bottom:      ($spacer / 2) !default;
 $headings-font-family:        inherit !default;
-$headings-font-weight:        500 !default;
+$headings-font-weight:        700;
 $headings-line-height:        1.2 !default;
 $headings-color:              inherit !default;
 
@@ -340,8 +340,8 @@ $input-btn-padding-x:         .75rem !default;
 $input-btn-line-height:       $line-height-base !default;
 
 $input-btn-focus-width:       .2rem !default;
-$input-btn-focus-color:       rgba($component-active-bg, .25) !default;
-$input-btn-focus-box-shadow:  0 0 0 $input-btn-focus-width $input-btn-focus-color !default;
+$input-btn-focus-color:       $primary;
+$input-btn-focus-box-shadow:  none; // 0 0 0 $input-btn-focus-width $input-btn-focus-color !default;
 
 $input-btn-padding-y-sm:      .25rem !default;
 $input-btn-padding-x-sm:      .5rem !default;
@@ -420,10 +420,10 @@ $input-border-radius-lg:                $border-radius-lg !default;
 $input-border-radius-sm:                $border-radius-sm !default;
 
 $input-focus-bg:                        $input-bg !default;
-$input-focus-border-color:              lighten($component-active-bg, 25%) !default;
+$input-focus-border-color:              $primary;
 $input-focus-color:                     $input-color !default;
 $input-focus-width:                     $input-btn-focus-width !default;
-$input-focus-box-shadow:                $input-btn-focus-box-shadow !default;
+$input-focus-box-shadow:                $input-btn-focus-box-shadow;
 
 $input-placeholder-color:               $gray-600 !default;
 $input-plaintext-color:                 $body-color !default;
@@ -567,17 +567,17 @@ $dropdown-min-width:                10rem !default;
 $dropdown-padding-y:                .5rem !default;
 $dropdown-spacer:                   .125rem !default;
 $dropdown-bg:                       $white !default;
-$dropdown-border-color:             rgba($black, .15) !default;
+$dropdown-border-color:             $pink;
 $dropdown-border-radius:            $border-radius !default;
 $dropdown-border-width:             $border-width !default;
 $dropdown-divider-bg:               $gray-200 !default;
 $dropdown-box-shadow:               0 .5rem 1rem rgba($black, .175) !default;
 
-$dropdown-link-color:               $gray-900 !default;
-$dropdown-link-hover-color:         darken($gray-900, 5%) !default;
+$dropdown-link-color:               $pink;
+$dropdown-link-hover-color:         darken($pink, 5%);
 $dropdown-link-hover-bg:            $gray-100 !default;
 
-$dropdown-link-active-color:        $component-active-color !default;
+$dropdown-link-active-color:        $component-active-color;
 $dropdown-link-active-bg:           $component-active-bg !default;
 
 $dropdown-link-disabled-color:      $gray-600 !default;

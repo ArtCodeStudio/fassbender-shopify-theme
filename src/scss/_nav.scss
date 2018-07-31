@@ -1,18 +1,9 @@
 .nav-link {
   text-decoration: none;
-  @extend .d-flex;
+  display: flex;
   @extend .align-items-center;
-}
-
-.nav-item:first-child {
-  .nav-link {
-    padding-left: 0;
-  }
-}
-
-.nav-item:last-child {
-  .nav-link {
-    padding-right: 0;
+  &.active {
+    color: $component-active-color;
   }
 }
 

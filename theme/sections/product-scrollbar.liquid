@@ -1,7 +1,8 @@
 <rv-product-scrollbar class="d-block container-fluid">
+  {% assign collection = collections[section.settings.collection] %}
   <div class="row flex-nowrap scrollbar-invisible scrollbar-x-auto" rv-scrollbar-dragable="" rv-on-scroll="onScroll">
     <div class="col-3"></div>
-    {% for product in collections[section.settings.collection].products %}
+    {% for product in collection.products %}
       {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
       <div rv-on-tap="onProductTap" rv-on-mouseenter="onProductMouseenter" data-url="{{product.url}}" data-title="{{product.title}}" class="col-6 px-0 content-box ratio-3-4 cursor-pointer">
         <img class="content" src="{{ product.featured_image | img_url: '1200x800', scale: 2 }}" alt="{{image.alt}}" />
@@ -10,7 +11,7 @@
     <div class="col-3"></div>
   </div>
   <div class="row">
-    <div class="col-12 text-center" rv-html="title"></div>
+    <div class="col-12 text-center" rv-html="title | default '{{ collection.title }}'"></div>
   </div>
 </rv-product-scrollbar>
 

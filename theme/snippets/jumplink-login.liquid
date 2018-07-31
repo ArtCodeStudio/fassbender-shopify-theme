@@ -1,15 +1,25 @@
-{% if customer %}
-    <div class="container pt-5">
+<div class="container-fluid pt-5">
+  <div class="row pt-5">
+    <div class="col col-md-8 col-lg-6 mx-auto">
+      <p>The store is not yet unlocked, but this will be the case in a few weeks.<br />Many Thanks.</p>
+      <p><a rv-route="'/collections/all'" href="/collections/all">Back to products</a></p>
+    </div>
+  </div>
+</div>
+
+
+{% comment %} {% if customer %}
+    <div class="container-fluid pt-5">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 {% include 'jumplink-logged-in' %}
             </div>
         </div>
     </div>
 {% else %}
-    <div class="container py-5">
+    <div class="container-fluid py-5">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <div class="text-center">
                      <h2>{{ 'customer.login.title' | t }}</h2>
                     {% include 'jumplink-customers-messages' %}
@@ -18,10 +28,10 @@
         </div>
     </div>
 
-    <div class="bg-gray-lightest">
-        <div class="container py-5">
+    <div class="">
+        <div class="container-fluid py-5">
             <div class="row">
-                <div class="col-xs-12 text-center" id="CustomerLoginForm">
+                <div class="col-12 col-md-6 mx-auto text-center" id="CustomerLoginForm">
 
                     {% form 'customer_login' %}
 
@@ -62,7 +72,7 @@
                     {% endform %}
                 </div>
 
-                <div class="col-xs-12 text-center" id="RecoverPasswordForm" style="display: none;">
+                <div class="col-12 text-center" id="RecoverPasswordForm" style="display: none;">
 
                     <h2>{{ 'customer.recover_password.title' | t }}</h2>
                     <p>{{ 'customer.recover_password.subtext' | t }}</p>
@@ -94,10 +104,6 @@
 
                 </div>
 
-                {% comment %}
-                    If accounts are set as optional, the following will be shown as an option
-                    during checkout, not on the default /login page.
-                {% endcomment %}
                 {% if shop.checkout.guest_login %}
                     <hr>
 
@@ -110,4 +116,4 @@
             </div>
         </div>
     </div>
-{% endif %}
+{% endif %} {% endcomment %}

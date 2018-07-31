@@ -17,7 +17,7 @@ export class ProductScrollbarComponent extends ShopifySectionComponent {
     onScroll: this.onScroll,
     onProductTap: this.onProductTap,
     onProductMouseenter: this.onProductMouseenter,
-    title: 'Please choose a product',
+    title: '',
   };
 
   // private model: any = {};

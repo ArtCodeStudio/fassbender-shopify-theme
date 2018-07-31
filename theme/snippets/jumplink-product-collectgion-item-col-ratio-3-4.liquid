@@ -5,7 +5,7 @@
 {% endif %}
 
 {% if colClass == blank %}
-  {% assign colClass = 'col' %}
+  {% assign colClass = 'col-12 col-md' %}
 {% endif %}
 
 {% if imageSize == blank %}
@@ -14,9 +14,9 @@
 
 <rv-shopify-product-item rv-product="{{product | json}}" class="{{colClass}} {{ orderClass }} px-0 content-box ratio-3-4">
   <a rv-route="'{{ product.url | within: collection }}'" href="{{product.url | within: collection }}">
-    <img class="content has-xs-spacing has-sm-spacing" rv-src="'{{ product.featured_image | img_url: imageSize}}'" alt="{{product.featured_image.alt}}"  style="padding-bottom: 52px;"/>
+    <img class="content" rv-src="'{{ product.featured_image | img_url: imageSize}}'" alt="{{product.featured_image.alt}}"  style="padding-bottom: 60px;"/>
   </a>
-  <div class="position-absolute w-100 bottom-0">
+  <div class="position-absolute w-100" style="bottom: 10px;">
     <div class="row m-0">
       <div class="col-8 text-left text-truncate">
         <strong>{{ product.title }}</strong><br />

@@ -12,66 +12,67 @@ applied to the elements on this page; the 'searchresults' id is used in the CSS
 selectors inside search.css.
 {% endcomment %}
 
-<div class="container">
-  <div id="searchresults" class="py-1">
-    
-    <div class="row">
-      <div class="col-xs-12 col-md-6 col-md-offset-3 text-center">
-        <form action="/search" method="get" class="search-form form-inline mb-1" role="search">
-          <div class="form-group">
-            <input name="q" type="search" class="form-control" id="search-field" placeholder="{{ 'navigation.shop_actions.search' | t }}" value="{{ search.terms | escape }}" />
-          </div>
-          <div class="form-group">
-            <input type="submit" class="btn btn-primary" id="search-submit" value="{{ 'navigation.shop_actions.search' | t }}" />
-          </div>
-        </form>
+<div class="container-fluid pt-5">
+  
+  <div class="row pt-5 mt-5">
+    <form action="/search" method="get" class="col-auto mx-auto" role="search">
+
+      <div class="form-row align-items-center">
+        <div class="col-auto">
+          <input name="q" type="search" class="form-control" id="search-field" placeholder="{{ 'navigation.shop_actions.search' | t }}" value="{{ search.terms | escape }}" />
+        </div>
+        <div class="col-auto">
+          <input type="submit" class="btn btn-link" id="search-submit" value="{{ 'navigation.shop_actions.search' | t }}" />
+        </div>
       </div>
-    </div>
+    
+    </form>
+  </div>  
+
+  <div id="searchresults" class="row">
     
     {% if search.performed %}
 
-      <div class="row">
-        <div class="col-xs-12">
-      
-          {% paginate search.results by 48 %}            
-              <div class="row">
-                {% assign article_length = 0 %}
-                {% assign page_length = 0 %}
-                {% assign product_length = 0 %}
-                {% for product in search.results %}
-                  {% if product.object_type == 'article' %}
-                    {% comment %}
-                      ARTICLE
-                    {% endcomment %}
-                    {% assign article_length = article_length | plus: 1 %}
-                    {% elsif product.object_type == 'page' %}
-                    {% comment %}
-                      PAGE
-                    {% endcomment %}
-                    {% assign page_length = page_length | plus: 1 %}
-                    {% else %}
-                    {% comment %}
-                      PRODUCT
-                    {% endcomment %}
-                    {% assign product_length = product_length | plus: 1 %}
-                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                      {% include 'product-grid-item' with settings.products_per_page %}
-                    </div>
-                  {% endif %}
-                {% endfor %}
-                {% if product_length == 0 %}  
-                  <p class="text-center py-2">No products found for your search "{{ search.terms }}".</p>
-                {% else %}
-              </div>
-            {% endif %}    
-            
-            {% include 'jumplink-pagination' %}
+      <div class="col-12">
+    
+        {% paginate search.results by 48 %}            
+            <div class="row">
+              {% assign all_length = search.results | size %}
+              {% assign article_length = 0 %}
+              {% assign page_length = 0 %}
+              {% assign product_length = 0 %}
+              {% for product in search.results %}
+                {% if product.object_type == 'article' %}
+                  {% comment %}
+                    ARTICLE
+                  {% endcomment %}
+                  <a class="col-12 mx-auto text-center pt-5" href="{{ product.url }}">Story: {{ product.title }}</a>
+                  {% assign article_length = article_length | plus: 1 %}
+                  {% elsif product.object_type == 'page' %}
+                  {% comment %}
+                    PAGE
+                  {% endcomment %}
+                    <a class="col-12 mx-auto text-center pt-5" href="{{ product.url }}">Page: {{ product.title }}</a>
+                  {% assign page_length = page_length | plus: 1 %}
+                  {% else %}
+                  {% comment %}
+                    PRODUCT
+                  {% endcomment %}
+                  {% assign product_length = product_length | plus: 1 %}
+                    {% include 'jumplink-product-collectgion-item-col-ratio-3-4' with product, collection, colClass: 'col-12 col-md-6' %}
+                {% endif %}
+              {% endfor %}
+              {% if all_length == 0 %}  
+                <p class="col-12 text-center py-2">No results found for your search "{{ search.terms }}".</p>
+              {% else %}
+            </div>
+          {% endif %}    
           
-          {% endpaginate %}  
+          {% include 'jumplink-pagination' %}
+        
+        {% endpaginate %}  
 
-        </div>
       </div>
-
     {% endif %}  
 
   </div>

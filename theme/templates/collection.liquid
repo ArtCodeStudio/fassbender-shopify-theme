@@ -2,7 +2,7 @@
   {% paginate collection.products by 50 %}
     <div class="row">
         {% for product in collection.products %}
-          {% include 'jumplink-product-item-col-ratio-3-4' with product, collection, colClass: 'col-6' %}
+          {% include 'jumplink-product-collectgion-item-col-ratio-3-4' with product, collection, colClass: 'col-12 col-md-6' %}
         {% endfor %}
     </div>
     {% include 'jumplink-pagination', show_all_active: true %}

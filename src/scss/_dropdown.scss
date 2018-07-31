@@ -1,0 +1,19 @@
+.dropdown, .dropup, .dropleft, .dropright {
+  &.dropdown-invert {
+    .dropdown-menu {
+      background-color: $black;
+      color: $light;
+      border-color: $light;
+      a {
+        color: $dropdown-link-color;
+      }
+    }
+  }
+  &.show {
+    .dropdown-toggle {
+      color: $dropdown-link-active-color;
+    }
+  }
+  
+}
+

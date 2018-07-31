@@ -1,0 +1,5 @@
+.d-flex {
+  &[hidden] {
+    display: none !important;
+  }
+}

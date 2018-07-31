@@ -10,7 +10,7 @@
         <ul class="nav pointer-events-all">
           <li class="nav-item">
             <div class="nav-text">
-              Welcome to the online home of covering trends, fashion inspiration and heigh end ready to wear pieces.
+              Welcome to the online home of covering trends, fashion inspiration and high end ready to wear pieces.
             </div>
           </li>
         </ul>
@@ -47,7 +47,7 @@
           <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
             <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template">
               
-              <a class="nav-link" rv-add-class="'level-' | append link.level" rv-class-active="link.active" rv-on-route-active="link.url" rv-route="link.url" rv-href="link.url">{link.title}</a>
+              <a class="nav-link" rv-add-class="'level-' | append link.level" rv-route="link.url" rv-href="link.url">{link.title}</a>
               
               <div class="small" rv-if="type | call link.handle | eq 'routes'">
                 <strong>Type</strong>
@@ -121,15 +121,37 @@
           <a class="nav-link" href="/search" rv-on-route-active="'/search'" rv-route="'/search'">
             <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="24"></rv-icon>
           </a>
-        </li>   
+        </li>
+
+        <shopify-linklist rv-show="menuOpen" class="" id="toggle-menu" name="toggle-menu" vertical="false" pills="false"></shopify-linklist>
+        
+
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            Cart
-          </a>
+          <bs4-dropdown class="dropdown d-block">
+            <a class="nav-link dropdown-toggle" data-offset="-350" rv-on-click="toggle" rv-on-route-active="'/cart'" href="#" role="button" id="dropdownMenuCart" aria-haspopup="true" aria-expanded="false">
+              Cart
+            </a>
+            
+            <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuCart" style="width: 400px;">
+              
+              <p>
+                The store is not yet unlocked, but this will be the case in a few weeks.<br />Many Thanks.
+              </p> 
+              {% comment %} <p><strong>Discover Fassbender's World</strong></p>
+              <p>
+                I want news and inspiration about Stories and Collections.<br>
+                Take my Name and E-Mail.
+              </p> {% endcomment %}
+            </div>
+          </bs4-dropdown>
+
         </li>    
         <li class="nav-item">
-          <a class="nav-link" rv-slideout-toggler="right" href="#">
+          <a class="nav-link" rv-on-click="assign | args 'menuOpen' true" href="#" rv-hide="menuOpen">
             <rv-icon rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" size="24"></rv-icon>
+          </a>
+          <a class="nav-link" rv-on-click="assign | args 'menuOpen' false" href="#" rv-show="menuOpen">
+            <rv-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></rv-icon>
           </a>
         </li>
       </ul>
