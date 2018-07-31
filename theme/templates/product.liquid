@@ -132,7 +132,7 @@
         </div>
         <div>
           <strong>{{product.title}}</strong>
-          <p rv-text="variant.price">{{product.price | money}}</p>
+          <p rv-text="variant.price | money '{{ shop.money_format }}'">{{product.price | money}}</p>
         </div>
       </div>
       <div class="col-6"></div>
