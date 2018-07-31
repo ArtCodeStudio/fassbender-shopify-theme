@@ -10,7 +10,7 @@
   {% assign imageSize = "1200x1600" %}
 {% endif %}
 
-<a href="{{section.settings.story}}" rv-shopify-section='{{ section.settings | json }}' class="d-block container-fluid position-relative" style="background-color: {{ section.settings.color }};">
+<a rv-route="'{{ section.settings.story }}'" href="{{section.settings.story}}" rv-shopify-section='{{ section.settings | json }}' class="d-block container-fluid position-relative" style="background-color: {{ section.settings.color }};">
   <div class="row">
     {% for block in section.blocks %}
 

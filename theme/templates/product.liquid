@@ -125,7 +125,7 @@
       <div class="col-6">
         <div class="variant-chooser">
           <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
-            <div rv-each-color="option.values" class="col-auto px-1" rv-on-click="onClickColor | args color">
+            <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickColor | args color">
               <div class="styleicon-circle" rv-class="color" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 <div class="collection-item mx-3 my-4">
 
   <div class="image-wrap">
-    <a href="{{ collection.url }}">
+    <a rv-route="'{{ collection.url }}'" href="{{ collection.url }}">
       {% if collection.image %}
         {% assign image = collection | img_url: 'grande' %}
         {% assign title = collection.image.alt | escape %}

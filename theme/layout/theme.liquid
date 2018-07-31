@@ -14,13 +14,13 @@
   {% endif %}
 
   <link rel="canonical" href="{{ canonical_url }}" />
+
+  {% include 'jumplink-utils-js-variables' %}
   
   {% include 'jumplink-favicons' %}
   {% include 'jumplink-open-graph-tags' %}
 
   {{ content_for_header }}
-
-  {% include 'jumplink-utils-js-variables' %}
 
   {{ 'bundle.js' | asset_url | script_tag }}
 

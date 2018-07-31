@@ -8,7 +8,7 @@ interface IScope {
   show: any;
   namespace?: string;
   type: any;
-  filterBy: any;
+  storiesFilterBy: any;
   filter?: any;
 }
 
@@ -29,7 +29,7 @@ export class ShopifyFilterComponent extends RibaComponent {
     linklist: window.model.system.linklists.filter,
     show: this.show,
     type: this.type,
-    filterBy: this.filterBy,
+    storiesFilterBy: this.storiesFilterBy,
   };
 
   constructor(element?: HTMLElement) {
@@ -47,6 +47,8 @@ export class ShopifyFilterComponent extends RibaComponent {
         return namespace === 'cart' || shopifyTemplate.directory === 'customers';
       case 'legal-area':
         return shopifyTemplate.template === 'page.legals';
+      case 'store':
+        return shopifyTemplate.template === 'collection';
       default:
         break;
     }
@@ -57,15 +59,17 @@ export class ShopifyFilterComponent extends RibaComponent {
     this.debug('type', filterHandle);
     switch (filterHandle) {
       case 'stories':
-        return 'filter';
+        return 'stories-filter';
       case 'legal-area':
-        case 'scrollspy':
+        return 'scrollspy';
+      // case 'store':
+      //   return 'store-routes';
       default:
         return 'routes';
     }
   }
 
-  public filterBy(handle: string, tagName: string, event?: Event, scope?: any, el?: HTMLLabelElement) {
+  public storiesFilterBy(handle: string, tagName: string, event?: Event, scope?: any, el?: HTMLLabelElement) {
     tagName = tagName.replace('#', '');
 
     const self = this;
@@ -119,7 +123,7 @@ export class ShopifyFilterComponent extends RibaComponent {
 
           if (newValue.hasOwnProperty(handle)) {
             const tagName = newValue[handle];
-            this.filterBy(handle, tagName, undefined, undefined, document.querySelectorAll(`label[for="${tagName}"]`)[0] as HTMLLabelElement);
+            this.storiesFilterBy(handle, tagName, undefined, undefined, document.querySelectorAll(`label[for="${tagName}"]`)[0] as HTMLLabelElement);
           }
         }
       }
@@ -134,7 +138,7 @@ export class ShopifyFilterComponent extends RibaComponent {
 
         if (this.scope.filter.hasOwnProperty(handle)) {
           const tagName = this.scope.filter[handle];
-          this.filterBy(handle, tagName, undefined, undefined, document.querySelectorAll(`label[for="${tagName}"]`)[0] as HTMLLabelElement);
+          this.storiesFilterBy(handle, tagName, undefined, undefined, document.querySelectorAll(`label[for="${tagName}"]`)[0] as HTMLLabelElement);
         }
       }
     }

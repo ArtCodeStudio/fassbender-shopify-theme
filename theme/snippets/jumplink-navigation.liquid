@@ -57,6 +57,32 @@
                     <label class="custom-control-label" rv-on-route-active="sublink.url" rv-route="sublink.url" rv-for="sublink.handle">{sublink.title}</label>
                   </div>
                 </div>
+
+                <div rv-if="link.handle | eq 'store'">
+                  {% for collection in collections %}
+                    {% if collection.metafields["global"]["hide-in-filter"] != 'true' %}
+                      <div class="nav-item">
+                        <div class="custom-control custom-radio">
+                          <input
+                            type="radio"
+                            id="{{ collection.handle }}"
+                            rv-name="link.handle"
+                            class="custom-control-input"
+                            rv-on-route-active="'{{ collection.url }}'"
+                            rv-route="'{{ collection.url }}'"
+                          >
+                          <label
+                            class="custom-control-label"
+                            rv-for="{{ collection.handle }}"
+                            rv-on-route-active="'{{ collection.url }}'"
+                            rv-route="'{{ collection.url }}'"
+                          >{{ collection.title }}</label>
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+
               </div>
 
               <div class="small" rv-if="type | call link.handle | eq 'scrollspy'">
@@ -69,12 +95,12 @@
                 </div>
               </div>
 
-              <div class="small" rv-if="type | call link.handle | eq 'filter'">
+              <div class="small" rv-if="type | call link.handle | eq 'stories-filter'">
                 <strong>Type</strong>
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
                     <input type="radio" rv-id="sublink.handle" rv-name="link.handle" class="custom-control-input">
-                    <label class="custom-control-label" rv-for="sublink.handle" rv-on-click="filterBy | args link.handle sublink.url">{sublink.title}</label>
+                    <label class="custom-control-label" rv-for="sublink.handle" rv-on-click="storiesFilterBy | args link.handle sublink.url">{sublink.title}</label>
                   </div>
                 </div>
               </div>

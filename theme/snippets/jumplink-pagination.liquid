@@ -6,7 +6,7 @@
         <ul class="pagination justify-content-center">
 
           <li class="page-item {% unless paginate.previous.is_link %}disabled{% endunless %}">
-            <a class="page-link" href="{{ paginate.previous.url }}{{paginate_hash}}" {% unless paginate.next.is_link %}disabled="disabled"{% endunless %} aria-label="{{ 'navigation.paginate.prev_label' | t }}">
+            <a class="page-link" rv-route="'{{ paginate.previous.url}}'" href="{{ paginate.previous.url }}{{paginate_hash}}" {% unless paginate.next.is_link %}disabled="disabled"{% endunless %} aria-label="{{ 'navigation.paginate.prev_label' | t }}">
               {% include 'jumplink-iconset', name: 'arrow', direction: 'left' %}
               <span class="sr-only">{{ 'collection.paginate.prev_label' | t }}</span>
             </a>
@@ -14,13 +14,13 @@
           
           {% for part in paginate.parts %}
             <li class="page-item {% unless part.is_link %}active{% endunless %}">
-              <a class="page-link" href="{% if part.is_link %}{{part.url}}{% else %}#{% endif %}">{{ part.title }}</a>
+              <a class="page-link" rv-route="" href="{% if part.is_link %}{{part.url}}{% else %}#{% endif %}">{{ part.title }}</a>
             </li>
           {% endfor %}
 
           {% if show_all_active %}
             <li class="page-item">
-              <a class="page-link" data-onclick-load-all="true" href="{{collection.url}}?page=all" aria-label="{{ 'navigation.paginate.all_label' | t }}">
+              <a class="page-link" data-onclick-load-all="true" rv-route="" href="{{collection.url}}?page=all" aria-label="{{ 'navigation.paginate.all_label' | t }}">
                 <span aria-hidden="true">{{ 'navigation.paginate.all' | t }}</span>
                 <span class="sr-only">{{ 'navigation.paginate.all_label' | t }}</span>
               </a>
@@ -28,7 +28,7 @@
           {% endif %}
 
           <li class="page-item {% unless paginate.next.is_link %}disabled{% endunless %}">
-            <a class="page-link" {% unless paginate.next.is_link %}disabled="disabled"{% endunless %} href="{{ paginate.next.url }}{{paginate_hash}}" aria-label="{{ 'navigation.paginate.next_label' | t }}">
+            <a class="page-link" {% unless paginate.next.is_link %}disabled="disabled"{% endunless %} rv-route="" href="{{ paginate.next.url }}{{paginate_hash}}" aria-label="{{ 'navigation.paginate.next_label' | t }}">
               {% include 'jumplink-iconset', name: 'arrow', direction: 'right' %}
               <span class="sr-only">{{ 'navigation.paginate.next_label' | t }}</span>
             </a>

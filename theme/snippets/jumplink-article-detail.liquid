@@ -3,7 +3,7 @@
 
     {% if article.image and settings.blog_detail_show_featured_image %}
       <div class="col-xs-12">
-        <a href="{{ article.url }}">
+        <a rv-route="'{{ article.url }}'" href="{{ article.url }}">
           <div class="background-box ratio-1-1" style="background-image: url({{ article | img_url: 'grande' }});"></div>
         </a>
       </div>
