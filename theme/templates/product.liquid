@@ -128,6 +128,20 @@
             <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickColor | args color">
               <div class="styleicon-circle" rv-class="color" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
             </div>
+            {% for i in (1..4) %}
+              {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
+              {% assign HandleIndex = "product-link-" | append: forloop.index | append: "-handle" %}
+              {% assign color = product.metafields["global"][colorIndex] %}
+              {% assign handle = product.metafields["global"][HandleIndex] %}
+              {% if color != blank and handle != blank %}
+                <div
+                  class="col-auto px-1 cursor-pointer"
+                  rv-route="'{{ all_products[handle].url }}'"
+                >
+                  <div class="styleicon-circle {{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
+                </div>
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
         <div>
