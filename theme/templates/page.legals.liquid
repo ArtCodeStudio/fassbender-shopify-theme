@@ -1,23 +1,34 @@
-<div class="container pt-5">
+<div class="container-fluid pt-5 mt-md-5" id="page-{{ page.handle }}">
   <div class="row">
-  
-    {% comment %}
-    <div class="col-xs-12 text-center">
-      <h1 class="page-title mt-0 mb-4">{{ page.title }}</h1>
-    </div>
-    {% endcomment %}
+    {% comment %} {% unless page.title == blank %}
+      <div class="col-12 col-md-10 offset-md-2 text-left">
+        <h1 class="page-title mt-0 mb-4">{{ page.title }}</h1>
+      </div>
+    {% endunless %} {% endcomment %}
 
     {% unless page.content == blank %}
-        <div class="col-xs-12 col-md-8 offset-md-2 rte">
+        <div class="col-12 col-md-10 offset-md-2 rte">
         {{ page.content }}
         </div>
     {% endunless %}
+  </div>
+</div>
 
-    <div class="col-xs-12 col-md-8 offset-md-2 mt-4">
-        <strong>Credits</strong><br />
-        <a href="https://feinfineart.de">Design by feinfineart</a><br />
-        <a href="https://www.jumplink.eu/">Web Engineering by JumpLink</a>
+<div rv-view-static='{"url": "/pages/it-recht-widerruf"}'></div>
+<div rv-view-static='{"url": "/pages/it-recht-datenschutz"}'></div>
+<div rv-view-static='{"url": "/pages/it-recht-agb"}'></div>
+
+{% comment %} <div class="col-xs-12 col-md-8 offset-md-2 mt-4">
+  <strong>Credits</strong><br />
+  <a href="https://feinfineart.de">Design by feinfineart</a><br />
+  <a href="https://www.jumplink.eu/">Web Engineering by JumpLink</a>
+</div> {% endcomment %}
+
+<div class="container-fluid pt-5 mt-md-5" id="contact">
+
+  <div class="row">
+    <div class="col-12 col-md-10 offset-md-2 rte">
+      {% include 'jumplink-contact-form' %}
     </div>
-
   </div>
 </div>

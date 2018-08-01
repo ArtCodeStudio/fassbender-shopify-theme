@@ -1,6 +1,6 @@
 /* tslint:disable:max-classes-per-file */
 import Debug from 'debug';
-import { Pjax, Prefetch, Binding, RibaComponent } from '../../../tinybind';
+import { RibaComponent } from '../../../tinybind';
 import $ from '../../../jquery';
 
 export class TabsComponent extends RibaComponent {
@@ -56,6 +56,9 @@ export class TabsComponent extends RibaComponent {
     this.init(TabsComponent.observedAttributes);
   }
 
+  /**
+   * Make all tabs panes as height as the heighest tab pane
+   */
   public setHeight() {
     let heigest = 0;
     this.$tabPanes.each(function() {
@@ -85,7 +88,7 @@ export class TabsComponent extends RibaComponent {
 
   public activate($tab: JQuery<HTMLElement>) {
     const target = $tab.attr('href');
-    console.warn('activate', target, this.$el.find(target || ''));
+    this.debug('activate', target, this.$el.find(target || ''));
     if (target) {
       const $target = this.$el.find(target);
       this.deactivateAll();
@@ -97,6 +100,10 @@ export class TabsComponent extends RibaComponent {
           $tab.trigger('shown.bs.tab');
       }, 0);
     }
+  }
+
+  protected async afterBind(): Promise<any> {
+    this.setHeight();
   }
 
   protected template() {

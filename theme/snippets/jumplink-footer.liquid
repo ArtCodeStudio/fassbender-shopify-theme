@@ -36,9 +36,7 @@
               
               <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuSignUp" x-placement="top left" style="width: 400px;">
                 
-                <p>
-                  The store is not yet unlocked, but this will be the case in a few weeks.<br />Many Thanks.
-                </p> 
+                <p>The new FASSBENDER store will be open in a few weeks.<br />Stay tuned!</p>
                 {% comment %} <p><strong>Discover Fassbender's World</strong></p>
                 <p>
                   I want news and inspiration about Stories and Collections.<br>
@@ -126,11 +124,11 @@
   <shopify-linklist class="" id="toggle-menu" name="toggle-menu" vertical="true" pills="false">
     <nav class="nav" rv-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
       <div class="nav-item" rv-each-link="linklist.links">
-        <a class="nav-link justify-content-center" rv-class-active="link.active" rv-on-route-active="link.url" rv-route="link.url" rv-href="link.url">{link.title}</a>
+        <a class="nav-link justify-content-center" rv-on-route-active="link.url" rv-route="link.url" rv-href="link.url">{link.title}</a>
       </div>
     </nav>
   </shopify-linklist>
-  <a class="nav-link" href="/search" rv-on-route-active="'/search'" rv-route="'/search'">
+  <a class="nav-link" href="/search" rv-on-new-page-ready="assign | args 'fullscreenMenuOpen' false" rv-on-route-active="'/search'" rv-route="'/search'">
     <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="32"></rv-icon>
   </a>
 </div>

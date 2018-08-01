@@ -27,9 +27,11 @@ import {
   collapseBinder,
   expanOnUrlBinder,
   collapseOnUrlBinder,
+  scrollspyStarBinder,
 } from './binders/index';
 import {
   NewsletterComponent,
+  ContactFormComponent,
   IconComponent,
   ShopifyLinklistComponent,
   ShopifyFilterComponent,
@@ -62,6 +64,7 @@ export class Main {
 
     // Regist components
     this.tinybind.componentService.regist(NewsletterComponent);
+    this.tinybind.componentService.regist(ContactFormComponent);
     this.tinybind.componentService.regist(ShopifyLinklistComponent);
     this.tinybind.componentService.regist(ShopifyFilterComponent);
     this.tinybind.componentService.regist(IconComponent);
@@ -79,6 +82,7 @@ export class Main {
     this.tinybind.binderService.regist(collapseBinder());
     this.tinybind.binderService.regist(expanOnUrlBinder());
     this.tinybind.binderService.regist(collapseOnUrlBinder());
+    this.tinybind.binderService.regist(scrollspyStarBinder());
 
     // Regist formatters
     this.tinybind.formatterService.regists(compareFormatters);

@@ -1,5 +1,22 @@
-{% assign articleHandle = section.settings.story | remove_first: "/blogs/" %}
-{% assign article = articles[articleHandle] %}
+{% if section.settings.story contains "/blogs/" %}
+  {% assign handle = section.settings.story | remove_first: "/blogs/" %}
+  {% assign article = articles[handle] %}
+{% endif %}
+
+{% if section.settings.story contains "/products/" %}
+  {% assign handle = section.settings.story | remove_first: "/products/" %}
+  {% assign article = all_products[handle] %}
+{% endif %}
+
+{% if section.settings.story contains "/pages/" %}
+  {% assign handle = section.settings.story | remove_first: "/pages/" %}
+  {% assign article = pages[handle] %}
+{% endif %}
+
+{% if section.settings.story contains "/collections/" %}
+  {% assign handle = section.settings.story | remove_first: "/collections/" %}
+  {% assign article = collections[handle] %}
+{% endif %}
 
 {% assign block_length = section.blocks | size %}
 {% if block_length <= 1 %}
@@ -27,16 +44,50 @@
         {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
       {% endif %}
 
-      {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
-      <div class="col px-0 content-box {{contentBoxClass}}">
-        <img class="{{imageClass}}" src="{{ block.settings.image | img_url: imageSize, scale: 2 }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
-      </div>
+      {% if block.settings.image != blank %}
+        {% assign imageSrc = block.settings.image | img_url: imageSize, scale: 2 %}
+      {% endif %}
+
+      {% if block.settings.video_url != blank %}
+        {% assign video = block.settings.video_url %}
+      {% endif %}
+
+      {% if video != blank %}
+        {% if video.type == 'youtube' %}
+          <div class="col px-0 content-box {{contentBoxClass}}">
+            <iframe
+              class="{{imageClass}}"
+              id="ytplayer"
+              type="text/html" 
+              src="http://www.youtube.com/embed/{{ video.id }}?color=white&modestbranding=1&rel=0&showinfo=0&controls=0"
+              frameborder="0"></iframe>
+          </div>
+        {% else %}
+          <div class="col px-0 content-box {{contentBoxClass}}">
+            <p class="{{imageClass}}">Viemo Support coming soon..</p>
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="col px-0 content-box {{contentBoxClass}}">
+          <img class="{{imageClass}}" src="{{ imageSrc }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
+        </div>
+      {% endif %}
+
+
     {% endfor %}
   </div>
-  {% if article.title %}
+
+  
+  {% if section.settings.title != blank %}
+    {% assign title = section.settings.title %}
+  {% else %}
+    {% assign title = article.title %}
+  {% endif %}
+
+  {% if title %}
     <div class="row position-absolute bottom-0 w-100" style="background-color: {{ section.settings.color | color_modify: 'alpha', 0.5 }};">
       <div class="col-12 text-center title-xs-spacing title-sm-spacing" style="padding: {{ section.settings.title_spacing }}px 0;">
-        {{ article.title }}
+        {{ title }}
       </div>
     </div>
   {% endif %}
@@ -52,6 +103,13 @@
         "type": "url",
         "id": "story",
         "label": "Story"
+      },
+      {
+        "type":      "text",
+        "id":        "title",
+        "label":     "Title",
+        "info":      "Overwrite the story title if you wish",
+        "placeholder": "Story Title"
       },
       {
         "type":      "color",
@@ -73,13 +131,19 @@
     "blocks": [
       {
         "type": "image",
-        "name": "Image",
+        "name": "Image or Video",
         "type": "image",
         "settings": [
           {
             "type": "image_picker",
             "id": "image",
             "label": "Image"
+          },
+          {
+            "id": "video_url",
+            "type": "video_url",
+            "label": "YouTube or Vimeo Video URL",
+            "accept": ["youtube", "vimeo"]
           },
           {
             "type":   "range",

@@ -21,7 +21,7 @@ export class ProductScrollbarComponent extends ShopifySectionComponent {
   };
 
   // private model: any = {};
-  private pjax = new Pjax();
+  private pjax = new Pjax('global');
   private prefetch = new Prefetch();
   private $products?: JQuery<HTMLElement>;
 

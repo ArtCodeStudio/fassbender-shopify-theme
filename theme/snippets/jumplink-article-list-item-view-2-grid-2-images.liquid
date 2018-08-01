@@ -22,7 +22,8 @@
   bottom: {{spacings[title_under_image] | abs | minus: 50}}px;
 {% endcapture %}
 
-<a rv-route="'{{ article.url }}'" href="{{article.url}}" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' class="container-fluid position-relative jumplink-article-list-item jumplink-article-list-item-view-2-grid-2-images" style="background-color: {{ color }};">
+{% comment %} <a rv-route="'{{ article.url }}'" href="{{article.url}}" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' class="container-fluid position-relative jumplink-article-list-item jumplink-article-list-item-view-2-grid-2-images" style="background-color: {{ color }};"> {% endcomment %}
+<div data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' class="container-fluid position-relative jumplink-article-list-item jumplink-article-list-item-view-2-grid-2-images" style="background-color: {{ color }};">
   <div class="row">
     {% for image in images %}
 
@@ -70,4 +71,5 @@
     </div>
   {% endif %}
 
-</a>
+</div>
+{% comment %} </a> {% endcomment %}

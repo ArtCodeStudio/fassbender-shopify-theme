@@ -1,5 +1,6 @@
 <rv-shopify-product handle="{{product.handle}}" extras='{% include 'jumplink-utils-json-product-extras' %}'>
   <div class="container-fluid">
+
     <div class="row">
       {% comment %} selected variant featured_image image {% endcomment %}
       <div class="col-12 px-0 d-none d-md-block">
@@ -42,9 +43,58 @@
       </div>
     </div>
 
-    <bs4-tabs class="row pt-5">
+    {% comment %} Sticky price and color chooser {% endcomment %}
+    <div class="container-fluid sticky-bottom">
+      <div class="row">
+        <div class="col-6 pt-5">
+          <div class="variant-chooser">
+            <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
+              <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickColor | args color">
+                <div class="styleicon-circle" rv-class="color" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
+              </div>
+              {% for i in (1..4) %}
+                {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
+                {% assign HandleIndex = "product-link-" | append: forloop.index | append: "-handle" %}
+                {% assign color = product.metafields["global"][colorIndex] %}
+                {% assign handle = product.metafields["global"][HandleIndex] %}
+                {% if color != blank and handle != blank %}
+                  <div
+                    class="col-auto px-1 cursor-pointer"
+                    rv-route="'{{ all_products[handle].url }}'"
+                  >
+                    <div class="styleicon-circle {{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <div>
+            <strong>{{ product.title }}</strong>
+            <p rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</p>
+          </div>
+        </div>
+        <div class="col-6"></div>
+      </div>
+    </div>
+
+    <bs4-tabs class="row py-5">
       <div class="col-12 product-tab-list nav nav-tabs nav-tabs-underline d-flex flex-nowrap justify-content-center" id="product-{{product.handle}}-tab-list" role="tablist">
-        {% comment %} Product Tab Titles {% endcomment %}
+        
+        {% comment %} Product Description Tab Title {% endcomment %}
+        {% if product.description != blank %}
+          <a
+            class="nav-item nav-link"
+            href="#tab-content-description"
+            id="tab-title-description"
+            role="tab"
+            aria-controls="tab-content-description"
+            aria-selected="false"
+          >
+            Description
+          </a>
+        {% endif %}
+        
+        {% comment %} Product Metafield Tab Titles {% endcomment %}
         {% for i in (1..6) %}
           {% assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" %}
           {% assign tabTitle = product.metafields["global"][tabTitleIndex] %}
@@ -61,7 +111,7 @@
             </a>
           {% endif %}
         {% endfor %}
-        {% comment %} Product STATIC Tab Titles {% endcomment %}
+        {% comment %} Product Metafield STATIC Tab Titles {% endcomment %}
         {% for i in (1..6) %}
           {% assign tabIndex = "tab-static-" | append: forloop.index | append: ".tab-sta" %}
           {% assign tabTitle = product.metafields[tabIndex]["tab-static-title"] %}
@@ -81,7 +131,22 @@
       </div>
 
       <div class="col-12 col-md-6 tab-content product-tab-content px-5 mx-auto" id="product-{{product.handle}}-tab-content">
-        {% comment %} Product Tab Contents {% endcomment %}
+        
+        {% comment %} Product Description Tab Contents {% endcomment %}
+        {% if product.description != blank %}
+            <div
+              class="tab-pane mt-3 mb-4"
+              id="tab-content-description"
+              role="tabpanel"
+              aria-labelledby="tab-title-description"
+            >
+              <div class="rte">
+                {{ product.description }}
+              </div>
+            </div>
+        {% endif %}
+        
+        {% comment %} Product Metafield Tab Contents {% endcomment %}
         {% for i in (1..6) %}
           {% assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" %}
           {% assign tabContentIndex = "tab-" | append: forloop.index | append: "-content" %}
@@ -89,7 +154,7 @@
           {% assign tabContent = product.metafields["global"][tabContentIndex] %}
           {% if tabTitle != blank %}
             <div
-              class="tab-pane"
+              class="tab-pane mt-3 mb-4"
               id="tab-content-{{ tabTitle | handleize }}"
               role="tabpanel"
               aria-labelledby="tab-title-{{ tabTitle | handleize }}"
@@ -98,14 +163,14 @@
             </div>
           {% endif %}
         {% endfor %}
-        {% comment %} Product STATIC Tab Contents {% endcomment %}
+        {% comment %} Product Metafield STATIC Tab Contents {% endcomment %}
         {% for i in (1..6) %}
           {% assign tabIndex = "tab-static-" | append: forloop.index | append: ".tab-sta" %}
           {% assign tabTitle = product.metafields[tabIndex]["tab-static-title"] %}
           {% assign tabContent = product.metafields[tabIndex]["tab-static-content"] %}
           {% if tabTitle != blank %}
             <div
-              class="tab-pane"
+              class="tab-pane mt-3 mb-4"
               id="tab-content-{{ tabTitle | handleize }}"
               role="tabpanel"
               aria-labelledby="tab-title-{{ tabTitle | handleize }}"
@@ -119,38 +184,5 @@
     </bs4-tabs>
 
   </div>
-
-  <div class="container-fluid fixed-bottom">
-    <div class="row">
-      <div class="col-6 pb-5 pb-lg-0">
-        <div class="variant-chooser">
-          <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
-            <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickColor | args color">
-              <div class="styleicon-circle" rv-class="color" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
-            </div>
-            {% for i in (1..4) %}
-              {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
-              {% assign HandleIndex = "product-link-" | append: forloop.index | append: "-handle" %}
-              {% assign color = product.metafields["global"][colorIndex] %}
-              {% assign handle = product.metafields["global"][HandleIndex] %}
-              {% if color != blank and handle != blank %}
-                <div
-                  class="col-auto px-1 cursor-pointer"
-                  rv-route="'{{ all_products[handle].url }}'"
-                >
-                  <div class="styleicon-circle {{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
-                </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-        <div>
-          <strong>{{product.title}}</strong>
-          <p rv-text="variant.price | money '{{ shop.money_format }}'">{{product.price | money}}</p>
-        </div>
-      </div>
-      <div class="col-6"></div>
-    </div>
-  </div> 
 
 </rv-shopify-product>

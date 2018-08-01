@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { RibaComponent, Binding } from '../../tinybind';
+import { RibaComponent } from '../../tinybind';
 import template from './shopify-filter.component.html';
 import $ from '../../jquery';
 
@@ -10,6 +10,7 @@ interface IScope {
   type: any;
   storiesFilterBy: any;
   filter?: any;
+  scrollTo: any;
 }
 
 /**
@@ -30,6 +31,7 @@ export class ShopifyFilterComponent extends RibaComponent {
     show: this.show,
     type: this.type,
     storiesFilterBy: this.storiesFilterBy,
+    scrollTo: this.scrollTo,
   };
 
   constructor(element?: HTMLElement) {
@@ -62,11 +64,23 @@ export class ShopifyFilterComponent extends RibaComponent {
         return 'stories-filter';
       case 'legal-area':
         return 'scrollspy';
-      // case 'store':
-      //   return 'store-routes';
       default:
         return 'routes';
     }
+  }
+
+  public scrollTo(selector: string) {
+    this.debug('scrollTo', selector);
+    const offset = $(selector).offset();
+    if (!offset) {
+      console.warn(`Element with selector ${selector} not found`);
+      return;
+    }
+
+    $('html, body').animate({
+      scrollTop: offset.top,
+      scrollLeft: offset.left,
+    });
   }
 
   public storiesFilterBy(handle: string, tagName: string, event?: Event, scope?: any, el?: HTMLLabelElement) {

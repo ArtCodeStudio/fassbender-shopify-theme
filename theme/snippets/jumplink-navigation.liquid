@@ -89,8 +89,8 @@
                 <strong>Type</strong>
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
-                    <input type="radio" rv-id="sublink.handle" rv-name="link.handle" class="custom-control-input">
-                    <label class="custom-control-label" rv-for="sublink.handle">{sublink.title}</label>
+                    <input type="radio" rv-id="sublink.handle" rv-name="link.handle" rv-bs4-scrollspy-active="sublink.url" class="custom-control-input">
+                    <label class="custom-control-label" rv-on-click="scrollTo | args sublink.url" rv-for="sublink.handle">{sublink.title}</label>
                   </div>
                 </div>
               </div>
@@ -134,9 +134,7 @@
             
             <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuCart" style="width: 400px;">
               
-              <p>
-                The store is not yet unlocked, but this will be the case in a few weeks.<br />Many Thanks.
-              </p> 
+              <p>The new FASSBENDER store will be open in a few weeks.<br />Stay tuned!</p>
               {% comment %} <p><strong>Discover Fassbender's World</strong></p>
               <p>
                 I want news and inspiration about Stories and Collections.<br>
