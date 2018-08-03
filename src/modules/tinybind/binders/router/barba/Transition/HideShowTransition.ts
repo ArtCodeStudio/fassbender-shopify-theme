@@ -27,7 +27,6 @@ export class HideShowTransition extends BaseTransition implements ITransition {
 
   public finish() {
     this.debug('finish');
-    // document.body.scrollTop = 0;
     this.done();
   }
 }

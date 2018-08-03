@@ -1,27 +1,27 @@
 <rv-contact-form>
   {% capture firstName %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="firstName | default 'First Name&#42;'" rv-on-focus="selectAll"></p>
-    <input type="hidden" name="contact[firstName]" rv-value="firstName">
+    <p class="text-primary mb-1" contenteditable="true" rv-value="form.firstName | default 'First Name*'" rv-on-focus="selectAll"></p>
+    <input type="hidden" name="contact[firstName]" rv-value="form.firstName">
   {% endcapture %}
 
   {% capture lastName %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="lastName | default 'Last Name&#42;'" rv-on-focus="selectAll"></p>
-    <input type="hidden" name="contact[lastName]" rv-value="lastName">
+    <p class="text-primary mb-1" contenteditable="true" rv-value="form.lastName | default 'Last Name*'" rv-on-focus="selectAll"></p>
+    <input type="hidden" name="contact[lastName]" rv-value="form.lastName">
   {% endcapture %}
 
   {% capture phone %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="phone | default 'Phone'" rv-on-focus="selectAll"></p>
-    <input type="hidden" name="contact[phone]" rv-value="phone">
+    <p class="text-primary mb-1" contenteditable="true" rv-value="form.phone | default 'Phone'" rv-on-focus="selectAll"></p>
+    <input type="hidden" name="contact[phone]" rv-value="form.phone">
   {% endcapture %}
 
   {% capture email %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="email | default 'Email&#42;'" rv-on-focus="selectAll"></p>
-    <input type="hidden" name="contact[email]" rv-value="email">
+    <p class="text-primary mb-1" contenteditable="true" rv-value="form.email | default 'Email*'" rv-on-focus="selectAll"></p>
+    <input type="hidden" name="contact[email]" rv-value="form.email">
   {% endcapture %}
 
   {% capture message %}
-    <p class="text-primary my-3" contenteditable="true" rv-value="message | default 'Message'" rv-on-focus="selectAll"></p>
-    <input type="hidden" name="contact[message]" rv-value="message">
+    <p class="text-primary my-3" contenteditable="true" rv-value="form.message | default 'Message*'" rv-on-focus="selectAll"></p>
+    <input type="hidden" name="contact[message]" rv-value="form.message">
   {% endcapture %}
 
   {% form 'contact' %}

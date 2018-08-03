@@ -120,7 +120,7 @@
   </div>
 </div>
 
-<div class="fullscreen-menu d-flex flex-column justify-content-center align-items-center text-center font-weight-bold" rv-show="fullscreenMenuOpen">
+<div class="fullscreen-menu d-flex flex-column justify-content-center align-items-center text-center font-weight-bold" rv-on-click="assign | args 'fullscreenMenuOpen' false" rv-show="fullscreenMenuOpen">
   <shopify-linklist class="" id="toggle-menu" name="toggle-menu" vertical="true" pills="false">
     <nav class="nav" rv-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
       <div class="nav-item" rv-each-link="linklist.links">
@@ -128,7 +128,7 @@
       </div>
     </nav>
   </shopify-linklist>
-  <a class="nav-link" href="/search" rv-on-new-page-ready="assign | args 'fullscreenMenuOpen' false" rv-on-route-active="'/search'" rv-route="'/search'">
+  <a class="nav-link" href="/search" rv-on-route-active="'/search'" rv-route="'/search'">
     <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="32"></rv-icon>
   </a>
 </div>

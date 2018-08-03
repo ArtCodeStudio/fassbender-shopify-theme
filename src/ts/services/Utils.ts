@@ -62,6 +62,10 @@ export class Utils extends tinybindUtils {
     }
   }
 
+  public static stringHasOnlyNumbers(str: string) {
+    return /^\d+$/.test(str);
+  }
+
   /**
    * Which HTML element is the target of the event
    * @see https://gist.github.com/electricg/4435259

@@ -27,7 +27,7 @@ export class DropdownComponent extends RibaComponent {
   }
 
   public toggle(event: Event) {
-    console.warn('toggle');
+    this.debug('toggle');
     event.preventDefault();
     event.stopPropagation();
     return this.dropdownService.toggle();

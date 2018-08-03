@@ -1,5 +1,5 @@
-<div class="container-fluid pt-5 mt-md-5" id="page-{{ page.handle }}">
-  <div class="row">
+<div class="container-fluid pt-5" id="page-{{ page.handle }}">
+  <div class="row pt-md-5">
     {% comment %} {% unless page.title == blank %}
       <div class="col-12 col-md-10 offset-md-2 text-left">
         <h1 class="page-title mt-0 mb-4">{{ page.title }}</h1>
@@ -25,7 +25,6 @@
 </div> {% endcomment %}
 
 <div class="container-fluid pt-5 mt-md-5" id="contact">
-
   <div class="row">
     <div class="col-12 col-md-10 offset-md-2 rte">
       {% include 'jumplink-contact-form' %}
