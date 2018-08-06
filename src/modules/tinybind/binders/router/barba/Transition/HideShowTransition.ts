@@ -16,6 +16,7 @@ export class HideShowTransition extends BaseTransition implements ITransition {
 
   public start() {
     this.debug('start');
+    // alternative use fpr css transition: https://github.com/julianshapiro/velocity/wiki/Property---ScrollTop
     $('html,body').animate({
       scrollTop: 0,
     }, 1000);

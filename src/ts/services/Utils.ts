@@ -66,6 +66,12 @@ export class Utils extends tinybindUtils {
     return /^\d+$/.test(str);
   }
 
+  public static stripHtml = (html: string) => {
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+  }
+
   /**
    * Which HTML element is the target of the event
    * @see https://gist.github.com/electricg/4435259

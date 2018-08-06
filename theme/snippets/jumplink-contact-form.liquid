@@ -1,27 +1,32 @@
 <rv-contact-form>
   {% capture firstName %}
     <p class="text-primary mb-1" contenteditable="true" rv-value="form.firstName | default 'First Name*'" rv-on-focus="selectAll"></p>
-    <input type="hidden" name="contact[firstName]" rv-value="form.firstName">
+    <input type="hidden" class="form-control" name="contact[firstName]" rv-value="form.firstName" required rv-class-is-invalid="validation.rules.firstName.error | filled">
+    <div class="invalid-feedback" rv-html="validation.rules.firstName.error"></div>
   {% endcapture %}
 
   {% capture lastName %}
     <p class="text-primary mb-1" contenteditable="true" rv-value="form.lastName | default 'Last Name*'" rv-on-focus="selectAll"></p>
-    <input type="hidden" name="contact[lastName]" rv-value="form.lastName">
+    <input type="hidden" class="form-control" name="contact[lastName]" rv-value="form.lastName" required rv-class-is-invalid="validation.rules.lastName.error | filled">
+    <div class="invalid-feedback" rv-html="validation.rules.lastName.error"></div>
   {% endcapture %}
 
   {% capture phone %}
     <p class="text-primary mb-1" contenteditable="true" rv-value="form.phone | default 'Phone'" rv-on-focus="selectAll"></p>
-    <input type="hidden" name="contact[phone]" rv-value="form.phone">
+    <input type="hidden" class="form-control" name="contact[phone]" rv-value="form.phone" rv-class-is-invalid="validation.rules.phone.error | filled">
+    <div class="invalid-feedback" rv-html="validation.rules.phone.error"></div>
   {% endcapture %}
 
   {% capture email %}
     <p class="text-primary mb-1" contenteditable="true" rv-value="form.email | default 'Email*'" rv-on-focus="selectAll"></p>
-    <input type="hidden" name="contact[email]" rv-value="form.email">
+    <input type="hidden" class="form-control" name="contact[email]" rv-value="form.email" rv-class-is-invalid="validation.rules.email.error | filled" required>
+    <div class="invalid-feedback" rv-html="validation.rules.email.error"></div>
   {% endcapture %}
 
   {% capture message %}
     <p class="text-primary my-3" contenteditable="true" rv-value="form.message | default 'Message*'" rv-on-focus="selectAll"></p>
-    <input type="hidden" name="contact[message]" rv-value="form.message">
+    <input type="hidden" class="form-control" name="contact[message]" rv-value="form.message" rv-class-is-invalid="validation.rules.message.error | filled" required>
+    <div class="invalid-feedback" rv-html="validation.rules.message.error"></div>
   {% endcapture %}
 
   {% form 'contact' %}
@@ -66,9 +71,9 @@
       {{ message }}
 
       <div class="custom-control custom-checkbox mt-5 mb-1">
-        <input type="checkbox" class="custom-control-input" name="contact[privacy]" id="acceptPrivacy">
+        <input type="checkbox" class="custom-control-input" name="contact[privacy]" id="acceptPrivacy" required>
         <label class="custom-control-label" for="acceptPrivacy">
-          Yes, I authorise the processing of my personal data according to the <a href=""Privacy Statement></a>.<br>
+          Yes, I authorise the processing of my personal data according to the <a href="/pages/it-recht-datenschutz">Privacy Statement</a>.<br>
         </label>
       </div>
       <p>The fields marked with * are required</p>
