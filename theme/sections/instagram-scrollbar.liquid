@@ -1,0 +1,46 @@
+<rv-instagram-scrollbar class="d-block container-fluid">
+  <div class="row title-row" sty>
+    <div class="col-auto title-col" rv-show="media.data | count | gt 0" style="padding-right: 16%; padding-left: 16%; background-color: #4D3A40; color: #D9998F;">
+      #FASSBENDER HIGHLIGHTS
+    </div>
+  </div>
+  <div class="row flex-nowrap scrollbar-invisible scrollbar-x-auto" rv-scrollbar-dragable="" rv-on-scroll="onScroll">
+    <div class="col-4 px-0 content-box ratio-1-1 cursor-pointer" rv-each-image="media.data" rv-class="image.media_type" rv-on-tap="onTap" rv-on-mouseenter="onMouseenter">
+      
+      {% comment %} IMAGE {% endcomment %}
+      <img class="content" rv-if="image.media_type | eq 'IMAGE'" rv-src="image.media_url" rv-src="image.media_url" rv-alt="image.caption">
+
+      {% comment %} CAROUSEL_ALBUM {% endcomment %}
+      <img class="content" rv-if="image.media_type | eq 'CAROUSEL_ALBUM'" rv-src="image.media_url" rv-src="image.media_url" rv-alt="image.caption">
+      
+      {% comment %} VIDEO {% endcomment %}
+      <video class="content" rv-if="image.media_type | eq 'VIDEO'" autoplay muted loop preload>
+        <source rv-src="image.media_url" type="video/mp4">
+      Your browser does not support the video tag.
+      </video>
+    </div>
+
+  </div>
+</rv-instagram-scrollbar>
+
+{% schema %}
+  {
+    "name": "Instagram Scrollbar",
+    "class": "instagram-scrollbar",
+    "settings": [
+      {
+        "type": "text",
+        "id": "access_token",
+        "label": "API Access Token"
+      }
+    ],
+    "blocks": [],
+    "presets": [
+      {
+        "category": "Custom Content",
+        "name": "Instagram Scrollbar",
+        "blocks": []
+      }
+    ]
+  }
+{% endschema %}

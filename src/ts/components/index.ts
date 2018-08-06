@@ -8,4 +8,5 @@ export { ShopifyProductComponent } from './shopify-product/shopify-product.compo
 export { ShopifyProductItemComponent } from './shopify-product-item/shopify-product-item.component';
 export { ProductScrollbarComponent } from './product-scrollbar/product-scrollbar.component';
 export { InstagramComponent } from './instagram/instagram.component';
+export { InstagramScrollbarComponent } from './instagram-scrollbar/instagram-scrollbar.component';
 export * from './bs4/bs4.components';

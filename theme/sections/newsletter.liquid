@@ -6,7 +6,7 @@
   <span class="text-primary" contenteditable="true" rv-value="email | default 'E-Mail'" rv-on-focus="selectAll"></span>
 {% endcapture %}
 
-{% section.settings.enable %}
+{% if section.settings.enable %}
   <rv-newsletter class="d-block container-fluid text-center py-5" style="background-color:{{ section.settings.color }};">
     <div class="py-5">
       <h1 class="h6">{{ 'title' | t }}</h1>

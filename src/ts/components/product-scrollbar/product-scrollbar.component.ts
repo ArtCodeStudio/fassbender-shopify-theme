@@ -1,4 +1,3 @@
-/* tslint:disable:max-classes-per-file */
 import Debug from 'debug';
 import { Pjax, Prefetch, Binding, RibaComponent, ShopifySectionComponent } from '../../tinybind';
 import $ from '../../jquery';
@@ -11,7 +10,7 @@ export class ProductScrollbarComponent extends ShopifySectionComponent {
     return [];
   }
 
-  protected debug = Debug('component:rv-product-scrollbar');
+  protected debug = Debug('component:' +  + ProductScrollbarComponent.tagName);
 
   protected scope: any = {
     onScroll: this.onScroll,

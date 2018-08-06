@@ -42,6 +42,7 @@ import {
   TabsComponent,
   DropdownComponent,
   InstagramComponent,
+  InstagramScrollbarComponent,
 } from './components/index';
 
 declare global {
@@ -75,6 +76,7 @@ export class Main {
     this.tinybind.componentService.regist(TabsComponent);
     this.tinybind.componentService.regist(DropdownComponent);
     this.tinybind.componentService.regist(InstagramComponent);
+    this.tinybind.componentService.regist(InstagramScrollbarComponent);
 
     // Regist binders
     this.tinybind.binderService.regists(routerBinders);

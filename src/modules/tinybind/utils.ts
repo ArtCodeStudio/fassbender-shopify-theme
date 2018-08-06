@@ -33,11 +33,25 @@ export const isJson = (str?: string | null) => {
 };
 
 /**
- * Check if a value is an object than can be observed.
- * @param obj
+ * Check if value is undefined
+ */
+export const isUndefined = (value?: any) => {
+  return typeof(value) === 'undefined';
+};
+
+/**
+ * Check if value is undefined
+ */
+export const isDefined = (value?: any) => {
+  return !isUndefined(value);
+};
+
+/**
+ * Check if type is Object
+ * @see https://stackoverflow.com/a/4775737/1465919
  */
 export const isObject = (obj: object) => {
-  return typeof obj === 'object' && obj !== null;
+  return isDefined(obj) && typeof obj === 'object' && obj !== null;
 };
 
 export const getString = (value: string) => {
@@ -97,19 +111,43 @@ export const camelCase = (str: string) => {
  */
 export class Utils {
 
+  public static getJSON = getJSON;
+
+  public static getString = getString;
+
+  public static times = times;
+
   /**
-   * Check if value is undefined
+   * Returns a camel-cased version of the string. Used when translating an
+   * element's attribute name into a property name for the component's scope.
+   * TODO move to utils
+   * @param string
    */
-  public static isUndefined(value?: any) {
-    return typeof(value) === 'undefined';
-  }
+  public static camelCase = camelCase;
+
+  public static getInputValue = getInputValue;
+
+  /**
+   * Test if string is a json string
+   * @param str
+   */
+  public static isJson = isJson;
+
+  /**
+   * Check if type is Object
+   * @see https://stackoverflow.com/a/4775737/1465919
+   */
+  public static isObject = isObject;
 
   /**
    * Check if value is undefined
    */
-  public static isDefined(value?: any) {
-    return !this.isUndefined(value);
-  }
+  public static isUndefined = isUndefined;
+
+  /**
+   * Check if value is undefined
+   */
+  public static isDefined = isDefined;
 
   /**
    * Check if value is a function
@@ -132,14 +170,6 @@ export class Utils {
    */
   public static isNumber(value?: any): boolean {
     return !isNaN(parseFloat(value)) && !isNaN(value - 0);
-  }
-
-  /**
-   * Check if type is Object
-   * @see https://stackoverflow.com/a/4775737/1465919
-   */
-  public static isObject(value?: any) {
-    return this.isDefined(value) && typeof value === 'object';
   }
 
   /**

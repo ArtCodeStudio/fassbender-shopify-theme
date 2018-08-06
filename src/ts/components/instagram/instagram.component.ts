@@ -1,37 +1,7 @@
 import Debug from 'debug';
-import $ from 'jquery';
-import { Utils } from '../../services/Utils';
 import { RibaComponent } from '../../tinybind';
 import template from './instagram.component.html';
-
-export interface IInstagramMediaData {
-  media_url: string;
-  media_type: 'VIDEO' | 'IMAGE' | 'CAROUSEL_ALBUM';
-  caption: string;
-  id: string;
-  comments_count: number;
-  is_comment_enabled: boolean;
-  like_count: number;
-  permalink: string;
-  timestamp: string;
-}
-
-export interface IInstagramMediaPaging {
-  cursors: {
-    after: string;
-    before: string;
-  };
-}
-
-export interface IInstagramMedia {
-  data: IInstagramMediaData[];
-  paging: IInstagramMediaPaging;
-}
-
-export interface IInstagramResponse {
-  media: IInstagramMedia;
-  id: string;
-}
+import { IInstagramMedia, IInstagramResponse, InstagramService } from '../../services/instagram.service';
 
 export interface IScope {
   media?: IInstagramMedia;
@@ -45,8 +15,7 @@ export class InstagramComponent extends RibaComponent {
     return [];
   }
 
-  protected baseUrl = 'https://graph.facebook.com/v3.1/';
-  protected accessToken = 'EAAB8vuocl5sBAGcmaM4CuCIcm0CbVgkgTWaMzRcbjWJa5779T0x7hCTeBr8UqB7tgssU0znbXIdQtXcIYGALtZC9bbVFlQwHPLIpvnEJJa5sVEjPNMAajZAflJ9NT2wwQpV8nZCWqscK5SMNfav3RQZCgoZAaD3vl4vBNsZC8b1uKxyvoXPZC14AVG1z9L9BVStmovEJBBClgZDZD';
+  protected accessToken = 'EAAB8vuocl5sBAItyu8FN3A0BkerBP7TU4ZCq8m6jFGgtPGGcCOyQyvz0MicH47LdlBowjfZBas95lAhZBLXE15HM11CfAUdR1RKIPrKZB8zBIRCtrns5hsS5Dal8V0V8sOmA8sZAB3GNsAOH5CWV12tvzIAXEnxSpFKnROW0rTR7WH1yfg2Gp6ib4sAancbiODYQVZAfYU8gZDZD';
   protected instagramId = '17841406311268728';
 
   protected debug = Debug('component:' + InstagramComponent.tagName);
@@ -62,13 +31,8 @@ export class InstagramComponent extends RibaComponent {
   }
 
   protected loadMedia() {
-    // TODO create a server app wich wrappes the api requests
-    const url = `${this.baseUrl}/${this.instagramId}`;
-    $.getJSON(url, {
-      fields: 'media{caption,comments_count,is_comment_enabled,like_count,media_type,media_url,permalink,timestamp,children{media_type,media_url}},media_count',
-      access_token: this.accessToken,
-    })
-    .done((response: IInstagramResponse) => {
+    InstagramService.loadMedia(this.accessToken, this.instagramId)
+    .then((response: IInstagramResponse) => {
       this.scope.media = response.media;
       this.debug('response', response);
     });
