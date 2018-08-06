@@ -2,25 +2,34 @@
   {% assign template = 'no-barba' %}
 {% endif %}
 
-{% assign namespace = template | replace: '.', ' ' | truncatewords: 1, '' | handleize %}
 data-title="{% include 'jumplink-utils-get-title' %}"
-data-namespace="{{ namespace }}"
+data-namespace="{% include 'jumplink-utils-get-namespace' %}"
 data-template='{% include 'jumplink-utils-json-template' %}'
 
-data-seo-page-title={{ page_title | json }}
-data-seo-page_description={{ page_description | json }}
 
+{% comment %} Handle {% endcomment %}
 {% if page %}
   data-handle={{ page.handle | json }}
-  data-page='{% include 'jumplink-utils-json-page' %}'
-{% endif %}
-
-{% if product %}
+{% elsif collection %}
+  data-handle={{ collection.handle | json }}
+{% elsif blog %}
+  data-handle={{ blog.handle | json }}
+{% elsif article %}
+  data-handle={{article.handle | json}}
+{% elsif product %}
   data-handle={{ product.handle | json }}
 {% endif %}
 
-{% if collection %}
-  data-handle={{ collection.handle | json }}
+{% if parseSeo %}
+  data-seo-page-title={{ page_title | json }}
+  data-seo-page_description={{ page_description | json }}
+{% endif %}
+
+{% if parsePage and page %}
+  data-page='{% include 'jumplink-utils-json-page' %}'
+{% endif %}
+
+{% if parseCollection and collection %}
   data-collection-handle={{collection.handle | json }}
   data-collection-title={{collection.title | json }}
 
@@ -68,7 +77,7 @@ data-seo-page_description={{ page_description | json }}
   data-paginate-hash="{{paginate_hash}}"
 {% endif %}
 
-{% if search %}
+{% if parseSeach and search %}
   data-search-results-count="{{search.results_count}}"
   {% if search.results_count == 1 %}
     data-search-result-url={{search.results[0].url}}
@@ -83,12 +92,10 @@ Use the Shopify Ajax API to get the cart
 {% endif %}
 {% endcomment %}
 
-{% if blog %}
-  data-handle={{ blog.handle | json }}
-  data-blog='{% include 'jumplink-utils-json-blog' %}'
+{% if parseBlog and blog %}
+  data-blog='{% include 'jumplink-utils-json-blog' with blog %}'
 {% endif %}
 
-{% if article %}
-  data-handle={{article.handle | json}}
-  data-article='{% include 'jumplink-utils-json-article' %}'
+{% if parseArticle and article %}
+  data-article='{% include 'jumplink-utils-json-article' with article %}'
 {% endif %}

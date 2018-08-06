@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { IOneWayBinder, BinderWrapper } from '../../tinybind';
+import { IOneWayBinder, BinderWrapper, GlobalEvent } from '../../tinybind';
 
 /**
  *
@@ -10,6 +10,7 @@ export const scrollspyStarBinder: BinderWrapper = () => {
   const binder: IOneWayBinder<string> = function(el: HTMLElement, targetSelector: string) {
     const $el = $(el);
     const nativeIDTargetSelector = targetSelector.replace('#', '');
+    const dispatcher = new GlobalEvent();
     let target = document.getElementById(nativeIDTargetSelector);
     let $target: JQuery<Element> | null = null;
     if (target) {
@@ -33,15 +34,13 @@ export const scrollspyStarBinder: BinderWrapper = () => {
     };
 
     const onScroll = () => {
-      // if content was loaded with ajax
-      if (!target) {
-        target = document.getElementById(nativeIDTargetSelector);
-        if (target) {
-          $target = $(nativeIDTargetSelector);
-        }
-      }
+      // reget element each scroll because it could be removed from the page using the router
+      target = document.getElementById(nativeIDTargetSelector);
 
-      if (!target) {
+
+      if (target) {
+        $target = $(nativeIDTargetSelector);
+      } else {
         return;
       }
 
@@ -58,7 +57,7 @@ export const scrollspyStarBinder: BinderWrapper = () => {
       }
     };
 
-    $(window).on('scroll', onScroll);
+    $(window).off('scroll', onScroll).on('scroll', onScroll);
     onScroll();
   };
   return {

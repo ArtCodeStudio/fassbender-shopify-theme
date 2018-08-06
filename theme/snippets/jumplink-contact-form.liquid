@@ -26,7 +26,10 @@
   {% capture message %}
     <p class="text-primary my-3" contenteditable="true" rv-value="form.message | default 'Message*'" rv-on-focus="selectAll"></p>
     <input type="hidden" class="form-control" name="contact[message]" rv-value="form.message" rv-class-is-invalid="validation.rules.message.error | filled" required>
-    <div class="invalid-feedback" rv-html="validation.rules.message.error"></div>
+    <div class="invalid-feedback" rv-show="validation.rules.message.error | filled">
+      <span rv-html="validation.rules.message.error"></span><br>
+      Characters: {form.message | count | minus 50}
+    </div>
   {% endcapture %}
 
   {% form 'contact' %}

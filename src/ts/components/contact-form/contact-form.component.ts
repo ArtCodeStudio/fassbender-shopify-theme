@@ -70,12 +70,8 @@ export class ContactFormComponent extends RibaComponent {
     this.scope.form.phone = Utils.stripHtml(this.scope.form.phone);
     this.scope.form.email = Utils.stripHtml(this.scope.form.email);
 
-    this.scope.validation = this.validate(this.scope.validation, this.scope.form, ['firstName', 'lastName', 'phone', 'email', 'message']);
-
     if (this.$form) {
-      // run native browser validation: https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/checkValidity
-      this.scope.validation.valid = this.$form[0].checkValidity();
-      this.$form.addClass('was-validated');
+      this.scope.validation = this.validate(this.scope.validation, this.scope.form, ['firstName', 'lastName', 'phone', 'email', 'message'], this.$form);
     }
 
     if (!this.scope.validation.valid) {
@@ -97,7 +93,7 @@ export class ContactFormComponent extends RibaComponent {
      * @param the form with the values form the form
      * @param keys keys you want to validate
      */
-    protected validate(validation: IValidationObject, formValues: any, keys: string[]) {
+    protected validate(validation: IValidationObject, formValues: any, keys: string[], $form: JQuery<HTMLFormElement>) {
       validation.valid = true;
       keys.forEach((key: string) => {
           validation.rules[key].error = '';
@@ -141,9 +137,9 @@ export class ContactFormComponent extends RibaComponent {
 
             // minimum value for string length
             if (Utils.isNumber(validation.rules[key].minlength)) {
-                if (formValues[key].length < (validation.rules[key].minlength as number)) {
-                  validation.rules[key].error = 'The number of characters must be at least ' + validation.rules[key].minlength;
-                }
+              if (formValues[key].length < (validation.rules[key].minlength as number)) {
+                validation.rules[key].error = 'The number of characters must be at least ' + validation.rules[key].minlength;
+              }
             }
 
             // email
@@ -178,6 +174,15 @@ export class ContactFormComponent extends RibaComponent {
           }
       });
 
+      /**
+       * Run also the native browser validation
+       * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/checkValidity
+       */
+      if (validation.valid) {
+        validation.valid = $form[0].checkValidity();
+      }
+
+      $form.addClass('was-validated');
       this.debug('validate', validation);
       return validation;
   }
