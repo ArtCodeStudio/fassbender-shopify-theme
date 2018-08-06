@@ -36,8 +36,6 @@ export const scrollspyStarBinder: BinderWrapper = () => {
     const onScroll = () => {
       // reget element each scroll because it could be removed from the page using the router
       target = document.getElementById(nativeIDTargetSelector);
-
-
       if (target) {
         $target = $(nativeIDTargetSelector);
       } else {

@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { ShopifySectionComponent, RibaComponent } from '../../tinybind';
+import { RibaComponent } from '../../tinybind';
 import template from './newsletter.component.html';
 
 export class NewsletterComponent extends RibaComponent {

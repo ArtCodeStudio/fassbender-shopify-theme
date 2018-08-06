@@ -46,7 +46,7 @@ class Dom {
     this.currentHTML = responseText;
     const $newPage = $( $.parseHTML(responseText) );
 
-    if (this.parseTitle) {
+    if (this.parseTitle === true) {
       const $title = $newPage.filter('title');
       if ($title.length) {
         document.title = $title.text();

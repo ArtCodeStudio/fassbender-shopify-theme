@@ -6,20 +6,28 @@
   <span class="text-primary" contenteditable="true" rv-value="email | default 'E-Mail'" rv-on-focus="selectAll"></span>
 {% endcapture %}
 
-<rv-newsletter class="d-block container-fluid text-center py-5" style="background-color:{{ section.settings.color }};">
-  <div class="py-5">
-    <h1 class="h6">{{ 'title' | t }}</h1>
-    <p>{{ 'content_html' | t: name: name, email: email }}</p>
+{% section.settings.enable %}
+  <rv-newsletter class="d-block container-fluid text-center py-5" style="background-color:{{ section.settings.color }};">
+    <div class="py-5">
+      <h1 class="h6">{{ 'title' | t }}</h1>
+      <p>{{ 'content_html' | t: name: name, email: email }}</p>
 
-    <a class="" href="#" rv-on-click="send">Subscribe</a>
-  </div>
-</rv-newsletter>
+      <a class="" href="#" rv-on-click="send">Subscribe</a>
+    </div>
+  </rv-newsletter>
+{% endif %}
 
 {% schema %}
   {
     "name": "Newsletter",
     "class": "newsletter",
     "settings": [
+      {
+        "type":      "checkbox",
+        "id":        "enable",
+        "label":     "Enable",
+        "default":   true
+      },
       {
         "type":      "color",
         "id":        "color",

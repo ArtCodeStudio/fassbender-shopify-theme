@@ -1,7 +1,7 @@
 API Explorer: https://developers.facebook.com/tools/explorer?classic=0
 
-Get Instagram ID's: me/accounts?fields=instagram_business_account,global_brand_page_name
-Berechtigung: manage_pages, instagram_basic
+Get Instagram ID's: `me/accounts?fields=instagram_business_account,global_brand_page_name`
+Berechtigung: `manage_pages, instagram_basic`
 info: https://developers.facebook.com/docs/instagram-api/getting-started#submit
 
 {
@@ -41,7 +41,7 @@ info: https://developers.facebook.com/docs/instagram-api/getting-started#submit
   }
 }
 
-Get Media: 17841401180647389?fields=media{media_url,media_type,caption}
+Get Media: `17841406311268728?fields=media{media_url,media_type,caption}`
 Info: https://developers.facebook.com/docs/instagram-api/reference/page
 
 

@@ -1,0 +1,24 @@
+rv-instagram {
+  .content-box{
+    .content {
+      transform: scale(1);
+      transition: 0.3s all ease;
+      &.caption {
+        opacity: 0;
+        background-color: rgba(0,0,0,0.8);
+        color: white;
+        text-align: center;
+        padding: 10%;
+      }
+    }
+    &:hover {
+      .content {
+        filter: grayscale(1);
+        transform: scale(1.1);
+        &.caption {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
