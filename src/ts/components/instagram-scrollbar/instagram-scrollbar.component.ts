@@ -19,7 +19,7 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
     return [];
   }
 
-  protected accessToken = 'EAAB8vuocl5sBAItyu8FN3A0BkerBP7TU4ZCq8m6jFGgtPGGcCOyQyvz0MicH47LdlBowjfZBas95lAhZBLXE15HM11CfAUdR1RKIPrKZB8zBIRCtrns5hsS5Dal8V0V8sOmA8sZAB3GNsAOH5CWV12tvzIAXEnxSpFKnROW0rTR7WH1yfg2Gp6ib4sAancbiODYQVZAfYU8gZDZD';
+  protected accessToken = 'EAAB8vuocl5sBAMfnJbSmXIlmlUMgWJLqDJeWEZAL1MGWcbZChFLHgMgfQqjN1KnAOdZBZBOEWtJXKnJMZC8nu4ZAw1Os9QsaVmrhsfGyi2ESYrcabNM2tCnEoozweliqVOqzMNTZCQzJVlni5jmhhZAQXHaxeWuyzMoVD4U2hnzsewuzD8GVvYZCW6pJVgvdBt0yxwYeZBqWKjlAZDZD';
   protected instagramId = '17841406311268728';
 
   protected debug = Debug('component:' + InstagramScrollbarComponent.tagName);
