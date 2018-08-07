@@ -6,9 +6,50 @@ export interface IDeferred {
   reject: any;
 }
 
-export const getJSON = async (url: string, data?: any) => {
+/**
+ * Promise version of jQuery.getJSON()
+ * Load JSON-encoded data from the server using a GET HTTP request.
+ * @param url A string containing the URL to which the request is sent.
+ * @param data A plain object or string that is sent to the server with the request.
+ * @see https://api.jquery.com/jquery.getjson/
+ */
+export const getJSON = (url: string, data?: any) => {
   return new Promise<any>((resolve, reject) => {
     jQuery.getJSON(url, data)
+    .done((resolve))
+    .fail(( jqxhr, textStatus, error ) => {
+      reject(error);
+    });
+  });
+};
+
+/**
+ * Promise version of jQuery.post()
+ * Load data from the server using a HTTP POST request.
+ * @param url A string containing the URL to which the request is sent.
+ * @param data A plain object or string that is sent to the server with the request.
+ * @see https://api.jquery.com/jquery.post/
+ */
+export const post = (url: string, data?: any) => {
+  return new Promise<any>((resolve, reject) => {
+    jQuery.post(url, data)
+    .done((resolve))
+    .fail(( jqxhr, textStatus, error ) => {
+      reject(error);
+    });
+  });
+};
+
+/**
+ * Promise version of jQuery.get()
+ * Load data from the server using a HTTP GET request.
+ * @param url A string containing the URL to which the request is sent.
+ * @param data A plain object or string that is sent to the server with the request.
+ * @see https://api.jquery.com/jquery.get/
+ */
+export const get = (url: string, data?: any) => {
+  return new Promise<any>((resolve, reject) => {
+    jQuery.get(url, data)
     .done((resolve))
     .fail(( jqxhr, textStatus, error ) => {
       reject(error);
@@ -111,8 +152,36 @@ export const camelCase = (str: string) => {
  */
 export class Utils {
 
+  /**
+   * Promise version of jQuery.getJSON()
+   * Load JSON-encoded data from the server using a GET HTTP request.
+   * @param url A string containing the URL to which the request is sent.
+   * @param data A plain object or string that is sent to the server with the request.
+   * @see https://api.jquery.com/jquery.getjson/
+   */
   public static getJSON = getJSON;
 
+  /**
+   * Promise version of jQuery.post()
+   * Load data from the server using a HTTP POST request.
+   * @param url A string containing the URL to which the request is sent.
+   * @param data A plain object or string that is sent to the server with the request.
+   * @see https://api.jquery.com/jquery.post/
+   */
+  public static post = post;
+
+  /**
+   * Promise version of jQuery.get()
+   * Load data from the server using a HTTP GET request.
+   * @param url A string containing the URL to which the request is sent.
+   * @param data A plain object or string that is sent to the server with the request.
+   * @see https://api.jquery.com/jquery.get/
+   */
+  public static get = get;
+
+  /**
+   * Convert value to string if it is not null or undefined
+   */
   public static getString = getString;
 
   public static times = times;
@@ -444,32 +513,5 @@ export class Utils {
       w,
     };
   }
-
-  /**
-   * Format a monetary amount using Shopify's formatMoney if available.
-   * If it's not available, just return the value.
-   * @source https://github.com/discolabs/cartjs/blob/master/src/utils.coffee
-   * @source https://github.com/JumpLinkNetwork/shopify-productjs/blob/master/src/utilities.js
-   */
-  // public static formatMoney(value, format, formatName, currency) {
-  //   var _ref, _ref1;
-  //   if (currency == null) {
-  //     currency = '';
-  //   }
-  //   if (!currency) {
-  //     currency = ProductJS.settings.currency;
-  //   }
-  //   if ((window.Currency != null) && currency !== ProductJS.settings.currency) {
-  //     value = Currency.convert(value, ProductJS.settings.currency, currency);
-  //     if ((((_ref = window.Currency) != null ? _ref.moneyFormats : void 0) != null) && (currency in window.Currency.moneyFormats)) {
-  //       format = window.Currency.moneyFormats[currency][formatName];
-  //     }
-  //   }
-  //   if (((_ref1 = window.Shopify) != null ? _ref1.formatMoney : void 0) != null) {
-  //     return Shopify.formatMoney(value, format);
-  //   } else {
-  //     return value;
-  //   }
-  // }
 
 }

@@ -1,8 +1,8 @@
 import Debug from 'debug';
-import { Pjax, Prefetch, Binding, RibaComponent, ShopifySectionComponent } from '../../tinybind';
+import { Pjax, Prefetch, Binding, shopifyExtension } from '../../tinybind';
 import $ from '../../jquery';
 
-export class ProductScrollbarComponent extends ShopifySectionComponent {
+export class ProductScrollbarComponent extends shopifyExtension.components.ShopifySectionComponent {
 
   public static tagName: string = 'rv-product-scrollbar';
 

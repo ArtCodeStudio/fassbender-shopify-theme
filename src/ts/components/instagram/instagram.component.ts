@@ -35,6 +35,9 @@ export class InstagramComponent extends RibaComponent {
     .then((response: IInstagramResponse) => {
       this.scope.media = response.media;
       this.debug('response', response);
+    })
+    .catch((error) => {
+      this.debug(`Error: Can't load instagram media`, error);
     });
   }
 

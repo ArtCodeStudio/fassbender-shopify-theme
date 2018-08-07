@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { Pjax, Prefetch, Binding, ShopifySectionComponent } from '../../tinybind';
+import { Pjax, Prefetch, Binding, shopifyExtension } from '../../tinybind';
 import $ from '../../jquery';
 import { IInstagramMedia, IInstagramResponse, InstagramService } from '../../services/instagram.service';
 import template from './instagram-scrollbar.component.html';
@@ -11,7 +11,7 @@ export interface IScope {
   media?: IInstagramMedia;
 }
 
-export class InstagramScrollbarComponent extends ShopifySectionComponent {
+export class InstagramScrollbarComponent extends shopifyExtension.components.ShopifySectionComponent {
 
   public static tagName: string = 'rv-instagram-scrollbar';
 
@@ -102,6 +102,9 @@ export class InstagramScrollbarComponent extends ShopifySectionComponent {
     .then((response: IInstagramResponse) => {
       this.scope.media = response.media;
       this.debug('response', response);
+    })
+    .catch((error) => {
+      this.debug(`Error: Can't load instagram media`, error);
     });
   }
 

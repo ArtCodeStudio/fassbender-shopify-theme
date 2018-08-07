@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent, IShopifyProductImage, IShopifyProductVariantOption, IShopifyProduct, IShopifyProductVariant } from '../../tinybind';
+import { IShopifyProductVariant, IShopifyProduct, IShopifyProductVariantOption, RibaComponent } from '../../tinybind';
 import template from './shopify-product.component.html';
 import { getJSON } from '../../services/Utils';
 
