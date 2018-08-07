@@ -30,9 +30,9 @@ export const getJSON = (url: string, data?: any) => {
  * @param data A plain object or string that is sent to the server with the request.
  * @see https://api.jquery.com/jquery.post/
  */
-export const post = (url: string, data?: any) => {
+export const post = (url: string, data?: any, dataType?: string) => {
   return new Promise<any>((resolve, reject) => {
-    jQuery.post(url, data)
+    jQuery.post(url, data, null, dataType)
     .done((resolve))
     .fail(( jqxhr, textStatus, error ) => {
       reject(error);
@@ -47,9 +47,9 @@ export const post = (url: string, data?: any) => {
  * @param data A plain object or string that is sent to the server with the request.
  * @see https://api.jquery.com/jquery.get/
  */
-export const get = (url: string, data?: any) => {
+export const get = (url: string, data?: any, dataType?: string) => {
   return new Promise<any>((resolve, reject) => {
-    jQuery.get(url, data)
+    jQuery.get(url, data, null, dataType)
     .done((resolve))
     .fail(( jqxhr, textStatus, error ) => {
       reject(error);

@@ -1,11 +1,11 @@
-import { Utils } from './Utils';
+import { Utils } from '../../../utils';
 import PQueue from 'p-queue'; // https://github.com/sindresorhus/p-queue
 
 export interface ICartUpdateProperty {
   [variantId: number]: number;
 }
 
-export class ShopifyCart {
+export class ShopifyCartService {
 
   public static queue = new PQueue({concurrency: 1});
 
@@ -16,13 +16,13 @@ export class ShopifyCart {
    * @param properties Additional properties
    * @see https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#add-to-cart
    */
-  public static add(id: number, quantity = 1, properties = {}) {
+  public static add(id: number | number, quantity = 1, properties = {}) {
     return this.queue.add(() => {
       return Utils.post(this.CART_POST_ADD_URL, {
         id,
         quantity,
         properties,
-      });
+      }, 'json');
     });
   }
 
@@ -45,7 +45,7 @@ export class ShopifyCart {
    * @param properties Additional properties
    * @see https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#update-cart
    */
-  public static update(id: number, quantity: number, properties = {}) {
+  public static update(id: number | number, quantity: number, properties = {}) {
     return this.queue.add(() => {
       return Utils.post(this.CART_POST_UPDATE_URL, {
         id,
@@ -89,7 +89,7 @@ export class ShopifyCart {
    * @param properties Additional properties
    * @see https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#change-cart
    */
-  public static change(id: number, quantity: number, properties = {}) {
+  public static change(id: number | number, quantity: number, properties = {}) {
     return this.queue.add(() => {
       return Utils.post(this.CART_POST_CHANGE_URL, {
         id,
@@ -105,7 +105,7 @@ export class ShopifyCart {
    * @param quantity Quantity
    * @param properties Additional properties
    */
-  public static changeLine(line: number, quantity: number, properties = {}) {
+  public static changeLine(line: number | number, quantity: number, properties = {}) {
     return this.queue.add(() => {
       return Utils.post(this.CART_POST_CHANGE_URL, {
         line,

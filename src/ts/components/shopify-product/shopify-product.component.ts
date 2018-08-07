@@ -1,8 +1,10 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { IShopifyProductVariant, IShopifyProduct, IShopifyProductVariantOption, RibaComponent } from '../../tinybind';
+import { IShopifyProductVariant, IShopifyProduct, IShopifyProductVariantOption, RibaComponent, shopifyExtension } from '../../tinybind';
 import template from './shopify-product.component.html';
-import { getJSON } from '../../services/Utils';
+import { Utils } from '../../services/Utils';
+
+const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
 
 interface IPrepairedProductVariant extends IShopifyProductVariant {
   images?: string[];
@@ -12,7 +14,11 @@ interface IScope {
   handle: string | null;
   product: IShopifyProduct  | null;
   variant: IPrepairedProductVariant | null;
+  showDetailMenu: boolean;
+  showAddToCartButton: boolean;
   onClickColor: ShopifyProductComponent['onClickColor'];
+  addToCart: ShopifyProductComponent['addToCart'];
+  toggleDetailMenu: ShopifyProductComponent['toggleDetailMenu'];
 }
 
 export class ShopifyProductComponent extends RibaComponent {
@@ -29,14 +35,18 @@ export class ShopifyProductComponent extends RibaComponent {
     handle: null,
     product: null,
     variant: null,
+    showDetailMenu: false,
+    showAddToCartButton: false,
     onClickColor: this.onClickColor,
+    addToCart: this.addToCart,
+    toggleDetailMenu: this.toggleDetailMenu,
   };
 
   private colorOption: IShopifyProductVariantOption | null = null;
 
   constructor(element?: HTMLElement) {
     super(element);
-    const $el = $(this.el);
+    // const $el = $(this.el);
     this.debug('constructor', this);
     this.init(ShopifyProductComponent.observedAttributes);
   }
@@ -45,9 +55,23 @@ export class ShopifyProductComponent extends RibaComponent {
     this.scope.variant = this.getVariantOfOptions([option]);
   }
 
+  public addToCart(id: number, quantity: number) {
+    ShopifyCartService.add(id, quantity)
+    .then((response) => {
+      this.debug('addToCart response', response);
+    })
+    .catch((error) => {
+      this.debug('addToCart error', error);
+    });
+  }
+
+  public toggleDetailMenu() {
+    this.scope.showDetailMenu = !this.scope.showDetailMenu;
+  }
+
   protected async beforeBind() {
     // https://help.shopify.com/en/themes/development/getting-started/using-ajax-api
-    return getJSON(`/products/${this.scope.handle}.js`)
+    return Utils.getJSON(`/products/${this.scope.handle}.js`)
     .then((product: IShopifyProduct) => {
 
       // prepair product

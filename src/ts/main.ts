@@ -22,7 +22,8 @@ import {
 } from './tinybind';
 
 import {
-  backgroundImageBinder,
+  backgroundImageBinderWrapper,
+  backgroundColorStarBinderWrapper,
   scrollbarDragableBinder,
   collapseBinder,
   expanOnUrlBinder,
@@ -79,14 +80,16 @@ export class Main {
     this.tinybind.componentService.regist(InstagramScrollbarComponent);
 
     // Regist binders
-    this.tinybind.binderService.regists(routerBinders);
     this.tinybind.binderService.regists(basicBindersWrapper(JQuery));
-    this.tinybind.binderService.regist(scrollbarDragableBinder());
-    this.tinybind.binderService.regist(backgroundImageBinder());
+    this.tinybind.binderService.regist(backgroundImageBinderWrapper());
+    this.tinybind.binderService.regist(backgroundColorStarBinderWrapper());
     this.tinybind.binderService.regist(collapseBinder());
-    this.tinybind.binderService.regist(expanOnUrlBinder());
     this.tinybind.binderService.regist(collapseOnUrlBinder());
+    this.tinybind.binderService.regist(expanOnUrlBinder());
+    this.tinybind.binderService.regists(routerBinders);
     this.tinybind.binderService.regist(scrollspyStarBinder());
+    this.tinybind.binderService.regist(scrollbarDragableBinder());
+    this.tinybind.binderService.regist(styleStarStarBinderWrapper());
 
     // Regist formatters
     this.tinybind.formatterService.regists(compareFormatters);

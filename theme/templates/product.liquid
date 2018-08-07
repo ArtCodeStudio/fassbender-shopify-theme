@@ -44,36 +44,64 @@
     </div>
 
     {% comment %} Sticky price and color chooser {% endcomment %}
-    <div class="container-fluid sticky-bottom">
-      <div class="row">
-        <div class="col-6 pt-5">
-          <div class="variant-chooser">
-            <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
-              <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickColor | args color">
-                <div class="styleicon-circle" rv-class="color" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
-              </div>
-              {% for i in (1..4) %}
-                {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
-                {% assign HandleIndex = "product-link-" | append: forloop.index | append: "-handle" %}
-                {% assign color = product.metafields["global"][colorIndex] %}
-                {% assign handle = product.metafields["global"][HandleIndex] %}
-                {% if color != blank and handle != blank %}
-                  <div
-                    class="col-auto px-1 cursor-pointer"
-                    rv-route="'{{ all_products[handle].url }}'"
-                  >
-                    <div class="styleicon-circle {{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
-                  </div>
-                {% endif %}
-              {% endfor %}
+    <div class="row sticky-bottom" rv-background-color-white="showDetailMenu">
+      <div class="col mb-3 pt-5">
+        <div class="variant-chooser">
+          <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
+            <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickColor | args color">
+              <div class="styleicon-circle" rv-class="color" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
             </div>
-          </div>
-          <div>
-            <strong>{{ product.title }}</strong>
-            <p rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</p>
+            {% for i in (1..4) %}
+              {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
+              {% assign HandleIndex = "product-link-" | append: forloop.index | append: "-handle" %}
+              {% assign color = product.metafields["global"][colorIndex] %}
+              {% assign handle = product.metafields["global"][HandleIndex] %}
+              {% if color != blank and handle != blank %}
+                <div
+                  class="col-auto px-1 cursor-pointer"
+                  rv-route="'{{ all_products[handle].url }}'"
+                >
+                  <div class="styleicon-circle {{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
+                </div>
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
-        <div class="col-6"></div>
+        <div>
+          <strong>{{ product.title }}</strong><br>
+          <div rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</div>
+        </div>
+      </div>
+      <div class="col mb-3 pt-5" rv-show="showDetailMenu">
+
+        <div class="row text-center justify-content-center">
+          Quantity
+        </div>
+
+        <div rv-each-option="product.options">
+          <div class="row justify-content-between" rv-if="option.name | downcase | eq 'size'">
+            <div rv-each-size="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickSize | args size">
+              {size}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col mb-3 pt-2">
+        <div class="row h-100 justify-content-between">
+          <div class="col-12 d-flex justify-content-end" rv-hide="showDetailMenu">
+            <div class="btn-wrapper">
+              <button class="btn btn-animated-underline-dark" rv-on-click="toggleDetailMenu">Add</button>
+            </div>
+          </div>
+          <div class="col-12 d-flex justify-content-end" rv-show="showDetailMenu">
+            <rv-icon class="mx-3 my-2" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24" rv-on-click="toggleDetailMenu"></rv-icon>
+          </div>
+          <div class="col-12 d-flex justify-content-end" rv-show="showAddToCartButton">
+            <div class="btn-wrapper">
+              <button class="btn btn-animated-underline-dark"  rv-on-click="addToCart | args variant.id 1">Add</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
