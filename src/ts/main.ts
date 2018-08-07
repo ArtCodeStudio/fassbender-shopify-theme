@@ -89,7 +89,6 @@ export class Main {
     this.tinybind.binderService.regists(routerBinders);
     this.tinybind.binderService.regist(scrollspyStarBinder());
     this.tinybind.binderService.regist(scrollbarDragableBinder());
-    this.tinybind.binderService.regist(styleStarStarBinderWrapper());
 
     // Regist formatters
     this.tinybind.formatterService.regists(compareFormatters);
