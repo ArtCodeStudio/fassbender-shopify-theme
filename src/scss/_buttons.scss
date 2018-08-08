@@ -118,3 +118,13 @@ position: relative;
     @include button-animated-underline-variant($value);
   }
 }
+
+
+/**
+ * Button Links
+ */
+.btn-link {
+  &.active {
+    font-weight: $font-weight-bold;
+  }
+}

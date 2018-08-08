@@ -45,10 +45,12 @@
 
     {% comment %} Sticky price and color chooser {% endcomment %}
     <div class="row sticky-bottom" rv-background-color-white="showDetailMenu">
-      <div class="col mb-3 pt-5">
+
+      {% comment %} Left part {% endcomment %}
+      <div class="col mb-3 pt-4 d-flex flex-column justify-content-end">
         <div class="variant-chooser">
           <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
-            <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickColor | args color">
+            <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickOption | args color option.position">
               <div class="styleicon-circle" rv-class="color" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
             </div>
             {% for i in (1..4) %}
@@ -72,20 +74,28 @@
           <div rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</div>
         </div>
       </div>
-      <div class="col mb-3 pt-5" rv-show="showDetailMenu">
+
+      {% comment %} Middle part {% endcomment %}
+      <div class="col col-xl-3 mx-auto mb-3 pt-4" rv-opacity-0="showDetailMenu | not">
 
         <div class="row text-center justify-content-center">
-          Quantity
+          <div class="form-inline">
+            <label for="quanity">Quantity</label>
+            {% comment %} <strong class="mx-1" contenteditable="true" rv-value="quantity | strip_html | number 1" rv-on-keydown="onQuantityKeypress"></strong> {% endcomment %}
+            <input type="number" min="0" step="1" class="form-control border-0" id="quanity" rv-value="quantity | strip_html | number 1" style="width: 70px; font-weight: bold;">
+          </div>
         </div>
 
         <div rv-each-option="product.options">
-          <div class="row justify-content-between" rv-if="option.name | downcase | eq 'size'">
-            <div rv-each-size="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickSize | args size">
-              {size}
+          <div class="row justify-content-between pt-4" rv-if="option.name | downcase | eq 'size'">
+            <div class="col-auto px-1" rv-each-size="option.values">
+              <button class="btn btn-link" rv-text="size" rv-on-click="onClickOption | args size option.position"></button>
             </div>
           </div>
         </div>
       </div>
+
+      {% comment %} Right part {% endcomment %}
       <div class="col mb-3 pt-2">
         <div class="row h-100 justify-content-between">
           <div class="col-12 d-flex justify-content-end" rv-hide="showDetailMenu">

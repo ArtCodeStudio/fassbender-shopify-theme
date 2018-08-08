@@ -24,6 +24,7 @@ import {
 import {
   backgroundImageBinderWrapper,
   backgroundColorStarBinderWrapper,
+  opacityStarBinderWrapper,
   scrollbarDragableBinder,
   collapseBinder,
   expanOnUrlBinder,
@@ -83,6 +84,7 @@ export class Main {
     this.tinybind.binderService.regists(basicBindersWrapper(JQuery));
     this.tinybind.binderService.regist(backgroundImageBinderWrapper());
     this.tinybind.binderService.regist(backgroundColorStarBinderWrapper());
+    this.tinybind.binderService.regist(opacityStarBinderWrapper());
     this.tinybind.binderService.regist(collapseBinder());
     this.tinybind.binderService.regist(collapseOnUrlBinder());
     this.tinybind.binderService.regist(expanOnUrlBinder());
