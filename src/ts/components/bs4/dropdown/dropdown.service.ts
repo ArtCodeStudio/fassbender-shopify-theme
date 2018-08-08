@@ -201,7 +201,7 @@ export class DropdownService {
 
     $(this._element).data(DATA_KEY, this._config);
 
-    this._addEventListeners();
+    this.clouseOnClickOutsite(DropdownService._getParentFromElement(this._element));
   }
 
   // Public
@@ -270,6 +270,8 @@ export class DropdownService {
       return;
     }
 
+    this.clouseOnClickOutsite(DropdownService._getParentFromElement(this._element));
+
     // Disable totally Popper.js for Dropdown in Navbar
     if (!this._inNavbar) {
       /**
@@ -310,6 +312,8 @@ export class DropdownService {
         $(parent).closest(SELECTOR.NAVBAR_NAV).length === 0) {
       $(document.body).children().on('mouseover', null, $.noop);
     }
+
+    this.clouseOnClickOutsite(DropdownService._getParentFromElement(this._element));
 
     this._element.focus();
     this._element.setAttribute('aria-expanded', 'true');
@@ -357,16 +361,6 @@ export class DropdownService {
     };
 
     document.addEventListener('click', outsideClickListener);
-  }
-
-  private _addEventListeners() {
-    // $(this._element).on(EVENT.CLICK, (event) => {
-    //   this.debug('click');
-    //   event.preventDefault();
-    //   event.stopPropagation();
-    //   this.toggle();
-    // });
-    this.clouseOnClickOutsite(DropdownService._getParentFromElement(this._element));
   }
 
   private _getConfig(config?: any) {
