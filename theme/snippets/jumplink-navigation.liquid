@@ -127,21 +127,36 @@
         
 
         <li class="nav-item">
-          <bs4-dropdown class="dropdown d-block">
-            <a class="nav-link dropdown-toggle" data-offset="-350" rv-on-click="toggle" rv-on-route-active="'/cart'" href="#" role="button" id="dropdownMenuCart" aria-haspopup="true" aria-expanded="false">
-              Shopping Bag
-            </a>
-            
-            <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuCart" style="width: 400px;">
+          <rv-shopify-cart>
+            <div class="dropdown d-block">
+              <a class="nav-link dropdown-toggle" data-offset="-150" rv-on-click="toggle" rv-on-route-active="'/cart'" href="#" role="button" id="dropdownMenuCart" aria-haspopup="true" aria-expanded="false">
+                Shopping Bag <small class="ml-1" rv-text="cart.item_count" style="margin-top: -20px;"></small>
+              </a>
               
-              <p>The new FASSBENDER store will be open in a few weeks.<br />Stay tuned!</p>
-              {% comment %} <p><strong>Discover Fassbender's World</strong></p>
-              <p>
-                I want news and inspiration about Stories and Collections.<br>
-                Take my Name and E-Mail.
-              </p> {% endcomment %}
+              <div class="dropdown-menu p-3 scrollbar-primary " aria-labelledby="dropdownMenuCart" style="width: 320px; max-height: 80vh; overflow-y: auto;">
+                
+                <ul class="list-unstyled">
+                  <li class="media mb-3" rv-each-item="cart.items">
+                    <img class="img-fluid mr-3" rv-src="item.image" rv-alt="item.title" style="max-width: 100px;">
+                    <div class="media-body">
+                      <strong rv-text="item.product_title"></strong>
+                      <p class="m-0" rv-each-option="item.variant_options" >
+                        <span rv-text="option"></span>
+                        <small class="text-muted">Change</small>
+                      </p>
+                      <p class="m-0">
+                        Quantity <span rv-text="item.quantity"></span>
+                      </p>
+                      <p rv-text="item.price | money '{{ shop.money_format }}'"></p>
+                    </div>
+                  </li>
+                  <strong><span rv-text="cart.item_count"></span> Items</strong>
+                  <p rv-text="cart.total_price | money '{{ shop.money_format }}'"></p>
+
+                </ul>
+              </div>
             </div>
-          </bs4-dropdown>
+          </rv-shopify-cart>
 
         </li>    
         <li class="nav-item">

@@ -6,6 +6,7 @@ export { ShopifyFilterComponent } from './shopify-filter/shopify-filter.componen
 export { ShopifyArticleItemComponent } from './shopify-article-item/shopify-article-item.component';
 export { ShopifyProductComponent } from './shopify-product/shopify-product.component';
 export { ShopifyProductItemComponent } from './shopify-product-item/shopify-product-item.component';
+export { ShopifyCartComponent } from './shopify-cart/shopify-cart.component';
 export { ProductScrollbarComponent } from './product-scrollbar/product-scrollbar.component';
 export { InstagramComponent } from './instagram/instagram.component';
 export { InstagramScrollbarComponent } from './instagram-scrollbar/instagram-scrollbar.component';

@@ -50,8 +50,8 @@
       <div class="col mb-3 pt-4 d-flex flex-column justify-content-end">
         <div class="variant-chooser">
           <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
-            <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickOption | args color option.position">
-              <div class="styleicon-circle" rv-class="color" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
+            <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickOption | args color option.position option.name">
+              <div class="styleicon-circle option-color" rv-class="color | replace_first '#' '' | prepend 'option-color-'" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
             </div>
             {% for i in (1..4) %}
               {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
@@ -63,7 +63,7 @@
                   class="col-auto px-1 cursor-pointer"
                   rv-route="'{{ all_products[handle].url }}'"
                 >
-                  <div class="styleicon-circle {{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
+                  <div class="styleicon-circle option-color option-color-{{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
                 </div>
               {% endif %}
             {% endfor %}
@@ -89,7 +89,7 @@
         <div rv-each-option="product.options">
           <div class="row justify-content-between pt-4" rv-if="option.name | downcase | eq 'size'">
             <div class="col-auto px-1" rv-each-size="option.values">
-              <button class="btn btn-link" rv-text="size" rv-on-click="onClickOption | args size option.position"></button>
+              <button class="btn btn-link option-size" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="onClickOption | args size option.position option.name"></button>
             </div>
           </div>
         </div>
@@ -106,9 +106,9 @@
           <div class="col-12 d-flex justify-content-end" rv-show="showDetailMenu">
             <rv-icon class="mx-3 my-2" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24" rv-on-click="toggleDetailMenu"></rv-icon>
           </div>
-          <div class="col-12 d-flex justify-content-end" rv-show="showAddToCartButton">
+          <div class="col-12 d-flex justify-content-end" rv-show="showDetailMenu">
             <div class="btn-wrapper">
-              <button class="btn btn-animated-underline-dark"  rv-on-click="addToCart | args variant.id 1">Add</button>
+              <button class="btn btn-animated-underline-dark" rv-disabled="variant.available | not" rv-on-click="addToCart">Add</button>
             </div>
           </div>
         </div>

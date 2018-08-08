@@ -1,7 +1,8 @@
 .styleicon-circle {
   width: 100%;
   height: 100%;
-  border-radius: 50%; /* the magic */
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  &.active {
+    border: solid black 1px;
+  }
 }

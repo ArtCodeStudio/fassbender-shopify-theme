@@ -15,10 +15,10 @@ interface IScope {
   product: IShopifyProduct  | null;
   variant: IPrepairedProductVariant | null;
   quantity: number;
-  options: string[];
+  selectedOptions: string[];
   showDetailMenu: boolean;
   showAddToCartButton: boolean;
-  // onClickColor: ShopifyProductComponent['onClickColor'];
+  isOptionActive: ShopifyProductComponent['isOptionActive'];
   onClickOption: ShopifyProductComponent['onClickOption'];
   addToCart: ShopifyProductComponent['addToCart'];
   toggleDetailMenu: ShopifyProductComponent['toggleDetailMenu'];
@@ -32,6 +32,8 @@ export class ShopifyProductComponent extends RibaComponent {
     return ['handle', 'extras'];
   }
 
+  protected $el: JQuery<HTMLElement>;
+
   protected debug = Debug('component:' + ShopifyProductComponent.tagName);
 
   protected scope: IScope = {
@@ -39,10 +41,10 @@ export class ShopifyProductComponent extends RibaComponent {
     product: null,
     variant: null,
     quantity: 1,
-    options: [],
+    selectedOptions: [],
     showDetailMenu: false,
     showAddToCartButton: false,
-    // onClickColor: this.onClickColor,
+    isOptionActive: this.isOptionActive,
     onClickOption: this.onClickOption,
     addToCart: this.addToCart,
     toggleDetailMenu: this.toggleDetailMenu,
@@ -59,7 +61,7 @@ export class ShopifyProductComponent extends RibaComponent {
       this.scope.product.featured_image = product.featured_image
       .replace(/(^\w+:|^)\/\//, '//'); // remove protocol
 
-      this.scope.options = new Array(this.scope.product.options.length);
+      this.scope.selectedOptions = new Array(this.scope.product.options.length);
 
       this.colorOption = this.getOption(product, 'color');
       // set the first variant to the selected one
@@ -72,33 +74,51 @@ export class ShopifyProductComponent extends RibaComponent {
   }
 
   protected set variant(variant: IShopifyProductVariant) {
+    this.debug('set variant', variant);
     this.scope.variant = this.prepairVariant(variant);
     if (this.scope.variant) {
-      this.scope.options = this.scope.variant.options;
+      this.scope.selectedOptions = Utils.clone(false, this.scope.variant.options.slice());
+      this.activateOptions();
     }
   }
 
   constructor(element?: HTMLElement) {
     super(element);
-    // const $el = $(this.el);
+    this.$el = $(this.el);
     this.debug('constructor', this);
     this.init(ShopifyProductComponent.observedAttributes);
   }
 
-  // public onClickColor(option: string) {
-  //   this.scope.variant = this.getVariantOfOptions([option]);
-  // }
+  /**
+   * Used in template with rv-class-active="isOptionActive | call size"
+   * @param optionValue
+   */
+  public isOptionActive(optionValue: string | number) {
+    this.debug('isOptionActive', optionValue, this.scope.selectedOptions.indexOf(optionValue.toString()) );
+    if (Utils.isUndefined(optionValue)) {
+      return false;
+    }
+    return this.scope.selectedOptions.indexOf(optionValue.toString()) > -1;
+  }
 
-  public onClickOption(optionValue: string | number, position1: number, event: MouseEvent) {
+  public onClickOption(optionValue: string | number, position1: number, optionName: string, event: MouseEvent, scope: any, el: HTMLElement) {
     optionValue = optionValue.toString();
-    this.debug('onClickOption', optionValue, position1);
-    this.scope.options[position1 - 1] = optionValue;
-    this.scope.variant = this.getVariantOfOptions(this.scope.options);
+    this.debug('onClickOption', optionValue, position1, this.scope.selectedOptions);
+    this.scope.selectedOptions[position1 - 1] = optionValue.toString();
+    const variant = this.getVariantOfOptions(this.scope.selectedOptions);
+    if (variant) {
+      this.variant = variant as IShopifyProductVariant;
+    }
     event.stopPropagation();
   }
 
-  public addToCart(id: number, quantity: number) {
-    ShopifyCartService.add(id, quantity)
+  public addToCart() {
+    if (!this.scope.variant) {
+      this.debug('Variant not selected');
+      return;
+    }
+    this.debug('addToCart', this.scope.variant.id, this.scope.quantity);
+    ShopifyCartService.add(this.scope.variant.id, this.scope.quantity)
     .then((response) => {
       this.debug('addToCart response', response);
     })
@@ -109,6 +129,30 @@ export class ShopifyProductComponent extends RibaComponent {
 
   public toggleDetailMenu() {
     this.scope.showDetailMenu = !this.scope.showDetailMenu;
+  }
+
+  /**
+   * Workaround because `rv-class-active="isOptionActive | call size"` is not updating if selectedOptions changes
+   * @param optionValue
+   * @param optionName
+   */
+  protected activateOption(optionValue: string, optionName: string) {
+    optionValue = optionValue.toString().replace('#', '');
+    this.debug('activateOption', `.option-${optionName.toLowerCase()}-${optionValue}`);
+    this.$el.find(`.option-${optionName.toLocaleLowerCase()}`).removeClass('active');
+    this.$el.find(`.option-${optionName.toLocaleLowerCase()}-${optionValue}`).addClass('active');
+  }
+
+  protected activateOptions() {
+    for (const position0 in this.scope.selectedOptions) {
+      if (this.scope.selectedOptions[position0]) {
+        const optionValue = this.scope.selectedOptions[position0];
+        if (this.scope.product) {
+          const optionName = this.scope.product.options[position0].name.toLowerCase();
+          this.activateOption(optionValue, optionName);
+        }
+      }
+    }
   }
 
   protected async beforeBind() {
@@ -126,6 +170,7 @@ export class ShopifyProductComponent extends RibaComponent {
 
   protected async afterBind() {
     this.debug('afterBind', this.scope);
+    this.activateOptions();
   }
 
   protected requiredAttributes() {
@@ -142,24 +187,34 @@ export class ShopifyProductComponent extends RibaComponent {
   }
 
   private getVariantOfOptions(optionValues: string[]) {
-    this.debug('getVariantOfOptions', optionValues);
-    let result = null;
+    // this.debug('getVariantOfOptions', optionValues);
+    let result: IShopifyProductVariant | null = null;
     if (this.scope.product) {
-      this.scope.product.variants.forEach((variant: IShopifyProductVariant) => {
-        let fit = true;
-        optionValues.forEach((option) => {
-          fit = variant.options.indexOf(option) !== -1;
-        });
-        if (fit) {
-          result = variant;
+      for (const i in this.scope.product.variants) {
+        if (this.scope.product.variants[i]) {
+          result = null;
+          const variant = this.scope.product.variants[i];
+          let fit = false;
+          for (const position0 in optionValues) {
+            if (optionValues[position0]) {
+              const optionValue = optionValues[position0];
+              fit = variant.options.indexOf(optionValue.toString()) > -1;
+              this.debug('variant.options', variant.options, 'indexOf', optionValue.toString(), fit);
+            }
+          }
+          if (fit) {
+            result = variant;
+            this.debug('break', result);
+            break;
+          }
         }
-      });
+      }
     }
 
-    this.debug('getVariantOfOptions result', result);
+    this.debug('getVariantOfOptions optionValues', optionValues, 'variant', result);
 
     if (result) {
-      return this.prepairVariant(result);
+      return result;
     } else {
       return null;
     }
@@ -181,7 +236,7 @@ export class ShopifyProductComponent extends RibaComponent {
     }
     this.debug('selectVariant', result);
     if (result) {
-      return this.prepairVariant(result);
+      return result;
     }
   }
 
@@ -211,7 +266,7 @@ export class ShopifyProductComponent extends RibaComponent {
    */
   private getGeneralImages(optionName = 'color') {
     optionName = optionName.toLowerCase();
-    this.debug('getImages');
+    // this.debug('getImages');
     const generalImages: string[] = [];
     if (this.scope.product) {
 
@@ -234,7 +289,7 @@ export class ShopifyProductComponent extends RibaComponent {
       });
     }
 
-    this.debug('getGeneralImages', generalImages);
+    // this.debug('getGeneralImages', generalImages);
 
     return generalImages;
   }

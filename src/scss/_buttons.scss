@@ -14,6 +14,10 @@
     border-color: $active-border;
   }
 
+  &:disabled {
+    border-bottom-color: $btn-link-disabled-color;
+  }
+
   &:focus,
   &.focus {
     box-shadow: 0 0 0 $btn-focus-width rgba($color, .5);
@@ -80,36 +84,42 @@
 }
 
 @mixin button-animated-underline-variant($color, $color-hover: color-yiq($color), $active-background: $color, $active-border: $color) {
-// color: $color;
-background-color: transparent;
-background-image: none;
-overflow: hidden;
-position: relative;
+  // color: $color;
+  background-color: transparent;
+  background-image: none;
+  overflow: hidden;
+  position: relative;
 
- &:after {
-   // .box-sizing;         
-   transform: translateX(0);
-   
-   content: '';
-   position: absolute;
-   bottom: 0;
-   left: 0;
-   width: 99.5%;
-   height: 2px;
-   border-bottom: 2px solid $color;
-   overflow: hidden;
-   
- }
+  &:after {
+    // .box-sizing;         
+    transform: translateX(0);
+
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 99.5%;
+    height: 2px;
+    border-bottom: 2px solid $color;
+    overflow: hidden;
+  }
   
   &:hover, &:focus {
     color: inherit;
     text-decoration: none;
-      &:after {
-        transition: .1s transform linear, .1s height linear .1s;
-        // transform: translateX(0);
-        animation: move-left-come-on-right 1000ms normal linear;
-        height: 100%;
-      }
+    &:after {
+      transition: .1s transform linear, .1s height linear .1s;
+      // transform: translateX(0);
+      animation: move-left-come-on-right 1000ms normal linear;
+      height: 100%;
+    }
+  }
+
+  &:disabled {
+    &:after {
+      border-bottom-color: $btn-link-disabled-color;
+      animation: none;
+    }
   }
 }
 

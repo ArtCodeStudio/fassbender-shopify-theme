@@ -123,7 +123,7 @@ export class DropdownService {
     // for (let i = 0, len = toggles.length; i < len; i++) {
       const parent = DropdownService._getParentFromElement(element);
       const context = $(toggles[i]).data(DATA_KEY);
-      console.warn('_clearMenus parent', parent, context);
+      // console.warn('_clearMenus parent', parent, context);
       const relatedTarget: any = {
         relatedTarget: toggles[i],
       };
@@ -255,6 +255,7 @@ export class DropdownService {
     DropdownService._clearMenus();
 
     if (isActive) {
+      this.close();
       return;
     }
 
@@ -347,6 +348,7 @@ export class DropdownService {
     const outsideClickListener = (event: Event) => {
       if (!$(event.target as any).closest($element.get(0)).length) {
         this.close();
+        removeClickListener();
       }
     };
 

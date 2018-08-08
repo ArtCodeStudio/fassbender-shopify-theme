@@ -40,12 +40,13 @@ import {
   ShopifyArticleItemComponent,
   ShopifyProductComponent,
   ShopifyProductItemComponent,
+  ShopifyCartComponent,
   ProductScrollbarComponent,
   TabsComponent,
   DropdownComponent,
   InstagramComponent,
   InstagramScrollbarComponent,
-} from './components/index';
+} from './components/components';
 
 declare global {
   // tslint:disable: interface-name
@@ -75,6 +76,7 @@ export class Main {
     this.tinybind.componentService.regist(ProductScrollbarComponent);
     this.tinybind.componentService.regist(ShopifyProductItemComponent);
     this.tinybind.componentService.regist(ShopifyProductComponent);
+    this.tinybind.componentService.regist(ShopifyCartComponent);
     this.tinybind.componentService.regist(TabsComponent);
     this.tinybind.componentService.regist(DropdownComponent);
     this.tinybind.componentService.regist(InstagramComponent);
