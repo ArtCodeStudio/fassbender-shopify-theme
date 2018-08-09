@@ -8,11 +8,10 @@ export const routeClassStarBinderWrapper: BinderWrapper = (dispatcher: GlobalEve
   const binder: ITwoWayBinder<string> = {
 
     bind(el: HTMLUnknownElement) {
-      console.warn('routeClassStarBinder bind', el);
+      // console.warn('routeClassStarBinder bind', el);
     },
 
     routine(el: HTMLElement, url: string) {
-      console.warn('routeClassStarBinder routine', el, url);
       const $el = $(el);
       const className = this.args[0].toString() || 'active';
       const isAnkerHTMLElement = $el.prop('tagName') === 'A';
@@ -23,7 +22,6 @@ export const routeClassStarBinderWrapper: BinderWrapper = (dispatcher: GlobalEve
         }
       }
       const onUrlChange = (urlToCheck?: string) => {
-        console.warn('onUrlChange', urlToCheck);
         if (urlToCheck) {
           if (Utils.onRoute(urlToCheck)) {
             $el.addClass(className);
@@ -49,7 +47,7 @@ export const routeClassStarBinderWrapper: BinderWrapper = (dispatcher: GlobalEve
     },
 
     unbind(el: HTMLUnknownElement) {
-      console.warn('routeClassStarBinder routine', el);
+      // console.warn('routeClassStarBinder routine', el);
     },
   };
 

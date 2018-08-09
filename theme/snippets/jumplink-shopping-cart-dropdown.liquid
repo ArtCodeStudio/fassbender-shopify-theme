@@ -6,47 +6,119 @@
     
     <div class="dropdown-menu p-3 scrollbar-primary " aria-labelledby="dropdownMenuCart">
       
-      <ul class="list-unstyled">
-        <li class="media mb-3" rv-each-item="cart.items">
+      <div class="shopping-cart-dropdown-header">
+      {% if shop.customer_accounts_enabled %}
+        {% if customer %}
+          <div>
+            <p class="float-left">Hi {{ customer.first_name }}</p>
+            <p class="float-right">
+              <strong>
+                <a rv-route="'/account'" rv-route-class-active="'/account'" href="/account">
+                  My Account
+                </a>
+              </strong>
+            </p>
+          </div>
+        {% else %}
+          <rv-shopify-login-form>
+            <p>
+              <strong>
+                <a class="text-normal" rv-route="'/account'" rv-route-class-active="'/account'" href="/account">
+                  My Account
+                </a>
+              </strong>
+              or
+              <a rv-route="'/account/register'" rv-route-class-active="'/account/register'" href="/account/register">
+                register
+              </a>
+            </p>
 
-          <div class="img-wrapper mr-3">
-            <img class="img-fluid" rv-src="item.image" rv-alt="item.title">
-            <rv-icon class="m-2 cursor-pointer" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="16" rv-on-click="remove | args item %item%"></rv-icon>
-          </div>
-          
-          <div class="media-body">
-            <p class="mb-1">
-              <strong rv-text="item.product_title"></strong>
-            </p>
-            <div class="options d-flex align-items-center">
-              <div class="mr-2 my-0 d-inline-block" rv-each-option="item.variant_options">
-                {% comment %} color option {% endcomment %}
-                <div rv-show="option | first | eq '#'" class="styleicon-circle option-color" rv-css-background-color="option" style="width: 12px; height: 12px;"></div>
-                
-                {% comment %} size or other option {% endcomment %}
-                <div rv-hide="option | first | eq '#'" class="option-other" rv-text="option"></div>
-                {% comment %} <small class="text-muted">Change</small> {% endcomment %}
-              </div>
+            <div class="d-none" id="recover-customer-password-hidden-form">
+              {% form 'recover_customer_password' %}
+                <input rv-value="form.customer.email" type="email" name="email"></input>
+              {% endform %}
             </div>
-            <p class="my-1">
-              Quantity <span rv-text="item.quantity"></span>
-              <span class="px-1 text-muted" rv-on-click="decrease | args item %item%">-</span>
-              <span class="px-1 text-muted" rv-on-click="increase | args item %item%">+</span>
-            </p>
-            <p rv-text="item.price | money '{{ shop.money_format }}'"></p>
-          </div>
-        </li>
+
+            <form method="post" action="/account/login" accept-charset="UTF-8">
+              <input type="hidden" name="form_type" value="customer_login">
+              <input type="hidden" name="utf8" value="✓">
+
+              <div class="mb-1">
+                <input rv-value="form.customer.email" required autocomplete="username" class="form-control form-control-text form-control-primary py-1" type="email" name="customer[email]" placeholder="Email"></input>
+                <input rv-value="form.customer.password" required autocomplete="current-password" class="form-control form-control-text form-control-primary py-1" type="password" name="customer[password]" placeholder="Password"></input>
+              </div>
+              <div class="row mb-2">
+                <div class="col-auto d-flex align-items-center">
+                  <button class="btn btn-sm btn-link pl-0" rv-on-click="recover">
+                    Forgot Password?
+                  </button> 
+                </div>
+                <div class="col d-flex align-items-center justify-content-end">
+                  <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="login">Login</button>
+                </div>
+              </div>
+            </form>
+          </rv-shopify-login-form>
+
+        {% endif %}
+      {% endif %}
+      </div>
+
+      <form action="/cart" method="post">
+        <ul class="list-unstyled">
+          <li class="media mb-3" rv-each-item="cart.items">
+
+            <div class="img-wrapper mr-3">
+              <img class="img-fluid" rv-src="item.image" rv-alt="item.title">
+              <rv-icon class="m-2 cursor-pointer" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="16" rv-on-click="remove | args item %item%"></rv-icon>
+            </div>
+            
+            <div class="media-body">
+              <p class="mb-1">
+                <strong rv-text="item.product_title"></strong>
+              </p>
+              <div class="options d-flex align-items-center">
+                <div class="mr-2 my-0 d-inline-block" rv-each-option="item.variant_options">
+                  {% comment %} color option {% endcomment %}
+                  <div rv-show="option | first | eq '#'" class="styleicon-circle option-color" rv-css-background-color="option" style="width: 12px; height: 12px;"></div>
+                  
+                  {% comment %} size or other option {% endcomment %}
+                  <div rv-hide="option | first | eq '#'" class="option-other" rv-text="option"></div>
+                  {% comment %} <small class="text-muted">Change</small> {% endcomment %}
+                </div>
+              </div>
+              <p class="my-1">
+                Quantity <span rv-text="item.quantity"></span>
+                <span class="px-1 text-muted" rv-on-click="decrease | args item %item%">-</span>
+                <span class="px-1 text-muted" rv-on-click="increase | args item %item%">+</span>
+              </p>
+              <p rv-text="item.price | money '{{ shop.money_format }}'"></p>
+            </div>
+          </li>
+        </ul>
+
         <div class="shopping-cart-dropdown-footer">
-          <strong><span rv-text="cart.item_count"></span> Items</strong>
-          <p rv-text="cart.total_price | money '{{ shop.money_format }}'"></p>
-          <p>
+          <div class="row mb-3">
+            <div class="col-auto d-flex flex-column justify-content-center">
+              <strong>
+                <span rv-text="cart.item_count"></span>
+                Items
+              </strong>
+              <p class="my-0" rv-text="cart.total_price | money '{{ shop.money_format }}'"></p>
+            </div>
+            <div class="col d-flex flex-column align-items-end justify-content-center">
+              <button type="submit" name="checkout" class="btn btn-animated-underline-dark font-weight-bold">Buy</button>
+            </div>
+          </div>
+
+          <p class="mb-0">
             <strong>
               <a class="text-normal" rv-route="'/cart'" rv-route-class-active="'/cart'" href="/cart" >View Shopping Bag</a>
             </strong>
           </p>
         </div>
+      </form>
 
-      </ul>
     </div>
   </div>
 </rv-shopify-cart>

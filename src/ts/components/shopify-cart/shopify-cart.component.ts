@@ -71,7 +71,7 @@ export class ShopifyCartComponent extends RibaComponent {
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
     .then((cart: IShopifyCartObject) => {
       this.debug('increased', cart);
-      this.cart = cart;
+      // this.cart = cart;
     });
   }
 
@@ -84,7 +84,7 @@ export class ShopifyCartComponent extends RibaComponent {
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
     .then((cart: IShopifyCartObject) => {
       this.debug('decreased', cart);
-      this.cart = cart;
+      // this.cart = cart;
     });
   }
 

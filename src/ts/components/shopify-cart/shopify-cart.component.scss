@@ -9,6 +9,7 @@ rv-shopify-cart {
     max-height: 80vh;
     overflow-y: auto;
     .shopping-cart-dropdown-footer,
+    .shopping-cart-dropdown-header,
     .media {
       letter-spacing: 0.05rem;
       font-size: 0.8em;
@@ -22,6 +23,11 @@ rv-shopify-cart {
           top: 0;
           right: 0;
         }
+      }
+    }
+    #customer_login {
+      input.form-control {
+
       }
     }
   }

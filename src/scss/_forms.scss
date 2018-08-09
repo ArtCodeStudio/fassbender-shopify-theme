@@ -1,4 +1,45 @@
+/**
+ * Remove Autocomplete styles in Chrome
+ */
+@mixin autofill($color, $bg-color) {
+  &:-webkit-autofill {
+    -webkit-text-fill-color: $color;
+    box-shadow: 0 0 0px 1000px $bg-color inset;
+    transition: none;
+    &:hover, 
+    &:focus {
+      -webkit-text-fill-color: $color;
+      box-shadow: 0 0 0px 1000px $bg-color inset;
+      transition: none;
+    }
+  }
+}
 
+.form-control {
+  @include autofill($input-color, $input-bg);
+
+  /**
+   * Input colors
+   */
+  @each $color, $value in $theme-colors {
+    &.form-control-#{$color} {
+      color: $value;
+      &::placeholder {
+        color: rgba($value, .7);
+      }
+      @include autofill($value, $input-bg);
+    }
+  }
+
+  /**
+   * Input without borders
+   */
+  &.form-control-text {
+    border: none;
+    padding: 0;
+    height: auto
+  }
+}
 
 .custom-radio {
   .custom-control-input ~ .custom-control-label {

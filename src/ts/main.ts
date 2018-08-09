@@ -41,6 +41,7 @@ import {
   ShopifyProductComponent,
   ShopifyProductItemComponent,
   ShopifyCartComponent,
+  ShopifyLoginFormComponent,
   ProductScrollbarComponent,
   TabsComponent,
   DropdownComponent,
@@ -77,6 +78,7 @@ export class Main {
     this.tinybind.componentService.regist(ShopifyProductItemComponent);
     this.tinybind.componentService.regist(ShopifyProductComponent);
     this.tinybind.componentService.regist(ShopifyCartComponent);
+    this.tinybind.componentService.regist(ShopifyLoginFormComponent);
     this.tinybind.componentService.regist(TabsComponent);
     this.tinybind.componentService.regist(DropdownComponent);
     this.tinybind.componentService.regist(InstagramComponent);
@@ -112,8 +114,6 @@ export class Main {
     // };
 
     this.view = this.tinybind.bind(JQuery('body')[0], window.model);
-
-    console.warn('this.tinybind', this.tinybind);
 
   }
 }
