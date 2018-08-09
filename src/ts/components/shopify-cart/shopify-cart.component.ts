@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent, shopifyExtension } from '../../tinybind';
+import { RibaComponent, shopifyExtension, IShopifyCartLineItem, IShopifyCartObject } from '../../tinybind';
 import template from './shopify-cart.component.html';
 import { Utils } from '../../services/Utils';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
@@ -8,8 +8,11 @@ import { DropdownService } from '../bs4/dropdown/dropdown.service';
 const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
 
 interface IScope {
-  cart: any;
+  cart: IShopifyCartObject | null;
   toggle: ShopifyCartComponent['toggle'];
+  remove: ShopifyCartComponent['remove'];
+  increase: ShopifyCartComponent['increase'];
+  decrease: ShopifyCartComponent['decrease'];
 }
 
 export class ShopifyCartComponent extends RibaComponent {
@@ -29,6 +32,9 @@ export class ShopifyCartComponent extends RibaComponent {
   protected scope: IScope = {
     cart: ShopifyCartService.cart,
     toggle: this.toggle,
+    remove: this.remove,
+    increase: this.increase,
+    decrease: this.decrease,
   };
 
   protected set cart(cart: any) {
@@ -50,6 +56,38 @@ export class ShopifyCartComponent extends RibaComponent {
     return this.dropdownService.toggle();
   }
 
+  public remove(lineItem: IShopifyCartLineItem, lineIndex: number) {
+    this.debug('remove', lineItem, lineIndex);
+    ShopifyCartService.change(lineItem.variant_id, 0)
+    .then((cart: IShopifyCartObject) => {
+      this.debug('removed', cart);
+      this.cart = cart;
+    });
+  }
+
+  public increase(lineItem: IShopifyCartLineItem, lineIndex: number) {
+    this.debug('increase', lineItem, lineIndex);
+    lineItem.quantity++;
+    ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
+    .then((cart: IShopifyCartObject) => {
+      this.debug('increased', cart);
+      this.cart = cart;
+    });
+  }
+
+  public decrease(lineItem: IShopifyCartLineItem, lineIndex: number) {
+    this.debug('decrease', lineItem, lineIndex);
+    lineItem.quantity--;
+    if (lineItem.quantity < 0) {
+      lineItem.quantity = 0;
+    }
+    ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
+    .then((cart: IShopifyCartObject) => {
+      this.debug('decreased', cart);
+      this.cart = cart;
+    });
+  }
+
   protected async beforeBind() {
     this.debug('beforeBind');
     return ShopifyCartService.get()
@@ -65,7 +103,14 @@ export class ShopifyCartComponent extends RibaComponent {
 
   protected async afterBind() {
     this.debug('afterBind', this.scope);
-    ShopifyCartService.dispatcher.on('ShopifyCart:request:complete', (cart: any) => {
+    ShopifyCartService.dispatcher.on('ShopifyCart:request:start', () => {
+      this.debug('ShopifyCart:request:start');
+    });
+    ShopifyCartService.dispatcher.on('ShopifyCart:request:changed', (cart: IShopifyCartObject) => {
+      this.debug('ShopifyCart:request:changed', cart);
+      this.cart = cart;
+    });
+    ShopifyCartService.dispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
       this.debug('ShopifyCart:request:complete', cart);
       this.cart = cart;
     });

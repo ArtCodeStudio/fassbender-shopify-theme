@@ -113,6 +113,8 @@ export class Main {
 
     this.view = this.tinybind.bind(JQuery('body')[0], window.model);
 
+    console.warn('this.tinybind', this.tinybind);
+
   }
 }
 

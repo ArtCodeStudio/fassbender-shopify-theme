@@ -1,0 +1,28 @@
+rv-shopify-cart {
+  user-select: none;
+  .cart-item-count {
+    margin-top: -20px;
+    min-width: 20px;
+  }
+  .dropdown-menu {
+    width: 290px;
+    max-height: 80vh;
+    overflow-y: auto;
+    .shopping-cart-dropdown-footer,
+    .media {
+      letter-spacing: 0.05rem;
+      font-size: 0.8em;
+    }
+    .media {
+      .img-wrapper {
+        max-width: 100px;
+        position: relative;
+        rv-icon {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+    }
+  }
+}

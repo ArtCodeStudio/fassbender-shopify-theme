@@ -1,0 +1,52 @@
+<rv-shopify-cart>
+  <div class="dropdown d-block">
+    <a class="nav-link dropdown-toggle" data-offset="-100" rv-on-click="toggle" rv-route-class-active="'/cart'" href="#" role="button" id="dropdownMenuCart" aria-haspopup="true" aria-expanded="false">
+      Shopping Bag <small class="ml-1 cart-item-count text-center" rv-text="cart.item_count"></small>
+    </a>
+    
+    <div class="dropdown-menu p-3 scrollbar-primary " aria-labelledby="dropdownMenuCart">
+      
+      <ul class="list-unstyled">
+        <li class="media mb-3" rv-each-item="cart.items">
+
+          <div class="img-wrapper mr-3">
+            <img class="img-fluid" rv-src="item.image" rv-alt="item.title">
+            <rv-icon class="m-2 cursor-pointer" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="16" rv-on-click="remove | args item %item%"></rv-icon>
+          </div>
+          
+          <div class="media-body">
+            <p class="mb-1">
+              <strong rv-text="item.product_title"></strong>
+            </p>
+            <div class="options d-flex align-items-center">
+              <div class="mr-2 my-0 d-inline-block" rv-each-option="item.variant_options">
+                {% comment %} color option {% endcomment %}
+                <div rv-show="option | first | eq '#'" class="styleicon-circle option-color" rv-css-background-color="option" style="width: 12px; height: 12px;"></div>
+                
+                {% comment %} size or other option {% endcomment %}
+                <div rv-hide="option | first | eq '#'" class="option-other" rv-text="option"></div>
+                {% comment %} <small class="text-muted">Change</small> {% endcomment %}
+              </div>
+            </div>
+            <p class="my-1">
+              Quantity <span rv-text="item.quantity"></span>
+              <span class="px-1 text-muted" rv-on-click="decrease | args item %item%">-</span>
+              <span class="px-1 text-muted" rv-on-click="increase | args item %item%">+</span>
+            </p>
+            <p rv-text="item.price | money '{{ shop.money_format }}'"></p>
+          </div>
+        </li>
+        <div class="shopping-cart-dropdown-footer">
+          <strong><span rv-text="cart.item_count"></span> Items</strong>
+          <p rv-text="cart.total_price | money '{{ shop.money_format }}'"></p>
+          <p>
+            <strong>
+              <a class="text-normal" rv-route="'/cart'" rv-route-class-active="'/cart'" href="/cart" >View Shopping Bag</a>
+            </strong>
+          </p>
+        </div>
+
+      </ul>
+    </div>
+  </div>
+</rv-shopify-cart>

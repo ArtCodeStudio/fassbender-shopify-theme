@@ -138,3 +138,9 @@
     font-weight: $font-weight-bold;
   }
 }
+
+a {
+  &.active {
+    color: $link-active-color;
+  }
+}

@@ -67,10 +67,10 @@ $colors: map-merge((
 ), $colors);
 
 $primary:       $pink;
-$secondary:     $gray-600 !default;
-$success:       $green !default;
-$info:          $cyan !default;
-$warning:       $yellow !default;
+$secondary:     $gray-600;
+$success:       $green;
+$info:          $cyan;
+$warning:       $yellow;
 $danger:        $purple;
 $light:         #F9DFD2; // $white;
 $dark:          $black;
@@ -155,6 +155,7 @@ $body-color:                $gray-900 !default;
 $link-color:                $dark;
 $link-decoration:           underline;
 $link-hover-color:          lighten($dark, 15%);
+$link-active-color:         $primary; // onw variable
 $link-hover-decoration:     none;
 
 // Paragraphs
@@ -281,7 +282,7 @@ $lead-font-weight:            $font-weight-normal;
 
 $small-font-size:             80% !default;
 
-$text-muted:                  $gray-600 !default;
+$text-muted:                  $gray-500;
 
 $blockquote-small-color:      $gray-600 !default;
 $blockquote-font-size:        ($font-size-base * 1.25) !default;

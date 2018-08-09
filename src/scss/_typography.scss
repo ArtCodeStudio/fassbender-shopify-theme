@@ -9,3 +9,11 @@
 h1, .h1 {
   @extend .text-serif;
 }
+
+.text-normal {
+  text-decoration: none;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
