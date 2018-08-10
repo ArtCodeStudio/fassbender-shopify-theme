@@ -15,26 +15,83 @@
   }
 }
 
-.form-control {
-  @include autofill($input-color, $input-bg);
 
-  /**
-   * Input colors
-   */
-  @each $color, $value in $theme-colors {
-    &.form-control-#{$color} {
-      color: $value;
-      &::placeholder {
-        color: rgba($value, .7);
+/**
+ * Custom input colors
+ */
+@each $color, $value in $theme-colors {
+  .form-control.form-control-#{$color} {
+    color: $value;
+    &::placeholder {
+      color: rgba($value, .7);
+    }
+    @include autofill($value, $input-bg);
+  }
+  .was-validated {
+    .form-control.form-control-#{$color} {
+      &:invalid, &.is-invalid {
+        color: $form-feedback-invalid-color;
+        @include autofill($form-feedback-invalid-color, $input-bg);
+        &::placeholder {
+          color: $form-feedback-invalid-color;
+        }
+        &:focus {
+          box-shadow: none;
+        }
       }
-      @include autofill($value, $input-bg);
+      &:valid, &.is-valid {
+        color: $form-feedback-valid-color;
+        @include autofill($form-feedback-valid-color, $input-bg);
+        &::placeholder {
+          color: $form-feedback-valid-color;
+        }
+        &:focus {
+          box-shadow: none;
+        }
+      }
     }
   }
+}
+
+/**
+ * Customization on bootstaps default form-control
+ */
+.form-control {
+  @include autofill($input-color, $input-bg);
 
   /**
    * Input without borders
    */
   &.form-control-text {
+    border: none;
+    padding: 0;
+    height: auto
+  }
+}
+
+/**
+ * Custom select colors
+ */
+@each $color, $value in $theme-colors {
+  .custom-select.custom-select-#{$color} {
+    color: $value;
+    &::placeholder {
+      color: rgba($value, .7);
+    }
+    @include autofill($value, $input-bg);
+  }
+}
+
+/**
+ * Customization on bootstaps default custom-select
+ */
+ .custom-select {
+  @include autofill($input-color, $input-bg);
+
+  /**
+   * Input without borders
+   */
+  &.custom-select-text {
     border: none;
     padding: 0;
     height: auto

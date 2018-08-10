@@ -1,0 +1,54 @@
+<div class="order my-4">
+  <div class="order-header">
+    <p class="my-1">ID {{ order.name | link_to: order.customer_url }}</p>
+    {% if order.cancelled %}
+      <p class="my-1">Status <a target="_blank" href="{{ order.order_status_url }}">Cancelled because {{order.cancel_reason}}</a></p>
+    {% else %}
+      <p class="my-1">Status <a target="_blank" href="{{ order.order_status_url }}">{{ order.financial_status_label }}</a></p>
+    {% endif %}
+    <p class="my-1">Created at {{ order.created_at | date: format: 'month_day_year' }}</p>
+  </div>
+  <ul class="list-unstyled mt-3">
+    {% for item in order.line_items %}
+      {% assign _options = item.title | split: ' - ' %}
+      {% assign options = _options[1] | split: ' / ' %}
+      <li class="media mb-3 cursor-pointer" rv-route="'{{ item.product.url }}'">
+        <img class="img-fluid mr-3" src="{{ item.image | img_url: '100x',  scale: 2 }}" alt="{{ item.title }}" />
+        
+        <div class="media-body">
+          <p class="mb-1">
+            <strong>{{ item.product.title }}</strong>
+          </p>
+          <div class="options d-flex align-items-center">
+            {% for option in options %}
+              <div class="mr-2 my-0 d-inline-block">
+                {% if option contains '#' %}
+                  {% comment %} color option {% endcomment %}
+                  <div class="styleicon-circle option-color" style="width: 12px; height: 12px; background-color: {{ option }};"></div>
+                {% else %}
+                  {% comment %} size or other option {% endcomment %}
+                  <div class="option-other">{{ option }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          <p class="my-1">
+            Quantity <span>{{ item.quantity }}</span>
+          </p>
+          <p>
+            {{ item.price | money }}
+          </p>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  <div class="order-footer">
+    <p class="mb-0">
+      <strong>
+        <span rv-text="cart.item_count"></span>
+        {{order.line_items | size}} Items
+      </strong>
+    </p>
+    <p class="mb-0">Total  {{ order.total_price | money }}</p>
+  </div>
+</div>

@@ -1,3 +1,11 @@
+.btn.btn-link {
+  // @extend a;
+  text-decoration: $link-decoration;
+  &:hover {
+    text-decoration: $link-hover-decoration;
+  }
+}
+
 /**
  * Underline buttons
  */

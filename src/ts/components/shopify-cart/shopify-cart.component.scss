@@ -1,3 +1,39 @@
+// TODO move to templates
+#customers-account, #customers-order {
+  .order-header,
+  .order-footer,
+  .media {
+    letter-spacing: 0.05rem;
+    font-size: 0.8em;
+  }
+
+  .media {
+    img {
+      max-width: 100px;
+    }
+  }
+}
+
+rv-shopify-cart {
+  .shopping-cart-dropdown-footer,
+  .shopping-cart-dropdown-header,
+  .media {
+    letter-spacing: 0.05rem;
+    font-size: 0.8em;
+  }
+  .media {
+    .img-wrapper {
+      max-width: 100px;
+      position: relative;
+      rv-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+}
+
 rv-shopify-cart {
   user-select: none;
   .cart-item-count {
@@ -8,23 +44,7 @@ rv-shopify-cart {
     width: 290px;
     max-height: 80vh;
     overflow-y: auto;
-    .shopping-cart-dropdown-footer,
-    .shopping-cart-dropdown-header,
-    .media {
-      letter-spacing: 0.05rem;
-      font-size: 0.8em;
-    }
-    .media {
-      .img-wrapper {
-        max-width: 100px;
-        position: relative;
-        rv-icon {
-          position: absolute;
-          top: 0;
-          right: 0;
-        }
-      }
-    }
+
     #customer_login {
       input.form-control {
 

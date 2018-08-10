@@ -1,0 +1,40 @@
+<div class="form-group mb-0">
+  <label for="{{idPrefix}}login_customer_email" class="sr-only">Email Address</label>
+  <input
+    type="email"
+    name="customer[email]"
+    class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'email' %}error{% endif %}"
+    id="{{idPrefix}}login_customer_email"
+    placeholder="Email"
+    required
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="false"
+    autofocus
+    autocomplete="username"
+    rv-value="form.customer.email"
+  />
+  <div class="invalid-feedback">
+    Please check your entry
+  </div>
+</div>
+
+<div class="form-group input-group mb-0">
+  <label for="{{idPrefix}}login_customer_password" class="sr-only">Password</label>
+  <input
+    type="password" 
+    name="customer[password]"
+    class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'password' %}error{% endif %}"
+    id="{{idPrefix}}login_customer_password"
+    placeholder="Password"
+    required
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="false"
+    autocomplete="current-password"
+    rv-value="form.customer.password"
+  >
+  <div class="invalid-feedback">
+    Please check your entry
+  </div>
+</div>

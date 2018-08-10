@@ -1,0 +1,20 @@
+<div class="form-group mb-0">
+  <label for="{{idPrefix}}recover_customer_email" class="sr-only">Email Address</label>
+  <input
+    type="email"
+    name="email"
+    class="form-control form-control-text form-control-primary py-1"
+    id="{{idPrefix}}recover_customer_email"
+    placeholder="Email"
+    required
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="false"
+    autofocus
+    autocomplete="username"
+    rv-value="form.customer.email"
+  />
+  <div class="invalid-feedback">
+    Please check your entry
+  </div>
+</div>

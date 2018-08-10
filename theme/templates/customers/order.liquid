@@ -1,19 +1,27 @@
-<div class="container">
+<div class="container-fluid pt-5" id="addresses">
+  <div class="row pt-md-5">
+    <div class="col-12 col-md-10 offset-md-2">
+      <div class="row">
+        <div class="col-12">
+          {% include 'jumplink-customer-order-list-item' with order %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %} <div class="container-fluid">
   <div class="row">
-
-
-
       <section id="order" class="section-wrap">
-        <div class="col-xs-12">
+        <div class="col-12">
           <div id="admin_header" class="clearfix">
-            <h1 class="page-header">{{ 'customer.account.title' | t }}</h1>
-            <h3>{{ 'customer.order.title' | t: name: order.name }}</h3>
+            <h1 class="page-header">Orders  {{order.name}}</h1>
             <div class="action_link action_return note pull-right" id='return_to_store'><a href="/account">{{ 'customer.account.return' | t }}</a></div>
             <p class="order_date">{{ 'customer.order.date' | t: date: order.created_at | date: "%B %d, %Y %I:%M%p" }}</p>
           
             {% if order.cancelled %}
               <div id="order_cancelled" class="alert alert-warning">
-                                {% assign cancelled_at = order.cancelled_at | date: "%B %d, %Y %I:%M%p" %}
+                {% assign cancelled_at = order.cancelled_at | date: "%B %d, %Y %I:%M%p" %}
                 <h5 id="order_cancelled_title">{{ 'customer.order.cancelled' | t: date: cancelled_at }}</h5>
                 <span class="note">{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason }}</span>
               </div>
@@ -21,7 +29,7 @@
           </div>
         </div>
 
-        <div class="col-xs-12 col-md-3">
+        <div class="col-12 col-md-3">
           <div class="order">
           
             <div class="well order-address">
@@ -61,7 +69,7 @@
           </div>
         </div>
 
-        <div class="col-xs-12 col-md-9">
+        <div class="col-12 col-md-9">
           <div class="order-details table-responsive">
             <table class="table">
               <thead>
@@ -134,4 +142,4 @@
 
     </div>
   </div>
-</div>
+</div> {% endcomment %}

@@ -1,4 +1,12 @@
 // templates like the captcha
 .shopify-challenge__container {
   padding-top: 100px;
+
+  .shopify-challenge__button.btn {
+    @extend .btn;
+    @extend .btn-animated-underline-dark;
+    @extend .font-weight-bold;
+    display: block;
+  }
+
 }

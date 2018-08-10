@@ -414,7 +414,7 @@ $input-disabled-bg:                     $gray-200 !default;
 $input-color:                           $gray-700 !default;
 $input-border-color:                    $gray-400 !default;
 $input-border-width:                    $input-btn-border-width !default;
-$input-box-shadow:                      inset 0 1px 1px rgba($black, .075) !default;
+$input-box-shadow:                      none; // inset 0 1px 1px rgba($black, .075) !default;
 
 $input-border-radius:                   $border-radius !default;
 $input-border-radius-lg:                $border-radius-lg !default;
@@ -424,7 +424,7 @@ $input-focus-bg:                        $input-bg !default;
 $input-focus-border-color:              $primary;
 $input-focus-color:                     $input-color !default;
 $input-focus-width:                     $input-btn-focus-width !default;
-$input-focus-box-shadow:                $input-btn-focus-box-shadow;
+$input-focus-box-shadow:                none; // $input-btn-focus-box-shadow;
 
 $input-placeholder-color:               $gray-600 !default;
 $input-plaintext-color:                 $body-color !default;
@@ -508,7 +508,7 @@ $custom-select-border-color:        $input-border-color !default;
 $custom-select-border-radius:       $border-radius !default;
 
 $custom-select-focus-border-color:  $input-focus-border-color !default;
-$custom-select-focus-box-shadow:    inset 0 1px 2px rgba($black, .075), 0 0 5px rgba($custom-select-focus-border-color, .5) !default;
+$custom-select-focus-box-shadow:    none; // inset 0 1px 2px rgba($black, .075), 0 0 5px rgba($custom-select-focus-border-color, .5) !default;
 
 $custom-select-font-size-sm:        75% !default;
 $custom-select-height-sm:           $input-height-sm !default;
@@ -556,8 +556,8 @@ $custom-file-text: (
 // Form validation
 $form-feedback-margin-top:          $form-text-margin-top !default;
 $form-feedback-font-size:           $small-font-size !default;
-$form-feedback-valid-color:         theme-color("success") !default;
-$form-feedback-invalid-color:       theme-color("danger") !default;
+$form-feedback-valid-color:         theme-color("primary");
+$form-feedback-invalid-color:       theme-color("danger");
 
 
 // Dropdowns

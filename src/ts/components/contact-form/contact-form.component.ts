@@ -18,7 +18,7 @@ export interface IValidationRule {
 
 export interface IValidationObject {
   valid: boolean;
-  rules: {
+  rules?: {
     [key: string]: IValidationRule;
   };
 }
@@ -95,83 +95,87 @@ export class ContactFormComponent extends RibaComponent {
      */
     protected validate(validation: IValidationObject, formValues: any, keys: string[], $form: JQuery<HTMLFormElement>) {
       validation.valid = true;
+
       keys.forEach((key: string) => {
-          validation.rules[key].error = '';
-          // value is requred
-          if (validation.rules[key].required) {
-            if (Utils.isString(formValues[key])) {
-              if (formValues[key].length <= 0) {
-                validation.rules[key].error = 'This field is required';
-              }
-            }
-            if (Utils.isUndefined(formValues[key])) {
+        if (!validation.rules) {
+          return;
+        }
+        validation.rules[key].error = '';
+        // value is requred
+        if (validation.rules[key].required) {
+          if (Utils.isString(formValues[key])) {
+            if (formValues[key].length <= 0) {
               validation.rules[key].error = 'This field is required';
             }
           }
+          if (Utils.isUndefined(formValues[key])) {
+            validation.rules[key].error = 'This field is required';
+          }
+        }
 
-          // validation for numbers
-          if (Utils.isNumber(formValues[key])) {
-            // maximum value for number
-            if (Utils.isNumber(validation.rules[key].max)) {
-              if (formValues[key] > (validation.rules[key].max as number)) {
-                validation.rules[key].error = 'The number must be a maximum of ' + validation.rules[key].max;
-              }
-            }
-
-            // minimum value for number
-            if (Utils.isNumber(validation.rules[key].min)) {
-              if (formValues[key] < (validation.rules[key].min as number)) {
-                validation.rules[key].error = 'The number must be at least ' + validation.rules[key].min;
-              }
+        // validation for numbers
+        if (Utils.isNumber(formValues[key])) {
+          // maximum value for number
+          if (Utils.isNumber(validation.rules[key].max)) {
+            if (formValues[key] > (validation.rules[key].max as number)) {
+              validation.rules[key].error = 'The number must be a maximum of ' + validation.rules[key].max;
             }
           }
 
-          // validation for strings
-          if (Utils.isString(formValues[key]) && formValues[key].length >= 1 ) {
-            // maximum value for string length
-            if (Utils.isNumber(validation.rules[key].maxlength)) {
-              if (formValues[key].length > (validation.rules[key].maxlength as number)) {
-                validation.rules[key].error = 'The number of characters must not exceed ' + validation.rules[key].maxlength;
-              }
+          // minimum value for number
+          if (Utils.isNumber(validation.rules[key].min)) {
+            if (formValues[key] < (validation.rules[key].min as number)) {
+              validation.rules[key].error = 'The number must be at least ' + validation.rules[key].min;
             }
+          }
+        }
 
-            // minimum value for string length
-            if (Utils.isNumber(validation.rules[key].minlength)) {
-              if (formValues[key].length < (validation.rules[key].minlength as number)) {
-                validation.rules[key].error = 'The number of characters must be at least ' + validation.rules[key].minlength;
-              }
-            }
-
-            // email
-            if (validation.rules[key].isEmail) {
-              if (formValues[key].indexOf('@') <= -1) {
-                validation.rules[key].error = 'This is not a valid email address';
-              }
-
-              if (formValues[key].indexOf('.') <= -1) {
-                validation.rules[key].error = 'This is not a valid email address';
-              }
-            }
-
-            // phone number
-            if (validation.rules[key].isPhone) {
-              if (!Utils.stringIsPhoneNumber(formValues[key])) {
-                validation.rules[key].error = 'The phone number can only contain numbers, +, -, ) and (';
-              }
-            }
-
-            // only numbers
-            if (validation.rules[key].onlyNumbers) {
-              if (!Utils.stringHasOnlyNumbers(formValues[key])) {
-                validation.rules[key].error = 'The value may only contain numbers';
-              }
+        // validation for strings
+        if (Utils.isString(formValues[key]) && formValues[key].length >= 1 ) {
+          // maximum value for string length
+          if (Utils.isNumber(validation.rules[key].maxlength)) {
+            if (formValues[key].length > (validation.rules[key].maxlength as number)) {
+              validation.rules[key].error = 'The number of characters must not exceed ' + validation.rules[key].maxlength;
             }
           }
 
-          // is all valid?
-          if (validation.rules[key].error.length) {
-            validation.valid = false;
+          // minimum value for string length
+          if (Utils.isNumber(validation.rules[key].minlength)) {
+            if (formValues[key].length < (validation.rules[key].minlength as number)) {
+              validation.rules[key].error = 'The number of characters must be at least ' + validation.rules[key].minlength;
+            }
           }
+
+          // email
+          if (validation.rules[key].isEmail) {
+            if (formValues[key].indexOf('@') <= -1) {
+              validation.rules[key].error = 'This is not a valid email address';
+            }
+
+            if (formValues[key].indexOf('.') <= -1) {
+              validation.rules[key].error = 'This is not a valid email address';
+            }
+          }
+
+          // phone number
+          if (validation.rules[key].isPhone) {
+            if (!Utils.stringIsPhoneNumber(formValues[key])) {
+              validation.rules[key].error = 'The phone number can only contain numbers, +, -, ) and (';
+            }
+          }
+
+          // only numbers
+          if (validation.rules[key].onlyNumbers) {
+            if (!Utils.stringHasOnlyNumbers(formValues[key])) {
+              validation.rules[key].error = 'The value may only contain numbers';
+            }
+          }
+        }
+
+        // is all valid?
+        if (validation.rules[key].error.length) {
+          validation.valid = false;
+        }
       });
 
       /**

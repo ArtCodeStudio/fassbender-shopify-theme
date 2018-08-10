@@ -9,16 +9,23 @@
       <div class="shopping-cart-dropdown-header">
       {% if shop.customer_accounts_enabled %}
         {% if customer %}
-          <div>
-            <p class="float-left">Hi {{ customer.first_name }}</p>
-            <p class="float-right">
-              <strong>
-                <a rv-route="'/account'" rv-route-class-active="'/account'" href="/account">
-                  My Account
-                </a>
-              </strong>
-            </p>
+          <div class="row">
+            <div class="col">
+              Hi {{ customer.first_name }}
+            </div>
+            <div class="col-auto">
+              <a href="/account/logout">Logout</a>
+            </div>
           </div>
+          
+          <p></p>
+          <p>
+            <strong>
+              <a class="text-normal" rv-route="'/account'" rv-route-class-active="'/account'" href="/account">
+                My Account
+              </a>
+            </strong>
+          </p>
         {% else %}
           <rv-shopify-login-form>
             <p>
@@ -33,31 +40,45 @@
               </a>
             </p>
 
-            <div class="d-none" id="recover-customer-password-hidden-form">
+            {% comment %}
+               This form is used to recover the passwort and is hidden because
+               instead of have an seperate form in the frontend for this
+               we use the login form to get the email.
+            {% endcomment %}
+            <div hidden class="mb-3">
               {% form 'recover_customer_password' %}
-                <input rv-value="form.customer.email" type="email" name="email"></input>
+                {% include 'jumplink-form-inputs-customer-recover', idPrefix: 'dropdown_' %}
               {% endform %}
+
+              <div class="col d-flex align-items-center justify-content-end">
+                <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="recover">Recover</button>
+              </div>
             </div>
 
-            <form method="post" action="/account/login" accept-charset="UTF-8">
-              <input type="hidden" name="form_type" value="customer_login">
-              <input type="hidden" name="utf8" value="✓">
+            {% comment %} 
+              We do not use { % form 'customer_login' % } here because
+              this form has an id we already have on the login / regist page
+            {% endcomment %}
+            <div>
+              <form method="post" action="/account/login" accept-charset="UTF-8">
+                <input type="hidden" name="form_type" value="customer_login">
+                <input type="hidden" name="utf8" value="✓">
 
-              <div class="mb-1">
-                <input rv-value="form.customer.email" required autocomplete="username" class="form-control form-control-text form-control-primary py-1" type="email" name="customer[email]" placeholder="Email"></input>
-                <input rv-value="form.customer.password" required autocomplete="current-password" class="form-control form-control-text form-control-primary py-1" type="password" name="customer[password]" placeholder="Password"></input>
-              </div>
-              <div class="row mb-2">
-                <div class="col-auto d-flex align-items-center">
-                  <button class="btn btn-sm btn-link pl-0" rv-on-click="recover">
-                    Forgot Password?
-                  </button> 
+                <div class="mb-3">
+                  {% include 'jumplink-form-inputs-customer-login', idPrefix: 'dropdown_' %}
                 </div>
-                <div class="col d-flex align-items-center justify-content-end">
-                  <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="login">Login</button>
+                <div class="row mb-2">
+                  <div class="col-auto d-flex align-items-center">
+                    <button class="btn btn-sm btn-link pl-0" rv-on-click="recover">
+                      Forgot Password?
+                    </button> 
+                  </div>
+                  <div class="col d-flex align-items-center justify-content-end">
+                    <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="login">Login</button>
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </rv-shopify-login-form>
 
         {% endif %}
@@ -75,7 +96,9 @@
             
             <div class="media-body">
               <p class="mb-1">
-                <strong rv-text="item.product_title"></strong>
+                <a class="text-normal" rv-route="item.url">
+                  <strong rv-text="item.product_title"></strong>
+                </a>
               </p>
               <div class="options d-flex align-items-center">
                 <div class="mr-2 my-0 d-inline-block" rv-each-option="item.variant_options">
@@ -98,25 +121,37 @@
         </ul>
 
         <div class="shopping-cart-dropdown-footer">
-          <div class="row mb-3">
-            <div class="col-auto d-flex flex-column justify-content-center">
-              <strong>
-                <span rv-text="cart.item_count"></span>
-                Items
-              </strong>
-              <p class="my-0" rv-text="cart.total_price | money '{{ shop.money_format }}'"></p>
+          <div rv-hide="cart.item_count | eq 0">
+            <div class="row mb-3">
+              <div class="col-auto d-flex flex-column justify-content-center">
+                <strong>
+                  <span rv-text="cart.item_count"></span>
+                  Items
+                </strong>
+                <p class="my-0" rv-text="cart.total_price | money '{{ shop.money_format }}'"></p>
+              </div>
+              <div class="col d-flex flex-column align-items-end justify-content-center">
+                <button type="submit" name="checkout" class="btn btn-animated-underline-dark font-weight-bold">Buy</button>
+              </div>
             </div>
-            <div class="col d-flex flex-column align-items-end justify-content-center">
-              <button type="submit" name="checkout" class="btn btn-animated-underline-dark font-weight-bold">Buy</button>
+
+            <p class="mb-0">
+              <strong>
+                <a class="text-normal" rv-route="'/cart'" rv-route-class-active="'/cart'" href="/cart" >View Shopping Bag</a>
+              </strong>
+            </p>
+          </div>
+
+          <div rv-show="cart.item_count | eq 0">
+            <div class="row" rv-show="cart.item_count | eq 0">
+              <div class="col-auto">
+                <strong>No Items yet</strong>
+              </div>
             </div>
           </div>
 
-          <p class="mb-0">
-            <strong>
-              <a class="text-normal" rv-route="'/cart'" rv-route-class-active="'/cart'" href="/cart" >View Shopping Bag</a>
-            </strong>
-          </p>
         </div>
+
       </form>
 
     </div>

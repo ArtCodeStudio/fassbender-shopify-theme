@@ -4,23 +4,62 @@
       <rv-shopify-login-form>
         <div class="row">
 
-          <div class="col-12">
+          {% comment %}
+            recover_customer_password
+            This form is used to recover the passwort and is hidden because
+            instead of have an seperate form in the frontend for this
+            we use the login form to get the email.
+          {% endcomment %}
+          <div class="col-6 order-2" hidden>
             {% form 'recover_customer_password' %}
-              {% if form.posted_successfully? %}
-                <div class="alert alert-success" role="alert">
-                  Password recovery was successfully sent
-                </div>
-              {% endif %}
+
+              {% comment %} Error and Successfull messages {% endcomment %}
               {% if form.errors %}
-                <div class="alert alert-danger" role="alert">
-                  {{ form.errors | default_errors }}
-                </div>
+                {% assign formErrors = form.errors %}
               {% endif %}
+              {% if form.posted_successfully? %}
+                {% assign formSuccessfully = 'Password recovery was successfully sent' %}
+              {% endif %}
+
+              <p class="mb-0">
+                <strong>
+                  Recover my password.
+                </strong>
+              </p>
+
+              <p>
+                All we need is your email address.
+              </p>
+
+              {% include 'jumplink-form-inputs-customer-recover' %}
+
+              <button class="btn btn-link w-100 p-0 text-left mb-3" rv-on-click="recoverBack">
+                <small>
+                  Back
+                </small>
+              </button>
+
+              <button type="submit" class="btn btn-animated-underline-dark font-weight-bold"
+                rv-on-click="recover"
+              >
+                Recover
+              </button>
+
             {% endform %}
           </div>
 
-          <div class="col-6">
+          {% comment %} customer_login {% endcomment %}
+          <div class="col-6 order-2">
             {% form 'customer_login' %}
+
+              {% comment %} Error and Successfull messages {% endcomment %}
+              {% if form.errors %}
+                {% assign formErrors = form.errors %}
+              {% endif %}
+              {% if form.posted_successfully? %}
+                {% assign formSuccessfully = 'Logged in successfully' %}
+              {% endif %}
+
               <p class="mb-0">
                 <strong>
                   I'm already a customer.
@@ -31,149 +70,72 @@
                 Log in with your Login-Data.
               </p>
 
-              {% if form.errors %}
-                <div class="alert alert-danger" role="alert">
-                  {{ form.errors | default_errors }}
-                </div>
-              {% endif %}
+              {% include 'jumplink-form-inputs-customer-login' %}
 
-              <div class="form-group mb-0">
-                <label for="CustomerEmail" class="sr-only">{{ 'customer.login.email' | t }}</label>
-                <input type="email" name="customer[email]" id="CustomerEmail" class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'email' %}error{% endif %}"
-                  placeholder="Email" autocorrect="off" autocapitalize="off" autofocus>
-              </div>
-
-              {% if form.password_needed %}
-                <div class="form-group input-group mb-0">
-                  <label for="CustomerPassword" class="sr-only">Password</label>
-                  <input type="password" value="" name="customer[password]" id="CustomerPassword" class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'password' %}error{% endif %}"
-                    placeholder="Password">
-                </div>
-              {% endif %}
-
-              <p>
+              <button class="btn btn-link w-100 p-0 text-left mb-3" rv-on-click="recover">
                 <small>
-                  Forget your password? TODO
+                  Forget your password?
                 </small>
-              </p>
+              </button>
 
-              <button type="submit" class="btn btn-animated-underline-dark font-weight-bold">Login</button>
+
+              <button type="submit" class="btn btn-animated-underline-dark font-weight-bold"
+                rv-on-click="login"
+              >
+                Login
+              </button>
 
             {% endform %}
           </div>
 
-          <div class="col-6">
-            regist
+          {% comment %} create_customer {% endcomment %}
+          <div class="col-6 order-3">
+            {% form 'create_customer' %}
+
+              {% comment %} Error and Successfull messages {% endcomment %}
+              {% if form.errors %}
+                {% assign formErrors = form.errors %}
+              {% endif %}
+              {% if form.posted_successfully? %}
+                {% assign formSuccessfully = 'Account successfully created' %}
+              {% endif %}
+
+              <p class="mb-0">
+                <strong>
+                  I'm new here.
+                </strong>
+              </p>
+
+              {% include 'jumplink-form-inputs-customer-create' %}
+
+              <button type="submit" class="btn btn-animated-underline-dark font-weight-bold"
+                rv-on-click="create"
+              >
+                Register
+              </button>
+
+            {% endform %}
+          </div>
+
+          <div class="col-12 order-1">
+            {% if formErrors %}
+              <div class="alert alert-danger" role="alert">
+                {{ formErrors | default_errors }}
+              </div>
+            {% endif %}
+
+            {% if formSuccessfully %}
+              <div class="alert alert-success" role="alert">
+                {{ formSuccessfully }}
+              </div>
+            {% endif %}
           </div>
 
         </div>
+
+
+
       </rv-shopify-login-form>
     </div>
   </div>
 </div>
-
-
-{% comment %}
-{% if customer %}
-<div class="container-fluid pt-5">
-  <div class="row">
-    <div class="col-12">
-      {% include 'jumplink-logged-in' %}
-    </div>
-  </div>
-</div>
-{% else %}
-<div class="container-fluid py-5">
-  <div class="row">
-    <div class="col-12">
-      <div class="text-center">
-        <h2>{{ 'customer.login.title' | t }}</h2>
-        {% include 'jumplink-customers-messages' %}
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="">
-  <div class="container-fluid py-5">
-    <div class="row">
-      <div class="col-12 col-md-6 mx-auto text-center" id="CustomerLoginForm">
-
-        {% form 'customer_login' %} {% if form.errors %}
-        <div class="form-errors-selector" style="display: none;">
-          {{ form.errors | default_errors }}
-        </div>
-        {% endif %} {% if form.errors %}
-        <p>
-          <a href="#recover" class="RecoverPassword">{{ 'customer.login.forgot_password' | t }}</a>
-        </p>
-        {% endif %}
-
-        <div class="form-group">
-          <label for="CustomerEmail" class="sr-only">{{ 'customer.login.email' | t }}</label>
-          <input type="email" name="customer[email]" id="CustomerEmail" class="form-control form-control-warning border-brand-warning {% if form.errors contains 'email' %}error{% endif %}"
-            placeholder="{{ 'customer.login.email' | t }}" autocorrect="off" autocapitalize="off" autofocus>
-        </div>
-
-        {% if form.password_needed %}
-        <div class="form-group input-group">
-          <label for="CustomerPassword" class="sr-only">Password</label>
-          <input type="password" value="" name="customer[password]" id="CustomerPassword" class="form-control form-control-warning border-brand-warning {% if form.errors contains 'password' %}error{% endif %}"
-            placeholder="Password">
-          <span class="input-group-btn">
-            <a href="#recover" id="RecoverPassword" class="btn btn-outline-warning" title="{{ 'customer.login.forgot_password' | t }}">?</a>
-          </span>
-        </div>
-        {% endif %}
-
-        <p>
-          <input type="submit" class="btn btn-primary submit-login" value="{{ 'customer.login.sign_in' | t }}">
-        </p>
-
-        <p class="text-center mt-3">
-          {{ 'customer.login.no_account' | t }}
-          <a href="/account/register">{{ 'customer.login.create_account' | t }}</a>
-        </p>
-        {% endform %}
-      </div>
-
-      <div class="col-12 text-center" id="RecoverPasswordForm" style="display: none;">
-
-        <h2>{{ 'customer.recover_password.title' | t }}</h2>
-        <p>{{ 'customer.recover_password.subtext' | t }}</p>
-
-        {% form 'recover_customer_password' %} {% if form.errors %}
-        <div class="form-errors-selector" style="display: none;">
-          {{ form.errors | default_errors }}
-        </div>
-        {% endif %} {% if form.posted_successfully? %} {% assign resetPassword = true %}
-        <div id="resetPasswordSuccessSelector"></div>
-        {% endif %}
-
-        <div class="form-group">
-          <label for="RecoverEmail" class="sr-only">{{ 'customer.recover_password.email' | t }}</label>
-          <input type="email" value="" name="email" id="RecoverEmail" class="form-control form-control-warning border-brand-warning"
-            placeholder="{{ 'customer.recover_password.email' | t }}" autocorrect="off" autocapitalize="off">
-        </div>
-
-        <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
-          <input type="submit" class="btn btn-primary" value="{{ 'customer.recover_password.submit' | t }}">
-          <button type="button" id="HideRecoverPasswordLink" class="btn btn-secondary border-px-0">{{ 'customer.recover_password.cancel' | t }}</button>
-        </div>
-
-        {% endform %}
-
-      </div>
-
-      {% if shop.checkout.guest_login %}
-      <hr>
-
-      <h2>{{ 'customer.login.guest_title' | t }}</h2>
-
-      {% form 'guest_login' %}
-      <input type="submit" class="btn btn-primary full-width" value="{{ 'customer.login.guest_continue' | t }}"> {% endform %} {% endif %}
-    </div>
-  </div>
-</div>
-{% endif %}
-{% endcomment %}

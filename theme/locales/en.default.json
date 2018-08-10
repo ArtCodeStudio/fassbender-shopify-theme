@@ -6,5 +6,26 @@
   },
   "date_formats": {
     "month_day_year": "%B %d, %Y"
+  },
+  "customer": {
+    "addresses": {
+      "title": "Your Addresses",
+      "default": "Default address",
+      "add_new": "Add a New Address",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "company": "Company",
+      "address1": "Address",
+      "address2": "Additional Address",
+      "city": "City",
+      "country": "Country",
+      "province": "Province",
+      "zip": "Postal/Zip Code",
+      "phone": "Phone",
+      "set_default": "Set as default address",
+      "add": "Add",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
   }
 }

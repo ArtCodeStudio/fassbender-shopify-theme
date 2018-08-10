@@ -1,0 +1,152 @@
+
+<div class="my-3">
+  <div class="custom-control custom-radio">
+    <input
+      type="radio"
+      id="{{idPrefix}}create_customer_is_private"
+      name="customer[note][customer is company]"
+      value="false"
+      class="custom-control-input"
+      rv-checked="form.customer.isCompany"
+    >
+    <label class="custom-control-label" for="{{idPrefix}}create_customer_is_private">Privat Customer</label>
+  </div>
+
+  <div class="custom-control custom-radio">
+    <input
+      type="radio"
+      id="{{idPrefix}}create_customer_is_company"
+      name="customer[note][customer is company]"
+      value="true"
+      class="custom-control-input"
+      rv-checked="form.customer.isCompany"
+    >
+    <label class="custom-control-label" for="{{idPrefix}}create_customer_is_company">Company</label>
+  </div>
+</div>
+
+<div class="my-3">
+
+  <div class="form-group mb-0" rv-show="form.customer.isCompany | eq 'true'">
+    <label for="{{idPrefix}}create_customer_company" class="sr-only">Company</label>
+    <input class="form-control form-control-text form-control-primary py-1"
+      type="text"
+      name="customer[note][company]"
+      id="{{idPrefix}}create_customer_company"
+      placeholder="Company"
+      autocorrect="off"
+      spellcheck="false"
+      autocomplete='organization'
+      rv-value="form.customer.company"
+    />
+    <div class="invalid-feedback">
+      Please check your entry
+    </div>
+  </div>
+
+  <div class="form-group mb-0">
+    <label for="{{idPrefix}}create_customer_first_name" class="sr-only">First Name*</label>
+    <input class="form-control form-control-text form-control-primary py-1"
+      type="text"
+      name="customer[first_name]"
+      id="{{idPrefix}}create_customer_first_name"
+      placeholder="First Name*"
+      required
+      autocorrect="off"
+      spellcheck="false"
+      autocomplete="given-name"
+      rv-value="form.customer.first_name"
+    />
+    <div class="invalid-feedback">
+      Please check your entry
+    </div>
+  </div>
+
+  <div class="form-group mb-0">
+    <label for="{{idPrefix}}create_customer_last_name" class="sr-only">Last Name*</label>
+    <input class="form-control form-control-text form-control-primary py-1"
+      type="text"
+      name="customer[last_name]"
+      id="{{idPrefix}}create_customer_last_name"
+      placeholder="Last Name*"
+      required
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+      autocomplete="family-name"
+      rv-value="form.customer.last_name"
+    />
+    <div class="invalid-feedback">
+      Please check your entry
+    </div>
+  </div>
+
+  {% comment %}
+    You won't be able to capture a customer's address or phone number inside the registration form.
+    A customer will provide an address with their first order.
+  {% endcomment %}
+  <div class="form-group mb-0">
+    <label for="{{idPrefix}}create_customer_phone" class="sr-only">Phone</label>
+    <input class="form-control form-control-text form-control-primary py-1"
+      type="tel"
+      name="customer[note][phone]"
+      id="{{idPrefix}}create_customer_phone"
+      placeholder="Phone"
+      autocomplete="phone"
+      rv-value="form.customer.phone"
+    />
+    <div class="invalid-feedback">
+      Please check your entry
+    </div>
+  </div>
+
+  <div class="form-group mb-0">
+    <label for="{{idPrefix}}create_customer_email" class="sr-only">Email Address*</label>
+    <input class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'email' %}error{% endif %}"
+      type="email"
+      name="customer[email]"
+      id="{{idPrefix}}create_customer_email"
+      placeholder="Email*"
+      required
+      autocorrect="off"
+      spellcheck="false"
+      autocomplete="username"
+      rv-value="form.customer.email"
+    />
+    <div class="invalid-feedback">
+      Please check your entry
+    </div>
+  </div>
+
+  <div class="form-group mb-0">
+    <label for="{{idPrefix}}create_customer_password" class="sr-only">Password*</label>
+    <input class="form-control form-control-text form-control-primary py-1"
+      type="password"
+      name="customer[password]"
+      id="{{idPrefix}}create_customer_password"
+      placeholder="Password*"
+      required
+      autocorrect="off"
+      spellcheck="false"
+      autocapitalize="off"
+      autocomplete="new-password"
+      rv-value="form.customer.password"
+    />
+    <div class="invalid-feedback">
+      Please check your entry
+    </div>
+  </div>
+</div>
+
+<small class="custom-control custom-checkbox mb-3">
+  <input type="checkbox" class="custom-control-input" name="contact[privacy]" id="acceptPrivacy" required>
+  <label class="custom-control-label" for="acceptPrivacy">
+    Yes, I authorise the processing of my personal data according to the <a href="/pages/it-recht-datenschutz">Privacy Policy</a>.<br>
+  </label>
+</small>
+
+<p>
+  <small>
+    The fields marked with * are required
+  </small>
+</p>

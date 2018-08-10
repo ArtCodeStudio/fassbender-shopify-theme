@@ -1,4 +1,8 @@
 rv-shopify-login-form {
   display: block;
   width: 100%;
+
+  .errors {
+    @extend .list-unstyled;
+  }
 }

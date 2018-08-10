@@ -26,6 +26,8 @@ export const expanOnUrlBinder: BinderWrapper = () => {
 
     dispatcher.on('newPageReady', () => checkURL(url));
 
+    checkURL(url);
+
   };
   return {
     binder,

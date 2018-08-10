@@ -42,6 +42,7 @@ import {
   ShopifyProductItemComponent,
   ShopifyCartComponent,
   ShopifyLoginFormComponent,
+  ShopifyAddressesComponent,
   ProductScrollbarComponent,
   TabsComponent,
   DropdownComponent,
@@ -79,6 +80,7 @@ export class Main {
     this.tinybind.componentService.regist(ShopifyProductComponent);
     this.tinybind.componentService.regist(ShopifyCartComponent);
     this.tinybind.componentService.regist(ShopifyLoginFormComponent);
+    this.tinybind.componentService.regist(ShopifyAddressesComponent);
     this.tinybind.componentService.regist(TabsComponent);
     this.tinybind.componentService.regist(DropdownComponent);
     this.tinybind.componentService.regist(InstagramComponent);

@@ -8,6 +8,7 @@ export { ShopifyProductComponent } from './shopify-product/shopify-product.compo
 export { ShopifyProductItemComponent } from './shopify-product-item/shopify-product-item.component';
 export { ShopifyCartComponent } from './shopify-cart/shopify-cart.component';
 export { ShopifyLoginFormComponent } from './shopify-login-form/shopify-login-form.component';
+export { ShopifyAddressesComponent } from './shopify-addresses/shopify-addresses.component';
 export { ProductScrollbarComponent } from './product-scrollbar/product-scrollbar.component';
 export { InstagramComponent } from './instagram/instagram.component';
 export { InstagramScrollbarComponent } from './instagram-scrollbar/instagram-scrollbar.component';
