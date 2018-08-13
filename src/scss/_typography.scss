@@ -10,10 +10,14 @@ h1, .h1 {
   @extend .text-serif;
 }
 
-.text-normal {
-  text-decoration: none;
+.text-normal, // <- TODO remove
+.text-decoration-normal
+{
+  text-decoration: none !important;
 }
 
-.text-underline {
-  text-decoration: underline;
+.text-underline, // <- TODO remove
+.text-decoration-underline
+{
+  text-decoration: underline !important;
 }

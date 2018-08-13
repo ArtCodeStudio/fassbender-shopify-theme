@@ -3,7 +3,7 @@
   <input
     type="email"
     name="customer[email]"
-    class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'email' %}error{% endif %}"
+    class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'email' %}is-invalid{% endif %}"
     id="{{idPrefix}}login_customer_email"
     placeholder="Email"
     required
@@ -24,7 +24,7 @@
   <input
     type="password" 
     name="customer[password]"
-    class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'password' %}error{% endif %}"
+    class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'password' %}is-invalid{% endif %}"
     id="{{idPrefix}}login_customer_password"
     placeholder="Password"
     required

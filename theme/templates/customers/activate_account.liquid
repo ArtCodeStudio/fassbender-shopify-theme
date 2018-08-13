@@ -1,32 +1,74 @@
+<div class="container-fluid pt-5" id="activate_account">
+  <div class="row pt-md-5">
+    <div class="col-12 col-md-10 offset-md-2">
 
-<div class="container">
-
-  <div class="row">
-    <div class="col-xs-12 text-center">
-
-      <h1>{{ 'customer.activate_account.title' | t }}</h1>
+      <h1 class="h6">{{ 'customer.activate_account.title' | t }}</h1>
       <p>{{ 'customer.activate_account.subtext' | t }}</p>
 
       {% comment %}
         This form must use 'activate_customer_password'
       {% endcomment %}
-      <div class="form-vertical">
-        {% form 'activate_customer_password' %}
 
-          {{ form.errors | default_errors }}
+      {% form 'activate_customer_password' %}
 
-          <label for="CustomerPassword" class="hidden-label">{{ 'customer.activate_account.password' | t }}</label>
-          <input type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full" placeholder="{{ 'customer.activate_account.password' | t }}">
+        {% comment %} Error and Successfull messages {% endcomment %}
+        {% if form.errors %}
+          {% assign formErrors = form.errors %}
+        {% endif %}
+        {% if form.posted_successfully? %}
+          {% assign formSuccessfully = 'Account successfully activated' %}
+        {% endif %}
 
-          <label for="CustomerPasswordConfirmation" class="hidden-label">{{ 'customer.activate_account.password_confirm' | t }}</label>
-          <input type="password" value="" name="customer[password_confirmation]" id="CustomerPasswordConfirmation" class="input-full" placeholder="{{ 'customer.activate_account.password_confirm' | t }}">
+        {% if formErrors %}
+          <div class="alert alert-danger" role="alert">
+            {{ formErrors | default_errors }}
+          </div>
+        {% endif %}
 
-          <input type="submit" class="btn btn--full" value="{{ 'customer.activate_account.submit' | t }}">
-          <input type="submit" class="btn--secondary btn--full" name="decline" value="{{ 'customer.activate_account.cancel' | t }}">
-        {% endform %}
-      </div>
+        {% if formSuccessfully %}
+          <div class="alert alert-success" role="alert">
+            {{ formSuccessfully }}
+          </div>
+        {% endif %}
+
+        <div class="form-group input-group mb-0">
+          <label for="CustomerPassword" class="sr-only">{{ 'customer.activate_account.password' | t }}</label>
+          <input
+            type="password"
+            value=""
+            name="customer[password]"
+            id="CustomerPassword"
+            class="form-control form-control-text form-control-primary py-1"
+            placeholder="{{ 'customer.activate_account.password' | t }}"
+            autocomplete="new-password"
+          >
+        </div>
+
+        <div class="form-group input-group mb-0">
+          <label for="CustomerPasswordConfirmation" class="sr-only">{{ 'customer.activate_account.password_confirm' | t }}</label>
+          <input
+            type="password"
+            value=""
+            name="customer[password_confirmation]"
+            id="CustomerPasswordConfirmation"
+            class="form-control form-control-text form-control-primary py-1"
+            placeholder="{{ 'customer.activate_account.password_confirm' | t }}"
+            autocomplete="new-password"
+          >
+        </div>
+        <div class="form-group input-group my-3">
+          <button type="submit" class="btn btn-animated-underline-dark font-weight-bold px-0">
+            {{ 'customer.activate_account.submit' | t }}
+          </button>
+        </div>
+
+        <div class="form-group input-group my-3">
+          <button type="submit" class="btn btn-animated-underline-dark font-weight-bold px-0" name="decline">
+            {{ 'customer.activate_account.cancel' | t }}
+          </button>
+        </div>
+      {% endform %}
 
     </div>
   </div>
-
 </div>

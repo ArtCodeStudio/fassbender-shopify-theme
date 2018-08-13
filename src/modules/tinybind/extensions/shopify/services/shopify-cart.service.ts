@@ -68,7 +68,11 @@ export class ShopifyCartService {
     if (ShopifyCartService.cart !== null) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          return resolve(ShopifyCartService.cart);
+          if (ShopifyCartService.cart !== null) {
+            return resolve(ShopifyCartService.cart);
+          } else {
+            return this._get();
+          }
         }, 0);
       });
     }

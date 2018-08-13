@@ -25,6 +25,9 @@
     &::placeholder {
       color: rgba($value, .7);
     }
+    &:disabled {
+      color: $input-disabled-color;
+    }
     @include autofill($value, $input-bg);
   }
   .was-validated {

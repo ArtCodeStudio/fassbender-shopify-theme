@@ -41,6 +41,21 @@
       "edit": "Bearbeiten",
       "update": "Aktualisieren",
       "delete": "Löschen"
+    },
+    "reset_password": {
+      "title": "Account-Passwort zurücksetzen",
+      "subtext": "Geben Sie ein neues Passwort für {{ email }} ein",
+      "password": "Passwort",
+      "password_confirm": "Passwort bestätigen",
+      "submit": "Passwort zurücksetzen"
+    },
+    "activate_account": {
+      "title": "Account aktivieren",
+      "subtext": "Erstellen Sie ein Passwort, um Ihren Account zu aktiveren.",
+      "password": "Passwort",
+      "password_confirm": "Passwort bestätigen",
+      "submit": "Account aktivieren",
+      "cancel": "Einladung ablehnen"
     }
   }
 }

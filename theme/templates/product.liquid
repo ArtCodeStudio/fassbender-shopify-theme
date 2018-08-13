@@ -89,7 +89,7 @@
         <div rv-each-option="product.options">
           <div class="row justify-content-between pt-4" rv-if="option.name | downcase | eq 'size'">
             <div class="col-auto px-1" rv-each-size="option.values">
-              <button class="btn btn-link option-size" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="onClickOption | args size option.position option.name"></button>
+              <button class="btn btn-link option-size text-decoration-normal" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="onClickOption | args size option.position option.name"></button>
             </div>
           </div>
         </div>

@@ -409,7 +409,8 @@ $input-padding-x-lg:                    $input-btn-padding-x-lg;
 $input-line-height-lg:                  $input-btn-line-height-lg;
 
 $input-bg:                              $white;
-$input-disabled-bg:                     $gray-200;
+$input-disabled-bg:                     $white;
+$input-disabled-color:                  $body-color; // custom variable
 
 $input-color:                           $gray-700;
 $input-border-color:                    $gray-400;
