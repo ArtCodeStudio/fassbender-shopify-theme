@@ -1,6 +1,21 @@
-{% if customer %}
-  {% include 'jumplink-customer-default-address' %}
-  {% include 'jumplink-customer-orders' %}
-{% else %}
-  {% include 'jumplink-login' %}
-{% endif %}
+<div class="container-fluid pt-5" id="addresses">
+  <div class="row pt-md-5">
+    <div class="col-12 col-md-10 offset-md-2">
+      
+      {% if customer %}
+        <div class="row" id="orders">
+          <div class="col-12">
+            {% include 'jumplink-customer-address', address: customer.default_address %}
+          </div>
+        </div>
+        <div class="row" id="orders">
+          <div class="col-12">
+            {% include 'jumplink-customer-orders' %}
+          </div>
+        </div>
+      {% else %}
+        {% include 'jumplink-login' %}
+      {% endif %}
+    </div>
+  </div>
+</div>

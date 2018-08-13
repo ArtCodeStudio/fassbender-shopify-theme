@@ -1,115 +1,46 @@
+{% assign formErrors = false %}
+{% assign formSuccessfully = false %}
+{% assign customerAddressesSize = customer.addresses | size %}
+
 <div class="container-fluid pt-5" id="addresses">
   <div class="row pt-md-5">
     <div class="col-12 col-md-10 offset-md-2">
       <rv-shopify-addresses>
         <div class="row">
-
-          <div class="col-12">
+          <div class="col-12 order-2">
             <p>
               <strong>Billing and shipping addresses</strong>
             </p>
-
+            {% if customerAddressesSize <= 0 %}
+              <p>No address yet</p>
+            {% endif %}
             {% comment %}
               List all customer addresses with a unique edit form.
               Also add pagination in case they have a large number of addresses
             {% endcomment %}
             {% for address in customer.addresses %}
+              {% if address == customer.default_address %}
+                {% assign isDefaultAddress = true %}
+              {% else %}
+                {% assign isDefaultAddress = false %}
+              {% endif %}
 
-              <div id="EditAddress_{{ address.id }}" class="form-vertical">
+              <div id="EditAddress_{{ address.id }}" class="form-vertical mb-5">
                 {% form 'customer_address', address %}
-
-                  <div class="form-group mb-0">
-                    <label class="sr-only" for="AddressFirstName_{{ form.id }}">{{ 'customer.addresses.first_name' | t }}</label>
-                    <input type="text" id="AddressFirstName_{{ form.id }}" class="form-control form-control-text form-control-primary" name="address[first_name]" value="{{ form.first_name }}" autocapitalize="words"
-                      placeholder="{{ 'customer.addresses.first_name' | t }}"
-                      autocomplete='shipping given-name'
-                    >
-                  </div>
-
-                  <div class="form-group mb-0">
-                    <label class="sr-only" for="AddressLastName_{{ form.id }}">{{ 'customer.addresses.last_name' | t }}</label>
-                    <input type="text" id="AddressLastName_{{ form.id }}" class="form-control form-control-text form-control-primary" name="address[last_name]" value="{{ form.last_name }}" autocapitalize="words"
-                      placeholder="{{ 'customer.addresses.last_name' | t }}"
-                      autocomplete='shipping family-name'
-                    >
-                  </div>
-
-                  <div class="form-group mb-0">
-                    <label class="sr-only" for="AddressCompany_{{ form.id }}">{{ 'customer.addresses.company' | t }}</label>
-                    <input type="text" id="AddressCompany_{{ form.id }}" class="form-control form-control-text form-control-primary" name="address[company]" value="{{ form.company }}" autocapitalize="words"
-                      placeholder="{{ 'customer.addresses.company' | t }}"
-                      autocomplete='shipping organization'
-                    >
-                  </div>
-
-                  <div class="form-group mb-0">
-                    <label class="sr-only" for="AddressAddress1_{{ form.id }}">{{ 'customer.addresses.address1' | t }}</label>
-                    <input type="text" id="AddressAddress1_{{ form.id }}" class="form-control form-control-text form-control-primary" name="address[address1]" value="{{ form.address1 }}" autocapitalize="words"
-                      placeholder="{{ 'customer.addresses.address1' | t }}"
-                      autocomplete="shipping address-line1"
-                    >
-                  </div>
-
-                  <div class="form-group mb-0">
-                    <label class="sr-only" for="AddressAddress2_{{ form.id }}">{{ 'customer.addresses.address2' | t }}</label>
-                    <input type="text" id="AddressAddress2_{{ form.id }}" class="form-control form-control-text form-control-primary" name="address[address2]" value="{{ form.address2 }}" autocapitalize="words"
-                      placeholder="{{ 'customer.addresses.address2' | t }}"
-                      autocomplete="shipping address-line2"
-                    >
-                  </div>
-
-                  <div class="form-group mb-0">
-                    <label class="sr-only" for="AddressCity_{{ form.id }}">{{ 'customer.addresses.city' | t }}</label>
-                    <input type="text" id="AddressCity_{{ form.id }}" class="form-control form-control-text form-control-primary" name="address[city]" value="{{ form.city }}" autocapitalize="words"
-                      placeholder="{{ 'customer.addresses.city' | t }}"
-                      autocomplete='shipping locality'
-                    >
-                  </div>
-                  
-                  <div class="form-group mb-0">
-                    <label class="sr-only" for="AddressCountry_{{ form.id }}">{{ 'customer.addresses.country' | t }}</label>
-                    <select id="AddressCountry_{{ form.id }}" class="custom-select custom-select-primary custom-select-text" name="address[country]" data-default="{{ form.country }}"
-                      autocomplete='shipping country'
-                    >{{ country_option_tags }}</select>
-                  </div>
-
-                  {% comment %} TODO load provinces and show {% endcomment %}
-                  <div id="AddressProvinceContainer_{{ form.id }}" style="display:none">
-                    <label class="sr-only" for="AddressProvince_{{ form.id }}">{{ 'customer.addresses.province' | t }}</label>
-                    <select id="AddressProvince_{{ form.id }}" class="custom-select" name="address[province]" data-default="{{ form.province }}"
-                      autocomplete='shipping province'
-                    ></select>
-                  </div>
-
-                  <div class="form-group mb-0">
-                    <label class="sr-only" for="AddressZip_{{ form.id }}">{{ 'customer.addresses.zip' | t }}</label>
-                    <input type="text" id="AddressZip_{{ form.id }}" class="form-control form-control-text form-control-primary" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters"#
-                      placeholder="{{ 'customer.addresses.zip' | t }}"
-                      autocomplete="shipping postal-code"
-                    >
-                  </div>
-
-                  <div class="form-group mb-0">
-                    <label class="sr-only" for="AddressPhone_{{ form.id }}">{{ 'customer.addresses.phone' | t }}</label>
-                    <input type="tel" id="AddressPhone_{{ form.id }}" class="form-control form-control-text form-control-primary" name="address[phone]" value="{{ form.phone }}"
-                      placeholder="{{ 'customer.addresses.phone' | t }}"
-                      autocomplete="shipping tel"
-                    >
-                  </div>
-
-                  <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" type="checkbox" id="address_default_address_{{ form.id }}" name="address[default]" value="1">
-                    <label for="address_default_address_{{ form.id }}" class="custom-control-label">Set as default address</label>
-                  </div>
-
+                  {% if form.errors %}
+                    {% assign formErrors = form.errors %}
+                  {% endif %}
+                  {% if form.posted_successfully? %}
+                    {% assign formSuccessfully = 'Address changed successfully' %}
+                  {% endif %}
+                  {% include 'jumplink-form-inputs-customer-address', idAffix: address.id, address: address, isDefault: isDefaultAddress %}
                   <p class="mt-3">
                     <button type="submit" class="btn btn-link p-0" rv-on-click="edit  | args '{{ address.id }}'">
                       <small>
-                        {{ 'customer.addresses.edit' | t }}
+                        {{ 'customer.addresses.update' | t }}
                       </small>
                     </button>
                   </p>
-
                   <p>
                     <button type="button" class="btn btn-link p-0" rv-on-click="delete | args '{{ address.id }}'">
                       <small>
@@ -117,108 +48,28 @@
                       </small>
                     </button>
                   </p>
-
                 {% endform %}
               </div>
-
             {% endfor %}
+          </div>
 
-
-            {% comment %}
-            Add address form, hidden by default
-            https://developers.google.com/web/updates/2015/06/checkout-faster-with-autofill
-            {% endcomment %}
+          {% comment %}
+          Add address form
+          https://developers.google.com/web/updates/2015/06/checkout-faster-with-autofill
+          {% endcomment %}
+          <div class="col-12 order-3">
             <div id="AddAddress" class="form-vertical my-5" >
               {% form 'customer_address', customer.new_address %}
-
+                  {% if form.errors %}
+                    {% assign formErrors = form.errors %}
+                  {% endif %}
+                  {% if form.posted_successfully? %}
+                    {% assign formSuccessfully = 'Address added successfully' %}
+                  {% endif %}
                 <p>
                   <strong>Add new address</strong>
                 </p>
-
-                <div class="form-group mb-0">
-                  <label class="sr-only" for="AddressFirstNameNew">{{ 'customer.addresses.first_name' | t }}</label>
-                  <input type="text" id="AddressFirstNameNew" class="form-control form-control-text form-control-primary" name="address[first_name]" value="{{ form.first_name }}" autocapitalize="words"
-                    autocomplete='shipping given-name'
-                    placeholder="{{ 'customer.addresses.first_name' | t }}"
-                  >
-                </div>
-
-                <div class="form-group mb-0">
-                  <label class="sr-only" for="AddressLastNameNew">{{ 'customer.addresses.last_name' | t }}</label>
-                  <input type="text" id="AddressLastNameNew" class="form-control form-control-text form-control-primary" name="address[last_name]" value="{{ form.last_name }}" autocapitalize="words"
-                    autocomplete='shipping family-name'
-                    placeholder="{{ 'customer.addresses.last_name' | t }}"
-                  >
-                </div>
-
-                <div class="form-group mb-0">
-                  <label class="sr-only" for="AddressCompanyNew">{{ 'customer.addresses.company' | t }}</label>
-                  <input type="text" id="AddressCompanyNew" class="form-control form-control-text form-control-primary" name="address[company]" value="{{ form.company }}" autocapitalize="words"
-                    autocomplete='shipping organization'
-                    placeholder="{{ 'customer.addresses.company' | t }}"
-                  >
-                </div>
-
-                <div class="form-group mb-0">
-                  <label class="sr-only" for="AddressAddress1New">{{ 'customer.addresses.address1' | t }}</label>
-                  <input type="text" id="AddressAddress1New" class="form-control form-control-text form-control-primary" name="address[address1]" value="{{ form.address1 }}" autocapitalize="words"
-                    autocomplete="shipping address-line1"
-                    placeholder="{{ 'customer.addresses.address1' | t }}"
-                  >
-                </div>
-                
-                <div class="form-group mb-0">
-                  <label class="sr-only" for="AddressAddress2New">{{ 'customer.addresses.address2' | t }}</label>
-                  <input type="text" id="AddressAddress2New" class="form-control form-control-text form-control-primary" name="address[address2]" value="{{ form.address2 }}" autocapitalize="words"
-                    autocomplete="shipping address-line1"
-                    placeholder="{{ 'customer.addresses.address2' | t }}"
-                  >
-                </div>
-            
-                <div class="form-group mb-0">
-                  <label class="sr-only" for="AddressCityNew">{{ 'customer.addresses.city' | t }}</label>
-                  <input type="text" id="AddressCityNew" class="form-control form-control-text form-control-primary" name="address[city]" value="{{ form.city }}" autocapitalize="words"
-                    autocomplete='shipping locality'
-                    placeholder="{{ 'customer.addresses.city' | t }}"
-                  >
-                </div>
-
-                <div class="form-group mb-0">
-                  <label class="sr-only" for="AddressCountryNew">{{ 'customer.addresses.country' | t }}</label>
-                  <select id="AddressCountryNew" class="custom-select custom-select-primary custom-select-text" name="address[country]" data-default="{{ form.country }}"
-                    autocomplete='shipping country'
-                  >{{ country_option_tags }}</select>
-                </div>
-
-                {% comment %} TODO {% endcomment %}
-                <div class="form-group mb-0" id="AddressProvinceContainerNew" style="display:none">
-                  <label class="sr-only" for="AddressProvinceNew">{{ 'customer.addresses.province' | t }}</label>
-                  <select id="AddressProvinceNew" class="custom-select custom-select-primary custom-select-text" name="address[province]" data-default="{{ form.province }}"
-                    autocomplete='shipping province'
-                  ></select>
-                </div>
-
-                <div class="form-group mb-0">
-                  <label class="sr-only" for="AddressZipNew">{{ 'customer.addresses.zip' | t }}</label>
-                  <input type="text" id="AddressZipNew" class="form-control form-control-text form-control-primary" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters"
-                    autocomplete="shipping postal-code"
-                    placeholder="{{ 'customer.addresses.zip' | t }}"
-                  >
-                </div>
-
-                <div class="form-group mb-0">
-                  <label class="sr-only" for="AddressPhoneNew">{{ 'customer.addresses.phone' | t }}</label>
-                  <input type="tel" id="AddressPhoneNew" class="form-control form-control-text form-control-primary" name="address[phone]" value="{{ form.phone }}"
-                    autocomplete="tel"
-                    placeholder="{{ 'customer.addresses.phone' | t }}"
-                  >
-                </div>
-
-                <p>
-                  {{ form.set_as_default_checkbox }}
-                  <label for="address_default_address_new" class="inline">{{ 'customer.addresses.set_default' | t }}</label>
-                </p>
-
+                {% include 'jumplink-form-inputs-customer-address', idAffix: 'New', address: customer.new_address %}
                 <p>
                   <button type="submit" class="btn btn-link p-0" rv-on-click="create">
                     <small>
@@ -226,10 +77,22 @@
                     </small>
                   </button>
                 </p>
-
               {% endform %}
             </div>
+          </div>
+          
+          <div class="col-12 order-1">
+            {% if formErrors %}
+              <div class="alert alert-danger" role="alert">
+                {{ formErrors | default_errors }}
+              </div>
+            {% endif %}
 
+            {% if formSuccessfully %}
+              <div class="alert alert-success" role="alert">
+                {{ formSuccessfully }}
+              </div>
+            {% endif %}
           </div>
         </div>
       </rv-shopify-addresses>

@@ -134,6 +134,14 @@
   height: 1em;
 }
 
+/**
+ * Round Custom Checkbox
+ */
+.custom-checkbox .custom-control-input ~ .custom-control-label::before {
+  border-radius: $custom-checkbox-indicator-border-radius; // = 50%
+  border: 1px solid $custom-control-indicator-checked-color;
+}
+
 // Disable arrows in number field
 input[type=number]::-webkit-outer-spin-button, 
 input[type=number]::-webkit-inner-spin-button {

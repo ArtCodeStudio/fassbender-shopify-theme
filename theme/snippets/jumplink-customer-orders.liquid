@@ -1,28 +1,18 @@
-<div class="container-fluid pt-5" id="orders">
-  <div class="row pt-md-5">
-    <div class="col-12 col-md-10 offset-md-2">
-      <div class="row">
-        <div class="col-12">
-          <strong class="mb-3">Orders</strong>
-          <p>Here you will find the details of your orders.</p>
+<strong class="mb-3">Orders</strong>
+<p>Here you will find the details of your orders.</p>
 
-          {% comment %}
-          If we have past orders, loop through each one
-          {% endcomment %}
-          {% paginate customer.orders by 1000 %}
-            {% if customer.orders.size != 0 %}
-              {% for order in customer.orders %}
-                {% include 'jumplink-customer-order-list-item' with order %}
-              {% endfor %}
-            {% else %}
-              <p>You have not made any orders yet</p>
-            {% endif %}
-            {% if paginate.pages > 1 %}
-              {% include 'jumplink-pagination' %}
-            {% endif %}
-          {% endpaginate %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+{% comment %}
+If we have past orders, loop through each one
+{% endcomment %}
+{% paginate customer.orders by 1000 %}
+  {% if customer.orders.size != 0 %}
+    {% for order in customer.orders %}
+      {% include 'jumplink-customer-order-list-item' with order %}
+    {% endfor %}
+  {% else %}
+    <p>You have not made any orders yet</p>
+  {% endif %}
+  {% if paginate.pages > 1 %}
+    {% include 'jumplink-pagination' %}
+  {% endif %}
+{% endpaginate %}

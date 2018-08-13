@@ -22,9 +22,10 @@
       "province": "Province",
       "zip": "Postal/Zip Code",
       "phone": "Phone",
-      "set_default": "Set as default address",
+      "set_default": "Set as default",
       "add": "Add",
       "edit": "Edit",
+      "update": "Update",
       "delete": "Delete"
     }
   }

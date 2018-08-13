@@ -1,0 +1,86 @@
+{% comment %} 
+  autofill attributes: https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-shipping
+{% endcomment %}
+<div class="form-group mb-0">
+  <label class="sr-only" for="AddressFirstName{{ idAffix }}">{{ 'customer.addresses.first_name' | t }}</label>
+  <input type="text" id="AddressFirstName{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[first_name]" value="{{ form.first_name }}" autocapitalize="words"
+    placeholder="{{ 'customer.addresses.first_name' | t }}"
+    autocomplete='shipping given-name'
+  >
+</div>
+
+<div class="form-group mb-0">
+  <label class="sr-only" for="AddressLastName{{ idAffix }}">{{ 'customer.addresses.last_name' | t }}</label>
+  <input type="text" id="AddressLastName{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[last_name]" value="{{ form.last_name }}" autocapitalize="words"
+    placeholder="{{ 'customer.addresses.last_name' | t }}"
+    autocomplete='shipping family-name'
+  >
+</div>
+
+<div class="form-group mb-0">
+  <label class="sr-only" for="AddressCompany{{ idAffix }}">{{ 'customer.addresses.company' | t }}</label>
+  <input type="text" id="AddressCompany{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[company]" value="{{ form.company }}" autocapitalize="words"
+    placeholder="{{ 'customer.addresses.company' | t }}"
+    autocomplete='shipping organization'
+  >
+</div>
+
+<div class="form-group mb-0">
+  <label class="sr-only" for="AddressAddress1{{ idAffix }}">{{ 'customer.addresses.address1' | t }}</label>
+  <input type="text" id="AddressAddress1{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[address1]" value="{{ form.address1 }}" autocapitalize="words"
+    placeholder="{{ 'customer.addresses.address1' | t }}"
+    autocomplete="shipping address-line1"
+  >
+</div>
+
+<div class="form-group mb-0">
+  <label class="sr-only" for="AddressAddress2{{ idAffix }}">{{ 'customer.addresses.address2' | t }}</label>
+  <input type="text" id="AddressAddress2{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[address2]" value="{{ form.address2 }}" autocapitalize="words"
+    placeholder="{{ 'customer.addresses.address2' | t }}"
+    autocomplete="shipping address-line3"
+  >
+</div>
+
+<div class="form-group mb-0">
+  <label class="sr-only" for="AddressCity{{ idAffix }}">{{ 'customer.addresses.city' | t }}</label>
+  <input type="text" id="AddressCity{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[city]" value="{{ form.city }}" autocapitalize="words"
+    placeholder="{{ 'customer.addresses.city' | t }}"
+    autocomplete='shipping address-level2'
+  >
+</div>
+
+<div class="form-group mb-0">
+  <label class="sr-only" for="AddressCountry{{ idAffix }}">{{ 'customer.addresses.country' | t }}</label>
+  <select id="AddressCountry{{ idAffix }}" class="custom-select custom-select-primary custom-select-text" name="address[country]" data-default="{{ form.country }}"
+    autocomplete='shipping country'
+  >{{ country_option_tags }}</select>
+</div>
+
+{% comment %} TODO load provinces and show {% endcomment %}
+<div id="AddressProvinceContainer{{ idAffix }}" style="display:none">
+  <label class="sr-only" for="AddressProvince{{ idAffix }}">{{ 'customer.addresses.province' | t }}</label>
+  <select id="AddressProvince{{ idAffix }}" class="custom-select" name="address[province]" data-default="{{ form.province }}"
+    autocomplete='shipping province'
+  ></select>
+</div>
+
+<div class="form-group mb-0">
+  <label class="sr-only" for="AddressZip{{ idAffix }}">{{ 'customer.addresses.zip' | t }}</label>
+  <input type="text" id="AddressZip{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters"#
+    placeholder="{{ 'customer.addresses.zip' | t }}"
+    autocomplete="shipping postal-code"
+  >
+</div>
+
+<div class="form-group">
+  <label class="sr-only" for="AddressPhone{{ idAffix }}">{{ 'customer.addresses.phone' | t }}</label>
+  <input type="tel" id="AddressPhone{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[phone]" value="{{ form.phone }}"
+    placeholder="{{ 'customer.addresses.phone' | t }}"
+    autocomplete="shipping tel"
+  >
+</div>
+
+<small class="custom-control custom-checkbox mb-3">
+  <input class="custom-control-input" type="checkbox" id="address_default_address{{ idAffix }}" name="address[default]" value="1" {% if isDefault %}checked{% endif %}>
+  <label for="address_default_address{{ idAffix }}" class="custom-control-label">{{ 'customer.addresses.set_default' | t }}</label>
+</small>

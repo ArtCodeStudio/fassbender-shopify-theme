@@ -39,6 +39,7 @@
       "set_default": "Als Standard-Adresse festlegen",
       "add": "Adresse hinzufügen",
       "edit": "Bearbeiten",
+      "update": "Aktualisieren",
       "delete": "Löschen"
     }
   }
