@@ -42,6 +42,14 @@
 </div>
 
 <div class="form-group mb-0">
+  <label class="sr-only" for="AddressZip{{ idAffix }}">{{ 'customer.addresses.zip' | t }}</label>
+  <input type="text" id="AddressZip{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters"#
+    placeholder="{{ 'customer.addresses.zip' | t }}"
+    autocomplete="shipping postal-code"
+  >
+</div>
+
+<div class="form-group mb-0">
   <label class="sr-only" for="AddressCity{{ idAffix }}">{{ 'customer.addresses.city' | t }}</label>
   <input type="text" id="AddressCity{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[city]" value="{{ form.city }}" autocapitalize="words"
     placeholder="{{ 'customer.addresses.city' | t }}"
@@ -62,14 +70,6 @@
   <select id="AddressProvince{{ idAffix }}" class="custom-select" name="address[province]" data-default="{{ form.province }}"
     autocomplete='shipping province'
   ></select>
-</div>
-
-<div class="form-group mb-0">
-  <label class="sr-only" for="AddressZip{{ idAffix }}">{{ 'customer.addresses.zip' | t }}</label>
-  <input type="text" id="AddressZip{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters"#
-    placeholder="{{ 'customer.addresses.zip' | t }}"
-    autocomplete="shipping postal-code"
-  >
 </div>
 
 <div class="form-group">

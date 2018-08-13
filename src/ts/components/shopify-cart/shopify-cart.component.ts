@@ -1,6 +1,14 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent, shopifyExtension, IShopifyCartLineItem, IShopifyCartObject } from '../../tinybind';
+import {
+  RibaComponent,
+  shopifyExtension,
+  IShopifyCartLineItem,
+  IShopifyCartObject,
+  IShopifyCustomerAddress,
+  IShopifyShippingRates,
+  IShopifyShippingRatesNormalized,
+} from '../../tinybind';
 import template from './shopify-cart.component.html';
 import { Utils } from '../../services/Utils';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
@@ -9,6 +17,9 @@ const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
 
 interface IScope {
   cart: IShopifyCartObject | null;
+  shippingAddress: IShopifyCustomerAddress | null;
+  estimateShippingRate: boolean;
+  shippingRates: IShopifyShippingRatesNormalized;
   toggle: ShopifyCartComponent['toggle'];
   remove: ShopifyCartComponent['remove'];
   increase: ShopifyCartComponent['increase'];
@@ -20,7 +31,7 @@ export class ShopifyCartComponent extends RibaComponent {
   public static tagName: string = 'rv-shopify-cart';
 
   static get observedAttributes() {
-    return [];
+    return ['shipping-address', 'estimate-shipping-rate'];
   }
 
   protected $el: JQuery<HTMLElement>;
@@ -31,6 +42,9 @@ export class ShopifyCartComponent extends RibaComponent {
 
   protected scope: IScope = {
     cart: ShopifyCartService.cart,
+    shippingAddress: null,
+    estimateShippingRate: false,
+    shippingRates: [],
     toggle: this.toggle,
     remove: this.remove,
     increase: this.increase,
@@ -38,7 +52,19 @@ export class ShopifyCartComponent extends RibaComponent {
   };
 
   protected set cart(cart: any) {
+    // TODO check if cart values are changed
     this.scope.cart = cart;
+    if (this.scope.shippingAddress && this.scope.estimateShippingRate) {
+      ShopifyCartService.getShippingRates(this.scope.shippingAddress, true, {
+        triggerOnChange: false,
+        triggerOnComplete: false,
+        triggerOnStart: false,
+      })
+      .then((shippingRates: IShopifyShippingRates | IShopifyShippingRatesNormalized) => {
+        this.debug('Get shipping rate', shippingRates);
+        this.scope.shippingRates = shippingRates as IShopifyShippingRatesNormalized;
+      });
+    }
   }
 
   constructor(element?: HTMLElement) {
@@ -91,11 +117,11 @@ export class ShopifyCartComponent extends RibaComponent {
   protected async beforeBind() {
     this.debug('beforeBind');
     return ShopifyCartService.get()
-    .then((cart) => {
-      this.cart = ShopifyCartService.cart || cart;
-      this.debug('beforeBind', this.scope.cart );
-      return this.scope.cart;
-    })
+    // .then((cart) => {
+    //   this.cart = ShopifyCartService.cart || cart;
+    //   this.debug('beforeBind', this.scope.cart );
+    //   return this.scope.cart;
+    // })
     .catch((error) => {
       console.error(error);
     });
@@ -106,13 +132,15 @@ export class ShopifyCartComponent extends RibaComponent {
     ShopifyCartService.dispatcher.on('ShopifyCart:request:start', () => {
       this.debug('ShopifyCart:request:start');
     });
-    ShopifyCartService.dispatcher.on('ShopifyCart:request:changed', (cart: IShopifyCartObject) => {
-      this.debug('ShopifyCart:request:changed', cart);
-      this.cart = cart;
-    });
+    // ShopifyCartService.dispatcher.on('ShopifyCart:request:changed', (cart: IShopifyCartObject) => {
+    //   this.debug('ShopifyCart:request:changed', cart);
+    //   this.cart = cart;
+    // });
     ShopifyCartService.dispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
       this.debug('ShopifyCart:request:complete', cart);
-      this.cart = cart;
+      if (cart) {
+        this.cart = cart;
+      }
     });
   }
 

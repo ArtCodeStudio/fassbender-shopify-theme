@@ -1,8 +1,91 @@
 <div class="container-fluid pt-5">
   <div class="row pt-5">
-    <div class="col col-md-8 col-lg-6 mx-auto">
-      <p>The new FASSBENDER store will be open in a few weeks.<br />Stay tuned!</p>
-      <p><a rv-route="'/collections/all'" href="/collections/all">Back to products</a></p>
+    <div class="col-auto offset-md-2">
+      <rv-shopify-cart shipping-address='{{ customer.default_address | json }}' estimate-shipping-rate="true">
+
+        <form rv-if="cart" action="/cart" method="post">
+          <ul class="list-unstyled">
+            <li class="media mb-3" rv-each-item="cart.items">
+
+              <div class="img-wrapper mr-3">
+                <img class="img-fluid" rv-src="item.image" rv-alt="item.title">
+                <rv-icon class="m-2 cursor-pointer" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="16" rv-on-click="remove | args item %item%"></rv-icon>
+              </div>
+              
+              <div class="media-body">
+                <p class="mb-1">
+                  <a class="text-normal" rv-route="item.url">
+                    <strong rv-text="item.product_title"></strong>
+                  </a>
+                </p>
+                <div class="options d-flex align-items-center">
+                  <div class="mr-2 my-0 d-inline-block" rv-each-option="item.variant_options">
+                    {% comment %} color option {% endcomment %}
+                    <div rv-show="option | first | eq '#'" class="styleicon-circle option-color" rv-css-background-color="option" style="width: 12px; height: 12px;"></div>
+                    
+                    {% comment %} size or other option {% endcomment %}
+                    <div rv-hide="option | first | eq '#'" class="option-other" rv-text="option"></div>
+                    {% comment %} <small class="text-muted">Change</small> {% endcomment %}
+                  </div>
+                </div>
+                <p class="my-1">
+                  Quantity <span rv-text="item.quantity"></span>
+                  <span class="px-1 text-muted" rv-on-click="decrease | args item %item%">-</span>
+                  <span class="px-1 text-muted" rv-on-click="increase | args item %item%">+</span>
+                </p>
+                <p rv-text="item.price | money '{{ shop.money_format }}'"></p>
+              </div>
+            </li>
+          </ul>
+
+          <div class="shopping-cart-dropdown-footer">
+            <div rv-hide="cart.item_count | eq 0">
+              <div class="row mb-3">
+
+                {% comment %} shippingRates {% endcomment %}
+                <div rv-if="shippingRates | size | gt 0" class="col-12">
+                  <div class="row">
+                    <div class="col-auto d-flex flex-column justify-content-center">
+                      <strong>
+                        Estimated Shipping
+                      </strong>
+                    </div>
+                    <div rv-each-shipping="shippingRates" class="col-12 d-flex flex-column justify-content-center">
+                        {shipping.name}
+                      <p class="my-0" rv-text="shipping.price | money '{{ shop.money_format }}'"></p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+
+                <div class="col-auto d-flex flex-column justify-content-center">
+                  <strong>
+                    <span rv-text="cart.item_count"></span>
+                    Items
+                  </strong>
+                  <p class="my-0" rv-text="cart.total_price | money '{{ shop.money_format }}'"></p>
+                </div>
+
+                <div class="col d-flex flex-column align-items-end justify-content-center">
+                  <button type="submit" name="checkout" class="btn btn-animated-underline-dark font-weight-bold">Buy</button>
+                </div>
+
+              </div>
+            </div>
+
+            <div rv-show="cart.item_count | eq 0">
+              <div class="row" rv-show="cart.item_count | eq 0">
+                <div class="col-auto">
+                  <strong>No Items yet</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </rv-shopify-cart>
     </div>
   </div>
 </div>

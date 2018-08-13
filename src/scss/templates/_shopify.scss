@@ -8,5 +8,14 @@
     @extend .font-weight-bold;
     display: block;
   }
+}
 
+// error form messages
+.alert {
+  .errors {
+    ul {
+      @extend .list-unstyled;
+      margin-bottom: 0;
+    }
+  }
 }

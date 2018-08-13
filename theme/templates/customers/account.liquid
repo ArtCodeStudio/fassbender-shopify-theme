@@ -3,12 +3,12 @@
     <div class="col-12 col-md-10 offset-md-2">
       
       {% if customer %}
-        <div class="row" id="orders">
+        <div class="row my-5" id="orders">
           <div class="col-12">
             {% include 'jumplink-customer-address', address: customer.default_address %}
           </div>
         </div>
-        <div class="row" id="orders">
+        <div class="row my-5" id="orders">
           <div class="col-12">
             {% include 'jumplink-customer-orders' %}
           </div>

@@ -35,13 +35,28 @@
               </a>
               
               <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuSignUp" x-placement="top left" style="width: 400px;">
-                
-                <p>The new FASSBENDER store will be open in a few weeks.<br />Stay tuned!</p>
-                {% comment %} <p><strong>Discover Fassbender's World</strong></p>
-                <p>
-                  I want news and inspiration about Stories and Collections.<br>
-                  Take my Name and E-Mail.
-                </p> {% endcomment %}
+                <rv-newsletter class="d-block text-center py-3" style="background-color:{{ section.settings.color }};">
+                  {% capture name %}
+                    <span class="text-primary" contenteditable="true" rv-value="name | default 'Name'" rv-on-focus="selectAll"></span>
+                  {% endcapture %}
+
+                  {% capture email %}
+                    <span class="text-primary" contenteditable="true" rv-value="email | default 'E-Mail'" rv-on-focus="selectAll"></span>
+                  {% endcapture %}
+                  <div class="">
+                    <p><strong>Discover Fassbender's World</strong></p>
+                    <p>I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}.</p>
+
+                    <small class="custom-control custom-checkbox mb-3">
+                      <input type="checkbox" class="custom-control-input" name="contact[privacy]" id="acceptPrivacy" required>
+                      <label class="custom-control-label" for="acceptPrivacy">
+                        By signing up I agree to the <a href="/pages/it-recht-datenschutz">Privacy Policy</a>.
+                      </label>
+                    </small>
+
+                    <a class="" href="#" rv-on-click="send">Subscribe</a>
+                  </div>
+                </rv-newsletter>
               </div>
             </bs4-dropdown>
           </div>
