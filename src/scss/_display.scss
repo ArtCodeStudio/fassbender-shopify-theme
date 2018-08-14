@@ -1,5 +1,15 @@
-.d-flex {
-  &[hidden] {
-    display: none !important;
-  }
+/**
+ * force display none if attribute hidden is set
+ * @see https://github.com/twbs/bootstrap/blob/v4-dev/scss/utilities/_display.scss
+ */
+@each $breakpoint in map-keys($grid-breakpoints) {
+  $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+  .d#{$infix}-inline       { &[hidden] { display: none !important; } }
+  .d#{$infix}-inline-block { &[hidden] { display: none !important; } }
+  .d#{$infix}-block        { &[hidden] { display: none !important; } }
+  .d#{$infix}-table        { &[hidden] { display: none !important; } }
+  .d#{$infix}-table-row    { &[hidden] { display: none !important; } }
+  .d#{$infix}-table-cell   { &[hidden] { display: none !important; } }
+  .d#{$infix}-flex         { &[hidden] { display: none !important; } }
+  .d#{$infix}-inline-flex  { &[hidden] { display: none !important; } }
 }

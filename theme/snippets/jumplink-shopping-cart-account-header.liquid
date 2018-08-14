@@ -1,0 +1,78 @@
+<div class="shopping-cart-dropdown-header">
+  {% if shop.customer_accounts_enabled %}
+    {% if customer %}
+      <div class="row">
+        <div class="col">
+          Hi {{ customer.first_name }}
+        </div>
+        <div class="col-auto">
+          <a href="/account/logout">Logout</a>
+        </div>
+      </div>
+      
+      <p></p>
+      <p>
+        <strong>
+          <a class="text-normal" rv-route="'/account'" rv-route-class-active="'/account'" href="/account">
+            My Account
+          </a>
+        </strong>
+      </p>
+    {% else %}
+      <rv-shopify-login-form>
+        <p>
+          <strong>
+            <a class="text-normal" rv-route="'/account'" rv-route-class-active="'/account'" href="/account">
+              My Account
+            </a>
+          </strong>
+          or
+          <a rv-route="'/account/register'" rv-route-class-active="'/account/register'" href="/account/register">
+            register
+          </a>
+        </p>
+
+        {% comment %}
+          This form is used to recover the passwort and is hidden because
+          instead of have an seperate form in the frontend for this
+          we use the login form to get the email.
+        {% endcomment %}
+        <div hidden class="mb-3">
+          {% form 'recover_customer_password' %}
+            {% include 'jumplink-form-inputs-customer-recover', idPrefix: 'dropdown_' %}
+          {% endform %}
+
+          <div class="col d-flex align-items-center justify-content-end">
+            <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="recover">Recover</button>
+          </div>
+        </div>
+
+        {% comment %} 
+          We do not use { % form 'customer_login' % } here because
+          this form has an id we already have on the login / regist page
+        {% endcomment %}
+        <div>
+          <form method="post" action="/account/login" accept-charset="UTF-8">
+            <input type="hidden" name="form_type" value="customer_login">
+            <input type="hidden" name="utf8" value="✓">
+
+            <div class="mb-3">
+              {% include 'jumplink-form-inputs-customer-login', idPrefix: 'dropdown_' %}
+            </div>
+            <div class="row mb-2">
+              <div class="col-auto d-flex align-items-center">
+                <button class="btn btn-sm btn-link pl-0 text-decoration-normal" rv-on-click="recover">
+                  Forgot Password?
+                </button> 
+              </div>
+              <div class="col d-flex align-items-center justify-content-end">
+                <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="login">Login</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </rv-shopify-login-form>
+
+    {% endif %}
+  {% endif %}
+</div>

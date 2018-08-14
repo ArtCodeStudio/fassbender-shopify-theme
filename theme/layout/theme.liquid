@@ -23,7 +23,9 @@
   {% include 'jumplink-favicons' %}
   {% include 'jumplink-open-graph-tags' %}
 
+  <!-- content_for_header: start -->
   {{ content_for_header }}
+  <!-- content_for_header: end -->
 
   {{ 'bundle.js' | asset_url | script_tag }}
 

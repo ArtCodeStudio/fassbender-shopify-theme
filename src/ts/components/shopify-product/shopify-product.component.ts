@@ -148,6 +148,7 @@ export class ShopifyProductComponent extends RibaComponent {
       if (this.scope.selectedOptions[position0]) {
         const optionValue = this.scope.selectedOptions[position0];
         if (this.scope.product) {
+          this.debug('activateOptions', this.scope.product.options[position0]);
           const optionName = this.scope.product.options[position0].name.toLowerCase();
           this.activateOption(optionValue, optionName);
         }

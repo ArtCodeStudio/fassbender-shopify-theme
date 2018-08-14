@@ -46,8 +46,10 @@
     {% comment %} Sticky price and color chooser {% endcomment %}
     <div class="row sticky-bottom" rv-background-color-white="showDetailMenu">
 
-      {% comment %} Left part {% endcomment %}
-      <div class="col mb-3 pt-4 d-flex flex-column justify-content-end">
+      {% comment %}
+        Desktop / Mobile: Left part
+      {% endcomment %}
+      <div class="col order-1 order-lg-1 mb-5 mb-lg-3 pt-4 d-flex flex-column justify-content-end">
         <div class="variant-chooser">
           <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
             <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickOption | args color option.position option.name">
@@ -75,12 +77,22 @@
         </div>
       </div>
 
-      {% comment %} Middle part {% endcomment %}
-      <div class="col col-xl-3 mx-auto mb-3 pt-4" rv-opacity-0="showDetailMenu | not">
+      {% comment %}
+        Desktop: Middle part
+        Smartphone: Top part
+      {% endcomment %}
+      <div class="col-12 order-0 col-lg order-lg-2 col-xl mx-auto mb-3 pt-0 pt-lg-4" rv-opacity-0="showDetailMenu | not">
 
-        <div class="row text-center justify-content-center">
+        <div class="row">
+
+          {% comment %} Smartphone: Show Close Button {% endcomment %}
+          <div class="col-12 d-flex d-lg-none justify-content-end">
+            <rv-icon class="ml-3 my-2" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24" rv-on-click="toggleDetailMenu"></rv-icon>
+          </div>
+        </div>
+        <div class="row justify-content-center text-center">
           <div class="form-inline">
-            <label for="quanity">Quantity</label>
+            <label class="m-0" for="quanity">Quantity</label>
             {% comment %} <strong class="mx-1" contenteditable="true" rv-value="quantity | strip_html | number 1" rv-on-keydown="onQuantityKeypress"></strong> {% endcomment %}
             <input type="number" min="0" step="1" class="form-control border-0" id="quanity" rv-value="quantity | strip_html | number 1" style="width: 70px; font-weight: bold;">
           </div>
@@ -96,21 +108,29 @@
       </div>
 
       {% comment %} Right part {% endcomment %}
-      <div class="col mb-3 pt-2">
+      <div class="col order-2 order-lg-3 mb-5 mb-lg-3 pt-2">
         <div class="row h-100 justify-content-between">
-          <div class="col-12 d-flex justify-content-end" rv-hide="showDetailMenu">
+
+          {% comment %} Desktop: Show Close Button {% endcomment %}
+          <div class="col-12 d-none d-lg-flex justify-content-end" rv-show="showDetailMenu">
+            <rv-icon class="mx-3 mt-3" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24" rv-on-click="toggleDetailMenu"></rv-icon>
+          </div>
+
+          {% comment %} Desktop: Show Menu Button {% endcomment %}
+          <div class="col-12 d-flex justify-content-end align-self-end mb-3" rv-hide="showDetailMenu">
             <div class="btn-wrapper">
               <button class="btn btn-animated-underline-dark" rv-on-click="toggleDetailMenu">Add</button>
             </div>
           </div>
-          <div class="col-12 d-flex justify-content-end" rv-show="showDetailMenu">
-            <rv-icon class="mx-3 my-2" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24" rv-on-click="toggleDetailMenu"></rv-icon>
-          </div>
-          <div class="col-12 d-flex justify-content-end" rv-show="showDetailMenu">
+
+          <div class="col-12 d-flex justify-content-end align-self-end mb-3" rv-show="showDetailMenu">
             <div class="btn-wrapper">
               <button class="btn btn-animated-underline-dark" rv-disabled="variant.available | not" rv-on-click="addToCart">Add</button>
             </div>
           </div>
+
+
+
         </div>
       </div>
     </div>

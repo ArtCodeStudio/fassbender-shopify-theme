@@ -1,59 +1,20 @@
+{% assign estimateShippingRate = true %}
+{% assign showLoginHeader = false %}
+{% assign showCartPageLink = false %}
+
 <div class="container-fluid pt-5">
   <div class="row pt-5">
-    <div class="col-auto offset-md-2">
-      <rv-shopify-cart shipping-address='{{ customer.default_address | json }}' estimate-shipping-rate="true">
-
-        <form rv-if="cart" action="/cart" method="post">
-          {% include 'jumplink-shopping-cart-list-items' %}
-
-          <div class="shopping-cart-dropdown-footer">
-            <div rv-hide="cart.item_count | eq 0">
-              <div class="row mb-3">
-
-                {% comment %} shippingRates {% endcomment %}
-                <div rv-if="shippingRates | size | gt 0" class="col-12">
-                  <div class="row">
-                    <div class="col-auto d-flex flex-column justify-content-center">
-                      <strong>
-                        Estimated Shipping
-                      </strong>
-                    </div>
-                    <div rv-each-shipping="shippingRates" class="col-12 d-flex flex-column justify-content-center">
-                        {shipping.name}
-                      <p class="my-0" rv-text="shipping.price | money '{{ shop.money_format }}'"></p>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-              <div class="row" rv-hide="cart.item_count | eq 0">
-
-                <div class="col-auto d-flex flex-column justify-content-center">
-                  <strong>
-                    <span rv-text="cart.item_count"></span>
-                    Items
-                  </strong>
-                  <p class="my-0" rv-text="cart.total_price | money '{{ shop.money_format }}'"></p>
-                </div>
-
-                <div class="col d-flex flex-column align-items-end justify-content-center">
-                  <button type="submit" name="checkout" class="btn btn-animated-underline-dark font-weight-bold">Buy</button>
-                </div>
-
-              </div>
-            </div>
-
-            <div rv-show="cart.item_count | eq 0">
-              <div class="row" rv-show="cart.item_count | eq 0">
-                <div class="col-auto">
-                  <strong>No Items yet</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-
+    <div class="col-12 col-md-auto offset-md-2">
+      <rv-shopify-cart shipping-address='{{ customer.default_address | json }}' estimate-shipping-rate="{{ estimateShippingRate }}">
+        {% include 'jumplink-shopping-cart-body' with showLoginHeader, estimateShippingRate, showCartPageLink %}
       </rv-shopify-cart>
+
+      <p class="my-3">
+        <button class="btn btn-link px-0" rv-route-back-on-click >
+          <small>Continue Shopping</small>
+        </button>
+      </p>
+
     </div>
   </div>
 </div>
