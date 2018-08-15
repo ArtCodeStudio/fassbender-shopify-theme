@@ -1,0 +1,36 @@
+rv-shopify-cart-button {
+  .closed {
+    position: relative;
+  }
+
+  .active {
+    .closed {
+      display: none;
+    }
+    .open {
+      display: block;
+    }
+  }
+
+  :not(.active) {
+    .closed {
+      display: block;
+    }
+    .open {
+      display: none;
+    }
+  }
+
+  .cart-item-count {
+    min-width: 20px;
+    position: absolute;
+    top: 0;
+    right: -15px;
+  }
+
+  :focus {
+    .cart-item-count {
+      color: $primary;
+    }
+  }
+}

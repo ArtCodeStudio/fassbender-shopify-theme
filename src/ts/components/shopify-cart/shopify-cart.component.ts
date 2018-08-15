@@ -10,7 +10,6 @@ import {
   IShopifyShippingRatesNormalized,
 } from '../../tinybind';
 import template from './shopify-cart.component.html';
-import { Utils } from '../../services/Utils';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
 
 const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
@@ -112,43 +111,35 @@ export class ShopifyCartComponent extends RibaComponent {
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
     .then((cart: IShopifyCartObject) => {
       this.debug('decreased', cart);
-      // this.cart = cart;
     });
   }
 
   public closeDropdowns() {
     this.debug('closeDropdowns');
     DropdownService.closeAll();
-    // DropdownService._clearMenus();
   }
 
   protected async beforeBind() {
     this.debug('beforeBind');
-    return ShopifyCartService.get()
-    // .then((cart) => {
-    //   this.cart = ShopifyCartService.cart || cart;
-    //   this.debug('beforeBind', this.scope.cart );
-    //   return this.scope.cart;
-    // })
-    .catch((error) => {
-      console.error(error);
-    });
-  }
 
-  protected async afterBind() {
-    this.debug('afterBind', this.scope);
     ShopifyCartService.dispatcher.on('ShopifyCart:request:start', () => {
       this.debug('ShopifyCart:request:start');
     });
-    // ShopifyCartService.dispatcher.on('ShopifyCart:request:changed', (cart: IShopifyCartObject) => {
-    //   this.debug('ShopifyCart:request:changed', cart);
-    //   this.cart = cart;
-    // });
+
     ShopifyCartService.dispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
       this.debug('ShopifyCart:request:complete', cart);
       if (cart) {
         this.cart = cart;
       }
+    });
+  }
+
+  protected async afterBind() {
+    this.debug('afterBind', this.scope);
+
+    return ShopifyCartService.get()
+    .catch((error) => {
+      console.error(error);
     });
   }
 

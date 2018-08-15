@@ -36,7 +36,7 @@ rv-shopify-cart {
 
 rv-shopify-cart {
   user-select: none;
-  .cart-item-count {
+  .cart-lg-item-count {
     margin-top: -20px;
     min-width: 20px;
   }
@@ -44,11 +44,5 @@ rv-shopify-cart {
     width: 290px;
     max-height: 80vh;
     overflow-y: auto;
-
-    #customer_login {
-      input.form-control {
-
-      }
-    }
   }
 }

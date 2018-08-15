@@ -7,6 +7,7 @@ export { ShopifyArticleItemComponent } from './shopify-article-item/shopify-arti
 export { ShopifyProductComponent } from './shopify-product/shopify-product.component';
 export { ShopifyProductItemComponent } from './shopify-product-item/shopify-product-item.component';
 export { ShopifyCartComponent } from './shopify-cart/shopify-cart.component';
+export { ShopifyCartButtonComponent } from './shopify-cart-button/shopify-cart-button.component';
 export { ShopifyLoginFormComponent } from './shopify-login-form/shopify-login-form.component';
 export { ShopifyAddressesComponent } from './shopify-addresses/shopify-addresses.component';
 export { ProductScrollbarComponent } from './product-scrollbar/product-scrollbar.component';

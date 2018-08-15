@@ -101,16 +101,27 @@
     </a>
 
     <div class="col d-flex justify-content-center py-2" rv-class-active="fullscreenMenuOpen" rv-on-click="assign | args 'fullscreenMenuOpen' true" rv-hide="fullscreenMenuOpen">
-      <rv-icon href="#" class="cursor-pointer" rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" height="32" width="32"></rv-icon>
+      <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" height="32" width="32"></rv-icon>
     </div>
 
     <div class="col d-flex justify-content-center py-2" rv-class-active="fullscreenMenuOpen" rv-on-click="assign | args 'fullscreenMenuOpen' false" rv-show="fullscreenMenuOpen">
-      <rv-icon href="#" class="cursor-pointer" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" height="32" width="32"></rv-icon>
+      <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" height="32" width="32"></rv-icon>
     </div>
 
-    <a class="col d-flex justify-content-center py-2" rv-route-class-active="'/cart'" rv-route="'/cart'" href="/cart">
-      <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-shopping-bag.svg' | asset_url }}'" height="32" width="32"></rv-icon>
-    </a>
+    <div class="col d-flex justify-content-center py-2">
+      <rv-shopify-cart-button>
+        <a role="button" class="d-flex text-decoration-normal" rv-on-click="toggle" rv-route-class-active="'/cart'" href="/cart">
+          <div class="closed">
+            <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-shopping-bag.svg' | asset_url }}'" height="32" width="32"></rv-icon>
+            <small class="cart-item-count text-center" rv-text="cartItemCount"></small>
+          </div>
+          <div class="open">
+            <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" height="32" width="32"></rv-icon>
+          </div>
+        </a>
+      </rv-shopify-cart-button>
+    </div>
+
   </div>
 </div>
 
