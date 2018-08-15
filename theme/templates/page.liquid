@@ -2,17 +2,16 @@
   <div class="row pt-md-5">
     <div class="col-12 col-md-10 offset-md-2">
       <div class="row">
-        {% unless page.title == blank %}
-          <div class="col-12 text-left">
+        <div class="col-12">
+          {% unless page.title == blank %}
             <h1 class="page-title mt-0 mb-4">{{ page.title }}</h1>
-          </div>
-        {% endunless %}
-
-        {% unless page.content == blank %}
-            <div class="col-12 col-md-10 offset-md-2 rte">
+          {% endunless %}
+          {% unless page.content == blank %}
+            <div class="rte">
             {{ page.content }}
             </div>
-        {% endunless %}
+          {% endunless %}
+        </div>
       </div>
     </div>
   </div>

@@ -44,8 +44,8 @@
 
       {% if showCartPageLink %}
         <p class="mb-0 mt-3">
-          <strong>
-            <a class="text-normal" rv-route="'/cart'" rv-route-class-active="'/cart'" href="/cart" >View Shopping Bag</a>
+          <strong rv-on-click="closeDropdowns">
+            <a class="text-normal" rv-route="'/cart'" rv-route-class-active="'/cart'" href="/cart">View Shopping Bag</a>
           </strong>
         </p>
       {% endif %}

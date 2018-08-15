@@ -24,6 +24,7 @@ interface IScope {
   remove: ShopifyCartComponent['remove'];
   increase: ShopifyCartComponent['increase'];
   decrease: ShopifyCartComponent['decrease'];
+  closeDropdowns: ShopifyCartComponent['closeDropdowns'];
 }
 
 export class ShopifyCartComponent extends RibaComponent {
@@ -49,6 +50,7 @@ export class ShopifyCartComponent extends RibaComponent {
     remove: this.remove,
     increase: this.increase,
     decrease: this.decrease,
+    closeDropdowns: this.closeDropdowns,
   };
 
   protected set cart(cart: any) {
@@ -112,6 +114,12 @@ export class ShopifyCartComponent extends RibaComponent {
       this.debug('decreased', cart);
       // this.cart = cart;
     });
+  }
+
+  public closeDropdowns() {
+    this.debug('closeDropdowns');
+    DropdownService.closeAll();
+    // DropdownService._clearMenus();
   }
 
   protected async beforeBind() {

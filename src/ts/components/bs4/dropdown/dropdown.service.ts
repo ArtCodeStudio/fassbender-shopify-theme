@@ -2,6 +2,7 @@ import $ from 'jquery';
 import Popper from '../../../../../node_modules/popper.js/dist/popper';
 import { Utils } from '../../../services/Utils';
 import Debug from 'debug';
+import { GlobalEvent } from '../../../tinybind';
 
 /**
  * --------------------------------------------------------------------------
@@ -92,6 +93,12 @@ export const DEFAULTTYPE = {
  * Class Definition
  * ------------------------------------------------------------------------
  */
+// const dispatcher = new GlobalEvent();
+
+// // Close all modals on newPageReady
+// dispatcher.on('newPageReady', () => {
+//   DropdownService._clearMenus();
+// });
 
 export class DropdownService {
 
@@ -110,6 +117,39 @@ export class DropdownService {
   }
 
   // Static
+
+  public static closeAll() {
+    const $menus = $('.dropdown-menu.show');
+    $menus.each((index, menu) => {
+      const $menu = $(menu);
+      const $dropdown = $menu.closest('dropdown-menu.show');
+      this.close($menu[0], $menu, $dropdown);
+    });
+  }
+
+  public static close(triggerCloseElement: Element, $menu: JQuery<Element>, $dropdown?: JQuery<Element>) {
+    const relatedTarget = {
+      relatedTarget: triggerCloseElement,
+    };
+
+    const $parent = DropdownService._getParentFromElement(triggerCloseElement);
+
+    if ($menu && $menu.hasClass(CLASSNAME.SHOW)) {
+      $menu.removeClass(CLASSNAME.SHOW);
+    }
+
+    if ($dropdown && $dropdown.hasClass(CLASSNAME.SHOW)) {
+      $dropdown.removeClass(CLASSNAME.SHOW)
+      .removeClass(CLASSNAME.SHOW)
+      .trigger($.Event(EVENT.HIDDEN, relatedTarget));
+    }
+
+    if ($parent.hasClass(CLASSNAME.SHOW)) {
+      $parent
+      .removeClass(CLASSNAME.SHOW)
+      .trigger($.Event(EVENT.HIDDEN, relatedTarget));
+    }
+  }
 
   public static _clearMenus(event?: JQuery.Event) {
     if (event && (event.which === RIGHT_MOUSE_BUTTON_WHICH ||
@@ -207,22 +247,7 @@ export class DropdownService {
   // Public
 
   public close() {
-
-    const relatedTarget = {
-      relatedTarget: this._element,
-    };
-
-    const $parent = DropdownService._getParentFromElement(this._element);
-
-    if ($(this._menu).hasClass(CLASSNAME.SHOW)) {
-      $(this._menu).removeClass(CLASSNAME.SHOW);
-    }
-
-    if ($parent.hasClass(CLASSNAME.SHOW)) {
-      $parent
-      .removeClass(CLASSNAME.SHOW)
-      .trigger($.Event(EVENT.HIDDEN, relatedTarget));
-    }
+    return DropdownService.close(this._element, $(this._menu));
   }
 
   public show() {

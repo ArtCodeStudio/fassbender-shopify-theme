@@ -4,6 +4,7 @@ import { RibaComponent } from '../../tinybind';
 import template from './shopify-addresses.component.html';
 import { Utils } from '../../services/Utils';
 
+// TODO move to general validation component class we can extend from
 export interface IValidationRule {
   required: boolean;
   minlength?: number;
@@ -89,7 +90,7 @@ export class ShopifyAddressesComponent extends RibaComponent {
     const $form = this.$el.find(`form[action="/account/addresses/${id}]`) as JQuery<HTMLFormElement>;
 
     if (!$form) {
-      console.error('No edit address form found');
+      this.debug('No edit address form found');
       return false;
     }
 
@@ -113,7 +114,7 @@ export class ShopifyAddressesComponent extends RibaComponent {
     this.debug('create', this.scope);
 
     if (!this.$createAddressForm) {
-      console.error('No create form found');
+      this.debug('No create form found');
       return false;
     }
 

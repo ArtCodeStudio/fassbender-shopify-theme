@@ -4,6 +4,7 @@ import { Utils } from '../../services/Utils';
 import { RibaComponent } from '../../tinybind';
 import template from './contact-form.component.html';
 
+// TODO move to general validation component class we can extend from
 export interface IValidationRule {
   required: boolean;
   minlength?: number;
@@ -16,6 +17,7 @@ export interface IValidationRule {
   onlyNumbers?: boolean;
 }
 
+// TODO move to general validation component class we can extend from
 export interface IValidationObject {
   valid: boolean;
   rules?: {
