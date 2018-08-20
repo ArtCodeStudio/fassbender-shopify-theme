@@ -1,33 +1,43 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { IShopifyProductVariant, IShopifyProduct, IShopifyProductVariantOption, RibaComponent, shopifyExtension } from '../../tinybind';
+import {
+  IShopifyProductVariant,
+  IShopifyProduct,
+  IShopifyProductVariantOption,
+  RibaComponent,
+  shopifyExtension,
+} from '../../tinybind';
 import template from './shopify-product.component.html';
 import { Utils } from '../../services/Utils';
 
 const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
 
-interface IPrepairedProductVariant extends IShopifyProductVariant {
+export interface IPrepairedProductVariant extends IShopifyProductVariant {
   images?: string[];
 }
 
-interface IScope {
+export interface IScope {
   handle: string | null;
   product: IShopifyProduct  | null;
   variant: IPrepairedProductVariant | null;
   quantity: number;
-  selectedOptions: string[];
   showDetailMenu: boolean;
   showAddToCartButton: boolean;
   isOptionActive: ShopifyProductComponent['isOptionActive'];
   onClickOption: ShopifyProductComponent['onClickOption'];
   addToCart: ShopifyProductComponent['addToCart'];
   toggleDetailMenu: ShopifyProductComponent['toggleDetailMenu'];
+  $parent?: any;
 }
 
 export class ShopifyProductComponent extends RibaComponent {
 
   public static tagName: string = 'rv-shopify-product';
 
+  /**
+   * handle is the product handle to get the product json object
+   * extras are product data wich is only avaiable over liquid and not over the product json object
+   */
   static get observedAttributes() {
     return ['handle', 'extras'];
   }
@@ -41,7 +51,6 @@ export class ShopifyProductComponent extends RibaComponent {
     product: null,
     variant: null,
     quantity: 1,
-    selectedOptions: [],
     showDetailMenu: false,
     showAddToCartButton: false,
     isOptionActive: this.isOptionActive,
@@ -52,6 +61,8 @@ export class ShopifyProductComponent extends RibaComponent {
 
   private colorOption: IShopifyProductVariantOption | null = null;
 
+  private selectedOptions: string[] = [];
+
   protected set product(product: IShopifyProduct | null) {
     this.debug('set product', product);
     if (product) {
@@ -61,7 +72,12 @@ export class ShopifyProductComponent extends RibaComponent {
       this.scope.product.featured_image = product.featured_image
       .replace(/(^\w+:|^)\/\//, '//'); // remove protocol
 
-      this.scope.selectedOptions = new Array(this.scope.product.options.length);
+      // all option names to lower case
+      for (const option of this.scope.product.options) {
+        option.name = option.name.toString().toLocaleLowerCase();
+      }
+
+      // this.selectedOptions = new Array(this.scope.product.options.length);
 
       this.colorOption = this.getOption(product, 'color');
       // set the first variant to the selected one
@@ -73,13 +89,22 @@ export class ShopifyProductComponent extends RibaComponent {
     return this.scope.product;
   }
 
-  protected set variant(variant: IShopifyProductVariant) {
+  protected set variant(variant: IShopifyProductVariant | null) {
+    if (variant === null) {
+      this.debug('Error: Variant ist null');
+      return;
+    }
     this.debug('set variant', variant);
     this.scope.variant = this.prepairVariant(variant);
     if (this.scope.variant) {
-      this.scope.selectedOptions = Utils.clone(false, this.scope.variant.options.slice());
+      this.selectedOptions = this.scope.variant.options.slice();
+      this.debug('set selectedOptions', this.selectedOptions);
       this.activateOptions();
     }
+  }
+
+  protected get variant() {
+    return this.scope.variant;
   }
 
   constructor(element?: HTMLElement) {
@@ -94,31 +119,34 @@ export class ShopifyProductComponent extends RibaComponent {
    * @param optionValue
    */
   public isOptionActive(optionValue: string | number) {
-    this.debug('isOptionActive', optionValue, this.scope.selectedOptions.indexOf(optionValue.toString()) );
+    this.debug('isOptionActive', optionValue, this.selectedOptions.indexOf(optionValue.toString()) );
     if (Utils.isUndefined(optionValue)) {
       return false;
     }
-    return this.scope.selectedOptions.indexOf(optionValue.toString()) > -1;
+    return this.selectedOptions.indexOf(optionValue.toString()) > -1;
   }
 
   public onClickOption(optionValue: string | number, position1: number, optionName: string, event: MouseEvent, scope: any, el: HTMLElement) {
     optionValue = optionValue.toString();
-    this.debug('onClickOption', optionValue, position1, this.scope.selectedOptions);
-    this.scope.selectedOptions[position1 - 1] = optionValue.toString();
-    const variant = this.getVariantOfOptions(this.scope.selectedOptions);
+
+    this.debug('onClickOption', optionValue, position1, this.selectedOptions, this.variant);
+
+    this.selectedOptions[(position1 - 1)] = optionValue.toString();
+    const variant = this.getVariantOfOptions(this.selectedOptions);
     if (variant) {
       this.variant = variant as IShopifyProductVariant;
     }
+
     event.stopPropagation();
   }
 
   public addToCart() {
-    if (!this.scope.variant) {
+    if (!this.variant) {
       this.debug('Variant not selected');
       return;
     }
-    this.debug('addToCart', this.scope.variant.id, this.scope.quantity);
-    ShopifyCartService.add(this.scope.variant.id, this.scope.quantity)
+    this.debug('addToCart', this.variant.id, this.scope.quantity);
+    ShopifyCartService.add(this.variant.id, this.scope.quantity)
     .then((response) => {
       this.debug('addToCart response', response);
     })
@@ -128,6 +156,7 @@ export class ShopifyProductComponent extends RibaComponent {
   }
 
   public toggleDetailMenu() {
+    this.debug('toggleDetailMenu');
     this.scope.showDetailMenu = !this.scope.showDetailMenu;
   }
 
@@ -143,10 +172,14 @@ export class ShopifyProductComponent extends RibaComponent {
     this.$el.find(`.option-${optionName.toLocaleLowerCase()}-${optionValue}`).addClass('active');
   }
 
+  /**
+   * Activate option by selected options (scope.selectedOptions)
+   * This method sets the active class to the options elements
+   */
   protected activateOptions() {
-    for (const position0 in this.scope.selectedOptions) {
-      if (this.scope.selectedOptions[position0]) {
-        const optionValue = this.scope.selectedOptions[position0];
+    for (const position0 in this.selectedOptions) {
+      if (this.selectedOptions[position0]) {
+        const optionValue = this.selectedOptions[position0];
         if (this.scope.product) {
           this.debug('activateOptions', this.scope.product.options[position0]);
           const optionName = this.scope.product.options[position0].name.toLowerCase();
@@ -158,14 +191,14 @@ export class ShopifyProductComponent extends RibaComponent {
 
   protected async beforeBind() {
     this.debug('beforeBind');
+    if (this.scope.handle === null) {
+      throw new Error('Product handle not set');
+    }
     // https://help.shopify.com/en/themes/development/getting-started/using-ajax-api
     return Utils.getJSON(`/products/${this.scope.handle}.js`)
     .then((product: IShopifyProduct) => {
       this.product = product;
       return this.product;
-    })
-    .catch((error) => {
-      console.error(error);
     });
   }
 
@@ -175,7 +208,7 @@ export class ShopifyProductComponent extends RibaComponent {
   }
 
   protected requiredAttributes() {
-    return ['handle', 'extras'];
+    return ['handle'];
   }
 
   protected template() {
@@ -228,8 +261,8 @@ export class ShopifyProductComponent extends RibaComponent {
   private getVariant(id: number) {
     let result = null;
     // this.scope.variant =
-    if (this.scope.product) {
-      this.scope.product.variants.forEach((variant: IShopifyProductVariant) => {
+    if (this.product) {
+      this.product.variants.forEach((variant: IShopifyProductVariant) => {
         if (variant.id === id) {
           result = variant;
         }
@@ -362,13 +395,14 @@ export class ShopifyProductComponent extends RibaComponent {
    */
   private prepairVariant(variant: IPrepairedProductVariant) {
     if (variant === null) {
+      this.debug('Error: Variant is null!');
       return null;
     }
 
     if (this.colorOption) {
       variant.images = this.getOptionImages(this.colorOption, variant.options[this.colorOption.position - 1]);
     } else {
-      console.warn('colorOption not defined');
+      this.debug('Warn: colorOption not defined');
       variant.images = [];
     }
 

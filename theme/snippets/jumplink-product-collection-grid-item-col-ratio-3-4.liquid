@@ -12,9 +12,9 @@
   {% assign imageSize = '1200x1600' %}
 {% endif %}
 
-<rv-shopify-product-item rv-product="{{product | json}}" class="{{colClass}} {{ orderClass }} px-0 content-box ratio-3-4">
+<rv-shopify-product-item rv-handle="'{{ product.handle }}'" class="{{ colClass }} {{ orderClass }} px-0 content-box ratio-3-4">
   <a rv-route="'{{ product.url | within: collection }}'" href="{{product.url | within: collection }}">
-    <img class="content" rv-src="'{{ product.featured_image | img_url: imageSize}}'" alt="{{product.featured_image.alt}}"  style="padding-bottom: 60px;"/>
+    <img class="content" src="{{ product.featured_image | img_url: imageSize }}" alt="{{ product.featured_image.alt }}"  style="padding-bottom: 60px;"/>
   </a>
   <div class="position-absolute w-100" style="bottom: 10px;">
     <div class="row m-0">
@@ -23,7 +23,7 @@
         {{ product.price | money }}
       </div>
       <div class="col text-right text-truncate">
-        <a hidden href="#">Add</a>
+        <button hidden class="btn btn-link" rv-on-click="toggleDetailMenu">Add</button>
       </div>
     </div>
   </div>

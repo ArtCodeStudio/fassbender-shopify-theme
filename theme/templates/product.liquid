@@ -1,4 +1,4 @@
-<rv-shopify-product handle="{{product.handle}}" extras='{% include 'jumplink-utils-json-product-extras' %}'>
+<rv-shopify-product rv-handle="'{{product.handle}}'" extras='{% include 'jumplink-utils-json-product-extras' %}'>
   <div class="container-fluid">
 
     <div class="row">
@@ -51,9 +51,9 @@
       {% endcomment %}
       <div class="col order-1 order-lg-1 mb-5 mb-lg-3 pt-4 d-flex flex-column justify-content-end">
         <div class="variant-chooser">
-          <div rv-each-option="product.options" class="row px-3" rv-class="option.name | downcase" rv-if="option.name | downcase | eq 'color'">
+          <div rv-each-option="product.options" class="row px-3" rv-show="option.name | eq 'color'" rv-class="option.name">
             <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickOption | args color option.position option.name">
-              <div class="styleicon-circle option-color" rv-class="color | replace_first '#' '' | prepend 'option-color-'" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
+              <div class="styleicon-circle option-color option-variant-color" rv-class="color | replace_first '#' '' | prepend 'option-color-'" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
             </div>
             {% for i in (1..4) %}
               {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
@@ -65,7 +65,7 @@
                   class="col-auto px-1 cursor-pointer"
                   rv-route="'{{ all_products[handle].url }}'"
                 >
-                  <div class="styleicon-circle option-color option-color-{{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
+                  <div class="styleicon-circle option-color option-metafield-color option-color-{{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
                 </div>
               {% endif %}
             {% endfor %}
@@ -99,7 +99,7 @@
         </div>
 
         <div rv-each-option="product.options">
-          <div class="row justify-content-between pt-4" rv-if="option.name | downcase | eq 'size'">
+          <div class="row justify-content-between pt-4" rv-show="option.name | eq 'size'">
             <div class="col-auto px-1" rv-each-size="option.values">
               <button class="btn btn-link option-size text-decoration-normal" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="onClickOption | args size option.position option.name"></button>
             </div>
