@@ -1,0 +1,22 @@
+{% if settings.debug == true %}
+  <rv-debug-bar rv-theme-name="system.shopify.theme.name">
+
+    <small class="text-right">
+      { themeName }<br />
+    
+      <div>
+        Device width:
+        <span class="d-inline-block d-sm-none">XS</span>
+        <span class="d-none d-sm-inline-block d-md-none">SM</span>
+        <span class="d-none d-md-inline-block d-lg-none">MD</span>
+        <span class="d-none d-lg-inline-block d-xl-none">LG</span>
+        <span class="d-none d-xl-inline-block">XL</span>
+      </div>
+
+      <div rv-show="hasPreviewBar" class="cursor-pointer" rv-on-click="togglePreviewBar"> Show Previewbar</div>
+      <div rv-show="hasAdminBar" class="cursor-pointer" rv-on-click="toggleAdminBar"> Show Adminbar</div>
+  
+    </small>
+
+  </rv-debug-bar>
+{% endif %}

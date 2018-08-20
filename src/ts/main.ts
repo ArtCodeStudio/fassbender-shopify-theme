@@ -34,6 +34,7 @@ import {
 import {
   NewsletterComponent,
   ContactFormComponent,
+  DebugBarComponent,
   IconComponent,
   ShopifyLinklistComponent,
   ShopifyFilterComponent,
@@ -71,8 +72,12 @@ export class Main {
     };
 
     // Regist components
-    this.tinybind.componentService.regist(NewsletterComponent);
     this.tinybind.componentService.regist(ContactFormComponent);
+    this.tinybind.componentService.regist(DebugBarComponent);
+    this.tinybind.componentService.regist(DropdownComponent);
+    this.tinybind.componentService.regist(InstagramComponent);
+    this.tinybind.componentService.regist(InstagramScrollbarComponent);
+    this.tinybind.componentService.regist(NewsletterComponent);
     this.tinybind.componentService.regist(ShopifyLinklistComponent);
     this.tinybind.componentService.regist(ShopifyFilterComponent);
     this.tinybind.componentService.regist(IconComponent);
@@ -84,9 +89,6 @@ export class Main {
     this.tinybind.componentService.regist(ShopifyLoginFormComponent);
     this.tinybind.componentService.regist(ShopifyAddressesComponent);
     this.tinybind.componentService.regist(TabsComponent);
-    this.tinybind.componentService.regist(DropdownComponent);
-    this.tinybind.componentService.regist(InstagramComponent);
-    this.tinybind.componentService.regist(InstagramScrollbarComponent);
 
     // Regist binders
     this.tinybind.binderService.regists(basicBindersWrapper(JQuery));
@@ -112,6 +114,8 @@ export class Main {
     window.model.assign = function(key: string, value: any) {
       this[key] = value;
     };
+
+    window.model.system.shopify = (window as any).Shopify;
 
     // window.model.toggle = function(key: string, value: boolean) {
     //   this[key] = !this[key];

@@ -135,7 +135,7 @@ export class Utils extends tinybindUtils {
   /**
    * Get the position of an element relative to document
    */
-  public getElementPosition(selector: string | JQuery<any>) {
+  public getElementPosition(selector: JQuery.PlainObject<any>) {
     const $el = $(selector);
     const pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
     const pageXScroll = window.pageXOffset || document.documentElement.scrollLeft;
@@ -158,7 +158,7 @@ export class Utils extends tinybindUtils {
    * Get the position of an element relative to another element e.g. his parent element
    * E.g. used in rv-tabs to get the scrollpostion of an element insite a scrollable element to scroll the active tab to left
    */
-  public getElementPositionInElement(selector: string, parentSelector: string) {
+  public getElementPositionInElement(selector: JQuery.PlainObject<any>, parentSelector: JQuery.PlainObject<any>) {
     const elementPos = this.getElementPosition(selector);
     const parentElementPos = this.getElementPosition(parentSelector);
     const result = {
