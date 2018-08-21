@@ -14,16 +14,73 @@
 
 <rv-shopify-product-item rv-handle="'{{ product.handle }}'" class="{{ colClass }} {{ orderClass }} px-0 content-box ratio-3-4">
   <a rv-route="'{{ product.url | within: collection }}'" href="{{product.url | within: collection }}">
-    <img class="content" src="{{ product.featured_image | img_url: imageSize }}" alt="{{ product.featured_image.alt }}"  style="padding-bottom: 60px;"/>
+    <img
+      class="content"
+      src="{{ product.featured_image | img_url: imageSize }}"
+      alt="{{ product.featured_image.alt }}"
+      rv-css-padding-bottom="detailMenuPadding"/>
   </a>
-  <div class="position-absolute w-100" style="bottom: 10px;">
+  <div class="position-absolute w-100" style="bottom: 7px;">
     <div class="row m-0">
-      <div class="col-8 text-left text-truncate">
-        <strong>{{ product.title }}</strong><br />
-        {{ product.price | money }}
+      <div class="col-12 px-0 detailMenu" rv-class-show="showDetailMenu">
+        
+        <div class="row">
+          <div class="col-7 offset-3 d-flex justify-content-center text-center">
+            <div class="form-inline">
+              <label class="m-0" for="quanity">Quantity</label>
+              <input type="number" min="0" step="1" class="form-control bg-transparent border-0" id="quanity" rv-value="quantity | strip_html | number 1" style="width: 70px; font-weight: bold;">
+            </div>
+          </div>
+          <div class="col-2 d-flex justify-content-end mb-3">
+            <rv-icon class="mr-2 mb-2 cursor-pointer" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24" rv-on-click="toggleDetailMenu"></rv-icon>
+          </div>
+        </div>
+
+        <div class="row justify-content-around px-3 pb-4 option-group">
+          <div class="col-auto px-0" rv-each-size="sizeOption.values">
+            <button class="btn btn-link option-size text-decoration-normal" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"></button>
+          </div>
+        </div>
       </div>
-      <div class="col text-right text-truncate">
-        <button hidden class="btn btn-link" rv-on-click="toggleDetailMenu">Add</button>
+    </div>
+    <div class="row m-0">
+      
+      <div class="col-12">
+        <div class="row m-0">
+          <div rv-each-color="colorOption.values" class="col-auto pl-0 pr-2 pb-4 cursor-pointer" rv-on-click="chooseOption | args self color option.position option.name">
+            <div class="styleicon-circle option-color option-variant-color" rv-class="color | replace_first '#' '' | prepend 'option-color-'" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
+          </div>
+          {% for i in (1..4) %}
+            {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
+            {% assign HandleIndex = "product-link-" | append: forloop.index | append: "-handle" %}
+            {% assign color = product.metafields["global"][colorIndex] %}
+            {% assign handle = product.metafields["global"][HandleIndex] %}
+            {% if color != blank and handle != blank %}
+              <div
+                class="col-auto pl-0 pr-2 pb-4 cursor-pointer"
+                rv-route="'{{ all_products[handle].url }}'"
+              >
+                <div class="styleicon-circle option-color option-metafield-color option-color-{{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+    <div class="row m-0">
+
+      <div class="col text-left text-truncate">
+        <strong rv-route="'{{ product.url | within: collection }}'">{{ product.title }}</strong><br />
+        <div rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</div>
+      </div>
+      <div class="col text-right text-truncate d-flex align-items-end justify-content-end mb-2">
+        <button rv-hide="showDetailMenu" class="btn btn-animated-underline-dark" rv-on-click="toggleDetailMenu">
+          Add
+        </button>
+        <button rv-show="showDetailMenu" rv-enabled="available" class="btn btn-animated-underline-dark" rv-on-click="addToCart">
+          Add
+        </button>
       </div>
     </div>
   </div>

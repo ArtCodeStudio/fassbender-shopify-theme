@@ -8,9 +8,9 @@ import {
   shopifyExtension,
 } from '../../tinybind';
 import template from './shopify-product.component.html';
-import { Utils } from '../../services/Utils';
 
 const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
+const ShopifyProductService = shopifyExtension.services.ShopifyProductService;
 
 export interface IPrepairedProductVariant extends IShopifyProductVariant {
   images?: string[];
@@ -23,16 +23,18 @@ export interface IScope {
   quantity: number;
   showDetailMenu: boolean;
   showAddToCartButton: boolean;
-  isOptionActive: ShopifyProductComponent['isOptionActive'];
-  onClickOption: ShopifyProductComponent['onClickOption'];
+  chooseOption: ShopifyProductComponent['chooseOption'];
   addToCart: ShopifyProductComponent['addToCart'];
   toggleDetailMenu: ShopifyProductComponent['toggleDetailMenu'];
   $parent?: any;
+  self: ShopifyProductComponent; // WORKAROUND
 }
 
 export class ShopifyProductComponent extends RibaComponent {
 
   public static tagName: string = 'rv-shopify-product';
+
+  protected autobind: boolean = true;
 
   /**
    * handle is the product handle to get the product json object
@@ -53,10 +55,10 @@ export class ShopifyProductComponent extends RibaComponent {
     quantity: 1,
     showDetailMenu: false,
     showAddToCartButton: false,
-    isOptionActive: this.isOptionActive,
-    onClickOption: this.onClickOption,
+    chooseOption: this.chooseOption,
     addToCart: this.addToCart,
     toggleDetailMenu: this.toggleDetailMenu,
+    self: this, // WORKAROUND
   };
 
   private colorOption: IShopifyProductVariantOption | null = null;
@@ -66,20 +68,11 @@ export class ShopifyProductComponent extends RibaComponent {
   protected set product(product: IShopifyProduct | null) {
     this.debug('set product', product);
     if (product) {
-      this.scope.product = product;
-
-      // prepair product
-      this.scope.product.featured_image = product.featured_image
-      .replace(/(^\w+:|^)\/\//, '//'); // remove protocol
-
-      // all option names to lower case
-      for (const option of this.scope.product.options) {
-        option.name = option.name.toString().toLocaleLowerCase();
-      }
+      this.scope.product = ShopifyProductService.prepair(product);
 
       // this.selectedOptions = new Array(this.scope.product.options.length);
 
-      this.colorOption = this.getOption(product, 'color');
+      this.colorOption = ShopifyProductService.getOption(this.scope.product, 'color');
       // set the first variant to the selected one
       this.variant = this.scope.product.variants[0];
     }
@@ -114,27 +107,15 @@ export class ShopifyProductComponent extends RibaComponent {
     this.init(ShopifyProductComponent.observedAttributes);
   }
 
-  /**
-   * Used in template with rv-class-active="isOptionActive | call size"
-   * @param optionValue
-   */
-  public isOptionActive(optionValue: string | number) {
-    this.debug('isOptionActive', optionValue, this.selectedOptions.indexOf(optionValue.toString()) );
-    if (Utils.isUndefined(optionValue)) {
-      return false;
-    }
-    return this.selectedOptions.indexOf(optionValue.toString()) > -1;
-  }
-
-  public onClickOption(optionValue: string | number, position1: number, optionName: string, event: MouseEvent, scope: any, el: HTMLElement) {
+  public chooseOption(self: ShopifyProductComponent, optionValue: string | number, position1: number, optionName: string, event: MouseEvent, scope: any, el: HTMLElement) {
     optionValue = optionValue.toString();
 
-    this.debug('onClickOption', optionValue, position1, this.selectedOptions, this.variant);
+    self.debug('chooseOption', optionValue, position1, self.selectedOptions, self.variant);
 
-    this.selectedOptions[(position1 - 1)] = optionValue.toString();
-    const variant = this.getVariantOfOptions(this.selectedOptions);
+    self.selectedOptions[(position1 - 1)] = optionValue.toString();
+    const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, self.selectedOptions);
     if (variant) {
-      this.variant = variant as IShopifyProductVariant;
+      self.variant = variant as IShopifyProductVariant;
     }
 
     event.stopPropagation();
@@ -182,7 +163,7 @@ export class ShopifyProductComponent extends RibaComponent {
         const optionValue = this.selectedOptions[position0];
         if (this.scope.product) {
           this.debug('activateOptions', this.scope.product.options[position0]);
-          const optionName = this.scope.product.options[position0].name.toLowerCase();
+          const optionName = this.scope.product.options[position0].name;
           this.activateOption(optionValue, optionName);
         }
       }
@@ -194,11 +175,9 @@ export class ShopifyProductComponent extends RibaComponent {
     if (this.scope.handle === null) {
       throw new Error('Product handle not set');
     }
-    // https://help.shopify.com/en/themes/development/getting-started/using-ajax-api
-    return Utils.getJSON(`/products/${this.scope.handle}.js`)
+    return ShopifyProductService.get(this.scope.handle)
     .then((product: IShopifyProduct) => {
       this.product = product;
-      return this.product;
     });
   }
 
@@ -217,60 +196,6 @@ export class ShopifyProductComponent extends RibaComponent {
       return null;
     } else {
       return template;
-    }
-  }
-
-  private getVariantOfOptions(optionValues: string[]) {
-    // this.debug('getVariantOfOptions', optionValues);
-    let result: IShopifyProductVariant | null = null;
-    if (this.scope.product) {
-      for (const i in this.scope.product.variants) {
-        if (this.scope.product.variants[i]) {
-          result = null;
-          const variant = this.scope.product.variants[i];
-          let fit = false;
-          for (const position0 in optionValues) {
-            if (optionValues[position0]) {
-              const optionValue = optionValues[position0];
-              fit = variant.options.indexOf(optionValue.toString()) > -1;
-              this.debug('variant.options', variant.options, 'indexOf', optionValue.toString(), fit);
-            }
-          }
-          if (fit) {
-            result = variant;
-            this.debug('break', result);
-            break;
-          }
-        }
-      }
-    }
-
-    this.debug('getVariantOfOptions optionValues', optionValues, 'variant', result);
-
-    if (result) {
-      return result;
-    } else {
-      return null;
-    }
-  }
-
-  /**
-   * Get variant object by variant id
-   * @param id Variant id
-   */
-  private getVariant(id: number) {
-    let result = null;
-    // this.scope.variant =
-    if (this.product) {
-      this.product.variants.forEach((variant: IShopifyProductVariant) => {
-        if (variant.id === id) {
-          result = variant;
-        }
-      });
-    }
-    this.debug('selectVariant', result);
-    if (result) {
-      return result;
     }
   }
 
@@ -303,14 +228,12 @@ export class ShopifyProductComponent extends RibaComponent {
     // this.debug('getImages');
     const generalImages: string[] = [];
     if (this.scope.product) {
-
       // add images without optionName in filename
       this.scope.product.images.forEach((image: string, index) => {
         if (!image.toLowerCase().includes(`${optionName}-`)) {
           generalImages.push(image);
         }
       });
-
       // remove variant images from copied array
       this.scope.product.variants.forEach((variant: IShopifyProductVariant) => {
         let index = -1;
@@ -329,7 +252,9 @@ export class ShopifyProductComponent extends RibaComponent {
   }
 
   /**
-   * Get options images (without featured image) filtered by filename
+   * Get options images (without featured image) filtered by filename.
+   * Shopify only supports one image per variant, with this function more images for each variant are possible.
+   * The image filename must include {optionName}-{optionValue} for that.
    */
   private getOptionImages(option: IShopifyProductVariantOption, optionValue: string) {
     optionValue = optionValue.toLowerCase().replace('#', '_');
@@ -420,20 +345,5 @@ export class ShopifyProductComponent extends RibaComponent {
     }
 
     return variant;
-  }
-
-  /**
-   * Get product option by name
-   * @param product product wich holds the options
-   * @param name option name
-   */
-  private getOption(product: IShopifyProduct, name: string) {
-    let result = null;
-    product.options.forEach((option) => {
-      if (option.name.toLowerCase() === name.toLowerCase()) {
-        result = option;
-      }
-    });
-    return result;
   }
 }

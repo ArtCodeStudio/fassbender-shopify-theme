@@ -72,6 +72,7 @@ export class Main {
     };
 
     // Regist components
+    this.tinybind.componentService.regist(TabsComponent);
     this.tinybind.componentService.regist(ContactFormComponent);
     this.tinybind.componentService.regist(DebugBarComponent);
     this.tinybind.componentService.regist(DropdownComponent);
@@ -88,7 +89,6 @@ export class Main {
     this.tinybind.componentService.regist(ShopifyCartButtonComponent);
     this.tinybind.componentService.regist(ShopifyLoginFormComponent);
     this.tinybind.componentService.regist(ShopifyAddressesComponent);
-    this.tinybind.componentService.regist(TabsComponent);
 
     // Regist binders
     this.tinybind.binderService.regists(basicBindersWrapper(JQuery));

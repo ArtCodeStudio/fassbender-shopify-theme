@@ -1,4 +1,4 @@
-<rv-shopify-product rv-handle="'{{product.handle}}'" extras='{% include 'jumplink-utils-json-product-extras' %}'>
+<rv-shopify-product rv-handle="'{{product.handle}}'" extras='{% include "jumplink-utils-json-product-extras" %}'>
   <div class="container-fluid">
 
     <div class="row">
@@ -51,8 +51,8 @@
       {% endcomment %}
       <div class="col order-1 order-lg-1 mb-5 mb-lg-3 pt-4 d-flex flex-column justify-content-end">
         <div class="variant-chooser">
-          <div rv-each-option="product.options" class="row px-3" rv-show="option.name | eq 'color'" rv-class="option.name">
-            <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="onClickOption | args color option.position option.name">
+          <div rv-each-option="product.options" class="row px-3" rv-if="option.name | eq 'color'" rv-class="option.name">
+            <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="chooseOption | args self color option.position option.name">
               <div class="styleicon-circle option-color option-variant-color" rv-class="color | replace_first '#' '' | prepend 'option-color-'" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
             </div>
             {% for i in (1..4) %}
@@ -72,7 +72,7 @@
           </div>
         </div>
         <div>
-          <strong>{{ product.title }}</strong><br>
+          <strong>{{ product.title }}</strong><br />
           <div rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</div>
         </div>
       </div>
@@ -94,14 +94,14 @@
           <div class="form-inline">
             <label class="m-0" for="quanity">Quantity</label>
             {% comment %} <strong class="mx-1" contenteditable="true" rv-value="quantity | strip_html | number 1" rv-on-keydown="onQuantityKeypress"></strong> {% endcomment %}
-            <input type="number" min="0" step="1" class="form-control border-0" id="quanity" rv-value="quantity | strip_html | number 1" style="width: 70px; font-weight: bold;">
+            <input type="number" min="0" step="1" class="form-control bg-transparent border-0" id="quanity" rv-value="quantity | strip_html | number 1" style="width: 70px; font-weight: bold;">
           </div>
         </div>
 
         <div rv-each-option="product.options">
-          <div class="row justify-content-between pt-4" rv-show="option.name | eq 'size'">
+          <div class="row justify-content-between pt-4" rv-if="option.name | eq 'size'">
             <div class="col-auto px-1" rv-each-size="option.values">
-              <button class="btn btn-link option-size text-decoration-normal" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="onClickOption | args size option.position option.name"></button>
+              <button class="btn btn-link option-size text-decoration-normal" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"></button>
             </div>
           </div>
         </div>
@@ -128,8 +128,6 @@
               <button class="btn btn-animated-underline-dark" rv-disabled="variant.available | not" rv-on-click="addToCart">Add</button>
             </div>
           </div>
-
-
 
         </div>
       </div>
@@ -242,5 +240,4 @@
     </bs4-tabs>
 
   </div>
-
 </rv-shopify-product>
