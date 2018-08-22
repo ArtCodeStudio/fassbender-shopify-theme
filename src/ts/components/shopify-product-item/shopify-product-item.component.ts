@@ -160,6 +160,10 @@ export class ShopifyProductItemComponent extends RibaComponent /*ShopifyProductI
   public chooseOption(self: ShopifyProductItemComponent, optionValue: string | number, position1: number, optionName: string, event: MouseEvent, scope: any, el: HTMLElement) {
     optionValue = optionValue.toString();
 
+    if (!this.scope.product) {
+      throw new Error('Product not set!');
+    }
+
     self.debug('chooseOption', optionValue, position1, self.selectedOptions, self.variant);
 
     self.selectedOptions[(position1 - 1)] = optionValue.toString();
@@ -238,6 +242,7 @@ export class ShopifyProductItemComponent extends RibaComponent /*ShopifyProductI
     return ShopifyProductService.get(this.scope.handle)
     .then((product: IShopifyProduct) => {
       this.product = product;
+      return product;
     });
   }
 

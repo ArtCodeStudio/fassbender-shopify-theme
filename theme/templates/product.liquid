@@ -49,7 +49,7 @@
       {% comment %}
         Desktop / Mobile: Left part
       {% endcomment %}
-      <div class="col order-1 order-lg-1 mb-5 mb-lg-3 pt-4 d-flex flex-column justify-content-end">
+      <div class="col order-1 order-lg-1 mb-5 pb-3 mb-lg-3 pt-4 d-flex flex-column justify-content-end">
         <div class="variant-chooser">
           <div rv-each-option="product.options" class="row px-3" rv-if="option.name | eq 'color'" rv-class="option.name">
             <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="chooseOption | args self color option.position option.name">

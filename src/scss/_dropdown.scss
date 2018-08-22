@@ -14,6 +14,11 @@
       color: $dropdown-link-active-color;
     }
   }
-  
 }
 
+.dropdown-menu {
+  backdrop-filter: blur(10px);
+  &.scrollbar-primary, .scrollbar-primary {
+    @include scrollbars(.5em, theme-color(primary), $dropdown-bg);
+  }
+}

@@ -11,7 +11,11 @@ export interface IProductsCache {
 
 export class ShopifyProductService {
 
-  public static get(handle) {
+  /**
+   * Get product object by handle
+   * @param handle product handle
+   */
+  public static get(handle: string): Promise<IShopifyProduct> {
     if (this.cache.hasOwnProperty(handle)) {
       return new Promise((resolve) => {
         resolve(this.cache[handle]);
@@ -87,6 +91,10 @@ export class ShopifyProductService {
     return result;
   }
 
+  /**
+   * Prepair product, remove protocol from featured_image, lovercase the option names
+   * @param product product object
+   */
   public static prepair(product: IShopifyProduct) {
     // remove protocol
     product.featured_image

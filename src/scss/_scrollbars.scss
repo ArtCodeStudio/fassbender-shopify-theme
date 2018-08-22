@@ -45,7 +45,7 @@
 }
 
 .scrollbar-primary {
-  @include scrollbars(.5em, theme-color(primary), $white);
+  @include scrollbars(.5em, theme-color(primary), transparent);
 }
 
 .scrollbar-secondary {

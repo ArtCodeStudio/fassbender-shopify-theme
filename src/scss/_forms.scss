@@ -68,7 +68,9 @@
   &.form-control-text {
     border: none;
     padding: 0;
-    height: auto
+    height: auto;
+    background: transparent;
+    @include autofill($input-color, $input-bg);
   }
 }
 

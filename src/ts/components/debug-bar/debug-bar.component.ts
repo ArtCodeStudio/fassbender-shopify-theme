@@ -16,8 +16,9 @@ export class DebugBarComponent extends RibaComponent {
   protected scope: any = {
     hasPreviewBar: false,
     hasAdminBar: false,
-    togglePreviewBar: this.togglePreviewBar,
-    toggleAdminBar: this.toggleAdminBar,
+    toggleBar: this.toggleBar,
+    hide: this.hide,
+    hidden: false,
   };
 
   protected autobind = true;
@@ -40,38 +41,35 @@ export class DebugBarComponent extends RibaComponent {
     super.attributeChangedCallback(name, oldValue, newValue, namespace);
   }
 
-  public togglePreviewBar(forceHide: boolean = false) {
-    if (!this.$previewBar || this.$previewBar.length <= 0) {
-      this.debug('No previewbar found');
-      return;
-    }
-
-    if (forceHide === true || this.elementIsVisable(this.$previewBar)) {
-      this.debug('hide previewbar');
-      this.$previewBar.attr('hidden', '');
-      this.$previewBar.hide();
-    } else {
-      this.debug('show previewbar');
-      this.$previewBar.removeAttr('hidden');
-      this.$previewBar.show();
-    }
+  public hide() {
+    this.scope.hidden = !this.scope.hidden;
   }
 
-  public toggleAdminBar(forceHide: boolean = false) {
-    if (!this.$adminBar || this.$adminBar.length <= 0) {
-      this.debug('No adminbar found');
-      return;
+  public toggleBar(forceHide: boolean = false) {
+    if (this.$previewBar && this.$previewBar.length > 0) {
+      if (forceHide === true || this.elementIsVisable(this.$previewBar)) {
+        this.debug('hide previewbar');
+        this.$previewBar.attr('hidden', '');
+        // this.$previewBar.hide();
+      } else {
+        this.debug('show previewbar');
+        this.$previewBar.removeAttr('hidden');
+        // this.$previewBar.show();
+      }
     }
 
-    if (forceHide === true || this.elementIsVisable(this.$adminBar)) {
-      this.debug('hide adminbar');
-      this.$adminBar.attr('hidden', '');
-      this.$adminBar.hide();
-    } else {
-      this.debug('show adminbar');
-      this.$adminBar.removeAttr('hidden');
-      this.$adminBar.show();
+    if (this.$adminBar && this.$adminBar.length > 0) {
+      if (forceHide === true || this.elementIsVisable(this.$adminBar)) {
+        this.debug('hide adminbar');
+        this.$adminBar.attr('hidden', '');
+        // this.$adminBar.hide();
+      } else {
+        this.debug('show adminbar');
+        this.$adminBar.removeAttr('hidden');
+        // this.$adminBar.show();
+      }
     }
+
   }
 
   protected elementIsVisable($el: JQuery<Element>) {
@@ -89,7 +87,7 @@ export class DebugBarComponent extends RibaComponent {
 
     if (this.$previewBar && this.$previewBar.length) {
       this.scope.hasPreviewBar = true;
-      this.togglePreviewBar(true);
+      this.toggleBar(true);
     } else {
       this.$previewBar = null;
       this.scope.hasPreviewBar = false;
@@ -97,7 +95,7 @@ export class DebugBarComponent extends RibaComponent {
 
     if (this.$adminBar && this.$adminBar.length) {
       this.scope.hasAdminBar = true;
-      this.toggleAdminBar(true);
+      this.toggleBar(true);
     } else {
       this.$adminBar = null;
       this.scope.hasAdminBar = false;

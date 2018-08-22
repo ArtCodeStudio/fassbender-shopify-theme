@@ -108,6 +108,10 @@ export class ShopifyProductComponent extends RibaComponent {
   }
 
   public chooseOption(self: ShopifyProductComponent, optionValue: string | number, position1: number, optionName: string, event: MouseEvent, scope: any, el: HTMLElement) {
+    if (!this.scope.product) {
+      throw new Error('Product not set!');
+    }
+
     optionValue = optionValue.toString();
 
     self.debug('chooseOption', optionValue, position1, self.selectedOptions, self.variant);
