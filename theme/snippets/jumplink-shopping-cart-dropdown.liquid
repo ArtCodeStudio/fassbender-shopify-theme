@@ -4,7 +4,18 @@
 
 <rv-shopify-cart shipping-address='{{ customer.default_address | json }}' estimate-shipping-rate="{{ estimateShippingRate }}">
   <div rv-if="cart" class="dropdown d-block">
-    <a class="nav-link dropdown-toggle" data-offset="-100" rv-on-click="toggle" rv-route-class-active="'/cart'" href="#" role="button" id="dropdownMenuCart" aria-haspopup="true" aria-expanded="false">
+    <a
+      class="nav-link dropdown-toggle"
+      data-offset="-100"
+      rv-on-click="toggle"
+      rv-route-class-active="'/cart'"
+      href="#"
+      role="button"
+      id="dropdownMenuCart"
+      aria-haspopup="true"
+      aria-expanded="false"
+      rv-class-pending="pending"
+    >
       Shopping Bag <small class="ml-1 cart-lg-item-count text-center" rv-text="cart.item_count"></small>
     </a>
     

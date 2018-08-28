@@ -14,6 +14,7 @@ const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
 interface IScope {
   cartItemCount: number;
   toggle: ShopifyCartButtonComponent['toggle'];
+  pending: boolean;
 }
 
 export class ShopifyCartButtonComponent extends RibaComponent {
@@ -35,6 +36,7 @@ export class ShopifyCartButtonComponent extends RibaComponent {
   protected scope: IScope = {
     cartItemCount: 0,
     toggle: this.toggle,
+    pending: false,
   };
 
   protected set cart(cart: IShopifyCartObject) {
@@ -69,11 +71,17 @@ export class ShopifyCartButtonComponent extends RibaComponent {
   protected async beforeBind() {
     this.debug('beforeBind');
 
-    ShopifyCartService.dispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
-      this.debug('ShopifyCart:request:complete', cart);
+    ShopifyCartService.dispatcher.on('ShopifyCartButton:request:start', () => {
+      this.debug('ShopifyCartButton:request:start');
+      this.scope.pending = true;
+    });
+
+    ShopifyCartService.dispatcher.on('ShopifyCartButton:request:complete', (cart: IShopifyCartObject) => {
+      this.debug('ShopifyCartButton:request:complete', cart);
       if (cart) {
         this.cart = cart;
       }
+      this.scope.pending = false;
     });
 
   }

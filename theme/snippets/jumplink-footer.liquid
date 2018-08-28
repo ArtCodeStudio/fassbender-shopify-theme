@@ -111,8 +111,13 @@
     <div class="col d-flex justify-content-center py-2">
       <rv-shopify-cart-button>
         <a role="button" class="d-flex text-decoration-normal" rv-on-click="toggle" rv-route-class-active="'/cart'" href="/cart">
-          <div class="closed">
-            <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-shopping-bag.svg' | asset_url }}'" height="32" width="32"></rv-icon>
+          <div class="closed" rv-class-pending="pending">
+            <rv-icon
+              class="cursor-pointer"
+              rv-src="'{{ 'iconset-shopping-bag.svg' | asset_url }}'"
+              height="32"
+              width="32"
+            ></rv-icon>
             <small class="cart-item-count text-center" rv-text="cartItemCount"></small>
           </div>
           <div class="open">

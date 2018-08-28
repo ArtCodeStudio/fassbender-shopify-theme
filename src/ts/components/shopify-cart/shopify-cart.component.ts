@@ -24,6 +24,7 @@ interface IScope {
   increase: ShopifyCartComponent['increase'];
   decrease: ShopifyCartComponent['decrease'];
   closeDropdowns: ShopifyCartComponent['closeDropdowns'];
+  pending: boolean;
 }
 
 export class ShopifyCartComponent extends RibaComponent {
@@ -50,6 +51,7 @@ export class ShopifyCartComponent extends RibaComponent {
     increase: this.increase,
     decrease: this.decrease,
     closeDropdowns: this.closeDropdowns,
+    pending: false,
   };
 
   protected set cart(cart: any) {
@@ -124,12 +126,14 @@ export class ShopifyCartComponent extends RibaComponent {
 
     ShopifyCartService.dispatcher.on('ShopifyCart:request:start', () => {
       this.debug('ShopifyCart:request:start');
+      this.scope.pending = true;
     });
 
     ShopifyCartService.dispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
       this.debug('ShopifyCart:request:complete', cart);
       if (cart) {
         this.cart = cart;
+        this.scope.pending = false;
       }
     });
   }
