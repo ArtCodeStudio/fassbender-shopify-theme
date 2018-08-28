@@ -25,6 +25,7 @@ interface IScope {
   decrease: ShopifyCartComponent['decrease'];
   closeDropdowns: ShopifyCartComponent['closeDropdowns'];
   pending: boolean;
+  startAddAnimation: boolean;
 }
 
 export class ShopifyCartComponent extends RibaComponent {
@@ -52,11 +53,19 @@ export class ShopifyCartComponent extends RibaComponent {
     decrease: this.decrease,
     closeDropdowns: this.closeDropdowns,
     pending: false,
+    startAddAnimation: false,
   };
 
   protected set cart(cart: any) {
     // TODO check if cart values are changed
     this.scope.cart = cart;
+
+    this.scope.startAddAnimation = true;
+
+    setTimeout(() => {
+      this.scope.startAddAnimation = false;
+    }, 3000);
+
     if (this.scope.shippingAddress && this.scope.estimateShippingRate) {
       ShopifyCartService.getShippingRates(this.scope.shippingAddress, true, {
         triggerOnChange: false,
@@ -133,8 +142,8 @@ export class ShopifyCartComponent extends RibaComponent {
       this.debug('ShopifyCart:request:complete', cart);
       if (cart) {
         this.cart = cart;
-        this.scope.pending = false;
       }
+      this.scope.pending = false;
     });
   }
 

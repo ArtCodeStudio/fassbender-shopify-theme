@@ -1,0 +1,65 @@
+// https://github.com/daneden/animate.css/blob/master/source/_base.css
+@mixin animated($duration: 1s, $delay: 0, $count: infinite) {
+  animation-duration: $duration;
+  animation-fill-mode: both;
+  animation-iteration-count: $count;
+  animation-delay: $delay;
+}
+
+@mixin _bounce($intensity) {
+  @keyframes bounce {
+    from,
+    20%,
+    53%,
+    80%,
+    to {
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      transform: translate3d(0, 0, 0);
+    }
+
+    40%,
+    43% {
+      animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+      transform: translate3d(0, $intensity, 0);
+    }
+
+    70% {
+      animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+      transform: translate3d(0, $intensity / 2, 0);
+    }
+
+    90% {
+      transform: translate3d(0, $intensity/ 4, 0);
+    }
+  }
+}
+
+// https://github.com/daneden/animate.css/blob/master/source/attention_seekers/bounce.css
+@mixin bounce($intensity: -30px, $duration: 1s, $delay: 0, $count: infinite) {
+  @include animated($duration, $delay, $count);
+  @include _bounce($intensity);
+  animation-name: bounce;
+  transform-origin: center bottom;
+}
+
+// https://github.com/daneden/animate.css/blob/master/source/attention_seekers/pulse.css
+@mixin _pulse($intensity: 0.05) {
+  @keyframes pulse {
+    from {
+      transform: scale3d(1, 1, 1);
+    }
+  
+    50% {
+      transform: scale3d(1 + $intensity, 1  + $intensity, 1 + $intensity);
+    }
+  
+    to {
+      transform: scale3d(1, 1, 1);
+    }
+  }
+}
+@mixin pulse($intensity: 0.05, $duration: 1s, $delay: 0, $count: infinite) {
+  @include animated($duration, $delay, $count);
+  @include _pulse($intensity);
+  animation-name: pulse;
+}

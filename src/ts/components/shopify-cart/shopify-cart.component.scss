@@ -36,10 +36,25 @@ rv-shopify-cart {
 
 rv-shopify-cart {
   user-select: none;
-  .cart-lg-item-count {
+  .cart-item-count {
     margin-top: -20px;
     min-width: 20px;
+    opacity: 1;
   }
+
+  .pending {
+    .cart-item-count {
+      @include pulse(0.3, 2s, 1s);
+      opacity: 0.4;
+    }
+  }
+
+  .added-start {
+    .cart-item-count {
+      @include bounce(-15px, 1500ms, 0, 1);
+    }
+  }
+
   .dropdown-menu {
     width: 290px;
     max-height: 80vh;

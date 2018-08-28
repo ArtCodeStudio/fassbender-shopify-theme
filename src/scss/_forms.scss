@@ -24,12 +24,12 @@
  @mixin autofill($color) {
   &:-webkit-autofill {
     -webkit-text-fill-color: $color;
-    transition: background-color 5000s ease-in-out 0s;
+    transition: background-color 50000s ease-in-out 0s;
    
     &:hover, 
     &:focus {
       -webkit-text-fill-color: $color;
-      transition: background-color 5000s ease-in-out 0s;
+      transition: background-color 50000s ease-in-out 0s;
      
     }
   }

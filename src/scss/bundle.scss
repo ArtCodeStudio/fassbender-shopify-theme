@@ -2,6 +2,9 @@
 @import 'variables';
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 
+// custom extensions
+@import 'extensions/extensions';
+
 @import 'alerts';
 @import 'display';
 @import 'layout';
@@ -13,7 +16,6 @@
 @import 'pagination';
 @import 'footer';
 @import 'typography';
-@import 'buttons';
 @import 'list-group';
 @import 'breadcrumbs';
 @import 'forms';
@@ -21,15 +23,9 @@
 @import 'modal';
 @import 'position';
 @import 'colors';
-
-// custom extensions
-@import 'aspect-ratio';
-@import 'scrollbars';
 @import 'dropdown';
-@import 'sections';
-@import 'cursor';
-@import 'pointer-events';
-@import 'styleicons';
+
+// other
 @import 'development';
 
 // templates

@@ -31,6 +31,21 @@ rv-shopify-cart-button {
   :focus {
     .cart-item-count {
       color: $primary;
+      opacity: 1;
     }
   }
+
+  .pending {
+    .cart-item-count {
+      @include pulse(0.3, 2s, 1s);
+      opacity: 0.4;
+    }
+  }
+
+  .added {
+    .cart-item-count {
+      @include bounce(-15px, 1500ms, 0, 1);
+    }
+  }
+
 }

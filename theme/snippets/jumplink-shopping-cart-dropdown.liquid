@@ -6,6 +6,8 @@
   <div rv-if="cart" class="dropdown d-block">
     <a
       class="nav-link dropdown-toggle"
+      rv-class-pending="pending"
+      rv-animate-added="startAddAnimation"
       data-offset="-100"
       rv-on-click="toggle"
       rv-route-class-active="'/cart'"
@@ -14,9 +16,8 @@
       id="dropdownMenuCart"
       aria-haspopup="true"
       aria-expanded="false"
-      rv-class-pending="pending"
     >
-      Shopping Bag <small class="ml-1 cart-lg-item-count text-center" rv-text="cart.item_count"></small>
+      Shopping Bag <small class="ml-1 cart-item-count text-center" rv-text="cart.item_count"></small>
     </a>
     
     <div class="dropdown-menu p-3 scrollbar-primary " aria-labelledby="dropdownMenuCart">
