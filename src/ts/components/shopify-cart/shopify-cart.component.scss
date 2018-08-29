@@ -40,6 +40,7 @@ rv-shopify-cart {
     margin-top: -20px;
     min-width: 20px;
     opacity: 1;
+    transition: opacity 2s linear;
   }
 
   .pending {

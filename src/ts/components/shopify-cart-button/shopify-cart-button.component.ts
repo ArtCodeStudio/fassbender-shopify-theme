@@ -15,6 +15,7 @@ interface IScope {
   cartItemCount: number;
   toggle: ShopifyCartButtonComponent['toggle'];
   pending: boolean;
+  startAddAnimation: boolean;
 }
 
 export class ShopifyCartButtonComponent extends RibaComponent {
@@ -37,12 +38,15 @@ export class ShopifyCartButtonComponent extends RibaComponent {
     cartItemCount: 0,
     toggle: this.toggle,
     pending: false,
+    startAddAnimation: false,
   };
 
   protected set cart(cart: IShopifyCartObject) {
-    if (this.scope.cartItemCount !== cart.item_count) {
-      this.scope.cartItemCount = cart.item_count;
-    }
+    this.scope.cartItemCount = cart.item_count;
+    this.scope.startAddAnimation = true;
+    setTimeout(() => {
+      this.scope.startAddAnimation = false;
+    }, 3000);
   }
 
   constructor(element?: HTMLElement) {
@@ -71,12 +75,12 @@ export class ShopifyCartButtonComponent extends RibaComponent {
   protected async beforeBind() {
     this.debug('beforeBind');
 
-    ShopifyCartService.dispatcher.on('ShopifyCartButton:request:start', () => {
+    ShopifyCartService.dispatcher.on('ShopifyCart:request:start', () => {
       this.debug('ShopifyCartButton:request:start');
       this.scope.pending = true;
     });
 
-    ShopifyCartService.dispatcher.on('ShopifyCartButton:request:complete', (cart: IShopifyCartObject) => {
+    ShopifyCartService.dispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
       this.debug('ShopifyCartButton:request:complete', cart);
       if (cart) {
         this.cart = cart;

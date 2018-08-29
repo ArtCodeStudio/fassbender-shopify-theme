@@ -61,7 +61,6 @@ export class ShopifyCartComponent extends RibaComponent {
     this.scope.cart = cart;
 
     this.scope.startAddAnimation = true;
-
     setTimeout(() => {
       this.scope.startAddAnimation = false;
     }, 3000);

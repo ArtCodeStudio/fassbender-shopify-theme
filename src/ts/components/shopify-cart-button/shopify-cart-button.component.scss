@@ -26,12 +26,13 @@ rv-shopify-cart-button {
     position: absolute;
     top: 0;
     right: -15px;
+    opacity: 1;
+    transition: opacity 2s linear;
   }
 
   :focus {
     .cart-item-count {
       color: $primary;
-      opacity: 1;
     }
   }
 
@@ -42,7 +43,7 @@ rv-shopify-cart-button {
     }
   }
 
-  .added {
+  .added-start {
     .cart-item-count {
       @include bounce(-15px, 1500ms, 0, 1);
     }

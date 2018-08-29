@@ -111,7 +111,7 @@
     <div class="col d-flex justify-content-center py-2">
       <rv-shopify-cart-button>
         <a role="button" class="d-flex text-decoration-normal" rv-on-click="toggle" rv-route-class-active="'/cart'" href="/cart">
-          <div class="closed" rv-class-pending="pending">
+          <div class="closed" rv-class-pending="pending" rv-animate-added="startAddAnimation">
             <rv-icon
               class="cursor-pointer"
               rv-src="'{{ 'iconset-shopping-bag.svg' | asset_url }}'"
