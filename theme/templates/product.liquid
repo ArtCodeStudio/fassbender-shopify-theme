@@ -17,8 +17,8 @@
 
     </div>
 
+    {% comment %} Variant image 1-2 {% endcomment %}
     <div class="row">
-      {% comment %} Other variant images {% endcomment %}
       <div rv-each-image="variant.images | range 0 1" class="'col-12 col-md px-0" >
         <div class="content-box ratio-3-4">      
           <img class="content" rv-src="image | img_url: '960x1280' 2" alt="variant.title" />
@@ -26,8 +26,8 @@
       </div>
     </div>
 
+    {% comment %} Variant images 3-4 {% endcomment %}
     <div class="row">
-      {% comment %} Other variant images {% endcomment %}
       <div rv-each-image="variant.images | range 2 4" class="'col-12 col-md px-0" >
         <div class="content-box ratio-3-4">     
           <img class="content" rv-src="image | img_url: '960x1280' 2" alt="variant.title" />
@@ -35,6 +35,7 @@
       </div>
     </div>
 
+    {% comment %} Variant images 4-.. {% endcomment %}
     <div class="row" rv-if="variant.images | count | egt 5">
       <div rv-each-image="variant.images | range 5" class="'col-12 col-md px-0">
         <div class="content-box ratio-3-4">      

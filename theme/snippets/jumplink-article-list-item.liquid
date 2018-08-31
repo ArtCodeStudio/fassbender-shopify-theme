@@ -7,7 +7,7 @@
 
 {% case type %}
   {% when 'magazine' %}
-    {% include 'jumplink-article-list-item-view-magazine', color: color %}
+    {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, showDetail: false %}
   {% when '2-grid-2-images' %}
     {% include 'jumplink-article-list-item-view-2-grid-2-images', color: color, images: images %}
   {% when 'one-story' %}

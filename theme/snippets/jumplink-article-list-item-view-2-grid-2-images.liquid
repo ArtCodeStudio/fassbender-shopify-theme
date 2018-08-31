@@ -3,7 +3,7 @@
 {% assign images_length = images | size %}
 {% if images_length <= 1 %}
   {% assign ratioClass = "ratio-3-2" %}
-  {% assign imageSize = "1200x800" %}
+  {% assign imageSize = "2400x1600" %}
 {% else %}
   {% assign ratioClass = "ratio-3-4" %}
   {% assign imageSize = "1200x1600" %}
@@ -21,55 +21,54 @@
   {% endif %}
   bottom: {{spacings[title_under_image] | abs | minus: 50}}px;
 {% endcapture %}
+<rv-shopify-article-item>
+  <a rv-route="'{{ article.url }}'" href="{{article.url}}" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' class="container-fluid position-relative jumplink-article-list-item jumplink-article-list-item-view-2-grid-2-images" style="background-color: {{ color }};">
+    <div class="row">
+      {% for image in images %}
 
-{% comment %} <a rv-route="'{{ article.url }}'" href="{{article.url}}" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' class="container-fluid position-relative jumplink-article-list-item jumplink-article-list-item-view-2-grid-2-images" style="background-color: {{ color }};"> {% endcomment %}
-<div data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' class="container-fluid position-relative jumplink-article-list-item jumplink-article-list-item-view-2-grid-2-images" style="background-color: {{ color }};">
-  <div class="row">
-    {% for image in images %}
+        {% assign contentBoxClass = ratioClass %}
 
-      {% assign contentBoxClass = ratioClass %}
+        {% comment %} The abs filter abs converts the string to number {% endcomment %}
+        {% assign spacing = spacings[forloop.index0] | abs %} 
 
-      {% comment %} The abs filter abs converts the string to number {% endcomment %}
-      {% assign spacing = spacings[forloop.index0] | abs %} 
-
-      {% if spacing > 0 %}
-        {% assign imageHasSpacing = true %}
-      {% else %}
-        {% assign imageHasSpacing = false %}
-      {% endif %}
-
-      
-      {% assign imageClass = 'content' %}
-      {% if imageHasSpacing %}
-        {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
-      {% else %}
-        {% assign imageClass = imageClass %}
-      {% endif %}
-
-      <div class="col px-0 content-box {{contentBoxClass}}">
-        <img class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
-      
-        {% comment %} title for medium and heigher {% endcomment %}
-        {% if article.title and forloop.index0 == title_under_image %}
-          <div class="position-absolute w-100 d-none d-md-block" style="{{ titleStyle }}">
-            <div class="text-center text-truncate" style="padding: {{ title_spacing }}px 0;">
-              {{ article.title }}
-            </div>
-          </div>
+        {% if spacing > 0 %}
+          {% assign imageHasSpacing = true %}
+        {% else %}
+          {% assign imageHasSpacing = false %}
         {% endif %}
-      
-      </div>
-    {% endfor %}
-  </div>
 
-  {% comment %} title for smartphones {% endcomment %}
-  {% if article.title %}
-    <div class="row position-absolute bottom-xs-0 bottom-sm-0 w-100 d-block d-md-none" style="{{ titleStyle }}">
-      <div class="col-12 text-center title-xs-spacing title-sm-spacing text-truncate">
-        {{ article.title }}
-      </div>
+        
+        {% assign imageClass = 'content' %}
+        {% if imageHasSpacing %}
+          {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
+        {% else %}
+          {% assign imageClass = imageClass %}
+        {% endif %}
+
+        <div class="col px-0 content-box {{contentBoxClass}}">
+          <img class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
+        
+          {% comment %} title for medium and heigher {% endcomment %}
+          {% if article.title and forloop.index0 == title_under_image %}
+            <div class="position-absolute w-100 d-none d-md-block" style="{{ titleStyle }}">
+              <div class="text-center text-truncate" style="padding: {{ title_spacing }}px 0;">
+                {{ article.title }}
+              </div>
+            </div>
+          {% endif %}
+        
+        </div>
+      {% endfor %}
     </div>
-  {% endif %}
 
-</div>
-{% comment %} </a> {% endcomment %}
+    {% comment %} title for smartphones {% endcomment %}
+    {% if article.title %}
+      <div class="row position-absolute bottom-xs-0 bottom-sm-0 w-100 d-block d-md-none" style="{{ titleStyle }}">
+        <div class="col-12 text-center title-xs-spacing title-sm-spacing text-truncate">
+          {{ article.title }}
+        </div>
+      </div>
+    {% endif %}
+
+  </a>
+</rv-shopify-article-item>
