@@ -45,6 +45,7 @@ import {
   ShopifyCartButtonComponent,
   ShopifyLoginFormComponent,
   ShopifyAddressesComponent,
+  ShareComponent,
   ProductScrollbarComponent,
   TabsComponent,
   DropdownComponent,
@@ -89,6 +90,7 @@ export class Main {
     this.tinybind.componentService.regist(ShopifyCartButtonComponent);
     this.tinybind.componentService.regist(ShopifyLoginFormComponent);
     this.tinybind.componentService.regist(ShopifyAddressesComponent);
+    this.tinybind.componentService.regist(ShareComponent);
 
     // Regist binders
     this.tinybind.binderService.regists(basicBindersWrapper(JQuery));

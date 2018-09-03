@@ -14,5 +14,6 @@ export { ShopifyCartComponent } from './shopify-cart/shopify-cart.component';
 export { ShopifyCartButtonComponent } from './shopify-cart-button/shopify-cart-button.component';
 export { ShopifyLoginFormComponent } from './shopify-login-form/shopify-login-form.component';
 export { ShopifyAddressesComponent } from './shopify-addresses/shopify-addresses.component';
+export { ShareComponent } from './share/share.component';
 export { ProductScrollbarComponent } from './product-scrollbar/product-scrollbar.component';
 export * from './bs4/bs4.components';

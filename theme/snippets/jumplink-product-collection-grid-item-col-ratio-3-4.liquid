@@ -53,14 +53,14 @@
           {% for i in (1..4) %}
             {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
             {% assign HandleIndex = "product-link-" | append: forloop.index | append: "-handle" %}
-            {% assign color = product.metafields["global"][colorIndex] %}
+            {% assign variantColor = product.metafields["global"][colorIndex] %}
             {% assign handle = product.metafields["global"][HandleIndex] %}
-            {% if color != blank and handle != blank %}
+            {% if variantColor != blank and handle != blank %}
               <div
                 class="col-auto pl-0 pr-2 pb-4 cursor-pointer"
                 rv-route="'{{ all_products[handle].url }}'"
               >
-                <div class="styleicon-circle option-color option-metafield-color option-color-{{ color }}" rv-css-background-color="'{{ color }}'" style="width: 16px; height: 16px;"></div>
+                <div class="styleicon-circle option-color option-metafield-color option-color-{{ variantColor }}" rv-css-background-color="'{{ variantColor }}'" style="width: 16px; height: 16px;"></div>
               </div>
             {% endif %}
           {% endfor %}

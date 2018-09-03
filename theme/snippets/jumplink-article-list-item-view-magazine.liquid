@@ -57,7 +57,7 @@
       <p>
         <small>
           <strong>
-            <span>Share this article</span>
+            <rv-share title="{{ article.title }}" url="{{ article.url }}" text="Look at this story" label="Share this article">Share this article</rv-share>
             <span class="pl-3">{ comments | count } Comments</span>
             {% unless showDetail %}
               <a class="ml-auto float-right" rv-route="'{{article.url}}'">View Article</a>
@@ -65,9 +65,50 @@
           </strong>
         </small>
       </p>
-
       
 
     </div>
   </rv-shopify-article-item>
 </div>
+
+{% comment %} 
+  Next (or prev) article and linked product
+{% endcomment %}
+{% if showDetail %}
+  {% if blog.next_article %}
+    {% assign nextArticle = blog.next_article %}
+  {% elsif blog.previous_article %}
+    {% assign nextArticle = blog.previous_article %}
+  {% endif %}
+
+  {% if nextArticle %}
+    {% assign nextType = nextArticle.metafields["global"]["type"] %}
+    {% assign nextColor = nextArticle.metafields["global"]["color"] %}
+    {% assign nextArticleImageSize = "1200x1600" %}
+    {% capture nextArticleTitleStyle %}
+      {% if color %}
+        background-color:{{ nextColor | color_modify: 'alpha', 0.5 }};
+      {% endif %}
+    {% endcapture %}
+  {% endif %}
+
+  {% assign product = all_products[article.metafields["global"]["detail-product-handle-1"]] %}
+
+  <div class="container-fluid position-relative">
+    <div class="row">
+      {% if nextArticle %}
+        {% include 'jumplink-article-item-col-ratio-3-4' with article: nextArticle, colClass: 'col-12 col-md', color: nextColor, articleTitleStyle: nextArticleTitleStyle, articleImageSize: nextArticleImageSize  %}
+      {% endif %}
+      {% if product.title != blank %}
+        {% include 'jumplink-product-collection-grid-item-col-ratio-3-4' with product, colClass: 'col-12 col-md' %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endif %}
+
+
+
+
+
+
