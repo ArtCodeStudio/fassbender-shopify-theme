@@ -50,10 +50,16 @@
 
       {% if block.settings.video_url != blank %}
         {% assign video = block.settings.video_url %}
+        {% assign videoType = video.type %}
+      {% endif %}
+
+      {% if block.settings.mp4_video_url != blank %}
+        {% assign video = block.settings.mp4_video_url %}
+        {% assign videoType = 'mp4' %}
       {% endif %}
 
       {% if video != blank %}
-        {% if video.type == 'youtube' %}
+        {% if videoType == 'youtube' %}
           <div class="col px-0 content-box {{contentBoxClass}}">
             <iframe
               class="{{imageClass}}"
@@ -62,9 +68,16 @@
               src="http://www.youtube.com/embed/{{ video.id }}?color=white&modestbranding=1&rel=0&showinfo=0&controls=0"
               frameborder="0"></iframe>
           </div>
-        {% else %}
+        {% elsif videoType == 'vimeo' %}
           <div class="col px-0 content-box {{contentBoxClass}}">
-            <p class="{{imageClass}}">Viemo Support coming soon..</p>
+            <p class="{{imageClass}}">Vimeo Support coming soon..</p>
+          </div>
+        {% elsif videoType == 'mp4' %}
+          <div class="col px-0 content-box {{contentBoxClass}}">
+            <video class="{{imageClass}}" autoplay muted loop>
+              <source src="{{video}}" type="video/mp4">
+              Your browser does not support the video tag or mp4.
+            </video>
           </div>
         {% endif %}
       {% else %}
@@ -144,6 +157,12 @@
             "type": "video_url",
             "label": "YouTube or Vimeo Video URL",
             "accept": ["youtube", "vimeo"]
+          },
+          {
+            "id": "mp4_video_url",
+            "type": "url",
+            "label": "Video .mp4 Source URL",
+            "info": "Video must be in .mp4 format"
           },
           {
             "type":   "range",

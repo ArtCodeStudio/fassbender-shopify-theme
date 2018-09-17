@@ -19,35 +19,65 @@
   {% endif %}
 {% endcapture %}
 
+{% comment %} Show Video always on detail view or if no images are set {% endcomment %}
+{% assign showVideo = false %}
+{% if video %}
+  {% if images_length <= 0 %}
+    {% assign showVideo = true %}
+  {% endif %}
+{% endif %}
+
 <a rv-route="'{{ article.url }}'" href="{{article.url}}" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' class="container-fluid position-relative jumplink-article-list-item jumplink-article-list-item-view-one-story" style="background-color: {{ color }};">
   <rv-shopify-article-item>
     <div class="row">
-      {% for image in images %}
+      {% if showVideo %}
 
         {% assign contentBoxClass = ratioClass %}
-
         {% comment %} The abs filter abs converts the string to number {% endcomment %}
-        {% assign spacing = spacings[forloop.index0] | abs %} 
-
+        {% assign spacing = spacings[0] | abs %}
         {% if spacing > 0 %}
           {% assign imageHasSpacing = true %}
         {% else %}
           {% assign imageHasSpacing = false %}
         {% endif %}
-
-        
         {% assign imageClass = 'content' %}
         {% if imageHasSpacing %}
           {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
-        {% else %}
-
         {% endif %}
 
-        {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
         <div class="col px-0 content-box {{contentBoxClass}}">
-          <img class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
+          <video class="{{imageClass}}" preload="auto" controls style="padding: {{spacing}}px">
+            <source src="{{ video }}" type="video/mp4">
+            Your browser does not support the video tag or mp4.
+          </video>
         </div>
-      {% endfor %}
+
+      {% else %}
+        {% for image in images %}
+
+          {% assign contentBoxClass = ratioClass %}
+
+          {% comment %} The abs filter abs converts the string to number {% endcomment %}
+          {% assign spacing = spacings[forloop.index0] | abs %} 
+
+          {% if spacing > 0 %}
+            {% assign imageHasSpacing = true %}
+          {% else %}
+            {% assign imageHasSpacing = false %}
+          {% endif %}
+
+          
+          {% assign imageClass = 'content' %}
+          {% if imageHasSpacing %}
+            {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
+          {% endif %}
+
+          {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
+          <div class="col px-0 content-box {{contentBoxClass}}">
+            <img class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
+          </div>
+        {% endfor %}
+      {% endif %}
     </div>
 
     {% if article.title %}

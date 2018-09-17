@@ -5,17 +5,24 @@
 {% capture imagesString %}{% if article.image %}{{ article.image.src | img_url: 'master' }}%break%{% endif %}{% if article.metafields["global"]["Image-2"] %}{{ article.metafields["global"]["Image-2"] }}%break%{% endif %}{% if article.metafields["global"]["Image-3"] %}{{ article.metafields["global"]["Image-3"] }}%break%{% endif %}{% endcapture %}
 {% assign images = imagesString | split: '%break%' %}
 
+{% if article.metafields["global"]["video-1"] %}
+  {% assign video = article.metafields["global"]["video-1"] %}
+{% endif %}
+{% if article.metafields["global"]["video-url-1"] %}
+  {% assign video = article.metafields["global"]["video-url-1"] %}
+{% endif %}
+
 {% case type %}
   {% when 'magazine' %}
-    {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, showDetail: false %}
+    {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, video: video, showDetail: false %}
   {% when '2-grid-2-images' %}
-    {% include 'jumplink-article-list-item-view-2-grid-2-images', color: color, images: images %}
+    {% include 'jumplink-article-list-item-view-2-grid-2-images', color: color, images: images, video: video %}
   {% when 'one-story' %}
-    {% include 'jumplink-article-list-item-view-one-story', color: color, images: images %}
+    {% include 'jumplink-article-list-item-view-one-story', color: color, images: images, video: video %}
   {% when '2-grid-story-product' %}
-    {% include 'jumplink-article-list-item-view-2-grid-story-product', color: color, productOrderClass: 'order-last' %}
+    {% include 'jumplink-article-list-item-view-2-grid-story-product', color: color, productOrderClass: 'order-last', video: video %}
   {% when '2-grid-product-story' %}
-    {% include 'jumplink-article-list-item-view-2-grid-story-product', color: color, productOrderClass: 'order-first' %}
+    {% include 'jumplink-article-list-item-view-2-grid-story-product', color: color, productOrderClass: 'order-first', video: video %}
   {% else %}
-    {% include 'jumplink-article-list-item-view-magazine', color: color %}
+    {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, video: video, showDetail: false %}
 {% endcase %}

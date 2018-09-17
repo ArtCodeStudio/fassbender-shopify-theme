@@ -21,15 +21,24 @@
   {% endif %}
   bottom: {{spacings[title_under_image] | abs | minus: 50}}px;
 {% endcapture %}
+
+{% comment %} Show Video always on detail view or if no images are set {% endcomment %}
+{% assign showVideo = false %}
+{% if video %}
+  {% if images_length <= 0 %}
+    {% assign showVideo = true %}
+  {% endif %}
+{% endif %}
+
 <rv-shopify-article-item>
   <a rv-route="'{{ article.url }}'" href="{{article.url}}" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' class="container-fluid position-relative jumplink-article-list-item jumplink-article-list-item-view-2-grid-2-images" style="background-color: {{ color }};">
     <div class="row">
-      {% for image in images %}
+      {% if showVideo %}
 
         {% assign contentBoxClass = ratioClass %}
 
         {% comment %} The abs filter abs converts the string to number {% endcomment %}
-        {% assign spacing = spacings[forloop.index0] | abs %} 
+        {% assign spacing = spacings[0] | abs %} 
 
         {% if spacing > 0 %}
           {% assign imageHasSpacing = true %}
@@ -46,8 +55,10 @@
         {% endif %}
 
         <div class="col px-0 content-box {{contentBoxClass}}">
-          <img class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
-        
+          <video class="{{imageClass}}" preload="auto" controls style="padding: {{spacing}}px">
+            <source src="{{ video }}" type="video/mp4">
+            Your browser does not support the video tag or mp4.
+          </video>
           {% comment %} title for medium and heigher {% endcomment %}
           {% if article.title and forloop.index0 == title_under_image %}
             <div class="position-absolute w-100 d-none d-md-block" style="{{ titleStyle }}">
@@ -56,9 +67,45 @@
               </div>
             </div>
           {% endif %}
-        
         </div>
-      {% endfor %}
+
+      {% else %}
+        {% for image in images %}
+
+          {% assign contentBoxClass = ratioClass %}
+
+          {% comment %} The abs filter abs converts the string to number {% endcomment %}
+          {% assign spacing = spacings[forloop.index0] | abs %} 
+
+          {% if spacing > 0 %}
+            {% assign imageHasSpacing = true %}
+          {% else %}
+            {% assign imageHasSpacing = false %}
+          {% endif %}
+
+          
+          {% assign imageClass = 'content' %}
+          {% if imageHasSpacing %}
+            {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
+          {% else %}
+            {% assign imageClass = imageClass %}
+          {% endif %}
+
+          <div class="col px-0 content-box {{contentBoxClass}}">
+            <img class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
+          
+            {% comment %} title for medium and heigher {% endcomment %}
+            {% if article.title and forloop.index0 == title_under_image %}
+              <div class="position-absolute w-100 d-none d-md-block" style="{{ titleStyle }}">
+                <div class="text-center text-truncate" style="padding: {{ title_spacing }}px 0;">
+                  {{ article.title }}
+                </div>
+              </div>
+            {% endif %}
+          </div>
+
+        {% endfor %}
+      {% endif %}
     </div>
 
     {% comment %} title for smartphones {% endcomment %}

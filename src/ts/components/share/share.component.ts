@@ -12,10 +12,16 @@ interface IScope {
   url: string;
   label: string;
   share: ShareComponent['share'];
+  /** true if the browser runs on Android */
   isAndroid: boolean;
+  /** true if the browser runs on iOS */
   isIos: boolean;
+  /** true if the browser runs on a desktop computer */
   isDesktop: boolean;
+  /** object with share urls like whatsapp, telegram, instagram etc used if the native share is noit available */
   shareUrls: any;
+  /** true if the browser supports native share */
+  isNative: boolean;
 }
 
 interface INavigatorShareParam {
@@ -36,6 +42,8 @@ declare global {
  *  * http://webintents.org/
  *  * http://chriswren.github.io/native-social-interactions/
  *  * https://www.sharethis.com/platform/share-buttons/
+ *
+ * TODO Fallback share if native share is not avabile
  */
 export class ShareComponent extends RibaComponent {
 
@@ -79,6 +87,7 @@ export class ShareComponent extends RibaComponent {
     isIos: navigator.userAgent.match(/iPhone|iPad|iPod/i) !== null,
     isDesktop: false,
     shareUrls: {},
+    isNative: typeof(navigator.share) === 'function',
   };
 
   constructor(element?: HTMLElement) {
@@ -96,7 +105,7 @@ export class ShareComponent extends RibaComponent {
     event.preventDefault();
     event.stopPropagation();
     // return this.dropdownService.toggle();
-    if (navigator.share) {
+    if (this.scope.isNative) {
       return navigator.share({
         title: this.scope.title,
         text: this.scope.text,

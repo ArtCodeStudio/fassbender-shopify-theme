@@ -1,6 +1,16 @@
 {% assign ratioClass = "ratio-3-2" %}
 {% assign imageSize = "2400x1600" %}
+{% assign imageCount = images | size %}
 {% assign imageSpacing = 0 %}
+
+{% comment %} Show Video always on detail view or if no images are set {% endcomment %}
+{% assign showVideo = false %}
+{% if video %}
+  {% if showDetail == true or imageCount <= 0 %}
+    {% assign showVideo = true %}
+  {% endif %}
+{% endif %}
+
 
 {% comment %}
   If showDetail is true this snippet shows all the details of the blog article, otherwise only the stuff we want to show in the list view
@@ -8,6 +18,18 @@
 
 <div class="container-fluid jumplink-article-list-item jumplink-article-list-item-view-magazine" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' style="background-color: {{color}};">
   <rv-shopify-article-item data-handle="{{article.handle}}">
+
+    {% if showVideo %}
+      <div class="row">
+        <div class="col-12 col-md px-0 content-box {{ratioClass}}">
+          <img class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+            <video class="content" preload="auto" controls>
+              <source src="{{ video }}" type="video/mp4">
+              Your browser does not support the video tag or mp4.
+            </video>
+        </div>
+      </div>
+    {% endif %}
 
     {% comment %} First image {% endcomment %}
     <div class="row">
@@ -97,10 +119,10 @@
   <div class="container-fluid position-relative">
     <div class="row">
       {% if nextArticle %}
-        {% include 'jumplink-article-item-col-ratio-3-4' with article: nextArticle, colClass: 'col-12 col-md', color: nextColor, articleTitleStyle: nextArticleTitleStyle, articleImageSize: nextArticleImageSize  %}
+        {% include 'jumplink-article-item-col-ratio-3-4' with article: nextArticle, colClass: 'col-12 col-sm', color: nextColor, articleTitleStyle: nextArticleTitleStyle, articleImageSize: nextArticleImageSize  %}
       {% endif %}
       {% if product.title != blank %}
-        {% include 'jumplink-product-collection-grid-item-col-ratio-3-4' with product, colClass: 'col-12 col-md' %}
+        {% include 'jumplink-product-collection-grid-item-col-ratio-3-4' with product, colClass: 'col-12 col-sm' %}
       {% endif %}
     </div>
   </div>

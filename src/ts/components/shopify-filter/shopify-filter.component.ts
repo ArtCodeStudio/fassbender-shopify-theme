@@ -44,13 +44,14 @@ export class ShopifyFilterComponent extends RibaComponent {
     this.debug('show', filterHandle, namespace, shopifyTemplate);
     switch (filterHandle) {
       case 'stories':
+        // return namespace === 'blog' || shopifyTemplate.template === 'article'; // TODO if the user is on a artice and wants to go back to the list view we need do do some additional work
         return namespace === 'blog';
       case 'account':
         return namespace === 'cart' || shopifyTemplate.directory === 'customers';
       case 'legal-area':
         return shopifyTemplate.template === 'page.legals';
       case 'store':
-        return shopifyTemplate.template === 'collection';
+        return shopifyTemplate.template === 'collection' || shopifyTemplate.template === 'product';
       default:
         break;
     }

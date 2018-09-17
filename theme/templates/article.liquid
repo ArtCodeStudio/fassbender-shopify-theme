@@ -8,6 +8,13 @@
   {% capture imagesString %}{% if article.image %}{{ article.image.src | img_url: 'master' }}%break%{% endif %}{% if article.metafields["global"]["Image-2"] %}{{ article.metafields["global"]["Image-2"] }}%break%{% endif %}{% if article.metafields["global"]["Image-3"] %}{{ article.metafields["global"]["Image-3"] }}%break%{% endif %}{% endcapture %}{% assign images = imagesString | split: '%break%' %}
 {% endif %}
 
+{% if article.metafields["global"]["video-1"] %}
+  {% assign video = article.metafields["global"]["video-1"] %}
+{% endif %}
+{% if article.metafields["global"]["video-url-1"] %}
+  {% assign video = article.metafields["global"]["video-url-1"] %}
+{% endif %}
+
 {% paginate article.comments by 50 %}
   {% comment %}
     When a comment has just been submitted, it's not shown right away.
@@ -27,9 +34,9 @@
 
   {% case type %}
     {% when 'magazine' %}
-        {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, showDetail: true %}
+        {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, video: video, showDetail: true %}
     {% else %}
-        {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, showDetail: true %}
+        {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, video: video, showDetail: true %}
   {% endcase %}
 
 {% endpaginate %}

@@ -2,8 +2,31 @@
   {% assign colClass = 'col' %}
 {% endif %}
 
+
+{% if article.metafields["global"]["video-1"] %}
+  {% assign video = article.metafields["global"]["video-1"] %}
+{% endif %}
+{% if article.metafields["global"]["video-url-1"] %}
+  {% assign video = article.metafields["global"]["video-url-1"] %}
+{% endif %}
+
+{% comment %} Show Video always on detail view or if no images are set {% endcomment %}
+{% assign showVideo = false %}
+{% if video %}
+  {% if article.image == blank %}
+    {% assign showVideo = true %}
+  {% endif %}
+{% endif %}
+
 <rv-shopify-article-item class="{{ colClass }} px-0 content-box ratio-3-4" rv-route="'{{ article.url }}'" href="{{article.url}}" style="background-color: {{ color }};">
-  <img class="content has-xs-spacing has-sm-spacing" rv-src="'{{ article.image | img_url: articleImageSize}}'" alt="{{acticle.title}}" style="padding: 52px" />
+  {% if showVideo %}
+    <video class="content has-xs-spacing has-sm-spacing" preload="auto" controls>
+      <source src="{{ video }}" type="video/mp4">
+      Your browser does not support the video tag or mp4.
+    </video>
+  {% else %}
+    <img class="content has-xs-spacing has-sm-spacing" src="{{ article.image | img_url: articleImageSize}}" rv-src="'{{ article.image | img_url: articleImageSize}}'" alt="{{acticle.title}}" style="padding: 52px" />
+  {% endif %}
   {% if article.title %}
     <div class="position-absolute w-100 bottom-0" style="{{ articleTitleStyle }}">
       <div class="text-center title-xs-spacing title-sm-spacing text-truncate" style="padding: 14px 0;">
