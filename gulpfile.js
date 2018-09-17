@@ -31,6 +31,7 @@ gulp.task('zip', function () {
     'theme/config/*',
     'theme/layout/*',
     'theme/locales/*',
+    'theme/sections/*',
     'theme/snippets/*',
     'theme/templates/*',
     'theme/templates/customers/*'
