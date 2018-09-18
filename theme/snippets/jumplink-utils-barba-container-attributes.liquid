@@ -32,6 +32,7 @@ data-template='{% include 'jumplink-utils-json-template' %}'
 {% if parseCollection and collection %}
   data-collection-handle={{collection.handle | json }}
   data-collection-title={{collection.title | json }}
+  data-collection-url="{{collection.url }}"
 
   {% comment %}
     Paginate informations needed for the show all products function

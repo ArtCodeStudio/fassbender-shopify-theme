@@ -6,6 +6,7 @@ import $ from '../../jquery';
 interface IScope {
   linklist: any;
   show: any;
+  collectionUrl?: string;
   namespace?: string;
   type: any;
   storiesFilterBy: any;
@@ -23,13 +24,14 @@ export class ShopifyFilterComponent extends RibaComponent {
   protected debug = Debug('component:' + ShopifyFilterComponent.tagName);
 
   static get observedAttributes() {
-    return ['namespace', 'linklist', 'template', 'filter'];
+    return ['collection-url', 'namespace', 'linklist', 'template', 'filter'];
   }
 
   protected scope: IScope = {
     linklist: window.model.system.linklists.filter,
     show: this.show,
     type: this.type,
+    collectionUrl: undefined,
     storiesFilterBy: this.storiesFilterBy,
     scrollTo: this.scrollTo,
   };
@@ -40,7 +42,7 @@ export class ShopifyFilterComponent extends RibaComponent {
     this.init(ShopifyFilterComponent.observedAttributes);
   }
 
-  public show(filterHandle: string, namespace: string, shopifyTemplate: any): boolean {
+  public show(filterHandle: string, namespace: string, shopifyTemplate: any, collectionUrl?: string): boolean {
     this.debug('show', filterHandle, namespace, shopifyTemplate);
     switch (filterHandle) {
       case 'stories':
@@ -127,7 +129,7 @@ export class ShopifyFilterComponent extends RibaComponent {
   }
 
   protected requiredAttributes() {
-    return ['namespace', 'template', 'filter'];
+    return ['collectionUrl', 'namespace', 'template', 'filter'];
   }
 
   protected parsedAttributeChangedCallback(attributeName: string, oldValue: any, newValue: any, namespace: string | null) {
@@ -147,7 +149,7 @@ export class ShopifyFilterComponent extends RibaComponent {
   }
 
   protected async afterBind() {
-    this.debug('afterBind');
+    this.debug('afterBind', this.scope);
     if (this.scope.filter) {
       for (const handle in this.scope.filter) {
 

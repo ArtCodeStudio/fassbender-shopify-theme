@@ -43,17 +43,16 @@
       </div>
 
       <div class="row pt-4">
-        <shopify-filter class="col-auto pointer-events-all" rv-namespace="dataset.namespace" rv-template="dataset.template | json" rv-filter="filter | json">
+        <shopify-filter class="col-auto pointer-events-all" rv-collection-url="dataset.collectionUrl" rv-namespace="dataset.namespace" rv-template="dataset.template | json" rv-filter="filter | json">
           <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
-            <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template">
-              
+            <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template collectionUrl">
               <a class="nav-link" rv-add-class="'level-' | append link.level" rv-route="link.url" rv-href="link.url">{link.title}</a>
               
               <div class="small" rv-if="type | call link.handle | eq 'routes'">
                 <strong>Type</strong>
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
-                    <input type="radio" rv-id="sublink.handle" rv-name="link.handle" rv-route-class-active="sublink.url" rv-route="sublink.url" rv-checked-on-route="sublink.url" class="custom-control-input">
+                    <input type="radio" rv-id="sublink.handle" rv-name="link.handle" rv-route-class-active="sublink.url" rv-route="sublink.url" class="custom-control-input">
                     <label class="custom-control-label" rv-route-class-active="sublink.url" rv-route="sublink.url" rv-for="sublink.handle">{sublink.title}</label>
                   </div>
                 </div>
@@ -68,13 +67,13 @@
                             id="{{ collection.handle }}"
                             rv-name="link.handle"
                             class="custom-control-input"
-                            rv-route-class-active="'{{ collection.url }}'"
+                            rv-parent-route-class-active="'{{ collection.url }}'"
                             rv-route="'{{ collection.url }}'"
                           >
                           <label
                             class="custom-control-label"
                             rv-for="{{ collection.handle }}"
-                            rv-route-class-active="'{{ collection.url }}'"
+                            rv-parent-route-class-active="'{{ collection.url }}'"
                             rv-route="'{{ collection.url }}'"
                           >{{ collection.title }}</label>
                         </div>

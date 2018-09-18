@@ -40,7 +40,7 @@
   </div>
 
   <div rv-view='{"listenAllLinks": true}'>
-    <div class="rv-view-container" {% include 'jumplink-utils-barba-container-attributes' %}>
+    <div class="rv-view-container" {% include 'jumplink-utils-barba-container-attributes', parseCollection: true %}>
       {{ content_for_layout }}
     </div>
   </div>
