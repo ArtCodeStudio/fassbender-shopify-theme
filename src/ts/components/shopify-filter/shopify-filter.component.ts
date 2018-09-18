@@ -129,7 +129,7 @@ export class ShopifyFilterComponent extends RibaComponent {
   }
 
   protected requiredAttributes() {
-    return ['collectionUrl', 'namespace', 'template', 'filter'];
+    return ['namespace', 'template', 'filter'];
   }
 
   protected parsedAttributeChangedCallback(attributeName: string, oldValue: any, newValue: any, namespace: string | null) {

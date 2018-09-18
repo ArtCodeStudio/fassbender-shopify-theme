@@ -6,6 +6,9 @@ html, body {
 .rv-view-container {
     width: 100%;
     min-height: calc(100vh - 126px);
+    .rv-view-container {
+        min-height: auto;
+    }
 }
 
 .container, .container-fluid {

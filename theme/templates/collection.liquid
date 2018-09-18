@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  {% paginate collection.products by 50 %}
+  {% paginate collection.products by 20 %}
     <div class="row">
         {% for product in collection.products %}
           {% include 'jumplink-product-collection-grid-item-col-ratio-3-4' with product, collection, colClass: 'col-12 col-md-6' %}

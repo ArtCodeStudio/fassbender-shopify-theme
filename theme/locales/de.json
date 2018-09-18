@@ -21,6 +21,11 @@
       }
     }
   },
+  "snippets": {
+    "jumplink-pagination": {
+      "load_more": "Lade mehr"
+    }
+  },
   "customer": {
     "addresses": {
       "title": "Ihre Adressen",
