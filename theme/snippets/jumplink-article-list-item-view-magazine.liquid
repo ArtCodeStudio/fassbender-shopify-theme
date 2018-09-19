@@ -11,6 +11,29 @@
   {% endif %}
 {% endif %}
 
+{% comment %} comments count {% endcomment %}
+{% assign new_comment = false %}
+{% assign number_of_comments = article.comments_count %}
+{% if comment and comment.created_at %}
+  {% assign new_comment = true %}
+  {% assign new_comment_id = comment.id %}
+{% endif %}
+{% if new_comment %}
+  {% comment %}
+    When you refresh the page with submitted comment, the comment is duplicated
+    so we added a flag to avoid this situation.
+  {% endcomment %}
+  {% assign duplicate_comment = false %}
+  {% for comment in article.comments %}
+    {% if comment.id == new_comment_id %}
+      {% assign duplicate_comment = true %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  {% unless duplicate_comment %}
+    {% assign number_of_comments = article.comments_count | plus: 1 %}
+  {% endunless %}
+{% endif %}
 
 {% comment %}
   If showDetail is true this snippet shows all the details of the blog article, otherwise only the stuff we want to show in the list view
@@ -60,7 +83,7 @@
 
 
     <div class="col-12 p-5 magazine-columns has-xs-spacing">
-      <h1>{{article.title}}</h1>
+      <h2 class="h1">{{article.title}}</h2>
       <p>
         <small>
           <strong>
@@ -80,17 +103,22 @@
         <small>
           <strong>
             <rv-share title="{{ article.title }}" url="{{ article.url }}" text="Look at this story" label="Share this article">Share this article</rv-share>
-            <span class="pl-3">{ comments | count } Comments</span>
+             <span class="pl-3">{{ 'blogs.comments.with_count' | t: count: number_of_comments }}</span>
             {% unless showDetail %}
               <a class="ml-auto float-right" rv-route="'{{article.url}}'">View Article</a>
             {% endunless %}
           </strong>
         </small>
       </p>
-      
-
     </div>
   </rv-shopify-article-item>
+
+  {% if showDetail %}
+    <div class="col-12">
+      {% include 'jumplink-article-comments' with comment, article, blog %}
+    </div>
+  {% endif %}
+
 </div>
 
 {% comment %} 

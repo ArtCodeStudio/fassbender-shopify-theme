@@ -40,7 +40,7 @@ $grays: map-merge((
 
 $blue:    #007bff;
 $indigo:  #6610f2;
-$purple:  #8660ca;
+$purple:  #4D3A40;
 $pink:    #D9998F;
 $red:     #dc3545;
 $orange:  #fd7e14;
@@ -68,10 +68,10 @@ $colors: map-merge((
 
 $primary:       $pink;
 $secondary:     $gray-600;
-$success:       $green;
+$success:       $pink;
 $info:          $cyan;
-$warning:       $yellow;
-$danger:        $purple;
+$warning:       $pink;
+$danger:        $pink;
 $light:         #F9DFD2; // $white;
 $dark:          $black;
 
@@ -277,7 +277,7 @@ $display3-weight:             300;
 $display4-weight:             300;
 $display-line-height:         $headings-line-height;
 
-$lead-font-size:              ($font-size-base * 0.8);
+$lead-font-size:              inherit;
 $lead-font-weight:            $font-weight-normal;
 
 $small-font-size:             80%;

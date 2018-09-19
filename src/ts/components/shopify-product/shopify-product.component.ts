@@ -22,11 +22,15 @@ export interface IScope {
   variant: IPrepairedProductVariant | null;
   quantity: number;
   showDetailMenu: boolean;
-  showAddToCartButton: boolean;
+  // showAddToCartButton: boolean;
   chooseOption: ShopifyProductComponent['chooseOption'];
   addToCart: ShopifyProductComponent['addToCart'];
   toggleDetailMenu: ShopifyProductComponent['toggleDetailMenu'];
   $parent?: any;
+  /**
+   * If the variant is available, used to disable the add to cart button
+   */
+  available: boolean;
   self: ShopifyProductComponent; // WORKAROUND
 }
 
@@ -54,16 +58,25 @@ export class ShopifyProductComponent extends RibaComponent {
     variant: null,
     quantity: 1,
     showDetailMenu: false,
-    showAddToCartButton: false,
+    // showAddToCartButton: false,
     chooseOption: this.chooseOption,
     addToCart: this.addToCart,
     toggleDetailMenu: this.toggleDetailMenu,
+    /**
+     * If the variant is available, used to disable the add to cart button
+     */
+    available: false,
     self: this, // WORKAROUND
   };
 
   private colorOption: IShopifyProductVariantOption | null = null;
 
   private selectedOptions: string[] = [];
+
+  /**
+   * Is true if the user has choosed an option
+   */
+  private optionChoosed: boolean = false;
 
   protected set product(product: IShopifyProduct | null) {
     this.debug('set product', product);
@@ -92,12 +105,20 @@ export class ShopifyProductComponent extends RibaComponent {
     if (this.scope.variant) {
       this.selectedOptions = this.scope.variant.options.slice();
       this.debug('set selectedOptions', this.selectedOptions);
+      this.available = this.scope.variant.available;
       this.activateOptions();
     }
   }
 
   protected get variant() {
     return this.scope.variant;
+  }
+
+  /**
+   * available is only true if the variant is available and the user has clicked on an option
+   */
+  protected set available(available: boolean) {
+    this.scope.available = (available && this.optionChoosed);
   }
 
   constructor(element?: HTMLElement) {
@@ -119,6 +140,9 @@ export class ShopifyProductComponent extends RibaComponent {
     self.selectedOptions[(position1 - 1)] = optionValue.toString();
     const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, self.selectedOptions);
     if (variant) {
+      // Option choosed so enable add to cart button
+      self.optionChoosed = true;
+
       self.variant = variant as IShopifyProductVariant;
     }
 
@@ -168,7 +192,14 @@ export class ShopifyProductComponent extends RibaComponent {
         if (this.scope.product) {
           this.debug('activateOptions', this.scope.product.options[position0]);
           const optionName = this.scope.product.options[position0].name;
-          this.activateOption(optionValue, optionName);
+          // Only activate size if it was clicked by the user
+          if (optionName === 'size') {
+            if (this.optionChoosed) {
+              this.activateOption(optionValue, optionName);
+            }
+          } else {
+            this.activateOption(optionValue, optionName);
+          }
         }
       }
     }

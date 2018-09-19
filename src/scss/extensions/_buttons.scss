@@ -91,6 +91,9 @@
   overflow: hidden;
 }
 
+/**
+ * Note: css :after style is not working on input elements like <input type="submit" ../>
+ */
 @mixin button-animated-underline-variant($color, $color-hover: color-yiq($color), $active-background: $color, $active-border: $color) {
   // color: $color;
   background-color: transparent;

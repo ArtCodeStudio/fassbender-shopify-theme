@@ -1,0 +1,19 @@
+{% if number_of_comments > 0 %}
+  <div class="lead">
+    <h3 class="h1 text-serif font-weight-normal">Comments on {{article.title}}</h3>
+  </div>
+
+  <ul class="list-unstyled">
+    {% comment %}
+      Display comment from URL parameters if it is waiting moderation
+      We added "comment.id" check to make sure we don't display markup if there are form errors
+    {% endcomment %}
+    {% if comment and comment.status != 'published' and comment.id != blank %}
+      {% include 'jumplink-article-comment' with blog, article, comment, number_of_comments, new_comment %}
+    {% endif %}
+
+    {% for comment in article.comments %}
+      {% include 'jumplink-article-comment' with blog, article, comment, number_of_comments, new_comment %}
+    {% endfor %}
+  </ul>
+{% endif %}

@@ -1,113 +1,61 @@
-{% if blog.comments_enabled? %}
+{% comment %}
+  When a comment has just been submitted, it's not shown right away.
+  Shopify needs to wait until it knows for sure that it is not spam to publish it.
+  We can still show right away *to its author* the comment he just submitted 
+  — although that comment may not have been published yet.
+  When a comment is submitted, the browser is redirected to a page that 
+  includes the new comment id in its URL. Example:
+  http://shopname.myshopify.com/blogs/news/2022072-my-post?comment=3721372
+  When a comment ID is specified in an article URL, that comment is accessible in the 
+  template through a Liquid object called comment. 
+  That comment is a full-fledged comment variable that has all the regular comment properties: 
+  http://docs.shopify.com/themes/liquid-variables/comment.
+  Note that comment.created_at will only be defined if the comment did not have any blank field 
+  — was posted without error.
 
-    {% paginate article.comments by 10 %}
+  In order to avoid showing "success" message when we post comments
+  with invalid format (eg. blank fields), we added logic to make sure it doesn't show.
 
-        {% assign number_of_comments = article.comments_count %}
+  Comment help page:
+  http://docs.shopify.com/themes/liquid-variables/comment
+{% endcomment %}
 
-        {% comment %}If a comment was just submitted, and it has no blank fields.{% endcomment %}
-        {% if comment and comment.created_at %}
-            {% assign number_of_comments = article.comments_count | plus: 1 %}
-        {% endif %}
+{% assign new_comment = false %}
+{% assign number_of_comments = article.comments_count %}
 
-        <div id="comments" class="row">
-
-            <div class="col-xs-12 m-t-2">
-                {% comment %}If a comment was just submitted with no blank field.{% endcomment %}
-                {% comment %}
-                {% if comment and comment.created_at %}
-                    <p class="alert alert-success feedback" role="alert">
-                        {% if blog.moderated? %}
-                            Ihr Kommentar wurder erfolgreich abgeschickt. Wir werden ihn in nach einem Review in kürze veröffentlichen.
-                        {% else %}
-                            Ihr Kommentar wurder erfolgreich veröffentlicht. Vielen Dank!
-                        {% endif %}
-                    </p>
-                {% endif %}
-                {% endcomment %}
-
-                {% if number_of_comments > 0 %}
-                    <h2 class="text-center text-serif text-normal">{{number_of_comments}} Kommentare</h2>
-
-                    {% comment %}If a comment was just submitted with no blank field, let's show it.{% endcomment %}
-                    {% if comment and comment.created_at %}
-                        {% assign first_comment = article.comments | first %}
-
-                        {% if first_comment.created_at != comment.created_at %}
-                            {% include 'article-comment' with comment, paginate_hash %}
-                        {% endif %}
-                    {% endif %}
-
-                    {% comment %}Showing the rest of the comments.{% endcomment %}
-                    {% for comment in article.comments %}
-                        {% include 'article-comment' with comment %}
-                    {% endfor %}
-                {% endif %}
-                
-                {% comment %}Comments are paginated.{% endcomment %}
-
-                <div class="">
-                {% assign paginate_hash = '#comments' %}
-                {% include 'jumplink-pagination' %}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-md-offset-2 col-md-8 mb-1">
-                
-                {% comment %}Comment submission form.{% endcomment %}
-                {% form "new_comment", article %}
-
-
-                    <div class="barba-form"
-                        {% if form %}
-                            data-form="true"
-                            data-form-posted-successfully="{{form.posted_successfully?}}"
-
-                            {% if form.errors %}
-                                data-form-errors="true"
-                                data-form-errors-default-messages='{{ form.errors | default_errors  | json | replace: "'", "&#39;"}}'
-                            {% endif %}
-                        {% endif %} 
-                    ></div>
-                
-                    <h2 id="add-comment-title" class="text-center text-serif text-normal m-b-2">Ihr Kommentar</h2>
-                    {% if form.errors %}
-                        {% comment %}                    
-                        <div class="alert alert-danger feedback" role="alert">
-                            {{ form.errors | default_errors }}
-                        </div>
-                        {% endcomment %}     
-                    {% endif %}
-
-                    <div class="row">
-
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="form-group {% if form.errors contains 'author'' %}has-error has-feedback{% endif %}">
-                                <label class="sr-only" for="comment-author">Name</label>
-                                <input required class="form-control" type="text" name="comment[author]" placeholder="Name" id="comment-author" value="{{ form.author }}" />
-                            </div>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="form-group {% if form.errors contains 'email' %}has-error has-feedback{% endif %}">
-                                <label class="sr-only" for="comment-email">Email</label>
-                                <input required class="form-control" type="email" name="comment[email]" placeholder="Email" id="comment-email" value="{{ form.email }}" />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group {% if form.errors contains 'body' %}has-error has-feedback{% endif %}">
-                        <label class="sr-only" for="comment-body">Nachricht</label>
-                        <textarea required class="form-control" rows="6" name="comment[body]" id="comment-body">{{ form.body }}</textarea>
-                    </div>
-
-                    <div class="text-center m-t-2">
-                        <input class="btn btn-default" type="submit" value="Abschicken" /> 
-                    </div>
-                
-                {% endform %}
-            </div>
-        
-        </div>
-    {% endpaginate %}
+{% if (comment and comment.created_at) %}
+  {% assign new_comment = true %}
+  {% assign new_comment_id = comment.id %}
 {% endif %}
+
+{% if new_comment %}
+  {% comment %}
+    When you refresh the page with submitted comment, the comment is duplicated
+    so we added a flag to avoid this situation.
+  {% endcomment %}
+  {% assign duplicate_comment = false %}
+  {% for comment in article.comments %}
+    {% if comment.id == new_comment_id %}
+      {% assign duplicate_comment = true %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+
+  {% unless duplicate_comment %}
+    {% assign number_of_comments = article.comments_count | plus: 1 %}
+  {% endunless %}
+{% endif %}
+
+<div id="comments" class="comments pt-5">
+  {% if blog.comments_enabled? %}
+    {% include 'jumplink-form-new-comment' with blog, article, comment, number_of_comments, new_comment %}
+    <div class="mt-5">
+      {% include 'jumplink-article-comments-list' with blog, article, comment, number_of_comments, new_comment %}
+      {% if number_of_comments > 0 %}
+        {% if paginate.pages > 1 %}
+          {% include 'jumplink-pagination' %}
+        {% endif %}
+      {% endif %}
+    </div>
+  {% endif %}
+</div>

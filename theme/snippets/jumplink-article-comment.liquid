@@ -1,13 +1,10 @@
-<div d="{{ comment.id }}" class="media comment my-1">
-  <div class="media-left">
-    <gravatar data-hash="{{ comment.email | remove: ' ' | strip_newlines | downcase | md5 }}" data-placeholders='[ {{ 'avatar-01.jpg' | asset_url | json }}, {{ 'avatar-02.jpg' | asset_url | json }}, {{ 'avatar-03.jpg' | asset_url | json }}, {{ 'avatar-04.jpg' | asset_url | json }}, {{ 'avatar-05.jpg' | asset_url | json }} ]' data-replace="true" class="media-object img-circle"></gravatar>
-  </div>
-  <div class="media-body p-l-1">
-    <p class="comment-content m-a-0">
-        {{ comment.content }}
-    </p>
-    <p class="comment-data">
-        von {{ comment.author }} am {{ comment.created_at | date: "%d.%m.%y" }}
-    </p>
-  </div>
-</div>
+{% capture date %}{{ comment.created_at | time_tag: format: 'month_day_year' }}{% endcapture %}
+<li class="comment lead small" id="{{ comment.id }}">
+  <b class="mr-1">{{ comment.author }}</b>
+  <span class="rte">
+    {{ comment.content }}
+  </span>
+  {% if comment.status == 'unapproved' %}
+    <span class="text-warning">{{ 'blogs.comments.unapproved' | t }}</span>
+  {% endif %}
+</li>

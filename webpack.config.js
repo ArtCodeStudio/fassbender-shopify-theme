@@ -2,6 +2,23 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+/**
+ * output errors on watch
+ * @see https://stackoverflow.com/a/39142422/1465919
+ */
+class ConsoleNotifierPlugin {
+  compilationDone(stats) {
+    const log = (error) => {
+      console.log(error.error.toString())
+    }
+    stats.compilation.errors.forEach(log)
+  }
+
+  apply(compiler) {
+    compiler.plugin('done', this.compilationDone.bind(this))
+  }
+}
+
 module.exports = {
   optimization: {
     minimizer: [
@@ -50,5 +67,6 @@ module.exports = {
         }]
       }
     ]
-  }
+  },
+  plugins:  [new ConsoleNotifierPlugin()]
 };

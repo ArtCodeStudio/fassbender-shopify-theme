@@ -6,7 +6,7 @@ import { CollapseService } from './collapse.service';
  *
  * @see https://getbootstrap.com/docs/4.1/components/collapse/
  */
-export const collapseBinder: BinderWrapper = () => {
+export const collapseBinderWrapper: BinderWrapper = () => {
   const name = 'bs4-collapse';
   const binder: IOneWayBinder<string> = (el: HTMLElement, targetSelector: string) => {
     const $el = $(el);

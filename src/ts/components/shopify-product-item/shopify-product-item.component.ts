@@ -16,7 +16,7 @@ export interface IScope {
   quantity: number;
   showDetailMenu: boolean;
   detailMenuPadding: string;
-  showAddToCartButton: boolean;
+  // showAddToCartButton: boolean;
   chooseOption: ShopifyProductItemComponent['chooseOption'];
   addToCart: ShopifyProductItemComponent['addToCart'];
   toggleDetailMenu: ShopifyProductItemComponent['toggleDetailMenu'];
@@ -61,7 +61,7 @@ export class ShopifyProductItemComponent extends RibaComponent /*ShopifyProductI
     quantity: 1,
     showDetailMenu: false,
     detailMenuPadding: '60px',
-    showAddToCartButton: false,
+    // showAddToCartButton: false,
     chooseOption: this.chooseOption,
     addToCart: this.addToCart,
     toggleDetailMenu: this.toggleDetailMenu,

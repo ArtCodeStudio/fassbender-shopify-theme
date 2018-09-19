@@ -10,6 +10,14 @@ h1, .h1 {
   @extend .text-serif;
 }
 
+.lead {
+  letter-spacing: 0.05rem;
+}
+
+.text-size-base {
+  font-size: $font-size-base !important;
+}
+
 .text-normal, // <- TODO remove
 .text-decoration-normal
 {

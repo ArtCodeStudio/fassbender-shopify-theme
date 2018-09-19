@@ -5,7 +5,7 @@ import { IOneWayBinder, BinderWrapper, GlobalEvent } from '../../tinybind';
  *
  * @see https://getbootstrap.com/docs/4.1/components/scrollspy/
  */
-export const scrollspyStarBinder: BinderWrapper = () => {
+export const scrollspyStarBinderWrapper: BinderWrapper = () => {
   const name = 'bs4-scrollspy-*';
   const binder: IOneWayBinder<string> = function(el: HTMLElement, targetSelector: string) {
     const $el = $(el);

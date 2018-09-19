@@ -21,37 +21,20 @@ import {
   shopifyExtension,
 } from './tinybind';
 
-import {
-  backgroundImageBinderWrapper,
-  backgroundColorStarBinderWrapper,
-  opacityStarBinderWrapper,
-  scrollbarDragableBinder,
-  collapseBinder,
-  expanOnUrlBinder,
-  collapseOnUrlBinder,
-  scrollspyStarBinder,
-} from './binders/index';
-import {
-  NewsletterComponent,
-  ContactFormComponent,
-  DebugBarComponent,
-  IconComponent,
-  ShopifyLinklistComponent,
-  ShopifyFilterComponent,
-  ShopifyArticleItemComponent,
-  ShopifyProductComponent,
-  ShopifyProductItemComponent,
-  ShopifyCartComponent,
-  ShopifyCartButtonComponent,
-  ShopifyLoginFormComponent,
-  ShopifyAddressesComponent,
-  ShareComponent,
-  ProductScrollbarComponent,
-  TabsComponent,
-  DropdownComponent,
-  InstagramComponent,
-  InstagramScrollbarComponent,
-} from './components/components';
+// import {
+//   backgroundImageBinderWrapper,
+//   backgroundColorStarBinderWrapper,
+//   opacityStarBinderWrapper,
+//   scrollbarDragableBinder,
+//   collapseBinder,
+//   expanOnUrlBinder,
+//   collapseOnUrlBinder,
+//   scrollspyStarBinder,
+// } from './binders/index';
+
+import { customBinders } from './binders/index';
+
+import * as CustomComponents from './components/components';
 
 declare global {
   // tslint:disable: interface-name
@@ -72,37 +55,13 @@ export class Main {
       stories: 'all',
     };
 
-    // Regist components
-    this.tinybind.componentService.regist(TabsComponent);
-    this.tinybind.componentService.regist(ContactFormComponent);
-    this.tinybind.componentService.regist(DebugBarComponent);
-    this.tinybind.componentService.regist(DropdownComponent);
-    this.tinybind.componentService.regist(InstagramComponent);
-    this.tinybind.componentService.regist(InstagramScrollbarComponent);
-    this.tinybind.componentService.regist(NewsletterComponent);
-    this.tinybind.componentService.regist(ShopifyLinklistComponent);
-    this.tinybind.componentService.regist(ShopifyFilterComponent);
-    this.tinybind.componentService.regist(IconComponent);
-    this.tinybind.componentService.regist(ProductScrollbarComponent);
-    this.tinybind.componentService.regist(ShopifyProductItemComponent);
-    this.tinybind.componentService.regist(ShopifyProductComponent);
-    this.tinybind.componentService.regist(ShopifyCartComponent);
-    this.tinybind.componentService.regist(ShopifyCartButtonComponent);
-    this.tinybind.componentService.regist(ShopifyLoginFormComponent);
-    this.tinybind.componentService.regist(ShopifyAddressesComponent);
-    this.tinybind.componentService.regist(ShareComponent);
+    // Regist custom components
+    this.tinybind.componentService.regists(CustomComponents);
 
     // Regist binders
     this.tinybind.binderService.regists(basicBindersWrapper(JQuery));
-    this.tinybind.binderService.regist(backgroundImageBinderWrapper());
-    this.tinybind.binderService.regist(backgroundColorStarBinderWrapper());
-    this.tinybind.binderService.regist(opacityStarBinderWrapper());
-    this.tinybind.binderService.regist(collapseBinder());
-    this.tinybind.binderService.regist(collapseOnUrlBinder());
-    this.tinybind.binderService.regist(expanOnUrlBinder());
     this.tinybind.binderService.regists(routerBinders);
-    this.tinybind.binderService.regist(scrollspyStarBinder());
-    this.tinybind.binderService.regist(scrollbarDragableBinder());
+    this.tinybind.binderService.regists(customBinders);
 
     // Regist formatters
     this.tinybind.formatterService.regists(compareFormatters);

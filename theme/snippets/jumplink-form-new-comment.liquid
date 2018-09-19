@@ -1,0 +1,94 @@
+<rv-shopify-comments-form>
+  {% form 'new_comment', article %}
+    <h3 class="text-size-base">{{ 'blogs.comments.title' | t }}</h3>
+
+    <div class="form-group mb-0">
+      <label for="CommentAuthor" class="sr-only">
+        {{ 'blogs.comments.name' | t }}
+      </label>
+      <input type="text"
+        name="comment[author]"
+        id="CommentAuthor"
+        class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'author' %}input-error{% endif %}"
+        placeholder="{{ 'blogs.comments.name' | t }}"
+        value="{{ form.author }}"
+        autocapitalize="words"
+        required
+      >
+      <div class="invalid-feedback">
+        Please check your name
+      </div>
+    </div>
+
+    <div class="form-group mb-0">
+      <label for="CommentEmail" class="sr-only">
+        {{ 'blogs.comments.email' | t }}
+      </label>
+      <input type="email"
+        name="comment[email]"
+        id="CommentEmail"
+        class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'email' %}input-error{% endif %}"
+        placeholder="{{ 'blogs.comments.email' | t }}"
+        value="{{ form.email }}"
+        spellcheck="false"
+        autocomplete="off"
+        autocapitalize="off"
+        required
+      >
+      <div class="invalid-feedback">
+        Please check your email
+      </div>
+    </div>
+
+    <div class="form-group mb-0">
+      <label for="CommentBody" class="sr-only">
+        {{ 'blogs.comments.message' | t }}
+      </label>
+      <textarea
+        name="comment[body]"
+        id="CommentBody"
+        class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'body' %}input-error{% endif %}"
+        placeholder="{{ 'blogs.comments.message' | t }}"
+        required
+      >{{ form.body }}</textarea>
+      <div class="invalid-feedback">
+        Please check your message
+      </div>
+    </div>
+
+    <small class="custom-control custom-checkbox my-3">
+      <input type="checkbox" class="custom-control-input" name="privacy" value="true" required id="{{ idPrefix }}_privacy">
+      <label class="custom-control-label" for="{{ idPrefix }}_privacy">
+        {{ 'legals.privacy_policy.checkbox_label_html' | t }}
+      </label>
+    </small>
+    <p class="mb-0"><small>{{ 'blogs.comments.required' | t }}</small></p>
+    {% if blog.moderated? %}
+      <p class="mb-0"><small>{{ 'blogs.comments.moderated' | t }}</small></p>
+    {% endif %}
+
+    {% if comment and comment.status and comment.id != blank and paginate.current_page == 1 %}
+      <p class="text-success mt-3 mb-0" role="alert">
+        {% if blog.moderated? and comment.status != 'published' %}
+          {{ 'blogs.comments.success_moderated' | t }}
+        {% else %}
+          {{ 'blogs.comments.success' | t }}
+        {% endif %}
+      </p>
+    {% endif %}
+
+    {% if form.errors %}
+      <p class="text-danger mt-3 mb-0" role="alert">
+        {{ form.errors | default_errors }}
+      </p>
+    {% endif %}
+
+    <button
+      type="submit"
+      class="btn btn-animated-underline-dark font-weight-bold mt-3"
+      rv-on-click="post"
+    >
+      {{ 'blogs.comments.post' | t }}
+    </button>
+  {% endform %}
+</rv-shopify-comments-form>

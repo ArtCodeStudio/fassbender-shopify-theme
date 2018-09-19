@@ -12,6 +12,7 @@ export { ShopifyProductComponent } from './shopify-product/shopify-product.compo
 export { ShopifyProductItemComponent } from './shopify-product-item/shopify-product-item.component';
 export { ShopifyCartComponent } from './shopify-cart/shopify-cart.component';
 export { ShopifyCartButtonComponent } from './shopify-cart-button/shopify-cart-button.component';
+export { ShopifyCommentsFormComponent } from './shopify-comments-form/shopify-comments-form.component';
 export { ShopifyLoginFormComponent } from './shopify-login-form/shopify-login-form.component';
 export { ShopifyAddressesComponent } from './shopify-addresses/shopify-addresses.component';
 export { ShareComponent } from './share/share.component';

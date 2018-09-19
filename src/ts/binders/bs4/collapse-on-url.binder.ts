@@ -8,7 +8,7 @@ import { Utils } from '../../services/Utils';
  * @see https://getbootstrap.com/docs/4.1/components/collapse/
  * @see https://github.com/twbs/bootstrap/blob/v4-dev/js/src/collapse.js
  */
-export const collapseOnUrlBinder: BinderWrapper = () => {
+export const collapseOnUrlBinderWrapper: BinderWrapper = () => {
   const name = 'bs4-collapse-on-url';
   const binder: IOneWayBinder<string> = (el: HTMLElement, url: string) => {
     const $el = $(el);

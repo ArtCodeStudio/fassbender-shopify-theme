@@ -63,7 +63,7 @@ export class Dragscroll {
 /**
  * dragscroll
  */
-export const scrollbarDragableBinder: BinderWrapper = () => {
+export const scrollbarDragableBinderWrapper: BinderWrapper = () => {
   const name = 'scrollbar-dragable';
   const binder: IOneWayBinder<string> = (el: HTMLElement, value: any) => {
     const dragscroll = new Dragscroll(el, true);
