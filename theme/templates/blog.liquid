@@ -1,6 +1,8 @@
-{% paginate blog.articles by 2 %}
-  {% for article in blog.articles %}
-    {% include 'jumplink-article-list-item' %}
-  {% endfor %}
-  {% include 'jumplink-pagination' %}
+{% paginate blog.articles by 10 %}
+  <div rv-view='{"listenAllLinks": false, "containerSelector": "#blog-pagination", "scrollToTop": false, "action": "append"}' id="blog-pagination">
+    {% for article in blog.articles %}
+      {% include 'jumplink-article-list-item' %}
+    {% endfor %}
+    {% include 'jumplink-pagination' with viewId: 'blog-pagination' %}
+  </div>
 {% endpaginate %}

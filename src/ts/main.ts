@@ -32,7 +32,7 @@ import {
 //   scrollspyStarBinder,
 // } from './binders/index';
 
-import { customBinders } from './binders/index';
+import { customBinders, styleBinders } from './binders/index';
 
 import * as CustomComponents from './components/components';
 
@@ -62,6 +62,7 @@ export class Main {
     this.tinybind.binderService.regists(basicBindersWrapper(JQuery));
     this.tinybind.binderService.regists(routerBinders);
     this.tinybind.binderService.regists(customBinders);
+    this.tinybind.binderService.regists(styleBinders);
 
     // Regist formatters
     this.tinybind.formatterService.regists(compareFormatters);

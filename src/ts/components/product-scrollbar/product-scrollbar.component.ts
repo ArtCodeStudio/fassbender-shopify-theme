@@ -20,7 +20,7 @@ export class ProductScrollbarComponent extends shopifyExtension.components.Shopi
   };
 
   // private model: any = {};
-  private pjax = new Pjax('global');
+  private pjax = new Pjax('main');
   private prefetch = new Prefetch();
   private $products?: JQuery<HTMLElement>;
 

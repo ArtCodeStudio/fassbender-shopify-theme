@@ -34,7 +34,7 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
   protected $el: JQuery<HTMLElement>;
 
   // private model: any = {};
-  private pjax = new Pjax('global');
+  private pjax = new Pjax('main');
   // private prefetch = new Prefetch();
   // private $instagrams?: JQuery<HTMLElement>;
   private $scollWith?: JQuery<HTMLElement>;

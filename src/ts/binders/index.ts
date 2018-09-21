@@ -1,5 +1,6 @@
 import { IBinders } from '../tinybind';
 
+export { styleBinders } from './styles/styles.binders';
 // binders
 import { mailtoBinderWrapper } from './mailto.binder';
 import { telBinderWrapper } from './tel.binder';
@@ -8,7 +9,6 @@ import { collapseBinderWrapper } from './bs4/collapse.binder';
 import { expanOnUrlBinderWrapper } from './bs4/expan-on-url.binder';
 import { collapseOnUrlBinderWrapper } from './bs4/collapse-on-url.binder';
 import { scrollspyStarBinderWrapper } from './bs4/scrollspy-star.binder';
-// import * as syteleBinders from './styles/styles.binders'; TODO remove?
 
 const customBinders: IBinders<any> = {};
 

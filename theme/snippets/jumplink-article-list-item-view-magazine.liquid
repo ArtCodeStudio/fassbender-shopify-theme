@@ -35,6 +35,12 @@
   {% endunless %}
 {% endif %}
 
+{% if article.content == blank %}
+  {% assign articleHasContent = false %}
+{% else %}
+  {% assign articleHasContent = true %}
+{% endif %}
+
 {% comment %}
   If showDetail is true this snippet shows all the details of the blog article, otherwise only the stuff we want to show in the list view
 {% endcomment %}
@@ -105,7 +111,9 @@
             <rv-share title="{{ article.title }}" url="{{ article.url }}" text="Look at this story" label="Share this article">Share this article</rv-share>
              <span class="pl-3">{{ 'blogs.comments.with_count' | t: count: number_of_comments }}</span>
             {% unless showDetail %}
-              <a class="ml-auto float-right" rv-route="'{{article.url}}'">View Article</a>
+              {% if articleHasContent %}
+                <a class="ml-auto float-right" rv-route="'{{article.url}}'">View Article</a>
+              {% endif %}
             {% endunless %}
           </strong>
         </small>

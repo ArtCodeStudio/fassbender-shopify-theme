@@ -51,11 +51,6 @@
     {% include 'jumplink-form-new-comment' with blog, article, comment, number_of_comments, new_comment %}
     <div class="mt-5">
       {% include 'jumplink-article-comments-list' with blog, article, comment, number_of_comments, new_comment %}
-      {% if number_of_comments > 0 %}
-        {% if paginate.pages > 1 %}
-          {% include 'jumplink-pagination' %}
-        {% endif %}
-      {% endif %}
     </div>
   {% endif %}
 </div>

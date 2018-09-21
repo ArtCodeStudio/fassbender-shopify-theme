@@ -24,8 +24,6 @@ export class ShopifyCartButtonComponent extends RibaComponent {
 
   public static cartUrl: string = '/cart';
 
-  public static pjax = Pjax.getInstance('global');
-
   static get observedAttributes() {
     return [];
   }
@@ -66,7 +64,8 @@ export class ShopifyCartButtonComponent extends RibaComponent {
       window.history.back();
     } else {
       if (ShopifyCartButtonComponent.cartUrl) {
-        ShopifyCartButtonComponent.pjax.goTo(ShopifyCartButtonComponent.cartUrl, false);
+        const pjax = Pjax.getInstance('main');
+        pjax.goTo(ShopifyCartButtonComponent.cartUrl, false);
       }
     }
 

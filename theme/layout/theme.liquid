@@ -39,8 +39,8 @@
     {% include 'jumplink-navigation' %}
   </div>
 
-  <div rv-view='{"listenAllLinks": true}'>
-    <div class="rv-view-container" {% include 'jumplink-utils-barba-container-attributes', parseCollection: true %}>
+  <div rv-view='{"listenAllLinks": true}' id="main">
+    <div {% include 'jumplink-utils-barba-container-attributes', parseCollection: true %}>
       {{ content_for_layout }}
     </div>
   </div>

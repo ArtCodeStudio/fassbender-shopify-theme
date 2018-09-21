@@ -15,7 +15,7 @@
   {% assign video = article.metafields["global"]["video-url-1"] %}
 {% endif %}
 
-{% paginate article.comments by 5 %}
+{% paginate article.comments by 10 %}
   {% case type %}
     {% when 'magazine' %}
       {% include 'jumplink-article-list-item-view-magazine', comments, article, blog, color: color, images: images, video: video, showDetail: true %}
