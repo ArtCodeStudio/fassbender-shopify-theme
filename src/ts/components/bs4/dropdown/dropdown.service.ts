@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Popper from '../../../../../node_modules/popper.js/dist/popper';
+import Popper from '../../../../../node_modules/popper.js/dist/umd/popper';
 import { Utils } from '../../../services/Utils';
 import Debug from 'debug';
 import { GlobalEvent } from '../../../tinybind';
@@ -225,7 +225,7 @@ export class DropdownService {
   }
 
   private _element: HTMLButtonElement | HTMLAnchorElement;
-  private _popper: Popper | null;
+  private _popper: any /* Popper */ | null; // TODO Popper namcespace error
   private _config: any; // TODO
   private _menu: Element;
   private _inNavbar: boolean;

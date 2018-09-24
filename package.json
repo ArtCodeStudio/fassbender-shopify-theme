@@ -10,6 +10,7 @@
     "sass": "node-sass --output-style compressed src/scss/bundle.scss -o theme/assets/ && postcss -c postcss.config.js theme/assets/bundle.css -o theme/assets/bundle.css && theme deploy --dir ./theme assets/bundle.css",
     "sass-watch": "nodemon -e scss -x 'npm run sass'",
     "ts": "webpack && theme upload --dir ./theme assets/bundle.js",
+    "ts-babel": "babel src/ts/main.ts --extensions '.ts'",
     "ts-watch": "webpack --watch",
     "ts-test": "tslint -c tslint.json 'src/**/*.ts' && tsc --noEmit",
     "build": "npm run copy-modules && npm run ts-test && npm run ts && npm run sass",
@@ -36,6 +37,7 @@
     "@babel/core": "^7.1.0",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-typescript": "^7.1.0",
     "autoprefixer": "^8.6.5",
@@ -74,12 +76,12 @@
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.11.0",
     "webpack": "^4.19.1",
-    "webpack-cli": "^3.1.0",
+    "webpack-cli": "^3.1.1",
     "webpack-stream": "^4.0.3",
     "yargs": "^5.0.0"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.0.0",
+    "@babel/runtime-corejs2": "^7.0.0",
     "@types/debug": "^0.0.30",
     "@types/jquery": "^3.3.9",
     "@types/p-queue": "^2.3.1",
@@ -89,7 +91,6 @@
     "jquery": "^3.3.1",
     "p-queue": "^2.4.2",
     "popper.js": "^1.14.4",
-    "promise-polyfill": "^8.1.0",
     "rxjs": "^6.3.2",
     "tinybind": "github:JumpLinkNetwork/tinybind#master"
   }

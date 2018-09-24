@@ -9,13 +9,13 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 class ConsoleNotifierPlugin {
   compilationDone(stats) {
     const log = (error) => {
-      console.log(error.error.toString())
-    }
-    stats.compilation.errors.forEach(log)
+      console.log(error.error.toString());
+    };
+    stats.compilation.errors.forEach(log);
   }
 
   apply(compiler) {
-    compiler.plugin('done', this.compilationDone.bind(this))
+    compiler.plugin('done', this.compilationDone.bind(this));
   }
 }
 
@@ -51,10 +51,12 @@ module.exports = {
   },
   module: {
     rules: [
-      // typescritpt and javascript
+      // typescript and javascript
       {
         test: /\.(tsx?)|(js)$/,
+        exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
+        // include: [/node_modules\/runtime-corejs2/]
       },
       // html templates
       {
