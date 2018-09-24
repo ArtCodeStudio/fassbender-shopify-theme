@@ -65,7 +65,7 @@
           <li class="nav-item">
             <bs4-dropdown class="dropdown-invert dropup d-block">
               <a class="nav-link dropdown-toggle" rv-on-click="toggle" href="#" role="button" id="dropdownMenuArtCode" aria-haspopup="true" aria-expanded="false">
-                Projected by Art+Code Studio
+                Crafted by Art+Code Studio
               </a>
               
               <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuArtCode" style="width: 400px;">
@@ -130,15 +130,36 @@
   </div>
 </div>
 
-<div class="fullscreen-menu d-flex flex-column justify-content-center align-items-center text-center font-weight-bold" rv-on-click="assign | args 'fullscreenMenuOpen' false" rv-show="fullscreenMenuOpen">
-  <shopify-linklist class="" id="toggle-menu" name="toggle-menu" vertical="true" pills="false">
-    <nav class="nav" rv-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
-      <div class="nav-item" rv-each-link="linklist.links">
-        <a class="nav-link justify-content-center" rv-route-class-active="link.url" rv-route="link.url" rv-href="link.url">{link.title}</a>
-      </div>
-    </nav>
-  </shopify-linklist>
-  <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'">
-    <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="32"></rv-icon>
-  </a>
+<div class="fullscreen-menu pb-5" {% comment %} rv-on-click="assign | args 'fullscreenMenuOpen' false" {% endcomment %} rv-show="fullscreenMenuOpen">
+  <div class="d-flex flex-column justify-content-start align-items-center text-center font-weight-bold scrollbar-y-auto py-5" style="max-height: 100%;">
+    <shopify-linklist class="mt-5" id="toggle-menu" name="toggle-menu" vertical="true" pills="false">
+      <nav class="nav" rv-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
+        <div class="nav-item" rv-each-link="linklist.links">
+          <a class="nav-link justify-content-center" rv-route-class-active="link.url" rv-route="link.url" rv-href="link.url">{link.title}</a>
+        </div>
+      </nav>
+    </shopify-linklist>
+
+    <a class="nav-link" rv-hide="moreMenuOpen" rv-class-active="moreMenuOpen" rv-on-click="assign | args 'moreMenuOpen' true">
+      +
+    </a>
+
+    <a class="nav-link" rv-show="moreMenuOpen" rv-class-active="moreMenuOpen" rv-on-click="assign | args 'moreMenuOpen' false">
+      -
+    </a>
+
+    <shopify-linklist class="" rv-show="moreMenuOpen" id="toggle-menu-more" name="toggle-menu-more" vertical="true" pills="false">
+      <nav class="nav" rv-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
+        <div class="nav-item" rv-each-link="linklist.links">
+          <a class="nav-link justify-content-center" rv-route-class-active="link.url" rv-route="link.url" rv-href="link.url">{link.title}</a>
+        </div>
+      </nav>
+    </shopify-linklist>
+
+    <div class="pt-3">
+      <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'" rv-on-new-page-ready="assign | args 'fullscreenMenuOpen' false">
+        <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="32"></rv-icon>
+      </a>
+    </div>
+  </div>
 </div>

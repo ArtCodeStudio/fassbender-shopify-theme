@@ -3,10 +3,11 @@ html, body {
     width: 100%;
 }
 
-.rv-view-container {
+
+[data-namespace]{
     width: 100%;
     min-height: calc(100vh - 126px);
-    .rv-view-container {
+    [data-namespace] {
         min-height: auto;
     }
 }
