@@ -70,7 +70,10 @@
               webkitallowfullscreen
               mozallowfullscreen
               allowfullscreen
-              ></iframe>
+              allowtransparency
+              scrolling="no"
+              style="pointer-events: none;" {% comment %} Fix mouse scroll problem {% endcomment %}>
+              </iframe>
           </div>
         {% elsif videoType == 'vimeo' %}
           <div class="col px-0 content-box ratio-16-9">
@@ -82,7 +85,9 @@
               webkitallowfullscreen
               mozallowfullscreen
               allowfullscreen
-              >
+              allowtransparency
+              scrolling="no"
+              style="pointer-events: none;" {% comment %} Fix mouse scroll problem {% endcomment %}>
               </iframe>
           </div>
         {% elsif videoType == 'mp4' %}

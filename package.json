@@ -1,6 +1,6 @@
 {
   "name": "fassbender-shopify-theme",
-  "version": "0.5.5",
+  "version": "0.7.1",
   "description": "Shopify theme based on Bootstrap 4",
   "main": "src/ts/main.ts",
   "typings": "src/ts/types",
@@ -42,6 +42,7 @@
     "@babel/preset-typescript": "^7.1.0",
     "autoprefixer": "^8.6.5",
     "babel-loader": "^8.0.2",
+    "babel-plugin-array-includes": "^2.0.3",
     "babelify": "^8.0.0",
     "browserify": "^16.2.2",
     "css-flip": "^0.5.0",

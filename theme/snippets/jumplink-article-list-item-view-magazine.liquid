@@ -35,10 +35,10 @@
   {% endunless %}
 {% endif %}
 
-{% if article.content == blank %}
-  {% assign articleHasContent = false %}
-{% else %}
+{% if article.content %}
   {% assign articleHasContent = true %}
+{% else %}
+  {% assign articleHasContent = false %}
 {% endif %}
 
 {% comment %}
@@ -122,7 +122,7 @@
   </rv-shopify-article-item>
 
   {% if showDetail %}
-    <div class="col-12">
+    <div class="px-5">
       {% include 'jumplink-article-comments' with comment, article, blog %}
     </div>
   {% endif %}

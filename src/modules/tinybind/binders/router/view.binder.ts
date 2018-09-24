@@ -55,9 +55,11 @@ export const viewBinderWrapper: BinderWrapper = (dispatcher: GlobalEvent, prefet
         if (!Utils.isObject(self.view.models)) {
           self.view.models = {};
         }
-        self.view.models.dataset = $container.data();
 
-        debug('newPageReady dataset:', dataset);
+        if (self.customData.options.datasetToModel === true && Utils.isObject(dataset)) {
+          self.view.models.dataset = dataset; // = $container.data();
+          debug('newPageReady dataset:', dataset);
+        }
 
         // TODO append on action append
         self.customData.nested = new RivetsView($container[0], self.view.models, self.view.options);
@@ -129,6 +131,7 @@ export const viewBinderWrapper: BinderWrapper = (dispatcher: GlobalEvent, prefet
       this.customData.options.parseTitle = Utils.isBoolean(this.customData.options.parseTitle) ? this.customData.options.parseTitle : false;
       this.customData.options.transition = this.customData.options.transition || new HideShowTransition(this.customData.options.action, this.customData.options.scrollToTop);
       this.customData.options.viewId = this.customData.options.viewId || $el.attr('id') || 'main';
+      this.customData.options.datasetToModel = Utils.isBoolean(this.customData.options.datasetToModel) ? this.customData.options.datasetToModel : true;
       // this.customData.options.wrapperSelector = '#' + this.customData.options.viewId;
       this.customData.options.containerSelector = this.customData.options.containerSelector || '[data-namespace]';
 

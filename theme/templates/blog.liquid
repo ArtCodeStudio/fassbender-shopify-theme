@@ -1,5 +1,5 @@
 {% paginate blog.articles by 10 %}
-  <div rv-view='{"listenAllLinks": false, "containerSelector": "#blog-pagination", "scrollToTop": false, "action": "append"}' id="blog-pagination">
+  <div rv-view='{"listenAllLinks": false, "containerSelector": "#blog-pagination", "scrollToTop": false, "action": "append", "datasetToModel": false}' id="blog-pagination">
     {% for article in blog.articles %}
       {% include 'jumplink-article-list-item' %}
     {% endfor %}

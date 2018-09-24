@@ -1,13 +1,13 @@
 <div class="container-fluid pt-5">
   <div class="row pt-md-5">
     {% unless page.title == blank %}
-      <div class="col-12 col-md-10 offset-md-2 text-left">
+      <div class="col-12 rte">
         <h1 class="page-title mt-0 mb-4">{{ page.title }}</h1>
       </div>
     {% endunless %}
 
     {% unless page.content == blank %}
-        <div class="col-12 col-md-10 offset-md-2 rte">
+        <div class="col-12 col-md-8 offset-md-2 col-lg-6 rte">
         {{ page.content }}
         </div>
     {% endunless %}
@@ -16,7 +16,7 @@
 
 <div class="container-fluid" id="contact">
   <div class="row">
-    <div class="col-12 col-md-10 offset-md-2 rte">
+    <div class="col-12 col-md-8 offset-md-2 col-lg-6">
       {% include 'jumplink-contact-form' %}
     </div>
   </div>

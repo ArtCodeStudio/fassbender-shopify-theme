@@ -79,7 +79,8 @@
           Add
         </button>
         <button rv-show="showDetailMenu" rv-enabled="available" class="btn btn-animated-underline-dark" rv-on-click="addToCart">
-          Add
+          <span rv-show="variant.available">Add</span>
+          <span rv-hide="variant.available">Sold Out</span>
         </button>
       </div>
     </div>
