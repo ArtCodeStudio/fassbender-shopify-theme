@@ -1,9 +1,9 @@
 {% comment %} Navigation Desktop {% endcomment %}
-<div class="container-fluid fixed-top navbar-main pointer-events-none d-none d-lg-block">
+<div class="container-fluid fixed-top navbar-main pointer-events-none">
   {% comment %}
     SUBBAR
   {% endcomment %}
-  <div class="row subbar pt-2 font-weight-bold text-serif">
+  <div class="row subbar pt-2 font-weight-bold text-serif d-none d-lg-flex">
     <div class="col d-flex">
       <div class="ml-auto">
          
@@ -28,7 +28,7 @@
       MAINBAR LEFT
     {% endcomment %}
     <div class="col-auto" style="position: fixed; width: auto; z-index: 1;">
-      <div class="row">
+      <div class="row d-none d-lg-flex">
         <a class="col-auto brand pointer-events-all" rv-route-class-active="'/'" rv-route="'/'" href="/">
           <rv-icon rv-src="'{{ 'iconset-logo.svg' | asset_url }}'" height="64" width="47"></rv-icon>
         </a>
@@ -36,7 +36,7 @@
       <div class="row pt-4">
         <div class="col-auto pointer-events-all font-weight-bold">
           <div rv-bs4-collapse="'#sidenav-main-menu'" class="sidenav-main-menu-toggler nav-item nav-link pl-0 cursor-pointer">
-            +
+            <span>+</span>
           </div>
           <shopify-linklist rv-bs4-expan-on-url="'/'" class="" id="sidenav-main-menu" name="main-menu" vertical="true" pills="false"></shopify-linklist>
         </div>
@@ -115,7 +115,7 @@
     {% comment %}
       MAINBAR RIGHT
     {% endcomment %}
-    <div class="ml-auto col-auto d-flex align-items-center">
+    <div class="ml-auto col-auto align-items-center d-none d-lg-flex">
       <ul class="nav" style="pointer-events: all;">
         <li class="nav-item">
           <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'">

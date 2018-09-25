@@ -10,7 +10,7 @@
             instead of have an seperate form in the frontend for this
             we use the login form to get the email.
           {% endcomment %}
-          <div class="col-6 order-2" hidden>
+          <div class="col-12 col-sm-6 order-2 pb-5" hidden>
             {% form 'recover_customer_password' %}
 
               {% comment %} Error and Successfull messages {% endcomment %}
@@ -49,7 +49,7 @@
           </div>
 
           {% comment %} customer_login {% endcomment %}
-          <div class="col-6 order-2">
+          <div class="col-12 col-sm-6 order-2 pb-5">
             {% form 'customer_login' %}
 
               {% comment %} Error and Successfull messages {% endcomment %}

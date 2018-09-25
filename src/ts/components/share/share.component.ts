@@ -61,15 +61,16 @@ export class ShareComponent extends RibaComponent {
 
   protected get shareUrls() {
     const fbid = null;
-    this.scope.url = encodeURIComponent(this.scope.url);
-    this.scope.text = encodeURIComponent(this.scope.text);
-    this.scope.title = encodeURIComponent(this.scope.title);
-    const body = encodeURIComponent(this.scope.text + ' ' + this.scope.url);
+    this.scope.url = this.scope.url;
+    this.scope.text = this.scope.text;
+    this.scope.title = this.scope.title;
+    const body = encodeURIComponent(`${this.scope.text}\n\n${this.scope.url}`);
+    const url = encodeURIComponent(this.scope.url);
     const redirectUri = encodeURIComponent(this.scope.url);
     const urls = {
       whatsapp: this.scope.isDesktop ? `https://api.whatsapp.com/send?text=${body}` : `whatsapp://send?text=${body}`,
-      telegram: this.scope.isDesktop ? `https://telegram.me/share/url?url=${this.scope.url}&text=${body}` : `tg://msg?text=${body}`,
-      facebook: this.scope.isDesktop ? `https://www.facebook.com/dialog/share?app_id=${fbid}&display=popup&href=${this.scope.url}&redirect_uri=${redirectUri}&quote=${body}` : `fb-messenger://share/?message=${body}`,
+      telegram: this.scope.isDesktop ? `https://telegram.me/share/url?url=${url}&text=${body}` : `tg://msg?text=${body}`,
+      facebook: this.scope.isDesktop ? `https://www.facebook.com/dialog/share?app_id=${fbid}&display=popup&href=${url}&redirect_uri=${redirectUri}&quote=${body}` : `fb-messenger://share/?message=${body}`,
       email: `mailto:?subject=${this.scope.title}&body=${body}`,
       sms: `sms:?body=${body}`,
     };
@@ -79,7 +80,7 @@ export class ShareComponent extends RibaComponent {
 
   protected scope: IScope = {
     title: $(document).find('title').text(),
-    text: '',
+    text: 'Look at this! 🤩\n\n', // 👀
     url: window.location.href,
     label: 'Share',
     share: this.share,
@@ -108,7 +109,7 @@ export class ShareComponent extends RibaComponent {
     if (this.scope.isNative) {
       return navigator.share({
         title: this.scope.title,
-        text: this.scope.text,
+        text: `${this.scope.text}\r\n\r\n`,
         url: this.scope.url || window.location.href,
       });
     } else {

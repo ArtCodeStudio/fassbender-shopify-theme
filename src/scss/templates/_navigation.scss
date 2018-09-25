@@ -1,6 +1,13 @@
 .sidenav-main-menu-toggler {
+  span {
+    @extend .rotate-animate;
+    @extend .rotate-0;
+  }
   &[aria-expanded='true'] {
-    display: none !important;
+    // display: none !important;
+    span {
+      @extend .rotate-45;
+    }
   }
 }
 
@@ -13,5 +20,4 @@
     display: inline-block;
     text-decoration: none;
   }
-  
 }

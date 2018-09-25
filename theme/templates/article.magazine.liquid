@@ -1,0 +1,69 @@
+{% assign type = article.metafields["global"]["detail-type"] %}
+{% assign color = article.metafields["global"]["color"] %}
+
+{% if article.metafields["global"]["detail-image-1"] or article.metafields["global"]["detail-image-2"] or article.metafields["global"]["detail-image-3"] or article.metafields["global"]["detail-image-4"] or article.metafields["global"]["detail-image-5"] or article.metafields["global"]["detail-image-6"] %}
+  {% capture imagesString %}{% if article.metafields["global"]["detail-image-1"] %}{{ article.metafields["global"]["detail-image-1"] }}%break%{% endif %}{% if article.metafields["global"]["detail-image-2"] %}{{ article.metafields["global"]["detail-image-2"] }}%break%{% endif %}{% if article.metafields["global"]["detail-image-3"] %}{{ article.metafields["global"]["detail-image-3"] }}%break%{% endif %}{% if article.metafields["global"]["detail-image-4"] %}{{ article.metafields["global"]["detail-image-4"] }}%break%{% endif %}{% if article.metafields["global"]["detail-image-5"] %}{{ article.metafields["global"]["detail-image-5"] }}%break%{% endif %}{% if article.metafields["global"]["detail-image-6"] %}{{ article.metafields["global"]["detail-image-6"] }}%break%{% endif %}{% endcapture %}{% assign images = imagesString | split: '%break%' %}
+{% else %}
+  {% comment %} Fallback get overview images: Merged featured images and metaflied images to array {% endcomment %}
+  {% capture imagesString %}{% if article.image %}{{ article.image.src | img_url: 'master' }}%break%{% endif %}{% if article.metafields["global"]["Image-2"] %}{{ article.metafields["global"]["Image-2"] }}%break%{% endif %}{% if article.metafields["global"]["Image-3"] %}{{ article.metafields["global"]["Image-3"] }}%break%{% endif %}{% endcapture %}{% assign images = imagesString | split: '%break%' %}
+{% endif %}
+
+{% if article.metafields["global"]["video-1"] %}
+  {% assign video = article.metafields["global"]["video-1"] %}
+{% endif %}
+{% if article.metafields["global"]["video-url-1"] %}
+  {% assign video = article.metafields["global"]["video-url-1"] %}
+{% endif %}
+
+{% paginate article.comments by 10 %}
+  {% include 'jumplink-article-list-item-view-magazine', comments, article, blog, color: color, images: images, video: video, showDetail: true %}
+{% endpaginate %}
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "articleBody": "{{ article.content | strip_html }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ shop.url }}{{ page.url }}"
+  },
+  "headline": "{{ article.title }}",
+  {% if article.excerpt != blank %}
+    "description": "{{ article.excerpt | strip_html }}",
+  {% endif %}
+  {% if article.image %}
+    {% assign image_size = article.image.width | append: 'x' %}
+    "image": [
+      "https:{{ article | img_url: image_size }}"
+    ],
+  {% endif %}
+  "datePublished": "{{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
+  "dateCreated": "{{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ article.author }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    {% if settings.share_image %}
+      {% assign image_size = settings.share_image.width | append: 'x' %}
+      "logo": {
+        "@type": "ImageObject",
+        "height": "{{ settings.share_image.height }}",
+        "url": "https:{{ settings.share_image | img_url: image_size }}",
+        "width": "{{ settings.share_image.width }}"
+      },
+    {% elsif article.image %}
+      {% assign image_size = article.image.width | append: 'x' %}
+      "logo": {
+        "@type": "ImageObject",
+        "height": "{{ article.image.height }}",
+        "url": "https:{{ article.image | img_url: image_size }}",
+        "width": "{{ article.image.width }}"
+      },
+    {% endif %}
+    "name": "{{ shop.name }}"
+  }
+}
+</script>
