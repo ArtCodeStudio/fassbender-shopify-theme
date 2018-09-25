@@ -143,7 +143,7 @@
         {% comment %} Product Description Tab Title {% endcomment %}
         {% if product.description != blank %}
           <a
-            class="nav-item nav-link"
+            class="nav-item nav-link d-inline-block text-truncate"
             href="#tab-content-description"
             id="tab-title-description"
             role="tab"
@@ -160,7 +160,7 @@
           {% assign tabTitle = product.metafields["global"][tabTitleIndex] %}
           {% if tabTitle != blank %}
             <a
-              class="nav-item nav-link"
+              class="nav-item nav-link d-inline-block text-truncate"
               href="#tab-content-{{ tabTitle | handleize }}"
               id="tab-title-{{ tabTitle | handleize }}"
               role="tab"

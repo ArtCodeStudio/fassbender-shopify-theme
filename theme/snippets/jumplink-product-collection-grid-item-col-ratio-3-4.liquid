@@ -20,7 +20,7 @@
       alt="{{ product.featured_image.alt }}"
       rv-css-padding-bottom="detailMenuPadding"/>
   </a>
-  <div class="position-absolute w-100" style="bottom: 7px;">
+  <div class="position-absolute w-100" style="bottom: 7px;" rv-class-pointer-events-none="showDetailMenu | not">
     <div class="row m-0">
       <div class="col-12 px-0 detailMenu" rv-class-show="showDetailMenu">
         
@@ -47,7 +47,7 @@
       
       <div class="col-12">
         <div class="row m-0">
-          <div rv-each-color="colorOption.values" class="col-auto pl-0 pr-2 pb-4 cursor-pointer" rv-on-click="chooseOption | args self color option.position option.name">
+          <div rv-each-color="colorOption.values" class="col-auto pl-0 pr-2 pb-4 cursor-pointer pointer-events-all" rv-on-click="chooseOption | args self color option.position option.name">
             <div class="styleicon-circle option-color option-variant-color" rv-class="color | replace_first '#' '' | prepend 'option-color-'" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
           </div>
           {% for i in (1..4) %}
@@ -68,7 +68,7 @@
       </div>
 
     </div>
-    <div class="row m-0">
+    <div class="row m-0 pointer-events-all">
 
       <div class="col text-left text-truncate">
         <strong rv-route="'{{ product.url | within: collection }}'">{{ product.title }}</strong><br />
