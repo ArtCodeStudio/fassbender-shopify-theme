@@ -35,13 +35,13 @@
   {% endunless %}
 {% endif %}
 
-{% if article.content %}
-  {% assign articleHasContent = true %}
-{% else %}
+{% if article.content == blank %}
   {% assign articleHasContent = false %}
+{% else %}
+  {% assign articleHasContent = true %}
 {% endif %}
 
-{% if articleHasContent and showVideo %}
+{% if articleHasContent == true and showDetail == false %}
   {% assign linkToArticle = true %}
 {% else %}
   {% assign linkToArticle = false %}
@@ -53,7 +53,6 @@
 
 <div class="container-fluid jumplink-article-list-item jumplink-article-list-item-view-magazine" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' style="background-color: {{color}};">
   <rv-shopify-article-item data-handle="{{article.handle}}">
-
     {% if showVideo %}
       <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
@@ -96,13 +95,9 @@
 
     <div class="col-12 p-5 magazine-columns has-xs-spacing">
       <h2 class="h1">{{article.title}}</h2>
-      <p>
-        <small>
-          <strong>
-            <span>{{ article.published_at | time_tag: '%d. %B %Y' }} </span>
-            <span class="pl-3">By {{article.user.first_name }} {{article.user.last_name}}</span>
-          </strong>
-        </small>
+      <p class="small font-weight-bold">
+        <span>{{ article.published_at | time_tag: '%d. %B %Y' }} </span>
+        <span class="pl-3">By {{article.user.first_name }} {{article.user.last_name}}</span>
       </p>
       <hr>
       {% if showDetail %}
@@ -111,18 +106,14 @@
         {{ article.excerpt_or_content }}
       {% endif %}
       <hr>
-      <p>
-        <small>
-          <strong>
-            <rv-share title="{{ article.title }}" url="{{ article.url }}" text="Look at this story" label="Share this article">Share this article</rv-share>
-             <span class="pl-3">{{ 'blogs.comments.with_count' | t: count: number_of_comments }}</span>
-            {% unless showDetail %}
-              {% if linkToArticle %}
-                <a class="ml-auto float-right" rv-route="'{{article.url}}'">View Article</a>
-              {% endif %}
-            {% endunless %}
-          </strong>
-        </small>
+      <p class="small font-weight-bold">
+        <rv-share title="{{ article.title }}" url="{{ article.url }}" text="Look at this story" label="Share this article">Share this article</rv-share>
+          <span class="pl-3">{{ 'blogs.comments.with_count' | t: count: number_of_comments }}</span>
+        {% unless showDetail %}
+          {% if linkToArticle %}
+            <a class="ml-auto float-right" rv-route="'{{article.url}}'">View Article</a>
+          {% endif %}
+        {% endunless %}
       </p>
     </div>
   </rv-shopify-article-item>
