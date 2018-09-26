@@ -27,6 +27,7 @@
   {{ content_for_header }}
   <!-- content_for_header: end -->
 
+  <script src="https://js.adsrvr.org/up_loader.1.1.0.js" type="text/javascript"></script>
   {{ 'bundle.js' | asset_url | script_tag }}
 
   <link rel="stylesheet" href="{{ 'bundle.css' | asset_url }}">
@@ -42,6 +43,7 @@
   <div rv-view='{"listenAllLinks": true, "datasetToModel": true}' id="main">
     <div {% include 'jumplink-utils-barba-container-attributes', parseCollection: true %}>
       {{ content_for_layout }}
+      {% comment %} Tracking Pixels should be insite of the main view container {% endcomment %}
     </div>
   </div>
 

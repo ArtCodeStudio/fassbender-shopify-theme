@@ -1,4 +1,4 @@
-import { Pjax, Prefetch, GlobalEvent } from './barba/barba';
+import { Pjax, Prefetch, GlobalEvent, IState } from './barba/barba';
 import { IBinders } from '../../binder.service';
 import { viewBinderWrapper } from './view.binder';
 import { viewStaticBinderWrapper } from './view-static.binder';
@@ -26,4 +26,4 @@ routerBinders[routeClassStarBinder.name] = routeClassStarBinder.binder;
 routerBinders[parentRouteClassStarBinder.name] = parentRouteClassStarBinder.binder;
 routerBinders[routeBackOnStarBinder.name] = routeBackOnStarBinder.binder;
 
-export { Pjax, Prefetch, GlobalEvent, routerBinders };
+export { Pjax, Prefetch, GlobalEvent, IState, routerBinders };
