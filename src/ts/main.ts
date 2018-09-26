@@ -65,7 +65,9 @@ export class Main {
     this.debug('init the main application');
 
     this.dispatcher.on('newPageReady', (viewId: string, currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) => {
-      this.trackingCallback(viewId, currentStatus, prevStatus, $container, newPageRawHTML, dataset, isFirstPageLoad);
+      if (viewId === 'main') {
+        this.trackingCallback(currentStatus, prevStatus, $container, newPageRawHTML, dataset, isFirstPageLoad);
+      }
     });
 
     window.model.filter = {
@@ -103,7 +105,7 @@ export class Main {
     this.view = this.tinybind.bind(JQuery('body')[0], window.model);
   }
 
-  public trackingCallback(viewId: string, currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) {
+  public trackingCallback(currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) {
     const self = this;
     // self.debug('trackingCallback', viewId, currentStatus, prevStatus, dataset, isFirstPageLoad);
     if (typeof((window as any).ttd_dom_ready) === 'function') {
