@@ -16,5 +16,6 @@ export { ShopifyCommentsFormComponent } from './shopify-comments-form/shopify-co
 export { ShopifyLoginFormComponent } from './shopify-login-form/shopify-login-form.component';
 export { ShopifyAddressesComponent } from './shopify-addresses/shopify-addresses.component';
 export { ShareComponent } from './share/share.component';
+export { PrivacySettingsComponent } from './privacy-settings/privacy-settings.component';
 export { ProductScrollbarComponent } from './product-scrollbar/product-scrollbar.component';
 export * from './bs4/bs4.components';

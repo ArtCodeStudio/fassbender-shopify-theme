@@ -27,7 +27,16 @@
   {{ content_for_header }}
   <!-- content_for_header: end -->
 
-  <script src="https://js.adsrvr.org/up_loader.1.1.0.js" type="text/javascript"></script>
+  {% if settings.theTradeDesk_enabled == true %}
+    <script async src="https://js.adsrvr.org/up_loader.1.1.0.js" type="text/javascript"></script>
+  {% endif %}
+  {% if settings.googleAnalytics_enabled == true %}
+    {% comment %} 
+      We do not need to insert the google analytics script tag because it is added by shopify
+      <script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.googleAnalytics_trackingId }}"></script>
+      <script async src='https://www.google-analytics.com/analytics.js'></script>
+    {% endcomment %}
+  {% endif %}
   {{ 'bundle.js' | asset_url | script_tag }}
 
   <link rel="stylesheet" href="{{ 'bundle.css' | asset_url }}">
@@ -43,7 +52,6 @@
   <div rv-view='{"listenAllLinks": true, "datasetToModel": true}' id="main">
     <div {% include 'jumplink-utils-barba-container-attributes', parseCollection: true %}>
       {{ content_for_layout }}
-      {% comment %} Tracking Pixels should be insite of the main view container {% endcomment %}
     </div>
   </div>
 

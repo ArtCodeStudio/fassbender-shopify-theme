@@ -1,0 +1,46 @@
+<div class="container-fluid pt-5" id="page-{{ page.handle }}">
+  <div class="row pt-md-5">
+    {% unless page.content == blank %}
+      <div class="col-12 col-md-8 offset-md-2 col-lg-8 col-xl-6 rte">
+        {% unless page.title == blank %}
+          <h2 class="page-title mt-0 mb-4">{{ page.title }}</h2>
+        {% endunless %}
+        {{ page.content }}
+      </div>
+    {% endunless %}
+    <div class="col-12 col-md-8 offset-md-2 col-lg-8 col-xl-6 pt-3">
+      <rv-privacy-settings>
+        {% comment %} disabled until we have a working solution {% endcomment %}
+        <div class="custom-control custom-checkbox" hidden>
+          <input type="checkbox" class="custom-control-input" disabled name="cookies" id="cookies" rv-checked="cookies.enabled" rv-on-change="onCookiesStorageChanged">
+          <label class="custom-control-label" for="cookies">
+            Allow the use of cookies<br>
+            <small>Sorry you can 't disable cookies because they are necessary to make the shop work</small>
+          </label>
+        </div>
+        <div class="custom-control custom-checkbox" hidden>
+          <input type="checkbox" class="custom-control-input" disabled name="shopifyAnalytics" id="shopifyAnalytics" rv-checked="shopifyAnalytics.enabled" rv-on-change="onShopifyAnalyticsChanged">
+          <label class="custom-control-label" for="shopifyAnalytics">
+            Allow internal tracking by our shopsytem<br>
+            <small>Sorry you can 't disable the tracking by our shopsytem</small>
+          </label>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="googleAnalytics" id="googleAnalytics" rv-checked="googleAnalytics.enabled" rv-on-change="onGoogleAnalyticsChanged">
+          <label class="custom-control-label" for="googleAnalytics">
+            Allow tracking with <a href="https://analytics.google.com/">Google Analytics</a><br>
+          </label>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="TradeDeskChanged" id="theTradeDesk" rv-checked="theTradeDesk.enabled" rv-on-change="onTheTradeDeskChanged">
+          <label class="custom-control-label" for="theTradeDesk">
+            Allow tracking with <a href="https://www.thetradedesk.com/">The Trade Desk</a><br>
+          </label>
+        </div>
+        <p class="mt-2">
+          Please <a href="#" rv-on-click="onClearDataClicked">clear my data</a>, this will log you out and clear your shopping cart.
+        </p>
+      </rv-privacy-settings>
+    </div>
+  </div>
+</div>

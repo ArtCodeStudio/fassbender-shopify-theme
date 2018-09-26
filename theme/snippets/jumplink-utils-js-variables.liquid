@@ -77,6 +77,7 @@
    */
   // window.model.system.cart = window.cart || {{ cart | json }};
 
+  {% comment %}
   /**
    * Translations
    */
@@ -115,6 +116,7 @@
   window.model.system.translations.wishlist.general.add = {{ 'wishlist.general.add' | t | json }};
   window.model.system.translations.wishlist.general.show = {{ 'wishlist.general.show' | t | json }};
   window.model.system.translations.wishlist.general.continue = {{ 'wishlist.general.continue' | t | json }};
+  {% endcomment %}
 
   window.model.system.customer = {% include 'jumplink-utils-json-customer' %}; // {{ customer | json }} not allowed for this object
   

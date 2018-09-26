@@ -15,6 +15,52 @@
         "id": "debug",
         "label": "Enable debug mode",
         "default": false
+      },
+      {
+        "type": "header",
+        "content": "Google Analytics",
+        "info": "Tracks the user with Google Analytics"
+      },
+      {
+        "type": "checkbox",
+        "id": "googleAnalytics_enabled",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "googleAnalytics_trackingId",
+        "label": "Tracking-ID",
+        "default": "UA-"
+      },
+      {
+        "type": "header",
+        "content": "The Trade Desk",
+        "info": "Tracks the user with The Trade Desk"
+      },
+      {
+        "type": "checkbox",
+        "id": "theTradeDesk_enabled",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "theTradeDesk_adv",
+        "label": "Adv",
+        "default": "1fqgs22"
+      },
+      {
+        "type": "text",
+        "id": "theTradeDesk_tagId_1",
+        "label": "Tag Ids",
+        "default": "hqe0lr3"
+      },
+      {
+        "type": "text",
+        "id": "theTradeDesk_baseSrc",
+        "label": "base source url",
+        "default": "https://insight.adsrvr.org/track/up"
       }
     ]
   },
