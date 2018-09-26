@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { IOneWayBinder, BinderWrapper, GlobalEvent } from '../../tinybind';
+import { IOneWayBinder, BinderWrapper } from '../../tinybind';
 
 /**
  *
@@ -10,7 +10,7 @@ export const scrollspyStarBinderWrapper: BinderWrapper = () => {
   const binder: IOneWayBinder<string> = function(el: HTMLElement, targetSelector: string) {
     const $el = $(el);
     const nativeIDTargetSelector = targetSelector.replace('#', '');
-    const dispatcher = new GlobalEvent();
+    // const dispatcher = new EventDispatcher('main');
     let target = document.getElementById(nativeIDTargetSelector);
     let $target: JQuery<Element> | null = null;
     if (target) {

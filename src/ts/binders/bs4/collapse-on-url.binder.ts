@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { IOneWayBinder, BinderWrapper, GlobalEvent } from '../../tinybind';
+import { IOneWayBinder, BinderWrapper, EventDispatcher } from '../../tinybind';
 import { CollapseService } from './collapse.service';
 import { Utils } from '../../services/Utils';
 
@@ -13,7 +13,7 @@ export const collapseOnUrlBinderWrapper: BinderWrapper = () => {
   const binder: IOneWayBinder<string> = (el: HTMLElement, url: string) => {
     const $el = $(el);
     const collapseService = new CollapseService($el);
-    const dispatcher = new GlobalEvent();
+    const dispatcher = new EventDispatcher('main');
 
     const checkURL = (urlToCheck?: string) => {
       if (urlToCheck && Utils.onRoute(urlToCheck)) {

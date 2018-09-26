@@ -4,7 +4,7 @@ import JQuery from './jquery';
 import {
   Tinybind,
   View,
-  GlobalEvent,
+  EventDispatcher,
   IState,
 
   // binders
@@ -58,16 +58,14 @@ export class Main {
   private view: View;
   private debug = Debug('main');
   private tinybind = new Tinybind();
-  private dispatcher = new GlobalEvent();
+  private dispatcher = new EventDispatcher('main');
 
   constructor() {
 
     this.debug('init the main application');
 
     this.dispatcher.on('newPageReady', (viewId: string, currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) => {
-      if (viewId === 'main') {
-        this.trackingCallback(currentStatus, prevStatus, $container, newPageRawHTML, dataset, isFirstPageLoad);
-      }
+      this.trackingCallback(currentStatus, prevStatus, $container, newPageRawHTML, dataset, isFirstPageLoad);
     });
 
     window.model.filter = {

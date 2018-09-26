@@ -132,12 +132,12 @@ export class ShopifyCartComponent extends RibaComponent {
   protected async beforeBind() {
     this.debug('beforeBind');
 
-    ShopifyCartService.dispatcher.on('ShopifyCart:request:start', () => {
+    ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:start', () => {
       this.debug('ShopifyCart:request:start');
       this.scope.pending = true;
     });
 
-    ShopifyCartService.dispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
+    ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
       this.debug('ShopifyCart:request:complete', cart);
       if (cart) {
         this.cart = cart;

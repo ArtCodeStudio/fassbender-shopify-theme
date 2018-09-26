@@ -2,7 +2,6 @@ import $ from 'jquery';
 import Popper from '../../../../../node_modules/popper.js/dist/umd/popper';
 import { Utils } from '../../../services/Utils';
 import Debug from 'debug';
-import { GlobalEvent } from '../../../tinybind';
 
 /**
  * --------------------------------------------------------------------------
@@ -93,13 +92,6 @@ export const DEFAULTTYPE = {
  * Class Definition
  * ------------------------------------------------------------------------
  */
-// const dispatcher = new GlobalEvent();
-
-// // Close all modals on newPageReady
-// dispatcher.on('newPageReady', () => {
-//   DropdownService._clearMenus();
-// });
-
 export class DropdownService {
 
   // Getters
