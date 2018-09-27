@@ -1,5 +1,6 @@
 
 export { ContactFormComponent } from './contact-form/contact-form.component';
+export { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
 export { DebugBarComponent } from './debug-bar/debug-bar.component';
 export { IconComponent } from './icon/icon.component';
 export { InstagramComponent } from './instagram/instagram.component';

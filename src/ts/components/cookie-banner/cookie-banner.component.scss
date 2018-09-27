@@ -1,0 +1,11 @@
+rv-cookie-banner {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  backdrop-filter: blur(10px);
+  // TODO use variables?
+  background-color: rgba(255,255,255,0.8);
+  border-top: 1px solid #D9998F;
+}

@@ -4,23 +4,6 @@
       "code": "de"
     }
   },
-  "shopify": {
-    "checkout": {
-      "general": {
-        "consent_notice_for_european_customers": "Indem ich fortfahre, willige ich ein, dass meine Informationen für den Bestellvorgang elektronisch verarbeitet werden.",
-        "all_rights_reserved": "Alle rechte vorbehalten Anita Hass eK"
-      },
-      "contact": {
-        "address2_label": "Adresszusatz",
-        "optional_address2_label": "Adresszusatz (optional)",
-        "address2_placeholder": "Adresszusatz",
-        "optional_address2_placeholder": "Adresszusatz (optional)"
-      },
-      "payment": {
-        "offsite_gateway_redirect_hint": "Sie werden zu {{ gateway_label }} weitergeleitet, um Ihren Einkauf sicher abzuschließen."
-      }
-    }
-  },
   "snippets": {
     "jumplink-pagination": {
       "load_more": "Lade mehr"
@@ -61,6 +44,46 @@
       "password_confirm": "Passwort bestätigen",
       "submit": "Account aktivieren",
       "cancel": "Einladung ablehnen"
+    }
+  },
+  "legals": {
+    "privacy_policy": {
+      "checkbox_label_html": "By signing up I agree to the <a href=\"/pages/legal-area\">Privacy Statement</a>",
+      "checkbox_contact_label_html": "Yes, I authorise the processing of my personal data according to the <a href=\"/pages/it-recht-datenschutz\">Privacy Policy</a>."
+    }
+  },
+  "forms": {
+    "required": "The fields marked with * are required",
+    "returns": {
+      "revoke": "Wenn Sie den Vertrag widerrufen wollen, dann füllen Sie bitte dieses Formular.",
+      "revoke-checkbox": "I revoke my contract for the purchase of the following products",
+      "send": "Sende das Widerrufsformular"
+    },
+    "privacy-settings": {
+      "delete": "Sie haben das Recht, die bei uns zu Ihrer Person hinterlegten Daten unverzüglich löschen zu lassen. Wenn Sie dies wünschen füllen Sie bitte das Kontaktformular aus."
+    }
+  },
+  "blogs": {
+    "comments": {
+      "title": "Any thoughts? Feel free to share and comment.",
+      "name": "Name*",
+      "email": "Email*",
+      "message": "Comment*",
+      "post": "Post comment",
+      "moderated": "Please note, comments must be approved before they are published.",
+      "required": "The fields marked with * are required.",
+      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
+      "success": "Your comment was posted successfully! Thank you!",
+      "unapproved": "(unapproved)",
+      "with_count": {
+        "one": "{{ count }} Comment",
+        "other": "{{ count }} Comments"
+      }
+    }
+  },
+  "page": {
+    "returns": {
+      "revoke": "Hiermit widerrufe ich den von mir abgeschlossenen Vertrag über den Kauf der folgenden Waren"
     }
   }
 }

@@ -25,10 +25,10 @@
 
   {% capture message %}
     <p class="text-primary my-3" contenteditable="true" rv-value="form.message | default 'Message*'" rv-on-focus="selectAll"></p>
-    <input type="hidden" class="form-control" name="contact[message]" rv-value="form.message" rv-class-is-invalid="validation.rules.message.error | filled" required>
+    <input type="hidden" class="form-control" name="contact[body]" rv-value="form.message" rv-class-is-invalid="validation.rules.message.error | filled" required>
     <div class="invalid-feedback" rv-show="validation.rules.message.error | filled">
       <span rv-html="validation.rules.message.error"></span><br>
-      Characters: {form.message | count | minus 50}
+      Characters: {form.message | size | minus validation.rules.message.minlength}
     </div>
   {% endcapture %}
 
@@ -49,7 +49,7 @@
         </p>
       {% endif %}
 
-      <p rv-show="success | filled" class="text-success mb-3" role="alert" id="contact-error">
+      <p rv-show="success | filled" class="text-success mb-3" role="alert" id="contact-success">
         { success }
       </p>
 
@@ -76,10 +76,10 @@
       <div class="custom-control custom-checkbox mt-5 mb-1">
         <input type="checkbox" class="custom-control-input" name="contact[privacy]" id="acceptPrivacy" required>
         <label class="custom-control-label" for="acceptPrivacy">
-          Yes, I authorise the processing of my personal data according to the <a href="/pages/it-recht-datenschutz">Privacy Policy</a>.<br>
+          {{ 'legals.privacy_policy.checkbox_contact_label_html' | t }}
         </label>
       </div>
-      <p>The fields marked with * are required</p>
+      <p><small>The fields marked with * are required</small></p>
 
       <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="send">Send Message</button>
     </div>

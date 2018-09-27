@@ -221,7 +221,7 @@ export class ContactFormComponent extends RibaComponent {
         },
         message: {
           required: true,
-          minlength: 50,
+          minlength: 20,
           error: '',
         },
       },

@@ -1,0 +1,51 @@
+<rv-cookie-banner>
+  <div class="container-fluid" rv-show="show">
+    <div class="row d-flex align-items-center">
+      <div class="col-auto">
+        <button class="btn btn-link d-flex align-items-center" rv-on-click="close">
+          <rv-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="16"></rv-icon>
+        </button>
+      </div>
+      <div class="col text-right d-flex align-items-center justify-content-end">
+        <small>{{ 'content_html' | t: link1: section.settings.link1 }}</small>
+        <small><a href="{{ section.settings.link2 }}" class="px-3">{{ 'link-label' | t }}</a></small>
+        <button class="btn btn-link d-flex align-items-center" rv-on-click="accept">
+          <small>{{ 'okay' | t }}</small>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</rv-cookie-banner>
+
+{% schema %}
+  {
+    "name": "Cookie Banner",
+    "class": "cookie-banner",
+    "settings": [
+      {
+        "type":      "url",
+        "id":        "link1",
+        "label":     "Link 1"
+      },
+      {
+        "type":      "url",
+        "id":        "link2",
+        "label":     "Link 2"
+      }
+    ],
+    "blocks": [],
+    "locales": {
+      "en": {
+        "content_html": "Hey there, we use <a href=\"{{ link1 }}\">cookies</a> to improve our experience with our site.",
+        "okay": "Okay",
+        "link-label": "Change privacy settings"
+      },
+      "de": {
+        "content_html": "Hey, wir verwenden <a href=\"{{ link1 }}\">Cookies</a> um deine Benutzererfahrung mit unserer Website zu verbessern.",
+        "okay": "Okay",
+        "link-label": "Datenschutzeinstellungen ändern"
+      }
+    }
+  }
+{% endschema %}

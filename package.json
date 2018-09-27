@@ -15,7 +15,8 @@
     "ts-test": "tslint -c tslint.json 'src/**/*.ts' && tsc --noEmit",
     "build": "npm run copy-modules && npm run ts-test && npm run ts && npm run sass",
     "_watch": "theme watch --dir './theme' & npm run ts-watch & npm run sass-watch",
-    "watch": "npm run copy-modules && npm run ts-test && npm run _watch"
+    "watch": "npm run copy-modules && npm run ts-test && npm run _watch",
+    "download": "theme download --dir './theme'"
   },
   "repository": {
     "type": "git",

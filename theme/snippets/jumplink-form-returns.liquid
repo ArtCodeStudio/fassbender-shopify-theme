@@ -1,0 +1,84 @@
+<rv-contact-form>
+  
+  {% assign idPrefix="returns" %}
+
+  {% capture firstName %}
+    <input type="text" class="form-control form-control-text form-control-primary" name="contact[firstName]" rv-value="form.firstName" placeholder="First name*" required rv-class-is-invalid="validation.rules.firstName.error | filled">
+    <div class="invalid-feedback" rv-html="validation.rules.firstName.error"></div>
+  {% endcapture %}
+
+  {% capture lastName %}
+    <input type="text" class="form-control form-control-text form-control-primary" name="contact[lastName]" rv-value="form.lastName" placeholder="Last name*" required rv-class-is-invalid="validation.rules.lastName.error | filled">
+    <div class="invalid-feedback" rv-html="validation.rules.lastName.error"></div>
+  {% endcapture %}
+
+  {% capture email %}
+    <input type="email" class="form-control form-control-text form-control-primary" name="contact[email]" rv-value="form.email" placeholder="Email*" rv-class-is-invalid="validation.rules.email.error | filled" required>
+    <div class="invalid-feedback" rv-html="validation.rules.email.error"></div>
+  {% endcapture %}
+
+  {% capture message %}
+    <textarea type="text" class="form-control form-control-text form-control-primary" name="contact[body]" rv-value="form.message" placeholder="Products" rv-class-is-invalid="validation.rules.message.error | filled" rows="3"></textarea>
+    <div class="invalid-feedback" rv-show="validation.rules.message.error | filled">
+      <span rv-html="validation.rules.message.error"></span><br>
+      Characters: {form.message | size | minus validation.rules.message.minlength}
+    </div>
+  {% endcapture %}   
+
+  <form method="post" action="/contact#{{ idPrefix }}-form" id="{{ idPrefix }}-form" accept-charset="UTF-8" class="contact-form needs-validation" novalidate="">
+    <input type="hidden" name="form_type" value="contact">
+    <input type="hidden" name="utf8" value="✓">
+    <div class="">
+      <p>
+        {{ 'forms.returns.revoke' | t }}
+      </p>
+
+      {% if form.posted_successfully? %}
+        <p class="text-success mb-3" role="alert" id="{{idPrefix}}-contact-form-success">
+          Message sent successfully. Many Thanks!
+        </p>
+      {% endif %}
+
+      <p rv-show="success | filled" class="text-success mb-3" role="alert" id="{{idPrefix}}-contact-success">
+        { success }
+      </p>
+
+      {% if form.errors %}
+        <p class="text-danger mb-3" role="alert" id="{{idPrefix}}-contact-form-error">
+          Message could not be sent:
+          {% for error in form.errors %}
+            {{ error }}
+          {% endfor %}
+        </p>
+      {% endif %}
+
+      <p rv-show="error | filled" class="text-danger mb-3" role="alert" id="{{idPrefix}}-contact-error">
+        Message could not be sent: { error }
+      </p>
+
+      {{ firstName }}
+      {{ lastName }}
+      {{ email }}
+
+      <div class="custom-control custom-checkbox mb-1">
+        <input type="checkbox" class="custom-control-input" name="contact[revokeAgreement]" id="{{idPrefix}}RevokeAgreement" required>
+        <label class="custom-control-label" for="{{idPrefix}}RevokeAgreement">
+          {{ 'forms.returns.revoke-checkbox' | t }}
+        </label>
+      </div>
+
+      {{ message }}
+
+      <div class="custom-control custom-checkbox mt-5 mb-1">
+        <input type="checkbox" class="custom-control-input" name="contact[privacy]" id="{{ idPrefix }}AcceptPrivacy" required>
+        <label class="custom-control-label" for="{{ idPrefix }}AcceptPrivacy">
+          {{ 'legals.privacy_policy.checkbox_contact_label_html' | t }}
+        </label>
+      </div>
+
+      <p><small>{{ 'forms.required' | t }}</small></p>
+
+      <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="send">{{ 'forms.returns.send' | t }}</button>
+    </div>
+  </form>
+</rv-contact-form>

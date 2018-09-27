@@ -40,7 +40,6 @@
       "password_confirm": "Confirm Password",
       "submit": "Reset Password"
     },
-
     "activate_account": {
       "title": "Activate Account",
       "subtext": "Create your password to activate your account.",
@@ -52,7 +51,19 @@
   },
   "legals": {
     "privacy_policy": {
-      "checkbox_label_html": "By signing up I agree to the <a href=\"/pages/legal-area\">Privacy Statement</a>"
+      "checkbox_label_html": "By signing up I agree to the <a href=\"/pages/legal-area\">Privacy Statement</a>",
+      "checkbox_contact_label_html": "Yes, I authorise the processing of my personal data according to the <a href=\"/pages/it-recht-datenschutz\">Privacy Policy</a>."
+    }
+  },
+  "forms": {
+    "required": "The fields marked with * are required",
+    "returns": {
+      "revoke": "If you want to revoke an order, then please fill in this formular.",
+      "revoke-checkbox": "I revoke my contract for the purchase of the following products",
+      "send": "Send Revoke Form"
+    },
+    "privacy_settings": {
+      "delete": "You have the right to delete all data from you. Fill out the form if you wish"
     }
   },
   "blogs": {
@@ -63,7 +74,6 @@
       "message": "Comment*",
       "post": "Post comment",
       "moderated": "Please note, comments must be approved before they are published.",
-      "required": "The fields marked with * are required.",
       "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
       "success": "Your comment was posted successfully! Thank you!",
       "unapproved": "(unapproved)",

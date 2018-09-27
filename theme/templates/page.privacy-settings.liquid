@@ -38,9 +38,12 @@
           </label>
         </div>
         <p class="mt-2">
-          Please <a href="#" rv-on-click="onClearDataClicked">clear my data</a>, this will log you out and clear your shopping cart.
+          Please <a href="#" rv-on-click="onClearDataClicked">clear my session data</a>, this will log you out and clear your shopping cart.
         </p>
       </rv-privacy-settings>
+
+      {% include 'jumplink-form-delete-person-data' %}
+
     </div>
   </div>
 </div>

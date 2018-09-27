@@ -49,7 +49,7 @@ export class ShopifyFilterComponent extends RibaComponent {
         // return namespace === 'blog' || shopifyTemplate.template === 'article'; // TODO if the user is on a artice and wants to go back to the list view we need do do some additional work
         return namespace === 'blog';
       case 'account':
-        return namespace === 'cart' || shopifyTemplate.directory === 'customers';
+        return namespace === 'cart' || shopifyTemplate.directory === 'customers' || shopifyTemplate.template === 'page.returns-form' || shopifyTemplate.template === 'page.privacy-settings';
       case 'legal-area':
         return shopifyTemplate.template === 'page.legals';
       case 'store':
