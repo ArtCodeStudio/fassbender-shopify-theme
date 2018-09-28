@@ -48,8 +48,8 @@
   },
   "legals": {
     "privacy_policy": {
-      "checkbox_label_html": "By signing up I agree to the <a href=\"/pages/legal-area\">Privacy Statement</a>",
-      "checkbox_contact_label_html": "Yes, I authorise the processing of my personal data according to the <a href=\"/pages/it-recht-datenschutz\">Privacy Policy</a>."
+      "checkbox_label_html": "By signing up I agree to the <a href=\"\/pages\/legal-area\">Privacy Statement<\/a>",
+      "checkbox_contact_label_html": "Yes, I authorise the processing of my personal data according to the <a href=\"\/pages\/it-recht-datenschutz\">Privacy Policy<\/a>."
     }
   },
   "forms": {
