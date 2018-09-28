@@ -34,13 +34,25 @@
           </label>
         </div>
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" name="TradeDeskChanged" id="theTradeDesk" rv-checked="theTradeDesk.enabled" rv-on-change="onTheTradeDeskChanged">
+          <input type="checkbox" class="custom-control-input" name="theTradeDesk" id="theTradeDesk" rv-checked="theTradeDesk.enabled" rv-on-change="onTheTradeDeskChanged">
           <label class="custom-control-label" for="theTradeDesk">
             Allow tracking with <a href="https://www.thetradedesk.com/">The Trade Desk</a><br>
           </label>
         </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="facebookPixel" id="facebookPixel" rv-checked="facebookPixel.enabled" rv-on-change="onFacebookPixelChanged">
+          <label class="custom-control-label" for="facebookPixel">
+            Allow tracking with <a href="https://www.facebook.com/business/help/742478679120153">Facebook Pixel</a><br>
+          </label>
+        </div>
+        <p>
+          <small>
+            Please reload this site after you have disabled any tracking service.<br>
+            Please note that these settings are saved with cookies, if you delete your cookies these settings will be lost.
+          </small>
+        </p>
         <p class="mt-2">
-          Please <a href="#" rv-on-click="onClearDataClicked">clear my session data</a>, this will log you out and clear your shopping cart.
+          Please <a href="#" rv-on-click="onClearDataClicked">clear my session data</a>, this will log you out, clear your shopping cart and removes client site cookies if possible.
         </p>
       </rv-privacy-settings>
 

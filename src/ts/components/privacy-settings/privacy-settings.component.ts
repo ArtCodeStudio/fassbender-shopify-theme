@@ -19,6 +19,9 @@ interface IScope {
     enabled: boolean;
     trackingId: string;
   };
+  facebookPixel: {
+    enabled: boolean;
+  };
   cookies: {
     enabled: boolean;
   };
@@ -29,6 +32,7 @@ interface IScope {
   onCookiesStorageChanged: PrivacySettingsComponent['onCookiesStorageChanged'];
   onTheTradeDeskChanged: PrivacySettingsComponent['onTheTradeDeskChanged'];
   onGoogleAnalyticsChanged: PrivacySettingsComponent['onGoogleAnalyticsChanged'];
+  onFacebookPixelChanged: PrivacySettingsComponent['onFacebookPixelChanged'];
   onClearDataClicked: PrivacySettingsComponent['onClearDataClicked'];
 }
 
@@ -58,6 +62,9 @@ export class PrivacySettingsComponent extends RibaComponent {
     this.scope = {
       theTradeDesk: window.model.system.themeSettings.theTradeDesk,
       googleAnalytics: window.model.system.themeSettings.googleAnalytics,
+      facebookPixel: {
+        enabled: true,
+      },
       cookies: {
         enabled: true,
       },
@@ -68,6 +75,7 @@ export class PrivacySettingsComponent extends RibaComponent {
       onCookiesStorageChanged: this.onCookiesStorageChanged,
       onTheTradeDeskChanged: this.onTheTradeDeskChanged,
       onGoogleAnalyticsChanged: this.onGoogleAnalyticsChanged,
+      onFacebookPixelChanged: this.onFacebookPixelChanged,
       onClearDataClicked: this.onClearDataClicked,
     };
 
@@ -78,6 +86,7 @@ export class PrivacySettingsComponent extends RibaComponent {
 
     this.scope.googleAnalytics.enabled = !this.trackingService.googleAnalyticsDisabled;
     this.scope.theTradeDesk.enabled = !this.trackingService.theTradeDeskDisabled;
+    this.scope.facebookPixel.enabled = !this.trackingService.facebookPixelDisabled;
 
     this.init(PrivacySettingsComponent.observedAttributes);
   }
@@ -89,7 +98,7 @@ export class PrivacySettingsComponent extends RibaComponent {
       return Utils.get('/account/logout');
     })
     .then(() => {
-      return this.trackingService.removeCookies();
+      return this.trackingService.removeCookies([this.trackingService.theTradeDeskDisableStr, this.trackingService.googleAnalyticsDisableStr, this.trackingService.facebookPixelDisableStr /*, 'cookieconsent_accepted'*/]);
     })
     .then(() => {
       location.reload();
@@ -116,6 +125,11 @@ export class PrivacySettingsComponent extends RibaComponent {
   public onTheTradeDeskChanged() {
     this.debug('onTheTradeDeskChanged', this.scope.theTradeDesk.enabled);
     this.trackingService.theTradeDeskDisabled = !this.scope.theTradeDesk.enabled;
+  }
+
+  public onFacebookPixelChanged() {
+    this.debug('onFacebookPixelChanged', this.scope.facebookPixel.enabled);
+    this.trackingService.facebookPixelDisabled = !this.scope.facebookPixel.enabled;
   }
 
   protected async beforeBind() {
