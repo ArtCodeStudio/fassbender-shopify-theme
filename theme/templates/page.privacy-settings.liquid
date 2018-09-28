@@ -1,10 +1,12 @@
 <div class="container-fluid pt-5" id="page-{{ page.handle }}">
   <div class="row pt-md-5">
+    {% unless page.title == blank %}
+      <div class="col-12 col-md-8 offset-md-2 col-lg-8 col-xl-6">
+        <h2 class="page-title mt-0 mb-4">{{ page.title }}</h2>
+      </div>
+    {% endunless %}
     {% unless page.content == blank %}
       <div class="col-12 col-md-8 offset-md-2 col-lg-8 col-xl-6 rte">
-        {% unless page.title == blank %}
-          <h2 class="page-title mt-0 mb-4">{{ page.title }}</h2>
-        {% endunless %}
         {{ page.content }}
       </div>
     {% endunless %}

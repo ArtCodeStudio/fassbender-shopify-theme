@@ -17,7 +17,7 @@
     "_watch": "theme watch --dir './theme' & npm run ts-watch & npm run sass-watch",
     "watch": "npm run copy-modules && npm run ts-test && npm run _watch",
     "download": "theme download --dir './theme'",
-    "checkout": "uglifyjs checkout/custom-checkout.js -o checkout/custom-checkout.min.js"
+    "checkout": "uglifyjs checkout/custom-checkout.js -o checkout/custom-checkout.min.js; cleancss checkout/custom-checkout.css -o checkout/custom-checkout.min.css "
   },
   "repository": {
     "type": "git",
@@ -47,6 +47,7 @@
     "babel-plugin-array-includes": "^2.0.3",
     "babelify": "^8.0.0",
     "browserify": "^16.2.2",
+    "clean-css-cli": "^4.2.1",
     "css-flip": "^0.5.0",
     "css-loader": "^0.28.11",
     "csso-cli": "^1.1.0",

@@ -1,5 +1,5 @@
 /**
- * AGB Box V1.2
+ * AGB Box V1.4
  * Copyright by Pascal Garber <pascal@jumplink.eu>
  * 
  * Copy checkout.min.js this script in the Shopify backend under Google Analytics
@@ -19,8 +19,8 @@ try {
     window.jumplink.checkout.urls = {
         privacyPolicy: '/pages/it-recht-datenschutz',
         TermsOfService: '/pages/it-recht-agb',
-        contact: '/pages/help',
-        serviceMail: 'info@myfassbender.com'
+        contact: '/pages/contact',
+        serviceMail: 'customercare@myfassbender.com'
     };
 
     window.jumplink.checkout.texts = {};
@@ -78,6 +78,9 @@ try {
         document.body.appendChild(script_tag);
     };
 
+    window.jumplink.checkout.scrollDown = function () {
+        window.scrollTo(0,document.body.scrollHeight);
+    };
 
     window.jumplink.checkout.loadJquery = function (cb) {
 
@@ -107,19 +110,32 @@ try {
         }
     };
 
-    window.jumplink.checkout.loadCss = function (cb) {
+    /**
+     * Inject custom style by url or style string
+     * @param {*} isUrl If style should be injected by an url this must be true
+     * @param {*} urlOrStyle Url to css file or the style string
+     * @param {*} cb callback wich is called after the style was loaded
+     */
+    window.jumplink.checkout.loadCss = function (isUrl, urlOrStyle, cb) {
         var head = document.getElementsByTagName('head')[0];
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = 'https://jumplink.eu/themes/jumplink/assets/customers/' + window.jumplink.checkout.handle + '/checkout.css';
-        link.media = 'all';
-
-        link.onload = function () {
-            cb(null, link);
+        var style = document.createElement('link');
+        style.rel = 'stylesheet';
+        style.type = 'text/css';
+        style.media = 'all';
+        style.onload = function () {
+            cb(null, style);
         };
-
-        head.appendChild(link);
+        if (isUrl) {
+            style.href = urlOrStyle;
+        } else {
+            if (style.styleSheet){
+                // This is required for IE8 and below.
+                style.styleSheet.cssText = urlOrStyle;
+            } else {
+                style.appendChild(document.createTextNode(urlOrStyle));
+            }
+        }
+        head.appendChild(style);
     };
 
     window.jumplink.checkout.timeout = function (duration, timer, cb) {
@@ -133,10 +149,22 @@ try {
     
 
     window.jumplink.checkout.initCustomCheckout = function (cb) {
-        window.jumplink.checkout.loadCss(function (error, link) {
-            // console.log("css loaded");
-            window.jumplink.checkout.loadJquery(cb);
-        });
+        // window.jumplink.checkout.loadCss(
+        //     true,
+        //     'https://jumplink.eu/themes/jumplink/assets/customers/' + window.jumplink.checkout.handle + '/checkout.css',
+        //     function (error, link) {
+        //         // console.log("css loaded");
+        //         window.jumplink.checkout.loadJquery(cb);
+        //     }
+        // );
+        window.jumplink.checkout.loadCss(
+            false,
+            '.content-legals{padding:10px 0 10px 30px}.field__message.field__message--error a{font-weight:700;color:#d9534f}.btn,.content-box,.field__input,.product-thumbnail::after,.product-thumbnail__wrapper{border-radius:0}',
+            function (error, link) {
+                // console.log("css loaded");
+            }
+        );
+        window.jumplink.checkout.loadJquery(cb);
     };
 
     window.jumplink.checkout.initTracking = function (cb) {
@@ -160,9 +188,12 @@ try {
         $('[data-trekkie-id="complete_order_button"]').on('click', function (event) {
             // console.log("clicked");
 
+            var error = false;
+
             if (!$('#checkout_legals').is(":checked")) {
                 event.preventDefault();
                 $('#error-for-legals').show();
+                error = true;
             } else {
                 $('#error-for-legals').hide();
             }
@@ -170,12 +201,18 @@ try {
             if (!$('#checkout_data_transfer_true').is(":checked")) {
                 event.preventDefault();
                 $('#error-for-data-transfer').show();
+                error = true;
             } else {
                 $('#error-for-data-transfer').hide();
             }
 
             if ($('#checkout_legals').is(":checked") && $('#checkout_data_transfer_true').is(":checked")) {
+                error = false;
                 event.stopPropagation();
+            }
+
+            if (error) {
+                window.jumplink.checkout.scrollDown();
             }
 
         });
