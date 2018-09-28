@@ -1,5 +1,5 @@
 /**
- * AGB Box V1.5
+ * AGB Box V1.6
  * Copyright by Pascal Garber <pascal@jumplink.eu>
  * 
  * Copy checkout.min.js this script in the Shopify backend under Google Analytics
@@ -229,7 +229,7 @@ var start = function () {
 
                 if (!$('#checkout_legals').is(":checked")) {
                     event.preventDefault();
-                    $('#error-for-legalcc.disableTrackingsIfCookieIsSets').show();
+                    $('#error-for-legals').show();
                     error = true;
                 } else {
                     $('#error-for-legals').hide();
