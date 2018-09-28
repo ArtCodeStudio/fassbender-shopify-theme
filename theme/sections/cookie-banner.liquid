@@ -10,13 +10,13 @@
         <small>{{ 'content_html' | t: link1: section.settings.link1 }}</small>
       </div>
       <div class="col-12 col-md-auto text-right d-flex align-items-center justify-content-end pb-3 pb-md-0">
-        <small><a href="{{ section.settings.link2 }}" class="px-3">{{ 'link-label' | t }}</a></small>
+        <small><a rv-route="'{{ section.settings.link2 }}'" href="{{ section.settings.link2 }}" class="px-3">{{ 'link-label' | t }}</a></small>
         <button class="btn btn-link d-flex align-items-center d-flex d-md-none" rv-on-click="close">
           <small>{{ 'close' | t }}</small>
         </button>
         <button class="btn btn-link d-flex align-items-center" rv-on-click="accept">
           <small>{{ 'okay' | t }}</small>
-        </button>
+        </button> 
       </div>
     </div>
   </div>
@@ -42,13 +42,13 @@
     "blocks": [],
     "locales": {
       "en": {
-        "content_html": "Hey there, we use <a href=\"{{ link1 }}\">cookies</a> to improve our experience with our site.",
+        "content_html": "Hey there, we use <a rv-route=\"'{{ link1 }}'\" href=\"{{ link1 }}\">cookies</a> to improve our experience with our site.",
         "okay": "Okay",
         "close": "Close",
         "link-label": "Change privacy settings"
       },
       "de": {
-        "content_html": "Hey, wir verwenden <a href=\"{{ link1 }}\">Cookies</a> um deine Benutzererfahrung mit unserer Website zu verbessern.",
+        "content_html": "Hey, wir verwenden <a rv-route=\"'{{ link1 }}'\" href=\"{{ link1 }}\">Cookies</a> um deine Benutzererfahrung mit unserer Website zu verbessern.",
         "okay": "Okay",
         "close": "Schließen",
         "link-label": "Datenschutzeinstellungen ändern"
