@@ -1,43 +1,41 @@
 /**
- * AGB Box V1.4
+ * AGB Box V1.5
  * Copyright by Pascal Garber <pascal@jumplink.eu>
  * 
  * Copy checkout.min.js this script in the Shopify backend under Google Analytics
  * 
  */
 try {
-    window.jumplink = window.jumplink || {};
-    window.jumplink.checkout = window.jumplink.checkout || {};
+    var cc = {};
 
-    window.jumplink.checkout.handle = 'fassbender';
+    cc.handle = 'fassbender';
 
-    window.jumplink.checkout.agbInStep = 'payment_method'; // payment_method | review
+    cc.agbInStep = 'payment_method'; // payment_method | review
 
-    // window.jumplink.checkout.trackingInStep = 'thank_you'; // payment_method | review
+    // cc.trackingInStep = 'thank_you'; // payment_method | review
 
-
-    window.jumplink.checkout.urls = {
+    cc.urls = {
         privacyPolicy: '/pages/it-recht-datenschutz',
         TermsOfService: '/pages/it-recht-agb',
         contact: '/pages/contact',
         serviceMail: 'customercare@myfassbender.com'
     };
 
-    window.jumplink.checkout.texts = {};
-    window.jumplink.checkout.texts.suppliers = {
+    cc.texts = {};
+    cc.texts.suppliers = {
         ups: 'United Parcel Service Deutschland Inc. & Co. OHG, Görlitzer Straße 1, 41460 Neuss',
         dhl: 'DHL Express Germany GmbH, Heinrich-Brüning-Str. 5, 53113, Bonn',
         other: 'weiterer Lieferanten'
     };
-    window.jumplink.checkout.texts.dataTransfer = "Ich bin damit einverstanden, dass meine E-Mail-Adresse bzw. meine Telefonnummer an <em>" + window.jumplink.checkout.texts.suppliers.ups + ' und ' + window.jumplink.checkout.texts.suppliers.other + "</em> weitergegeben wird, damit der Paketdienstleister vor der Zustellung der Ware zum Zwecke der Abstimmung eines Liefertermins per E-Mail oder Telefon Kontakt mit mir aufnehmen bzw. Statusinformationen zur Sendungszustellung übermitteln kann. Meine diesbezüglich erteilte Einwilligung kann ich jederzeit widerrufen.",
-        window.window.jumplink.checkout.texts.legals = 'Hiermit akzeptiere ich Ihre <a href="' + window.jumplink.checkout.urls.TermsOfService + '" target="_blank" title="AGB">AGB</a> sowie Ihre <a href="' + window.jumplink.checkout.urls.privacyPolicy + '" target="_blank" title="Datenschutzerklärung">Datenschutzerklärung</a>.';
+    cc.texts.dataTransfer = "Ich bin damit einverstanden, dass meine E-Mail-Adresse bzw. meine Telefonnummer an <em>" + cc.texts.suppliers.ups + ' und ' + cc.texts.suppliers.other + "</em> weitergegeben wird, damit der Paketdienstleister vor der Zustellung der Ware zum Zwecke der Abstimmung eines Liefertermins per E-Mail oder Telefon Kontakt mit mir aufnehmen bzw. Statusinformationen zur Sendungszustellung übermitteln kann. Meine diesbezüglich erteilte Einwilligung kann ich jederzeit widerrufen.",
+    cc.texts.legals = 'Hiermit akzeptiere ich Ihre <a href="' + cc.urls.TermsOfService + '" target="_blank" title="AGB">AGB</a> sowie Ihre <a href="' + cc.urls.privacyPolicy + '" target="_blank" title="Datenschutzerklärung">Datenschutzerklärung</a>.';
 
-    window.jumplink.checkout.errors = {};
-    window.jumplink.checkout.errors.acceptLegals = 'Bitte akzeptieren Sie unsere <a href="' + window.jumplink.checkout.urls.TermsOfService + '" target="_blank" title="AGB">AGB</a> und <a href="' + window.jumplink.checkout.urls.privacyPolicy + '" target="_blank" title="Datenschutzerklärung">Datenschutzerklärung</a>.<br><br>Bei Fragen zu unseren Kaufbedingungen kontaktieren Sie bitte unseren <a href="' + window.jumplink.checkout.urls.contact + '" target="_blank" title="Kundenservice">Kundenservice</a>.';
-    window.jumplink.checkout.errors.acceptDataTransfer = 'Bitte akzeptieren Sie unsere Nachrichtenübermittlung an den Paketdienstleister.<br><br>Bei Fragen zu unseren Kaufbedingungen kontaktieren Sie bitte unseren <a href="' + window.jumplink.checkout.urls.contact + '" target="_blank" title="Kundenservice">Kundenservice</a>.';
+    cc.errors = {};
+    cc.errors.acceptLegals = 'Bitte akzeptieren Sie unsere <a href="' + cc.urls.TermsOfService + '" target="_blank" title="AGB">AGB</a> und <a href="' + cc.urls.privacyPolicy + '" target="_blank" title="Datenschutzerklärung">Datenschutzerklärung</a>.<br><br>Bei Fragen zu unseren Kaufbedingungen kontaktieren Sie bitte unseren <a href="' + cc.urls.contact + '" target="_blank" title="Kundenservice">Kundenservice</a>.';
+    cc.errors.acceptDataTransfer = 'Bitte akzeptieren Sie unsere Nachrichtenübermittlung an den Paketdienstleister.<br><br>Bei Fragen zu unseren Kaufbedingungen kontaktieren Sie bitte unseren <a href="' + cc.urls.contact + '" target="_blank" title="Kundenservice">Kundenservice</a>.';
 
 
-    window.jumplink.checkout.templates = {
+    cc.templates = {
         notes: '<div class="content-box">' +
             '<div class="content-box__row">' +
             '<div class="content-box__header">' +
@@ -53,8 +51,8 @@ try {
             '<input class="input-checkbox" aria-expanded="false" type="checkbox" name="data transfer" id="checkout_legals">' +
             '</div>' +
             '<label class="checkbox__label" for="checkout_legals">' +
-            window.jumplink.checkout.texts.legals +
-            '<p class="field__message field__message--error" id="error-for-legals">' + window.jumplink.checkout.errors.acceptLegals + '</p>' +
+            cc.texts.legals +
+            '<p class="field__message field__message--error" id="error-for-legals">' + cc.errors.acceptLegals + '</p>' +
             '</label>' +
             '</div>' +
             '<div class="checkbox-wrapper">' +
@@ -62,27 +60,30 @@ try {
             '<input class="input-checkbox" aria-expanded="false" type="checkbox" name="data transfer" id="checkout_data_transfer_true">' +
             '</div>' +
             '<label class="checkbox__label" for="checkout_data_transfer_true">' +
-            window.jumplink.checkout.texts.dataTransfer +
-            '<p class="field__message field__message--error" id="error-for-data-transfer">' + window.jumplink.checkout.errors.acceptDataTransfer + '</p>' +
+            cc.texts.dataTransfer +
+            '<p class="field__message field__message--error" id="error-for-data-transfer">' + cc.errors.acceptDataTransfer + '</p>' +
             '</label>' +
             '</div>' +
             '</div>' +
             '</div>'
     };
 
-    window.jumplink.checkout.loadScript = function (url, cb) {
+    cc.loadScript = function (url, cb) {
         var script_tag = document.createElement("script");
         script_tag.type = "text/javascript";
         script_tag.src = url;
         script_tag.onload = cb;
+        script_tag.onerror = function(error) {
+            console.error('error on load script', url, error);
+        };
         document.body.appendChild(script_tag);
     };
 
-    window.jumplink.checkout.scrollDown = function () {
+    cc.scrollDown = function () {
         window.scrollTo(0,document.body.scrollHeight);
     };
 
-    window.jumplink.checkout.loadJquery = function (cb) {
+    cc.loadJquery = function (cb) {
 
         // console.log(window);
 
@@ -102,7 +103,7 @@ try {
 
         } else {
             // load jQuery
-            window.jumplink.checkout.loadScript("https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js", function() {
+            cc.loadScript("https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js", function() {
                 window.jQuery(document).ready(function () {
                     cb(null, window.jQuery);
                 });
@@ -116,59 +117,48 @@ try {
      * @param {*} urlOrStyle Url to css file or the style string
      * @param {*} cb callback wich is called after the style was loaded
      */
-    window.jumplink.checkout.loadCss = function (isUrl, urlOrStyle, cb) {
+    cc.loadCss = function (isUrl, urlOrStyle, cb) {
         var head = document.getElementsByTagName('head')[0];
-        var style = document.createElement('link');
+        var style;
+        if (isUrl) {
+            style = document.createElement('link');
+            style.href = urlOrStyle;
+        } else {
+            style = document.createElement('style');
+            style.innerHTML = urlOrStyle;
+        }
         style.rel = 'stylesheet';
         style.type = 'text/css';
         style.media = 'all';
         style.onload = function () {
             cb(null, style);
         };
-        if (isUrl) {
-            style.href = urlOrStyle;
-        } else {
-            if (style.styleSheet){
-                // This is required for IE8 and below.
-                style.styleSheet.cssText = urlOrStyle;
-            } else {
-                style.appendChild(document.createTextNode(urlOrStyle));
-            }
-        }
+        style.onerror = function(error) {
+            console.error('error on load css', urlOrStyle, error);
+        };
         head.appendChild(style);
     };
 
-    window.jumplink.checkout.timeout = function (duration, timer, cb) {
+    cc.timeout = function (duration, timer, cb) {
         setTimeout(function () {
             if (timer >= 0) {
                 cb(timer--);
-                window.jumplink.checkout.timeout(duration, timer, cb);
+                cc.timeout(duration, timer, cb);
             }
         }, duration);
     };
     
 
-    window.jumplink.checkout.initCustomCheckout = function (cb) {
-        // window.jumplink.checkout.loadCss(
-        //     true,
-        //     'https://jumplink.eu/themes/jumplink/assets/customers/' + window.jumplink.checkout.handle + '/checkout.css',
-        //     function (error, link) {
-        //         // console.log("css loaded");
-        //         window.jumplink.checkout.loadJquery(cb);
-        //     }
-        // );
-        window.jumplink.checkout.loadCss(
-            false,
-            '.content-legals{padding:10px 0 10px 30px}.field__message.field__message--error a{font-weight:700;color:#d9534f}.btn,.content-box,.field__input,.product-thumbnail::after,.product-thumbnail__wrapper{border-radius:0}',
-            function (error, link) {
-                // console.log("css loaded");
-            }
+    cc.loadCustomStyle = function (cb) {
+        cc.loadCss(
+            true,
+            'https://cdn.shopify.com/s/files/1/0075/8903/6147/files/custom-checkout.css?16684598101524282847',
+            cb
         );
-        window.jumplink.checkout.loadJquery(cb);
     };
 
-    window.jumplink.checkout.initTracking = function (cb) {
-        window.jumplink.checkout.loadScript('https://js.adsrvr.org/up_loader.1.1.0.js', function() {
+    cc.initTracking = function (cb) {
+        cc.loadScript('https://cdn.shopify.com/s/files/1/0075/8903/6147/files/up_loader.1.1.3.js?16684598101524282847', function() {
             ttd_dom_ready( function() {
                 if (typeof TTDUniversalPixelApi === 'function') {
                     var universalPixelApi = new TTDUniversalPixelApi();
@@ -179,112 +169,142 @@ try {
         });
     };
 
-    window.jumplink.checkout.initAgbBox = function ($) {
+    cc.initAgbBox = function () {
 
-        var appendOn = $('.step__sections:last');
-        // console.log(appendOn);
-        appendOn.append(window.jumplink.checkout.templates.notes);
+        cc.loadJquery(function(error, $) {
+            var appendOn = $('.step__sections:last');
+            // console.log(appendOn);
+            appendOn.append(cc.templates.notes);
 
-        $('[data-trekkie-id="complete_order_button"]').on('click', function (event) {
-            // console.log("clicked");
+            $('[data-trekkie-id="complete_order_button"]').on('click', function (event) {
+                // console.log("clicked");
 
-            var error = false;
+                var error = false;
 
-            if (!$('#checkout_legals').is(":checked")) {
-                event.preventDefault();
-                $('#error-for-legals').show();
-                error = true;
-            } else {
-                $('#error-for-legals').hide();
-            }
+                if (!$('#checkout_legals').is(":checked")) {
+                    event.preventDefault();
+                    $('#error-for-legals').show();
+                    error = true;
+                } else {
+                    $('#error-for-legals').hide();
+                }
 
-            if (!$('#checkout_data_transfer_true').is(":checked")) {
-                event.preventDefault();
-                $('#error-for-data-transfer').show();
-                error = true;
-            } else {
-                $('#error-for-data-transfer').hide();
-            }
+                if (!$('#checkout_data_transfer_true').is(":checked")) {
+                    event.preventDefault();
+                    $('#error-for-data-transfer').show();
+                    error = true;
+                } else {
+                    $('#error-for-data-transfer').hide();
+                }
 
-            if ($('#checkout_legals').is(":checked") && $('#checkout_data_transfer_true').is(":checked")) {
-                error = false;
-                event.stopPropagation();
-            }
+                if ($('#checkout_legals').is(":checked") && $('#checkout_data_transfer_true').is(":checked")) {
+                    error = false;
+                    event.stopPropagation();
+                }
 
-            if (error) {
-                window.jumplink.checkout.scrollDown();
-            }
-
+                if (error) {
+                    cc.scrollDown();
+                }
+            });
         });
     };
 
 
-    window.jumplink.checkout.customContactInformation = function () {
+    cc.customContactInformation = function () {
 
     };
 
-    window.jumplink.checkout.customShippingMethod = function () {
+    cc.customShippingMethod = function () {
 
     };
 
-    window.jumplink.checkout.customPaymentMethod = function () {
+    cc.customPaymentMethod = function () {
 
     };
 
-    window.jumplink.checkout.customThankYou = function () {
+    /**
+     * Execute code on the thank you page,
+     * please note that there is a better and official way to inject html to the thank you page:
+     * Go to /admin/settings/checkout and add them to the textera under Additional scripts
+     */
+    cc.customThankYou = function () {
 
     };
 
-    window.jumplink.checkout.customReview = function () {
+    /**
+     * Inject code to the review page, this page is only avaible if you 
+     * have activate the `Require a confirmation step` checkbox
+     * on admin/settings/checkout
+     */
+    cc.customReview = function () {
 
     };
 
+    /**
+     * Execute this on all steps in the checkout
+     */
+    cc.customAllSteps = function () {
+        // Track any site on each step
+        cc.loadCustomStyle(function() {
+
+        });
+    };
+
+    /**
+     * Execute this on any site of the checout and in your shop frontend
+     */
+    cc.customAll = function () {
+        cc.initTracking(function () {
+            // console.log('tracked!');
+        });
+    };
 
     // console.log(window.Shopify.Checkout);
-    window.jumplink.checkout.step = '';
+    cc.step = '';
     if (window && window.Shopify && window.Shopify.Checkout && window.Shopify.Checkout.step) {
-        window.jumplink.checkout.step = window.Shopify.Checkout.step;
+        cc.step = window.Shopify.Checkout.step;
     } else {
         var hasClass = document.querySelector('.os-order-number') !== null;
         if (hasClass === true) {
-            window.jumplink.checkout.step = 'thank_you';
+            cc.step = 'thank_you';
         }
     }
 
-    if (window.jumplink.checkout.step) {
-        console.log('step', window.jumplink.checkout.step);
-        switch (window.jumplink.checkout.step) {
+    if (cc.step) {
+        console.log('step', cc.step);
+        switch (cc.step) {
             case 'contact_information':
-                window.jumplink.checkout.customContactInformation();
+                cc.customContactInformation();
+                cc.customAllSteps();
                 break;
             case 'shipping_method':
-                window.jumplink.checkout.customShippingMethod();
+                cc.customShippingMethod();
+                cc.customAllSteps();
                 break;
             case 'payment_method':
-                window.jumplink.checkout.customPaymentMethod();
+                cc.customPaymentMethod();
+                cc.customAllSteps();
                 break;
             case 'thank_you':
-                window.jumplink.checkout.customThankYou();
+                cc.customThankYou();
+                cc.customAllSteps();
                 break;
             case 'review':
-                window.jumplink.checkout.customReview();
+                cc.customReview();
+                cc.customAllSteps();
                 break;
             default: 
-                console.log('Unknown step!', window.jumplink.checkout.step);
+                console.log('Unknown step!', cc.step);
                 break;
         }
     }
 
-    if (window.jumplink.checkout.agbInStep === window.jumplink.checkout.step) {
-        window.jumplink.checkout.initCustomCheckout(function (error, $) {
-            window.jumplink.checkout.initAgbBox($);
-        });
+    if (cc.agbInStep === cc.step) {
+        cc.initAgbBox();
     }
 
-    // Track any site on each step
-    window.jumplink.checkout.initTracking(function () {
-        // console.log('tracked!');
-    });
+    cc.customAll();
+
 } catch (error) {
     console.error(error);
 }
