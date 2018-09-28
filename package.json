@@ -16,7 +16,8 @@
     "build": "npm run copy-modules && npm run ts-test && npm run ts && npm run sass",
     "_watch": "theme watch --dir './theme' & npm run ts-watch & npm run sass-watch",
     "watch": "npm run copy-modules && npm run ts-test && npm run _watch",
-    "download": "theme download --dir './theme'"
+    "download": "theme download --dir './theme'",
+    "checkout": "uglifyjs checkout/custom-checkout.js -o checkout/custom-checkout.min.js"
   },
   "repository": {
     "type": "git",

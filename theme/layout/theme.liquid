@@ -28,7 +28,11 @@
   <!-- content_for_header: end -->
 
   {% if settings.theTradeDesk_enabled == true %}
+
+    {% comment %}
+    this script is already placed in shopify backend for custom analytics code
     <script async src="https://js.adsrvr.org/up_loader.1.1.0.js" type="text/javascript"></script>
+    {% endcomment %}
   {% endif %}
   {% if settings.googleAnalytics_enabled == true %}
     {% comment %} 

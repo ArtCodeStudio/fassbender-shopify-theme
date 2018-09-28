@@ -195,8 +195,8 @@ export class TrackingService {
           // self.debug('TTDUniversalPixelApi', (window as any).TTDUniversalPixelApi);
           if (typeof((window as any).TTDUniversalPixelApi) === 'function') {
             const universalPixelApi = new (window as any).TTDUniversalPixelApi();
-            self.debug('universalPixelApi', universalPixelApi.getVersion());
             universalPixelApi.init(self.theTradeDesk.adv, [self.theTradeDesk.tagId[1]], self.theTradeDesk.baseSrc);
+            self.debug('ttd tracked!', universalPixelApi.getVersion());
           }
         });
       }
