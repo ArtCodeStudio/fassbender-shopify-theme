@@ -52,8 +52,8 @@
                 <strong>Type</strong>
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
-                    <input type="radio" rv-id="sublink.handle" rv-name="link.handle" rv-route-class-active="sublink.url" rv-route="sublink.url" class="custom-control-input">
-                    <label class="custom-control-label" rv-route-class-active="sublink.url" rv-route="sublink.url" rv-for="sublink.handle">{sublink.title}</label>
+                    <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" rv-route-class-active="sublink.url" rv-route="sublink.url" class="custom-control-input">
+                    <label class="custom-control-label" rv-route-class-active="sublink.url" rv-route="sublink.url" rv-for="link.handle | append sublink.handle">{sublink.title}</label>
                   </div>
                 </div>
 
@@ -89,8 +89,8 @@
                 <strong>Type</strong>
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
-                    <input type="radio" rv-id="sublink.handle" rv-name="link.handle" rv-bs4-scrollspy-active="sublink.url" class="custom-control-input">
-                    <label class="custom-control-label" rv-on-click="scrollTo | args sublink.url" rv-for="sublink.handle">{sublink.title}</label>
+                    <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" rv-bs4-scrollspy-active="sublink.url" class="custom-control-input">
+                    <label class="custom-control-label" rv-on-click="scrollTo | args sublink.url" rv-for="link.handle | append sublink.handle">{sublink.title}</label>
                   </div>
                 </div>
               </div>
@@ -99,8 +99,8 @@
                 <strong>Type</strong>
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
-                    <input type="radio" rv-id="sublink.handle" rv-name="link.handle" class="custom-control-input">
-                    <label class="custom-control-label" rv-for="sublink.handle" rv-on-click="storiesFilterBy | args link.handle sublink.url">{sublink.title}</label>
+                    <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" class="custom-control-input">
+                    <label class="custom-control-label" rv-for="link.handle | append sublink.handle" rv-on-click="storiesFilterBy | args link.handle sublink.url">{sublink.title}</label>
                   </div>
                 </div>
               </div>
