@@ -25,44 +25,45 @@ var start = function () {
         dhl: 'DHL Express Germany GmbH, Heinrich-Brüning-Str. 5, 53113, Bonn',
         other: 'weiterer Lieferanten'
     };
-    cc.texts.dataTransfer = "Ich bin damit einverstanden, dass meine E-Mail-Adresse bzw. meine Telefonnummer an <em>" + cc.texts.suppliers.ups + ' und ' + cc.texts.suppliers.other + "</em> weitergegeben wird, damit der Paketdienstleister vor der Zustellung der Ware zum Zwecke der Abstimmung eines Liefertermins per E-Mail oder Telefon Kontakt mit mir aufnehmen bzw. Statusinformationen zur Sendungszustellung übermitteln kann. Meine diesbezüglich erteilte Einwilligung kann ich jederzeit widerrufen.",
-        cc.texts.legals = 'Hiermit akzeptiere ich Ihre <a href="' + cc.urls.TermsOfService + '" target="_blank" title="AGB">AGB</a> sowie Ihre <a href="' + cc.urls.privacyPolicy + '" target="_blank" title="Datenschutzerklärung">Datenschutzerklärung</a>.';
+    cc.texts.dataTransfer = "Ich bin damit einverstanden, dass meine E-Mail-Adresse bzw. meine Telefonnummer an <em>" + cc.texts.suppliers.ups + ' und ' + cc.texts.suppliers.other + "</em> weitergegeben wird, damit der Paketdienstleister vor der Zustellung der Ware zum Zwecke der Abstimmung eines Liefertermins per E-Mail oder Telefon Kontakt mit mir aufnehmen bzw. Statusinformationen zur Sendungszustellung übermitteln kann. Meine diesbezüglich erteilte Einwilligung kann ich jederzeit widerrufen.";
+    cc.texts.legals = 'Hiermit akzeptiere ich Ihre <a href="' + cc.urls.TermsOfService + '" target="_blank" title="AGB">AGB</a> sowie Ihre <a href="' + cc.urls.privacyPolicy + '" target="_blank" title="Datenschutzerklärung">Datenschutzerklärung</a>.';
 
     cc.errors = {};
     cc.errors.acceptLegals = 'Bitte akzeptieren Sie unsere <a href="' + cc.urls.TermsOfService + '" target="_blank" title="AGB">AGB</a> und <a href="' + cc.urls.privacyPolicy + '" target="_blank" title="Datenschutzerklärung">Datenschutzerklärung</a>.<br><br>Bei Fragen zu unseren Kaufbedingungen kontaktieren Sie bitte unseren <a href="' + cc.urls.contact + '" target="_blank" title="Kundenservice">Kundenservice</a>.';
     cc.errors.acceptDataTransfer = 'Bitte akzeptieren Sie unsere Nachrichtenübermittlung an den Paketdienstleister.<br><br>Bei Fragen zu unseren Kaufbedingungen kontaktieren Sie bitte unseren <a href="' + cc.urls.contact + '" target="_blank" title="Kundenservice">Kundenservice</a>.';
 
     cc.templates = {
-        notes: '<div class="content-box">' +
+        notes: 
+        '<div class="content-box">' +
             '<div class="content-box__row">' +
-            '<div class="content-box__header">' +
-            '<div class="content-box__header__title">' +
-            '<h3>Kaufbedingungen</h3>' +
-            '</div>' +
-            '</div>' +
-            '<p class="content-legals">' +
+                '<div class="content-box__header">' +
+                    '<div class="content-box__header__title">' +
+                        '<h3>Kaufbedingungen</h3>' +
+                    '</div>' +
+                '</div>' +
+                '<p class="content-legals">' +
 
-            '</p>' +
-            '<div class="checkbox-wrapper">' +
-            '<div class="checkbox__input">' +
-            '<input class="input-checkbox" aria-expanded="false" type="checkbox" name="data transfer" id="checkout_legals">' +
+                '</p>' +
+                '<div class="checkbox-wrapper">' +
+                    '<div class="checkbox__input">' +
+                        '<input class="input-checkbox" aria-expanded="false" type="checkbox" name="data transfer" id="checkout_legals">' +
+                    '</div>' +
+                    '<label class="checkbox__label" for="checkout_legals">' +
+                        cc.texts.legals +
+                        '<p class="field__message field__message--error" id="error-for-legals">' + cc.errors.acceptLegals + '</p>' +
+                    '</label>' +
+                '</div>' +
+                '<div class="checkbox-wrapper">' +
+                    '<div class="checkbox__input">' +
+                        '<input class="input-checkbox" aria-expanded="false" type="checkbox" name="data transfer" id="checkout_data_transfer_true">' +
+                    '</div>' +
+                    '<label class="checkbox__label" for="checkout_data_transfer_true">' +
+                        cc.texts.dataTransfer +
+                        '<p class="field__message field__message--error" id="error-for-data-transfer">' + cc.errors.acceptDataTransfer + '</p>' +
+                    '</label>' +
+                '</div>' +
             '</div>' +
-            '<label class="checkbox__label" for="checkout_legals">' +
-            cc.texts.legals +
-            '<p class="field__message field__message--error" id="error-for-legals">' + cc.errors.acceptLegals + '</p>' +
-            '</label>' +
-            '</div>' +
-            '<div class="checkbox-wrapper">' +
-            '<div class="checkbox__input">' +
-            '<input class="input-checkbox" aria-expanded="false" type="checkbox" name="data transfer" id="checkout_data_transfer_true">' +
-            '</div>' +
-            '<label class="checkbox__label" for="checkout_data_transfer_true">' +
-            cc.texts.dataTransfer +
-            '<p class="field__message field__message--error" id="error-for-data-transfer">' + cc.errors.acceptDataTransfer + '</p>' +
-            '</label>' +
-            '</div>' +
-            '</div>' +
-            '</div>'
+        '</div>'
     };
     cc.googleAnalyticsTrackingId = 'UA-126476233-1';
     cc.googleAnalyticsDisableStr = 'ga-disable-' + cc.googleAnalyticsTrackingId;
