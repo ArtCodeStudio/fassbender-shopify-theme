@@ -25,7 +25,7 @@
       "city": "City",
       "country": "Country",
       "province": "Province",
-      "zip": "Postal/Zip Code",
+      "zip": "Postal\/Zip Code",
       "phone": "Phone",
       "set_default": "Set as default",
       "add": "Add",
@@ -51,8 +51,8 @@
   },
   "legals": {
     "privacy_policy": {
-      "checkbox_label_html": "By signing up I agree to the <a href=\"/pages/legal-area\">Privacy Statement</a>",
-      "checkbox_contact_label_html": "Yes, I authorise the processing of my personal data according to the <a href=\"/pages/it-recht-datenschutz\">Privacy Policy</a>."
+      "checkbox_label_html": "By signing up I agree to the <a href=\"\/pages\/legal-area\">Privacy Statement<\/a>",
+      "checkbox_contact_label_html": "Yes, I authorise the processing of my personal data according to the <a href=\"\/pages\/it-recht-datenschutz\">Privacy Policy<\/a>."
     }
   },
   "forms": {
@@ -80,6 +80,13 @@
       "with_count": {
         "one": "{{ count }} Comment",
         "other": "{{ count }} Comments"
+      }
+    }
+  },
+  "shopify": {
+    "checkout": {
+      "alternative_payment_method_banner": {
+        "or": "OR CONTINUE WITH CREDIT CARD \/ SOFORTÜBERWEISUNG"
       }
     }
   }

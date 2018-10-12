@@ -45,6 +45,5 @@ EAAB8vuocl5sBAMfnJbSmXIlmlUMgWJLqDJeWEZAL1MGWcbZChFLHgMgfQqjN1KnAOdZBZBOEWtJXKnJ
 Get Media: `17841406311268728?fields=media{media_url,media_type,caption}`
 Info: https://developers.facebook.com/docs/instagram-api/reference/page
 
-
 Get Access Token `346703952475439?fields=access_token`
 Info: https://stackoverflow.com/a/14129177/1465919
