@@ -25,9 +25,9 @@ interface IScope {
 }
 
 interface INavigatorShareParam {
-  url: USVString;
-  text: USVString;
-  title: USVString;
+  url: string;
+  text: string;
+  title: string;
 }
 
 declare global {

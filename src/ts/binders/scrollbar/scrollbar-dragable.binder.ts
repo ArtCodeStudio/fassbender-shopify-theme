@@ -52,7 +52,9 @@ export class Dragscroll {
       this.el.scrollLeft -= newScrollX = (- this.lastClientX + (this.lastClientX = e.clientX));
       this.el.scrollTop -= newScrollY = (- this.lastClientY + (this.lastClientY = e.clientY));
       if (this.el === document.body) {
-        this.el = document.documentElement;
+        if (document.documentElement) {
+          this.el = document.documentElement;
+        }
         this.el.scrollLeft -= newScrollX;
         this.el.scrollTop -= newScrollY;
       }

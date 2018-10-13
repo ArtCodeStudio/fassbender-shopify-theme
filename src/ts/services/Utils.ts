@@ -105,6 +105,10 @@ export class Utils extends tinybindUtils {
       e = window.event;
     }
 
+    if (document.documentElement === null) {
+      throw new Error('document.documentElement is null');
+    }
+
     if (e) {
       if ((e as any).originalEvent) {
         e = (e as any).originalEvent;
@@ -137,8 +141,8 @@ export class Utils extends tinybindUtils {
    */
   public getElementPosition(selector: JQuery.PlainObject<any>) {
     const $el = $(selector);
-    const pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
-    const pageXScroll = window.pageXOffset || document.documentElement.scrollLeft;
+    const pageYScroll = window.pageYOffset || (document.documentElement ? document.documentElement.scrollTop : 0);
+    const pageXScroll = window.pageXOffset || (document.documentElement ? document.documentElement.scrollLeft : 0);
     // optionally get horizontal scroll
     // get position of element relative to viewport
     const rect = $el[0].getBoundingClientRect();
@@ -219,19 +223,6 @@ export class Utils extends tinybindUtils {
       w: width,
       h: height,
       element: target,
-    };
-  }
-
-  /**
-   * Get the browser viewport dimensions
-   * @see https://stackoverflow.com/a/8876069/1465919
-   */
-  public getViewportDimensions()  {
-    const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    return {
-      w,
-      h,
     };
   }
 

@@ -191,7 +191,7 @@ export class DropdownService {
 
       // If this is a touch-enabled device we remove the extra
       // empty mouseover listeners we added for iOS support
-      if ('ontouchstart' in document.documentElement) {
+      if (document.documentElement && 'ontouchstart' in document.documentElement) {
         $(document.body).children().off('mouseover', 'null', $.noop);
       }
 
@@ -325,7 +325,7 @@ export class DropdownService {
     // empty mouseover listeners to the body's immediate children;
     // only needed because of broken event delegation on iOS
     // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
-    if ('ontouchstart' in document.documentElement &&
+    if (document.documentElement && 'ontouchstart' in document.documentElement &&
         $(parent).closest(SELECTOR.NAVBAR_NAV).length === 0) {
       $(document.body).children().on('mouseover', null, $.noop);
     }

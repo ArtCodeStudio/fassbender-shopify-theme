@@ -1,6 +1,7 @@
 import Debug from 'debug';
 import { Pjax, Prefetch, Binding, shopifyExtension } from '../../tinybind';
 import $ from '../../jquery';
+import { Utils } from '../../services/Utils';
 import { IInstagramMedia, IInstagramResponse, InstagramService } from '../../services/instagram.service';
 import template from './instagram-scrollbar.component.html';
 
@@ -93,7 +94,7 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
    * Get width insite the scrollbar of the dragablle / scrollable area
    */
   protected getInstagramWidth() {
-    const width = (document.documentElement.clientWidth / 3) * (this.scope.media.data.length);
+    const width = (Utils.getViewportDimensions().w / 3) * (this.scope.media.data.length);
     return width;
   }
 
