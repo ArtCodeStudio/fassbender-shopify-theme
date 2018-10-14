@@ -14,7 +14,7 @@
 
 <rv-shopify-product-item handle="{{product.handle}}" class="{{colClass}} {{ orderClass }} px-0 content-box ratio-3-4">
   <a rv-route="'{{ product.url | within: collection }}'" href="{{product.url | within: collection }}">
-    <img class="content has-xs-spacing has-sm-spacing" src="{{ product.featured_image | img_url: imageSize}}" alt="{{product.featured_image.alt}}" style="padding-bottom: 52px;"/>
+    <img lazyload="on" class="content has-xs-spacing has-sm-spacing" src="{{ product.featured_image | img_url: imageSize}}" alt="{{product.featured_image.alt}}" style="padding-bottom: 52px;"/>
   </a>
   <div class="position-absolute w-100 bottom-0">
     <div class="text-center title-xs-spacing title-sm-spacing text-truncate">

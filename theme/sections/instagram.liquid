@@ -1,0 +1,43 @@
+<rv-instagram instagram-id="{{section.settings.instagram_id}}">
+  <div class="row">
+    <div class="col-4 px-0 content-box ratio-1-1" rv-each-image="media.data" rv-class="image.media_type">
+      {% comment %} IMAGE {% endcomment %}
+      <img lazyload="on" class="content" rv-if="image.media_type | eq 'IMAGE'" rv-src="image.media_url" rv-src="image.media_url" rv-alt="image.caption">
+
+      {% comment %} CAROUSEL_ALBUM {% endcomment %}
+      <img lazyload="on" class="content" rv-if="image.media_type | eq 'CAROUSEL_ALBUM'" rv-src="image.media_url" rv-src="image.media_url" rv-alt="image.caption">
+      
+      {% comment %} VIDEO {% endcomment %}
+      <video class="content" rv-if="image.media_type | eq 'VIDEO'" autoplay muted loop preload>
+        <source rv-src="image.media_url" type="video/mp4">
+      Your browser does not support the video tag.
+      </video>
+
+      {% comment %} hover info {% endcomment %}
+      <div class="content caption d-none d-md-flex align-items-center" rv-text="image.caption">
+      </div>
+    </div>
+  </div>
+</rv-instagram>
+
+{% schema %}
+  {
+    "name": "Instagram Grid",
+    "class": "instagram",
+    "settings": [
+      {
+        "type": "text",
+        "id": "instagram_id",
+        "label": "Instagram ID"
+      }
+    ],
+    "blocks": [],
+    "presets": [
+      {
+        "category": "Custom Content",
+        "name": "Instagram Grid",
+        "blocks": []
+      }
+    ]
+  }
+{% endschema %}

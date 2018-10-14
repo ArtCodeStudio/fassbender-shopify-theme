@@ -5,6 +5,7 @@ import { IInstagramMedia, IInstagramResponse, InstagramService } from '../../ser
 
 export interface IScope {
   media?: IInstagramMedia;
+  instagramId?: string;
 }
 
 export class InstagramComponent extends RibaComponent {
@@ -12,41 +13,44 @@ export class InstagramComponent extends RibaComponent {
   public static tagName: string = 'rv-instagram';
 
   static get observedAttributes() {
-    return [];
+    return ['instagram-id'];
   }
 
-  protected accessToken = 'EAAB8vuocl5sBAMfnJbSmXIlmlUMgWJLqDJeWEZAL1MGWcbZChFLHgMgfQqjN1KnAOdZBZBOEWtJXKnJMZC8nu4ZAw1Os9QsaVmrhsfGyi2ESYrcabNM2tCnEoozweliqVOqzMNTZCQzJVlni5jmhhZAQXHaxeWuyzMoVD4U2hnzsewuzD8GVvYZCW6pJVgvdBt0yxwYeZBqWKjlAZDZD';
   protected instagramId = '17841406311268728';
 
   protected debug = Debug('component:' + InstagramComponent.tagName);
 
   protected scope: IScope = {
     media: undefined,
+    instagramId: undefined,
   };
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.loadMedia();
     this.init(InstagramComponent.observedAttributes);
   }
 
   protected loadMedia() {
-    InstagramService.loadMedia(this.accessToken, this.instagramId)
+    if (!this.scope.instagramId) {
+      return Promise.reject();
+    }
+    InstagramService.loadMedia(this.scope.instagramId)
     .then((response: IInstagramResponse) => {
       this.scope.media = response.media;
       this.debug('response', response);
     })
-    .catch((error) => {
+    .catch((error: Error) => {
       this.debug(`Error: Can't load instagram media`, error);
     });
   }
 
   protected async beforeBind() {
     this.debug('beforeBind', this.scope);
+    return this.loadMedia();
   }
 
   protected requiredAttributes() {
-    return ['media'];
+    return ['instagramId'];
   }
 
   protected template() {

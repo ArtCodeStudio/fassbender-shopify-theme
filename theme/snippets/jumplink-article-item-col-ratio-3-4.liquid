@@ -30,7 +30,7 @@
       Your browser does not support the video tag or mp4.
     </video>
   {% else %}
-    <img class="content has-xs-spacing has-sm-spacing" src="{{ article.image | img_url: articleImageSize}}" rv-src="'{{ article.image | img_url: articleImageSize}}'" alt="{{acticle.title}}" style="padding: 52px" />
+    <img lazyload="on" class="content has-xs-spacing has-sm-spacing" src="{{ article.image | img_url: articleImageSize}}" rv-src="'{{ article.image | img_url: articleImageSize}}'" alt="{{acticle.title}}" style="padding: 52px" />
   {% endif %}
   {% if article.title %}
     <div class="position-absolute w-100 bottom-0" style="{{ articleTitleStyle }}">

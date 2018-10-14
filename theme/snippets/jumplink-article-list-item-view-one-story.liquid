@@ -80,7 +80,7 @@
 
           {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
           <div class="col px-0 content-box {{contentBoxClass}}">
-            <img class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
+            <img lazyload="on" class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
           </div>
         {% endfor %}
       {% endif %}

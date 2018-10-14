@@ -8,7 +8,6 @@ import template from './instagram-scrollbar.component.html';
 export interface IScope {
   onScroll: InstagramScrollbarComponent['onScroll'];
   onTap: InstagramScrollbarComponent['onTap'];
-  onMouseenter: InstagramScrollbarComponent['onMouseenter'];
   media?: IInstagramMedia;
 }
 
@@ -17,35 +16,26 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
   public static tagName: string = 'rv-instagram-scrollbar';
 
   static get observedAttributes() {
-    return [];
+    return ['instagram-id'];
   }
-
-  protected accessToken = 'EAAB8vuocl5sBAMfnJbSmXIlmlUMgWJLqDJeWEZAL1MGWcbZChFLHgMgfQqjN1KnAOdZBZBOEWtJXKnJMZC8nu4ZAw1Os9QsaVmrhsfGyi2ESYrcabNM2tCnEoozweliqVOqzMNTZCQzJVlni5jmhhZAQXHaxeWuyzMoVD4U2hnzsewuzD8GVvYZCW6pJVgvdBt0yxwYeZBqWKjlAZDZD';
-  protected instagramId = '17841406311268728';
 
   protected debug = Debug('component:' + InstagramScrollbarComponent.tagName);
 
   protected scope: any = {
+    instagramId: undefined,
     onScroll: this.onScroll,
     onTap: this.onTap,
-    onMouseenter: this.onMouseenter,
     media: undefined,
   };
 
   protected $el: JQuery<HTMLElement>;
-
-  // private model: any = {};
   private pjax = new Pjax('main');
-  // private prefetch = new Prefetch();
-  // private $instagrams?: JQuery<HTMLElement>;
   private $scollWith?: JQuery<HTMLElement>;
 
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    // this.$instagrams = this.$el.find('.content-box');
     this.$scollWith = this.$el.find('.title-row');
-    this.loadMedia();
     this.init(InstagramScrollbarComponent.observedAttributes);
   }
 
@@ -53,17 +43,8 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
    * Just open the instagram url
    */
   public onTap(event: JQuery.Event<HTMLElement, null>, scope: any, eventEl: HTMLElement, context: Binding) {
-    const url = $(eventEl).data('url');
-    this.pjax.goTo(url);
-  }
-
-  /**
-   * Preload instagram on mouse over
-   */
-  public onMouseenter(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLElement, context: Binding) {
-    this.debug('onMouseenter');
-    // const url = $(eventEl).data('url');
-    // this.prefetch.onLinkEnter(event, url);
+    const url = $(eventEl).first().data('url');
+    this.pjax.goTo(url, true);
   }
 
   /**
@@ -73,8 +54,6 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
     const self = this;
     // this.debug('onScroll', eventEl.scrollLeft);
     if (this.$scollWith) {
-      // const factor = this.getInstagramWidth() / this.getTitleWidth();
-      // this.debug('factor', factor, this.getTitleWidth(), this.getInstagramWidth());
       const factor = 3;
       this.$scollWith.scrollLeft(eventEl.scrollLeft / factor);
     }
@@ -99,7 +78,7 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
   }
 
   protected loadMedia() {
-    InstagramService.loadMedia(this.accessToken, this.instagramId, 9)
+    InstagramService.loadMedia(this.scope.instagramId, 9)
     .then((response: IInstagramResponse) => {
       this.scope.media = response.media;
       this.debug('response', response);
@@ -109,8 +88,13 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
     });
   }
 
+  protected async beforeBind() {
+    this.debug('beforeBind', this.scope);
+    return this.loadMedia();
+  }
+
   protected requiredAttributes() {
-    return ['media'];
+    return ['instagramId'];
   }
 
   protected template() {

@@ -1,5 +1,6 @@
 import Debug from 'debug';
 import { Utils, getJSON } from './Utils';
+import jQuery from '../jquery';
 
 export interface IInstagramMediaData {
   media_url: string;
@@ -30,11 +31,12 @@ export interface IInstagramResponse {
   id: string;
 }
 
+// TODO move to the-developer-app service api
 export class InstagramService {
 
   public static baseUrl = 'https://the-developer-app.artandcode.studio/instagram/api';
 
-  public static async loadMedia(accessToken: string, instagramId: string, limit = 0) {
+  public static async loadMedia(instagramId: string, limit = 0) {
     // TODO create a server app wich wrappes the api requests
     const url = `${this.baseUrl}/media/${instagramId}`;
 
@@ -45,5 +47,14 @@ export class InstagramService {
 
     return getJSON(url, data);
   }
+
+  // TODO logged in customer info
+  // public static init() {
+  //   jQuery.ajaxSetup({
+  //     beforeSend: (xhr) => {
+  //       xhr.setRequestHeader('hostname', window.location.hostname);
+  //     },
+  //   });
+  // }
 
 }

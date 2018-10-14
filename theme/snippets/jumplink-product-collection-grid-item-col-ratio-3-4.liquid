@@ -15,6 +15,7 @@
 <rv-shopify-product-item rv-handle="'{{ product.handle }}'" class="{{ colClass }} {{ orderClass }} px-0 content-box ratio-3-4">
   <a rv-route="'{{ product.url | within: collection }}'" href="{{product.url | within: collection }}">
     <img
+      lazyload="on"
       class="content"
       src="{{ product.featured_image | img_url: imageSize }}"
       alt="{{ product.featured_image.alt }}"

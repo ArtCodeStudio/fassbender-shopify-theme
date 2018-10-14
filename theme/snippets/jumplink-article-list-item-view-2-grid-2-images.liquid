@@ -98,7 +98,7 @@
           {% endif %}
 
           <div class="col px-0 content-box {{contentBoxClass}}">
-            <img class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
+            <img lazyload="on" class="{{imageClass}}" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
           
             {% comment %} title for medium and heigher {% endcomment %}
             {% if article.title and forloop.index0 == title_under_image %}

@@ -56,7 +56,7 @@
     {% if showVideo %}
       <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="on" class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
             <video class="content" preload="auto" controls>
               <source src="{{ video }}" type="video/mp4">
               Your browser does not support the video tag or mp4.
@@ -69,7 +69,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images limit:1 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="on" class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -78,7 +78,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:1 limit:2 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="on" class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -87,7 +87,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:3 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="on" class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
