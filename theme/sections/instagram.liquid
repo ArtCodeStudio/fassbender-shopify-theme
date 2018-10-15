@@ -1,6 +1,6 @@
-<rv-instagram instagram-id="{{section.settings.instagram_id}}">
+<rv-instagram instagram-id="{{section.settings.instagram_id}}" open-links="{{section.settings.open-links}}" limit="{{section.settings.limit}}">
   <div class="row">
-    <div class="col-4 px-0 content-box ratio-1-1" rv-each-image="media.data" rv-class="image.media_type">
+    <div class="col-12 col-sm-4 px-0 content-box ratio-1-1" rv-each-image="media.data" rv-class="image.media_type" rv-data-url="image.permalink" rv-on-tap="onTap">
       {% comment %} IMAGE {% endcomment %}
       <img lazyload="on" class="content" rv-if="image.media_type | eq 'IMAGE'" rv-src="image.media_url" rv-src="image.media_url" rv-alt="image.caption">
 
@@ -29,6 +29,20 @@
         "type": "text",
         "id": "instagram_id",
         "label": "Instagram ID"
+      },
+      {
+        "type":      "checkbox",
+        "id":        "open-links",
+        "label":     "Go to Instagram on tab",
+        "default":   true
+      },
+      {
+        "type":      "range",
+        "id":        "limit",
+        "label":     "Limit",
+        "min":       10,
+        "max":       100,
+        "default":   60
       }
     ],
     "blocks": [],

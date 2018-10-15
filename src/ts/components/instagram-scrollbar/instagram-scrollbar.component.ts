@@ -1,11 +1,15 @@
 import Debug from 'debug';
-import { Pjax, Prefetch, Binding, shopifyExtension } from '../../tinybind';
+import { Pjax, Binding, shopifyExtension } from '../../tinybind';
 import $ from '../../jquery';
 import { Utils } from '../../services/Utils';
 import { IInstagramMedia, IInstagramResponse, InstagramService } from '../../services/instagram.service';
 import template from './instagram-scrollbar.component.html';
 
 export interface IScope {
+  instagramId?: string;
+  openLinks: boolean;
+  openUrl: string;
+  limit: number;
   onScroll: InstagramScrollbarComponent['onScroll'];
   onTap: InstagramScrollbarComponent['onTap'];
   media?: IInstagramMedia;
@@ -16,13 +20,16 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
   public static tagName: string = 'rv-instagram-scrollbar';
 
   static get observedAttributes() {
-    return ['instagram-id'];
+    return ['instagram-id', 'open-links', 'limit', 'open-url'];
   }
 
   protected debug = Debug('component:' + InstagramScrollbarComponent.tagName);
 
-  protected scope: any = {
+  protected scope: IScope = {
     instagramId: undefined,
+    openLinks: false,
+    openUrl: '',
+    limit: 0,
     onScroll: this.onScroll,
     onTap: this.onTap,
     media: undefined,
@@ -43,16 +50,23 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
    * Just open the instagram url
    */
   public onTap(event: JQuery.Event<HTMLElement, null>, scope: any, eventEl: HTMLElement, context: Binding) {
-    const url = $(eventEl).first().data('url');
-    this.pjax.goTo(url, true);
+    if (this.scope.openUrl.length > 0) {
+      this.pjax.goTo(this.scope.openUrl);
+    }
+    if (this.scope.openLinks) {
+      const url = $(eventEl).first().data('url');
+      this.pjax.goTo(url, true);
+    }
+
   }
 
   /**
    * get instagram in the middle of the scrollbar elementinnerWidth
+   * TODO not used
    */
   public onScroll(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLElement, context: Binding) {
     const self = this;
-    // this.debug('onScroll', eventEl.scrollLeft);
+    this.debug('onScroll', eventEl.scrollLeft, this.$scollWith);
     if (this.$scollWith) {
       const factor = 3;
       this.$scollWith.scrollLeft(eventEl.scrollLeft / factor);
@@ -61,6 +75,7 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
 
   /**
    * Get width insite the scrollbar of the autoscolling title
+   * TODO not used
    */
   protected getTitleWidth() {
     if (!this.$scollWith) {
@@ -73,12 +88,18 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
    * Get width insite the scrollbar of the dragablle / scrollable area
    */
   protected getInstagramWidth() {
+    if (!this.scope.media) {
+      return;
+    }
     const width = (Utils.getViewportDimensions().w / 3) * (this.scope.media.data.length);
     return width;
   }
 
   protected loadMedia() {
-    InstagramService.loadMedia(this.scope.instagramId, 9)
+    if (!this.scope.instagramId) {
+      throw new Error('instagram id is required!');
+    }
+    InstagramService.loadMedia(this.scope.instagramId, this.scope.limit)
     .then((response: IInstagramResponse) => {
       this.scope.media = response.media;
       this.debug('response', response);
@@ -94,7 +115,7 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
   }
 
   protected requiredAttributes() {
-    return ['instagramId'];
+    return ['instagramId', 'limit'];
   }
 
   protected template() {

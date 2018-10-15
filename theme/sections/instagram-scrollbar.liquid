@@ -1,6 +1,6 @@
-<rv-instagram-scrollbar instagram-id="{{section.settings.instagram_id}}" open-links="{{section.settings.open-links}}" limit="{{section.settings.limit}}" class="d-block container-fluid">
-  <div class="row title-row">
-    <div class="col-auto title-col" rv-show="media.data | count | gt 0" style="padding-right: 16%; padding-left: 16%; background-color: #4D3A40; color: #D9998F;">
+<rv-instagram-scrollbar instagram-id="{{section.settings.instagram_id}}" open-links="{{section.settings.open-links}}" limit="{{section.settings.limit}}" open-url="{{section.settings.open-url}}" class="d-block container-fluid">
+  <div class="row title-row scrollbar-invisible scrollbar-x-auto scrollbar-y-hidden">
+    <div class="col-auto title-col text-nowrap" rv-show="media.data | size | gt 0" style="padding-right: 16%; padding-left: 16%; background-color: #4D3A40; color: #D9998F;">
       #FASSBENDER HIGHLIGHTS
     </div>
   </div>
@@ -38,6 +38,11 @@
         "id":        "open-links",
         "label":     "Go to Instagram on tab",
         "default":   false
+      },
+      {
+        "type":      "url",
+        "id":        "open-url",
+        "label":     "Go to Page on tab"
       },
       {
         "type":      "range",

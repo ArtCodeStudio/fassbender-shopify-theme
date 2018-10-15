@@ -1,40 +1,57 @@
 import Debug from 'debug';
-import { RibaComponent } from '../../tinybind';
+import { Pjax, Binding, shopifyExtension } from '../../tinybind';
 import template from './instagram.component.html';
 import { IInstagramMedia, IInstagramResponse, InstagramService } from '../../services/instagram.service';
 
 export interface IScope {
   media?: IInstagramMedia;
   instagramId?: string;
+  openLinks: boolean;
+  limit: number;
+  onTap: InstagramComponent['onTap'];
 }
 
-export class InstagramComponent extends RibaComponent {
+export class InstagramComponent extends shopifyExtension.components.ShopifySectionComponent {
 
   public static tagName: string = 'rv-instagram';
 
   static get observedAttributes() {
-    return ['instagram-id'];
+    return ['instagram-id', 'open-links', 'limit'];
   }
-
-  protected instagramId = '17841406311268728';
 
   protected debug = Debug('component:' + InstagramComponent.tagName);
 
   protected scope: IScope = {
     media: undefined,
+    openLinks: false,
+    limit: 0,
     instagramId: undefined,
+    onTap: this.onTap,
   };
+
+  private pjax = new Pjax('main');
 
   constructor(element?: HTMLElement) {
     super(element);
     this.init(InstagramComponent.observedAttributes);
   }
 
+  /**
+   * Just open the instagram url
+   */
+  public onTap(event: JQuery.Event<HTMLElement, null>, scope: any, eventEl: HTMLElement, context: Binding) {
+    if (!this.scope.openLinks) {
+      return;
+    }
+    const url = $(eventEl).first().data('url');
+    this.pjax.goTo(url, true);
+  }
+
   protected loadMedia() {
     if (!this.scope.instagramId) {
       return Promise.reject();
     }
-    InstagramService.loadMedia(this.scope.instagramId)
+    InstagramService.loadMedia(this.scope.instagramId, this.scope.limit)
     .then((response: IInstagramResponse) => {
       this.scope.media = response.media;
       this.debug('response', response);
@@ -50,7 +67,7 @@ export class InstagramComponent extends RibaComponent {
   }
 
   protected requiredAttributes() {
-    return ['instagramId'];
+    return ['instagramId', 'limit'];
   }
 
   protected template() {
