@@ -23,17 +23,6 @@ import {
   shopifyExtension,
 } from './tinybind';
 
-// import {
-//   backgroundImageBinderWrapper,
-//   backgroundColorStarBinderWrapper,
-//   opacityStarBinderWrapper,
-//   scrollbarDragableBinder,
-//   collapseBinder,
-//   expanOnUrlBinder,
-//   collapseOnUrlBinder,
-//   scrollspyStarBinder,
-// } from './binders/index';
-
 import { customBinders, styleBinders } from './binders/index';
 
 import * as CustomComponents from './components/components';
@@ -44,10 +33,6 @@ declare global {
 }
 
 /* tslint:disable:max-classes-per-file */
-// declare function TTDUniversalPixelApi(): {
-//   getVersion(): string,
-//   init(adv: string, tagIds: string[], baseSrc: string, dynParams?: string[]): void,
-// };
 declare class TTDUniversalPixelApiWrapper {
   public getVersion(): string;
   public init(adv: string, tagIds: string[], baseSrc: string, dynParams?: string[]): void;
@@ -87,15 +72,13 @@ export class Main {
 
     this.tinybind.formatterService.regists(shopifyExtension.formatters);
 
-    window.model.assign = function(key: string, value: any) {
+    window.model.assign = function(key: string, value: any, event: Event) {
+      // event.preventDefault();
+      // event.stopPropagation();
       this[key] = value;
     };
 
     window.model.system.shopify = (window as any).Shopify;
-
-    // window.model.toggle = function(key: string, value: boolean) {
-    //   this[key] = !this[key];
-    // };
 
     this.view = this.tinybind.bind(JQuery('body')[0], window.model);
   }

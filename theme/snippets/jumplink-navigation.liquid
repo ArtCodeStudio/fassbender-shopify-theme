@@ -123,18 +123,24 @@
           </a>
         </li>
 
+        <rv-i18n-switcher rv-show="menuOpen">
+           <li class="nav-item" rv-each-langcode="langcodes">
+            <div class="nav-link" rv-text="langcode.code" rv-on-click="switch | args langcode" rv-class-active="langcode.active"></div>
+           </li>
+        </rv-i18n-switcher>
+
         <shopify-linklist rv-show="menuOpen" class="" id="toggle-menu" name="toggle-menu" vertical="false" pills="false"></shopify-linklist>
 
         <li class="nav-item">
           {% include 'jumplink-shopping-cart-dropdown' %}
         </li>    
         <li class="nav-item">
-          <a class="nav-link" rv-on-click="assign | args 'menuOpen' true" href="#" rv-hide="menuOpen">
+          <div class="nav-link" rv-on-click="assign | args 'menuOpen' true" rv-hide="menuOpen">
             <rv-icon rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" size="24"></rv-icon>
-          </a>
-          <a class="nav-link" rv-on-click="assign | args 'menuOpen' false" href="#" rv-show="menuOpen">
+          </div>
+          <div class="nav-link" rv-on-click="assign | args 'menuOpen' false" rv-show="menuOpen">
             <rv-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></rv-icon>
-          </a>
+          </div>
         </li>
       </ul>
     </div>

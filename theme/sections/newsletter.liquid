@@ -40,7 +40,7 @@
         novalidate
       >
 
-        <h1 class="h6">{{ 'title' | t }}</h1>
+        <h1 class="h6" rv-i18n="'sections.newsletter.title'">{{ 'title' | t }}</h1>
         <p>{{ 'content_html' | t: name: name, email: email }}</p>
 
         {% comment %} real people should not fill this in and expect good things - do not remove this or risk form bot signups {% endcomment %}
@@ -128,8 +128,8 @@
         "content_html": "I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}."
       },
       "de": {
-        "title": "Discover Fassbender's World",
-        "content_html": "I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}."
+        "title": "Entdecke Fassbenders Welt",
+        "content_html": "Ich möchte Neuigkeiten und Inspiration über Stories und Sammlungen erhalten. <br> Ich bin {{name}} und meine E-Mail lautet {{email}}."
       }
     }
   }
