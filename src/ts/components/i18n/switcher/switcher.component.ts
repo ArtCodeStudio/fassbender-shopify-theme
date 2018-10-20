@@ -39,6 +39,13 @@ export class I18nSwitcherComponent extends RibaComponent {
       this.scope.langcodes = langcodes;
       this.init(I18nSwitcherComponent.observedAttributes);
     });
+
+    this.localsService.event.on('changed', (langcode: string) => {
+      // Activate localcode and disable the other
+      this.scope.langcodes.forEach((langCode) => {
+        langCode.active = langCode.code === langcode;
+      });
+    });
   }
 
   public switch(langcode: ILangcode, event: Event) {
@@ -47,10 +54,6 @@ export class I18nSwitcherComponent extends RibaComponent {
     this.debug('switch', langcode);
     if (!langcode.active) {
       this.localsService.setLangcode(langcode.code);
-      // Activate localcode and disable the other
-      this.scope.langcodes.forEach((langCode) => {
-        langCode.active = langCode.code === langcode.code;
-      });
     }
   }
 

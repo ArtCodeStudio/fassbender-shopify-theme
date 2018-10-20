@@ -15,6 +15,7 @@ export const i18nBinderWrapper: BinderWrapper = () => {
     const langCode = i18n.getLangcode() as string;
 
     i18n.debug('translateMePathString', translateMePathString);
+    const isHTMLString = translateMePathString.endsWith('html');
 
     const properties = translateMePathString.split('.');
 
@@ -22,7 +23,11 @@ export const i18nBinderWrapper: BinderWrapper = () => {
       i18n.get([langcode, ...properties])
       .then((local) => {
         i18n.debug('set', local);
-        $el.html(local);
+        if (isHTMLString) {
+          $el.html(local);
+        } else {
+          $el.text(local);
+        }
       });
     };
 

@@ -78,6 +78,12 @@ export class Main {
       this[key] = value;
     };
 
+    window.model.globalToggle = function(key: string, event: Event) {
+      this[key] = !!!this[key];
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
     window.model.system.shopify = (window as any).Shopify;
 
     this.view = this.tinybind.bind(JQuery('body')[0], window.model);

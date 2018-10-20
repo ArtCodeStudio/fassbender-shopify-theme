@@ -30,7 +30,7 @@ export class LocalsService {
   public locals: any = {};
   private theme: ITheme;
 
-  constructor(theme?: ITheme) {
+  constructor(theme?: ITheme, autodetectLanguage: boolean = true) {
     if (!theme) {
       theme = (window as any).Shopify.theme;
     }
@@ -43,6 +43,27 @@ export class LocalsService {
 
     if (LocalsService.instance && LocalsService.instance[this.theme.id]) {
       return LocalsService.instance[this.theme.id];
+    }
+
+    // Detect browser language and switch to this language when available
+    if (autodetectLanguage) {
+      const browserLangcode = this.getBrowserLangcode();
+      const currentLangcode = this.getLangcode();
+      if (browserLangcode !== currentLangcode) {
+        this.getAvailableLangcodes(this.theme.id)
+        .then((availableLangcodes) => {
+          let browserLangFound = false;
+          for (const availableLangcodeObj of availableLangcodes) {
+            if (availableLangcodeObj.code === browserLangcode) {
+              browserLangFound = true;
+            }
+          }
+          if (browserLangFound) {
+            this.setLangcode(browserLangcode);
+          }
+        });
+      }
+
     }
 
     LocalsService.instance[this.theme.id] = this;
@@ -94,18 +115,25 @@ export class LocalsService {
     });
   }
 
+  public getBrowserLangcode() {
+    const lang = navigator.language || (navigator as any).userLanguage;
+    const simplified = lang.split('-')[0].toLowerCase();
+    return simplified;
+  }
+
   public getLangcode() {
     return $('html').attr('lang');
   }
 
   public setLangcode(langcode: string) {
+    this.debug(`setLangcode: ${langcode}`);
     $('html').attr('lang', langcode);
     this.event.trigger('changed', langcode);
   }
 
-  public async getAvailableLangcodes() {
+  public async getAvailableLangcodes(themeID?: number) {
     const activeCode = this.getLangcode();
-    return this.get()
+    return this.get(undefined, themeID)
     .then((locals) => {
       const langcodes: ILangcode[] = [];
       Object.keys(locals).forEach((langcode) => {

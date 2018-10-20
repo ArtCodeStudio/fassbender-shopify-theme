@@ -140,13 +140,18 @@
       </nav>
     </shopify-linklist>
 
-    <a class="nav-link" rv-hide="moreMenuOpen" rv-class-active="moreMenuOpen" rv-on-click="assign | args 'moreMenuOpen' true">
-      +
-    </a>
+    <rv-i18n-switcher class="d-flex">
+      <div class="nav-item nav-link cursor-pointer text-uppercase" rv-each-langcode="langcodes" rv-text="langcode.code" rv-on-click="switch | args langcode" rv-class-active="langcode.active">
+      </div>
+    </rv-i18n-switcher>
 
-    <a class="nav-link" rv-show="moreMenuOpen" rv-class-active="moreMenuOpen" rv-on-click="assign | args 'moreMenuOpen' false">
+    <div class="nav-item nav-link more-menu-toggler cursor-pointer d-block" rv-aria-expanded="moreMenuOpen" rv-on-click="globalToggle | args 'moreMenuOpen'">
+      <span>+</span>
+    </div>
+
+    {% comment %} <a class="nav-link" rv-show="moreMenuOpen" rv-class-active="moreMenuOpen" rv-on-click="assign | args 'moreMenuOpen' false">
       -
-    </a>
+    </a> {% endcomment %}
 
     <shopify-linklist class="" rv-show="moreMenuOpen" id="toggle-menu-more" name="toggle-menu-more" vertical="true" pills="false">
       <nav class="nav" rv-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">

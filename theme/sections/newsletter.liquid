@@ -59,16 +59,16 @@
               {% comment %} Email {% endcomment %}
               <small class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" name="gdpr[2201]" value="Y" required id="{{ idPrefix }}_gdpr_2201">
-                <label class="custom-control-label" for="{{ idPrefix }}_gdpr_2201">
-                  I would like to hear from you via email
+                <label class="custom-control-label" for="{{ idPrefix }}_gdpr_2201" rv-i18n="'sections.newsletter.checkbox_email'">
+                  {{'checkbox_email'|t}}
                 </label>
               </small> 
             </fieldset>
 
             <small class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" name="privacy" value="true" required id="{{ idPrefix }}_privacy">
-              <label class="custom-control-label" for="{{ idPrefix }}_privacy">
-                By signing up I agree to the <a href="/pages/legal-area">Privacy Statement</a>.
+              <label class="custom-control-label" for="{{ idPrefix }}_privacy" rv-i18n="'sections.newsletter.checkbox_privacy_html'">
+                {{'checkbox_privacy_html'|t}}
               </label>
             </small>
           </div>
@@ -125,11 +125,15 @@
     "locales": {
       "en": {
         "title": "Discover Fassbender's World",
-        "content_html": "I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}."
+        "content_html": "I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}.",
+        "checkbox_email": "I would like to hear from you via email",
+        "checkbox_privacy_html": "By signing up I agree to the <a href=\"/pages/legal-area\">Privacy Statement</a>."
       },
       "de": {
         "title": "Entdecke Fassbenders Welt",
-        "content_html": "Ich möchte Neuigkeiten und Inspiration über Stories und Sammlungen erhalten. <br> Ich bin {{name}} und meine E-Mail lautet {{email}}."
+        "content_html": "Ich möchte Neuigkeiten und Inspiration über Stories und Sammlungen erhalten. <br> Ich bin {{name}} und meine E-Mail lautet {{email}}.",
+        "checkbox_email": "Ja, ich möchte von euch per E-Mail informiert werden",
+        "checkbox_privacy_html": "Durch die Anmeldung akzeptiere ich eure <a href=\"/pages/legal-area\">Datenschutzerklärung</a>."
       }
     }
   }
