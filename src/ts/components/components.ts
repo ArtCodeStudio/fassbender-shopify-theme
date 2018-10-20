@@ -3,6 +3,7 @@ export { ContactFormComponent } from './contact-form/contact-form.component';
 export { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
 export { DebugBarComponent } from './debug-bar/debug-bar.component';
 export { IconComponent } from './icon/icon.component';
+export { I18nComponent } from './i18n/i18n/i18n.component';
 export { I18nSwitcherComponent } from './i18n/switcher/switcher.component';
 export { InstagramComponent } from './instagram/instagram.component';
 export { InstagramScrollbarComponent } from './instagram-scrollbar/instagram-scrollbar.component';

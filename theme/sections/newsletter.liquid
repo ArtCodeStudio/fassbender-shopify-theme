@@ -5,7 +5,8 @@
   <span
     class="text-primary"
     contenteditable="true"
-    rv-value="form.fields.name | default 'Name'"
+    rv-value="form.fields.name | default '{{'input_name_label'|t}}'"
+    rv-i18n-value="'sections.newsletter.input_name_label'"
     rv-on-focus="selectAll"
     autocorrect="off"
     autocapitalize="off"
@@ -18,7 +19,8 @@
   <span
     class="text-primary"
     contenteditable="true"
-    rv-value="form.fields.email | default 'E-Mail'"
+    rv-value="form.fields.email | default '{{'input_mail_label'|t}}'"
+    rv-i18n-value="'sections.newsletter.input_mail_label'"
     rv-on-focus="selectAll"
     autocorrect="off"
     autocapitalize="off"
@@ -40,16 +42,28 @@
         novalidate
       >
 
-        <h1 class="h6" rv-i18n="'sections.newsletter.title'">{{ 'title' | t }}</h1>
-        <p>{{ 'content_html' | t: name: name, email: email }}</p>
+        <h1 class="h6" rv-i18n-text="'sections.newsletter.title'">{{ 'title' | t }}</h1>
+        <p>
+          <rv-i18n path="sections.newsletter.content_html">
+            <span>
+              {{ 'content_html' | t: name: name, email: email }}
+            </span>
+            <template name="name">
+              {{name}}
+            </template>
+            <template name="email">
+              {{email}}
+            </template>
+          </rv-i18n>
+        </p>
 
         {% comment %} real people should not fill this in and expect good things - do not remove this or risk form bot signups {% endcomment %}
         <input type="hidden" name="b_11ae6ea303b6ef3f1e7d5c7c6_65d09922c7" tabindex="-1" value="">
 
-        <label class="sr-only" for="mce-EMAIL">Name*</label>
+        <label class="sr-only" for="mce-EMAIL">{{'input_mail_label'|t}}*</label>
         <input hidden type="email" rv-value="form.fields.email" name="EMAIL" required id="{{ idPrefix }}_mce-EMAIL">
 
-        <label class="sr-only" for="mce-NAME">Name*</label>
+        <label class="sr-only" for="mce-NAME">{{'input_name_label'|t}}*</label>
         <input hidden type="text" rv-value="form.fields.name" name="NAME" required id="{{ idPrefix }}_mce-NAME">
 
         <div class="row text-left my-3">
@@ -59,7 +73,7 @@
               {% comment %} Email {% endcomment %}
               <small class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" name="gdpr[2201]" value="Y" required id="{{ idPrefix }}_gdpr_2201">
-                <label class="custom-control-label" for="{{ idPrefix }}_gdpr_2201" rv-i18n="'sections.newsletter.checkbox_email'">
+                <label class="custom-control-label" for="{{ idPrefix }}_gdpr_2201" rv-i18n-text="'sections.newsletter.checkbox_email'">
                   {{'checkbox_email'|t}}
                 </label>
               </small> 
@@ -67,18 +81,18 @@
 
             <small class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" name="privacy" value="true" required id="{{ idPrefix }}_privacy">
-              <label class="custom-control-label" for="{{ idPrefix }}_privacy" rv-i18n="'sections.newsletter.checkbox_privacy_html'">
+              <label class="custom-control-label" for="{{ idPrefix }}_privacy" rv-i18n-html="'sections.newsletter.checkbox_privacy_html'">
                 {{'checkbox_privacy_html'|t}}
               </label>
             </small>
           </div>
         </div>
 
-        <p rv-hide="form.valid" class="text-danger small">
-          Please check your entry.
+        <p rv-hide="form.valid" class="text-danger small" rv-i18n-text="'sections.newsletter.form_invalid'">
+          {{'form_invalid'|t}}
         </p>
 
-        <input class="btn btn-link" type="submit" value="Subscribe" name="subscribe" class="button" rv-on-click="subscribe">
+        <input class="btn btn-link" type="submit" value="{{'button_subscribe_label'|t}}" rv-i18n-value="'sections.newsletter.button_subscribe_label'" name="subscribe" class="button" rv-on-click="subscribe">
       </form>
     </div>
   </rv-newsletter>
@@ -126,14 +140,22 @@
       "en": {
         "title": "Discover Fassbender's World",
         "content_html": "I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}.",
-        "checkbox_email": "I would like to hear from you via email",
-        "checkbox_privacy_html": "By signing up I agree to the <a href=\"/pages/legal-area\">Privacy Statement</a>."
+        "checkbox_email": "I would like to hear from you via email.",
+        "checkbox_privacy_html": "By signing up I agree to the <a href=\"/pages/legal-area\">Privacy Statement</a>.",
+        "form_invalid": "Please check your entry.",
+        "button_subscribe_label": "Subscribe",
+        "input_name_label": "Name",
+        "input_mail_label": "Mail"
       },
       "de": {
         "title": "Entdecke Fassbenders Welt",
         "content_html": "Ich möchte Neuigkeiten und Inspiration über Stories und Sammlungen erhalten. <br> Ich bin {{name}} und meine E-Mail lautet {{email}}.",
-        "checkbox_email": "Ja, ich möchte von euch per E-Mail informiert werden",
-        "checkbox_privacy_html": "Durch die Anmeldung akzeptiere ich eure <a href=\"/pages/legal-area\">Datenschutzerklärung</a>."
+        "checkbox_email": "Ja, ich möchte von euch per E-Mail informiert werden.",
+        "checkbox_privacy_html": "Durch die Anmeldung akzeptiere ich eure <a href=\"/pages/legal-area\">Datenschutzerklärung</a>.",
+        "form_invalid": "Bitte überprüfe deine Eingabe.",
+        "button_subscribe_label": "Senden",
+        "input_name_label": "Name",
+        "input_mail_label": "E-Mail"
       }
     }
   }
