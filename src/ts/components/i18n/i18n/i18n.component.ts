@@ -9,7 +9,7 @@ interface IScope {
   translate: I18nComponent['translate'];
   path?: string;
   vars: {
-    [name: string]: any;
+    [name: string]: string;
   };
 }
 
@@ -50,13 +50,14 @@ export class I18nComponent extends RibaComponent {
     this.localsService.get([langcode, ...properties])
     .then((local) => {
       this.debug('translate', local);
+      local = this.setTranslateStringVars(local);
       this.$el.html(local);
     });
   }
 
   protected async beforeBind() {
     this.debug('beforeBind');
-    this.parseTemplate();
+    this.parseTemplateVars();
     return this.localsService.event.on('changed', (langcode: string) => {
       this.translate(langcode);
     });
@@ -72,18 +73,16 @@ export class I18nComponent extends RibaComponent {
     return ['path'];
   }
 
+  protected setTranslateStringVars(translateString: string) {
+    return this.localsService.setTranslateStringVars(translateString, this.scope.vars);
+  }
+
   /**
    * Parse templates wich can be used to set variables on language strings
    */
-  protected parseTemplate() {
-    const templates = this.$el.find('template');
-    templates.each((i, template) => {
-      const name = template.getAttribute('name');
-      if (name !== null) {
-        this.scope.vars[name] = template.innerHTML.trim();
-      }
-    });
-    this.debug('vars', this.scope.vars);
+  protected parseTemplateVars() {
+    this.scope.vars = this.localsService.parseTemplateVars(this.$el);
+    return this.scope.vars;
   }
 
   protected template() {

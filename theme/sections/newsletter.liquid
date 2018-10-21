@@ -43,18 +43,16 @@
       >
 
         <h1 class="h6" rv-i18n-text="'sections.newsletter.title'">{{ 'title' | t }}</h1>
-        <p>
-          <rv-i18n path="sections.newsletter.content_html">
-            <span>
-              {{ 'content_html' | t: name: name, email: email }}
-            </span>
-            <template name="name">
-              {{name}}
-            </template>
-            <template name="email">
-              {{email}}
-            </template>
-          </rv-i18n>
+        <p rv-i18n-html="'sections.newsletter.content_html'">
+          <span>
+            {{ 'content_html' | t: name: name, email: email }}
+          </span>
+          <template name="name">
+            {{name}}
+          </template>
+          <template name="email">
+            {{email}}
+          </template>
         </p>
 
         {% comment %} real people should not fill this in and expect good things - do not remove this or risk form bot signups {% endcomment %}

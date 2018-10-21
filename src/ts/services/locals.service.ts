@@ -146,4 +146,38 @@ export class LocalsService {
     });
   }
 
+  /**
+   * Parse templates wich can be used to set variables on language strings
+   */
+  public parseTemplateVars($el: JQuery<HTMLElement>) {
+    const templates = $el.find('template');
+    const vars: {[name: string]: string } = {};
+    templates.each((i, template) => {
+      const name: string | null = template.getAttribute('name');
+      if (name !== null) {
+        vars[name] = template.innerHTML.trim();
+      }
+    });
+    this.debug('vars', vars);
+    return vars;
+  }
+
+  /**
+   * Replace variables on translated string
+   * @param translateString
+   * @param vars
+   */
+  public setTranslateStringVars(translateString: string, vars: {[name: string]: string }) {
+    const matches = translateString.match(/{{\s*?[A-Za-z]+\s*?}}/gm);
+    this.debug('parseTranslateString', matches);
+    if (matches) {
+      for (const match of matches) {
+        const varName = match.replace(/{{\s*|\s*}}/gm, '');
+        this.debug('varName', varName);
+        translateString = translateString.replace(match, vars[varName]);
+      }
+    }
+    return translateString;
+  }
+
 }
