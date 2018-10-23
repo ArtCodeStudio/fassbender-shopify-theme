@@ -4,9 +4,10 @@
 {% capture name %}
   <span
     class="text-primary"
+    name="name"
     contenteditable="true"
-    rv-value="form.fields.name | default '{{'input_name_label'|t}}'"
-    rv-i18n-value="'sections.newsletter.input_name_label'"
+    {% comment %} Translation is setted on NewsletterComponent {% endcomment %}
+    rv-value="form.fields.name"
     rv-on-focus="selectAll"
     autocorrect="off"
     autocapitalize="off"
@@ -18,9 +19,10 @@
 {% capture email %}
   <span
     class="text-primary"
+    name="email"
     contenteditable="true"
-    rv-value="form.fields.email | default '{{'input_mail_label'|t}}'"
-    rv-i18n-value="'sections.newsletter.input_mail_label'"
+    {% comment %} Translation is setted on NewsletterComponent {% endcomment %}
+    rv-value="form.fields.email"
     rv-on-focus="selectAll"
     autocorrect="off"
     autocapitalize="off"
@@ -58,10 +60,10 @@
         {% comment %} real people should not fill this in and expect good things - do not remove this or risk form bot signups {% endcomment %}
         <input type="hidden" name="b_11ae6ea303b6ef3f1e7d5c7c6_65d09922c7" tabindex="-1" value="">
 
-        <label class="sr-only" for="mce-EMAIL">{{'input_mail_label'|t}}*</label>
+        <label class="sr-only" for="mce-EMAIL" rv-i18n-text="'sections.newsletter.input_mail_label'">{{'input_mail_label'|t}}*</label>
         <input hidden type="email" rv-value="form.fields.email" name="EMAIL" required id="{{ idPrefix }}_mce-EMAIL">
 
-        <label class="sr-only" for="mce-NAME">{{'input_name_label'|t}}*</label>
+        <label class="sr-only" for="mce-NAME" rv-i18n-text="'sections.newsletter.input_name_label'">{{'input_name_label'|t}}*</label>
         <input hidden type="text" rv-value="form.fields.name" name="NAME" required id="{{ idPrefix }}_mce-NAME">
 
         <div class="row text-left my-3">
@@ -151,7 +153,7 @@
         "checkbox_email": "Ja, ich möchte von euch per E-Mail informiert werden.",
         "checkbox_privacy_html": "Durch die Anmeldung akzeptiere ich eure <a href=\"/pages/legal-area\">Datenschutzerklärung</a>.",
         "form_invalid": "Bitte überprüfe deine Eingabe.",
-        "button_subscribe_label": "Senden",
+        "button_subscribe_label": "Abonnieren",
         "input_name_label": "Name",
         "input_mail_label": "E-Mail"
       }

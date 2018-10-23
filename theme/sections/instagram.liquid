@@ -1,4 +1,8 @@
-<rv-instagram instagram-id="{{section.settings.instagram_id}}" open-links="{{section.settings.open-links}}" limit="{{section.settings.limit}}">
+<rv-instagram
+  instagram-id="{{section.settings.instagram_id}}"
+  open-links="{{section.settings.open-links}}"
+  limit="{{section.settings.limit}}"
+  >
   <div class="row">
     <div class="col-12 col-sm-4 px-0 content-box ratio-1-1" rv-each-image="media.data" rv-class="image.media_type" rv-data-url="image.permalink" rv-on-tap="onTap">
       {% comment %} IMAGE {% endcomment %}
@@ -10,7 +14,7 @@
       {% comment %} VIDEO {% endcomment %}
       <video class="content" rv-if="image.media_type | eq 'VIDEO'" autoplay muted loop preload>
         <source rv-src="image.media_url" type="video/mp4">
-      Your browser does not support the video tag.
+        Your browser does not support the video tag.
       </video>
 
       {% comment %} hover info {% endcomment %}

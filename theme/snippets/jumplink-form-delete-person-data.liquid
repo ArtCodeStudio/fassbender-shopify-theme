@@ -1,27 +1,27 @@
-<rv-contact-form>
+<rv-delete-data-form>
 
   {% assign idPrefix="deleteAllMyData" %}
 
   {% capture firstName %}
-    <input type="text" class="form-control form-control-text form-control-primary" name="contact[firstName]" rv-value="form.firstName" placeholder="First name*" required rv-class-is-invalid="validation.rules.firstName.error | filled">
+    <input type="text" class="form-control form-control-text form-control-primary" name="contact[firstName]" rv-value="form.firstName" rv-i18n-placeholder="'forms.privacy_settings.first_name'" placeholder="{{'forms.privacy_settings.first_name'|t}}" required rv-class-is-invalid="validation.rules.firstName.error | filled">
     <div class="invalid-feedback" rv-html="validation.rules.firstName.error"></div>
   {% endcapture %}
 
   {% capture lastName %}
-    <input type="text" class="form-control form-control-text form-control-primary" name="contact[lastName]" rv-value="form.lastName" placeholder="Last name*" required rv-class-is-invalid="validation.rules.lastName.error | filled">
+    <input type="text" class="form-control form-control-text form-control-primary" name="contact[lastName]" rv-value="form.lastName" rv-i18n-placeholder="'forms.privacy_settings.last_name'" placeholder="{{'forms.privacy_settings.last_name'|t}}" required rv-class-is-invalid="validation.rules.lastName.error | filled">
     <div class="invalid-feedback" rv-html="validation.rules.lastName.error"></div>
   {% endcapture %}
 
   {% capture email %}
-    <input type="email" class="form-control form-control-text form-control-primary" name="contact[email]" rv-value="form.email" placeholder="Email*" rv-class-is-invalid="validation.rules.email.error | filled" required>
+    <input type="email" class="form-control form-control-text form-control-primary" name="contact[email]" rv-value="form.email" rv-i18n-placeholder="'forms.privacy_settings.mail'" placeholder="{{'forms.privacy_settings.mail'|t}}" rv-class-is-invalid="validation.rules.email.error | filled" required>
     <div class="invalid-feedback" rv-html="validation.rules.email.error"></div>
   {% endcapture %}
 
   {% capture message %}
-    <textarea type="text" class="form-control form-control-text form-control-primary" name="contact[body]" rv-value="form.message" placeholder="Reason" rv-class-is-invalid="validation.rules.message.error | filled" rows="3"></textarea>
+    <textarea type="text" class="form-control form-control-text form-control-primary" name="contact[body]" rv-value="form.message" rv-i18n-placeholder="'forms.privacy_settings.reason'" placeholder="{{'forms.privacy_settings.reason'|t}}" rv-class-is-invalid="validation.rules.message.error | filled" rows="3"></textarea>
     <div class="invalid-feedback" rv-show="validation.rules.message.error | filled">
       <span rv-html="validation.rules.message.error"></span><br>
-      Characters: {form.message | size | minus validation.rules.message.minlength}
+      <span rv-i18n-text="'forms.invalid.characters'">{{'forms.invalid.characters'|t}}</span>: {form.message | size | minus validation.rules.message.minlength}
     </div>
   {% endcapture %}      
 
@@ -30,15 +30,17 @@
     <input type="hidden" name="utf8" value="✓">
     <div class="py-5">
 
-      <h2 class="h6 mb-3">Please remove my person related data</h2>
+      <h2 class="h6 mb-3" rv-i18n-text="'forms.privacy_settings.form_title'">
+        {{'forms.privacy_settings.form_title'|t}}
+      </h2>
 
-      <p>
+      <p rv-i18n-text="'forms.privacy_settings.delete'">
         {{ 'forms.privacy_settings.delete' | t }}
       </p>
 
       {% if form.posted_successfully? %}
-        <p class="text-success mb-3" role="alert" id="{{ idPrefix }}-contact-form-success">
-          Message sent successfully. Many Thanks!
+        <p class="text-success mb-3" role="alert" id="{{ idPrefix }}-contact-form-success" rv-i18n-text="'forms.privacy_settings.successfull'">
+          {{'forms.privacy_settings.successfull'|t}}
         </p>
       {% endif %}
 
@@ -48,7 +50,7 @@
 
       {% if form.errors %}
         <p class="text-danger mb-3" role="alert" id="{{ idPrefix }}-contact-form-error">
-          Message could not be sent:
+          <span rv-i18n-text="'forms.privacy_settings.error'">{{'forms.privacy_settings.error'|t}}</span>
           {% for error in form.errors %}
             {{ error }}
           {% endfor %}
@@ -56,7 +58,8 @@
       {% endif %}
 
       <p rv-show="error | filled" class="text-danger mb-3" role="alert" id="{{ idPrefix }}-contact-error">
-        Message could not be sent: { error }
+        <span rv-i18n-text="'forms.privacy_settings.error'">{{'forms.privacy_settings.error'|t}}</span>
+        { error }
       </p>
 
       {{ firstName }}
@@ -67,12 +70,16 @@
       <div class="custom-control custom-checkbox mb-1">
         <input type="checkbox" class="custom-control-input" name="contact[deleteAllMyData]" id="{{ idPrefix }}-checkbox" required>
         <label class="custom-control-label" for="{{ idPrefix }}-checkbox">
-          Yes, please remove my person related data.<br>
+          <span rv-i18n-text="'forms.privacy_settings.delete_checkbox'">{{'forms.privacy_settings.delete_checkbox'|t}}<br>
         </label>
       </div>
-      <p><small>The fields marked with * are required</small></p>
+      <p><small rv-i18n-text="'forms.required'">
+        {{'forms.required'|t}}
+      </small></p>
 
-      <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="send">Send Message</button>
+      <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="send">
+        <span rv-i18n-text="'forms.privacy_settings.send'">{{'forms.privacy_settings.send'|t}}</span>
+      </button>
     </div>
   </form>
-</rv-contact-form>
+</rv-delete-data-form>

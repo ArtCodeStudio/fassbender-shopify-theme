@@ -22,27 +22,27 @@
               {% endif %}
 
               <p class="mb-0">
-                <strong>
-                  Recover my password.
+                <strong rv-i18n-text="'forms.login.recover'">
+                  {{'forms.login.recover'|t}}
                 </strong>
               </p>
 
-              <p>
-                All we need is your email address.
+              <p rv-i18n-text="'forms.login.recover_info'">
+                {{'forms.login.recover_info'|t}}
               </p>
 
               {% include 'jumplink-form-inputs-customer-recover' %}
 
               <button class="btn btn-link w-100 p-0 text-left mb-3" rv-on-click="recoverBack">
-                <small>
-                  Back
+                <small rv-i18n-text="'forms.login.back_label'">
+                  {{'forms.login.back_label'|t}}
                 </small>
               </button>
 
               <button type="submit" class="btn btn-animated-underline-dark font-weight-bold"
                 rv-on-click="recover"
               >
-                Recover
+                <span rv-i18n-text="'forms.login.recover_label'">{{'forms.login.recover_label'|t}}</span>
               </button>
 
             {% endform %}
@@ -61,20 +61,20 @@
               {% endif %}
 
               <p class="mb-0">
-                <strong>
-                  I'm already a customer.
+                <strong rv-i18n-text="'forms.login.title'">
+                  {{'forms.login.title'|t}}
                 </strong>
               </p>
 
-              <p>
-                Log in with your Login-Data.
+              <p rv-i18n-text="'forms.login.subtitle'">
+                {{'forms.login.subtitle'|t}}
               </p>
 
               {% include 'jumplink-form-inputs-customer-login' %}
 
               <button class="btn btn-link w-100 p-0 text-left mb-3" rv-on-click="recover">
-                <small>
-                  Forget your password?
+                <small rv-i18n-text="'forms.login.recover_title'">
+                  {{'forms.login.recover_title'|t}}
                 </small>
               </button>
 
@@ -82,7 +82,7 @@
               <button type="submit" class="btn btn-animated-underline-dark font-weight-bold"
                 rv-on-click="login"
               >
-                Login
+                <span rv-i18n-text="'forms.login.login'">{{'forms.login.login'|t}}</span>
               </button>
 
             {% endform %}
@@ -101,8 +101,8 @@
               {% endif %}
 
               <p class="mb-0">
-                <strong>
-                  I'm new here.
+                <strong rv-i18n-text="'forms.login.regist_title'">
+                  {{'forms.login.regist_title'|t}}
                 </strong>
               </p>
 
@@ -110,8 +110,9 @@
 
               <button type="submit" class="btn btn-animated-underline-dark font-weight-bold"
                 rv-on-click="create"
+                rv-i18n-text="'forms.login.regist_label'"
               >
-                Register
+                {{'forms.login.regist_label'|t}}
               </button>
 
             {% endform %}

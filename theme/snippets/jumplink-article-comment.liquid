@@ -5,6 +5,6 @@
     {{ comment.content }}
   </span>
   {% if comment.status == 'unapproved' %}
-    <span class="text-warning">{{ 'blogs.comments.unapproved' | t }}</span>
+    <span class="text-warning" rv-i18n-text="'blogs.comments.unapproved'">{{ 'blogs.comments.unapproved' | t }}</span>
   {% endif %}
 </li>

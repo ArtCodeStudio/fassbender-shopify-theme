@@ -23,7 +23,7 @@
         </div>
       </div>
       <p class="my-1">
-        Quantity <span rv-text="item.quantity"></span>
+        <span rv-i18n-text="'cart.quantity'">{{'cart.quantity'|t}}</span> <span rv-text="item.quantity"></span>
         <span class="px-1 text-muted" rv-on-click="decrease | args item %item%">-</span>
         <span class="px-1 text-muted" rv-on-click="increase | args item %item%">+</span>
       </p>

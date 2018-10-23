@@ -5,6 +5,7 @@
   <label class="sr-only" for="AddressFirstName{{ idAffix }}">{{ 'customer.addresses.first_name' | t }}</label>
   <input type="text" id="AddressFirstName{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[first_name]" value="{{ form.first_name }}" autocapitalize="words"
     placeholder="{{ 'customer.addresses.first_name' | t }}"
+    rv-i18n-placeholder="'customer.addresses.first_name'"
     autocomplete='shipping given-name'
   >
 </div>
@@ -13,6 +14,7 @@
   <label class="sr-only" for="AddressLastName{{ idAffix }}">{{ 'customer.addresses.last_name' | t }}</label>
   <input type="text" id="AddressLastName{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[last_name]" value="{{ form.last_name }}" autocapitalize="words"
     placeholder="{{ 'customer.addresses.last_name' | t }}"
+    rv-i18n-placeholder="'customer.addresses.last_name'"
     autocomplete='shipping family-name'
   >
 </div>
@@ -21,6 +23,7 @@
   <label class="sr-only" for="AddressCompany{{ idAffix }}">{{ 'customer.addresses.company' | t }}</label>
   <input type="text" id="AddressCompany{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[company]" value="{{ form.company }}" autocapitalize="words"
     placeholder="{{ 'customer.addresses.company' | t }}"
+    rv-i18n-placeholder="'customer.addresses.company'"
     autocomplete='shipping organization'
   >
 </div>
@@ -29,6 +32,7 @@
   <label class="sr-only" for="AddressAddress1{{ idAffix }}">{{ 'customer.addresses.address1' | t }}</label>
   <input type="text" id="AddressAddress1{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[address1]" value="{{ form.address1 }}" autocapitalize="words"
     placeholder="{{ 'customer.addresses.address1' | t }}"
+    rv-i18n-placeholder="'customer.addresses.address1'"
     autocomplete="shipping address-line1"
   >
 </div>
@@ -37,6 +41,7 @@
   <label class="sr-only" for="AddressAddress2{{ idAffix }}">{{ 'customer.addresses.address2' | t }}</label>
   <input type="text" id="AddressAddress2{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[address2]" value="{{ form.address2 }}" autocapitalize="words"
     placeholder="{{ 'customer.addresses.address2' | t }}"
+    rv-i18n-placeholder="'customer.addresses.address2'"
     autocomplete="shipping address-line3"
   >
 </div>
@@ -53,6 +58,7 @@
   <label class="sr-only" for="AddressCity{{ idAffix }}">{{ 'customer.addresses.city' | t }}</label>
   <input type="text" id="AddressCity{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[city]" value="{{ form.city }}" autocapitalize="words"
     placeholder="{{ 'customer.addresses.city' | t }}"
+    rv-i18n-placeholder="'customer.addresses.city'"
     autocomplete='shipping address-level2'
   >
 </div>
@@ -60,6 +66,8 @@
 <div class="form-group mb-0">
   <label class="sr-only" for="AddressCountry{{ idAffix }}">{{ 'customer.addresses.country' | t }}</label>
   <select id="AddressCountry{{ idAffix }}" class="custom-select custom-select-primary custom-select-text" name="address[country]" data-default="{{ form.country }}"
+    placeholder="{{ 'customer.addresses.country' | t }}"
+    rv-i18n-placeholder="'customer.addresses.country'"
     autocomplete='shipping country'
   >{{ country_option_tags }}</select>
 </div>
@@ -68,6 +76,8 @@
 <div id="AddressProvinceContainer{{ idAffix }}" style="display:none">
   <label class="sr-only" for="AddressProvince{{ idAffix }}">{{ 'customer.addresses.province' | t }}</label>
   <select id="AddressProvince{{ idAffix }}" class="custom-select" name="address[province]" data-default="{{ form.province }}"
+    placeholder="{{'customer.addresses.province'|t}}"
+    rv-i18n-placeholder="'customer.addresses.province'"
     autocomplete='shipping province'
   ></select>
 </div>
@@ -76,11 +86,15 @@
   <label class="sr-only" for="AddressPhone{{ idAffix }}">{{ 'customer.addresses.phone' | t }}</label>
   <input type="tel" id="AddressPhone{{ idAffix }}" class="form-control form-control-text form-control-primary" name="address[phone]" value="{{ form.phone }}"
     placeholder="{{ 'customer.addresses.phone' | t }}"
+    rv-i18n-placeholder="'customer.addresses.phone'"
     autocomplete="shipping tel"
   >
 </div>
 
 <small class="custom-control custom-checkbox mb-3">
   <input class="custom-control-input" type="checkbox" id="address_default_address{{ idAffix }}" name="address[default]" value="1" {% if isDefault %}checked{% endif %}>
-  <label for="address_default_address{{ idAffix }}" class="custom-control-label">{{ 'customer.addresses.set_default' | t }}</label>
+  <label for="address_default_address{{ idAffix }}" class="custom-control-label"
+    rv-i18n-text="'customer.addresses.set_default'" >
+    {{'customer.addresses.set_default'|t}}
+  </label>
 </small>

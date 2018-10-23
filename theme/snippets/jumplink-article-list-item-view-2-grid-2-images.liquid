@@ -63,7 +63,9 @@
         <div class="col px-0 content-box {{contentBoxClass}}">
           <video class="{{imageClass}}" preload="auto" controls style="padding: {{spacing}}px">
             <source src="{{ video }}" type="video/mp4">
-            Your browser does not support the video tag or mp4.
+            <span rv-i18n-text="'system.video_tag_not_supported'">
+              {{'system.video_tag_not_supported'|t}}
+            </span>
           </video>
           {% comment %} title for medium and heigher {% endcomment %}
           {% if article.title and forloop.index0 == title_under_image %}

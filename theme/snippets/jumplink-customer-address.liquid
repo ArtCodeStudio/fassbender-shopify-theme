@@ -1,4 +1,4 @@
-<strong class="mb-3">Default address</strong>
+<strong class="mb-3" rv-i18n-text="'customer.addresses.default_address'">{{'customer.addresses.default_address'|t}}</strong>
 
 {% if address %}
   <p class="mb-0">
@@ -20,15 +20,15 @@
 
   <p class="mt-3">
     <a rv-route="'/account/addresses'" href="/account/addresses">
-      <small>{{ 'customer.addresses.edit' | t }}</small>
+      <small rv-i18n-text="'customer.addresses.edit'">{{ 'customer.addresses.edit' | t }}</small>
     </a>
   </p>
 {% else %} 
-  <p>No default address yet</p>
+  <p rv-i18n-text="'customer.addresses.no_default'">{{'customer.addresses.no_default'|t}}</p>
 
   <p class="mt-3">
     <a rv-route="'/account/addresses'" href="/account/addresses">
-      <small>{{ 'customer.addresses.add' | t }}</small>
+      <small rv-i18n-text="'customer.addresses.add'">{{ 'customer.addresses.add' | t }}</small>
     </a>
   </p>
 {% endif %}

@@ -9,11 +9,12 @@
         <div class="row">
           <div class="col-12 order-2">
             <p>
-              <strong>Billing and shipping addresses</strong>
+              <strong rv-i18n-text="'customer.addresses.title'">{{'customer.addresses.title'|t}}</strong>
             </p>
-            {% if customerAddressesSize <= 0 %}
-              <p>No address yet</p>
-            {% endif %}
+            <p rv-i18n-text="'customer.addresses.addresses'">
+              {{'customer.addresses.addresses'|t: count: customerAddressesSize}}
+              <template name="count">{{customerAddressesSize}}</template>
+            </p>
             {% comment %}
               List all customer addresses with a unique edit form.
               Also add pagination in case they have a large number of addresses
@@ -36,15 +37,15 @@
                   {% include 'jumplink-form-inputs-customer-address', idAffix: address.id, address: address, isDefault: isDefaultAddress %}
                   <p class="mt-3">
                     <button type="submit" class="btn btn-link p-0" rv-on-click="edit  | args '{{ address.id }}'">
-                      <small>
-                        {{ 'customer.addresses.update' | t }}
+                      <small rv-i18n-text="'customer.addresses.update'">
+                        {{'customer.addresses.update'|t}}
                       </small>
                     </button>
                   </p>
                   <p>
                     <button type="button" class="btn btn-link p-0" rv-on-click="delete | args '{{ address.id }}'">
-                      <small>
-                        {{ 'customer.addresses.delete' | t }}
+                      <small rv-i18n-text="'customer.addresses.delete'">
+                        {{'customer.addresses.delete'|t}}
                       </small>
                     </button>
                   </p>
@@ -67,13 +68,13 @@
                     {% assign formSuccessfully = 'Address added successfully' %}
                   {% endif %}
                 <p>
-                  <strong>Add new address</strong>
+                  <strong rv-i18n-text="'customer.addresses.add_label'">{{ 'customer.addresses.add_label'|t}}</strong>
                 </p>
                 {% include 'jumplink-form-inputs-customer-address', idAffix: 'New', address: customer.new_address %}
                 <p>
                   <button type="submit" class="btn btn-link p-0" rv-on-click="create">
-                    <small>
-                      {{ 'customer.addresses.add' | t }}
+                    <small rv-i18n-text="'customer.addresses.add'">
+                      {{'customer.addresses.add'|t}}
                     </small>
                   </button>
                 </p>

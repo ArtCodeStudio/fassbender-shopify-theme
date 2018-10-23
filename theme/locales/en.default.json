@@ -7,14 +7,56 @@
   "date_formats": {
     "month_day_year": "%B %d, %Y"
   },
+  "system": {
+    "video_tag_not_supported": "Your browser does not support the video tag or mp4."
+  },
   "snippets": {
     "jumplink-pagination": {
       "load_more": "Load more"
+    },
+    "footer": {
+      "home":"FASSBENDER",
+      "copyright": "2018 FASSBENDER. All rights reserved",
+      "crafter_html": "The Art+Code Studio accepts that every client is unique, each project requires a different approach and that all projects need to be launched with an open mind. In order for us to do collaborate closely with our clients to discover the potential and erect a creative and beautiful solutions. Just drop us an email <a href=\"mailto:hi@artandcode.studio\">hi@artandcode.studio</a>"
+    },
+    "navigation": {
+      "teaser_text": "Welcome to the online home of covering trends, fashion inspiration and high end ready to wear pieces."
     }
+  },
+  "menus": {
+    "signup": "Sign Up",
+    "instagram": "Instagram",
+    "account": "Account",
+    "contact": "Contact",
+    "crafter": "Crafted by Art+Code Studio",
+    "legal-area": "Legal Area",
+    "stories": "Stories",
+    "store": "Store",
+    "about": "About",
+    "fassbender": "#Fassbender",
+    "customer-care": "Customer Care",
+    "newsletter": "Newsletter",
+    "legal-disclosure": "Legal Disclosure",
+    "returns": "Returns",
+    "revoke-form": "Revoke Form",
+    "privacy-settings": "Privacy Settings",
+    "privacy-policy": "Privacy Policy",
+    "terms-and-conditions": "Terms And Conditions",
+    "cookies": "Cookies",
+    "contact-us": "Contact Us",
+    "cart": "Shopping Bag",
+    "shopping-bag": "Shopping Bag",
+    "my-account": "My Account",
+    "addresses": "Addresses",
+    "all": "All",
+    "blog": "Stories",
+    "vlog": "Vlog"
+  },
+  "products": {
   },
   "customer": {
     "addresses": {
-      "title": "Your Addresses",
+      "title": "Your billing and shipping addresses",
       "default": "Default address",
       "add_new": "Add a New Address",
       "first_name": "First Name",
@@ -31,7 +73,15 @@
       "add": "Add",
       "edit": "Edit",
       "update": "Update",
-      "delete": "Delete"
+      "delete": "Delete",
+      "no_default": "No default address yet",
+      "default_address": "Default address",
+      "add_label": "Add new address",
+      "addresses": {
+        "zero": "No address yet",
+        "one": "{{count}} address",
+        "other": "{{count}} addresses"
+      }
     },
     "reset_password": {
       "title": "Reset account password",
@@ -47,28 +97,129 @@
       "password_confirm": "Confirm Password",
       "submit": "Activate Account",
       "cancel": "Decline Invitation"
+    },
+    "order": {
+      "cancelled_reason_html": "Status <a target=\"_blank\" href=\"{{ order_status_url }}\">cancelled</a>. Reason: {{cancel_reason}}",
+      "financial_status_html": " Status <a target=\"_blank\" href=\"{{ order_status_url }}\">{{ financial_status }}</a>",
+      "reasons": {
+        "other": "Other",
+        "items-unavailable": "Items unavailable",
+        "fraudulent-order": "Fraudulent order",
+        "customer-changed-cancelled-order": "Customer changed or cancelled order"
+      },
+      "financial_status": {
+        "pending": "Pending",
+        "authorized": "Authorized",
+        "paid": "Paid",
+        "partially_paid": "Partially_paid",
+        "refunded": "Refunded",
+        "partially_refunded": "Partially_refunded",
+        "voided": "Voided"
+      },
+      "created_at": "Created at",
+      "quantity_html": "Quantity <span>{{count}}</span>",
+      "items": "{{count}} Items",
+      "total": "Total",
+      "title": "Orders",
+      "subtitle": "Here you will find the details of your orders.",
+      "no_order": "You have not made any orders yet."
     }
   },
   "legals": {
     "privacy_policy": {
-      "checkbox_label_html": "By signing up I agree to the <a href=\"\/pages\/legal-area\">Privacy Statement<\/a>",
+      "checkbox_label_html": "By sending I agree to the <a href=\"\/pages\/legal-area\">Privacy Statement<\/a>.",
       "checkbox_contact_label_html": "Yes, I authorise the processing of my personal data according to the <a href=\"\/pages\/it-recht-datenschutz\">Privacy Policy<\/a>."
+    },
+    "privacy": {
+      "tracking_title": "Disable tracking services",
+      "cookies_label_html": "Allow the use of cookies<br><small>Sorry you can 't disable cookies because they are necessary to make the shop work</small>",
+      "shopify_tracking_label_html": "Allow internal tracking by our shopsytem<br><small>Sorry you can 't disable the tracking by our shopsytem</small>",
+      "google_analytics_label_html": "Allow tracking with <a href=\"https://analytics.google.com/\">Google Analytics</a>",
+      "ttd_label_html": "Allow tracking with <a href=\"https://www.thetradedesk.com/\">The Trade Desk</a>",
+      "facebook_pixel_label_html": "Allow tracking with <a href=\"https://www.facebook.com/business/help/742478679120153\">Facebook Pixel</a>",
+      "note_html": "Please reload this site after you have disabled any tracking service.<br>Please note that these settings are saved with cookies, if you delete your cookies these settings will be lost.",
+      "clear_title_html": "Clear your session data",
+      "clear_html": "You can clear your session data, this will log you out, clear your shopping cart and removes client site cookies if possible.",
+      "clear_button_label": "Clear session"
     }
   },
   "forms": {
     "required": "The fields marked with * are required",
+    "invalid": {
+      "name": "Please check your name",
+      "mail": "Please check your mail",
+      "message": "Please check your message",
+      "characters": "Characters",
+      "any": "Please check your entry"
+    },
     "returns": {
       "revoke": "If you want to revoke an order, then please fill in this formular.",
       "revoke-checkbox": "I revoke my contract for the purchase of the following products",
-      "send": "Send Revoke Form"
+      "send": "Send Revoke Form",
+      "first_name": "First name*",
+      "last_name": "Last name*",
+      "mail": "Email*",
+      "products": "Products",
+      "successfull": "Revoke Form sent successfully. Many Thanks!",
+      "error": "Revoke Form could not be sent"
     },
     "privacy_settings": {
-      "delete": "You have the right to delete all data from you. Fill out the form if you wish"
+      "delete": "You have the right to delete all data from you. Fill out the form if you wish",
+      "first_name": "First name*",
+      "last_name": "Last name*",
+      "mail": "Email*",
+      "reason": "Reason",
+      "form_title": "Please remove my person related data",
+      "successfull": "Message sent successfully. Many Thanks!",
+      "error": "Message could not be sent",
+      "delete_checkbox": "Yes, please remove my person related data.",
+      "send": "Send application"
+    },
+    "contact": {
+      "first_name": "First Name*",
+      "last_name": "Last Name*",
+      "phone": "Phone",
+      "mail": "Mail*",
+      "message": "Message",
+      "title": "Any questions? Feel free to contact us.",
+      "body_html": "Send us a message to <a href=\"mailto:{{mail}}\">{{mail}}</a> or call us <a href=\"tel:{{phone}}\">{{phone}}</a>.<br> <small>monday - friday 10.00 - 18.00</small>",
+      "successfull": "Message sent successfully. Many Thanks!",
+      "error": "Message could not be sent",
+      "form_title": "Message Us",
+      "send": "Send Message"
+    },
+    "regist": {
+      "private_label": "Privat Customer",
+      "company_label": "Company",
+      "first_name": "First name*",
+      "last_name": "Last name*",
+      "mail": "Email*",
+      "phone": "Phone*",
+      "password": "Password*"
+    },
+    "login": {
+      "mail": "Email",
+      "password": "Password",
+      "recover": "Recover my password.",
+      "recover_into": "All we need is your email address.",
+      "back_label": "Back",
+      "recover_label": "Recover",
+      "title": "I'm already a customer.",
+      "subtitle": "Log in with your Login-Data.",
+      "recover_title": "Forget your password?",
+      "login": "Login",
+      "regist_title": "I'm new here.",
+      "regist_label": "Register"
     }
   },
   "blogs": {
+    "article": {
+      "by": "by {{first_name}} {{last_name}}",
+      "view": "View Article"
+    },
     "comments": {
-      "title": "Any thoughts? Feel free to share and comment.",
+      "title": "Comments on {{title}}",
+      "title_form": "Any thoughts? Feel free to share and comment.",
       "name": "Name*",
       "email": "Email*",
       "message": "Comment*",
@@ -78,10 +229,31 @@
       "success": "Your comment was posted successfully! Thank you!",
       "unapproved": "(unapproved)",
       "with_count": {
+        "zero": "No comments yet",
         "one": "{{ count }} Comment",
         "other": "{{ count }} Comments"
       }
     }
+  },
+  "cart": {
+    "hi": "Hi {{name}}",
+    "logout": "Logout",
+    "my_account": "My Account",
+    "register": "register",
+    "recover": "recover",
+    "forgot_password": "Forgot Password?",
+    "login": "Login",
+    "estimated_shipping": "Estimated Shipping",
+    "items": {
+      "zero": "No Items yet",
+      "one": "{{count}} Item",
+      "other": "{{count}} Items"
+    },
+    "info_html": "Free Shipping<br><small>to all countries in th EU</small>",
+    "buy": "Buy",
+    "view": "View Shopping Bag",
+    "quantity": "Quantity",
+    "continue": "Continue Shopping"
   },
   "shopify": {
     "checkout": {

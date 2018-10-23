@@ -1,51 +1,51 @@
 <rv-contact-form>
   {% capture firstName %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="form.firstName | default 'First Name*'" rv-on-focus="selectAll"></p>
+    <p class="text-primary mb-1" contenteditable="true" rv-value="form.firstName" rv-on-focus="selectAll"></p>
     <input type="hidden" class="form-control" name="contact[firstName]" rv-value="form.firstName" required rv-class-is-invalid="validation.rules.firstName.error | filled">
     <div class="invalid-feedback" rv-html="validation.rules.firstName.error"></div>
   {% endcapture %}
 
   {% capture lastName %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="form.lastName | default 'Last Name*'" rv-on-focus="selectAll"></p>
+    <p class="text-primary mb-1" contenteditable="true" rv-value="form.lastName" rv-on-focus="selectAll"></p>
     <input type="hidden" class="form-control" name="contact[lastName]" rv-value="form.lastName" required rv-class-is-invalid="validation.rules.lastName.error | filled">
     <div class="invalid-feedback" rv-html="validation.rules.lastName.error"></div>
   {% endcapture %}
 
   {% capture phone %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="form.phone | default 'Phone'" rv-on-focus="selectAll"></p>
+    <p class="text-primary mb-1" contenteditable="true" rv-value="form.phone" rv-on-focus="selectAll"></p>
     <input type="hidden" class="form-control" name="contact[phone]" rv-value="form.phone" rv-class-is-invalid="validation.rules.phone.error | filled">
     <div class="invalid-feedback" rv-html="validation.rules.phone.error"></div>
   {% endcapture %}
 
   {% capture email %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="form.email | default 'Email*'" rv-on-focus="selectAll"></p>
+    <p class="text-primary mb-1" contenteditable="true" rv-value="form.email" rv-on-focus="selectAll"></p>
     <input type="hidden" class="form-control" name="contact[email]" rv-value="form.email" rv-class-is-invalid="validation.rules.email.error | filled" required>
     <div class="invalid-feedback" rv-html="validation.rules.email.error"></div>
   {% endcapture %}
 
   {% capture message %}
-    <p class="text-primary my-3" contenteditable="true" rv-value="form.message | default 'Message*'" rv-on-focus="selectAll"></p>
+    <p class="text-primary my-3" contenteditable="true" rv-value="form.message" rv-on-focus="selectAll"></p>
     <input type="hidden" class="form-control" name="contact[body]" rv-value="form.message" rv-class-is-invalid="validation.rules.message.error | filled" required>
     <div class="invalid-feedback" rv-show="validation.rules.message.error | filled">
       <span rv-html="validation.rules.message.error"></span><br>
-      Characters: {form.message | size | minus validation.rules.message.minlength}
+      <span rv-i18n-text="'forms.invalid.characters'">{{'forms.invalid.characters'|t}}</span>: {form.message | size | minus validation.rules.message.minlength}
     </div>
   {% endcapture %}
 
   {% form 'contact' %}
     <div class="py-5">
 
-      <h2 class="h6 mb-3">Any questions? Feel free to contact us.</h2>
+      <h2 class="h6 mb-3" rv-i18n-text="'forms.contact.title'">{{'forms.contact.title'}}</h2>
 
-      <p>
-        Send us a message to <a href="mailto:customercare@myfassbender.com">customercare@myfassbender.com</a>
-        or call us <a href="tel:+494403925400">+49 4403 925400</a><br>
-        <small>monday - friday 10.00 - 18.00</small>
+      <p rv-i18n-html="'forms.contact.body_html'">
+        {{'forms.contact.body_html'|t: mail: shop.email, phone: shop.phone }}
+        <template name="mail">{{shop.email}}</template>
+        <template name="phone">{{shop.phone}}</template>
       </p>
 
       {% if form.posted_successfully? %}
-        <p class="text-success mb-3" role="alert" id="contact-form-success">
-          Message sent successfully. Many Thanks!
+        <p class="text-success mb-3" role="alert" id="contact-form-success" rv-i18n-text="'forms.contact.successfull'">
+          {{'forms.contact.successfull'|t: mail: shop.email, phone: shop.phone }}
         </p>
       {% endif %}
 
@@ -55,7 +55,7 @@
 
       {% if form.errors %}
         <p class="text-danger mb-3" role="alert" id="contact-form-error">
-          Message could not be sent:
+          <span rv-i18n-text="'forms.contact.error'">{{'forms.contact.error'|t}}</span>
           {% for error in form.errors %}
             {{ error }}
           {% endfor %}
@@ -63,25 +63,37 @@
       {% endif %}
 
       <p rv-show="error | filled" class="text-danger mb-3" role="alert" id="contact-error">
-        Message could not be sent: { error }
+        <span rv-i18n-text="'forms.contact.error'">{{'forms.contact.error'|t}}</span>
+        { error }
       </p>
 
-      <h2 class="h6 mb-3">Message Us</h2>
+      <h2 class="h6 mb-3" rv-i18n-html="'forms.contact.form_title'">{{'forms.contact.form_title'}}</h2>
       {{ firstName }}
       {{ lastName }}
       {{ phone }}
       {{ email }}
       {{ message }}
 
-      <div class="custom-control custom-checkbox mt-5 mb-1">
+      <small class="custom-control custom-checkbox mt-5 mb-1">
         <input type="checkbox" class="custom-control-input" name="contact[privacy]" id="acceptPrivacy" required>
-        <label class="custom-control-label" for="acceptPrivacy">
+        <label
+          class="custom-control-label"
+          for="acceptPrivacy"
+          rv-i18n-html="'legals.privacy_policy.checkbox_contact_label_html'"
+        >
           {{ 'legals.privacy_policy.checkbox_contact_label_html' | t }}
         </label>
-      </div>
-      <p><small>The fields marked with * are required</small></p>
+      </small>
+      <p><small rv-i18n-text="'forms.required'">{{'forms.required'}}</small></p>
 
-      <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="send">Send Message</button>
+      <button
+        type="submit"
+        class="btn btn-animated-underline-dark font-weight-bold"
+        rv-on-click="send"
+        rv-i18n-text="'forms.contact.send'"
+      >
+        {{'forms.contact.send'|t}}
+      </button>
     </div>
   {% endform %}
 </rv-contact-form>

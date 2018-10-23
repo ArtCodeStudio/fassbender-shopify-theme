@@ -1,5 +1,5 @@
-<strong class="mb-3">Orders</strong>
-<p>Here you will find the details of your orders.</p>
+<strong class="mb-3" rv-i18n-text="'customer.order.title'">{{'customer.order.title'|t}}</strong>
+<p rv-i18n-text="'customer.order.subtitle'">{{'customer.order.subtitle'|t}}</p>
 
 {% comment %}
 If we have past orders, loop through each one
@@ -10,7 +10,7 @@ If we have past orders, loop through each one
       {% include 'jumplink-customer-order-list-item' with order %}
     {% endfor %}
   {% else %}
-    <p>You have not made any orders yet</p>
+    <p rv-i18n-text="'title.customer.order.no_order'">{{'title.customer.order.no_order'}}</p>
   {% endif %}
   {% if paginate.pages > 1 %}
     {% include 'jumplink-pagination' %}

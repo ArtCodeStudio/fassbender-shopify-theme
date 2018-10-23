@@ -1,27 +1,27 @@
-<rv-contact-form>
+<rv-revoke-form>
   
   {% assign idPrefix="returns" %}
 
   {% capture firstName %}
-    <input type="text" class="form-control form-control-text form-control-primary" name="contact[firstName]" rv-value="form.firstName" placeholder="First name*" required rv-class-is-invalid="validation.rules.firstName.error | filled">
+    <input type="text" class="form-control form-control-text form-control-primary" name="contact[firstName]" rv-value="form.firstName" rv-i18n-placeholder="'forms.returns.first_name'" placeholder="{{'forms.returns.first_name'|t}}" required rv-class-is-invalid="validation.rules.firstName.error | filled">
     <div class="invalid-feedback" rv-html="validation.rules.firstName.error"></div>
   {% endcapture %}
 
   {% capture lastName %}
-    <input type="text" class="form-control form-control-text form-control-primary" name="contact[lastName]" rv-value="form.lastName" placeholder="Last name*" required rv-class-is-invalid="validation.rules.lastName.error | filled">
+    <input type="text" class="form-control form-control-text form-control-primary" name="contact[lastName]" rv-value="form.lastName" rv-i18n-placeholder="'forms.returns.last_name'" placeholder="{{'forms.returns.last_name'|t}}" required rv-class-is-invalid="validation.rules.lastName.error | filled">
     <div class="invalid-feedback" rv-html="validation.rules.lastName.error"></div>
   {% endcapture %}
 
   {% capture email %}
-    <input type="email" class="form-control form-control-text form-control-primary" name="contact[email]" rv-value="form.email" placeholder="Email*" rv-class-is-invalid="validation.rules.email.error | filled" required>
+    <input type="email" class="form-control form-control-text form-control-primary" name="contact[email]" rv-value="form.email" rv-i18n-placeholder="'forms.returns.mail'" placeholder="{{'forms.returns.mail'|t}}" rv-class-is-invalid="validation.rules.email.error | filled" required>
     <div class="invalid-feedback" rv-html="validation.rules.email.error"></div>
   {% endcapture %}
 
   {% capture message %}
-    <textarea type="text" class="form-control form-control-text form-control-primary" name="contact[body]" rv-value="form.message" placeholder="Products" rv-class-is-invalid="validation.rules.message.error | filled" rows="3"></textarea>
+    <textarea type="text" class="form-control form-control-text form-control-primary" name="contact[body]" rv-value="form.message" rv-i18n-placeholder="'forms.returns.products'" placeholder="{{'forms.returns.products'|t}}" rv-class-is-invalid="validation.rules.message.error | filled" rows="3"></textarea>
     <div class="invalid-feedback" rv-show="validation.rules.message.error | filled">
       <span rv-html="validation.rules.message.error"></span><br>
-      Characters: {form.message | size | minus validation.rules.message.minlength}
+      <span rv-i18n-text="'forms.invalid.characters'">{{'forms.invalid.characters'|t}}</span>: {form.message | size | minus validation.rules.message.minlength}
     </div>
   {% endcapture %}   
 
@@ -29,13 +29,15 @@
     <input type="hidden" name="form_type" value="contact">
     <input type="hidden" name="utf8" value="✓">
     <div class="">
-      <p>
-        {{ 'forms.returns.revoke' | t }}
+      <p rv-i18n-text="'forms.returns.revoke'">
+        {{'forms.returns.revoke'|t}}
       </p>
 
       {% if form.posted_successfully? %}
-        <p class="text-success mb-3" role="alert" id="{{idPrefix}}-contact-form-success">
-          Message sent successfully. Many Thanks!
+        <p class="text-success mb-3" role="alert" id="{{idPrefix}}-contact-form-success"
+          rv-i18n-text="'forms.returns.successfull'"
+        >
+          {{'forms.returns.successfull'|t}}
         </p>
       {% endif %}
 
@@ -45,7 +47,7 @@
 
       {% if form.errors %}
         <p class="text-danger mb-3" role="alert" id="{{idPrefix}}-contact-form-error">
-          Message could not be sent:
+          <span rv-i18n-text="'forms.returns.error'">{{'forms.returns.error'|t}}</span>
           {% for error in form.errors %}
             {{ error }}
           {% endfor %}
@@ -53,7 +55,8 @@
       {% endif %}
 
       <p rv-show="error | filled" class="text-danger mb-3" role="alert" id="{{idPrefix}}-contact-error">
-        Message could not be sent: { error }
+        <span rv-i18n-text="'forms.returns.error'">{{'forms.returns.error'|t}}</span>
+        { error }
       </p>
 
       {{ firstName }}
@@ -62,8 +65,10 @@
 
       <div class="custom-control custom-checkbox mb-1">
         <input type="checkbox" class="custom-control-input" name="contact[revokeAgreement]" id="{{idPrefix}}RevokeAgreement" required>
-        <label class="custom-control-label" for="{{idPrefix}}RevokeAgreement">
-          {{ 'forms.returns.revoke-checkbox' | t }}
+        <label class="custom-control-label" for="{{idPrefix}}RevokeAgreement"
+          rv-i18n-text="'forms.returns.revoke-checkbox'"
+        >
+          {{'forms.returns.revoke-checkbox'|t}}
         </label>
       </div>
 
@@ -71,14 +76,18 @@
 
       <div class="custom-control custom-checkbox mt-5 mb-1">
         <input type="checkbox" class="custom-control-input" name="contact[privacy]" id="{{ idPrefix }}AcceptPrivacy" required>
-        <label class="custom-control-label" for="{{ idPrefix }}AcceptPrivacy">
-          {{ 'legals.privacy_policy.checkbox_contact_label_html' | t }}
+        <label class="custom-control-label" for="{{ idPrefix }}AcceptPrivacy"
+          rv-i18n-html="'legals.privacy_policy.checkbox_contact_label_html'"
+        >
+          {{'legals.privacy_policy.checkbox_contact_label_html'|t}}
         </label>
       </div>
 
-      <p><small>{{ 'forms.required' | t }}</small></p>
+      <p><small rv-i18n-text="'forms.required'">{{'forms.required'}}</small></p>
 
-      <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="send">{{ 'forms.returns.send' | t }}</button>
+      <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="send">
+        <span rv-i18n-text="'forms.returns.send'">{{'forms.returns.send'|t}}</span>
+      </button>
     </div>
   </form>
-</rv-contact-form>
+</rv-revoke-form>

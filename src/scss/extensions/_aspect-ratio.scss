@@ -101,14 +101,25 @@
     }
   }
 
+  // Fix for vimeo videos in safari
+  iframe.content {
+    object-fit: initial !important;
+  }
+
   &.fit-cover {
-    content {
+    .content {
       object-fit: cover !important;
     }
   }
   &.fit-contain {
-    content {
+    .content {
       object-fit: contain !important;
+    }
+  }
+
+  &.fit-initial {
+    .content {
+      object-fit: initial !important;
     }
   }
   

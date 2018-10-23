@@ -59,7 +59,9 @@
           <img lazyload="on" class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
             <video class="content" preload="auto" controls>
               <source src="{{ video }}" type="video/mp4">
-              Your browser does not support the video tag or mp4.
+              <span rv-i18n-text="'system.video_tag_not_supported'">
+                {{'system.video_tag_not_supported'|t}}
+              </span>
             </video>
         </div>
       </div>
@@ -97,7 +99,11 @@
       <h2 class="h1">{{article.title}}</h2>
       <p class="small font-weight-bold">
         <span>{{ article.published_at | time_tag: '%d. %B %Y' }} </span>
-        <span class="pl-3">By {{article.user.first_name }} {{article.user.last_name}}</span>
+        <span class="pl-3" rv-i18n-text="'blogs.article.by'">
+          {{'blogs.article.by' | t: first_name: article.user.first_name, last_name: article.user.last_name}}
+          <template name="first_name">{{article.user.first_name}}</template>
+          <template name="last_name">{{article.user.last_name}}</template>
+        </span>
       </p>
       <hr>
       {% if showDetail %}
@@ -108,10 +114,15 @@
       <hr>
       <p class="small font-weight-bold">
         <rv-share title="{{ article.title }}" url="{{ article.url }}" text="Look at this! 👀" label="Share this article">Share this article</rv-share>
-          <span class="pl-3">{{ 'blogs.comments.with_count' | t: count: number_of_comments }}</span>
+          <span class="pl-3" rv-i18n-text="'blogs.comments.with_count'">
+            {{ 'blogs.comments.with_count' | t: count: number_of_comments }}
+            <template name="count">{{number_of_comments}}</template>
+          </span>
         {% unless showDetail %}
           {% if linkToArticle %}
-            <a class="ml-auto float-right" rv-route="'{{article.url}}'">View Article</a>
+            <a class="ml-auto float-right" rv-route="'{{article.url}}'">
+              {{ 'blogs.article.view' | t }}
+            </a>
           {% endif %}
         {% endunless %}
       </p>

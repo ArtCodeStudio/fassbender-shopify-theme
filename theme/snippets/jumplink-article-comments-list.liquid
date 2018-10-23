@@ -1,7 +1,13 @@
 <div class="mt-5">
   {% if number_of_comments > 0 %}
     <div class="lead">
-      <h3 class="h1 text-serif font-weight-normal">Comments on {{article.title}}</h3>
+      <h3
+        class="h1 text-serif font-weight-normal"
+        rv-i18n-text="'blogs.comments.title'"
+        >
+        {{'blogs.comments.title'|t: title: article.title}}
+        <template name="title">{{article.title}}</template>
+      </h3>
     </div>
 
     <ul class="list-unstyled" rv-view='{"listenAllLinks": false, "containerSelector": "#comments-pagination", "scrollToTop": false, "action": "append"}' id="comments-pagination">

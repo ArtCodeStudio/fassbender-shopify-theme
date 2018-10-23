@@ -9,8 +9,8 @@
          
         <ul class="nav pointer-events-all">
           <li class="nav-item">
-            <div class="nav-text">
-              Welcome to the online home of covering trends, fashion inspiration and high end ready to wear pieces.
+            <div class="nav-text" rv-i18n-text="'snippets.navigation.teaser_text'">
+              {{'snippets.navigation.teaser_text'|t}}
             </div>
           </li>
         </ul>
@@ -53,7 +53,14 @@
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
                     <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" rv-route-class-active="sublink.url" rv-route="sublink.url" class="custom-control-input">
-                    <label class="custom-control-label" rv-route-class-active="sublink.url" rv-route="sublink.url" rv-for="link.handle | append sublink.handle">{sublink.title}</label>
+                    <label
+                      class="custom-control-label"
+                      rv-route-class-active="sublink.url"
+                      rv-route="sublink.url"
+                      rv-for="link.handle | append sublink.handle"
+                    >
+                        <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'"></span>
+                    </label>
                   </div>
                 </div>
 
@@ -90,7 +97,13 @@
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
                     <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" rv-bs4-scrollspy-active="sublink.url" class="custom-control-input">
-                    <label class="custom-control-label" rv-on-click="scrollTo | args sublink.url" rv-for="link.handle | append sublink.handle">{sublink.title}</label>
+                    <label
+                      class="custom-control-label"
+                      rv-on-click="scrollTo | args sublink.url"
+                      rv-for="link.handle | append sublink.handle"
+                    >
+                      <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'"></span>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -100,7 +113,13 @@
                 <div class="nav-item" rv-each-sublink="link.links">
                   <div class="custom-control custom-radio">
                     <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" class="custom-control-input">
-                    <label class="custom-control-label" rv-for="link.handle | append sublink.handle" rv-on-click="storiesFilterBy | args link.handle sublink.url">{sublink.title}</label>
+                    <label
+                      class="custom-control-label"
+                      rv-for="link.handle | append sublink.handle"
+                      rv-on-click="storiesFilterBy | args link.handle sublink.url"
+                    >
+                      <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'"></span>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -125,7 +144,12 @@
 
         <rv-i18n-switcher rv-show="menuOpen">
            <li class="nav-item" rv-each-langcode="langcodes">
-            <div class="nav-link text-uppercase" rv-text="langcode.code" rv-on-click="switch | args langcode" rv-class-active="langcode.active"></div>
+            <div
+              class="nav-link text-uppercase"
+              rv-text="langcode.code"
+              rv-on-click="switch | args langcode"
+              rv-class-active="langcode.active"
+            ></div>
            </li>
         </rv-i18n-switcher>
 

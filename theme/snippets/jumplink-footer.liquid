@@ -9,7 +9,9 @@
       MAINBAR LEFT
     {% endcomment %}
     <div class="col-auto pointer-events-all logo-text-lg">
-      <a rv-route-class-active="'/'" rv-route="'/'" href="/">FASSBENDER</a>
+      <a rv-route-class-active="'/'" rv-route="'/'" href="/" rv-i18n-text="'snippets.footer.home'">
+        {{'snippets.footer.home'|t}}
+      </a>
     </div>
 
     {% comment %}
@@ -24,17 +26,31 @@
               rv-class-active="link.active"
               rv-hide="link.url | eq '/account/login'"
               rv-route-class-active="link.url"
-              rv-route="link.url" rv-href="link.url"
-            >{link.title}</a>
+              rv-route="link.url"
+              rv-href="link.url"
+              rv-i18n-text="link.title | handleize | prepend 'menus.'"
+            >
+              {link.title}
+            </a>
           </div>
 
           <div class="nav-item">
             <bs4-dropdown class="dropup d-block">
-              <a class="nav-link dropdown-toggle" data-offset="-350" rv-on-click="toggle" href="#" role="button" id="dropdownMenuSignUp" aria-haspopup="true" aria-expanded="false">
-                Sign Up
+              <a
+                class="nav-link dropdown-toggle"
+                data-offset="-350"
+                rv-on-click="toggle"
+                rv-i18n-text="'menus.signup'"
+                href="#"
+                role="button"
+                id="dropdownMenuSignUp"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                {{'menus.signup'|t}}
               </a>
               
-              <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuSignUp" x-placement="top left" style="width: 400px;">
+              <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuSignUp" x-placement="top left" style="width: 430px;">
                 {% section 'newsletter' %}
               </div>
             </bs4-dropdown>
@@ -58,31 +74,41 @@
          
         <ul class="nav small" style="pointer-events: all;">
           <li class="nav-item">
-            <div class="nav-link">
-              2018 FASSBENDER. All rights reserved
+            <div class="nav-link" rv-i18n-text="'snippets.footer.copyright'">
+              {{'snippets.footer.copyright'|t}}
             </div>
           </li>   
           <li class="nav-item">
             <bs4-dropdown class="dropdown-invert dropup d-block">
-              <a class="nav-link dropdown-toggle" rv-on-click="toggle" href="#" role="button" id="dropdownMenuArtCode" aria-haspopup="true" aria-expanded="false">
-                Crafted by Art+Code Studio
+              <a
+                class="nav-link dropdown-toggle"
+                rv-on-click="toggle"
+                rv-i18n-text="'menus.crafter'"
+                href="#"
+                role="button"
+                id="dropdownMenuArtCode"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                {{'menus.crafter'|t}}
               </a>
               
               <div class="dropdown-menu p-3 text-center" aria-labelledby="dropdownMenuArtCode" style="width: 400px;">
-                <p><small>
-                  The Art+Code Studio accepts that every client is unique, each
-                  project requires a different approach and that all projects
-                  need to be launched with an open mind. In order for us to do
-                  collaborate closely with our clients to discover the potential
-                  and erect a creative and beautiful solutions. Just drop us an
-                  email <a href="mailto:hi@artandcode.studio">hi@artandcode.studio</a>
+                <p><small rv-i18n-html="'snippets.footer.crafter_html'">
+                  {{'snippets.footer.crafter_html'|t}}
                 </small></p>
               </div>
             </bs4-dropdown>
           </li>    
           <li class="nav-item">
-            <a class="nav-link" rv-route-class-active="'/pages/legal-area'" rv-route="'/pages/legal-area'" href="/pages/legal-area">
-              Legal Area
+            <a
+              class="nav-link"
+              rv-route-class-active="'/pages/legal-area'"
+              rv-route="'/pages/legal-area'"
+              rv-i18n-text="'menus.legal-area'"
+              href="/pages/legal-area"
+            >
+              {{'menus.legal-area'|t}}
             </a>
           </li>
         </ul>
@@ -135,7 +161,14 @@
     <shopify-linklist class="mt-5" id="toggle-menu" name="toggle-menu" vertical="true" pills="false">
       <nav class="nav" rv-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
         <div class="nav-item" rv-each-link="linklist.links">
-          <a class="nav-link justify-content-center" rv-route-class-active="link.url" rv-route="link.url" rv-href="link.url">{link.title}</a>
+          <a
+            class="nav-link justify-content-center"
+            rv-route-class-active="link.url"
+            rv-route="link.url"
+            rv-href="link.url"
+          >
+            <span rv-i18n-text="link.title | handleize | prepend 'menus.'"></span>
+          </a>
         </div>
       </nav>
     </shopify-linklist>
@@ -156,7 +189,14 @@
     <shopify-linklist class="" rv-show="moreMenuOpen" id="toggle-menu-more" name="toggle-menu-more" vertical="true" pills="false">
       <nav class="nav" rv-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
         <div class="nav-item" rv-each-link="linklist.links">
-          <a class="nav-link justify-content-center" rv-route-class-active="link.url" rv-route="link.url" rv-href="link.url">{link.title}</a>
+          <a
+            class="nav-link justify-content-center"
+            rv-route-class-active="link.url"
+            rv-route="link.url"
+            rv-href="link.url"
+          >
+            <span rv-i18n-text="link.title | handleize | prepend 'menus.'"></span>
+          </a>
         </div>
       </nav>
     </shopify-linklist>

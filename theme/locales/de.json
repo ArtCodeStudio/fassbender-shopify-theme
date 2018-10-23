@@ -4,21 +4,67 @@
       "code": "de"
     }
   },
+  "date_formats": {
+    "month_day_year": "%B %d, %Y"
+  },
+  "system": {
+    "video_tag_not_supported": "Ihr Browser unterstützt das Video Tag oder MP4 nicht."
+  },
   "snippets": {
     "jumplink-pagination": {
       "load_more": "Lade mehr"
+    },
+    "footer": {
+      "home":"FASSBENDER",
+      "copyright": "2018 FASSBENDER. Alle Rechte vorbehalten",
+      "crafter_html": "Das Art + Code Studio versteht, dass jeder Kunde einzigartig ist, jedes Projekt einen anderen Ansatz erfordert und dass jedes Projekte unvoreingenommen und mit freien Gedanken begonnen werden muss. So entdecken wir in enger Zusammenarbeit mit unseren Kunden das Potenzial und schaffen kreative und schöne Lösungen. Schreib uns: <a href=\"mailto:hi@artandcode.studio\">hi@artandcode.studio</a>"
+    },
+    "navigation": {
+      "teaser_text": "Willkommen in der Welt der Trends, Fashion Inspirationen und High-End-Ready-to-Wear Stücken."
     }
+  },
+  "menus": {
+    "signup": "Abonnieren",
+    "instagram": "Instagram",
+    "account": "Mein Konto",
+    "contact": "Kontakt",
+    "crafter": "Handgefertigt von Art+Code Studio",
+    "legal-area": "Rechtliches",
+    "stories": "Stories",
+    "store": "Store",
+    "about": "Über",
+    "fassbender": "#Fassbender",
+    "customer-care": "Kundeninformation",
+    "newsletter": "Newsletter",
+    "legal-disclosure": "Impressum",
+    "returns": "Widerruf",
+    "revoke-form": "Widerrufsformular",
+    "privacy-settings": "Privatsphäre",
+    "privacy-policy": "Datenschutzerklärung",
+    "terms-and-conditions": "AGB",
+    "cookies": "Cookies",
+    "contact-us": "Kontaktiere uns",
+    "cart": "Einkaufstasche",
+    "shopping-bag": "Einkaufstasche",
+    "my-account": "Mein Konto",
+    "addresses": "Adressen",
+    "all": "Alle",
+    "blog": "Stories",
+    "vlog": "Vlog"
+  },
+  "products": {
+    
   },
   "customer": {
     "addresses": {
-      "title": "Ihre Adressen",
+      "title": "Deine Rechnungs- und Versandadressen",
       "default": "Standard",
       "add_new": "Neue Adresse hinzufügen",
       "first_name": "Vorname",
       "last_name": "Nachname",
       "company": "Firma",
-      "address1": "Adresse1",
-      "address2": "Adresse2",
+      "address1": "Adresse",
+      "address2": "Adresszusatz",
       "city": "Stadt",
       "country": "Land",
       "province": "Bundesland",
@@ -28,7 +74,15 @@
       "add": "Adresse hinzufügen",
       "edit": "Bearbeiten",
       "update": "Aktualisieren",
-      "delete": "Löschen"
+      "delete": "Löschen",
+      "no_default": "Noch keine Standardadresse",
+      "default_address": "Standardadresse",
+      "add_label": "Neue Adresse hinzufügen",
+      "addresses": {
+        "zero": "Bisher noch keine Adresse hinterlegt",
+        "one": "{{count}} Adresse",
+        "other": "{{count}} Adressen"
+      }
     },
     "reset_password": {
       "title": "Account-Passwort zurücksetzen",
@@ -44,46 +98,167 @@
       "password_confirm": "Passwort bestätigen",
       "submit": "Account aktivieren",
       "cancel": "Einladung ablehnen"
+    },
+    "order": {
+      "cancelled_reason_html": "Status <a target=\"_blank\" href=\"{{ order_status_url }}\">storniert</a>. Grund: {{cancel_reason}}",
+      "financial_status_html": " Status <a target=\"_blank\" href=\"{{ order_status_url }}\">{{ financial_status }}</a>",
+      "reasons": {
+        "other": "Nicht zugeordnet",
+        "items-unavailable": "Nicht verfügbar",
+        "fraudulent-order": "Verdacht auf betrügerische Bestellung",
+        "customer-changed-cancelled-order": "Kunde geändert oder Bestellung storniert"
+      },
+      "financial_status": {
+        "pending": "Ausstehend",
+        "authorized": "Zugelassen",
+        "paid": "Bezahlt",
+        "partially_paid": "Teilweise bezahlt",
+        "refunded": "Zurückerstattet",
+        "partially_refunded": "Teilweise zurückerstattet",
+        "voided": "Aufgehoben"
+      },
+      "created_at": "Erstellt am",
+      "quantity_html": "Menge {{count}}",
+      "items": "{{count}} Artikel",
+      "total": "Gesamt",
+      "title": "Bestellungen",
+      "subtitle": "Hier findest du Details zu deinen Bestellungen.",
+      "no_order": "Du hast haben noch keine Bestellungen getätigt."
     }
   },
   "legals": {
     "privacy_policy": {
-      "checkbox_label_html": "By signing up I agree to the <a href=\"\/pages\/legal-area\">Privacy Statement<\/a>",
-      "checkbox_contact_label_html": "Yes, I authorise the processing of my personal data according to the <a href=\"\/pages\/it-recht-datenschutz\">Privacy Policy<\/a>."
+      "checkbox_label_html": "Mit dem Absenden stimme ich der <a href=\"\/pages\/legal-area\">Datenschutzerklärung<\/a> zu.",
+      "checkbox_contact_label_html": "Ja, ich stimme der Verarbeitung meiner persönlichen Daten gemäß der <a href=\"\/pages\/it-recht-datenschutz\">Datenschutzerklärung<\/a> zu."
+    },
+    "privacy": {
+      "tracking_title": "Tracking-Dienste deaktivieren",
+      "cookies_label_html": "Erlaube die Verwendung von Cookies<br><small>Leider kannst du Cookies nicht deaktivieren, da sie notwendig sind, damit der Shop funktioniert</small>",
+      "shopify_tracking_label_html": "Erlaube internes Tracking durch unser Shopsystem<br><small>Leider kannst du das Tracking durch unser Shopsystem nicht deaktivieren</small>",
+      "google_analytics_label_html": "Erlaube Tracking durch <a href=\"https://analytics.google.com/\">Google Analytics</a>",
+      "ttd_label_html": "Erlaube Tracking durch <a href=\"https://www.thetradedesk.com/\">The Trade Desk</a>",
+      "facebook_pixel_label_html": "Erlaube Tracking durch <a href=\"https://www.facebook.com/business/help/742478679120153\">Facebook Pixel</a>",
+      "note_html": "Bitte lade diese Seite neu, nachdem du einen Tracking-Service deaktiviert hast.<br>Bitte beachte, dass diese Einstellungen mit Cookies gespeichert werden. Wenn du deine Cookies löschen, gehen diese Einstellungen verloren.",
+      "clear_title_html": "Lösche deine Sitzungsdaten",
+      "clear_html": "Du kannst deine Sitzungsdaten löschen, dies wird dich abmelden, deine Einkaufstasche leeren und - wenn möglich - die Cookies entfernen.",
+      "clear_button_label": "Sitzungsdaten löschen"
     }
   },
   "forms": {
-    "required": "The fields marked with * are required",
-    "returns": {
-      "revoke": "Wenn Sie den Vertrag widerrufen wollen, dann füllen Sie bitte dieses Formular.",
-      "revoke-checkbox": "I revoke my contract for the purchase of the following products",
-      "send": "Sende das Widerrufsformular"
+    "required": "Mit * markierte Felder sind Pflichtfelder",
+    "invalid": {
+      "name": "Bitte überprüfe deinen Namen",
+      "mail": "Bitte überprüfe deine E-Mail",
+      "message": "Bitte überprüfe deine Nachricht",
+      "characters": "Zeichen",
+      "any": "Bitte überprüfe deine Eingabe"
     },
-    "privacy-settings": {
-      "delete": "Sie haben das Recht, die bei uns zu Ihrer Person hinterlegten Daten unverzüglich löschen zu lassen. Wenn Sie dies wünschen füllen Sie bitte das Kontaktformular aus."
+    "returns": {
+      "revoke": "Wenn Sie den Vertrag widerrufen wollen, dann füllen Sie bitte dieses Formular aus.",
+      "revoke-checkbox": "Hiermit widerrufe ich den von mir abgeschlossenen Vertrag über den Kauf der folgenden Waren",
+      "send": "Sende das Widerrufsformular",
+      "first_name": "Vorname*",
+      "last_name": "Nachname*",
+      "mail": "E-Mail*",
+      "products": "Waren",
+      "successfull": "Widerrufsformular erfolgreich abgeschickt. Vielen Dank!",
+      "error": "Widerrufsformular konnte nicht abgeschickt werden."
+    },
+    "privacy_settings": {
+      "delete": "Du hast das Recht, die bei uns zu deiner Person hinterlegten Daten unverzüglich löschen zu lassen. Wenn du dies wünschst fülle bitte das Kontaktformular aus.",
+      "first_name": "Vorname*",
+      "last_name": "Nachname*",
+      "mail": "E-Mail*",
+      "reason": "Grund",
+      "form_title": "Antrag zur Löschung deiner personbezogenen Daten",
+      "successfull": "Nachricht erfolgreich abgeschickt. Vielen Dank!",
+      "error": "Nachricht konnte nicht abgeschickt werden.",
+      "delete_checkbox": "Ja, bitte löscht meine personbezogenen Daten.",
+      "send": "Antrag senden"
+    },
+    "contact": {
+      "first_name": "Vorname*",
+      "last_name": "Nachname*",
+      "phone": "Telefon",
+      "mail": "E-Mail*",
+      "message": "Nachricht*",
+      "title": "Irgendwelche Fragen? Fühle dich frei uns zu kontaktieren.",
+      "body_html": "Sende uns eine Nachricht an <a href=\"mailto:{{mail}}\">{{mail}}</a> oder rufe uns unter <a href=\"tel:{{phone}}\">{{phone}}</a> an.<br> <small>Montag - Freitag 10.00 - 18.00 Uhr</small>",
+      "successfull": "Nachricht erfolgreich abgeschickt. Vielen Dank!",
+      "form_title": "Nachricht an uns",
+      "send": "Nachricht senden"
+    },
+    "regist": {
+      "private_label": "Privatkunde",
+      "company_label": "Firma",
+      "first_name": "Vorname*",
+      "last_name": "Nachname*",
+      "mail": "E-Mail*",
+      "phone": "Telefon*",
+      "password": "Passwort*"
+    },
+    "login": {
+      "mail": "E-Mail",
+      "password": "Passwort",
+      "recover": "Passwort zurücksetzen.",
+      "recover_into": "Alles was wir brauchen ist deine E-Mail Adresse",
+      "back_label": "Zurück",
+      "recover_label": "Zurücksetzen",
+      "title": "Ich bin bereits Kunde.",
+      "subtitle": "Melde dich mit deinen Login-Data an.",
+      "recover_title": "Passwort vergessen?",
+      "login": "Anmelden",
+      "regist_title": "Ich bin neu hier.",
     }
   },
   "blogs": {
+    "article": {
+      "by": "von {{first_name}} {{last_name}}",
+      "view": "View Article"
+    },
     "comments": {
-      "title": "Any thoughts? Feel free to share and comment.",
+      "title": "Kommentare auf {{title}}",
+      "title_form": "Irgendwelche Gedanken? Fühle dich frei sie mit uns zu teilen und zu kommentieren.",
       "name": "Name*",
-      "email": "Email*",
-      "message": "Comment*",
-      "post": "Post comment",
-      "moderated": "Please note, comments must be approved before they are published.",
-      "required": "The fields marked with * are required.",
-      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
-      "success": "Your comment was posted successfully! Thank you!",
-      "unapproved": "(unapproved)",
+      "email": "E-Mail*",
+      "message": "Kommentar*",
+      "post": "Kommentar senden",
+      "moderated": "Bitte beachte, dass Kommentare vor ihrer Veröffentlichung genehmigt werden müssen.",
+      "success_moderated": "Dein Kommentar wurde erfolgreich übermittelt. Wir werden ihn in Kürze freischalten.",
+      "success": "Dein Kommentar wurde erfolgreich veröffentlicht! Vielen Dank!",
+      "unapproved": "(noch nicht genehmigt)",
       "with_count": {
-        "one": "{{ count }} Comment",
-        "other": "{{ count }} Comments"
+        "zero": "Bisher keine Kommentare",
+        "one": "{{count}} Kommentar",
+        "other": "{{count}} Kommentare"
       }
     }
   },
-  "page": {
-    "returns": {
-      "revoke": "Hiermit widerrufe ich den von mir abgeschlossenen Vertrag über den Kauf der folgenden Waren"
+  "cart": {
+    "hi": "Hi {{name}}",
+    "logout": "Ausloggen",
+    "my_account": "Mein Konto",
+    "register": "registieren",
+    "recover": "wiederherstellen",
+    "forgot_password": "Passwort vergessen?",
+    "login": "Einloggen",
+    "estimated_shipping": "Geschätzter Versand",
+    "items": {
+      "zero": "Bisher keine Artikel",
+      "one": "{{count}} Artikel",
+      "other": "{{count}} Artikel"
+    },
+    "info_html": "Kostenloser Versand<br><small>an alle Länder in der EU</small>",
+    "buy": "Kaufen",
+    "view": "Einkaufstasche anzeigen",
+    "quantity": "Menge",
+    "continue": "Weiter shoppen"
+  },
+  "shopify": {
+    "checkout": {
+      "alternative_payment_method_banner": {
+        "or": "ODER WEITER MIT KREDITKARTE / SOFORTÜBERWEISUNG"
+      }
     }
   }
 }

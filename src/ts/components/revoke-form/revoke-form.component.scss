@@ -1,0 +1,9 @@
+// contact {
+// }
+
+[contenteditable] {
+  &:focus, &:hover {
+    outline: none;
+    // text-decoration: underline;
+  }
+}

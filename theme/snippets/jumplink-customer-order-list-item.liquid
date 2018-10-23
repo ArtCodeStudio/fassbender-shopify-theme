@@ -1,12 +1,32 @@
 <div class="order my-4">
   <div class="order-header">
-    <p class="my-1">ID {{ order.name | link_to: order.customer_url }}</p>
+    <p class="my-1">
+      ID {{ order.name | link_to: order.customer_url }}
+    </p>
     {% if order.cancelled %}
-      <p class="my-1">Status <a target="_blank" href="{{ order.order_status_url }}">Cancelled because {{order.cancel_reason}}</a></p>
+      <p class="my-1" rv-i18n-html="'customer.order.cancelled_reason_html'">
+        {{'customer.order.cancelled_reason_html'|t: order_status_url: order.order_status_url, cancel_reason: order.cancel_reason}}
+        <template name="order_status_url">{{order.order_status_url}}</template>
+        <template name="cancel_reason">
+          <span rv-i18n-text="'customer.order.reasons.{{order.cancel_reason | handleize}}'">
+            {{order.cancel_reason_label}}
+          </span>
+        </template>
+      </p>
     {% else %}
-      <p class="my-1">Status <a target="_blank" href="{{ order.order_status_url }}">{{ order.financial_status_label }}</a></p>
+      <p class="my-1">
+        {{'customer.order.financial_status_html'|t: order_status_url: order.order_status_url, financial_status: order.financial_status}}
+        <template name="order_status_url">{{order.order_status_url}}</template>
+        <template name="financial_status">
+          <span rv-i18n-text="'customer.order.financial_status.{{order.financial_status | handleize}}'">
+            {{order.financial_status_label}}
+          </span>
+        </template>
+      </p>
     {% endif %}
-    <p class="my-1">Created at {{ order.created_at | date: format: 'month_day_year' }}</p>
+    <p class="my-1">
+      <span rv-i18n-text="'customer.order.created_at'">{{'customer.order.created_at'|t}}</span> {{ order.created_at | date: format: 'month_day_year' }}
+    </p>
   </div>
   <ul class="list-unstyled mt-3">
     {% for item in order.line_items %}
@@ -32,8 +52,9 @@
               </div>
             {% endfor %}
           </div>
-          <p class="my-1">
-            Quantity <span>{{ item.quantity }}</span>
+          <p class="my-1" rv-i18n-html="'customer.order.quantity_html'">
+            {{'customer.order.quantity_html'|t: count:item.quantity}}
+            <template name="count">{{item.quantity}}</template>
           </p>
           <p>
             {{ item.price | money }}
@@ -44,11 +65,13 @@
   </ul>
   <div class="order-footer">
     <p class="mb-0">
-      <strong>
-        <span rv-text="cart.item_count"></span>
-        {{order.line_items | size}} Items
+      <strong rv-i18n-html="'customer.order.items'">
+        {{'customer.order.items'|t: count:order.line_items | size}}
+        <template name="count">{{order.line_items | size}}</template>
       </strong>
     </p>
-    <p class="mb-0">Total  {{ order.total_price | money }}</p>
+    <p class="mb-0">
+      <span rv-i18n-text="'customer.order.total'">{{'customer.order.total'|t}}</span> {{ order.total_price | money }}
+    </p>
   </div>
 </div>

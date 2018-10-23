@@ -43,7 +43,7 @@
 
       {% if paginate.next.is_link %}
         <a class="cursor-pointer pt-5" rv-route='{"url": "{{ paginate.next.url }}{{ paginate_hash }}", "viewId": "{{ viewId }}", "removeAfterActivation": true, "listenPopstate": false, "action": "append"}' aria-label="{{ 'snippets.jumplink-pagination.load_more' | t }}">
-          <span>{{ 'snippets.jumplink-pagination.load_more' | t }} {{ viewId }}</span>
+          <span rv-i18n-text="'snippets.jumplink-pagination.load_more'">{{ 'snippets.jumplink-pagination.load_more' | t }} {{ viewId }}</span>
         </a>
       {% endif %}
 

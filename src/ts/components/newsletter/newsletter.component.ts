@@ -2,6 +2,7 @@ import Debug from 'debug';
 import $ from 'jquery';
 import { RibaComponent } from '../../tinybind';
 import template from './newsletter.component.html';
+import { LocalsService } from '../../services/locals.service';
 
 // TODO move to general validation component class we can extend from
 export interface IValidationObject {
@@ -28,13 +29,15 @@ export class NewsletterComponent extends RibaComponent {
 
   protected debug = Debug('component:' + NewsletterComponent.tagName);
 
+  protected localsService = new LocalsService();
+
   protected scope: IScope = {
     subscribe: this.subscribe,
     selectAll: this.selectAll,
     form: {
       fields: {
-        email: '',
-        name: '',
+        email: '', // Setted with localService
+        name: '', // Setted to default value with localService
       },
       valid: true,
       error: undefined,
@@ -48,7 +51,7 @@ export class NewsletterComponent extends RibaComponent {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-
+    this.initTranslate();
     this.init(NewsletterComponent.observedAttributes);
   }
 
@@ -77,6 +80,35 @@ export class NewsletterComponent extends RibaComponent {
   public selectAll(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLElement) {
     this.debug('selectAll');
     window.getSelection().selectAllChildren(eventEl);
+  }
+
+  protected initTranslate() {
+    this.localsService.event.on('changed', (langcode: string) => {
+      this.translate(langcode);
+    });
+    if (this.localsService.ready) {
+      this.translate(this.localsService.getLangcode());
+    } else {
+      this.localsService.event.on('ready', (langcode: string, translationNeeded: boolean) => {
+        this.translate(langcode);
+      });
+    }
+  }
+
+  protected translate(langcode: string) {
+    this.localsService.get([langcode, 'sections', 'newsletter'])
+    .then((local) => {
+      this.debug('changed local', local);
+      if (this.$form) {
+        this.$form.find('span[name="name"]').html(this.scope.form.fields.name.toString());
+        this.$form.find('span[name="email"]').html(this.scope.form.fields.email.toString());
+        this.$form.find('input[name="NAME"]').val(this.scope.form.fields.name.toString());
+        this.$form.find('input[name="EMAIL"]').val(this.scope.form.fields.email.toString());
+      }
+      this.scope.form.fields.name = local.input_name_label;
+      this.scope.form.fields.email = local.input_mail_label;
+      return;
+    });
   }
 
   protected initValidation() {

@@ -12,48 +12,66 @@
     {% endunless %}
     <div class="col-12 col-md-8 offset-md-2 col-lg-8 col-xl-6 pt-3">
       <rv-privacy-settings>
+        <p class="mt-2" >
+          <strong rv-i18n-html="'legals.privacy.tracking_title'">{{'legals.privacy.tracking_title'|t}}</strong><br>
+        </p>
         {% comment %} disabled until we have a working solution {% endcomment %}
         <div class="custom-control custom-checkbox" hidden>
           <input type="checkbox" class="custom-control-input" disabled name="cookies" id="cookies" rv-checked="cookies.enabled" rv-on-change="onCookiesStorageChanged">
-          <label class="custom-control-label" for="cookies">
-            Allow the use of cookies<br>
-            <small>Sorry you can 't disable cookies because they are necessary to make the shop work</small>
+          <label class="custom-control-label" for="cookies"
+            rv-i18n-html="'legals.privacy.cookies_label_html'">
+            {{'legals.privacy.cookies_label_html'|t}}
           </label>
         </div>
         <div class="custom-control custom-checkbox" hidden>
           <input type="checkbox" class="custom-control-input" disabled name="shopifyAnalytics" id="shopifyAnalytics" rv-checked="shopifyAnalytics.enabled" rv-on-change="onShopifyAnalyticsChanged">
-          <label class="custom-control-label" for="shopifyAnalytics">
-            Allow internal tracking by our shopsytem<br>
-            <small>Sorry you can 't disable the tracking by our shopsytem</small>
+          <label class="custom-control-label" for="shopifyAnalytics"
+            rv-i18n-html="'legals.privacy.shopify_tracking_label_html'"
+          >
+            {{'legals.privacy.shopify_tracking_label_html'|t}}
           </label>
         </div>
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" name="googleAnalytics" id="googleAnalytics" rv-checked="googleAnalytics.enabled" rv-on-change="onGoogleAnalyticsChanged">
-          <label class="custom-control-label" for="googleAnalytics">
-            Allow tracking with <a href="https://analytics.google.com/">Google Analytics</a><br>
+          <label class="custom-control-label" for="googleAnalytics"
+            rv-i18n-html="'legals.privacy.google_analytics_label_html'"
+          >
+            {{'legals.privacy.google_analytics_label_html'|t}}<br>
           </label>
         </div>
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" name="theTradeDesk" id="theTradeDesk" rv-checked="theTradeDesk.enabled" rv-on-change="onTheTradeDeskChanged">
-          <label class="custom-control-label" for="theTradeDesk">
-            Allow tracking with <a href="https://www.thetradedesk.com/">The Trade Desk</a><br>
+          <label class="custom-control-label" for="theTradeDesk"
+            rv-i18n-html="'legals.privacy.ttd_label_html'"
+          >
+            {{'legals.privacy.ttd_label_html'|t}}<br>
           </label>
         </div>
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" name="facebookPixel" id="facebookPixel" rv-checked="facebookPixel.enabled" rv-on-change="onFacebookPixelChanged">
-          <label class="custom-control-label" for="facebookPixel">
-            Allow tracking with <a href="https://www.facebook.com/business/help/742478679120153">Facebook Pixel</a><br>
+          <label class="custom-control-label" for="facebookPixel"
+            rv-i18n-html="'legals.privacy.facebook_pixel_label_html'"
+          >
+            {{'legals.privacy.facebook_pixel_label_html'|t}}<br>
           </label>
         </div>
         <p>
-          <small>
-            Please reload this site after you have disabled any tracking service.<br>
-            Please note that these settings are saved with cookies, if you delete your cookies these settings will be lost.
+          <small rv-i18n-html="'legals.privacy.note_html'">
+            {{'legals.privacy.note_html'|t}}<br>
           </small>
         </p>
-        <p class="mt-2">
-          Please <a href="#" rv-on-click="onClearDataClicked">clear my session data</a>, this will log you out, clear your shopping cart and removes client site cookies if possible.
+
+        <p class="mt-2" >
+          <strong rv-i18n-html="'legals.privacy.clear_title_html'">{{'legals.privacy.clear_title_html'|t}}</strong><br>
         </p>
+        <p class="mt-2" rv-i18n-html="'legals.privacy.clear_html'">
+          {{'legals.privacy.clear_html'|t}}<br>
+        </p>
+
+        <button type="button" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="onClearDataClicked">
+          <span rv-i18n-html="'legals.privacy.clear_button_label'">{{'legals.privacy.clear_button_label'|t}}</span>
+        </button>
+
       </rv-privacy-settings>
 
       {% include 'jumplink-form-delete-person-data' %}

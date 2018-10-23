@@ -9,7 +9,11 @@
       class="custom-control-input"
       rv-checked="form.customer.isCompany"
     >
-    <label class="custom-control-label" for="{{idPrefix}}create_customer_is_private">Privat Customer</label>
+    <label class="custom-control-label" for="{{idPrefix}}create_customer_is_private"
+      rv-i18n-text="'forms.regist.private_label'"
+    >
+      {{'forms.regist.private_label'|t}}
+    </label>
   </div>
 
   <div class="custom-control custom-radio">
@@ -21,54 +25,76 @@
       class="custom-control-input"
       rv-checked="form.customer.isCompany"
     >
-    <label class="custom-control-label" for="{{idPrefix}}create_customer_is_company">Company</label>
+    <label class="custom-control-label" for="{{idPrefix}}create_customer_is_company"
+      rv-i18n-text="'forms.regist.company_label'"
+    >
+      {{'forms.regist.company_label'|t}}
+    </label>
   </div>
 </div>
 
 <div class="my-3">
 
   <div class="form-group mb-0" rv-show="form.customer.isCompany | eq 'true'">
-    <label for="{{idPrefix}}create_customer_company" class="sr-only">Company</label>
+    <label for="{{idPrefix}}create_customer_company" class="sr-only"
+      rv-i18n-text="'forms.regist.company_label'"
+    >
+      {{'forms.regist.company_label'|t}}
+    </label>
     <input class="form-control form-control-text form-control-primary py-1"
       type="text"
       name="customer[note][company]"
       id="{{idPrefix}}create_customer_company"
-      placeholder="Company"
+      placeholder="{{'forms.regist.company_label'|t}}"
+      rv-i18n-placeholder="'forms.regist.company_label'"
       autocorrect="off"
       spellcheck="false"
       autocomplete='organization'
       rv-value="form.customer.company"
     />
-    <div class="invalid-feedback">
-      Please check your entry
+    <div class="invalid-feedback"
+      rv-i18n-text="'forms.invalid.any'">
+      {{'forms.invalid.any'|t}}
     </div>
   </div>
 
   <div class="form-group mb-0">
-    <label for="{{idPrefix}}create_customer_first_name" class="sr-only">First Name*</label>
+    <label for="{{idPrefix}}create_customer_first_name" class="sr-only"
+      rv-i18n-text="'forms.regist.first_name'"
+    >
+      {{'forms.regist.first_name'|t}}
+    </label>
     <input class="form-control form-control-text form-control-primary py-1"
       type="text"
       name="customer[first_name]"
       id="{{idPrefix}}create_customer_first_name"
-      placeholder="First Name*"
+      placeholder="{{'forms.regist.first_name'|t}}"
+      rv-i18n-placeholder="'forms.regist.first_name'"
       required
       autocorrect="off"
       spellcheck="false"
       autocomplete="given-name"
       rv-value="form.customer.first_name"
     />
-    <div class="invalid-feedback">
-      Please check your entry
+    <div class="invalid-feedback"
+      rv-i18n-text="'forms.invalid.any'"
+    >
+      {{'forms.invalid.any'|t}}
     </div>
   </div>
 
   <div class="form-group mb-0">
-    <label for="{{idPrefix}}create_customer_last_name" class="sr-only">Last Name*</label>
+    <label for="{{idPrefix}}create_customer_last_name" class="sr-only"
+      rv-i18n-text="'forms.regist.last_name'"
+    >
+      {{'forms.regist.last_name'|t}}
+    </label>
     <input class="form-control form-control-text form-control-primary py-1"
       type="text"
       name="customer[last_name]"
       id="{{idPrefix}}create_customer_last_name"
-      placeholder="Last Name*"
+      placeholder="{{'forms.regist.last_name'|t}}"
+      rv-i18n-placeholder="'forms.regist.last_name'"
       required
       autocorrect="off"
       autocapitalize="off"
@@ -76,8 +102,10 @@
       autocomplete="family-name"
       rv-value="form.customer.last_name"
     />
-    <div class="invalid-feedback">
-      Please check your entry
+    <div class="invalid-feedback"
+      rv-i18n-text="'forms.invalid.any'"
+    >
+      {{'forms.invalid.any'|t}}
     </div>
   </div>
 
@@ -86,45 +114,64 @@
     A customer will provide an address with their first order.
   {% endcomment %}
   <div class="form-group mb-0">
-    <label for="{{idPrefix}}create_customer_phone" class="sr-only">Phone</label>
+    <label for="{{idPrefix}}create_customer_phone" class="sr-only"
+      rv-i18n-text="'forms.regist.phone'"
+    >
+      {{'forms.regist.phone'|t}}
+    </label>
     <input class="form-control form-control-text form-control-primary py-1"
       type="tel"
       name="customer[note][phone]"
       id="{{idPrefix}}create_customer_phone"
-      placeholder="Phone"
+      placeholder="{{'forms.regist.phone'|t}}"
+      rv-i18n-placeholder="'forms.regist.phone'"
       autocomplete="phone"
       rv-value="form.customer.phone"
     />
-    <div class="invalid-feedback">
-      Please check your entry
+    <div class="invalid-feedback"
+      rv-i18n-text="'forms.invalid.any'"
+    >
+      {{'forms.invalid.any'|t}}
     </div>
   </div>
 
   <div class="form-group mb-0">
-    <label for="{{idPrefix}}create_customer_email" class="sr-only">Email Address*</label>
+    <label for="{{idPrefix}}create_customer_email" class="sr-only"
+      rv-i18n-text="'forms.regist.mail'"
+    >
+      {{'forms.regist.mail'|t}}
+    </label>
     <input class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'email' %}error{% endif %}"
       type="email"
       name="customer[email]"
       id="{{idPrefix}}create_customer_email"
-      placeholder="Email*"
+      placeholder="{{'forms.regist.mail'|t}}"
+      rv-i18n-placeholder="'forms.regist.mail'"
       required
       autocorrect="off"
       spellcheck="false"
       autocomplete="username"
       rv-value="form.customer.email"
     />
-    <div class="invalid-feedback">
-      Please check your entry
+    <div class="invalid-feedback"
+      rv-i18n-text="'forms.invalid.any'"
+    >
+      {{'forms.invalid.any'|t}}
     </div>
   </div>
 
   <div class="form-group mb-0">
-    <label for="{{idPrefix}}create_customer_password" class="sr-only">Password*</label>
+    <label for="{{idPrefix}}create_customer_password" class="sr-only"
+      rv-i18n-text="'forms.regist.password'"
+    >
+      {{'forms.regist.password'|t}}
+    </label>
     <input class="form-control form-control-text form-control-primary py-1"
       type="password"
       name="customer[password]"
       id="{{idPrefix}}create_customer_password"
-      placeholder="Password*"
+      placeholder="{{'forms.regist.password'|t}}"
+      rv-i18n-placeholder="'forms.regist.password'"
       required
       autocorrect="off"
       spellcheck="false"
@@ -132,21 +179,25 @@
       autocomplete="new-password"
       rv-value="form.customer.password"
     />
-    <div class="invalid-feedback">
-      Please check your entry
+    <div class="invalid-feedback"
+      rv-i18n-text="'forms.invalid.any'"
+    >
+      {{'forms.invalid.any'|t}}
     </div>
   </div>
 </div>
 
 <small class="custom-control custom-checkbox mb-3">
   <input type="checkbox" class="custom-control-input" name="contact[privacy]" id="acceptPrivacy" required>
-  <label class="custom-control-label" for="acceptPrivacy">
-    Yes, I authorise the processing of my personal data according to the <a href="/pages/it-recht-datenschutz">Privacy Policy</a>.
+  <label class="custom-control-label" for="acceptPrivacy"
+    rv-i18n-html="'legals.privacy_policy.checkbox_contact_label_html'"
+  >
+    {{'legals.privacy_policy.checkbox_contact_label_html'|t}}
   </label>
 </small>
 
 <p>
-  <small>
-    The fields marked with * are required
+  <small rv-i18n-html="'forms.required'">
+    {{'forms.required'|t}}
   </small>
 </p>

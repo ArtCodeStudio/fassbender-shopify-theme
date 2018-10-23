@@ -7,15 +7,29 @@
         </button>
       </div>
       <div class="col-12 col-md text-md-right d-flex align-items-center justify-content-end pt-3 pt-md-0">
-        <small>{{ 'content_html' | t: link1: section.settings.link1 }}</small>
+        <small rv-i18n-html="'sections.cookie-banner.content_html'">
+        {{ 'content_html' | t: link1: section.settings.link1 }}
+        <template name="link1">
+          {{link1}}
+        </template>
+        </small>
       </div>
       <div class="col-12 col-md-auto text-right d-flex align-items-center justify-content-end pb-3 pb-md-0">
-        <small><a rv-route="'{{ section.settings.link2 }}'" href="{{ section.settings.link2 }}" class="px-3">{{ 'link-label' | t }}</a></small>
+        <small>
+          <a
+            rv-route="'{{ section.settings.link2 }}'"
+            rv-i18n-html="'sections.cookie-banner.link-label'"
+            href="{{ section.settings.link2 }}"
+            class="px-3"
+          >
+            {{ 'link-label' | t }}
+          </a>
+        </small>
         <button class="btn btn-link d-flex align-items-center d-flex d-md-none" rv-on-click="close">
-          <small>{{ 'close' | t }}</small>
+          <small rv-i18n-text="'sections.cookie-banner.close'">{{ 'close' | t }}</small>
         </button>
         <button class="btn btn-link d-flex align-items-center" rv-on-click="accept">
-          <small>{{ 'okay' | t }}</small>
+          <small rv-i18n-text="'sections.cookie-banner.okay'">{{ 'okay' | t }}</small>
         </button> 
       </div>
     </div>

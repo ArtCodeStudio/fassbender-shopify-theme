@@ -27,7 +27,9 @@
   {% if showVideo %}
     <video class="content has-xs-spacing has-sm-spacing" preload="auto" controls>
       <source src="{{ video }}" type="video/mp4">
-      Your browser does not support the video tag or mp4.
+      <span rv-i18n-text="'system.video_tag_not_supported'">
+        {{'system.video_tag_not_supported'|t}}
+      </span>
     </video>
   {% else %}
     <img lazyload="on" class="content has-xs-spacing has-sm-spacing" src="{{ article.image | img_url: articleImageSize}}" rv-src="'{{ article.image | img_url: articleImageSize}}'" alt="{{acticle.title}}" style="padding: 52px" />

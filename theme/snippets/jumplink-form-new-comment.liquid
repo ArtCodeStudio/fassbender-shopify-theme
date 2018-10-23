@@ -1,9 +1,18 @@
 <rv-shopify-comments-form>
   {% form 'new_comment', article %}
-    <h3 class="text-size-base">{{ 'blogs.comments.title' | t }}</h3>
+    <h3
+      class="text-size-base"
+      rv-i18n-text="'blogs.comments.title_form'"
+      >
+      {{ 'blogs.comments.title_form' | t }}
+    </h3>
 
     <div class="form-group mb-0">
-      <label for="CommentAuthor" class="sr-only">
+      <label
+        for="CommentAuthor"
+        class="sr-only"
+        rv-i18n-text="'blogs.comments.name'"
+        >
         {{ 'blogs.comments.name' | t }}
       </label>
       <input type="text"
@@ -11,17 +20,21 @@
         id="CommentAuthor"
         class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'author' %}input-error{% endif %}"
         placeholder="{{ 'blogs.comments.name' | t }}"
+        rv-i18n-placeholder="'blogs.comments.name'"
         value="{{ form.author }}"
         autocapitalize="words"
         required
       >
-      <div class="invalid-feedback">
-        Please check your name
+      <div
+        class="invalid-feedback"
+        rv-i18n-text="'forms.invalid.name'"
+        >
+        {{'forms.invalid.name'|t}}
       </div>
     </div>
 
     <div class="form-group mb-0">
-      <label for="CommentEmail" class="sr-only">
+      <label for="CommentEmail" class="sr-only" rv-i18n-text="'blogs.comments.email'">
         {{ 'blogs.comments.email' | t }}
       </label>
       <input type="email"
@@ -35,13 +48,16 @@
         autocapitalize="off"
         required
       >
-      <div class="invalid-feedback">
-        Please check your email
+      <div
+        class="invalid-feedback"
+        rv-i18n-text="'forms.invalid.mail'"
+      >
+        {{'forms.invalid.mail'|t}}
       </div>
     </div>
 
     <div class="form-group mb-0">
-      <label for="CommentBody" class="sr-only">
+      <label for="CommentBody" class="sr-only" rv-i18n-text="'blogs.comments.message'">
         {{ 'blogs.comments.message' | t }}
       </label>
       <textarea
@@ -49,36 +65,43 @@
         id="CommentBody"
         class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'body' %}input-error{% endif %}"
         placeholder="{{ 'blogs.comments.message' | t }}"
+        rv-i18n-placeholder="'blogs.comments.message'"
         required
       >{{ form.body }}</textarea>
-      <div class="invalid-feedback">
-        Please check your message
+      <div class="invalid-feedback" rv-i18n-text="'forms.invalid.message'">
+        {{'forms.invalid.message'|t}}
       </div>
     </div>
 
     <small class="custom-control custom-checkbox my-3">
       <input type="checkbox" class="custom-control-input" name="privacy" value="true" required id="{{ idPrefix }}_privacy">
-      <label class="custom-control-label" for="{{ idPrefix }}_privacy">
+      <label class="custom-control-label" for="{{ idPrefix }}_privacy" rv-i18n-html="'legals.privacy_policy.checkbox_label_html'">
         {{ 'legals.privacy_policy.checkbox_label_html' | t }}
       </label>
     </small>
-    <p class="mb-0"><small>{{ 'forms.required' | t }}</small></p>
+    <p class="mb-0"><small rv-i18n-text="'forms.required'">{{ 'forms.required' | t }}</small></p>
     {% if blog.moderated? %}
-      <p class="mb-0"><small>{{ 'blogs.comments.moderated' | t }}</small></p>
+      <p class="mb-0"><small rv-i18n-text="'blogs.comments.moderated'">{{ 'blogs.comments.moderated' | t }}</small></p>
     {% endif %}
 
     {% if comment and comment.status and comment.id != blank and paginate.current_page == 1 %}
       <p class="text-success mt-3 mb-0" role="alert">
         {% if blog.moderated? and comment.status != 'published' %}
-          {{ 'blogs.comments.success_moderated' | t }}
+          <span rv-i18n-text="'blogs.comments.success_moderated'">
+            {{ 'blogs.comments.success_moderated' | t }}
+          </span>
         {% else %}
-          {{ 'blogs.comments.success' | t }}
+          
+          <span rv-i18n-text="'blogs.comments.success'">
+            {{ 'blogs.comments.success' | t }}
+          </span>
         {% endif %}
       </p>
     {% endif %}
 
     {% if form.errors %}
       <p class="text-danger mt-3 mb-0" role="alert">
+        {% comment %} TODO translate {% endcomment %}
         {{ form.errors | default_errors }}
       </p>
     {% endif %}
@@ -87,6 +110,7 @@
       type="submit"
       class="btn btn-animated-underline-dark font-weight-bold mt-3"
       rv-on-click="post"
+      rv-i18n-text="'blogs.comments.post'"
     >
       {{ 'blogs.comments.post' | t }}
     </button>

@@ -2,11 +2,12 @@
   {% if shop.customer_accounts_enabled %}
     {% if customer %}
       <div class="row">
-        <div class="col">
-          Hi {{ customer.first_name }}
+        {% comment %} TODO better with custom t formatter {% endcomment %}
+        <div class="col" rv-i18n-text="'cart.hi'">
+          <template name="name">{{customer.first_name}}</template>
         </div>
         <div class="col-auto">
-          <a href="/account/logout">Logout</a>
+          <a href="/account/logout" rv-i18n-text="'cart.logout'">{{'cart.logout'|t}}</a>
         </div>
       </div>
       
@@ -14,7 +15,7 @@
       <p>
         <strong>
           <a class="text-normal" rv-route="'/account'" rv-route-class-active="'/account'" href="/account">
-            My Account
+            <span rv-i18n-text="'cart.my_account'">{{'cart.my_account'|t}}</span>
           </a>
         </strong>
       </p>
@@ -23,12 +24,12 @@
         <p>
           <strong>
             <a class="text-normal" rv-route="'/account'" rv-route-class-active="'/account'" href="/account">
-              My Account
+              <span rv-i18n-text="'cart.my_account'">{{'cart.my_account'|t}}</span>
             </a>
           </strong>
           or
           <a rv-route="'/account/register'" rv-route-class-active="'/account/register'" href="/account/register">
-            register
+            <span rv-i18n-text="'cart.register'">{{'cart.register'|t}}</span>
           </a>
         </p>
 
@@ -43,7 +44,13 @@
           {% endform %}
 
           <div class="col d-flex align-items-center justify-content-end">
-            <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="recover">Recover</button>
+            <button
+              type="submit"
+              class="btn btn-animated-underline-dark font-weight-bold"
+              rv-on-click="recover"
+              >
+              <span rv-i18n-text="'cart.recover'">{{'cart.recover'|t}}</span>
+            </button>
           </div>
         </div>
 
@@ -62,11 +69,13 @@
             <div class="row mb-2">
               <div class="col-auto d-flex align-items-center">
                 <button class="btn btn-sm btn-link pl-0 text-decoration-normal" rv-on-click="recover">
-                  Forgot Password?
+                  <span rv-i18n-text="'cart.forgot_password'">{{'cart.forgot_password'|t}}</span>
                 </button> 
               </div>
               <div class="col d-flex align-items-center justify-content-end">
-                <button type="submit" class="btn btn-animated-underline-dark font-weight-bold" rv-on-click="login">Login</button>
+                <button type="submit" class="btn btn-sm btn-animated-underline-dark font-weight-bold" rv-on-click="login">
+                  <span rv-i18n-text="'cart.login'">{{'cart.login'|t}}</span>
+                </button>
               </div>
             </div>
           </form>

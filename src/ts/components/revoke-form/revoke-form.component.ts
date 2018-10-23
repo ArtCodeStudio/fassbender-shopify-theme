@@ -2,7 +2,7 @@ import Debug from 'debug';
 import $ from 'jquery';
 import { Utils } from '../../services/Utils';
 import { RibaComponent } from '../../tinybind';
-import template from './contact-form.component.html';
+import template from './revoke-form.component.html';
 import { LocalsService } from '../../services/locals.service';
 
 // TODO move to general validation component class we can extend from
@@ -26,15 +26,15 @@ export interface IValidationObject {
   };
 }
 
-export class ContactFormComponent extends RibaComponent {
+export class RevokeFormComponent extends RibaComponent {
 
-  public static tagName: string = 'rv-contact-form';
+  public static tagName: string = 'rv-revoke-form';
 
   static get observedAttributes() {
     return [];
   }
 
-  protected debug = Debug('component:' + ContactFormComponent.tagName);
+  protected debug = Debug('component:' + RevokeFormComponent.tagName);
 
   protected localsService = new LocalsService();
 
@@ -61,8 +61,7 @@ export class ContactFormComponent extends RibaComponent {
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.initTranslate();
-    this.init(ContactFormComponent.observedAttributes);
+    this.init(RevokeFormComponent.observedAttributes);
   }
 
   /**
@@ -91,32 +90,6 @@ export class ContactFormComponent extends RibaComponent {
   public selectAll(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLElement) {
     this.debug('selectAll');
     window.getSelection().selectAllChildren(eventEl);
-  }
-
-  protected initTranslate() {
-    this.localsService.event.on('changed', (langcode: string) => {
-      this.translate(langcode);
-    });
-    if (this.localsService.ready) {
-      this.translate(this.localsService.getLangcode());
-    } else {
-      this.localsService.event.on('ready', (langcode: string, translationNeeded: boolean) => {
-        this.translate(langcode);
-      });
-    }
-  }
-
-  protected async translate(langcode: string) {
-    return this.localsService.get([langcode, 'forms', 'contact'])
-    .then((local) => {
-      this.debug('changed local', local);
-      this.scope.form.firstName = local.first_name;
-      this.scope.form.lastName = local.last_name;
-      this.scope.form.phone = local.phone;
-      this.scope.form.email = local.mail;
-      this.scope.form.message = local.message;
-      return;
-    });
   }
 
   /**

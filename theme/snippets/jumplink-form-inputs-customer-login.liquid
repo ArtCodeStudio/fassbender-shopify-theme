@@ -1,11 +1,16 @@
 <div class="form-group mb-0">
-  <label for="{{idPrefix}}login_customer_email" class="sr-only">Email Address</label>
+  <label for="{{idPrefix}}login_customer_email" class="sr-only"
+    rv-i18n-text="'forms.login.mail'"
+  >
+    {{'forms.login.mail'|t}}
+  </label>
   <input
     type="email"
     name="customer[email]"
     class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'email' %}is-invalid{% endif %}"
     id="{{idPrefix}}login_customer_email"
-    placeholder="Email"
+    placeholder="{{'forms.login.mail'|t}}"
+    rv-i18n-placeholder="'forms.login.mail'"
     required
     autocorrect="off"
     autocapitalize="off"
@@ -14,19 +19,26 @@
     autocomplete="username"
     rv-value="form.customer.email"
   />
-  <div class="invalid-feedback">
-    Please check your entry
-  </div>
+    <div class="invalid-feedback"
+      rv-i18n-text="'forms.invalid.any'"
+    >
+      {{'forms.invalid.any'|t}}
+    </div>
 </div>
 
 <div class="form-group input-group mb-0">
-  <label for="{{idPrefix}}login_customer_password" class="sr-only">Password</label>
+  <label for="{{idPrefix}}login_customer_password" class="sr-only"
+    rv-i18n-text="'forms.login.password'"
+  >
+    {{'forms.login.password'|t}}
+  </label>
   <input
     type="password" 
     name="customer[password]"
     class="form-control form-control-text form-control-primary py-1 {% if form.errors contains 'password' %}is-invalid{% endif %}"
     id="{{idPrefix}}login_customer_password"
-    placeholder="Password"
+    placeholder="{{'forms.login.password'|t}}"
+    rv-i18n-placeholder="'forms.login.password'"
     required
     autocorrect="off"
     autocapitalize="off"
@@ -34,7 +46,9 @@
     autocomplete="current-password"
     rv-value="form.customer.password"
   >
-  <div class="invalid-feedback">
-    Please check your entry
-  </div>
+    <div class="invalid-feedback"
+      rv-i18n-text="'forms.invalid.any'"
+    >
+      {{'forms.invalid.any'|t}}
+    </div>
 </div>
