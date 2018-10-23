@@ -3,14 +3,12 @@ import $ from 'jquery';
 import {
   RibaComponent,
 } from '../../../tinybind';
-import { LocalsService, ILangcode } from '../../../services/locals.service';
+import { LocalsService, ILangcode, ILocalVar } from '../../../services/locals.service';
 
 interface IScope {
   translate: I18nComponent['translate'];
   path?: string;
-  vars: {
-    [name: string]: string;
-  };
+  vars: ILocalVar;
 }
 
 export class I18nComponent extends RibaComponent {
