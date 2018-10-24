@@ -28,7 +28,7 @@
         <div class="row">
           <div class="col-7 offset-3 d-flex justify-content-center text-center">
             <div class="form-inline">
-              <label class="m-0" for="quanity">Quantity</label>
+              <label class="m-0" for="quanity" rv-i18n-text="'products.quantity'">{{'products.quantity'|t}}</label>
               <input type="number" min="0" step="1" class="form-control bg-transparent border-0" id="quanity" rv-value="quantity | strip_html | number 1" style="width: 70px; font-weight: bold;">
             </div>
           </div>
@@ -39,7 +39,10 @@
 
         <div class="row justify-content-around px-3 pb-4 option-group">
           <div class="col-auto px-0" rv-each-size="sizeOption.values">
-            <button class="btn btn-link option-size text-decoration-normal" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"></button>
+            <button class="btn btn-link option-size text-decoration-normal" rv-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"
+              rv-text="size"
+              rv-i18n-text="size | handleize | prepend 'products.options.'"
+            ></button>
           </div>
         </div>
       </div>
@@ -77,11 +80,11 @@
       </div>
       <div class="col text-right text-truncate d-flex align-items-end justify-content-end mb-2">
         <button rv-hide="showDetailMenu" class="btn btn-animated-underline-dark" rv-on-click="toggleDetailMenu">
-          Add
+          <span rv-i18n-text="'products.add'">{{'products.add'|t}}</span>
         </button>
         <button rv-show="showDetailMenu" rv-enabled="available" class="btn btn-animated-underline-dark" rv-on-click="addToCart">
-          <span rv-show="variant.available">Add</span>
-          <span rv-hide="variant.available">Sold Out</span>
+          <span rv-show="variant.available" rv-i18n-text="'products.add'">{{'products.add'|t}}</span>
+          <span rv-hide="variant.available" rv-i18n-text="'products.sold_out'">{{'products.sold_out'|t}}</span>
         </button>
       </div>
     </div>

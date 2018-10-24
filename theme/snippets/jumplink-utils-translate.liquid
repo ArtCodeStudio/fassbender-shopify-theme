@@ -1,0 +1,10 @@
+{% comment %} Translate `translate` if translation is available {% endcomment %}
+{% assign _path = path | append: '.' %}
+{% assign translateString = translate | handleize | prepend: _path %}
+{% assign _translated = translateString | t %}
+{% if _translated contains  'translation missing' %}
+  {% assign translated = translate %}
+{% else %}
+  {% capture translated %}<span rv-i18n-html="'{{translateString}}'">{{_translated}}</span>{% endcapture %}
+{% endif %}
+

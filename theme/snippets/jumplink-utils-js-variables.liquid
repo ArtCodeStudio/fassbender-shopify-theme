@@ -77,47 +77,6 @@
    */
   // window.model.system.cart = window.cart || {{ cart | json }};
 
-  {% comment %}
-  /**
-   * Translations
-   */
-  window.model.system.translations = window.model.system.translations || {};
-
-  window.model.system.translations.cart = {};
-  window.model.system.translations.cart.general = {};
-  window.model.system.translations.cart.general.add_to_cart = {{ 'cart.general.add_to_cart' | t | json }};
-  window.model.system.translations.cart.general.pre_order = {{ 'cart.general.pre_order' | t | json }};
-  window.model.system.translations.cart.general.empty = {{ 'cart.general.empty' | t | json }};
-  window.model.system.translations.cart.general.savings_html = {{ 'cart.general.savings_html' | t: price: '[savings]' | json }};
-  window.model.system.translations.cart.general.added = {{ 'cart.general.added' | t | json }};
-  window.model.system.translations.cart.general.removed = {{ 'cart.general.removed' | t | json }};
-  window.model.system.translations.cart.general.updated = {{ 'cart.general.updated' | t | json }};
-  window.model.system.translations.cart.general.can_not_add_to_cart = {{ 'cart.general.can_not_add_to_cart' | t | json }};
-
-  window.model.system.translations.product = {};
-  window.model.system.translations.product.general = {};
-  window.model.system.translations.product.general.sold_out = {{ 'product.general.sold_out' | t | json }};
-  window.model.system.translations.product.general.available = {{ 'product.general.available' | t | json }};
-  window.model.system.translations.product.general.backordner_possible = {{ 'product.general.backordner_possible' | t | json }};
-  window.model.system.translations.product.general.unavailable = {{ 'product.general.unavailable' | t | json }};
-  window.model.system.translations.product.general.legal_price_text = {{ 'product.general.legal_price_text' | t: vat_rate: '[vat_rate]' | json }};
-
-  window.model.system.translations.wishlist = {};
-  window.model.system.translations.wishlist.general = {};
-  window.model.system.translations.wishlist.general.wishlist = {{ 'wishlist.general.wishlist' | t | json }};
-  window.model.system.translations.wishlist.general.empty = {{ 'wishlist.general.empty' | t | json }};
-  window.model.system.translations.wishlist.general.empty_message = {{ 'wishlist.general.empty_message' | t | json }};
-  window.model.system.translations.wishlist.general.login_text = {{ 'wishlist.general.login_text' | t | json }};
-  window.model.system.translations.wishlist.general.added = {{ 'wishlist.general.added' | t: title: '[title]' | json }};
-  window.model.system.translations.wishlist.general.removed = {{ 'wishlist.general.removed' | t: title: '[title]' | json }};
-  window.model.system.translations.wishlist.general.clear = {{ 'wishlist.general.clear' | t | json }};
-  window.model.system.translations.wishlist.general.emptied = {{ 'wishlist.general.emptied' | t | json }};
-  window.model.system.translations.wishlist.general.remove = {{ 'wishlist.general.remove' | t | json }};
-  window.model.system.translations.wishlist.general.add = {{ 'wishlist.general.add' | t | json }};
-  window.model.system.translations.wishlist.general.show = {{ 'wishlist.general.show' | t | json }};
-  window.model.system.translations.wishlist.general.continue = {{ 'wishlist.general.continue' | t | json }};
-  {% endcomment %}
-
   window.model.system.customer = {% include 'jumplink-utils-json-customer' %}; // {{ customer | json }} not allowed for this object
   
   window.model.system.linklists = {% include 'jumplink-utils-json-linklists' %}; // {{ linklists | json }} not allowed for this object

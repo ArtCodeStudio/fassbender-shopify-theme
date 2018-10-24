@@ -46,7 +46,13 @@
         <shopify-filter class="col-auto pointer-events-all" rv-collection-url="dataset.collectionUrl" rv-namespace="dataset.namespace" rv-template="dataset.template | json" rv-filter="filter | json">
           <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
             <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template collectionUrl">
-              <a class="nav-link" rv-add-class="'level-' | append link.level" rv-route="link.url" rv-href="link.url">{link.title}</a>
+              <a
+                class="nav-link"
+                rv-add-class="'level-' | append link.level"
+                rv-route="link.url"
+                rv-href="link.url"
+                rv-i18n-text="link.title | handleize | prepend 'menus.'"
+              >{link.title}</a>
               
               <div class="small" rv-if="type | call link.handle | eq 'routes'">
                 <strong>Type</strong>
@@ -59,7 +65,7 @@
                       rv-route="sublink.url"
                       rv-for="link.handle | append sublink.handle"
                     >
-                        <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'"></span>
+                        <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
                     </label>
                   </div>
                 </div>
@@ -82,6 +88,7 @@
                             rv-for="{{ collection.handle }}"
                             rv-parent-route-class-active="'{{ collection.url }}'"
                             rv-route="'{{ collection.url }}'"
+                            rv-i18n-text="'collections.{{collection.title|handleize}}'"
                           >{{ collection.title }}</label>
                         </div>
                       </div>
@@ -102,7 +109,7 @@
                       rv-on-click="scrollTo | args sublink.url"
                       rv-for="link.handle | append sublink.handle"
                     >
-                      <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'"></span>
+                      <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
                     </label>
                   </div>
                 </div>
@@ -118,7 +125,7 @@
                       rv-for="link.handle | append sublink.handle"
                       rv-on-click="storiesFilterBy | args link.handle sublink.url"
                     >
-                      <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'"></span>
+                      <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
                     </label>
                   </div>
                 </div>

@@ -52,7 +52,35 @@
     "blog": "Stories",
     "vlog": "Vlog"
   },
+  "collections": {
+    "all": "All",
+    "coat": "Coat",
+    "jacket": "Jacket",
+    "vest": "Vest"
+  },
   "products": {
+    "add": "Add",
+    "sold_out": "Sold Out",
+    "quantity": "Quantity",
+    "options": {
+      "30": "30",
+      "32": "32",
+      "34": "34",
+      "36": "36",
+      "38": "38",
+      "40": "40",
+      "42": "42",
+      "44": "44",
+      "46": "46",
+      "48": "48",
+      "50": "50"
+    },
+    "tabs": {
+      "description": "Description",
+      "material": "Material",
+      "fit": "Fit",
+      "care": "Care"
+    }
   },
   "customer": {
     "addresses": {
@@ -88,7 +116,8 @@
       "subtext": "Enter a new password for {{ email }}",
       "password": "Password",
       "password_confirm": "Confirm Password",
-      "submit": "Reset Password"
+      "submit": "Reset Password",
+      "mail": "Email"
     },
     "activate_account": {
       "title": "Activate Account",
@@ -96,7 +125,9 @@
       "password": "Password",
       "password_confirm": "Confirm Password",
       "submit": "Activate Account",
-      "cancel": "Decline Invitation"
+      "cancel": "Decline Invitation",
+      "successfull": "Account successfully activated.",
+      "error": "Can't activate account."
     },
     "order": {
       "cancelled_reason_html": "Status <a target=\"_blank\" href=\"{{ order_status_url }}\">cancelled</a>. Reason: {{cancel_reason}}",
@@ -235,6 +266,71 @@
       }
     }
   },
+  "404": {
+    "title": "404 Page Not Found",
+    "content_html": "The page you requested does not exist. Click <a rv-route=\"'/collections/all'\" href=\"/collections/all\">here</a> to continue shopping."
+  },
+  "cookies": {
+    "title": "Cookies we use",
+    "subtitle": "To power up our online store we place the following cookies.",
+    "table_name": "Cookie Name",
+    "table_description": "Description",
+    "table_domain": "Domain",
+    "store": {
+      "title": "Cookies Necessary for the Functioning of the Store",
+      "_ab": "Used in connection with access to admin.",
+      "_orig_referrer": "Used in connection with shopping cart.",
+      "_secure_session_id": "Used in connection with navigation through a storefront.",
+      "Cart": "Used in connection with shopping cart.",
+      "cart_sig": "Used in connection with checkout.",
+      "cart_ts": "Used in connection with checkout.",
+      "checkout_token": "Used in connection with checkout.",
+      "Secret": "Used in connection with checkout.",
+      "Secure_customer_sig": "Used in connection with customer login.",
+      "storefront_digest": "Used in connection with customer login."
+    },
+    "shopify_analytics": {
+      "title": "Reporting and Analytics by Shopify",
+      "_landing_page": "Track landing pages.",
+      "_orig_referrer": "Track landing pages.",
+      "_s": "Shopify analytics.",
+      "_shopify_fs": "Shopify analytics.",
+      "_shopify_s": "Shopify analytics.",
+      "_shopify_sa_p": "Shopify analytics relating to marketing & referrals.",
+      "_shopify_sa_t": "Shopify analytics relating to marketing & referrals.",
+      "_shopify_uniq": "Shopify analytics.",
+      "_shopify_visit": "Shopify analytics.",
+      "_shopify_y": "Shopify analytics.",
+      "_y": "Shopify analytics.",
+      "tracked_start_checkout": "Shopify analytics relating to checkout."
+    },
+    "google_analytics": {
+      "title": "Google Analytics",
+      "_ga": "Used to distinguish users.",
+      "_gid": "Used to distinguish users.",
+      "_gat_html": "Used to throttle request rate. If Google Analytics is deployed via Google Tag Manager, this cookie will be named <code><span>_dc_gtm_&lt;property-id&gt;</span></code>.",
+      "AMP_TOKEN": "Contains a token that can be used to retrieve a Client ID from AMP Client ID service. Other possible values indicate opt-out, inflight request or an error retrieving a Client ID from AMP Client ID service.",
+      "_gac_property-id_html": "Contains campaign related information for the user. If you have linked your Google Analytics and Google Ads accounts, Google Ads website conversion tags will read this cookie unless you opt-out. <a href=\"//support.google.com/google-ads/answer/7521212\">Learn more</a>."
+    },
+    "ttd": {
+      "title": "The Trade Desk",
+      "description_html": "For information on the technology used by The Trade Desk and privacy, visit the following link: <a href=\"http://thetradedesk.com/general/privacy-policy\">http://thetradedesk.com/general/privacy-policy</a><br><br>You can contradict the data storage at any time with future effect by following the link: <a href=\"http://www.adsrvr.org/\">http://www.adsrvr.org/</a>",
+      "TDID": "The Trade Desk analytics.",
+      "TDCPM": "The Trade Desk analytics.",
+      "TTDOptOut": "Opt Out for The Trade Desk analytics."
+    },
+    "privacy": {
+      "title": "Privacy Settings",
+      "description_html": "To save your privacy settings we use the following cookies.",
+      "cookieconsent_accepted": "If you agree with our cookie notice this will be saved so we do not to show you the notice again.",
+      "ga-disable-UA-126476233-1": "Used to save the setting that you do not want tracking with Google Analytics.",
+      "TTDOptOut": "Used to save the setting that you do not want tracking with The Trade Desk.",
+      "fb-pixel-is-disabled": "Used to save the setting that you do not want tracking with Facebook Pixel."
+    }
+  },
+  "return": {
+    "shipping_note": "Please note that for deliveries outside of EU, you may be charged extra expenses including any import duties and taxes, and you will be responsible for these charges or fees imposed by the customs authorities of the destination country."
+  },
   "cart": {
     "hi": "Hi {{name}}",
     "logout": "Logout",
@@ -254,6 +350,11 @@
     "view": "View Shopping Bag",
     "quantity": "Quantity",
     "continue": "Continue Shopping"
+  },
+  "titles": {
+    "contact": "Contact",
+    "revoke-form": "Revoke Form",
+    "privacy-settings": "Privacy Settings"
   },
   "shopify": {
     "checkout": {

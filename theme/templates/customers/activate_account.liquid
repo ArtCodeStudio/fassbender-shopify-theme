@@ -14,57 +14,70 @@
         {% comment %} Error and Successfull messages {% endcomment %}
         {% if form.errors %}
           {% assign formErrors = form.errors %}
+          {% assign formSuccessfully = false %}
         {% endif %}
         {% if form.posted_successfully? %}
-          {% assign formSuccessfully = 'Account successfully activated' %}
+          {% assign formSuccessfully = true %}
         {% endif %}
 
         {% if formErrors %}
           <div class="alert alert-danger" role="alert">
+            <span rv-i18n-text="'customer.activate_account.error'">{{'customer.activate_account.error'|t}}</span>
             {{ formErrors | default_errors }}
           </div>
         {% endif %}
 
         {% if formSuccessfully %}
-          <div class="alert alert-success" role="alert">
-            {{ formSuccessfully }}
+          <div class="alert alert-success" role="alert"
+            rv-i18n-text="'customer.activate_account.successfull'">
+            {{'customer.activate_account.successfull'|t}}
           </div>
         {% endif %}
 
         <div class="form-group input-group mb-0">
-          <label for="CustomerPassword" class="sr-only">{{ 'customer.activate_account.password' | t }}</label>
+          <label for="CustomerPassword" class="sr-only"
+            rv-i18n-text="'customer.activate_account.password'">
+            {{ 'customer.activate_account.password' | t }}
+          </label>
           <input
             type="password"
             value=""
             name="customer[password]"
             id="CustomerPassword"
             class="form-control form-control-text form-control-primary py-1"
+            rv-i18n-placeholder="'customer.activate_account.password'"
             placeholder="{{ 'customer.activate_account.password' | t }}"
             autocomplete="new-password"
           >
         </div>
 
         <div class="form-group input-group mb-0">
-          <label for="CustomerPasswordConfirmation" class="sr-only">{{ 'customer.activate_account.password_confirm' | t }}</label>
+          <label for="CustomerPasswordConfirmation" class="sr-only"
+            rv-i18n-text="'customer.activate_account.password_confirm'">
+            {{ 'customer.activate_account.password_confirm' | t }}
+          </label>
           <input
             type="password"
             value=""
             name="customer[password_confirmation]"
             id="CustomerPasswordConfirmation"
             class="form-control form-control-text form-control-primary py-1"
+            rv-i18n-placeholder="'customer.activate_account.password_confirm'"
             placeholder="{{ 'customer.activate_account.password_confirm' | t }}"
             autocomplete="new-password"
           >
         </div>
         <div class="form-group input-group my-3">
-          <button type="submit" class="btn btn-animated-underline-dark font-weight-bold px-0">
+          <button type="submit" class="btn btn-animated-underline-dark font-weight-bold px-0"
+            rv-i18n-text="'customer.activate_account.submit'"
+          >
             {{ 'customer.activate_account.submit' | t }}
           </button>
         </div>
 
         <div class="form-group input-group my-3">
           <button type="submit" class="btn btn-link px-0" name="decline">
-            <small>
+            <small rv-i18n-text="'customer.activate_account.cancel'">
               {{ 'customer.activate_account.cancel' | t }}
             </small>
           </button>

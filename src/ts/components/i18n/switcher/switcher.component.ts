@@ -45,23 +45,28 @@ export class I18nSwitcherComponent extends RibaComponent {
 
   }
 
-  public initOnReady(langcode: string) {
+  public async initOnReady(langcode: string) {
     // set avaible langcodes
-    this.localsService.getAvailableLangcodes()
+    return this.localsService.getAvailableLangcodes()
     .then((langcodes) => {
       this.scope.langcodes = langcodes;
       // set active langcodes
       this.scope.langcodes.forEach((langCode) => {
         langCode.active = langCode.code === langcode;
       });
-      this.init(I18nSwitcherComponent.observedAttributes);
-    });
-
-    this.localsService.event.on('changed', (changedLangcode: string, initial: boolean) => {
-      // Activate localcode and disable the other
-      this.scope.langcodes.forEach((langCode) => {
-        langCode.active = langCode.code === changedLangcode;
+      return this.init(I18nSwitcherComponent.observedAttributes);
+    })
+    .then(() => {
+      this.localsService.event.on('changed', (changedLangcode: string, initial: boolean) => {
+        // Activate localcode and disable the other
+        this.scope.langcodes.forEach((langCode) => {
+          langCode.active = langCode.code === changedLangcode;
+        });
       });
+    })
+    .catch((error) => {
+      console.error(error);
+      return error;
     });
   }
 

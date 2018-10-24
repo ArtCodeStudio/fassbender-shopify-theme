@@ -1,15 +1,8 @@
-<div class="container">
-
-  <h1 class="centered hidden">404 Page Not Found</h1>
-  <h2 class="delta centered hidden">The page you requested does not exist. Click <a rv-route="" href="/collections/all">here</a> to continue shopping.</h2>
-
+<div class="container-fluid pt-5" id="page-{{ page.handle }}">
+  <div class="row pt-md-5">
+    <div class="col-12 col-md-8 offset-md-2 col-lg-6">
+      <h1 class="" rv-i18n-text="'404.title'">{{'404.title'|t}}</h1>
+      <p class="" rv-i18n-html="'404.content_html'">{{'404.content_html'|t}}</p>
+    </div>
+  </div>
 </div>
-
-<!-- DO NOT EDIT: START -->
-<!-- BULK REDIRECT CODE: START -->
-<script type="text/javascript">
-function makeDoubleDelegate(a,b){return function(){if(a)a();if(b)b()}}window.onload=makeDoubleDelegate(window.onload,function(){window.onload=function(){var a=document.createElement("img");var b="https:"==document.location.protocol?"https://":"http://";a.src=b+"www.redirectsapp.com/tracker?r="+encodeURIComponent(document.referrer)+"&c=8N8q";((document.getElementsByTagName("head")||[null])[0]||document.getElementsByTagName("script")[0].parentNode).appendChild(a)}()})
-</script>
-<!-- BULK REDIRECT CODE: END -->
-<!-- DO NOT EDIT: END -->
-

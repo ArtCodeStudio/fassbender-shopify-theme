@@ -99,29 +99,14 @@ export class LocalsService {
       // If the current langcode is not the inital langcode then translation is needed
       const translationNeeded = this.currentLangcode !== this.initalLangcode;
       this.event.trigger('ready', this.currentLangcode, translationNeeded);
+    })
+    .catch((error) => {
+      console.error(error);
+      this.ready = false;
+      return error;
     });
 
     LocalsService.instance[this.theme.id] = this;
-  }
-
-  public async getAll(themeID?: number) {
-    if (!themeID) {
-      themeID = this.theme.id;
-    }
-
-    if (!themeID) {
-      throw new Error(`theme object is requred!`);
-    }
-
-    const url = `${LocalsService.baseUrl}/${themeID}/locales`;
-    if (this.locals[themeID]) {
-      return this.locals[themeID];
-    }
-    return getJSON(url)
-    .then((locals) => {
-      this.locals[themeID as number] = locals;
-      return this.locals[themeID as number];
-    });
   }
 
   /**
@@ -163,6 +148,11 @@ export class LocalsService {
         local = this.setTranslateStringVars(local, vars);
       }
       return local;
+    })
+    .catch((error) => {
+      console.error(error);
+      this.ready = false;
+      return error;
     });
   }
 
@@ -238,11 +228,62 @@ export class LocalsService {
   }
 
   /**
+   * Replace variables on translated string
+   * @param translateString
+   * @param vars
+   */
+  public setTranslateStringVars(translateString: string, vars: ILocalVar) {
+    if (!translateString) {
+      return translateString;
+    }
+    const matches = translateString.match(/{{\s*?[A-Za-z_-]+\s*?}}/gm);
+    if (matches) {
+      for (const match of matches) {
+        if (match) {
+          const varName = match.replace(/{{\s*|\s*}}/gm, '');
+          // this.debug('varName', varName, 'match', match, 'content', vars[varName], 'translateString', translateString);
+          if (typeof(vars[varName]) === 'string' || typeof(vars[varName]) === 'number') {
+            translateString = translateString.replace(match, vars[varName] as string);
+          }
+        }
+      }
+    }
+    return translateString;
+  }
+
+  /**
+   * Get file with all languages
+   * @param themeID
+   */
+  private async getAll(themeID?: number) {
+    if (!themeID) {
+      themeID = this.theme.id;
+    }
+
+    if (!themeID) {
+      throw new Error(`theme object is requred!`);
+    }
+
+    let url = `${LocalsService.baseUrl}/${themeID}/locales`;
+    if ((window as any).Shopify.shop) {
+      url = url + `?shop=${(window as any).Shopify.shop}`;
+    }
+    if (this.locals[themeID]) {
+      return this.locals[themeID];
+    }
+    return getJSON(url)
+    .then((locals) => {
+      this.locals[themeID as number] = locals;
+      return this.locals[themeID as number];
+    });
+  }
+
+  /**
    * see https://help.shopify.com/en/themes/development/theme-store-requirements/internationalizing/translation-filter#pluralization-in-translation-keys
    * @param translateString
    * @param vars
    */
-  public setTranslateStringPluralization(translateObj: ILocalPluralization | string, vars: ILocalVar) {
+  private setTranslateStringPluralization(translateObj: ILocalPluralization | string, vars: ILocalVar) {
     if (vars.count && typeof(translateObj) === 'object' && translateObj !== null) {
       const count = Number(vars.count);
       if (count === 0) {
@@ -266,27 +307,4 @@ export class LocalsService {
     return translateObj as string;
   }
 
-  /**
-   * Replace variables on translated string
-   * @param translateString
-   * @param vars
-   */
-  public setTranslateStringVars(translateString: string, vars: ILocalVar) {
-    if (!translateString) {
-      return translateString;
-    }
-    const matches = translateString.match(/{{\s*?[A-Za-z_-]+\s*?}}/gm);
-    if (matches) {
-      for (const match of matches) {
-        if (match) {
-          const varName = match.replace(/{{\s*|\s*}}/gm, '');
-          // this.debug('varName', varName, 'match', match, 'content', vars[varName], 'translateString', translateString);
-          if (typeof(vars[varName]) === 'string' || typeof(vars[varName]) === 'number') {
-            translateString = translateString.replace(match, vars[varName] as string);
-          }
-        }
-      }
-    }
-    return translateString;
-  }
 }

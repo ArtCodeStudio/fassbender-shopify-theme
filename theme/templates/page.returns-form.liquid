@@ -1,8 +1,16 @@
+{% comment %} Translate page title if translation is available {% endcomment %}
+{% assign pageTitleTransString = page.title | handleize | prepend: 'titles.' %}
+{% assign pageTitle = pageTitleTransString | t %}
+{% if pageTitle contains  'translation missing' %}
+  {% assign pageTitle = page.title %}
+{% endif %}
+
+
 <div class="container-fluid pt-5" id="page-{{ page.handle }}">
   <div class="row pt-md-5">
-    {% unless page.title == blank %}
+    {% unless pageTitle == blank %}
         <div class="col-12 col-md-8 offset-md-2 col-lg-6 rte">
-          <h2>{{ page.title }}</h2>
+          <h2 rv-i18n-html="'{{pageTitleTransString}}'">{{ pageTitle }}</h2>
         </div>
     {% endunless %}
     {% unless page.content == blank %}

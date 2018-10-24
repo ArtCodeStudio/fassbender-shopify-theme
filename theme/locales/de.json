@@ -17,7 +17,7 @@
     "footer": {
       "home":"FASSBENDER",
       "copyright": "2018 FASSBENDER. Alle Rechte vorbehalten",
-      "crafter_html": "Das Art + Code Studio versteht, dass jeder Kunde einzigartig ist, jedes Projekt einen anderen Ansatz erfordert und dass jedes Projekte unvoreingenommen und mit freien Gedanken begonnen werden muss. So entdecken wir in enger Zusammenarbeit mit unseren Kunden das Potenzial und schaffen kreative und schöne Lösungen. Schreib uns: <a href=\"mailto:hi@artandcode.studio\">hi@artandcode.studio</a>"
+      "crafter_html": "Das Art+Code Studio versteht, dass jeder Kunde einzigartig ist, jedes Projekt einen anderen Ansatz erfordert und dass jedes Projekte unvoreingenommen und mit freien Gedanken begonnen werden muss. So entdecken wir in enger Zusammenarbeit mit unseren Kunden das Potenzial und schaffen kreative und schöne Lösungen. Schreib uns: <a href=\"mailto:hi@artandcode.studio\">hi@artandcode.studio</a>"
     },
     "navigation": {
       "teaser_text": "Willkommen in der Welt der Trends, Fashion Inspirationen und High-End-Ready-to-Wear Stücken."
@@ -34,7 +34,7 @@
     "store": "Store",
     "about": "Über",
     "fassbender": "#Fassbender",
-    "customer-care": "Kundeninformation",
+    "customer-care": "Kundenservice",
     "newsletter": "Newsletter",
     "legal-disclosure": "Impressum",
     "returns": "Widerruf",
@@ -52,8 +52,35 @@
     "blog": "Stories",
     "vlog": "Vlog"
   },
+  "collections": {
+    "all": "Alle",
+    "coat": "Coat",
+    "jacket": "Jacket",
+    "vest": "Vest"
+  },
   "products": {
-    
+    "add": "Hinzufügen",
+    "sold_out": "Ausverkauft",
+    "quantity": "Menge",
+    "options": {
+      "30": "30",
+      "32": "32",
+      "34": "34",
+      "36": "36",
+      "38": "38",
+      "40": "40",
+      "42": "42",
+      "44": "44",
+      "46": "46",
+      "48": "48",
+      "50": "50"
+    },
+    "tabs": {
+      "description": "Detail",
+      "material": "Material",
+      "fit": "Größen",
+      "care": "Pflege"
+    }
   },
   "customer": {
     "addresses": {
@@ -89,7 +116,8 @@
       "subtext": "Geben Sie ein neues Passwort für {{ email }} ein",
       "password": "Passwort",
       "password_confirm": "Passwort bestätigen",
-      "submit": "Passwort zurücksetzen"
+      "submit": "Passwort zurücksetzen",
+      "mail": "E-Mail"
     },
     "activate_account": {
       "title": "Account aktivieren",
@@ -97,7 +125,9 @@
       "password": "Passwort",
       "password_confirm": "Passwort bestätigen",
       "submit": "Account aktivieren",
-      "cancel": "Einladung ablehnen"
+      "cancel": "Einladung ablehnen",
+      "successfull": "Konto erfolgreich aktiviert.",
+      "error": "Konto kann nicht aktiviert werden."
     },
     "order": {
       "cancelled_reason_html": "Status <a target=\"_blank\" href=\"{{ order_status_url }}\">storniert</a>. Grund: {{cancel_reason}}",
@@ -185,6 +215,7 @@
       "title": "Irgendwelche Fragen? Fühle dich frei uns zu kontaktieren.",
       "body_html": "Sende uns eine Nachricht an <a href=\"mailto:{{mail}}\">{{mail}}</a> oder rufe uns unter <a href=\"tel:{{phone}}\">{{phone}}</a> an.<br> <small>Montag - Freitag 10.00 - 18.00 Uhr</small>",
       "successfull": "Nachricht erfolgreich abgeschickt. Vielen Dank!",
+      "error": "Nachricht konnte nicht abgeschickt werden.",
       "form_title": "Nachricht an uns",
       "send": "Nachricht senden"
     },
@@ -235,6 +266,71 @@
       }
     }
   },
+  "404": {
+    "title": "404 Seite nicht gefunden",
+    "content_html": "Die von Ihnen angeforderte Seite existiert nicht. Klicke <a rv-route=\"'/collections/all'\" href=\"/collections/all\">hier</a> um weiter zu shoppen."
+  },
+  "cookies": {
+    "title": "Cookies die wir verwenden",
+    "subtitle": "Um unseren Shop zu betreiben, verwenden wir folgende Cookies.",
+    "table_name": "Cookie Name",
+    "table_description": "Beschreibung",
+    "table_domain": "Domain",
+    "store": {
+      "title": "Notwendig für die Funktionsweise des Shopsystems.",
+      "_ab": "Wird in Verbindung mit dem Zugriff auf das Backend verwendet.",
+      "_orig_referrer": "Wird in Verbindung mit dem Warenkorb verwendet.",
+      "_secure_session_id": "Wird in Verbindung mit der Navigation durch den Shop verwendet.",
+      "Cart": "Wird in Verbindung mit dem Warenkorb verwendet.",
+      "cart_sig": "Wird in Verbindung mit dem Checkout verwendet.",
+      "cart_ts": "Wird in Verbindung mit dem Checkout verwendet.",
+      "checkout_token": "Wird in Verbindung mit dem Checkout verwendet.",
+      "Secret": "Wird in Verbindung mit dem Checkout verwendet.",
+      "Secure_customer_sig": "Wird in Verbindung mit dem Kundenlogin verwendet.",
+      "storefront_digest": "Wird in Verbindung mit dem Kundenlogin verwendet."
+    },
+    "shopify_analytics": {
+      "title": "Berichterstattung und Analysen von Shopify",
+      "_landing_page": "Zielseiten tracken.",
+      "_orig_referrer": "Zielseiten tracken.",
+      "_s": "Shopify Analysen.",
+      "_shopify_fs": "Shopify Analysen.",
+      "_shopify_s": "Shopify Analysen.",
+      "_shopify_sa_p": "Shopify Analysen in Bezug auf Marketing & Empfehlungen.",
+      "_shopify_sa_t": "Shopify Analysen in Bezug auf Marketing & Empfehlungen.",
+      "_shopify_uniq": "Shopify Analysen.",
+      "_shopify_visit": "Shopify Analysen.",
+      "_shopify_y": "Shopify Analysen.",
+      "_y": "Shopify Analysen.",
+      "tracked_start_checkout": "Shopify Analysen in Bezug auf den Checkout."
+    },
+    "google_analytics": {
+      "title": "Google Analytics",
+      "_ga": "Wird zur Unterscheidung von Benutzern verwendet.",
+      "_gid": "Wird zur Unterscheidung von Benutzern verwendet.",
+      "_gat_html": "Wird zum Drosseln der Anforderungsrate verwendet. Wenn Google Analytics über den Google Tag Manager bereitgestellt wird, erhält dieser Cookie den Namen <code><span>_dc_gtm_&lt;property-id&gt;</span></code>.",
+      "AMP_TOKEN": "Enthält ein Token, mit dem eine Client-ID vom AMP-Client-ID-Dienst abgerufen werden kann. Andere mögliche Werte weisen auf Abmeldung, Inflight-Anforderung oder einen Fehler beim Abrufen einer Client-ID vom AMP-Client-ID-Dienst hin.",
+      "_gac_property-id_html": "Enthält kampagnenbezogene Informationen für den Benutzer. Wenn Google Analytics mit Google-Anzeigenkonten verknüpft ist, lesen die Google-Anzeigen-Website-Conversion-Tags diesen Cookie, sofern Sie sich nicht abmelden. <a href=\"//support.google.com/google-ads/answer/7521212\">Erfahre mehr</a>."
+    },
+    "ttd": {
+      "title": "The Trade Desk",
+      "description_html": "Informationen zur der von The Trade Desk verwendeten Technologie und zum Datenschutz finden Sie unter folgendem Link: <a href=\"http://thetradedesk.com/general/privacy-policy\">http://thetradedesk.com/general/privacy-policy</a><br><br>Sie können der Datensammlung und -speicherung jederzeit mit Wirkung für die Zukunft unter nachstehendem Link widersprechen: <a href=\"http://www.adsrvr.org/\">http://www.adsrvr.org/</a>",
+      "TDID": "The Trade Desk Analysen.",
+      "TDCPM": "The Trade Desk Analysen.",
+      "TTDOptOut": "Opt Out für The Trade Desk Analysen."
+    },
+    "privacy": {
+      "title": "Privatsphäre Einstellungen",
+      "description_html": "Um deine Privatsphäre Einstellungen zu speichern, verwenden wir folgende Cookies.",
+      "cookieconsent_accepted": "Wenn du mit unserem Cookie-Hinweis einverstanden bist, wird dies gespeichert, so dass wir dir diesen Hinweis nicht erneut anzeigen müssen.",
+      "ga-disable-UA-126476233-1": "Wird verwendet, um die Einstellung zu speichern, dass du nicht von Google Analytics zur Analyse erfassen werden möchtest.",
+      "TTDOptOut": "Wird verwendet, um die Einstellung zu speichern, dass du nicht von The Trade Desk zur Analyse erfassen werden möchtest.",
+      "fb-pixel-is-disabled": "Wird verwendet, um die Einstellung zu speichern, dass du nicht von Facebook Pixel zur Analyse erfassen werden möchtest."
+    }
+  },
+  "return": {
+    "shipping_note": "Bitte beachte, dass bei Lieferungen außerhalb der EU möglicherweise zusätzliche Kosten einschließlich etwaiger Einfuhrzölle und Steuern anfallen die von den Zollbehörden des Ziellandes erhoben werden und du für diese Gebühren selbst verantwortlich bist."
+  },
   "cart": {
     "hi": "Hi {{name}}",
     "logout": "Ausloggen",
@@ -254,6 +350,11 @@
     "view": "Einkaufstasche anzeigen",
     "quantity": "Menge",
     "continue": "Weiter shoppen"
+  },
+  "titles": {
+    "contact": "Kontakt",
+    "revoke-form": "Widerrufsformular",
+    "privacy-settings": "Privatsphäre Einstellungen"
   },
   "shopify": {
     "checkout": {

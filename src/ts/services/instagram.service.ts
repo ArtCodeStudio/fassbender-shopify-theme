@@ -39,10 +39,14 @@ export class InstagramService {
 
   public static async loadMedia(instagramId: string, limit = 0) {
     const url = `${this.baseUrl}/media/${instagramId}`;
-    const data = {
+    const data: any = {
       fields: `caption,comments_count,is_comment_enabled,like_count,media_type,media_url,permalink,timestamp,children{media_type,media_url}`,
       limit,
     };
+    if ((window as any).Shopify.shop) {
+      data.shop = (window as any).Shopify.shop;
+    }
+
     return getJSON(url, data);
   }
 

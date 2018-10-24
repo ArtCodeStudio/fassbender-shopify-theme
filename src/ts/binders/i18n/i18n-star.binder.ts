@@ -20,7 +20,8 @@ export interface IBinderAttributeChangedEvent {
 export const i18nStarBinderWrapper: BinderWrapper = () => {
   const name = 'i18n-*';
   const binder: ITwoWayBinder<string> = {
-    block: true,
+    block: false,
+    priority: 0,
     bind(el: HTMLUnknownElement) {
       const getElementData = () => {
         const customData: any = {};
