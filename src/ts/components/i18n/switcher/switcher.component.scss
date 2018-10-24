@@ -1,0 +1,10 @@
+.mainbar {
+  rv-i18n-switcher {
+    .nav-link {
+      cursor: pointer;
+      &.active {
+        display: none;
+      }
+    }
+  }
+}

@@ -15,3 +15,7 @@ html, body {
 .container, .container-fluid {
     display: block;
 }
+
+.col-auto {
+    max-width: 100%;
+}

@@ -120,7 +120,7 @@
 </footer>
 
 {% comment %} footer smartphone {% endcomment %}
-<div class="container-fluid d-block d-lg-none bg-white fixed-bottom">
+<div class="container-fluid d-block d-lg-none bg-white fixed-bottom smartphone-menu-buttom">
   <div class="row">
     <a class="col d-flex justify-content-center py-2" rv-route-class-active="'/blogs/blog'" rv-route="'/blogs/blog'">
       <rv-icon class="cursor-pointer" rv-src="'{{ 'iconset-eye.svg' | asset_url }}'" height="32" width="32"></rv-icon>
@@ -173,10 +173,12 @@
       </nav>
     </shopify-linklist>
 
-    <rv-i18n-switcher class="d-flex">
-      <div class="nav-item nav-link cursor-pointer text-uppercase" rv-each-langcode="langcodes" rv-text="langcode.code" rv-on-click="switch | args langcode" rv-class-active="langcode.active">
-      </div>
-    </rv-i18n-switcher>
+    <div class="d-block">
+      <rv-i18n-switcher class="d-flex">
+        <div class="nav-item nav-link cursor-pointer text-uppercase" rv-each-langcode="langcodes" rv-text="langcode.code" rv-on-click="switch | args langcode" rv-class-active="langcode.active">
+        </div>
+      </rv-i18n-switcher>
+    </div>
 
     <div class="nav-item nav-link more-menu-toggler cursor-pointer d-block" rv-aria-expanded="moreMenuOpen" rv-on-click="globalToggle | args 'moreMenuOpen'">
       <span>+</span>

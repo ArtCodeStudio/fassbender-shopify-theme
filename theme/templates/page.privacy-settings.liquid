@@ -1,7 +1,7 @@
 {% include 'jumplink-utils-translate', translate: page.title, path: 'titles' %}
 
 <div class="container-fluid pt-5" id="page-{{ page.handle }}">
-  <div class="row pt-md-5">
+  <div class="row pt-md-5 scrollbar-x-auto">
     {% unless translated == blank %}
       <div class="col-12 col-md-8 offset-md-2 col-lg-8 col-xl-6">
         <h2 class="page-title mt-0 mb-4">{{ translated }}</h2>
