@@ -15,9 +15,9 @@
       "load_more": "Load more"
     },
     "footer": {
-      "home":"FASSBENDER",
+      "home": "FASSBENDER",
       "copyright": "2018 FASSBENDER. All rights reserved",
-      "crafter_html": "The Art+Code Studio accepts that every client is unique, each project requires a different approach and that all projects need to be launched with an open mind. In order for us to do collaborate closely with our clients to discover the potential and erect a creative and beautiful solutions. Just drop us an email <a href=\"mailto:hi@artandcode.studio\">hi@artandcode.studio</a>"
+      "crafter_html": "The Art+Code Studio accepts that every client is unique, each project requires a different approach and that all projects need to be launched with an open mind. In order for us to do collaborate closely with our clients to discover the potential and erect a creative and beautiful solutions. Just drop us an email <a href=\"mailto:hi@artandcode.studio\">hi@artandcode.studio<\/a>"
     },
     "navigation": {
       "teaser_text": "Welcome to the online home of covering trends, fashion inspiration and high end ready to wear pieces."
@@ -130,8 +130,8 @@
       "error": "Can't activate account."
     },
     "order": {
-      "cancelled_reason_html": "Status <a target=\"_blank\" href=\"{{ order_status_url }}\">cancelled</a>. Reason: {{cancel_reason}}",
-      "financial_status_html": " Status <a target=\"_blank\" href=\"{{ order_status_url }}\">{{ financial_status }}</a>",
+      "cancelled_reason_html": "Status <a target=\"_blank\" href=\"{{ order_status_url }}\">cancelled<\/a>. Reason: {{cancel_reason}}",
+      "financial_status_html": " Status <a target=\"_blank\" href=\"{{ order_status_url }}\">{{ financial_status }}<\/a>",
       "reasons": {
         "other": "Other",
         "items-unavailable": "Items unavailable",
@@ -148,7 +148,7 @@
         "voided": "Voided"
       },
       "created_at": "Created at",
-      "quantity_html": "Quantity <span>{{count}}</span>",
+      "quantity_html": "Quantity <span>{{count}}<\/span>",
       "items": "{{count}} Items",
       "total": "Total",
       "title": "Orders",
@@ -163,11 +163,11 @@
     },
     "privacy": {
       "tracking_title": "Disable tracking services",
-      "cookies_label_html": "Allow the use of cookies<br><small>Sorry you can 't disable cookies because they are necessary to make the shop work</small>",
-      "shopify_tracking_label_html": "Allow internal tracking by our shopsytem<br><small>Sorry you can 't disable the tracking by our shopsytem</small>",
-      "google_analytics_label_html": "Allow tracking with <a href=\"https://analytics.google.com/\">Google Analytics</a>",
-      "ttd_label_html": "Allow tracking with <a href=\"https://www.thetradedesk.com/\">The Trade Desk</a>",
-      "facebook_pixel_label_html": "Allow tracking with <a href=\"https://www.facebook.com/business/help/742478679120153\">Facebook Pixel</a>",
+      "cookies_label_html": "Allow the use of cookies<br><small>Sorry you can 't disable cookies because they are necessary to make the shop work<\/small>",
+      "shopify_tracking_label_html": "Allow internal tracking by our shopsytem<br><small>Sorry you can 't disable the tracking by our shopsytem<\/small>",
+      "google_analytics_label_html": "Allow tracking with <a href=\"https:\/\/analytics.google.com\/\">Google Analytics<\/a>",
+      "ttd_label_html": "Allow tracking with <a href=\"https:\/\/www.thetradedesk.com\/\">The Trade Desk<\/a>",
+      "facebook_pixel_label_html": "Allow tracking with <a href=\"https:\/\/www.facebook.com\/business\/help\/742478679120153\">Facebook Pixel<\/a>",
       "note_html": "Please reload this site after you have disabled any tracking service.<br>Please note that these settings are saved with cookies, if you delete your cookies these settings will be lost.",
       "clear_title_html": "Clear your session data",
       "clear_html": "You can clear your session data, this will log you out, clear your shopping cart and removes client site cookies if possible.",
@@ -213,7 +213,7 @@
       "mail": "Mail*",
       "message": "Message",
       "title": "Any questions? Feel free to contact us.",
-      "body_html": "Send us a message to <a href=\"mailto:{{mail}}\">{{mail}}</a> or call us <a href=\"tel:{{phone}}\">{{phone}}</a>.<br> <small>monday - friday 10.00 - 18.00</small>",
+      "body_html": "Send us a message to <a href=\"mailto:{{mail}}\">{{mail}}<\/a> or call us <a href=\"tel:{{phone}}\">{{phone}}<\/a>.<br> <small>monday - friday 10.00 - 18.00<\/small>",
       "successfull": "Message sent successfully. Many Thanks!",
       "error": "Message could not be sent",
       "form_title": "Message Us",
@@ -268,7 +268,7 @@
   },
   "404": {
     "title": "404 Page Not Found",
-    "content_html": "The page you requested does not exist. Click <a rv-route=\"'/collections/all'\" href=\"/collections/all\">here</a> to continue shopping."
+    "content_html": "The page you requested does not exist. Click <a rv-route=\"'\/collections\/all'\" href=\"\/collections\/all\">here<\/a> to continue shopping."
   },
   "cookies": {
     "title": "Cookies we use",
@@ -308,13 +308,13 @@
       "title": "Google Analytics",
       "_ga": "Used to distinguish users.",
       "_gid": "Used to distinguish users.",
-      "_gat_html": "Used to throttle request rate. If Google Analytics is deployed via Google Tag Manager, this cookie will be named <code><span>_dc_gtm_&lt;property-id&gt;</span></code>.",
+      "_gat_html": "Used to throttle request rate. If Google Analytics is deployed via Google Tag Manager, this cookie will be named <code><span>_dc_gtm_&lt;property-id&gt;<\/span><\/code>.",
       "AMP_TOKEN": "Contains a token that can be used to retrieve a Client ID from AMP Client ID service. Other possible values indicate opt-out, inflight request or an error retrieving a Client ID from AMP Client ID service.",
-      "_gac_property-id_html": "Contains campaign related information for the user. If you have linked your Google Analytics and Google Ads accounts, Google Ads website conversion tags will read this cookie unless you opt-out. <a href=\"//support.google.com/google-ads/answer/7521212\">Learn more</a>."
+      "_gac_property-id_html": "Contains campaign related information for the user. If you have linked your Google Analytics and Google Ads accounts, Google Ads website conversion tags will read this cookie unless you opt-out. <a href=\"\/\/support.google.com\/google-ads\/answer\/7521212\">Learn more<\/a>."
     },
     "ttd": {
       "title": "The Trade Desk",
-      "description_html": "For information on the technology used by The Trade Desk and privacy, visit the following link: <a href=\"http://thetradedesk.com/general/privacy-policy\">http://thetradedesk.com/general/privacy-policy</a><br><br>You can contradict the data storage at any time with future effect by following the link: <a href=\"http://www.adsrvr.org/\">http://www.adsrvr.org/</a>",
+      "description_html": "For information on the technology used by The Trade Desk and privacy, visit the following link: <a href=\"http:\/\/thetradedesk.com\/general\/privacy-policy\">http:\/\/thetradedesk.com\/general\/privacy-policy<\/a><br><br>You can contradict the data storage at any time with future effect by following the link: <a href=\"http:\/\/www.adsrvr.org\/\">http:\/\/www.adsrvr.org\/<\/a>",
       "TDID": "The Trade Desk analytics.",
       "TDCPM": "The Trade Desk analytics.",
       "TTDOptOut": "Opt Out for The Trade Desk analytics."
@@ -345,7 +345,7 @@
       "one": "{{count}} Item",
       "other": "{{count}} Items"
     },
-    "info_html": "Free Shipping<br><small>to all countries in th EU</small>",
+    "info_html": "Free Shipping<br><small>to all countries in th EU<\/small>",
     "buy": "Buy",
     "view": "View Shopping Bag",
     "quantity": "Quantity",

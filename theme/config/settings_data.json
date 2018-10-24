@@ -155,7 +155,10 @@
       "1533584346359": {
         "type": "instagram-scrollbar",
         "settings": {
-          "access_token": "EAAB8vuocl5sBAGcmaM4CuCIcm0CbVgkgTWaMzRcbjWJa5779T0x7hCTeBr8UqB7tgssU0znbXIdQtXcIYGALtZC9bbVFlQwHPLIpvnEJJa5sVEjPNMAajZAflJ9NT2wwQpV8nZCWqscK5SMNfav3RQZCgoZAaD3vl4vBNsZC8b1uKxyvoXPZC14AVG1z9L9BVStmovEJBBClgZDZD"
+          "instagram_id": "17841406311268728",
+          "open-links": false,
+          "open-url": "shopify:\/\/pages\/fassbender",
+          "limit": 9
         }
       },
       "newsletter": {
@@ -251,6 +254,14 @@
         "settings": {
           "link1": "shopify:\/\/pages\/cookies",
           "link2": "shopify:\/\/pages\/privacy-settings"
+        }
+      },
+      "instagram": {
+        "type": "instagram",
+        "settings": {
+          "instagram_id": "17841406311268728",
+          "open-links": true,
+          "limit": 60
         }
       }
     },

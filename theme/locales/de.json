@@ -15,9 +15,9 @@
       "load_more": "Lade mehr"
     },
     "footer": {
-      "home":"FASSBENDER",
+      "home": "FASSBENDER",
       "copyright": "2018 FASSBENDER. Alle Rechte vorbehalten",
-      "crafter_html": "Das Art+Code Studio versteht, dass jeder Kunde einzigartig ist, jedes Projekt einen anderen Ansatz erfordert und dass jedes Projekte unvoreingenommen und mit freien Gedanken begonnen werden muss. So entdecken wir in enger Zusammenarbeit mit unseren Kunden das Potenzial und schaffen kreative und schöne Lösungen. Schreib uns: <a href=\"mailto:hi@artandcode.studio\">hi@artandcode.studio</a>"
+      "crafter_html": "Das Art+Code Studio versteht, dass jeder Kunde einzigartig ist, jedes Projekt einen anderen Ansatz erfordert und dass jedes Projekte unvoreingenommen und mit freien Gedanken begonnen werden muss. So entdecken wir in enger Zusammenarbeit mit unseren Kunden das Potenzial und schaffen kreative und schöne Lösungen. Schreib uns: <a href=\"mailto:hi@artandcode.studio\">hi@artandcode.studio<\/a>"
     },
     "navigation": {
       "teaser_text": "Willkommen in der Welt der Trends, Fashion Inspirationen und High-End-Ready-to-Wear Stücken."
@@ -130,8 +130,8 @@
       "error": "Konto kann nicht aktiviert werden."
     },
     "order": {
-      "cancelled_reason_html": "Status <a target=\"_blank\" href=\"{{ order_status_url }}\">storniert</a>. Grund: {{cancel_reason}}",
-      "financial_status_html": " Status <a target=\"_blank\" href=\"{{ order_status_url }}\">{{ financial_status }}</a>",
+      "cancelled_reason_html": "Status <a target=\"_blank\" href=\"{{ order_status_url }}\">storniert<\/a>. Grund: {{cancel_reason}}",
+      "financial_status_html": " Status <a target=\"_blank\" href=\"{{ order_status_url }}\">{{ financial_status }}<\/a>",
       "reasons": {
         "other": "Nicht zugeordnet",
         "items-unavailable": "Nicht verfügbar",
@@ -163,11 +163,11 @@
     },
     "privacy": {
       "tracking_title": "Tracking-Dienste deaktivieren",
-      "cookies_label_html": "Erlaube die Verwendung von Cookies<br><small>Leider kannst du Cookies nicht deaktivieren, da sie notwendig sind, damit der Shop funktioniert</small>",
-      "shopify_tracking_label_html": "Erlaube internes Tracking durch unser Shopsystem<br><small>Leider kannst du das Tracking durch unser Shopsystem nicht deaktivieren</small>",
-      "google_analytics_label_html": "Erlaube Tracking durch <a href=\"https://analytics.google.com/\">Google Analytics</a>",
-      "ttd_label_html": "Erlaube Tracking durch <a href=\"https://www.thetradedesk.com/\">The Trade Desk</a>",
-      "facebook_pixel_label_html": "Erlaube Tracking durch <a href=\"https://www.facebook.com/business/help/742478679120153\">Facebook Pixel</a>",
+      "cookies_label_html": "Erlaube die Verwendung von Cookies<br><small>Leider kannst du Cookies nicht deaktivieren, da sie notwendig sind, damit der Shop funktioniert<\/small>",
+      "shopify_tracking_label_html": "Erlaube internes Tracking durch unser Shopsystem<br><small>Leider kannst du das Tracking durch unser Shopsystem nicht deaktivieren<\/small>",
+      "google_analytics_label_html": "Erlaube Tracking durch <a href=\"https:\/\/analytics.google.com\/\">Google Analytics<\/a>",
+      "ttd_label_html": "Erlaube Tracking durch <a href=\"https:\/\/www.thetradedesk.com\/\">The Trade Desk<\/a>",
+      "facebook_pixel_label_html": "Erlaube Tracking durch <a href=\"https:\/\/www.facebook.com\/business\/help\/742478679120153\">Facebook Pixel<\/a>",
       "note_html": "Bitte lade diese Seite neu, nachdem du einen Tracking-Service deaktiviert hast.<br>Bitte beachte, dass diese Einstellungen mit Cookies gespeichert werden. Wenn du deine Cookies löschen, gehen diese Einstellungen verloren.",
       "clear_title_html": "Lösche deine Sitzungsdaten",
       "clear_html": "Du kannst deine Sitzungsdaten löschen, dies wird dich abmelden, deine Einkaufstasche leeren und - wenn möglich - die Cookies entfernen.",
@@ -213,7 +213,7 @@
       "mail": "E-Mail*",
       "message": "Nachricht*",
       "title": "Irgendwelche Fragen? Fühle dich frei uns zu kontaktieren.",
-      "body_html": "Sende uns eine Nachricht an <a href=\"mailto:{{mail}}\">{{mail}}</a> oder rufe uns unter <a href=\"tel:{{phone}}\">{{phone}}</a> an.<br> <small>Montag - Freitag 10.00 - 18.00 Uhr</small>",
+      "body_html": "Sende uns eine Nachricht an <a href=\"mailto:{{mail}}\">{{mail}}<\/a> oder rufe uns unter <a href=\"tel:{{phone}}\">{{phone}}<\/a> an.<br> <small>Montag - Freitag 10.00 - 18.00 Uhr<\/small>",
       "successfull": "Nachricht erfolgreich abgeschickt. Vielen Dank!",
       "error": "Nachricht konnte nicht abgeschickt werden.",
       "form_title": "Nachricht an uns",
@@ -268,7 +268,7 @@
   },
   "404": {
     "title": "404 Seite nicht gefunden",
-    "content_html": "Die von Ihnen angeforderte Seite existiert nicht. Klicke <a rv-route=\"'/collections/all'\" href=\"/collections/all\">hier</a> um weiter zu shoppen."
+    "content_html": "Die von Ihnen angeforderte Seite existiert nicht. Klicke <a rv-route=\"'\/collections\/all'\" href=\"\/collections\/all\">hier<\/a> um weiter zu shoppen."
   },
   "cookies": {
     "title": "Cookies die wir verwenden",
@@ -308,13 +308,13 @@
       "title": "Google Analytics",
       "_ga": "Wird zur Unterscheidung von Benutzern verwendet.",
       "_gid": "Wird zur Unterscheidung von Benutzern verwendet.",
-      "_gat_html": "Wird zum Drosseln der Anforderungsrate verwendet. Wenn Google Analytics über den Google Tag Manager bereitgestellt wird, erhält dieser Cookie den Namen <code><span>_dc_gtm_&lt;property-id&gt;</span></code>.",
+      "_gat_html": "Wird zum Drosseln der Anforderungsrate verwendet. Wenn Google Analytics über den Google Tag Manager bereitgestellt wird, erhält dieser Cookie den Namen <code><span>_dc_gtm_&lt;property-id&gt;<\/span><\/code>.",
       "AMP_TOKEN": "Enthält ein Token, mit dem eine Client-ID vom AMP-Client-ID-Dienst abgerufen werden kann. Andere mögliche Werte weisen auf Abmeldung, Inflight-Anforderung oder einen Fehler beim Abrufen einer Client-ID vom AMP-Client-ID-Dienst hin.",
-      "_gac_property-id_html": "Enthält kampagnenbezogene Informationen für den Benutzer. Wenn Google Analytics mit Google-Anzeigenkonten verknüpft ist, lesen die Google-Anzeigen-Website-Conversion-Tags diesen Cookie, sofern Sie sich nicht abmelden. <a href=\"//support.google.com/google-ads/answer/7521212\">Erfahre mehr</a>."
+      "_gac_property-id_html": "Enthält kampagnenbezogene Informationen für den Benutzer. Wenn Google Analytics mit Google-Anzeigenkonten verknüpft ist, lesen die Google-Anzeigen-Website-Conversion-Tags diesen Cookie, sofern Sie sich nicht abmelden. <a href=\"\/\/support.google.com\/google-ads\/answer\/7521212\">Erfahre mehr<\/a>."
     },
     "ttd": {
       "title": "The Trade Desk",
-      "description_html": "Informationen zur der von The Trade Desk verwendeten Technologie und zum Datenschutz finden Sie unter folgendem Link: <a href=\"http://thetradedesk.com/general/privacy-policy\">http://thetradedesk.com/general/privacy-policy</a><br><br>Sie können der Datensammlung und -speicherung jederzeit mit Wirkung für die Zukunft unter nachstehendem Link widersprechen: <a href=\"http://www.adsrvr.org/\">http://www.adsrvr.org/</a>",
+      "description_html": "Informationen zur der von The Trade Desk verwendeten Technologie und zum Datenschutz finden Sie unter folgendem Link: <a href=\"http:\/\/thetradedesk.com\/general\/privacy-policy\">http:\/\/thetradedesk.com\/general\/privacy-policy<\/a><br><br>Sie können der Datensammlung und -speicherung jederzeit mit Wirkung für die Zukunft unter nachstehendem Link widersprechen: <a href=\"http:\/\/www.adsrvr.org\/\">http:\/\/www.adsrvr.org\/<\/a>",
       "TDID": "The Trade Desk Analysen.",
       "TDCPM": "The Trade Desk Analysen.",
       "TTDOptOut": "Opt Out für The Trade Desk Analysen."
@@ -345,7 +345,7 @@
       "one": "{{count}} Artikel",
       "other": "{{count}} Artikel"
     },
-    "info_html": "Kostenloser Versand<br><small>an alle Länder in der EU</small>",
+    "info_html": "Kostenloser Versand<br><small>an alle Länder in der EU<\/small>",
     "buy": "Kaufen",
     "view": "Einkaufstasche anzeigen",
     "quantity": "Menge",
@@ -359,7 +359,7 @@
   "shopify": {
     "checkout": {
       "alternative_payment_method_banner": {
-        "or": "ODER WEITER MIT KREDITKARTE / SOFORTÜBERWEISUNG"
+        "or": "ODER WEITER MIT KREDITKARTE \/ SOFORTÜBERWEISUNG"
       }
     }
   }
