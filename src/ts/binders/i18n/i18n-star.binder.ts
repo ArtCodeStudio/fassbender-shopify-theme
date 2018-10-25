@@ -37,6 +37,34 @@ export const i18nStarBinderWrapper: BinderWrapper = () => {
       this.customData.$el = $(el);
       this.customData.attributeName = this.args[0].toString();
 
+      this.customData.applyTranslation = (local: string) => {
+        if (!local) {
+          // console.warn(`translation missing: "${langcode}.${this.customData.properties.join('.')}"`, local);
+        }
+        if (this.customData.attributeName === 'html') {
+          this.customData.$el.html(local);
+        }
+        if (this.customData.attributeName === 'text') {
+          this.customData.$el.text(local);
+        }
+        if (this.customData.attributeName === 'value') {
+          // TODO support also: https://github.com/JumpLinkNetwork/tinybind/blob/master/src/binders/basic/value.binder.ts#L51
+          if (this.customData.contenteditable) {
+            el.innerHTML = local;
+          } else {
+            (el as HTMLInputElement).value = local;
+          }
+        }
+        this.customData.$el.attr(this.customData.attributeName, local);
+
+        if (this.customData.nested) {
+          // this.customData.nested.unbind();
+          this.customData.nested.update();
+        }
+        this.customData.nested = new View(el, this.view.models, this.view.options);
+        this.customData.nested.bind();
+      };
+
       this.customData.translate = (langcode?: string) => {
         // If language service is not ready do nothing
         if (!this.customData.i18n.ready) {
@@ -45,40 +73,31 @@ export const i18nStarBinderWrapper: BinderWrapper = () => {
         if (!langcode) {
           langcode = this.customData.i18n.getLangcode();
         }
-        return this.customData.i18n.get([langcode, ...this.customData.properties], this.customData.vars)
-        .then((local: string) => {
-          if (!local) {
-            // console.warn(`translation missing: "${langcode}.${this.customData.properties.join('.')}"`, local);
-            return local;
-          }
-          if (this.customData.attributeName === 'html') {
-            this.customData.$el.html(local);
-            return local;
-          }
-          if (this.customData.attributeName === 'text') {
-            this.customData.$el.text(local);
-            return local;
-          }
-          if (this.customData.attributeName === 'value') {
-            // TODO support also: https://github.com/JumpLinkNetwork/tinybind/blob/master/src/binders/basic/value.binder.ts#L51
-            if (this.customData.contenteditable) {
-              el.innerHTML = local;
-            } else {
-              (el as HTMLInputElement).value = local;
-            }
-            return local;
-          }
-          this.customData.$el.attr(this.customData.attributeName, local);
-          return local;
-        })
-        .then((local: string) => {
-          if (this.customData.nested) {
-            // this.customData.nested.unbind();
-            this.customData.nested.update();
-          }
-          this.customData.nested = new View(el, this.view.models, this.view.options);
-          this.customData.nested.bind();
-        });
+
+        if (!langcode) {
+          console.error('Langcode is requred', langcode);
+          return;
+        }
+
+        // translate by using the already translated language variable
+        if (this.customData.langVars && this.customData.langVars[langcode]) {
+          console.error('translated de', this.customData.langVars[langcode]);
+          return this.customData.applyTranslation(this.customData.langVars[langcode]);
+        }
+
+        // translate by properies, e.g. de.cart.add
+        if (this.customData.properties) {
+          return this.customData.i18n.get([langcode, ...this.customData.properties], this.customData.vars)
+          .then((local: string) => {
+            return this.customData.applyTranslation(local);
+          });
+        }
+
+        // get the default translation if available
+        if (this.customData.langVars && this.customData.langVars.default) {
+          console.error('translated default', this.customData.langVars[langcode]);
+          return this.customData.applyTranslation(this.customData.langVars.default);
+        }
       };
 
       this.customData.onAttributeChanged = (data: IBinderAttributeChangedEvent) => {
@@ -119,12 +138,22 @@ export const i18nStarBinderWrapper: BinderWrapper = () => {
     routine(el: HTMLElement, translateMePathString?: string) {
       if (translateMePathString) {
         this.customData.translateMePathString = translateMePathString;
+        this.customData.properties = this.customData.translateMePathString.split('.');
       }
-      this.customData.properties = this.customData.translateMePathString.split('.');
       // this.customData.i18n.debug('translateMePathString', this.customData.translateMePathString);
 
       // parse templates to vars
       this.customData.vars = this.customData.i18n.parseTemplateVars(this.customData.$el);
+
+      // Parse templates wich have his own translations
+      this.customData.langVars = this.customData.i18n.parseLocalVars(this.customData.$el);
+
+      if (translateMePathString && translateMePathString.indexOf('title') > -1) {
+        console.warn('translateMePathString', translateMePathString);
+        console.warn('vars', this.customData.vars);
+        console.warn('langVars', this.customData.langVars);
+      }
+
       // parse data attributes to vars
       this.customData.vars = Utils.concat(true, this.customData.vars, this.customData.$el.data);
       // Translate if language is ready

@@ -228,6 +228,21 @@ export class LocalsService {
   }
 
   /**
+   * Parse templates wich have his own translations
+   */
+  public parseLocalVars($el: JQuery<HTMLElement>): ILocalVar {
+    const templates = $el.find('template');
+    const vars: ILocalVar = {};
+    templates.each((i, template) => {
+      const lang: string | null = template.getAttribute('lang');
+      if (lang !== null) {
+        vars[lang] = template.innerHTML.trim();
+      }
+    });
+    return vars;
+  }
+
+  /**
    * Replace variables on translated string
    * @param translateString
    * @param vars

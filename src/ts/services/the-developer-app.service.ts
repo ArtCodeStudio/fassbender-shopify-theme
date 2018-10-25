@@ -5,7 +5,7 @@ import jQuery from '../jquery';
 
 // TODO move to the-developer-app modul
 export class TheDeveloperAppService {
-  public static baseUrl = 'https://next.artandcode.studio'; // 'https://the-developer-app.artandcode.studio';
+  public static baseUrl = 'https://the-developer-app.artandcode.studio'; // 'https://next.artandcode.studio';
   public static instance?: TheDeveloperAppService;
 
   constructor() {

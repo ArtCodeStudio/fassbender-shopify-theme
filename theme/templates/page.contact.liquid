@@ -1,18 +1,18 @@
-{% include 'jumplink-utils-translate', translate: page.title, path: 'titles' %}
+{% include 'jumplink-utils-translate', translate: page.title, path: 'titles', de: page.metafields["global"]["de-title"], default: page.title %}
 
 <div class="container-fluid pt-5">
   <div class="row pt-md-5 scrollbar-x-auto">
-    {% unless translated == blank %}
-      <div class="col-12 col-md-8 offset-md-2 col-lg-6">
-        <h1 class="page-title mt-0 mb-4">{{ translated }}</h1>
-      </div>
-    {% endunless %}
+    <div class="col-12 col-md-8 offset-md-2 col-lg-6">
+      <h1 class="page-title mt-0 mb-4">
+        {{ translated }}
+      </h1>
+    </div>
 
-    {% unless page.content == blank %}
-        <div class="col-12 col-md-8 offset-md-2 col-lg-6 rte">
-        {{ page.content }}
-        </div>
-    {% endunless %}
+    <div class="col-12 col-md-8 offset-md-2 col-lg-6 rte" rv-i18n-html="">
+      {{page.content}}
+      <template lang="default">{{page.content}}</template>
+      <template lang="de">{{page.metafields["global"]["de-content"]}}</template>
+    </div>
   </div>
 </div>
 

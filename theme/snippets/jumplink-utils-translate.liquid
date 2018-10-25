@@ -2,9 +2,32 @@
 {% assign _path = path | append: '.' %}
 {% assign translateString = translate | handleize | prepend: _path %}
 {% assign _translated = translateString | t %}
-{% if _translated contains  'translation missing' %}
-  {% assign translated = translate %}
+
+{% if _translated contains 'translation missing' %}
+  {% comment %} Translate using metafields or locals/*.json {% endcomment %}
+  {% capture translated %}
+    <span rv-i18n-html="'{{translateString}}'">
+      {{_translated}}
+      {% unless de == blank %}
+        <template lang="de">{{de}}</template>
+      {% endunless %}
+      {% unless default == blank %}
+        <template lang="default">{{default}}</template>
+      {% endunless %}
+    </span>
+  {% endcapture %}
 {% else %}
-  {% capture translated %}<span rv-i18n-html="'{{translateString}}'">{{_translated}}</span>{% endcapture %}
+  {% comment %} Translate using locals/*.json or metafields {% endcomment %}
+  {% capture translated %}
+    <span rv-i18n-html="'{{translateString}}'">
+      {{translate}}
+      {% unless de == blank %}
+        <template lang="de">{{de}}</template>
+      {% endunless %}
+      {% unless default == blank %}
+        <template lang="default">{{default}}</template>
+      {% endunless %}
+    </span>
+  {% endcapture %}
 {% endif %}
 

@@ -1,21 +1,15 @@
-{% comment %} Translate page title if translation is available {% endcomment %}
-{% assign pageTitleTransString = page.title | handleize | prepend: 'titles.' %}
-{% assign pageTitle = pageTitleTransString | t %}
-{% if pageTitle contains  'translation missing' %}
-  {% assign pageTitle = page.title %}
-{% endif %}
-
+{% include 'jumplink-utils-translate', translate: page.title, path: 'titles', de: page.metafields["global"]["de-title"], default: page.title %}
 
 <div class="container-fluid pt-5" id="page-{{ page.handle }}">
   <div class="row pt-md-5">
-    {% unless pageTitle == blank %}
-        <div class="col-12 col-md-8 offset-md-2 col-lg-6 scrollbar-x-auto rte">
-          <h2 rv-i18n-html="'{{pageTitleTransString}}'">{{ pageTitle }}</h2>
-        </div>
-    {% endunless %}
+      <div class="col-12 col-md-8 offset-md-2 col-lg-6 scrollbar-x-auto rte">
+        <h2>{{ translated }}</h2>
+      </div>
     {% unless page.content == blank %}
-        <div class="col-12 col-md-8 offset-md-2 col-lg-6 rte">
-          {{ page.content }}
+        <div class="col-12 col-md-8 offset-md-2 col-lg-6 rte" rv-i18n-html="">
+        {{page.content}}
+        <template lang="default">{{page.content}}</template>
+        <template lang="de">{{page.metafields["global"]["de-content"]}}</template>
         </div>
     {% endunless %}
     <div class="col-12 col-md-8 offset-md-2 col-lg-6">

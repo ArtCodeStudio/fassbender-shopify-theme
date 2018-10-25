@@ -1,8 +1,10 @@
 <div class="container-fluid pt-5" id="page-{{ page.handle }}">
   <div class="row pt-md-5">
     {% unless page.content == blank %}
-      <div class="col-12 col-md-8 offset-md-2 col-lg-8 col-xl-6 scrollbar-x-auto rte">
-        {{ page.content }}
+      <div class="col-12 col-md-8 offset-md-2 col-lg-8 col-xl-6 scrollbar-x-auto rte" rv-i18n-html="">
+        {{page.content}}
+        <template lang="default">{{page.content}}</template>
+        <template lang="de">{{page.metafields["global"]["de-content"]}}</template>
       </div>
     {% endunless %}
 

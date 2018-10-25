@@ -215,8 +215,10 @@
               role="tabpanel"
               aria-labelledby="tab-title-description"
             >
-              <div class="rte">
+              <div class="rte" rv-i18n-html="">
                 {{ product.description }}
+                <template lang="default">{{product.description}}</template>
+                <template lang="de">{{product.metafields["global"]["de-description"]}}</template>
               </div>
             </div>
         {% endif %}
@@ -224,17 +226,24 @@
         {% comment %} Product Metafield Tab Contents {% endcomment %}
         {% for i in (1..6) %}
           {% assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" %}
+          {% assign deTabTitleIndex = "de-tab-" | append: forloop.index | append: "-title" %}
           {% assign tabContentIndex = "tab-" | append: forloop.index | append: "-content" %}
+          {% assign deTabContentIndex = "de-tab-" | append: forloop.index | append: "-content" %}
           {% assign tabTitle = product.metafields["global"][tabTitleIndex] %}
-          {% assign tabContent = product.metafields["global"][tabContentIndex] %}
+          {% assign deTabTitle = product.metafields["global"][deTabTitleIndex] %}
+          {% assign tabContent = product.metafields["global"][TabContentIndex] %}
+          {% assign deTabContent = product.metafields["global"][deTabContentIndex] %}
           {% if tabTitle != blank %}
             <div
               class="tab-pane mt-3 mb-4"
               id="tab-content-{{ tabTitle | handleize }}"
               role="tabpanel"
               aria-labelledby="tab-title-{{ tabTitle | handleize }}"
+              rv-i18n-html=""
             >
               {{ tabContent }}
+              <template lang="default">{{tabContent}}</template>
+              <template lang="de">{{deTabContent}}</template>
             </div>
           {% endif %}
         {% endfor %}
@@ -242,15 +251,20 @@
         {% for i in (1..6) %}
           {% assign tabIndex = "tab-static-" | append: forloop.index | append: ".tab-sta" %}
           {% assign tabTitle = product.metafields[tabIndex]["tab-static-title"] %}
+          {% assign deTabTitle = product.metafields[tabIndex]["de-tab-static-title"] %}
           {% assign tabContent = product.metafields[tabIndex]["tab-static-content"] %}
+          {% assign deTabContent = product.metafields[tabIndex]["de-tab-static-content"] %}
           {% if tabTitle != blank %}
             <div
               class="tab-pane mt-3 mb-4"
               id="tab-content-{{ tabTitle | handleize }}"
               role="tabpanel"
               aria-labelledby="tab-title-{{ tabTitle | handleize }}"
+              rv-i18n-html=""
             >
-              {{ tabContent }}
+              {{tabContent}}
+              <template lang="default">{{tabContent}}</template>
+              <template lang="de">{{deTabContent}}</template>
             </div>
           {% endif %}
         {% endfor %}

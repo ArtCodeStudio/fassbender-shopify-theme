@@ -4,8 +4,10 @@
       {% section 'newsletter' %}
     </div>
     {% unless page.content == blank %}
-        <div class="col-12 col-md-8 offset-md-2 col-lg-6 rte">
-        {{ page.content }}
+        <div class="col-12 col-md-8 offset-md-2 col-lg-6 rte" rv-i18n-html="">
+          {{page.content}}
+          <template lang="default">{{page.content}}</template>
+          <template lang="de">{{page.metafields["global"]["de-content"]}}</template>
         </div>
     {% endunless %}
   </div>
