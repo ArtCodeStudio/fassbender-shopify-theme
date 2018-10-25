@@ -2,7 +2,7 @@
   <li class="media mb-3" rv-each-item="cart.items">
 
     <div class="img-wrapper img-fluid mr-3 content-box ratio-3-4">
-      <img lazyload="on" class="content" rv-src="item.image" rv-alt="item.title">
+      <img lazyload="auto" class="content" rv-src="item.image" rv-alt="item.title">
       <rv-icon class="m-2 cursor-pointer" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="16" rv-on-click="remove | args item %item%"></rv-icon>
     </div>
     

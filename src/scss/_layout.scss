@@ -1,5 +1,7 @@
 html, body {
-    height: 100%;
+    // height: 100%; not working on safari if we want to scroll to top: https://stackoverflow.com/a/30195865/1465919
+    height: auto;
+    min-height: 100%;
     width: 100%;
 }
 

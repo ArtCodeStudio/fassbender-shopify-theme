@@ -1,8 +1,9 @@
 import Debug from 'debug';
-import $ from 'jquery';
+import $ from '../../jquery';
 import { RibaComponent } from '../../tinybind';
 import template from './newsletter.component.html';
 import { LocalsService } from '../../services/locals.service';
+import { Utils } from '../../services/Utils';
 
 // TODO move to general validation component class we can extend from
 export interface IValidationObject {
@@ -77,9 +78,9 @@ export class NewsletterComponent extends RibaComponent {
 
   }
 
-  public selectAll(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLElement) {
-    this.debug('selectAll');
-    window.getSelection().selectAllChildren(eventEl);
+  public selectAll(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLInputElement) {
+    this.debug('selectAll', eventEl);
+    Utils.selectAll(eventEl);
   }
 
   protected initTranslate() {
@@ -108,6 +109,14 @@ export class NewsletterComponent extends RibaComponent {
       this.scope.form.fields.name = local.input_name_label;
       this.scope.form.fields.email = local.input_mail_label;
       return;
+    })
+    .catch((error) => {
+      if (this.$form) {
+        this.$form.find('span[name="name"]').html('Name');
+        this.$form.find('span[name="email"]').html('Email');
+        this.$form.find('input[name="NAME"]').val('Name');
+        this.$form.find('input[name="EMAIL"]').val('Email');
+      }
     });
   }
 

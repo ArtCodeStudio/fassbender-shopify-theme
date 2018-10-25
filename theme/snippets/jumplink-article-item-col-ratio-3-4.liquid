@@ -32,7 +32,7 @@
       </span>
     </video>
   {% else %}
-    <img lazyload="on" class="content has-xs-spacing has-sm-spacing" src="{{ article.image | img_url: articleImageSize}}" rv-src="'{{ article.image | img_url: articleImageSize}}'" alt="{{acticle.title}}" style="padding: 52px" />
+    <img lazyload="auto" class="content has-xs-spacing has-sm-spacing" src="{{ article.image | img_url: articleImageSize}}" rv-src="'{{ article.image | img_url: articleImageSize}}'" alt="{{acticle.title}}" style="padding: 52px" />
   {% endif %}
   {% if article.title %}
     <div class="position-absolute w-100 bottom-0" style="{{ articleTitleStyle }}">

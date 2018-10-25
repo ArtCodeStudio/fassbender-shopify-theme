@@ -79,7 +79,7 @@
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.11.0",
-    "webpack": "^4.20.2",
+    "webpack": "^4.23.0",
     "webpack-cli": "^3.1.2",
     "webpack-stream": "^4.0.3",
     "yargs": "^5.0.0"
@@ -87,7 +87,7 @@
   "dependencies": {
     "@babel/runtime-corejs2": "^7.1.2",
     "@types/debug": "^0.0.30",
-    "@types/jquery": "^3.3.17",
+    "@types/jquery": "^3.3.22",
     "@types/p-queue": "^2.3.1",
     "@types/promise-polyfill": "^6.0.0",
     "bootstrap": "^4.1.3",

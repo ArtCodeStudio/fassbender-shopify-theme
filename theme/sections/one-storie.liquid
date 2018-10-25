@@ -62,7 +62,7 @@
         {% if videoType == 'youtube' %}
           <div class="col px-0 content-box fit-initial {{contentBoxClass}}">
             <iframe
-              lazyload="on"
+              lazyload="auto"
               class="{{imageClass}}"
               id="ytplayer"
               type="text/html" 
@@ -79,7 +79,7 @@
         {% elsif videoType == 'vimeo' %}
           <div class="col px-0 content-box fit-initial ratio-16-9">
             <iframe
-              lazyload="on"
+              lazyload="auto"
               class="{{imageClass}}"
               type="text/html" 
               src="https://player.vimeo.com/video/{{ video.id }}?autoplay=1&loop=1&autopause=0&background=1&muted=1"
@@ -104,7 +104,7 @@
         {% endif %}
       {% else %}
         <div class="col px-0 content-box {{contentBoxClass}}">
-          <img lazyload="on" class="{{imageClass}}" src="{{ imageSrc }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
+          <img lazyload="auto" class="{{imageClass}}" src="{{ imageSrc }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
         </div>
       {% endif %}
 
