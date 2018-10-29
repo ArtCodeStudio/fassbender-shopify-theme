@@ -11,7 +11,16 @@
     <div class="col-3"></div>
   </div>
   <div class="row my-4">
-    <div class="col-12 text-center" rv-html="title | default '{{ collection.title }}'"></div>
+    <div class="col-12 text-center">
+      <span rv-html="title"></span>
+      <span rv-hide="title">
+        {% if section.settings.title %}
+          {{section.settings.title}}
+        {% else %}
+          {{collection.title}}
+        {% endif %}
+      </span> 
+    </div>
   </div>
 </rv-product-scrollbar>
 
@@ -25,6 +34,11 @@
         "type": "collection",
         "id": "collection",
         "label": "Collection"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
       }
     ],
     "blocks": [],

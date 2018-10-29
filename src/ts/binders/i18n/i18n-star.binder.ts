@@ -81,7 +81,6 @@ export const i18nStarBinderWrapper: BinderWrapper = () => {
 
         // translate by using the already translated language variable
         if (this.customData.langVars && this.customData.langVars[langcode]) {
-          console.error('translated de', this.customData.langVars[langcode]);
           return this.customData.applyTranslation(this.customData.langVars[langcode]);
         }
 
@@ -89,13 +88,18 @@ export const i18nStarBinderWrapper: BinderWrapper = () => {
         if (this.customData.properties) {
           return this.customData.i18n.get([langcode, ...this.customData.properties], this.customData.vars)
           .then((local: string) => {
-            return this.customData.applyTranslation(local);
+            if (local) {
+              return this.customData.applyTranslation(local);
+            }
+            // get the default translation if available
+            if (this.customData.langVars && this.customData.langVars.default) {
+              return this.customData.applyTranslation(this.customData.langVars.default);
+            }
           });
         }
 
         // get the default translation if available
         if (this.customData.langVars && this.customData.langVars.default) {
-          console.error('translated default', this.customData.langVars[langcode]);
           return this.customData.applyTranslation(this.customData.langVars.default);
         }
       };
@@ -147,12 +151,6 @@ export const i18nStarBinderWrapper: BinderWrapper = () => {
 
       // Parse templates wich have his own translations
       this.customData.langVars = this.customData.i18n.parseLocalVars(this.customData.$el);
-
-      if (translateMePathString && translateMePathString.indexOf('title') > -1) {
-        console.warn('translateMePathString', translateMePathString);
-        console.warn('vars', this.customData.vars);
-        console.warn('langVars', this.customData.langVars);
-      }
 
       // parse data attributes to vars
       this.customData.vars = Utils.concat(true, this.customData.vars, this.customData.$el.data);

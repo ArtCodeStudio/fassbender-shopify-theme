@@ -25,30 +25,8 @@
       "1530889975772": {
         "type": "product-scrollbar",
         "settings": {
-          "collection": "frontpage"
-        }
-      },
-      "1530894374286": {
-        "type": "one-storie",
-        "blocks": {
-          "1530894421653": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-puffa-reptil-black-2.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 25
-            }
-          }
-        },
-        "block_order": [
-          "1530894421653"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/puffa-reptil-black",
-          "title": "",
-          "color": "#fab732",
-          "title_spacing": 0
+          "collection": "jacket",
+          "title": "Cosy Jackets: Shop F \/ W 2018"
         }
       },
       "1531503358229": {
@@ -58,98 +36,6 @@
           "enable": true,
           "color": "#ffffff",
           "subscrib_url": "https:\/\/myfassbender.us19.list-manage.com\/subscribe\/post?u=11ae6ea303b6ef3f1e7d5c7c6&amp;id=65d09922c7"
-        }
-      },
-      "1533041018499": {
-        "type": "one-storie",
-        "blocks": {
-          "1533042564466": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-coat-burgundy-2.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 27
-            }
-          }
-        },
-        "block_order": [
-          "1533042564466"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/coat-burgundy",
-          "title": "",
-          "color": "#dfc3cf",
-          "title_spacing": 0
-        }
-      },
-      "1533041384255": {
-        "type": "one-storie",
-        "blocks": {
-          "1533041397734": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/vlog-1.png",
-              "video_url": "https:\/\/vimeo.com\/291548439",
-              "mp4_video_url": "",
-              "spacing": 0
-            }
-          }
-        },
-        "block_order": [
-          "1533041397734"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/coat-burgundy",
-          "title": "FASSBENDER x NY",
-          "color": "#ffffff",
-          "title_spacing": 0
-        }
-      },
-      "1533043912031": {
-        "type": "one-storie",
-        "blocks": {
-          "1537823839704": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-FW18-3.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 35
-            }
-          }
-        },
-        "block_order": [
-          "1537823839704"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/coat-mid-grey",
-          "title": "",
-          "color": "#ffffff",
-          "title_spacing": 5
-        }
-      },
-      "1533044411971": {
-        "type": "one-storie",
-        "blocks": {
-          "1533044418729": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/2018_07_22_MYFASSBENDER_NYC97889_62f55c1c-a5b3-45fe-89b0-bc2d6abfef1c.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 0
-            }
-          }
-        },
-        "block_order": [
-          "1533044418729"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/biker-jacket-white",
-          "title": "",
-          "color": "#ffffff",
-          "title_spacing": 0
         }
       },
       "1533584346359": {
@@ -170,85 +56,6 @@
           "subscrib_url": "https:\/\/myfassbender.us19.list-manage.com\/subscribe\/post?u=11ae6ea303b6ef3f1e7d5c7c6&amp;id=65d09922c7"
         }
       },
-      "1537822160088": {
-        "type": "one-storie",
-        "blocks": {
-          "1537822181978": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/2018_07_22_MYFASSBENDER_NYC97777_6096dd34-8dcb-4d1a-a5cc-a34dc57d1a1a.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 0
-            }
-          }
-        },
-        "block_order": [
-          "1537822181978"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/parka-velvet-olive",
-          "title": "",
-          "color": "#ffffff",
-          "title_spacing": 0
-        }
-      },
-      "1537822283135": {
-        "type": "one-storie",
-        "blocks": {
-          "1537822291991": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/2018_07_22_MYFASSBENDER_NYC97320_5985b9cd-690e-45a2-977e-00d541258d18.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 0
-            }
-          }
-        },
-        "block_order": [
-          "1537822291991"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/pea-coat-bottle-green",
-          "title": "Pea Coat Bottle Green",
-          "color": "#ffffff",
-          "title_spacing": 0
-        }
-      },
-      "1537822830421": {
-        "type": "one-storie",
-        "blocks": {
-          "1537822851744": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/2018_07_22_myfassbender_nyc97183.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 7
-            }
-          },
-          "1537822880161": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/2018_07_22_myfassbender_nyc97220.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 30
-            }
-          }
-        },
-        "block_order": [
-          "1537822851744",
-          "1537822880161"
-        ],
-        "settings": {
-          "story": "shopify:\/\/blogs\/blog\/one-piece-classic-fashion-statement",
-          "title": "The Classic",
-          "color": "#fab732",
-          "title_spacing": 0
-        }
-      },
       "cookie-banner": {
         "type": "cookie-banner",
         "settings": {
@@ -263,18 +70,178 @@
           "open-links": true,
           "limit": 60
         }
+      },
+      "1540826584235": {
+        "type": "one-storie",
+        "blocks": {
+          "1540826844222": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/MYFASSBENDER_NYC-coat-mid-grey-1.jpg",
+              "video_url": "",
+              "mp4_video_url": "",
+              "spacing": 65
+            }
+          }
+        },
+        "block_order": [
+          "1540826844222"
+        ],
+        "settings": {
+          "story": "shopify:\/\/products\/coat-mid-grey",
+          "title": "Shop Coat Mid Grey",
+          "color": "#ffffff",
+          "title_spacing": 21
+        }
+      },
+      "1540827244548": {
+        "type": "one-storie",
+        "blocks": {
+          "1540827320746": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/fassbender-coat-burgundy_9dd877d6-8f59-4dde-98e4-74195827a4c4.jpg",
+              "video_url": "",
+              "mp4_video_url": "",
+              "spacing": 65
+            }
+          }
+        },
+        "block_order": [
+          "1540827320746"
+        ],
+        "settings": {
+          "story": "shopify:\/\/products\/coat-burgundy",
+          "title": "Shop Coat Burgundy",
+          "color": "#ffffff",
+          "title_spacing": 21
+        }
+      },
+      "1540828651208": {
+        "type": "one-storie",
+        "blocks": {
+          "1540828759649": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/fassbender-coat-navy-1.jpg",
+              "video_url": "",
+              "mp4_video_url": "",
+              "spacing": 65
+            }
+          }
+        },
+        "block_order": [
+          "1540828759649"
+        ],
+        "settings": {
+          "story": "shopify:\/\/products\/coat-navy",
+          "title": "Shop Coat Navy",
+          "color": "#ffffff",
+          "title_spacing": 7
+        }
+      },
+      "1540830675976": {
+        "type": "one-storie",
+        "blocks": {
+          "1540830721785": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/myfassbender_Puffa-Black.jpg",
+              "video_url": "",
+              "mp4_video_url": "",
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "1540830721785"
+        ],
+        "settings": {
+          "story": "https:\/\/myfassbender.com\/collections\/jacket",
+          "title": "Cosy Jackets: Shop F \/ W 2018",
+          "color": "#ffffff",
+          "title_spacing": 7
+        }
+      },
+      "1540832060568": {
+        "type": "one-storie",
+        "blocks": {
+          "1540832078993": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/fassbender-vest-grey.jpg",
+              "video_url": "",
+              "mp4_video_url": "",
+              "spacing": 50
+            }
+          }
+        },
+        "block_order": [
+          "1540832078993"
+        ],
+        "settings": {
+          "story": "shopify:\/\/products\/coat-mid-grey",
+          "title": "Limited Edition: Vest Coat Dark Grey",
+          "color": "#ffffff",
+          "title_spacing": 0
+        }
+      },
+      "1540832124672": {
+        "type": "one-storie",
+        "blocks": {
+          "1540832142661": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/fassbender-vest-grey1.jpg",
+              "video_url": "",
+              "mp4_video_url": "",
+              "spacing": 24
+            }
+          }
+        },
+        "block_order": [
+          "1540832142661"
+        ],
+        "settings": {
+          "story": "shopify:\/\/products\/produkt-8",
+          "title": "&nbsp;",
+          "color": "#ffffff",
+          "title_spacing": 0
+        }
+      },
+      "1540833142556": {
+        "type": "one-storie",
+        "blocks": {
+          "1540833167365": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/MYFASSBENDER_NYC_coat-mid-grey.jpg",
+              "video_url": "",
+              "mp4_video_url": "",
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "1540833167365"
+        ],
+        "settings": {
+          "story": "https:\/\/myfassbender.com\/collections\/coat?_sc=1&design_theme_id=27337523315&frame_token=rL8BU3NI2zaU2o4jVOXCwDc2wNhAM3x7rbGRByzgASVZCozW3u0ftEjewoDZ3TOnJPiyfnkUhukQJ_Wp21QBUFFLTX81BfaA3qvS_qKgV9m4QlyCYIGOLNLPPU1yByripscbb_WWxaxj-hQW_6C_YA%3D%3D",
+          "title": "Best Coats: Shop F \/ W 2018",
+          "color": "#ffffff",
+          "title_spacing": 7
+        }
       }
     },
     "content_for_index": [
-      "1533041384255",
-      "1537822830421",
-      "1537822283135",
-      "1533044411971",
-      "1537822160088",
-      "1533043912031",
-      "1530894374286",
-      "1533041018499",
+      "1540833142556",
+      "1540828651208",
+      "1540827244548",
+      "1540826584235",
+      "1540830675976",
       "1530889975772",
+      "1540832060568",
+      "1540832124672",
       "1533584346359",
       "1531503358229"
     ]

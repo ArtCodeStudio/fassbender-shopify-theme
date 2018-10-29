@@ -272,6 +272,27 @@
 
     </bs4-tabs>
 
+    {% if collection %}
+      <div class="row">
+        {% assign productUrl = product.url | within: collection %}
+        <div class="col-auto">
+          {% if collection.previous_product and collection.previous_product != productUrl %}
+            <a class="nav-link" href="{{collection.previous_product}}" rv-route="'{{collection.previous_product}}'" rv-i18n-text="'products.prev'">
+              {{'products.prev'|t}}
+            </a>
+          {% endif %}
+        </div>
+        <div class="col"></div>
+        <div class="col-auto">
+          {% if collection.next_product and collection.next_product != productUrl %}
+            <a class="nav-link" href="{{collection.next_product}}" rv-route="'{{collection.next_product}}'" rv-i18n-text="'products.next'">
+              {{'products.next'|t}}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    
   </div>
 </rv-shopify-product>
 

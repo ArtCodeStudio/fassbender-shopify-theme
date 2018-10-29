@@ -62,6 +62,8 @@
     "add": "Add",
     "sold_out": "Sold Out",
     "quantity": "Quantity",
+    "next": "Next",
+    "prev": "Prev",
     "options": {
       "30": "30",
       "32": "32",
@@ -361,6 +363,30 @@
       "alternative_payment_method_banner": {
         "or": "OR CONTINUE WITH CREDIT CARD \/ SOFORTÜBERWEISUNG"
       }
+    }
+  },
+  "sections": {
+    "cookie-banner": {
+      "content_html": "Hey there, we use <a rv-route=\"'{{ link1 }}'\" href=\"{{ link1 }}\">cookies<\/a> to improve our experience with our site.",
+      "okay": "Okay",
+      "close": "Close",
+      "link-label": "Change privacy settings"
+    },
+    "instagram-scrollbar": {
+      "title": "#FASSBENDER HIGHLIGHTS"
+    },
+    "newsletter": {
+      "title": "Discover Fassbender's World",
+      "content_html": "I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}.",
+      "checkbox_email": "I would like to hear from you via email.",
+      "checkbox_privacy_html": "By signing up I agree to the <a href=\"\/pages\/legal-area\">Privacy Statement<\/a>.",
+      "form_invalid": "Please check your entry.",
+      "button_subscribe_label": "Subscribe",
+      "input_name_label": "Name",
+      "input_mail_label": "Mail"
+    },
+    "product-scrollbar": {
+      "title": "Shop F \/ W 2018"
     }
   }
 }
