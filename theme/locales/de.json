@@ -59,6 +59,7 @@
     "vest": "Vest"
   },
   "products": {
+    "choose": "Größe wählen",
     "add": "Hinzufügen",
     "sold_out": "Ausverkauft",
     "quantity": "Menge",
