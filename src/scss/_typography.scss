@@ -7,7 +7,7 @@
 }
 
 h1, .h1 {
-  @extend .text-serif;
+  // @extend .text-serif;
 }
 
 .lead {
@@ -19,13 +19,11 @@ h1, .h1 {
 }
 
 .text-normal, // <- TODO remove
-.text-decoration-normal
-{
+.text-decoration-normal {
   text-decoration: none !important;
 }
 
 .text-underline, // <- TODO remove
-.text-decoration-underline
-{
+.text-decoration-underline {
   text-decoration: underline !important;
 }

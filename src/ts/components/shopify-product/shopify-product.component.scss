@@ -1,3 +1,13 @@
 rv-shopify-product {
   display: block;
+
+  .btn-quantity {
+    cursor: pointer;
+    user-select: none;
+    font-size: 1.1rem;
+  }
+
+  .input-quantity {
+    width: 28px !important;
+  }
 }

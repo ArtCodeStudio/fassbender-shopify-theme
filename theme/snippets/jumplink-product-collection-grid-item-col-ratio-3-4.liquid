@@ -39,7 +39,7 @@
 
         <div class="row justify-content-around px-3 pb-4 option-group">
           <div class="col-auto px-0" rv-each-size="sizeOption.values">
-            <button class="btn btn-link option-size text-decoration-normal" rv-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"
+            <button class="btn btn-link btn-option option-size text-decoration-normal" rv-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"
               rv-text="size"
               rv-i18n-text="size | handleize | prepend 'products.options.'"
             ></button>

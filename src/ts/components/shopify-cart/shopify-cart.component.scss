@@ -15,6 +15,7 @@
 }
 
 rv-shopify-cart {
+  user-select: none;
   .shopping-cart-dropdown-footer,
   .shopping-cart-dropdown-header,
   .media {
@@ -32,10 +33,12 @@ rv-shopify-cart {
       }
     }
   }
-}
 
-rv-shopify-cart {
-  user-select: none;
+  .btn-quantity {
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
   .cart-item-count {
     margin-top: -20px;
     min-width: 20px;

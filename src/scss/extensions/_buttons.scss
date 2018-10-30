@@ -1,11 +1,3 @@
-.btn.btn-link {
-  // @extend a;
-  text-decoration: $link-decoration;
-  &:hover {
-    text-decoration: $link-hover-decoration;
-  }
-}
-
 /**
  * Underline buttons
  */
@@ -14,7 +6,7 @@
   background-color: transparent;
   background-image: none;
   border-bottom-color: $color;
-  border-size: 2px;
+  border-width: 2px;
 
   &:hover {
     // color: $color-hover;
@@ -137,21 +129,5 @@
 @each $color, $value in $theme-colors {
   .btn-animated-underline-#{$color} {
     @include button-animated-underline-variant($value);
-  }
-}
-
-
-/**
- * Button Links
- */
-.btn-link {
-  &.active {
-    font-weight: $font-weight-bold;
-  }
-}
-
-a {
-  &.active {
-    color: $link-active-color;
   }
 }

@@ -23,9 +23,10 @@
         </div>
       </div>
       <p class="my-1">
-        <span rv-i18n-text="'cart.quantity'">{{'cart.quantity'|t}}</span> <span rv-text="item.quantity"></span>
-        <span class="px-1 text-muted" rv-on-click="decrease | args item %item%">-</span>
-        <span class="px-1 text-muted" rv-on-click="increase | args item %item%">+</span>
+        <span rv-i18n-text="'cart.quantity'">{{'cart.quantity'|t}}</span>
+        <span class="px-2 btn-quantity" rv-on-click="decrease | args item %item%">-</span>
+        <span rv-text="item.quantity"></span>
+        <span class="px-2 btn-quantity" rv-on-click="increase | args item %item%">+</span>
       </p>
       <p rv-text="item.price | money '{{ shop.money_format }}'"></p>
     </div>

@@ -6,10 +6,12 @@
 @import 'extensions/extensions';
 
 @import 'alerts';
+@import 'branding';
+@import 'breadcrumbs';
+@import 'buttons';
 @import 'display';
 @import 'layout';
 @import 'fonts';
-@import 'branding';
 @import 'navbar';
 @import 'nav';
 @import 'images';
@@ -17,7 +19,6 @@
 @import 'footer';
 @import 'typography';
 @import 'list-group';
-@import 'breadcrumbs';
 @import 'forms';
 @import 'iconset';
 @import 'modal';
@@ -29,12 +30,6 @@
 @import 'development';
 
 // templates
-@import 'customers';
-@import 'list-collections';
-@import 'collection';
-@import 'product';
-@import 'cart';
-@import 'filter'; // TODO
 @import 'templates/index';
 
 // components, binders and sections

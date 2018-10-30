@@ -26,6 +26,8 @@ export interface IScope {
   chooseOption: ShopifyProductComponent['chooseOption'];
   addToCart: ShopifyProductComponent['addToCart'];
   toggleDetailMenu: ShopifyProductComponent['toggleDetailMenu'];
+  decrease: ShopifyProductComponent['decrease'];
+  increase: ShopifyProductComponent['increase'];
   $parent?: any;
   /**
    * If the variant is available, used to disable the add to cart button
@@ -62,6 +64,8 @@ export class ShopifyProductComponent extends RibaComponent {
     chooseOption: this.chooseOption,
     addToCart: this.addToCart,
     toggleDetailMenu: this.toggleDetailMenu,
+    decrease: this.decrease,
+    increase: this.increase,
     /**
      * If the variant is available, used to disable the add to cart button
      */
@@ -167,6 +171,19 @@ export class ShopifyProductComponent extends RibaComponent {
   public toggleDetailMenu() {
     this.debug('toggleDetailMenu');
     this.scope.showDetailMenu = !this.scope.showDetailMenu;
+  }
+
+  public increase() {
+    this.debug('increase', this.scope.quantity);
+    this.scope.quantity++;
+  }
+
+  public decrease() {
+    this.debug('decrease', this.scope.quantity);
+    this.scope.quantity--;
+    if (this.scope.quantity <= 0) {
+      this.scope.quantity = 1;
+    }
   }
 
   /**

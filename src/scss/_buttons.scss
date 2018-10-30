@@ -1,0 +1,24 @@
+/**
+ * Button Links
+ */
+.btn {
+  &.btn-link {
+    // @extend a;
+    &.active {
+      font-weight: $font-weight-bold;
+      border-bottom-color: $link-color;
+      border-bottom-width: 2px;
+      border-bottom-style: solid;
+    }
+    text-decoration: $link-decoration;
+    &:hover {
+      text-decoration: $link-hover-decoration;
+    }
+  }
+}
+
+a {
+  &.active {
+    color: $link-active-color;
+  }
+}

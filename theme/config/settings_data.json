@@ -26,7 +26,7 @@
         "type": "product-scrollbar",
         "settings": {
           "collection": "jacket",
-          "title": "Cosy Jackets: Shop F \/ W 2018"
+          "title": "Cosy Jackets: Shop FW18 Collection"
         }
       },
       "1531503358229": {
@@ -77,7 +77,7 @@
           "1540826844222": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/MYFASSBENDER_NYC-coat-mid-grey-1.jpg",
+              "image": "shopify:\/\/shop_images\/MYFASSBENDER_NYC-coat-mid-grey_1.jpg",
               "video_url": "",
               "mp4_video_url": "",
               "spacing": 65
@@ -157,8 +157,8 @@
           "1540830721785"
         ],
         "settings": {
-          "story": "https:\/\/myfassbender.com\/collections\/jacket",
-          "title": "Cosy Jackets: Shop F \/ W 2018",
+          "story": "shopify:\/\/products\/puffa-reptil-black",
+          "title": "",
           "color": "#ffffff",
           "title_spacing": 7
         }
@@ -215,7 +215,7 @@
           "1540833167365": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/MYFASSBENDER_NYC_coat-mid-grey.jpg",
+              "image": "shopify:\/\/shop_images\/fassbender-FW18-3.jpg",
               "video_url": "",
               "mp4_video_url": "",
               "spacing": 0
@@ -227,7 +227,7 @@
         ],
         "settings": {
           "story": "https:\/\/myfassbender.com\/collections\/coat?_sc=1&design_theme_id=27337523315&frame_token=rL8BU3NI2zaU2o4jVOXCwDc2wNhAM3x7rbGRByzgASVZCozW3u0ftEjewoDZ3TOnJPiyfnkUhukQJ_Wp21QBUFFLTX81BfaA3qvS_qKgV9m4QlyCYIGOLNLPPU1yByripscbb_WWxaxj-hQW_6C_YA%3D%3D",
-          "title": "Best Coats: Shop F \/ W 2018",
+          "title": "Best Coats: Shop FW18 Collection",
           "color": "#ffffff",
           "title_spacing": 7
         }

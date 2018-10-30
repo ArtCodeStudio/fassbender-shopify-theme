@@ -94,15 +94,16 @@
         <div class="row justify-content-center text-center">
           <div class="form-inline">
             <label class="m-0" for="quanity" rv-i18n-text="'products.quantity'">{{'products.quantity'|t}}</label>
-            {% comment %} <strong class="mx-1" contenteditable="true" rv-value="quantity | strip_html | number 1" rv-on-keydown="onQuantityKeypress"></strong> {% endcomment %}
-            <input type="number" min="0" step="1" class="form-control bg-transparent border-0" id="quanity" rv-value="quantity | strip_html | number 1" style="width: 70px; font-weight: bold;">
+            <span class="px-3 btn-quantity" rv-on-click="decrease">-</span>
+            <input type="number" min="0" step="1" class="form-control input-quantity bg-transparent border-0 px-0 text-center" id="quanity" rv-value="quantity | strip_html | number 1">
+            <span class="px-3 btn-quantity" rv-on-click="increase">+</span>
           </div>
         </div>
 
         <div rv-each-option="product.options">
           <div class="row justify-content-between pt-4" rv-if="option.name | eq 'size'">
             <div class="col-auto px-1" rv-each-size="option.values">
-              <button class="btn btn-link option-size text-decoration-normal" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"></button>
+              <button class="btn btn-link btn-option option-size text-decoration-normal" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"></button>
             </div>
           </div>
         </div>
