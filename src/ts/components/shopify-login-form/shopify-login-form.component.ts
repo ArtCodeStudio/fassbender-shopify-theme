@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent } from '../../tinybind';
+import { RibaComponent } from '@ribajs/core';
 import template from './shopify-login-form.component.html';
 import { Utils } from '../../services/Utils';
 

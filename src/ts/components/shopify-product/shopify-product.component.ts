@@ -1,12 +1,14 @@
-import Debug from 'debug';
-import $ from 'jquery';
+import {
+  RibaComponent,
+  JQuery as $,
+  Debug,
+} from '@ribajs/core';
 import {
   IShopifyProductVariant,
   IShopifyProduct,
   IShopifyProductVariantOption,
-  RibaComponent,
   shopifyExtension,
-} from '../../tinybind';
+} from '@ribajs/shopify';
 import template from './shopify-product.component.html';
 
 const ShopifyCartService = shopifyExtension.services.ShopifyCartService;

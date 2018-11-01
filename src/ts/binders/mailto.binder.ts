@@ -1,4 +1,4 @@
-import { IOneWayBinder, BinderWrapper } from '../tinybind';
+import { IOneWayBinder, BinderWrapper } from '@ribajs/core';
 
 /**
  * mailto

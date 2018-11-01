@@ -2,7 +2,7 @@ import Debug from 'debug';
 import $ from 'jquery';
 import {
   RibaComponent,
-} from '../../../tinybind';
+} from '@ribajs/core';
 import { LocalsService, ILangcode, ILocalVar } from '../../../services/locals.service';
 
 interface IScope {

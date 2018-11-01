@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { RibaComponent } from '../../tinybind';
+import { RibaComponent } from '@ribajs/core';
 import template from './shopify-linklist.component.html';
 
 /**

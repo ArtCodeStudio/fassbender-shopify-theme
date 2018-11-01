@@ -23,7 +23,8 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ]
+    extensions: [ '.tsx', '.ts', '.js' ],
+    symlinks: true
   },
   output: {
     filename: 'bundle.js',

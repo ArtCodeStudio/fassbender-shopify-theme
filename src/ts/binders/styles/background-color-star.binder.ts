@@ -1,5 +1,4 @@
-import $ from '../../jquery';
-import { IOneWayBinder, BinderWrapper } from '../../tinybind';
+import { IOneWayBinder, BinderWrapper, JQuery as $ } from '@ribajs/core';
 
 export const backgroundColorStarBinder: IOneWayBinder<string> = function(el: HTMLElement, value: string) {
   const $el = $(el);

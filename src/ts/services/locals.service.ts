@@ -1,7 +1,5 @@
-import Debug from 'debug';
-import { EventDispatcher, getJSON, Utils, IState } from '../tinybind';
+import { EventDispatcher, getJSON, Utils, Debug, JQuery as $ } from '@ribajs/core';
 import { TheDeveloperAppService } from './the-developer-app.service';
-import $ from 'jquery';
 
 export interface ITheme {
   handle: 'null';
@@ -287,7 +285,7 @@ export class LocalsService {
       return this.locals[themeID];
     }
     return getJSON(url)
-    .then((locals) => {
+    .then((locals: any /** TODO any */) => {
       this.locals[themeID as number] = locals;
       return this.locals[themeID as number];
     });

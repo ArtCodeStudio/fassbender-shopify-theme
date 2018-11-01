@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Popper from '../../../../../node_modules/popper.js/dist/umd/popper';
+import Popper from 'popper.js'; // /dist/umd/popper
 import { Utils } from '../../../services/Utils';
 import Debug from 'debug';
 

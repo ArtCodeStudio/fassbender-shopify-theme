@@ -9,6 +9,7 @@
     "copy-modules": "node ./utils/copy_modules.js",
     "sass": "node-sass --output-style compressed src/scss/bundle.scss -o theme/assets/ && postcss -c postcss.config.js theme/assets/bundle.css -o theme/assets/bundle.css && theme deploy --dir ./theme assets/bundle.css",
     "sass-watch": "nodemon -e scss -x 'npm run sass'",
+    "webpack": "webpack",
     "ts": "webpack && theme upload --dir ./theme assets/bundle.js",
     "ts-babel": "babel src/ts/main.ts --extensions '.ts'",
     "ts-watch": "webpack --watch",
@@ -38,7 +39,9 @@
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-syntax-export-default-from": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-typescript": "^7.1.0",
@@ -86,16 +89,17 @@
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.1.2",
+    "@ribajs/core": "^0.16.3",
+    "@ribajs/router": "^0.16.3",
+    "@ribajs/shopify": "^0.16.3",
     "@types/debug": "^0.0.30",
     "@types/jquery": "^3.3.22",
     "@types/p-queue": "^2.3.1",
-    "@types/promise-polyfill": "^6.0.0",
     "bootstrap": "^4.1.3",
     "debug": "^3.2.6",
     "jquery": "^3.3.1",
     "p-queue": "^2.4.2",
     "popper.js": "^1.14.4",
-    "rxjs": "^6.3.3",
-    "tinybind": "github:JumpLinkNetwork/tinybind#master"
+    "rxjs": "^6.3.3"
   }
 }

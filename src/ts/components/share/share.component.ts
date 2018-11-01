@@ -2,7 +2,7 @@ import Debug from 'debug';
 import $ from 'jquery';
 import {
   RibaComponent,
-} from '../../tinybind';
+} from '@ribajs/core';
 import template from './share.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
 

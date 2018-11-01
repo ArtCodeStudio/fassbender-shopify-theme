@@ -1,5 +1,6 @@
-import Debug from 'debug';
-import { Pjax, Binding, shopifyExtension } from '../../tinybind';
+import { Binding, Debug, RibaComponent } from '@ribajs/core';
+import { Pjax } from '@ribajs/router';
+import { shopifyExtension } from '@ribajs/shopify';
 import template from './instagram.component.html';
 import { IInstagramMedia, IInstagramResponse, InstagramService } from '../../services/instagram.service';
 
@@ -11,7 +12,7 @@ export interface IScope {
   onTap: InstagramComponent['onTap'];
 }
 
-export class InstagramComponent extends shopifyExtension.components.ShopifySectionComponent {
+export class InstagramComponent extends RibaComponent /*shopifyExtension.components.ShopifySectionComponent*/ {
 
   public static tagName: string = 'rv-instagram';
 

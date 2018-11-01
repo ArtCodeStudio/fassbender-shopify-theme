@@ -2,11 +2,13 @@ import Debug from 'debug';
 import $ from 'jquery';
 import {
   RibaComponent,
+} from '@ribajs/core';
+import {
   IShopifyProductVariant,
   IShopifyProduct,
   IShopifyProductVariantOption,
   shopifyExtension,
-} from '../../tinybind';
+} from '@ribajs/shopify';
 import template from './shopify-product-item.component.html';
 
 export interface IScope {
@@ -189,10 +191,10 @@ export class ShopifyProductItemComponent extends RibaComponent /*ShopifyProductI
     }
     this.debug('addToCart', this.variant.id, this.scope.quantity);
     ShopifyCartService.add(this.variant.id, this.scope.quantity)
-    .then((response) => {
+    .then((response: any /** TODO not any */) => {
       this.debug('addToCart response', response);
     })
-    .catch((error) => {
+    .catch((error: Error) => {
       this.debug('addToCart error', error);
     });
   }

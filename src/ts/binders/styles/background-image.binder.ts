@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { IOneWayBinder, BinderWrapper } from '../../tinybind';
+import { IOneWayBinder, BinderWrapper } from '@ribajs/core';
 
 export const backgroundImageBinder: IOneWayBinder<string> = (el: HTMLElement, value: string) => {
   const $el = $(el);

@@ -1,7 +1,5 @@
-import Debug from 'debug';
-import { RibaComponent } from '../../../tinybind';
+import { RibaComponent, Debug, JQuery as $ } from '@ribajs/core';
 import { DropdownService } from './dropdown.service';
-import $ from '../../../jquery';
 
 export class DropdownComponent extends RibaComponent {
 

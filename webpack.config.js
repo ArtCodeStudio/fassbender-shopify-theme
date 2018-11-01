@@ -39,8 +39,8 @@ module.exports = {
   },
   // Change to your "entry-point".
   entry: ['./src/ts/main.ts'],
-  // devtool: 'inline-source-map',
-  mode: 'production', // 'development', //'production', 
+  devtool: 'inline-source-map',
+  mode: 'development', // 'development', //'production', 
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'theme/assets/')
@@ -48,15 +48,22 @@ module.exports = {
   resolve: {
     modules: [ 'node_modules', 'src/modules' ],
     extensions: ['.ts', '.tsx', '.js', '.json'],
+    symlinks: true
   },
   module: {
     rules: [
       // typescript and javascript
       {
-        test: /\.(tsx?)|(js)$/,
-        exclude: /(node_modules|bower_components)/,
+        test: /\.(tsx?)|\.(js)$/,
+        exclude: [/node_modules\/(?!@ribajs)/, /(bower_components)/],
         loader: 'babel-loader',
-        // include: [/node_modules\/runtime-corejs2/]
+        // include: []
+        // include: [
+        //   // /node_modules\/@ribajs\/*/,
+        //   path.resolve(__dirname, "node_modules/@ribajs/core"),
+        //   path.resolve(__dirname, "node_modules/@ribajs/router"),
+        //   path.resolve(__dirname, "node_modules/@ribajs/shopify")
+        // ]
       },
       // html templates
       {

@@ -1,11 +1,15 @@
-import Debug from 'debug';
-import $ from 'jquery';
 import {
   RibaComponent,
+  JQuery as $,
+  Debug,
+} from '@ribajs/core';
+import {
+  Pjax,
+} from '@ribajs/router';
+import {
   shopifyExtension,
   IShopifyCartObject,
-  Pjax,
-} from '../../tinybind';
+} from '@ribajs/shopify';
 import { Utils } from '../../services/Utils';
 import template from './shopify-cart-button.component.html';
 
@@ -93,7 +97,7 @@ export class ShopifyCartButtonComponent extends RibaComponent {
     this.debug('afterBind', this.scope);
 
     return ShopifyCartService.get()
-    .catch((error) => {
+    .catch((error: Error) => {
       this.debug(error);
     });
 

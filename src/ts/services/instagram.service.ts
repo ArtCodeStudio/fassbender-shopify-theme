@@ -1,6 +1,5 @@
 import Debug from 'debug';
 import { Utils, getJSON } from './Utils';
-import jQuery from '../jquery';
 import { TheDeveloperAppService } from './the-developer-app.service';
 
 export interface IInstagramMediaData {

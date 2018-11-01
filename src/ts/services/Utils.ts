@@ -1,4 +1,4 @@
-import { Utils as tinybindUtils, getJSON } from '../tinybind';
+import { Utils as tinybindUtils, getJSON } from '@ribajs/core';
 
 export { getJSON };
 

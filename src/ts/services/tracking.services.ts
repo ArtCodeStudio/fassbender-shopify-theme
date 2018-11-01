@@ -1,7 +1,10 @@
 import {
   EventDispatcher,
+} from '@ribajs/core';
+
+import {
   IState,
-} from '../tinybind';
+} from '@ribajs/router';
 
 import Debug from 'debug';
 

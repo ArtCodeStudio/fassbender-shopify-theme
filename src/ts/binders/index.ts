@@ -1,4 +1,4 @@
-import { IBinders } from '../tinybind';
+import { IBinders } from '@ribajs/core';
 
 export { styleBinders } from './styles/styles.binders';
 // binders

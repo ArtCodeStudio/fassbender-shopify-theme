@@ -1,6 +1,4 @@
-import Debug from 'debug';
-import $ from '../../jquery';
-import { RibaComponent } from '../../tinybind';
+import { RibaComponent, JQuery as $, Debug } from '@ribajs/core';
 import template from './newsletter.component.html';
 import { LocalsService } from '../../services/locals.service';
 import { Utils } from '../../services/Utils';

@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { IOneWayBinder, BinderWrapper } from '../../tinybind';
+import { IOneWayBinder, BinderWrapper } from '@ribajs/core';
 
 /**
  * Scroll an scrollable element by draging and moving your mouse.

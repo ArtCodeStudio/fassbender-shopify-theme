@@ -1,14 +1,16 @@
-import Debug from 'debug';
-import $ from 'jquery';
 import {
   RibaComponent,
+  JQuery as $,
+  Debug,
+} from '@ribajs/core';
+import {
   shopifyExtension,
   IShopifyCartLineItem,
   IShopifyCartObject,
   IShopifyCustomerAddress,
   IShopifyShippingRates,
   IShopifyShippingRatesNormalized,
-} from '../../tinybind';
+} from '@ribajs/shopify';
 import template from './shopify-cart.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
 
@@ -150,7 +152,7 @@ export class ShopifyCartComponent extends RibaComponent {
     this.debug('afterBind', this.scope);
 
     return ShopifyCartService.get()
-    .catch((error) => {
+    .catch((error: Error) => {
       console.error(error);
     });
   }

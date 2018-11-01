@@ -1,7 +1,5 @@
 /* tslint:disable:max-classes-per-file */
-import Debug from 'debug';
-import { RibaComponent } from '../../../tinybind';
-import $ from '../../../jquery';
+import { RibaComponent, Debug, JQuery as $ } from '@ribajs/core';
 
 export class TabsComponent extends RibaComponent {
 

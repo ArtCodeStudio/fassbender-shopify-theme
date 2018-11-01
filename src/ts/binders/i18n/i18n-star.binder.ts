@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { ITwoWayBinder, BinderWrapper, View } from '../../tinybind';
+import { ITwoWayBinder, BinderWrapper, View } from '@ribajs/core';
 import { LocalsService } from '../../services/locals.service';
 import $ from 'jquery';
 import { Utils } from '../../services/Utils';

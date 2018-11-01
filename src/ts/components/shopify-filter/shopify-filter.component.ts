@@ -1,7 +1,6 @@
 import Debug from 'debug';
-import { RibaComponent } from '../../tinybind';
+import { RibaComponent, JQuery as $ } from '@ribajs/core';
 import template from './shopify-filter.component.html';
-import $ from '../../jquery';
 
 interface IScope {
   linklist: any;

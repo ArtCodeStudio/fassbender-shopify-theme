@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { IOneWayBinder, BinderWrapper, EventDispatcher } from '../../tinybind';
+import { IOneWayBinder, BinderWrapper, EventDispatcher } from '@ribajs/core';
 import { CollapseService } from './collapse.service';
 import { Utils } from '../../services/Utils';
 

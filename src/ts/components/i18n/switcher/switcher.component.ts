@@ -2,7 +2,7 @@ import Debug from 'debug';
 import $ from 'jquery';
 import {
   RibaComponent,
-} from '../../../tinybind';
+} from '@ribajs/core';
 import template from './switcher.component.html';
 import { LocalsService, ILangcode } from '../../../services/locals.service';
 

@@ -1,9 +1,11 @@
-import Debug from 'debug';
-import $ from 'jquery';
 import {
   RibaComponent,
+  JQuery as $,
+  Debug,
+} from '@ribajs/core';
+import {
   shopifyExtension,
-} from '../../tinybind';
+} from '@ribajs/shopify';
 import template from './privacy-settings.component.html';
 import { TrackingService } from '../../services/tracking.services';
 import { Utils } from '../../services/Utils';
@@ -103,7 +105,7 @@ export class PrivacySettingsComponent extends RibaComponent {
     .then(() => {
       location.reload();
     })
-    .catch((error) => {
+    .catch((error: Error) => {
       console.error(error);
     });
     event.preventDefault();

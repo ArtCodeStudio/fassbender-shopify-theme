@@ -1,4 +1,4 @@
-import { IBinders } from '../../tinybind';
+import { IBinders } from '@ribajs/core';
 
 import { backgroundImageBinderWrapper } from './background-image.binder';
 import { backgroundColorStarBinderWrapper } from './background-color-star.binder';

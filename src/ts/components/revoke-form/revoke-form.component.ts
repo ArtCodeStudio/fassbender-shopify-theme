@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import { Utils } from '../../services/Utils';
-import { RibaComponent } from '../../tinybind';
+import { RibaComponent } from '@ribajs/core';
 import template from './revoke-form.component.html';
 import { LocalsService } from '../../services/locals.service';
 

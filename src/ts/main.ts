@@ -1,15 +1,10 @@
-import Debug from 'debug';
-import JQuery from './jquery';
-import { TrackingService } from './services/tracking.services';
-
 import {
-  Tinybind,
+  Riba,
   View,
-  EventDispatcher,
-  IState,
+  Debug,
+  JQuery,
 
   // binders
-  routerBinders,
   basicBindersWrapper,
 
   // formatters
@@ -19,10 +14,11 @@ import {
   specialFormatters,
   stringFormatters,
 
-  // shopify extensions
-  shopifyExtension,
-} from './tinybind';
+} from '@ribajs/core';
+import { shopifyExtension } from '@ribajs/shopify';
+import { routerBinders } from '@ribajs/router';
 
+import { TrackingService } from './services/tracking.services';
 import { customBinders, styleBinders } from './binders/index';
 
 import * as CustomComponents from './components/components';
@@ -43,7 +39,7 @@ export class Main {
 
   private view: View;
   private debug = Debug('app:main');
-  private tinybind = new Tinybind();
+  private riba = new Riba();
   // private dispatcher = new EventDispatcher('main');
 
   constructor() {
@@ -55,22 +51,22 @@ export class Main {
     };
 
     // Regist custom components
-    this.tinybind.componentService.regists(CustomComponents);
+    this.riba.componentService.regists(CustomComponents);
 
     // Regist binders
-    this.tinybind.binderService.regists(basicBindersWrapper(JQuery));
-    this.tinybind.binderService.regists(routerBinders);
-    this.tinybind.binderService.regists(customBinders);
-    this.tinybind.binderService.regists(styleBinders);
+    this.riba.binderService.regists(basicBindersWrapper(JQuery));
+    this.riba.binderService.regists(routerBinders);
+    this.riba.binderService.regists(customBinders);
+    this.riba.binderService.regists(styleBinders);
 
     // Regist formatters
-    this.tinybind.formatterService.regists(compareFormatters);
-    this.tinybind.formatterService.regists(mathFormatters);
-    this.tinybind.formatterService.regists(propertyFormatters);
-    this.tinybind.formatterService.regists(specialFormatters);
-    this.tinybind.formatterService.regists(stringFormatters);
+    this.riba.formatterService.regists(compareFormatters);
+    this.riba.formatterService.regists(mathFormatters);
+    this.riba.formatterService.regists(propertyFormatters);
+    this.riba.formatterService.regists(specialFormatters);
+    this.riba.formatterService.regists(stringFormatters);
 
-    this.tinybind.formatterService.regists(shopifyExtension.formatters);
+    this.riba.formatterService.regists(shopifyExtension.formatters);
 
     window.model.assign = function(key: string, value: any, event: Event) {
       // event.preventDefault();
@@ -86,7 +82,7 @@ export class Main {
 
     window.model.system.shopify = (window as any).Shopify;
 
-    this.view = this.tinybind.bind(JQuery('body')[0], window.model);
+    this.view = this.riba.bind(JQuery('body')[0], window.model);
   }
 }
 
