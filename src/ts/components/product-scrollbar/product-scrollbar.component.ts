@@ -1,8 +1,8 @@
-import { Debug, JQuery as $, Binding, RibaComponent } from '@ribajs/core';
+import { Debug, JQuery as $, Binding } from '@ribajs/core';
 import { Pjax, Prefetch } from '@ribajs/router';
 import { shopifyExtension } from '@ribajs/shopify';
 
-export class ProductScrollbarComponent extends RibaComponent /*shopifyExtension.components.ShopifySectionComponent*/ {
+export class ProductScrollbarComponent extends shopifyExtension.components.ShopifySectionComponent {
 
   public static tagName: string = 'rv-product-scrollbar';
 
