@@ -52,7 +52,7 @@
         "settings": {
           "name": "Dropdown",
           "enable": true,
-          "color": "#ffffff",
+          "color": "rgba(0,0,0,0)",
           "subscrib_url": "https:\/\/myfassbender.us19.list-manage.com\/subscribe\/post?u=11ae6ea303b6ef3f1e7d5c7c6&amp;id=65d09922c7"
         }
       },

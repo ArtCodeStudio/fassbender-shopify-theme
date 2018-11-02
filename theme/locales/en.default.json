@@ -378,7 +378,7 @@
     },
     "newsletter": {
       "title": "Discover Fassbender's World",
-      "content_html": "I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}.",
+      "content_html": "<strong class=\"mb-2 d-block\">Subscribe to our newsletter and get 10% off your next purchase. <\/strong>I want news and inspiration about<br>Stories and Collections.<br>Take my {{ name }} and {{ email }}.",
       "checkbox_email": "I would like to hear from you via email.",
       "checkbox_privacy_html": "By signing up I agree to the <a href=\"\/pages\/legal-area\">Privacy Statement<\/a>.",
       "form_invalid": "Please check your entry.",
