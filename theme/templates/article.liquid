@@ -37,14 +37,14 @@
 {
   "@context": "http://schema.org",
   "@type": "Article",
-  "articleBody": "{{ article.content | strip_html }}",
+  "articleBody": "{{ article.excerpt_or_content | strip_html | strip_newlines }}",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ shop.url }}{{ page.url }}"
   },
   "headline": "{{ article.title }}",
   {% if article.excerpt != blank %}
-    "description": "{{ article.excerpt | strip_html }}",
+    "description": "{{ article.excerpt | strip_html | strip_newlines }}",
   {% endif %}
   {% if article.image %}
     {% assign image_size = article.image.width | append: 'x' %}

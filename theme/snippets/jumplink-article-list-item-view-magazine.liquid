@@ -96,7 +96,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images limit:1 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="auto" class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="auto" class="content" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -105,7 +105,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:1 limit:2 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="auto" class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="auto" class="content" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -114,7 +114,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:3 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="auto" class="content" src="{{ image }}" rv-src="'{{ image }}' | img_url '{{imageSize}}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="auto" class="content" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>

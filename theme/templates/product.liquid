@@ -5,13 +5,13 @@
       {% comment %} selected variant featured_image image {% endcomment %}
       <div class="col-12 px-0 d-none d-md-block">
         <div class="content-box ratio-3-2">      
-          <img lazyload="auto" class="content" src="{{ product.featured_image.src | img_url: 'master' }}" rv-src="variant.featured_image.src | img_url: 'master'" alt="{{image.alt}}" />
+          <img lazyload="auto" class="content" src="{{ product.featured_image.src | img_url: 'master' }}" rv-src="variant.featured_image.src | img_url: 'original'" alt="{{image.alt}}" />
         </div>
       </div>
 
       <div class="col-12 px-0 d-block d-md-none">
         <div class="content-box ratio-3-4">      
-          <img lazyload="auto" class="content" src="{{ product.featured_image.src | img_url: 'master' }}" rv-src="variant.featured_image.src | img_url: 'master'" alt="{{image.alt}}" />
+          <img lazyload="auto" class="content" src="{{ product.featured_image.src | img_url: 'master' }}" rv-src="variant.featured_image.src | img_url: 'original'" alt="{{image.alt}}" />
         </div>
       </div>
 
@@ -21,7 +21,7 @@
     <div class="row">
       <div rv-each-image="variant.images | range 0 1" class="col-12 col-md px-0" >
         <div class="content-box ratio-3-4">      
-          <img lazyload="auto" class="content" rv-src="image | img_url: 'master'" alt="variant.title" />
+          <img lazyload="auto" class="content" rv-src="image | img_url: 'original'" alt="variant.title" />
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
     <div class="row">
       <div rv-each-image="variant.images | range 2 4" class="col-12 col-md px-0" >
         <div class="content-box ratio-3-4">     
-          <img lazyload="auto" class="content" rv-src="image | img_url: 'master'" alt="variant.title" />
+          <img lazyload="auto" class="content" rv-src="image | img_url: 'original'" alt="variant.title" />
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
     <div class="row" rv-if="variant.images | count | egt 5">
       <div rv-each-image="variant.images | range 5" class="col-12 col-md px-0">
         <div class="content-box ratio-3-4">      
-          <img lazyload="auto" class="content" rv-src="image | img_url: 'master'" alt="variant.title" />
+          <img lazyload="auto" class="content" rv-src="image | img_url: 'original'" alt="variant.title" />
         </div>
       </div>
     </div>

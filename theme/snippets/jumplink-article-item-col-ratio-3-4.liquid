@@ -23,7 +23,7 @@
   {% endif %}
 {% endif %}
 
-<rv-shopify-article-item class="{{ colClass }} px-0 content-box ratio-3-4" {% if articleHasContent %} rv-route="'{{ article.url }}'" href="{{article.url}}" {% endif %} style="background-color: {{ color }};">
+<rv-shopify-article-item class="{{ colClass }} px-0 content-box ratio-3-4" rv-route="'{{ article.url }}'" href="{{article.url}}" style="background-color: {{ color }};">
   {% if showVideo %}
     <video class="content has-xs-spacing has-sm-spacing" preload="auto" controls>
       <source src="{{ video }}" type="video/mp4">
@@ -32,7 +32,18 @@
       </span>
     </video>
   {% else %}
-    <img lazyload="auto" class="content has-xs-spacing has-sm-spacing" src="{{ article.image | img_url: articleImageSize}}" rv-src="'{{ article.image | img_url: articleImageSize}}'" alt="{{acticle.title}}" style="padding: 52px" />
+    {% if article.image %}
+      {% assign image = article.image | img_url: articleImageSize %}
+    {% elsif article.metafields["global"]["Image-2"] %}
+      {% comment %} Fallback Image {% endcomment %}
+      {% assign image = article.metafields["global"]["Image-2"] %}
+    {% elsif article.metafields["global"]["detail-image-1"] %}
+      {% comment %} Fallback Image {% endcomment %}
+      {% assign image = article.metafields["global"]["detail-image-1"] %}
+    {% elsif article.metafields["global"]["video-poster-1"] %}
+      {% assign image = article.metafields["global"]["video-poster-1"] %}
+    {% endif %}
+    <img lazyload="auto" class="content has-xs-spacing has-sm-spacing" src="{{image}}" alt="{{acticle.title}}" style="padding: 52px" />
   {% endif %}
   {% if article.title %}
     <div class="position-absolute w-100 bottom-0" style="{{ articleTitleStyle }}">
