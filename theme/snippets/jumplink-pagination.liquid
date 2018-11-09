@@ -5,48 +5,11 @@
 {% if paginate.pages > 1 %}
   <div class="row">
     <div class="col-12 text-center">
-      
-      {% comment %}
-      <nav aria-label="Page navigation" class="">
-        <ul class="pagination justify-content-center">
-
-          <li class="page-item {% unless paginate.previous.is_link %}disabled{% endunless %}">
-            <a class="page-link" rv-route="'{{ paginate.previous.url}}'" href="{{ paginate.previous.url }}{{ paginate_hash }}" {% unless paginate.next.is_link %}disabled="disabled"{% endunless %} aria-label="{{ 'snippets.jumplink-pagination.prev_label' | t }}">
-
-              <span class="sr-only">{{ 'snippets.jumplink-pagination.prev_label' | t }}</span>
-            </a>
-          </li>
-          
-          {% for part in paginate.parts %}
-            <li class="page-item {% unless part.is_link %}active{% endunless %}">
-              <a class="page-link" rv-route="" href="{% if part.is_link %}{{part.url}}{% else %}#{% endif %}">{{ part.title }}</a>
-            </li>
-          {% endfor %}
-
-          {% if show_all_active %}
-            <li class="page-item">
-              <a class="page-link" data-onclick-load-all="true" rv-route="" href="{{collection.url}}?page=all" aria-label="{{ 'snippets.jumplink-pagination.all_label' | t }}">
-                <span aria-hidden="true">{{ 'snippets.jumplink-pagination.all' | t }}</span>
-                <span class="sr-only">{{ 'snippets.jumplink-pagination.all_label' | t }}</span>
-              </a>
-            </li>
-          {% endif %}
-
-          <li class="page-item {% unless paginate.next.is_link %}disabled{% endunless %}">
-            <a class="page-link" {% unless paginate.next.is_link %}disabled="disabled"{% endunless %} rv-route="" href="{{ paginate.next.url }}{{ paginate_hash }}" aria-label="{{ 'snippets.jumplink-pagination.next_label' | t }}">
-              <span class="sr-only">{{ 'snippets.jumplink-pagination.next_label' | t }}</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      {% endcomment %}
-
       {% if paginate.next.is_link %}
-        <a class="cursor-pointer pt-5" rv-route='{"url": "{{ paginate.next.url }}{{ paginate_hash }}", "viewId": "{{ viewId }}", "removeAfterActivation": true, "listenPopstate": false, "action": "append"}' aria-label="{{ 'snippets.jumplink-pagination.load_more' | t }}">
-          <span rv-i18n-text="'snippets.jumplink-pagination.load_more'">{{ 'snippets.jumplink-pagination.load_more' | t }} {{ viewId }}</span>
+        <a class="cursor-pointer pt-5" rv-route='{"url": "{{ paginate.next.url }}{{ paginate_hash }}", "viewId": "{{viewId}}", "removeAfterActivation": true, "listenPopstate": false, "action": "append"}' aria-label="{{ 'snippets.jumplink-pagination.load_more' | t }}">
+          <span rv-i18n-text="'snippets.jumplink-pagination.load_more'">{{'snippets.jumplink-pagination.load_more'|t}}</span>
         </a>
       {% endif %}
-
     </div>
   </div>
 {% endif %}

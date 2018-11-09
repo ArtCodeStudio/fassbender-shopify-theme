@@ -15,4 +15,10 @@
   @include media-breakpoint-up(xl) {
     column-count: 3;
   }
+  &.no-excerpt-or-content {
+    column-count: 1 !important;
+    hr {
+      display: none;
+    }
+  }
 }

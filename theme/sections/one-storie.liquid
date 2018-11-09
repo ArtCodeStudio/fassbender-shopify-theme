@@ -55,7 +55,11 @@
 
       {% if block.settings.mp4_video_url != blank %}
         {% assign video = block.settings.mp4_video_url %}
-        {% assign videoType = 'mp4' %}
+        {% assign videoType = 'video/mp4' %}
+      {% endif %}
+
+      {% if block.settings.video_poster != blank %}
+        {% assign videoPoster = block.settings.video_poster | img_url: "master" %}
       {% endif %}
 
       {% if video != blank %}
@@ -82,7 +86,7 @@
               lazyload="auto"
               class="{{imageClass}}"
               type="text/html" 
-              src="https://player.vimeo.com/video/{{ video.id }}?autoplay=1&loop=1&autopause=0&background=1&muted=1"
+              src="https://player.vimeo.com/video/{{ video.id }}?color=D9998F&autoplay=1&loop=1&autopause=0&background=1&muted=1"
               frameborder="0"
               webkitallowfullscreen
               mozallowfullscreen
@@ -92,9 +96,9 @@
               style="pointer-events: none;" {% comment %} Fix mouse scroll problem {% endcomment %}>
               </iframe>
           </div>
-        {% elsif videoType == 'mp4' %}
+        {% elsif videoType == 'video/mp4' %}
           <div class="col px-0 content-box {{contentBoxClass}}">
-            <video class="{{imageClass}}" autoplay muted loop>
+            <video class="{{imageClass}}" autoplay muted loop {% if videoPoster %}poster="{{videoPoster}}"{% endif %}>
               <source src="{{video}}" type="video/mp4">
               <span rv-i18n-text="'system.video_tag_not_supported'">
                 {{'system.video_tag_not_supported'|t}}
@@ -183,6 +187,11 @@
             "type": "url",
             "label": "Video .mp4 Source URL",
             "info": "Video must be in .mp4 format"
+          },
+          {
+            "id": "video_poster",
+            "type": "image_picker",
+            "label": "Video Poster image"
           },
           {
             "type":   "range",

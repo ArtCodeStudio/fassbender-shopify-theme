@@ -10,13 +10,22 @@
 
 {% if article.metafields["global"]["video-1"] %}
   {% assign video = article.metafields["global"]["video-1"] %}
+  {% assign videoType = 'video/mp4' %}
 {% endif %}
 {% if article.metafields["global"]["video-url-1"] %}
   {% assign video = article.metafields["global"]["video-url-1"] %}
+  {% assign videoType = 'video/mp4' %}
 {% endif %}
+{% if article.metafields["global"]["video-vimeo-1"] %}
+  {% assign video = article.metafields["global"]["video-vimeo-1"] %}
+  {% assign videoType = 'vimeo' %}
+{% endif %}
+{% if article.metafields["global"]["video-poster-1"] %}
+  {% assign videoPoster = article.metafields["global"]["video-poster-1"] %}
+{% endif %}"
 
 {% paginate article.comments by 10 %}
-  {% include 'jumplink-article-list-item-view-magazine', comments, article, blog, color: color, images: images, video: video, showDetail: true %}
+  {% include 'jumplink-article-list-item-view-magazine', comments, article, blog, color: color, images: images, video: video, videoType: videoType, videoPoster: videoPoster, showDetail: true %}
 {% endpaginate %}
 
 <script type="application/ld+json">

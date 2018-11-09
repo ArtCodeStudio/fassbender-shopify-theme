@@ -7,14 +7,23 @@
 
 {% if article.metafields["global"]["video-1"] %}
   {% assign video = article.metafields["global"]["video-1"] %}
+  {% assign videoType = 'video/mp4' %}
 {% endif %}
 {% if article.metafields["global"]["video-url-1"] %}
   {% assign video = article.metafields["global"]["video-url-1"] %}
+  {% assign videoType = 'video/mp4' %}
+{% endif %}
+{% if article.metafields["global"]["video-vimeo-1"] %}
+  {% assign video = article.metafields["global"]["video-vimeo-1"] %}
+  {% assign videoType = 'vimeo' %}
+{% endif %}
+{% if article.metafields["global"]["video-poster-1"] %}
+  {% assign videoPoster = article.metafields["global"]["video-poster-1"] %}
 {% endif %}
 
 {% case type %}
   {% when 'magazine' %}
-    {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, video: video, showDetail: false %}
+    {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, video: video, videoType: videoType, videoPoster: videoPoster, showDetail: false %}
   {% when '2-grid-2-images' %}
     {% include 'jumplink-article-list-item-view-2-grid-2-images', color: color, images: images, video: video %}
   {% when 'one-story' %}
@@ -24,5 +33,5 @@
   {% when '2-grid-product-story' %}
     {% include 'jumplink-article-list-item-view-2-grid-story-product', color: color, productOrderClass: 'order-first', video: video %}
   {% else %}
-    {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, video: video, showDetail: false %}
+    {% include 'jumplink-article-list-item-view-magazine', color: color, images: images, video: video, videoType: videoType, videoPoster: videoPoster, showDetail: false %}
 {% endcase %}
