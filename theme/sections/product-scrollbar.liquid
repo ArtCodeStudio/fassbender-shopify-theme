@@ -5,7 +5,7 @@
     {% for product in collection.products %}
       {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
       <div rv-on-tap="onProductTap" rv-on-mouseenter="onProductMouseenter" data-url="{{product.url}}" data-title="{{product.title}}" class="col-6 px-0 content-box ratio-3-4 cursor-pointer">
-        <img lazyload="auto" class="content" src="{{ product.featured_image | img_url: '1200x800', scale: 2 }}" alt="{{image.alt}}" />
+        <img lazyload="auto" class="content" src="{{ product.featured_image | img_url: 'master' }}" alt="{{image.alt}}" />
       </div>
     {% endfor %}
     <div class="col-3"></div>

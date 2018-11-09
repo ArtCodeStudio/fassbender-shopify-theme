@@ -1,5 +1,5 @@
 {% assign product = all_products[article.metafields["global"]["product-handle"]] %}
-{% assign articleImageSize = "1200x1600" %}
+{% assign articleImageSize = "master" %}
 {% capture articleTitleStyle %}
   {% if color %}
     background-color:{{ color | color_modify: 'alpha', 0.5 }};

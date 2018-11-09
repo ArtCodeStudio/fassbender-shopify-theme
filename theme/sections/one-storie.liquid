@@ -21,10 +21,10 @@
 {% assign block_length = section.blocks | size %}
 {% if block_length <= 1 %}
   {% assign ratioClass = "ratio-3-2" %}
-  {% assign imageSize = "1200x800" %}
+  {% assign imageSize = "master" %}
 {% else %}
   {% assign ratioClass = "ratio-3-4" %}
-  {% assign imageSize = "1200x1600" %}
+  {% assign imageSize = "master" %}
 {% endif %}
 
 <a rv-route="'{{ section.settings.story }}'" href="{{section.settings.story}}" rv-shopify-section='{{ section.settings | json }}' class="d-block container-fluid position-relative" style="background-color: {{ section.settings.color }};">
@@ -45,7 +45,7 @@
       {% endif %}
 
       {% if block.settings.image != blank %}
-        {% assign imageSrc = block.settings.image | img_url: imageSize, scale: 2 %}
+        {% assign imageSrc = block.settings.image | img_url: imageSize %}
       {% endif %}
 
       {% if block.settings.video_url != blank %}

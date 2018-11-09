@@ -5,12 +5,15 @@ import {
 } from '@ribajs/core';
 import template from './share.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
+import { LocalsService } from '../../services/locals.service';
 
 interface IScope {
   title: string;
   text: string;
+  textI18n?: string;
   url: string;
   label: string;
+  labelI18n?: string;
   share: ShareComponent['share'];
   /** true if the browser runs on Android */
   isAndroid: boolean;
@@ -50,12 +53,14 @@ export class ShareComponent extends RibaComponent {
   public static tagName: string = 'rv-share';
 
   static get observedAttributes() {
-    return ['title', 'text', 'url', 'label'];
+    return ['title', 'text', 'text-i18n', 'url', 'label', 'label-i18n'];
   }
 
   protected $el: JQuery<HTMLElement>;
 
   protected debug = Debug('component:' + ShareComponent.tagName);
+
+  protected localsService = new LocalsService();
 
   protected dropdownService: DropdownService;
 
@@ -80,9 +85,11 @@ export class ShareComponent extends RibaComponent {
 
   protected scope: IScope = {
     title: $(document).find('title').text(),
-    text: 'Look at this! 🤩\n\n', // 👀
+    text: 'Look at this! 🤩', // 👀
+    textI18n: undefined,
     url: window.location.href,
     label: 'Share',
+    labelI18n: undefined,
     share: this.share,
     isAndroid: navigator.userAgent.match(/Android/i) !== null,
     isIos: navigator.userAgent.match(/iPhone|iPad|iPod/i) !== null,
@@ -130,8 +137,38 @@ export class ShareComponent extends RibaComponent {
     DropdownService.closeAll();
   }
 
+  protected initTranslate() {
+    this.localsService.event.on('changed', (langcode: string) => {
+      this.translate(langcode);
+    });
+    if (this.localsService.ready) {
+      this.translate(this.localsService.getLangcode());
+    } else {
+      this.localsService.event.on('ready', (langcode: string, translationNeeded: boolean) => {
+        this.translate(langcode);
+      });
+    }
+  }
+
+  protected translate(langcode: string) {
+    if (!this.scope.textI18n) {
+      return;
+    }
+
+    this.localsService.get([langcode, ...this.scope.textI18n.split('.')])
+    .then((local) => {
+      this.debug('changed local', local);
+      this.scope.text = local;
+      return;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
   protected async beforeBind() {
     this.debug('beforeBind');
+    this.initTranslate();
     // const $whatsapp = this.$el.find('.web-share-whatsapp');
     // const $facebook = this.$el.find('.web-share-facebook');
     // const $telegram = this.$el.find('.web-share-telegram');

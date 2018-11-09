@@ -48,7 +48,7 @@
   {% assign articleHasExcerptOrContent = true %}
 {% endif %}
 
-{% if articleHasContent == true and showDetail == false %}
+{% if showDetail == false %}
   {% assign linkToArticle = true %}
 {% else %}
   {% assign linkToArticle = false %}
@@ -138,11 +138,11 @@
       {% endif %}
       <hr>
       <p class="small font-weight-bold">
-        <rv-share title="{{ article.title }}" url="{{ article.url }}" text="Look at this! 👀" label="Share this article">Share this article</rv-share>
-          <span class="pl-3" rv-i18n-text="'blogs.comments.with_count'">
-            {{ 'blogs.comments.with_count' | t: count: number_of_comments }}
-            <template name="count">{{number_of_comments}}</template>
-          </span>
+        <rv-share title="{{ article.title }}" url="{{ article.url }}" text-i18n="blogs.article.share-text" label-i18n="blogs.article.share">{{'blogs.article.share'|t}}</rv-share>
+        <span class="pl-3" rv-i18n-text="'blogs.comments.with_count'">
+          {{ 'blogs.comments.with_count' | t: count: number_of_comments }}
+          <template name="count">{{number_of_comments}}</template>
+        </span>
         {% unless showDetail %}
           {% if linkToArticle %}
             <a class="ml-auto float-right" rv-route="'{{article.url}}'">

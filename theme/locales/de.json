@@ -249,7 +249,9 @@
   "blogs": {
     "article": {
       "by": "von {{first_name}} {{last_name}}",
-      "view": "View Article"
+      "view": "View Article",
+      "share": "Diesen Artikel teilen",
+      "share-text": "Look at this! 👀"
     },
     "comments": {
       "title": "Kommentare auf {{title}}",

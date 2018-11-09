@@ -39,8 +39,8 @@ module.exports = {
   },
   // Change to your "entry-point".
   entry: ['./src/ts/main.ts'],
-  devtool: 'inline-source-map',
-  mode: 'development', // 'development', //'production', 
+  // devtool: 'inline-source-map',
+  mode: 'production', // 'development', //'production', 
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'theme/assets/')

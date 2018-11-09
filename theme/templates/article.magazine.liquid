@@ -22,7 +22,7 @@
 {% endif %}
 {% if article.metafields["global"]["video-poster-1"] %}
   {% assign videoPoster = article.metafields["global"]["video-poster-1"] %}
-{% endif %}"
+{% endif %}
 
 {% paginate article.comments by 10 %}
   {% include 'jumplink-article-list-item-view-magazine', comments, article, blog, color: color, images: images, video: video, videoType: videoType, videoPoster: videoPoster, showDetail: true %}
