@@ -64,7 +64,10 @@
 
       {% if video != blank %}
         {% if videoType == 'youtube' %}
-          <div class="col px-0 content-box fit-initial {{contentBoxClass}}">
+          <div class="col px-0 content-box fit-initial ratio-16-9">
+            {% if videoPoster %}
+              <img lazyload="auto" class="{{imageClass}}" src="{{videoPoster}}" alt="" />
+            {% endif %}
             <iframe
               lazyload="auto"
               class="{{imageClass}}"
@@ -82,6 +85,9 @@
           </div>
         {% elsif videoType == 'vimeo' %}
           <div class="col px-0 content-box fit-initial ratio-16-9">
+            {% if videoPoster %}
+              <img lazyload="auto" class="{{imageClass}}" src="{{videoPoster}}" alt="" />
+            {% endif %}
             <iframe
               lazyload="auto"
               class="{{imageClass}}"
@@ -97,7 +103,7 @@
               </iframe>
           </div>
         {% elsif videoType == 'video/mp4' %}
-          <div class="col px-0 content-box {{contentBoxClass}}">
+          <div class="col px-0 content-box ratio-16-9">
             <video class="{{imageClass}}" autoplay muted loop {% if videoPoster %}poster="{{videoPoster}}"{% endif %}>
               <source src="{{video}}" type="video/mp4">
               <span rv-i18n-text="'system.video_tag_not_supported'">

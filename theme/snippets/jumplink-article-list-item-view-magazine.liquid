@@ -175,7 +175,7 @@
   {% if nextArticle %}
     {% assign nextType = nextArticle.metafields["global"]["type"] %}
     {% assign nextColor = nextArticle.metafields["global"]["color"] %}
-    {% assign nextArticleImageSize = "1200x1600" %}
+    {% assign nextArticleImageSize = "master" %}
     {% capture nextArticleTitleStyle %}
       {% if color %}
         background-color:{{ nextColor | color_modify: 'alpha', 0.5 }};
