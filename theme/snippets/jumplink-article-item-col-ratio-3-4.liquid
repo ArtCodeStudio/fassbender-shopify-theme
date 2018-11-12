@@ -1,3 +1,4 @@
+<!-- jumplink-article-item-col-ratio-3-4.liquid -->
 {% if colClass == blank %}
   {% assign colClass = 'col' %}
 {% endif %}
@@ -15,12 +16,24 @@
   {% assign video = article.metafields["global"]["video-url-1"] %}
 {% endif %}
 
+{% if article.image %}
+  {% assign image = article.image | img_url: articleImageSize %}
+{% elsif article.metafields["global"]["Image-2"] %}
+  {% comment %} Fallback Image {% endcomment %}
+  {% assign image = article.metafields["global"]["Image-2"] %}
+{% elsif article.metafields["global"]["detail-image-1"] %}
+  {% comment %} Fallback Image {% endcomment %}
+  {% assign image = article.metafields["global"]["detail-image-1"] %}
+{% elsif article.metafields["global"]["video-poster-1"] %}
+  {% assign image = article.metafields["global"]["video-poster-1"] %}
+{% endif %}
+
 {% comment %} Show Video always on detail view or if no images are set {% endcomment %}
 {% assign showVideo = false %}
 {% if video %}
-  {% if article.image == blank %}
+  {% unless image %}
     {% assign showVideo = true %}
-  {% endif %}
+  {% endunless %}
 {% endif %}
 
 <rv-shopify-article-item class="{{ colClass }} px-0 content-box ratio-3-4" rv-route="'{{ article.url }}'" href="{{article.url}}" style="background-color: {{ color }};">
@@ -43,7 +56,7 @@
     {% elsif article.metafields["global"]["video-poster-1"] %}
       {% assign image = article.metafields["global"]["video-poster-1"] %}
     {% endif %}
-    <img lazyload="auto" class="content has-xs-spacing has-sm-spacing" src="{{image}}" alt="{{acticle.title}}" style="padding: 52px" />
+    <img lazyload="auto" class="content has-xs-spacing has-sm-spacing" src="{{image}}" alt="{{acticle.title}}" style="padding: 60px" />
   {% endif %}
   {% if article.title %}
     <div class="position-absolute w-100 bottom-0" style="{{ articleTitleStyle }}">

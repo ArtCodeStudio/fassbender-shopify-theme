@@ -1,3 +1,4 @@
+<!-- jumplink-article-list-item-view-magazine.liquid -->
 {% assign ratioClass = "ratio-3-2" %}
 {% assign videoRatioClass = "ratio-16-9" %}
 {% assign imageSize = "2400x1600" %}
@@ -61,7 +62,7 @@
 <div class="container-fluid jumplink-article-list-item jumplink-article-list-item-view-magazine" data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' style="background-color: {{color}};">
   <rv-shopify-article-item data-handle="{{article.handle}}">
     {% if showVideo %}
-      <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
+      <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" rv-scrollfix="" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
         <div class="col-12 col-md px-0 content-box {{videoRatioClass}}">
           {% if videoPoster %}
             <img lazyload="auto" class="content" src="{{videoPoster}}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
@@ -139,7 +140,7 @@
       <hr>
       <p class="small font-weight-bold">
         <rv-share title="{{ article.title }}" url="{{ article.url }}" text-i18n="blogs.article.share-text" label-i18n="blogs.article.share">{{'blogs.article.share'|t}}</rv-share>
-        <span class="pl-3" rv-i18n-text="'blogs.comments.with_count'">
+        <span class="pl-3 info-comments" rv-i18n-text="'blogs.comments.with_count'">
           {{ 'blogs.comments.with_count' | t: count: number_of_comments }}
           <template name="count">{{number_of_comments}}</template>
         </span>

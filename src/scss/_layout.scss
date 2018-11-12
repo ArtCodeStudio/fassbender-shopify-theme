@@ -16,6 +16,7 @@ html, body {
 
 .container, .container-fluid {
     display: block;
+    background-color: $body-bg;
 }
 
 .col-auto {

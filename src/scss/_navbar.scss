@@ -1,0 +1,37 @@
+// .navbar-main {
+//   background-color: transparent;
+//   mix-blend-mode: darken;
+// }
+
+// .mainbar {
+//   .nav-text, .nav-link {
+//     font-weight: $font-weight-bold;
+//     z-index: $zindex-fixed;
+//     mix-blend-mode: difference;
+//   }
+// }
+
+.navbar-main {
+  background-color: transparent;
+  user-select: none;
+  .subbar {
+    .nav-text, .nav-link {
+      // font-weight: 600;
+    }
+  }
+  .mainbar {
+    .mainbar-horizontal {
+      .nav-text, .nav-link {
+        // font-weight: 600;
+        // font-size: 90%;
+      }
+    }
+    .mainbar-vertical {
+
+    }
+  }
+}
+.logo-text {
+  background-color: transparent;
+  user-select: none;
+}

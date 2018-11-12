@@ -25,9 +25,9 @@
   <div class="row mainbar">
 
     {% comment %}
-      MAINBAR LEFT
+      MAINBAR VERTICAL
     {% endcomment %}
-    <div class="col-auto" style="position: fixed; width: auto; z-index: 1;">
+    <div class="mainbar-vertical col-auto" style="position: fixed; width: auto; z-index: 1;">
       <div class="row d-none d-lg-flex">
         <a class="col-auto brand pointer-events-all" rv-route-class-active="'/'" rv-route="'/'" href="/">
           <rv-icon rv-src="'{{ 'iconset-logo.svg' | asset_url }}'" height="64" width="47"></rv-icon>
@@ -139,9 +139,9 @@
     </div>
 
     {% comment %}
-      MAINBAR RIGHT
+      MAINBAR HORIZONTAL
     {% endcomment %}
-    <div class="ml-auto col-auto align-items-center d-none d-lg-flex">
+    <div class="mainbar-horizontal ml-auto col-auto align-items-center d-none d-lg-flex">
       <ul class="nav" style="pointer-events: all;">
         <li class="nav-item">
           <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'">
@@ -179,6 +179,6 @@
 </div>
 
 {% comment %} Navigation Smartphone {% endcomment %}
-<div class="container-fluid fixed-top pointer-events-none d-block d-lg-none text-center logo-text-sm">
+<div class="container-fluid fixed-top pointer-events-none d-block d-lg-none text-center logo-text logo-text-sm">
   <a class="pointer-events-all" rv-route-class-active="'/'" rv-route="'/'" href="/">FASSBENDER</a>
 </div>
