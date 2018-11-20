@@ -47,7 +47,7 @@
         <h1 class="h6" rv-i18n-text="'sections.newsletter.title'">{{ 'title' | t }}</h1>
         <p rv-i18n-html="'sections.newsletter.content_html'">
           <span>
-            {{ 'content_html' | t: name: name, email: email }}
+            {{'content_html' | t: name: name, email: email}}
           </span>
           <template name="name">
             {{name}}
@@ -57,34 +57,60 @@
           </template>
         </p>
 
-        {% comment %} real people should not fill this in and expect good things - do not remove this or risk form bot signups {% endcomment %}
-        <input type="hidden" name="b_11ae6ea303b6ef3f1e7d5c7c6_65d09922c7" tabindex="-1" value="">
-
-        <label class="sr-only" for="mce-EMAIL" rv-i18n-text="'sections.newsletter.input_mail_label'">{{'input_mail_label'|t}}*</label>
-        <input hidden type="email" rv-value="form.fields.email" name="EMAIL" required id="{{ idPrefix }}_mce-EMAIL">
-
-        <label class="sr-only" for="mce-NAME" rv-i18n-text="'sections.newsletter.input_name_label'">{{'input_name_label'|t}}*</label>
-        <input hidden type="text" rv-value="form.fields.name" name="NAME" required id="{{ idPrefix }}_mce-NAME">
-
         <div class="row text-left my-3">
           <div class="col-auto mx-auto">
+
+            {% comment %} real people should not fill this in and expect good things - do not remove this or risk form bot signups {% endcomment %}
+            <input type="hidden" name="b_11ae6ea303b6ef3f1e7d5c7c6_65d09922c7" tabindex="-1" value="">
+
+            {% comment %} Input Name {% endcomment %}
+            <div class="form-group">
+              <label class="sr-only" for="mce-NAME" rv-i18n-text="'sections.newsletter.input_name_label'">{{'input_name_label'|t}}*</label>
+              <input
+                class="form-control form-control-text form-control-center form-control-primary"
+                type="text"
+                rv-value="form.fields.name"
+                rv-i18n-placeholder="'sections.newsletter.input_name_label'"
+                placeholder="{{'input_name_label' | t}}"
+                name="NAME"
+                required
+                id="{{ idPrefix }}_mce-NAME">
+            </div>
+
+            {% comment %} Input Email {% endcomment %}
+            <div class="form-group">
+              <label class="sr-only" for="mce-EMAIL" rv-i18n-text="'sections.newsletter.input_mail_label'">{{'input_mail_label'|t}}*</label>
+              <input
+                class="form-control form-control-text form-control-center form-control-primary"
+                type="email"
+                rv-value="form.fields.email"
+                rv-i18n-placeholder="'sections.newsletter.input_mail_label'"
+                placeholder="{{'input_mail_label' | t}}"
+                name="EMAIL"
+                required
+                id="{{ idPrefix }}_mce-EMAIL">
+            </div>
+
             {% comment %} Marketing Permissions {% endcomment %}
             <fieldset name="interestgroup_field">
-              {% comment %} Email {% endcomment %}
+
+              {% comment %} Get Email {% endcomment %}
               <small class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" name="gdpr[2201]" value="Y" required id="{{ idPrefix }}_gdpr_2201">
                 <label class="custom-control-label" for="{{ idPrefix }}_gdpr_2201" rv-i18n-text="'sections.newsletter.checkbox_email'">
                   {{'checkbox_email'|t}}
                 </label>
               </small> 
-            </fieldset>
 
-            <small class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" name="privacy" value="true" required id="{{ idPrefix }}_privacy">
-              <label class="custom-control-label" for="{{ idPrefix }}_privacy" rv-i18n-html="'sections.newsletter.checkbox_privacy_html'">
-                {{'checkbox_privacy_html'|t}}
-              </label>
-            </small>
+              {% comment %} privacy {% endcomment %}
+              <small class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="privacy" value="true" required id="{{ idPrefix }}_privacy">
+                <label class="custom-control-label" for="{{ idPrefix }}_privacy" rv-i18n-html="'sections.newsletter.checkbox_privacy_html'">
+                  {{'checkbox_privacy_html'|t}}
+                </label>
+              </small>
+
+            </fieldset>
           </div>
         </div>
 
@@ -139,7 +165,7 @@
     "locales": {
       "en": {
         "title": "Discover Fassbender's World",
-        "content_html": "<strong class=\"mb-2 d-block\">Subscribe to our newsletter and get 10% off your next purchase. <\/strong>I want news and inspiration about<br>Stories and Collections.<br>Take my {{name}} and {{email}}.",
+        "content_html": "<strong class=\"mb-2 d-block\">Subscribe to our newsletter and get 10% off your next purchase.<\/strong>I want news and inspiration about Stories and Collections.",
         "checkbox_email": "I would like to hear from you via email.",
         "checkbox_privacy_html": "By signing up I agree to the <a href=\"/pages/legal-area\">Privacy Statement</a>.",
         "form_invalid": "Please check your entry.",
@@ -149,7 +175,7 @@
       },
       "de": {
         "title": "Entdecke Fassbender's Welt",
-        "content_html": "<strong class=\"mb-2 d-block\">Abonnieren Sie unseren Newsletter und erhalten Sie 10% Rabatt auf Ihren nächsten Einkauf.<\/strong>Ich möchte News und Inspirationen über Stories und Kollektionen erhalten.<br>Ich bin {{name}} und meine E-Mail lautet {{email}}.",
+        "content_html": "<strong class=\"mb-2 d-block\">Abonnieren Sie unseren Newsletter und erhalten Sie 10% Rabatt auf Ihren nächsten Einkauf.<\/strong>Ich möchte News und Inspirationen über Stories und Kollektionen erhalten.",
         "checkbox_email": "Ja, ich möchte von Fassbender per E-Mail informiert werden.",
         "checkbox_privacy_html": "Durch die Anmeldung akzeptiere ich eure <a href=\"/pages/legal-area\">Datenschutzerklärung</a>.",
         "form_invalid": "Bitte überprüfe deine Eingabe.",

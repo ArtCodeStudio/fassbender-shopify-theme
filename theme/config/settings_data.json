@@ -22,13 +22,6 @@
     "checkout_button_color": "#000000",
     "checkout_error_color": "#e32c2b",
     "sections": {
-      "1530889975772": {
-        "type": "product-scrollbar",
-        "settings": {
-          "collection": "jacket",
-          "title": "Cosy Jackets: Shop FW18 Collection"
-        }
-      },
       "1531503358229": {
         "type": "newsletter",
         "settings": {
@@ -36,15 +29,6 @@
           "enable": true,
           "color": "#ffffff",
           "subscrib_url": "https:\/\/myfassbender.us19.list-manage.com\/subscribe\/post?u=11ae6ea303b6ef3f1e7d5c7c6&amp;id=65d09922c7"
-        }
-      },
-      "1533584346359": {
-        "type": "instagram-scrollbar",
-        "settings": {
-          "instagram_id": "17841406311268728",
-          "open-links": false,
-          "open-url": "shopify:\/\/pages\/fassbender",
-          "limit": 9
         }
       },
       "newsletter": {
@@ -71,62 +55,17 @@
           "limit": 60
         }
       },
-      "1540826584235": {
-        "type": "one-storie",
-        "blocks": {
-          "1540826844222": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/MYFASSBENDER_NYC-coat-mid-grey_1.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 65
-            }
-          }
-        },
-        "block_order": [
-          "1540826844222"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/coat-mid-grey",
-          "title": "Shop Coat Mid Grey",
-          "color": "#ffffff",
-          "title_spacing": 21
-        }
-      },
-      "1540827244548": {
-        "type": "one-storie",
-        "blocks": {
-          "1540827320746": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-coat-burgundy_9dd877d6-8f59-4dde-98e4-74195827a4c4.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 65
-            }
-          }
-        },
-        "block_order": [
-          "1540827320746"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/coat-burgundy",
-          "title": "Shop Coat Burgundy",
-          "color": "#ffffff",
-          "title_spacing": 21
-        }
-      },
       "1540828651208": {
         "type": "one-storie",
         "blocks": {
           "1540828759649": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-coat-navy-1.jpg",
+              "image": "shopify:\/\/shop_images\/fassbender_blackfriday_store2.jpg",
               "video_url": "",
               "mp4_video_url": "",
-              "spacing": 65
+              "video_poster": "",
+              "spacing": 0
             }
           }
         },
@@ -134,115 +73,15 @@
           "1540828759649"
         ],
         "settings": {
-          "story": "shopify:\/\/products\/coat-navy",
-          "title": "Shop Coat Navy",
-          "color": "#ffffff",
-          "title_spacing": 7
-        }
-      },
-      "1540830675976": {
-        "type": "one-storie",
-        "blocks": {
-          "1540830721785": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/myfassbender_Puffa-Black.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 0
-            }
-          }
-        },
-        "block_order": [
-          "1540830721785"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/puffa-reptil-black",
-          "title": "",
-          "color": "#ffffff",
-          "title_spacing": 7
-        }
-      },
-      "1540832060568": {
-        "type": "one-storie",
-        "blocks": {
-          "1540832078993": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-vest-grey.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 50
-            }
-          }
-        },
-        "block_order": [
-          "1540832078993"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/coat-mid-grey",
-          "title": "Limited Edition: Vest Coat Dark Grey",
-          "color": "#ffffff",
-          "title_spacing": 0
-        }
-      },
-      "1540832124672": {
-        "type": "one-storie",
-        "blocks": {
-          "1540832142661": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-vest-grey1.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 24
-            }
-          }
-        },
-        "block_order": [
-          "1540832142661"
-        ],
-        "settings": {
-          "story": "shopify:\/\/products\/produkt-8",
-          "title": "&nbsp;",
-          "color": "#ffffff",
-          "title_spacing": 0
-        }
-      },
-      "1540833142556": {
-        "type": "one-storie",
-        "blocks": {
-          "1540833167365": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-FW18-3.jpg",
-              "video_url": "",
-              "mp4_video_url": "",
-              "spacing": 0
-            }
-          }
-        },
-        "block_order": [
-          "1540833167365"
-        ],
-        "settings": {
-          "story": "https:\/\/myfassbender.com\/collections\/coat?_sc=1&design_theme_id=27337523315&frame_token=rL8BU3NI2zaU2o4jVOXCwDc2wNhAM3x7rbGRByzgASVZCozW3u0ftEjewoDZ3TOnJPiyfnkUhukQJ_Wp21QBUFFLTX81BfaA3qvS_qKgV9m4QlyCYIGOLNLPPU1yByripscbb_WWxaxj-hQW_6C_YA%3D%3D",
-          "title": "Best Coats: Shop FW18 Collection",
+          "story": "shopify:\/\/collections\/all",
+          "title": "Shop Collection FW18 Now",
           "color": "#ffffff",
           "title_spacing": 7
         }
       }
     },
     "content_for_index": [
-      "1540833142556",
       "1540828651208",
-      "1540827244548",
-      "1540826584235",
-      "1540830675976",
-      "1530889975772",
-      "1540832060568",
-      "1540832124672",
-      "1533584346359",
       "1531503358229"
     ]
   }

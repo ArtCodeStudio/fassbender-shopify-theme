@@ -35,8 +35,8 @@ export class NewsletterComponent extends RibaComponent {
     selectAll: this.selectAll,
     form: {
       fields: {
-        email: '', // Setted with localService
-        name: '', // Setted to default value with localService
+        email: '',
+        name: '',
       },
       valid: true,
       error: undefined,
@@ -99,22 +99,17 @@ export class NewsletterComponent extends RibaComponent {
     .then((local) => {
       this.debug('changed local', local);
       if (this.$form) {
-        this.$form.find('span[name="name"]').html(this.scope.form.fields.name.toString());
-        this.$form.find('span[name="email"]').html(this.scope.form.fields.email.toString());
-        this.$form.find('input[name="NAME"]').val(this.scope.form.fields.name.toString());
-        this.$form.find('input[name="EMAIL"]').val(this.scope.form.fields.email.toString());
+        // this.$form.find('span[name="name"]').html(this.scope.form.fields.name.toString());
+        // this.$form.find('span[name="email"]').html(this.scope.form.fields.email.toString());
+        // this.$form.find('input[name="NAME"]').val(this.scope.form.fields.name.toString());
+        // this.$form.find('input[name="EMAIL"]').val(this.scope.form.fields.email.toString());
       }
-      this.scope.form.fields.name = local.input_name_label;
-      this.scope.form.fields.email = local.input_mail_label;
+      // this.scope.form.fields.name = local.input_name_label;
+      // this.scope.form.fields.email = local.input_mail_label;
       return;
     })
     .catch((error) => {
-      if (this.$form) {
-        this.$form.find('span[name="name"]').html('Name');
-        this.$form.find('span[name="email"]').html('Email');
-        this.$form.find('input[name="NAME"]').val('Name');
-        this.$form.find('input[name="EMAIL"]').val('Email');
-      }
+      console.error(error);
     });
   }
 

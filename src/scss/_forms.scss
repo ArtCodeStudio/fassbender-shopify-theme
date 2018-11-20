@@ -94,6 +94,13 @@
   }
 }
 
+.form-control-center {
+  text-align: center;
+  &::-webkit-input-placeholder, &:-moz-placeholder, &::-moz-placeholder, &:-ms-input-placeholder {
+    text-align: center;
+  }
+}
+
 /**
  * Custom select colors
  */
