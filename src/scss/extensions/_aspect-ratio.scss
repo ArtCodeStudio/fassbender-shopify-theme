@@ -20,41 +20,6 @@
   // default aspect ratio is 1:1
   padding-top: 100%; 
 
-  &.ratio-1-1 {
-    padding-top: 100%; // Default 1-1 ASPECT RATIO
-  }
-  &.ratio-2-3 {
-    padding-top: 150%;
-  }
-  &.ratio-2-1 {
-    padding-top: 50%;
-  }
-  &.ratio-1-2 {
-    padding-top: 200%;
-  }
-  &.ratio-3-2 {
-    padding-top: 66.67%;
-  }
-  &.ratio-4-3 {
-    padding-top: 75%;
-  }
-  &.ratio-16-9 {
-    padding-top: 56.25%;
-  }
-  &.ratio-3-4 {
-    padding-top: 125%;
-  }
-  &.ratio-3-10 {
-    padding-top: 30%;
-  }
-  &.ratio-10-17 {
-    padding-top: 170%;
-  }
-  &.square-50px {
-    padding-top: 50px;
-    width: 50px;
-  }
-
   &.fit-cover {
     background-size: cover !important;
   }
@@ -68,8 +33,60 @@
   &.position-center-bottom {
     background-position: center bottom;
   }
-  
+
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    @include media-breakpoint-up($breakpoint) {
+
+      &.ratio#{$infix}-1-1 {
+        padding-top: 100%; // Default 1-1 ASPECT RATIO
+      }
+      &.ratio#{$infix}-3-2 {
+        padding-top: 66.67%;
+      }
+      &.ratio#{$infix}-2-3 {
+        padding-top: 150%;
+      }
+      &.ratio#{$infix}-2-1 {
+        padding-top: 50%;
+      }
+      &.ratio#{$infix}-1-2 {
+        padding-top: 200%;
+      }
+      &.ratio#{$infix}-4-3 {
+        padding-top: 75%;
+      }
+      &.ratio#{$infix}-3-4 {
+        padding-top: 133.33%;
+      }
+      &.ratio#{$infix}-16-9 {
+        padding-top: 56.25%;
+      }
+      &.ratio#{$infix}-9-16 {
+        padding-top: 177.78%;
+      }
+      &.ratio#{$infix}-10-3 {
+        padding-top: 333%;
+      }
+      &.ratio#{$infix}-3-10 {
+        padding-top: 30%;
+      }
+      &.ratio#{$infix}-17-10 {
+        padding-top: 59%;
+      }
+      &.ratio#{$infix}-10-17 {
+        padding-top: 170%;
+      }
+      &.ratio#{$infix}-14-9 {
+        padding-top: 64%;
+      }
+      &.ratio#{$infix}-9-14 {
+        padding-top: 155.56%;
+      }
+    }
+  }
 }
+
 
 // ASPECT RATIO size for contens and images
 .content-box {
@@ -123,34 +140,54 @@
     }
   }
   
-  &.ratio-1-1:before {
-    padding-top: 100%;
-  }
-  &.ratio-2-3:before {
-    padding-top: 150%;
-  }
-  &.ratio-2-1:before {
-    padding-top: 50%;
-  }
-  &.ratio-1-2:before {
-    padding-top: 200%;
-  }
-  &.ratio-2-1:before {
-    padding-top: 50%;
-  }
-  &.ratio-3-2:before {
-    padding-top: 66.67%;
-  }
-  &.ratio-16-9:before {
-    padding-top: 56.25%;
-  }
-  &.ratio-9-16:before {
-    padding-top: 177.78%;
-  }
-  &.ratio-9-14:before {
-    padding-top: 155.56%;
-  }
-  &.ratio-3-4:before {
-    padding-top: 133.33%;
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    @include media-breakpoint-up($breakpoint) {
+      &.ratio#{$infix}-1-1:before {
+        padding-top: 100%;
+      }
+      &.ratio#{$infix}-3-2:before {
+        padding-top: 66.67%;
+      }
+      &.ratio#{$infix}-2-3:before {
+        padding-top: 150%;
+      }
+      &.ratio#{$infix}-2-1:before {
+        padding-top: 50%;
+      }
+      &.ratio#{$infix}-1-2:before {
+        padding-top: 200%;
+      }
+      &.ratio#{$infix}-4-3:before {
+        padding-top: 75%;
+      }
+      &.ratio#{$infix}-3-4:before {
+        padding-top: 133.33%;
+      }
+      &.ratio#{$infix}-16-9:before {
+        padding-top: 56.25%;
+      }
+      &.ratio#{$infix}-9-16:before {
+        padding-top: 177.78%;
+      }
+      &.ratio#{$infix}-10-3:before {
+        padding-top: 333%;
+      }
+      &.ratio#{$infix}-3-10:before {
+        padding-top: 30%;
+      }
+      &.ratio#{$infix}-17-10:before {
+        padding-top: 59%;
+      }
+      &.ratio#{$infix}-10-17:before {
+        padding-top: 170%;
+      }
+      &.ratio#{$infix}-14-9:before {
+        padding-top: 64%;
+      }
+      &.ratio#{$infix}-9-14:before {
+        padding-top: 155.56%;
+      }
+    }
   }
 }

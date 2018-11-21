@@ -1,7 +1,6 @@
 import Debug from 'debug';
-import { ITwoWayBinder, BinderWrapper, View } from '@ribajs/core';
+import { ITwoWayBinder, BinderWrapper, View, JQuery as $ } from '@ribajs/core';
 import { LocalsService } from '../../services/locals.service';
-import $ from 'jquery';
 import { Utils } from '../../services/Utils';
 
 // see star.binder.ts
