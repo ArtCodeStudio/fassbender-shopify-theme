@@ -61,7 +61,6 @@ export class ContactFormComponent extends RibaComponent {
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.initTranslate();
     this.init(ContactFormComponent.observedAttributes);
   }
 
@@ -93,32 +92,6 @@ export class ContactFormComponent extends RibaComponent {
     Utils.selectAll(eventEl);
   }
 
-  protected initTranslate() {
-    this.localsService.event.on('changed', (langcode: string) => {
-      this.translate(langcode);
-    });
-    if (this.localsService.ready) {
-      this.translate(this.localsService.getLangcode());
-    } else {
-      this.localsService.event.on('ready', (langcode: string, translationNeeded: boolean) => {
-        this.translate(langcode);
-      });
-    }
-  }
-
-  protected async translate(langcode: string) {
-    return this.localsService.get([langcode, 'forms', 'contact'])
-    .then((local) => {
-      this.debug('changed local', local);
-      this.scope.form.firstName = local.first_name;
-      this.scope.form.lastName = local.last_name;
-      this.scope.form.phone = local.phone;
-      this.scope.form.email = local.mail;
-      this.scope.form.message = local.message;
-      return;
-    });
-  }
-
   /**
    * validate form
    * @param validation object with the validation rules
@@ -137,11 +110,14 @@ export class ContactFormComponent extends RibaComponent {
       if (validation.rules[key].required) {
         if (Utils.isString(formValues[key])) {
           if (formValues[key].length <= 0) {
-            validation.rules[key].error = 'This field is required';
+            validation.valid = false;
+            // validation.rules[key].error = 'This field is required';
+            validation.rules[key].error = 'forms.invalid.required';
           }
         }
         if (Utils.isUndefined(formValues[key])) {
-          validation.rules[key].error = 'This field is required';
+          // validation.rules[key].error = 'This field is required';
+          validation.rules[key].error = 'forms.invalid.required';
         }
       }
 
@@ -150,14 +126,16 @@ export class ContactFormComponent extends RibaComponent {
         // maximum value for number
         if (Utils.isNumber(validation.rules[key].max)) {
           if (formValues[key] > (validation.rules[key].max as number)) {
-            validation.rules[key].error = 'The number must be a maximum of ' + validation.rules[key].max;
+            // validation.rules[key].error = 'The number must be a maximum of ' + validation.rules[key].max;
+            validation.rules[key].error = 'forms.invalid.required';
           }
         }
 
         // minimum value for number
         if (Utils.isNumber(validation.rules[key].min)) {
           if (formValues[key] < (validation.rules[key].min as number)) {
-            validation.rules[key].error = 'The number must be at least ' + validation.rules[key].min;
+            // validation.rules[key].error = 'The number must be at least ' + validation.rules[key].min;
+            validation.rules[key].error = 'forms.invalid.min';
           }
         }
       }
@@ -167,39 +145,45 @@ export class ContactFormComponent extends RibaComponent {
         // maximum value for string length
         if (Utils.isNumber(validation.rules[key].maxlength)) {
           if (formValues[key].length > (validation.rules[key].maxlength as number)) {
-            validation.rules[key].error = 'The number of characters must not exceed ' + validation.rules[key].maxlength;
+            // validation.rules[key].error = 'The number of characters must not exceed ' + validation.rules[key].maxlength;
+            validation.rules[key].error = 'forms.invalid.maxlength';
           }
         }
 
         // minimum value for string length
         if (Utils.isNumber(validation.rules[key].minlength)) {
           if (formValues[key].length < (validation.rules[key].minlength as number)) {
-            validation.rules[key].error = 'The number of characters must be at least ' + validation.rules[key].minlength;
+            // validation.rules[key].error = 'The number of characters must be at least ' + validation.rules[key].minlength;
+            validation.rules[key].error = 'forms.invalid.minlength';
           }
         }
 
         // email
         if (validation.rules[key].isEmail) {
           if (formValues[key].indexOf('@') <= -1) {
-            validation.rules[key].error = 'This is not a valid email address';
+            // validation.rules[key].error = 'This is not a valid email address';
+            validation.rules[key].error = 'forms.invalid.invalid_email';
           }
 
           if (formValues[key].indexOf('.') <= -1) {
-            validation.rules[key].error = 'This is not a valid email address';
+            // validation.rules[key].error = 'This is not a valid email address';
+            validation.rules[key].error = 'forms.invalid.invalid_email';
           }
         }
 
         // phone number
         if (validation.rules[key].isPhone) {
           if (!Utils.stringIsPhoneNumber(formValues[key])) {
-            validation.rules[key].error = 'The phone number can only contain numbers, +, -, ) and (';
+            // validation.rules[key].error = 'The phone number can only contain numbers, +, -, ) and (';
+            validation.rules[key].error = 'forms.invalid.invalid_phone';
           }
         }
 
         // only numbers
         if (validation.rules[key].onlyNumbers) {
           if (!Utils.stringHasOnlyNumbers(formValues[key])) {
-            validation.rules[key].error = 'The value may only contain numbers';
+            // validation.rules[key].error = 'The value may only contain numbers';
+            validation.rules[key].error = 'forms.invalid.only_numbers';
           }
         }
       }

@@ -180,10 +180,18 @@
   "forms": {
     "required": "Mit * markierte Felder sind Pflichtfelder",
     "invalid": {
+      "required": "Dieses Feld ist erforderlich",
       "name": "Bitte überprüfe deinen Namen",
       "mail": "Bitte überprüfe deine E-Mail",
       "message": "Bitte überprüfe deine Nachricht",
       "characters": "Zeichen",
+      "max": "Die Nummer darf maximal {{max}} betragen",
+      "min": "Die Nummer muss mindestens {{min}} betragen",
+      "maxlength": "Die Anzahl der Zeichen darf {{maxlength}} nicht überschreiten",
+      "minlength": "Die Anzahl der Zeichen muss mindestens {{minlength}} betragen",
+      "invalid_email": "Dies ist keine gültige E-Mail Adresse",
+      "invalid_phone": "Telefonnummern dürfen nur Zahlen, +, -, ) und ( beinhalten",
+      "only_numbers": "Dieses Feld darf nur Zahlen enthalten",
       "any": "Bitte überprüfe deine Eingabe"
     },
     "returns": {

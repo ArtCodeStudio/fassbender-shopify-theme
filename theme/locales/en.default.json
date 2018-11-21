@@ -180,10 +180,18 @@
   "forms": {
     "required": "The fields marked with * are required",
     "invalid": {
+      "required": "This field is required",
       "name": "Please check your name",
       "mail": "Please check your mail",
       "message": "Please check your message",
       "characters": "Characters",
+      "max": "The number must be a maximum of {{max}",
+      "min": "The number must be at least {{min}}",
+      "maxlength": "The number of characters must not exceed {{maxlength}}",
+      "minlength": "The number of characters must be at least {{minlength}}",
+      "invalid_email": "This is not a valid email address",
+      "invalid_phone": "The phone number can only contain numbers, +, -, ) and (",
+      "only_numbers": "The value may only contain numbers",
       "any": "Please check your entry"
     },
     "returns": {

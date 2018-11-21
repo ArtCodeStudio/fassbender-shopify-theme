@@ -50,7 +50,6 @@ export class NewsletterComponent extends RibaComponent {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    this.initTranslate();
     this.init(NewsletterComponent.observedAttributes);
   }
 
@@ -79,38 +78,6 @@ export class NewsletterComponent extends RibaComponent {
   public selectAll(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLInputElement) {
     this.debug('selectAll', eventEl);
     Utils.selectAll(eventEl);
-  }
-
-  protected initTranslate() {
-    this.localsService.event.on('changed', (langcode: string) => {
-      this.translate(langcode);
-    });
-    if (this.localsService.ready) {
-      this.translate(this.localsService.getLangcode());
-    } else {
-      this.localsService.event.on('ready', (langcode: string, translationNeeded: boolean) => {
-        this.translate(langcode);
-      });
-    }
-  }
-
-  protected translate(langcode: string) {
-    this.localsService.get([langcode, 'sections', 'newsletter'])
-    .then((local) => {
-      this.debug('changed local', local);
-      if (this.$form) {
-        // this.$form.find('span[name="name"]').html(this.scope.form.fields.name.toString());
-        // this.$form.find('span[name="email"]').html(this.scope.form.fields.email.toString());
-        // this.$form.find('input[name="NAME"]').val(this.scope.form.fields.name.toString());
-        // this.$form.find('input[name="EMAIL"]').val(this.scope.form.fields.email.toString());
-      }
-      // this.scope.form.fields.name = local.input_name_label;
-      // this.scope.form.fields.email = local.input_mail_label;
-      return;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
   }
 
   protected initValidation() {

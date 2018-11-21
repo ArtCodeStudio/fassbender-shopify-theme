@@ -112,8 +112,12 @@ export class LocalsService {
    * Properties object must include the language code, e.g. `de`.
    * @param properties properties, e.g. `['de', 'form', 'newsletter', 'label']`
    * @param themeID
+   * @param force Set this to true if you want to force the request also if the service is not ready, you should use this only one the time
    */
-  public async get(properties?: string[], vars?: ILocalVar, themeID?: number) {
+  public async get(properties?: string[], vars?: ILocalVar, themeID?: number, force: boolean = false) {
+    if (!this.ready && !force) {
+      throw new Error('not ready');
+    }
     return this.getAll(themeID)
     // extract properties
     .then((locals) => {
@@ -197,7 +201,7 @@ export class LocalsService {
 
   public async getAvailableLangcodes(themeID?: number) {
     const activeCode = this.getLangcode();
-    return this.get(undefined, undefined, themeID)
+    return this.get(undefined, undefined, themeID, true)
     .then((locals) => {
       const langcodes: ILangcode[] = [];
       Object.keys(locals).forEach((langcode) => {
@@ -246,7 +250,7 @@ export class LocalsService {
    * @param vars
    */
   public setTranslateStringVars(translateString: string, vars: ILocalVar) {
-    if (!translateString) {
+    if (!translateString || typeof(translateString.match) !== 'function') {
       return translateString;
     }
     const matches = translateString.match(/{{\s*?[A-Za-z_-]+\s*?}}/gm);

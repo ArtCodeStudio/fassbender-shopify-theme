@@ -1,34 +1,82 @@
 <rv-contact-form>
   {% capture firstName %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="form.firstName" rv-on-focus="selectAll"></p>
-    <input type="hidden" class="form-control" name="contact[firstName]" rv-value="form.firstName" required rv-class-is-invalid="validation.rules.firstName.error | filled">
-    <div class="invalid-feedback" rv-html="validation.rules.firstName.error"></div>
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control form-control-text form-control-primary"
+        name="contact[firstName]"
+        rv-value="form.firstName"
+        rv-class-is-invalid="validation.rules.firstName.error | filled"
+        rv-i18n-placeholder="'forms.contact.first_name'"
+        placeholder="{{'forms.contact.first_name' | t}}"
+        required>
+      <div class="invalid-feedback" rv-i18n-html="validation.rules.firstName.error" rv-data-minlength="validation.rules.message.minlength"></div>
+    </div>
   {% endcapture %}
 
   {% capture lastName %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="form.lastName" rv-on-focus="selectAll"></p>
-    <input type="hidden" class="form-control" name="contact[lastName]" rv-value="form.lastName" required rv-class-is-invalid="validation.rules.lastName.error | filled">
-    <div class="invalid-feedback" rv-html="validation.rules.lastName.error"></div>
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control form-control-text form-control-primary"
+        name="contact[lastName]"
+        rv-value="form.lastName"
+        rv-class-is-invalid="validation.rules.lastName.error | filled"
+        rv-i18n-placeholder="'forms.contact.last_name'"
+        placeholder="{{'forms.contact.last_name' | t}}"
+        required>
+      <div class="invalid-feedback" rv-i18n-html="validation.rules.lastName.error" rv-data-minlength="validation.rules.message.minlength"></div>
+    </div>
   {% endcapture %}
 
   {% capture phone %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="form.phone" rv-on-focus="selectAll"></p>
-    <input type="hidden" class="form-control" name="contact[phone]" rv-value="form.phone" rv-class-is-invalid="validation.rules.phone.error | filled">
-    <div class="invalid-feedback" rv-html="validation.rules.phone.error"></div>
+    <div class="form-group">
+      <input
+        type="tel"
+        class="form-control form-control-text form-control-primary"
+        name="contact[phone]"
+        rv-value="form.phone"
+        rv-class-is-invalid="validation.rules.phone.error | filled"
+        rv-i18n-placeholder="'forms.contact.phone'"
+        placeholder="{{'forms.contact.phone' | t}}"
+        >
+      <div class="invalid-feedback" rv-i18n-html="validation.rules.phone.error" rv-data-minlength="validation.rules.message.minlength"></div>
+    </div>
   {% endcapture %}
 
   {% capture email %}
-    <p class="text-primary mb-1" contenteditable="true" rv-value="form.email" rv-on-focus="selectAll"></p>
-    <input type="hidden" class="form-control" name="contact[email]" rv-value="form.email" rv-class-is-invalid="validation.rules.email.error | filled" required>
-    <div class="invalid-feedback" rv-html="validation.rules.email.error"></div>
+    <div class="form-group">
+      <input
+        type="email"
+        class="form-control form-control-text form-control-primary"
+        name="contact[email]"
+        rv-value="form.email"
+        rv-class-is-invalid="validation.rules.email.error | filled"
+        rv-i18n-placeholder="'forms.contact.mail'"
+        placeholder="{{'forms.contact.mail' | t}}"
+        required>
+      <div class="invalid-feedback" rv-i18n-html="validation.rules.email.error" rv-data-minlength="validation.rules.message.minlength"></div>
+    </div>
   {% endcapture %}
 
   {% capture message %}
-    <p class="text-primary my-3" contenteditable="true" rv-value="form.message" rv-on-focus="selectAll"></p>
-    <input type="hidden" class="form-control" name="contact[body]" rv-value="form.message" rv-class-is-invalid="validation.rules.message.error | filled" required>
-    <div class="invalid-feedback" rv-show="validation.rules.message.error | filled">
-      <span rv-html="validation.rules.message.error"></span><br>
-      <span rv-i18n-text="'forms.invalid.characters'">{{'forms.invalid.characters'|t}}</span>: {form.message | size | minus validation.rules.message.minlength}
+    <div class="form-group">
+      <textarea
+        type="text"
+        rows="4"
+        class="form-control form-control-text form-control-primary"
+        name="contact[body]"
+        rv-value="form.message"
+        rv-class-is-invalid="validation.rules.message.error | filled"
+        rv-i18n-placeholder="'forms.contact.message'"
+        placeholder="{{'forms.contact.message' | t}}"
+        required>
+      </textarea>
+      <div class="invalid-feedback" rv-show="validation.rules.message.error | filled">
+        <span rv-i18n-text="validation.rules.message.error" rv-data-minlength="validation.rules.message.minlength">
+        </span><br>
+        <span rv-i18n-text="'forms.invalid.characters'">{{'forms.invalid.characters'|t}}</span>: {form.message | size | minus validation.rules.message.minlength}
+      </div>
     </div>
   {% endcapture %}
 
