@@ -61,7 +61,9 @@
           "1540828759649": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender_blackfriday_store2.jpg",
+              "image": "shopify:\/\/shop_images\/MYFASSBENDER-WeLoveFridays.gif",
+              "aspect_ratio": "1-2",
+              "aspect_ratio_md": "3-2",
               "video_url": "",
               "mp4_video_url": "",
               "video_poster": "",
@@ -74,7 +76,7 @@
         ],
         "settings": {
           "story": "shopify:\/\/collections\/all",
-          "title": "Shop Collection FW18 Now",
+          "title": "Your Code at Checkout: WeLoveFridays",
           "color": "#ffffff",
           "title_spacing": 7
         }

@@ -93,3 +93,4 @@ composer.lock
 yarn.lock
 theme.lock
 vendor/
+.vscode/
