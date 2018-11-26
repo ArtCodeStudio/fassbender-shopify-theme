@@ -83,7 +83,7 @@
               </iframe>
           </div>
         {% elsif videoType == 'vimeo' %}
-          <div class="col px-0 content-box fit-initial {{contentBoxClass}}">
+          <div class="col px-0 content-box fit-initial ratio-16-9">
             {% if videoPoster %}
               <img lazyload="auto" class="{{imageClass}}" src="{{videoPoster}}" alt="" />
             {% endif %}
@@ -105,7 +105,7 @@
               </iframe>
           </div>
         {% elsif videoType == 'video/mp4' %}
-          <div class="col px-0 content-box ratio-16-9">
+          <div class="col px-0 content-box {{contentBoxClass}}">
             <video class="{{imageClass}}" autoplay muted loop {% if videoPoster %}poster="{{videoPoster}}"{% endif %}>
               <source src="{{video}}" type="video/mp4">
               <span rv-i18n-text="'system.video_tag_not_supported'">
@@ -223,7 +223,7 @@
               },
               {
                 "value": "16-9",
-                "label": "16:9"
+                "label": "16:9 (Videos)"
               },
               {
                 "value": "9-16",
@@ -260,6 +260,7 @@
             "type": "select",
             "id": "aspect_ratio_md",
             "label": "Aspect ratio (Desktop)",
+            "info": "Not working on embedded Vimeo Videos (always 16:9), instead use the .mp4 from vimeo",
             "options": [
               {
                 "value": "none",
@@ -295,7 +296,7 @@
               },
               {
                 "value": "16-9",
-                "label": "16:9"
+                "label": "16:9 (Videos)"
               },
               {
                 "value": "9-16",

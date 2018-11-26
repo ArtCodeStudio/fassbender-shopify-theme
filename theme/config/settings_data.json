@@ -61,12 +61,12 @@
           "1540828759649": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/MYFASSBENDER-WeLoveFridays.gif",
-              "aspect_ratio": "1-2",
-              "aspect_ratio_md": "3-2",
+              "image": "",
+              "aspect_ratio": "2-3",
+              "aspect_ratio_md": "16-9",
               "video_url": "",
-              "mp4_video_url": "",
-              "video_poster": "",
+              "mp4_video_url": "https:\/\/player.vimeo.com\/external\/291548439.hd.mp4?s=9eae7cb97395595efca5847cef18e3ad41baf5eb&profile_id=175",
+              "video_poster": "shopify:\/\/shop_images\/MyFassbender_shop-coat-burgundy-now.jpg",
               "spacing": 0
             }
           }
@@ -76,7 +76,7 @@
         ],
         "settings": {
           "story": "shopify:\/\/collections\/all",
-          "title": "Your Code at Checkout: WeLoveFridays",
+          "title": "Shop Collection FW18 Now",
           "color": "#ffffff",
           "title_spacing": 7
         }
