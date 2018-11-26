@@ -82,10 +82,30 @@
               type="text/html"
               src="https://player.vimeo.com/video/{{ video }}?color=D9998F&title=0&byline=0&portrait=0&autoplay=0&loop=0&autopause=1&background=0&muted=0"
               frameborder="0"
+              marginheight="0"
+              marginwidth="0"
               webkitallowfullscreen
               mozallowfullscreen
               allowfullscreen
               allowtransparency
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              scrolling="no">
+              </iframe>
+          {% endif %}
+          {% if videoType == 'youtube' %}
+            <iframe
+              lazyload="auto"
+              class="content"
+              type="text/html"
+              src="https://www.youtube.com/embed/{{ video }}?autoplay=0&mute=0&color=white&controls=1&disablekb=0&enablejsapi=0&fs=1&iv_load_policy=3&loop=0&modestbranding=1&origin={{shop.url}}&playsinline=0&rel=0&showinfo=0"
+              frameborder="0"
+              marginheight="0"
+              marginwidth="0"
+              webkitallowfullscreen
+              mozallowfullscreen
+              allowfullscreen
+              allowtransparency
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               scrolling="no">
               </iframe>
           {% endif %}

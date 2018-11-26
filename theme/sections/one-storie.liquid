@@ -60,7 +60,7 @@
 
       {% if video != blank %}
         {% if videoType == 'youtube' %}
-          <div class="col px-0 content-box fit-initial ratio-16-9">
+          <div class="col px-0 content-box fit-initial {{contentBoxClass}}">
             {% if videoPoster %}
               <img lazyload="auto" class="{{imageClass}}" src="{{videoPoster}}" alt="" />
             {% endif %}
@@ -69,18 +69,21 @@
               class="{{imageClass}}"
               id="ytplayer"
               type="text/html" 
-              src="http://www.youtube.com/embed/{{ video.id }}?color=white&modestbranding=1&rel=0&showinfo=0&controls=0&autoplay=1&mute=1"
+              src="https://www.youtube.com/embed/{{ video.id  }}?autoplay=1&mute=1&color=white&controls=0&disablekb=0&enablejsapi=0&fs=1&iv_load_policy=3&loop=0&modestbranding=1&origin={{shop.url}}&playsinline=0&rel=0&showinfo=0"
               frameborder="0"
+              marginheight="0"
+              marginwidth="0"
               webkitallowfullscreen
               mozallowfullscreen
               allowfullscreen
               allowtransparency
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               scrolling="no"
               style="pointer-events: none;" {% comment %} Fix mouse scroll problem {% endcomment %}>
               </iframe>
           </div>
         {% elsif videoType == 'vimeo' %}
-          <div class="col px-0 content-box fit-initial ratio-16-9">
+          <div class="col px-0 content-box fit-initial {{contentBoxClass}}">
             {% if videoPoster %}
               <img lazyload="auto" class="{{imageClass}}" src="{{videoPoster}}" alt="" />
             {% endif %}
@@ -90,10 +93,13 @@
               type="text/html" 
               src="https://player.vimeo.com/video/{{ video.id }}?color=D9998F&autoplay=1&loop=1&autopause=0&background=1&muted=1"
               frameborder="0"
+              marginheight="0"
+              marginwidth="0"
               webkitallowfullscreen
               mozallowfullscreen
               allowfullscreen
               allowtransparency
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               scrolling="no"
               style="pointer-events: none;" {% comment %} Fix mouse scroll problem {% endcomment %}>
               </iframe>

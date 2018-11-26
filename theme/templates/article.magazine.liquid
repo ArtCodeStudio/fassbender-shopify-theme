@@ -20,6 +20,10 @@
   {% assign video = article.metafields["global"]["video-vimeo-1"] %}
   {% assign videoType = 'vimeo' %}
 {% endif %}
+{% if article.metafields["global"]["video-youtube-1"] %}
+  {% assign video = article.metafields["global"]["video-youtube-1"] %}
+  {% assign videoType = 'youtube' %}
+{% endif %}
 {% if article.metafields["global"]["video-poster-1"] %}
   {% assign videoPoster = article.metafields["global"]["video-poster-1"] %}
 {% endif %}
