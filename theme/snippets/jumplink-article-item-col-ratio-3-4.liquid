@@ -38,12 +38,51 @@
 
 <rv-shopify-article-item class="{{ colClass }} px-0 content-box ratio-3-4" rv-route="'{{ article.url }}'" href="{{article.url}}" style="background-color: {{ color }};">
   {% if showVideo %}
-    <video class="content has-xs-spacing has-sm-spacing" preload="auto" controls>
-      <source src="{{ video }}" type="video/mp4">
-      <span rv-i18n-text="'system.video_tag_not_supported'">
-        {{'system.video_tag_not_supported'|t}}
-      </span>
-    </video>
+    {% if videoPoster %}
+      <img lazyload="auto" class="content" src="{{videoPoster}}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+    {% endif %}
+    {% if videoType == 'video/mp4' %}
+      <video class="content has-xs-spacing has-sm-spacing" preload="auto" controls {% if videoPoster %}poster="{{videoPoster}}"{% endif %}>
+        <source src="{{video}}" type="video/mp4">
+        <span rv-i18n-text="'system.video_tag_not_supported'">
+          {{'system.video_tag_not_supported'|t}}
+        </span>
+      </video>
+    {% endif %}
+    {% if videoType == 'vimeo' %}
+      <iframe
+        lazyload="auto"
+        class="content"
+        type="text/html"
+        src="https://player.vimeo.com/video/{{ video }}?color=D9998F&title=0&byline=0&portrait=0&autoplay=0&loop=0&autopause=1&background=0&muted=0"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen
+        allowtransparency
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        scrolling="no">
+        </iframe>
+    {% endif %}
+    {% if videoType == 'youtube' %}
+      <iframe
+        lazyload="auto"
+        class="content"
+        type="text/html"
+        src="https://www.youtube.com/embed/{{ video }}?autoplay=0&mute=0&color=white&controls=2&disablekb=0&enablejsapi=0&fs=1&iv_load_policy=3&loop=0&modestbranding=1&origin={{shop.url}}&playsinline=0&rel=0&showinfo=0"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen
+        allowtransparency
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        scrolling="no">
+        </iframe>
+    {% endif %}
   {% else %}
     {% if article.image %}
       {% assign image = article.image | img_url: articleImageSize %}
@@ -55,6 +94,8 @@
       {% assign image = article.metafields["global"]["detail-image-1"] %}
     {% elsif article.metafields["global"]["video-poster-1"] %}
       {% assign image = article.metafields["global"]["video-poster-1"] %}
+    {% elsif videoPoster %}
+      {% assign image = videoPoster %}
     {% endif %}
     <img lazyload="auto" class="content has-xs-spacing has-sm-spacing" src="{{image}}" alt="{{acticle.title}}" style="padding: 60px" />
   {% endif %}

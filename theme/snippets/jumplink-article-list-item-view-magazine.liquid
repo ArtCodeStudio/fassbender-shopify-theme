@@ -209,7 +209,7 @@
   <div class="container-fluid position-relative">
     <div class="row">
       {% if nextArticle %}
-        {% include 'jumplink-article-item-col-ratio-3-4' with article: nextArticle, colClass: 'col-12 col-sm', color: nextColor, articleTitleStyle: nextArticleTitleStyle, articleImageSize: nextArticleImageSize  %}
+        {% include 'jumplink-article-item-col-ratio-3-4' with article: nextArticle, colClass: 'col-12 col-sm', color: nextColor, articleTitleStyle: nextArticleTitleStyle, articleImageSize: nextArticleImageSize, showVideo: false %}
       {% endif %}
       {% if product.title != blank %}
         {% include 'jumplink-product-collection-grid-item-col-ratio-3-4' with product, colClass: 'col-12 col-sm' %}
