@@ -49,7 +49,7 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
   /**
    * Just open the instagram url
    */
-  public onTap(event: JQuery.Event<HTMLElement, null>, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onTap(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
     if (this.scope.openUrl.length > 0) {
       this.pjax.goTo(this.scope.openUrl);
     }
@@ -64,7 +64,7 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
    * get instagram in the middle of the scrollbar elementinnerWidth
    * TODO not used
    */
-  public onScroll(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onScroll(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
     const self = this;
     this.debug('onScroll', eventEl.scrollLeft, this.$scollWith);
     if (this.$scollWith) {

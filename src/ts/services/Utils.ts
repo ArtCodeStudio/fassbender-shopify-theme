@@ -15,7 +15,8 @@ export class Utils extends tinybindUtils {
    * @param obj
    */
   public static toType(obj: any) {
-    return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
+    const matches =  {}.toString.call(obj).match(/\s([a-z]+)/i);
+    return matches ? matches[1].toLowerCase() : null;
   }
 
   /**
@@ -39,7 +40,7 @@ export class Utils extends tinybindUtils {
         const value         = config[property];
         const valueType     = value && Utils.isElement(value) ? 'element' : Utils.toType(value);
 
-        if (!new RegExp(expectedTypes).test(valueType)) {
+        if (!valueType || !new RegExp(expectedTypes).test(valueType)) {
           throw new Error(
             `${componentName.toUpperCase()}: ` +
             `Option "${property}" provided type "${valueType}" ` +
@@ -117,7 +118,7 @@ export class Utils extends tinybindUtils {
    * Which HTML element is the target of the event
    * @see https://gist.github.com/electricg/4435259
    */
-  public eventTarget(e: Event | JQuery.Event) {
+  public eventTarget(e: Event) {
     let targ;
     let $targ;
     e = e || window.event;

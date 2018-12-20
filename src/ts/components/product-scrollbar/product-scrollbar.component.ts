@@ -34,7 +34,7 @@ export class ProductScrollbarComponent extends shopifyExtension.components.Shopi
   /**
    * Just open the product url
    */
-  public onProductTap(event: JQuery.Event<HTMLElement, null>, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onProductTap(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
     const url = $(eventEl).data('url');
     this.pjax.goTo(url);
   }
@@ -42,7 +42,7 @@ export class ProductScrollbarComponent extends shopifyExtension.components.Shopi
   /**
    * Preload product on mouse over
    */
-  public onProductMouseenter(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onProductMouseenter(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
     this.debug('onProductMouseenter');
     const url = $(eventEl).data('url');
     this.prefetch.onLinkEnter(event, url);
@@ -51,7 +51,7 @@ export class ProductScrollbarComponent extends shopifyExtension.components.Shopi
   /**
    * get product in the middle of the scrollbar element
    */
-  public onScroll(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onScroll(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
     const self = this;
     this.debug('onScroll', this.scope);
     if (this.$products) {

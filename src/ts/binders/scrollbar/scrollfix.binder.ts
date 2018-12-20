@@ -5,7 +5,7 @@ const debug = Debug('binder:rv-scrollfix');
 
 const onWheel = (event: Event) => {
   debug('onWheel');
-  if ((event as MouseWheelEvent).wheelDelta > 0 || (event as MouseWheelEvent).detail < 0) {
+  if ((event as any).wheelDelta > 0 || (event as WheelEvent).detail < 0) {
     // scroll up
     debug('scroll up');
   } else {

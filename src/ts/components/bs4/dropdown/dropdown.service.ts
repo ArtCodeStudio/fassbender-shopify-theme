@@ -143,13 +143,13 @@ export class DropdownService {
     }
   }
 
-  public static _clearMenus(event?: JQuery.Event) {
-    if (event && (event.which === RIGHT_MOUSE_BUTTON_WHICH ||
-      event.type === 'keyup' && event.which !== TAB_KEYCODE)) {
+  public static _clearMenus(event?: JQuery.Event | Event) {
+    if (event && ((event as JQuery.Event).which === RIGHT_MOUSE_BUTTON_WHICH ||
+      event.type === 'keyup' && (event as JQuery.Event).which !== TAB_KEYCODE)) {
       return;
     }
 
-    const toggles = [].slice.call($(SELECTOR.DATA_TOGGLE).get());
+    const toggles = [].slice.call($(SELECTOR.DATA_TOGGLE).get()) as unknown as HTMLUnknownElement[];
 
     $(SELECTOR.DATA_TOGGLE).each((i, element) => {
     // for (let i = 0, len = toggles.length; i < len; i++) {
@@ -176,8 +176,8 @@ export class DropdownService {
       }
 
       if (event && (event.type === 'click' &&
-          /input|textarea/i.test((event.target as Element).tagName) || event.type === 'keyup' && event.which === TAB_KEYCODE) &&
-          $.contains(parent.get(0), event.target as Element)) {
+          /input|textarea/i.test(((event as Event).target as Element).tagName) || event.type === 'keyup' && (event as JQuery.Event).which === TAB_KEYCODE) &&
+          $.contains(parent.get(0), (event as Event).target as Element)) {
         // continue;
         return;
       }

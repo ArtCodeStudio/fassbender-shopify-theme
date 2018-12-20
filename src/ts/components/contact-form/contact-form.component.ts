@@ -87,7 +87,7 @@ export class ContactFormComponent extends RibaComponent {
 
   }
 
-  public selectAll(event: JQuery.Event<HTMLElement>, scope: any, eventEl: HTMLInputElement) {
+  public selectAll(event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
     this.debug('selectAll');
     Utils.selectAll(eventEl);
   }
