@@ -1,4 +1,4 @@
-import { Binding, Debug, Binder } from '@ribajs/core';
+import { Binding, Debug, Binder, RibaComponent } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import { shopifyExtension } from '@ribajs/shopify';
 import { Utils } from '../../services/Utils';
@@ -15,7 +15,7 @@ export interface IScope {
   media?: IInstagramMedia;
 }
 
-export class InstagramScrollbarComponent extends shopifyExtension.components.ShopifySectionComponent {
+export class InstagramScrollbarComponent extends RibaComponent {
 
   public static tagName: string = 'rv-instagram-scrollbar';
 

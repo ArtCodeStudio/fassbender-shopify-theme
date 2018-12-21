@@ -4,7 +4,7 @@ import {
   RibaComponent,
 } from '@ribajs/core';
 import template from './switcher.component.html';
-import { LocalsService, ILangcode } from '../../../services/locals.service';
+import { LocalsService, ILangcode } from '../../services/locals.service';
 
 interface IScope {
   langcodes: ILangcode[];
@@ -73,7 +73,7 @@ export class I18nSwitcherComponent extends RibaComponent {
   public switch(langcode: ILangcode, _: any, event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.debug('switch', langcode);
+    this.debug('switch', langcode, event);
     if (!langcode.active) {
       this.localsService.setLangcode(langcode.code);
     }

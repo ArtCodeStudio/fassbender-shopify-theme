@@ -12,7 +12,7 @@ export interface IScope {
   onTap: InstagramComponent['onTap'];
 }
 
-export class InstagramComponent extends shopifyExtension.components.ShopifySectionComponent {
+export class InstagramComponent extends RibaComponent {
 
   public static tagName: string = 'rv-instagram';
 

@@ -85,7 +85,7 @@ export class ShopifyFilterComponent extends RibaComponent {
     });
   }
 
-  public storiesFilterBy(handle: string, tagName: string, event?: Event, scope?: any, el?: HTMLLabelElement) {
+  public storiesFilterBy(handle: string, tagName: string, _: any, event?: Event, scope?: any, el?: HTMLLabelElement) {
     tagName = tagName.replace('#', '');
 
     const self = this;

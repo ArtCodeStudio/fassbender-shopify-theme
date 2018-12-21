@@ -18,6 +18,8 @@ import {
 } from '@ribajs/core';
 import { shopifyExtension } from '@ribajs/shopify';
 import { routerBinders } from '@ribajs/router';
+import * as i18nBinders from '@ribajs/i18n/src/binders/i18n.binders';
+import * as i18nFormatters from '@ribajs/i18n/src/formatters/i18n.formatters';
 
 import { TrackingService } from './services/tracking.services';
 import { customBinders, styleBinders } from './binders/index';
@@ -41,6 +43,7 @@ export class Main {
   private view: View;
   private debug = Debug('app:main');
   private riba = new Riba();
+  private lcalesService = new shopifyExtension.services.LocalesService();
   // private dispatcher = new EventDispatcher('main');
 
   constructor() {
@@ -60,6 +63,8 @@ export class Main {
     this.riba.binderService.regists(customBinders);
     this.riba.binderService.regists(styleBinders);
 
+    this.riba.binderService.regist(i18nBinders.i18nStarBinderWrapper(new shopifyExtension.services.LocalesService()));
+
     // Regist formatters
     this.riba.formatterService.regists(compareFormatters);
     this.riba.formatterService.regists(mathFormatters);
@@ -68,6 +73,8 @@ export class Main {
     this.riba.formatterService.regists(stringFormatters);
 
     this.riba.formatterService.regists(shopifyExtension.formatters);
+    const i18nFormatter = i18nFormatters.i18nFormatterWrapper(new shopifyExtension.services.LocalesService());
+    this.riba.formatterService.regist(i18nFormatter.formatter, i18nFormatter.name);
 
     window.model.assign = function(key: string, value: any, context: Binder<any>, event: Event) {
       // event.preventDefault();
