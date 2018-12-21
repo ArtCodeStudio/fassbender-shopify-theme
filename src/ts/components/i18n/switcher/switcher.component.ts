@@ -70,7 +70,7 @@ export class I18nSwitcherComponent extends RibaComponent {
     });
   }
 
-  public switch(langcode: ILangcode, event: Event) {
+  public switch(langcode: ILangcode, _: any, event: Event) {
     event.preventDefault();
     event.stopPropagation();
     this.debug('switch', langcode);

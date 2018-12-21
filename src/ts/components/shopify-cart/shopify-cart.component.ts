@@ -2,6 +2,7 @@ import {
   RibaComponent,
   JQuery as $,
   Debug,
+  Binder,
 } from '@ribajs/core';
 import {
   shopifyExtension,
@@ -88,7 +89,7 @@ export class ShopifyCartComponent extends RibaComponent {
     this.init(ShopifyCartComponent.observedAttributes);
   }
 
-  public toggle(event: Event) {
+  public toggle(context: Binder<any>, event: Event) {
     this.debug('toggle');
     event.preventDefault();
     event.stopPropagation();

@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent } from '@ribajs/core';
+import { RibaComponent, Binder } from '@ribajs/core';
 import template from './shopify-addresses.component.html';
 import { Utils } from '../../services/Utils';
 
@@ -84,7 +84,7 @@ export class ShopifyAddressesComponent extends RibaComponent {
     this.init(ShopifyAddressesComponent.observedAttributes);
   }
 
-  public edit(id: string, event: Event, scope: IScope, form: HTMLFormElement) {
+  public edit(id: string, context: Binder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
     this.debug('login', this.scope);
 
     const $form = this.$el.find(`form[action="/account/addresses/${id}]`) as JQuery<HTMLFormElement>;
@@ -108,9 +108,9 @@ export class ShopifyAddressesComponent extends RibaComponent {
   }
 
   /**
-   * Submiz an new address
+   * Submit an new address
    */
-  public create(event: Event) {
+  public create(context: Binder<any>, event: Event) {
     this.debug('create', this.scope);
 
     if (!this.$createAddressForm) {
@@ -133,7 +133,7 @@ export class ShopifyAddressesComponent extends RibaComponent {
 
   // https://help.shopify.com/en/api/reference/customers/customer_address
   // /account/addresses/{id}
-  public delete(id: string, event: Event, scope: IScope, form: HTMLFormElement) {
+  public delete(id: string, context: Binder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
     Utils.delete(`/account/addresses/${id}`, {}, 'json')
     .then((response: any) => {
       this.debug('delete response', response);

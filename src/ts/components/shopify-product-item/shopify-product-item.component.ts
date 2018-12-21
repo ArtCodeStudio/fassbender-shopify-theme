@@ -2,6 +2,7 @@ import Debug from 'debug';
 import $ from 'jquery';
 import {
   RibaComponent,
+  Binder,
 } from '@ribajs/core';
 import {
   IShopifyProductVariant,
@@ -163,7 +164,7 @@ export class ShopifyProductItemComponent extends RibaComponent /*ShopifyProductI
     this.init(ShopifyProductItemComponent.observedAttributes);
   }
 
-  public chooseOption(self: ShopifyProductItemComponent, optionValue: string | number, position1: number, optionName: string, event: MouseEvent, scope: any, el: HTMLElement) {
+  public chooseOption(self: ShopifyProductItemComponent, optionValue: string | number, position1: number, optionName: string, context: Binder<any>, event: MouseEvent, scope: any, el: HTMLElement) {
     optionValue = optionValue.toString();
 
     if (!this.scope.product) {

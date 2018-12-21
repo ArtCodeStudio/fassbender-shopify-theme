@@ -1,7 +1,7 @@
 import Debug from 'debug';
-import $ from 'jquery';
 import {
   RibaComponent,
+  Binder,
 } from '@ribajs/core';
 import template from './cookie-banner.component.html';
 
@@ -48,12 +48,12 @@ export class CookieBannerComponent extends RibaComponent {
     this.init(CookieBannerComponent.observedAttributes);
   }
 
-  public accept(event: Event) {
+  public accept(context: Binder<any>, event: Event) {
     this.debug('accept');
     this.cookieAccepted = true;
   }
 
-  public close(event: Event) {
+  public close(context: Binder<any>, event: Event) {
     this.debug('close');
     this.scope.show = false;
   }

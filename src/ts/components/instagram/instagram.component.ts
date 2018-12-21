@@ -1,4 +1,4 @@
-import { Binding, Debug, RibaComponent } from '@ribajs/core';
+import { Binding, Debug, RibaComponent, Binder } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import { shopifyExtension } from '@ribajs/shopify';
 import template from './instagram.component.html';
@@ -40,7 +40,7 @@ export class InstagramComponent extends shopifyExtension.components.ShopifySecti
   /**
    * Just open the instagram url
    */
-  public onTap(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     if (!this.scope.openLinks) {
       return;
     }

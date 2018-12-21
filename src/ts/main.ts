@@ -3,6 +3,7 @@ import {
   View,
   Debug,
   JQuery,
+  Binder,
 
   // binders
   basicBindersWrapper,
@@ -68,13 +69,13 @@ export class Main {
 
     this.riba.formatterService.regists(shopifyExtension.formatters);
 
-    window.model.assign = function(key: string, value: any, event: Event) {
+    window.model.assign = function(key: string, value: any, context: Binder<any>, event: Event) {
       // event.preventDefault();
       // event.stopPropagation();
       this[key] = value;
     };
 
-    window.model.globalToggle = function(key: string, event: Event) {
+    window.model.globalToggle = function(key: string, context: Binder<any>, event: Event) {
       this[key] = !!!this[key];
       event.preventDefault();
       event.stopPropagation();

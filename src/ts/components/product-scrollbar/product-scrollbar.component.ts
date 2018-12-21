@@ -1,4 +1,4 @@
-import { Debug, JQuery as $, Binding } from '@ribajs/core';
+import { Debug, JQuery as $, Binding, Binder } from '@ribajs/core';
 import { Pjax, Prefetch } from '@ribajs/router';
 import { shopifyExtension } from '@ribajs/shopify';
 
@@ -34,7 +34,7 @@ export class ProductScrollbarComponent extends shopifyExtension.components.Shopi
   /**
    * Just open the product url
    */
-  public onProductTap(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onProductTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     const url = $(eventEl).data('url');
     this.pjax.goTo(url);
   }
@@ -42,7 +42,7 @@ export class ProductScrollbarComponent extends shopifyExtension.components.Shopi
   /**
    * Preload product on mouse over
    */
-  public onProductMouseenter(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onProductMouseenter(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     this.debug('onProductMouseenter');
     const url = $(eventEl).data('url');
     this.prefetch.onLinkEnter(event, url);
@@ -51,7 +51,7 @@ export class ProductScrollbarComponent extends shopifyExtension.components.Shopi
   /**
    * get product in the middle of the scrollbar element
    */
-  public onScroll(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onScroll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     const self = this;
     this.debug('onScroll', this.scope);
     if (this.$products) {

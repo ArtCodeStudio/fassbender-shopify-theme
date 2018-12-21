@@ -2,6 +2,7 @@ import Debug from 'debug';
 import $ from 'jquery';
 import {
   RibaComponent,
+  Binder,
 } from '@ribajs/core';
 import template from './share.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
@@ -103,12 +104,14 @@ export class ShareComponent extends RibaComponent {
     this.$el = $(this.el);
     this.dropdownService = new DropdownService(this.$el.find('.dropdown-toggle')[0] as HTMLButtonElement);
     this.debug('constructor', this);
-    this.$el.on('click', this.share);
+    this.$el.on('click', (event) => {
+      this.share(null, event);
+    });
     this.init(ShareComponent.observedAttributes);
     this.scope.isDesktop = !(this.scope.isIos || this.scope.isAndroid); // on those two support "mobile deep links", so HTTP based fallback for all others.
   }
 
-  public share(event: Event): Promise<any> {
+  public share(context: Binder<any> | null, event: Event | JQuery.Event): Promise<any> {
     this.debug('share', this.scope);
     event.preventDefault();
     event.stopPropagation();
@@ -123,12 +126,12 @@ export class ShareComponent extends RibaComponent {
       return new Promise((resolve, reject) => {
         resolve();
         // TODO open menu
-        this.toggle(event);
+        this.toggle(null, event);
       });
     }
   }
 
-  public toggle(event: Event) {
+  public toggle(_: any, event: Event | JQuery.Event) {
     this.debug('toggle');
   }
 

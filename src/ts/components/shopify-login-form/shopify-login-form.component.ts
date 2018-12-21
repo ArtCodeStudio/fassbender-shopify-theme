@@ -99,7 +99,7 @@ export class ShopifyLoginFormComponent extends RibaComponent {
   /**
    * Login submit using the login form
    */
-  public login(event: Event) {
+  public login(_: any, event: Event) {
     this.debug('login', this.scope.form);
 
     if (!this.$loginCustomerForm) {
@@ -123,7 +123,7 @@ export class ShopifyLoginFormComponent extends RibaComponent {
   /**
    * Create an account submit using the login form
    */
-  public create(event: Event) {
+  public create(_: any, event: Event) {
     this.debug('create', this.scope.form);
 
     if (!this.$createCustomerForm) {
@@ -148,7 +148,7 @@ export class ShopifyLoginFormComponent extends RibaComponent {
    * Reset password submit using the (hidden) reset form
    * @param event
    */
-  public recover(event: Event) {
+  public recover(_: any, event: Event) {
     this.debug('recover', this.scope.form, this.$recoverCustomerForm);
     if (!this.$recoverCustomerForm) {
       console.error('No recover form found');
@@ -175,7 +175,7 @@ export class ShopifyLoginFormComponent extends RibaComponent {
     }
   }
 
-  public recoverBack(event: Event) {
+  public recoverBack(_: any, event: Event) {
 
     if (!this.$recoverCustomerForm) {
       console.error('No recover form found');

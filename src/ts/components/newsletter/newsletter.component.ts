@@ -1,4 +1,4 @@
-import { RibaComponent, JQuery as $, Debug } from '@ribajs/core';
+import { RibaComponent, JQuery as $, Debug, Binder } from '@ribajs/core';
 import template from './newsletter.component.html';
 import { LocalsService } from '../../services/locals.service';
 import { Utils } from '../../services/Utils';
@@ -53,7 +53,7 @@ export class NewsletterComponent extends RibaComponent {
     this.init(NewsletterComponent.observedAttributes);
   }
 
-  public subscribe(event: Event, scope: IScope, form: HTMLFormElement) {
+  public subscribe(context: Binder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
     this.debug('subscribe');
 
     // stop native submit
@@ -75,7 +75,7 @@ export class NewsletterComponent extends RibaComponent {
 
   }
 
-  public selectAll(event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
+  public selectAll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
     this.debug('selectAll', eventEl);
     Utils.selectAll(eventEl);
   }

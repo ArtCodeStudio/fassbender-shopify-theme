@@ -1,8 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent } from '@ribajs/core';
+import { RibaComponent, Binder } from '@ribajs/core';
 import template from './shopify-comments-form.component.html';
-import { Utils } from '../../services/Utils';
 
 export interface IValidationRule {
   required: boolean;
@@ -91,7 +90,7 @@ export class ShopifyCommentsFormComponent extends RibaComponent {
   /**
    * Post comment
    */
-  public post(event: Event) {
+  public post(context: Binder<any>, event: Event) {
     this.debug('post', this.scope.form);
 
     if (!this.$newCommentForm) {

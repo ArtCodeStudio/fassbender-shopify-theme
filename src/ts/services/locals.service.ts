@@ -116,7 +116,8 @@ export class LocalsService {
    */
   public async get(properties?: string[], vars?: ILocalVar, themeID?: number, force: boolean = false) {
     if (!this.ready && !force) {
-      throw new Error('not ready');
+      console.error('not ready');
+      return;
     }
     return this.getAll(themeID)
     // extract properties

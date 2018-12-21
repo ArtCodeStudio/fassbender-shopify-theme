@@ -1,4 +1,4 @@
-import { Binding, Debug } from '@ribajs/core';
+import { Binding, Debug, Binder } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import { shopifyExtension } from '@ribajs/shopify';
 import { Utils } from '../../services/Utils';
@@ -49,7 +49,7 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
   /**
    * Just open the instagram url
    */
-  public onTap(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
     if (this.scope.openUrl.length > 0) {
       this.pjax.goTo(this.scope.openUrl);
     }
@@ -64,7 +64,7 @@ export class InstagramScrollbarComponent extends shopifyExtension.components.Sho
    * get instagram in the middle of the scrollbar elementinnerWidth
    * TODO not used
    */
-  public onScroll(event: JQuery.Event, scope: any, eventEl: HTMLElement, context: Binding) {
+  public onScroll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     const self = this;
     this.debug('onScroll', eventEl.scrollLeft, this.$scollWith);
     if (this.$scollWith) {

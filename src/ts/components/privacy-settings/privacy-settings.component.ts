@@ -2,6 +2,7 @@ import {
   RibaComponent,
   JQuery as $,
   Debug,
+  Binder,
 } from '@ribajs/core';
 import {
   shopifyExtension,
@@ -93,7 +94,7 @@ export class PrivacySettingsComponent extends RibaComponent {
     this.init(PrivacySettingsComponent.observedAttributes);
   }
 
-  public onClearDataClicked(event: Event) {
+  public onClearDataClicked(context: Binder<any>, event: Event) {
     this.debug('onClearDataClicked', this.scope.cookies.enabled);
     this.ShopifyCartService.clear()
     .then(() => {
