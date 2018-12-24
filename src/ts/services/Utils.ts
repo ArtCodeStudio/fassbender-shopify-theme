@@ -1,6 +1,4 @@
-import { Utils as tinybindUtils, getJSON } from '@ribajs/core';
-
-export { getJSON };
+import { Utils as tinybindUtils } from '@ribajs/core';
 
 /**
  * Just an Class with some helpful functions

@@ -5,7 +5,7 @@ import {
   Binder,
 } from '@ribajs/core';
 import {
-  shopifyExtension,
+  ShopifyCartService,
   IShopifyCartLineItem,
   IShopifyCartObject,
   IShopifyCustomerAddress,
@@ -14,8 +14,6 @@ import {
 } from '@ribajs/shopify';
 import template from './shopify-cart.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
-
-const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
 
 interface IScope {
   cart: IShopifyCartObject | null;

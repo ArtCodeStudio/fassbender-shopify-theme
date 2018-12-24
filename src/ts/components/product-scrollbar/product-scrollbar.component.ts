@@ -1,6 +1,5 @@
 import { Debug, JQuery as $, Binding, Binder, RibaComponent } from '@ribajs/core';
 import { Pjax, Prefetch } from '@ribajs/router';
-import { shopifyExtension } from '@ribajs/shopify';
 
 export class ProductScrollbarComponent extends RibaComponent {
 

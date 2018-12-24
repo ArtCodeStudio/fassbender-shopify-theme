@@ -5,7 +5,7 @@ import {
   Binder,
 } from '@ribajs/core';
 import {
-  shopifyExtension,
+  ShopifyCartService,
 } from '@ribajs/shopify';
 import template from './privacy-settings.component.html';
 import { TrackingService } from '../../services/tracking.services';
@@ -56,8 +56,6 @@ export class PrivacySettingsComponent extends RibaComponent {
 
   protected trackingService: TrackingService;
 
-  protected ShopifyCartService = shopifyExtension.services.ShopifyCartService;
-
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
@@ -96,7 +94,7 @@ export class PrivacySettingsComponent extends RibaComponent {
 
   public onClearDataClicked(context: Binder<any>, event: Event) {
     this.debug('onClearDataClicked', this.scope.cookies.enabled);
-    this.ShopifyCartService.clear()
+    ShopifyCartService.clear()
     .then(() => {
       return Utils.get('/account/logout');
     })

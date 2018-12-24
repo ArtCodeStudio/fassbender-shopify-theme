@@ -1,9 +1,7 @@
-import Debug from 'debug';
-import $ from 'jquery';
 import { Utils } from '../../services/Utils';
-import { RibaComponent, Binder } from '@ribajs/core';
+import { RibaComponent, Binder, Debug, JQuery as $ } from '@ribajs/core';
 import template from './revoke-form.component.html';
-import { LocalsService } from '../../services/locals.service';
+import { LocalesRestService } from '@ribajs/i18n';
 
 // TODO move to general validation component class we can extend from
 export interface IValidationRule {
@@ -36,7 +34,7 @@ export class RevokeFormComponent extends RibaComponent {
 
   protected debug = Debug('component:' + RevokeFormComponent.tagName);
 
-  protected localsService = new LocalsService();
+  protected localsService = new LocalesRestService('https://the-developer-app.artandcode.studio/shopify/api/themes');
 
   protected $form?: JQuery<HTMLFormElement>;
 

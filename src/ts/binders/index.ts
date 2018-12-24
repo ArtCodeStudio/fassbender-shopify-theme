@@ -1,4 +1,4 @@
-import { IBinders } from '@ribajs/core';
+import { IModuleBinders } from '@ribajs/core';
 
 export { styleBinders } from './styles/styles.binders';
 // binders
@@ -13,7 +13,7 @@ import { expanOnUrlBinderWrapper } from './bs4/expan-on-url.binder';
 import { collapseOnUrlBinderWrapper } from './bs4/collapse-on-url.binder';
 import { scrollspyStarBinderWrapper } from './bs4/scrollspy-star.binder';
 
-const customBinders: IBinders<any> = {};
+const customBinders: IModuleBinders<any> = {};
 
 const mailtoBinder = mailtoBinderWrapper();
 const telBinder = telBinderWrapper();

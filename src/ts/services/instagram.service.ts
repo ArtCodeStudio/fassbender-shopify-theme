@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { Utils, getJSON } from './Utils';
+import { Utils } from './Utils';
 import { TheDeveloperAppService } from './the-developer-app.service';
 
 export interface IInstagramMediaData {
@@ -46,7 +46,7 @@ export class InstagramService {
       data.shop = (window as any).Shopify.shop;
     }
 
-    return getJSON(url, data);
+    return Utils.getJSON(url, data);
   }
 
 }

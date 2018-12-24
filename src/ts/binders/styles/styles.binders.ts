@@ -1,10 +1,10 @@
-import { IBinders } from '@ribajs/core';
+import { IModuleBinders } from '@ribajs/core';
 
 import { backgroundImageBinderWrapper } from './background-image.binder';
 import { backgroundColorStarBinderWrapper } from './background-color-star.binder';
 import { opacityStarBinderWrapper } from './opacity-star.binder';
 
-const styleBinders: IBinders<any> = {};
+const styleBinders: IModuleBinders<any> = {};
 
 const backgroundImageBinder = backgroundImageBinderWrapper();
 const backgroundColorStarBinder = backgroundColorStarBinderWrapper();

@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import { ITwoWayBinder, BinderWrapper, View, JQuery as $ } from '@ribajs/core';
-import { LocalsService } from '../../services/locals.service';
+import { LocalesRestService } from '@ribajs/i18n';
 import { Utils } from '../../services/Utils';
 
 // see star.binder.ts
@@ -32,7 +32,7 @@ export const i18nStarBinderWrapper: BinderWrapper = () => {
         return customData;
       };
       this.customData = getElementData();
-      this.customData.i18n = new LocalsService();
+      this.customData.i18n = new LocalesRestService('https://the-developer-app.artandcode.studio/shopify/api/themes');
       this.customData.vars = {};
       this.customData.translateMePathString = null;
       this.customData.properties = [];

@@ -8,13 +8,11 @@ import {
   Pjax,
 } from '@ribajs/router';
 import {
-  shopifyExtension,
+  ShopifyCartService,
   IShopifyCartObject,
 } from '@ribajs/shopify';
 import { Utils } from '../../services/Utils';
 import template from './shopify-cart-button.component.html';
-
-const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
 
 interface IScope {
   cartItemCount: number;

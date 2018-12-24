@@ -1,6 +1,5 @@
 import { Binding, Debug, RibaComponent, Binder } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
-import { shopifyExtension } from '@ribajs/shopify';
 import template from './instagram.component.html';
 import { IInstagramMedia, IInstagramResponse, InstagramService } from '../../services/instagram.service';
 

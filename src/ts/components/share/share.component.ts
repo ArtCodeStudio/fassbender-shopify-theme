@@ -6,7 +6,7 @@ import {
 } from '@ribajs/core';
 import template from './share.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
-import { LocalsService } from '../../services/locals.service';
+import { LocalesRestService } from '@ribajs/i18n';
 
 interface IScope {
   title: string;
@@ -61,7 +61,7 @@ export class ShareComponent extends RibaComponent {
 
   protected debug = Debug('component:' + ShareComponent.tagName);
 
-  protected localsService = new LocalsService();
+  protected localsService = new LocalesRestService('https://the-developer-app.artandcode.studio/shopify/api/themes');
 
   protected dropdownService: DropdownService;
 
@@ -164,7 +164,7 @@ export class ShareComponent extends RibaComponent {
       this.scope.text = local;
       return;
     })
-    .catch((error) => {
+    .catch((error: Error) => {
       console.error(error);
     });
   }

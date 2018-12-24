@@ -7,12 +7,10 @@ import {
   IShopifyProductVariant,
   IShopifyProduct,
   IShopifyProductVariantOption,
-  shopifyExtension,
+  ShopifyCartService,
+  ShopifyProductService,
 } from '@ribajs/shopify';
 import template from './shopify-product.component.html';
-
-const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
-const ShopifyProductService = shopifyExtension.services.ShopifyProductService;
 
 export interface IPrepairedProductVariant extends IShopifyProductVariant {
   images?: string[];
@@ -93,7 +91,7 @@ export class ShopifyProductComponent extends RibaComponent {
 
       this.colorOption = ShopifyProductService.getOption(this.scope.product, 'color');
       // set the first variant to the selected one
-      this.variant = this.scope.product.variants[0];
+      this.variant = this.scope.product ? this.scope.product.variants[0] : null;
     }
   }
 
@@ -162,10 +160,10 @@ export class ShopifyProductComponent extends RibaComponent {
     }
     this.debug('addToCart', this.variant.id, this.scope.quantity);
     ShopifyCartService.add(this.variant.id, this.scope.quantity)
-    .then((response) => {
+    .then((response: any) => {
       this.debug('addToCart response', response);
     })
-    .catch((error) => {
+    .catch((error: Error) => {
       this.debug('addToCart error', error);
     });
   }

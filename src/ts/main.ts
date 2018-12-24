@@ -5,21 +5,12 @@ import {
   JQuery,
   Binder,
 
-  // binders
-  basicBindersWrapper,
-
-  // formatters
-  compareFormatters,
-  mathFormatters,
-  propertyFormatters,
-  specialFormatters,
-  stringFormatters,
+  coreModule,
 
 } from '@ribajs/core';
-import { shopifyExtension } from '@ribajs/shopify';
-import { routerBinders } from '@ribajs/router';
-import * as i18nBinders from '@ribajs/i18n/src/binders/i18n.binders';
-import * as i18nFormatters from '@ribajs/i18n/src/formatters/i18n.formatters';
+import shopifyModule from '@ribajs/shopify';
+import routerModule from '@ribajs/router';
+import { i18nModule, LocalesRestService } from '@ribajs/i18n';
 
 import { TrackingService } from './services/tracking.services';
 import { customBinders, styleBinders } from './binders/index';
@@ -43,7 +34,7 @@ export class Main {
   private view: View;
   private debug = Debug('app:main');
   private riba = new Riba();
-  private lcalesService = new shopifyExtension.services.LocalesService();
+  private localesService = new LocalesRestService('https://the-developer-app.artandcode.studio/shopify/api/themes');
   // private dispatcher = new EventDispatcher('main');
 
   constructor() {
@@ -55,26 +46,15 @@ export class Main {
     };
 
     // Regist custom components
-    this.riba.componentService.regists(CustomComponents);
+    this.riba.module.regist({
+      components: CustomComponents,
+      binders: {...customBinders, ...styleBinders},
+    });
 
-    // Regist binders
-    this.riba.binderService.regists(basicBindersWrapper(JQuery));
-    this.riba.binderService.regists(routerBinders);
-    this.riba.binderService.regists(customBinders);
-    this.riba.binderService.regists(styleBinders);
-
-    this.riba.binderService.regist(i18nBinders.i18nStarBinderWrapper(new shopifyExtension.services.LocalesService()));
-
-    // Regist formatters
-    this.riba.formatterService.regists(compareFormatters);
-    this.riba.formatterService.regists(mathFormatters);
-    this.riba.formatterService.regists(propertyFormatters);
-    this.riba.formatterService.regists(specialFormatters);
-    this.riba.formatterService.regists(stringFormatters);
-
-    this.riba.formatterService.regists(shopifyExtension.formatters);
-    const i18nFormatter = i18nFormatters.i18nFormatterWrapper(new shopifyExtension.services.LocalesService());
-    this.riba.formatterService.regist(i18nFormatter.formatter, i18nFormatter.name);
+    this.riba.module.regist(coreModule);
+    this.riba.module.regist(routerModule);
+    this.riba.module.regist(shopifyModule);
+    this.riba.module.regist(i18nModule(this.localesService));
 
     window.model.assign = function(key: string, value: any, context: Binder<any>, event: Event) {
       // event.preventDefault();

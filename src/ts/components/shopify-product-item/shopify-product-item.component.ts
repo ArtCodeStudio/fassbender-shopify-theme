@@ -1,14 +1,15 @@
-import Debug from 'debug';
-import $ from 'jquery';
 import {
   RibaComponent,
   Binder,
+  Debug,
+  JQuery as $,
 } from '@ribajs/core';
 import {
   IShopifyProductVariant,
   IShopifyProduct,
   IShopifyProductVariantOption,
-  shopifyExtension,
+  ShopifyCartService,
+  ShopifyProductService,
 } from '@ribajs/shopify';
 import template from './shopify-product-item.component.html';
 
@@ -31,9 +32,6 @@ export interface IScope {
   sizeOption: IShopifyProductVariantOption | null;
   available: boolean;
 }
-
-const ShopifyCartService = shopifyExtension.services.ShopifyCartService;
-const ShopifyProductService = shopifyExtension.services.ShopifyProductService;
 
 /**
  * TODO minify this, create a general product service instead of extend from ShopifyProductItemComponent
@@ -130,7 +128,7 @@ export class ShopifyProductItemComponent extends RibaComponent /*ShopifyProductI
       this.scope.sizeOption = ShopifyProductService.getOption(this.scope.product, 'size');
 
       // set the first variant to the selected one
-      this.variant = this.scope.product.variants[0];
+      this.variant = this.scope.product ? this.scope.product.variants[0] : null;
     }
   }
 
