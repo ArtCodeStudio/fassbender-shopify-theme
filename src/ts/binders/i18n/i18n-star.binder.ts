@@ -32,7 +32,7 @@ export const i18nStarBinderWrapper: BinderWrapper = () => {
         return customData;
       };
       this.customData = getElementData();
-      this.customData.i18n = new LocalesRestService('https://the-developer-app.artandcode.studio/shopify/api/themes');
+      this.customData.i18n = new LocalesRestService(`https://next.artandcode.studio/shopify/api/themes/${(window as any).Shopify.theme.id}/locales`);
       this.customData.vars = {};
       this.customData.translateMePathString = null;
       this.customData.properties = [];

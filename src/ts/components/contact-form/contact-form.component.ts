@@ -36,7 +36,7 @@ export class ContactFormComponent extends RibaComponent {
 
   protected debug = Debug('component:' + ContactFormComponent.tagName);
 
-  protected localsService = new LocalesRestService('https://the-developer-app.artandcode.studio/shopify/api/themes');
+  protected localsService = new LocalesRestService(`https://next.artandcode.studio/shopify/api/themes/${(window as any).Shopify.theme.id}/locales`);
 
   protected $form?: JQuery<HTMLFormElement>;
 

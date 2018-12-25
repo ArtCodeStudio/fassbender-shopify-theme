@@ -34,7 +34,7 @@ export class RevokeFormComponent extends RibaComponent {
 
   protected debug = Debug('component:' + RevokeFormComponent.tagName);
 
-  protected localsService = new LocalesRestService('https://the-developer-app.artandcode.studio/shopify/api/themes');
+  protected localsService = new LocalesRestService(`https://next.artandcode.studio/shopify/api/themes/${(window as any).Shopify.theme.id}/locales`);
 
   protected $form?: JQuery<HTMLFormElement>;
 

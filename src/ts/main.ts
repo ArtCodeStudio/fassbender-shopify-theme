@@ -34,7 +34,7 @@ export class Main {
   private view: View;
   private debug = Debug('app:main');
   private riba = new Riba();
-  private localesService = new LocalesRestService('https://the-developer-app.artandcode.studio/shopify/api/themes');
+  private localesService = new LocalesRestService(`https://next.artandcode.studio/shopify/api/themes/${(window as any).Shopify.theme.id}/locales`);
   // private dispatcher = new EventDispatcher('main');
 
   constructor() {
