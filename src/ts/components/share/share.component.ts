@@ -6,7 +6,7 @@ import {
 } from '@ribajs/core';
 import template from './share.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
-import { LocalesRestService } from '@ribajs/i18n';
+import { LocalesService } from '@ribajs/shopify-tda';
 
 interface IScope {
   title: string;
@@ -61,7 +61,7 @@ export class ShareComponent extends RibaComponent {
 
   protected debug = Debug('component:' + ShareComponent.tagName);
 
-  protected localsService = new LocalesRestService(`https://next.artandcode.studio/shopify/api/themes/${(window as any).Shopify.theme.id}/locales`);
+  protected localsService = new LocalesService();
 
   protected dropdownService: DropdownService;
 
@@ -145,7 +145,10 @@ export class ShareComponent extends RibaComponent {
       this.translate(langcode);
     });
     if (this.localsService.ready) {
-      this.translate(this.localsService.getLangcode());
+      const langcode = this.localsService.getLangcode();
+      if (langcode) {
+        this.translate(langcode);
+      }
     } else {
       this.localsService.event.on('ready', (langcode: string, translationNeeded: boolean) => {
         this.translate(langcode);

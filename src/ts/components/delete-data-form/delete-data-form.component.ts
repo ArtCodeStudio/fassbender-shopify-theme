@@ -3,7 +3,7 @@ import $ from 'jquery';
 import { Utils } from '../../services/Utils';
 import { RibaComponent, Binder } from '@ribajs/core';
 import template from './delete-data-form.component.html';
-import { LocalesRestService } from '@ribajs/i18n';
+import { LocalesService } from '@ribajs/shopify-tda';
 
 // TODO move to general validation component class we can extend from
 export interface IValidationRule {
@@ -36,7 +36,7 @@ export class DeleteDataFormComponent extends RibaComponent {
 
   protected debug = Debug('component:' + DeleteDataFormComponent.tagName);
 
-  protected localsService = new LocalesRestService(`https://next.artandcode.studio/shopify/api/themes/${(window as any).Shopify.theme.id}/locales`);
+  protected localsService = new LocalesService();
 
   protected $form?: JQuery<HTMLFormElement>;
 

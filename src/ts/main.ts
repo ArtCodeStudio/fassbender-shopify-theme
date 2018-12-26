@@ -10,12 +10,13 @@ import {
 } from '@ribajs/core';
 import shopifyModule from '@ribajs/shopify';
 import routerModule from '@ribajs/router';
-import { i18nModule, LocalesRestService } from '@ribajs/i18n';
+import { i18nModule } from '@ribajs/i18n';
 
 import { TrackingService } from './services/tracking.services';
 import { customBinders, styleBinders } from './binders/index';
 
 import * as CustomComponents from './components/components';
+import { LocalesService } from '@ribajs/shopify-tda';
 
 declare global {
   // tslint:disable: interface-name
@@ -34,7 +35,7 @@ export class Main {
   private view: View;
   private debug = Debug('app:main');
   private riba = new Riba();
-  private localesService = new LocalesRestService(`https://next.artandcode.studio/shopify/api/themes/${(window as any).Shopify.theme.id}/locales`);
+  private localesService = new LocalesService();
   // private dispatcher = new EventDispatcher('main');
 
   constructor() {

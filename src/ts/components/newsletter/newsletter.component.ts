@@ -1,6 +1,6 @@
 import { RibaComponent, JQuery as $, Debug, Binder } from '@ribajs/core';
 import template from './newsletter.component.html';
-import { LocalesRestService } from '@ribajs/i18n';
+import { LocalesService } from '@ribajs/shopify-tda';
 import { Utils } from '../../services/Utils';
 
 // TODO move to general validation component class we can extend from
@@ -28,7 +28,7 @@ export class NewsletterComponent extends RibaComponent {
 
   protected debug = Debug('component:' + NewsletterComponent.tagName);
 
-  protected localsService = new LocalesRestService(`https://next.artandcode.studio/shopify/api/themes/${(window as any).Shopify.theme.id}/locales`);
+  protected localsService = new LocalesService();
 
   protected scope: IScope = {
     subscribe: this.subscribe,
