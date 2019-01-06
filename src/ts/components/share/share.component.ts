@@ -61,7 +61,7 @@ export class ShareComponent extends RibaComponent {
 
   protected debug = Debug('component:' + ShareComponent.tagName);
 
-  protected localsService = new LocalesService();
+  protected localesService = new LocalesService();
 
   protected dropdownService: DropdownService;
 
@@ -141,16 +141,16 @@ export class ShareComponent extends RibaComponent {
   }
 
   protected initTranslate() {
-    this.localsService.event.on('changed', (langcode: string) => {
+    this.localesService.event.on('changed', (langcode: string) => {
       this.translate(langcode);
     });
-    if (this.localsService.ready) {
-      const langcode = this.localsService.getLangcode();
+    if (this.localesService.ready) {
+      const langcode = this.localesService.getLangcode();
       if (langcode) {
         this.translate(langcode);
       }
     } else {
-      this.localsService.event.on('ready', (langcode: string, translationNeeded: boolean) => {
+      this.localesService.event.on('ready', (langcode: string, translationNeeded: boolean) => {
         this.translate(langcode);
       });
     }
@@ -161,7 +161,7 @@ export class ShareComponent extends RibaComponent {
       return;
     }
 
-    this.localsService.get([langcode, ...this.scope.textI18n.split('.')])
+    this.localesService.get([langcode, ...this.scope.textI18n.split('.')])
     .then((local) => {
       this.debug('changed local', local);
       this.scope.text = local;

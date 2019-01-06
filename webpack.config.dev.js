@@ -1,6 +1,6 @@
 // https://github.com/Microsoft/TypeScript-Babel-Starter
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 /**
  * output errors on watch
@@ -9,7 +9,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 class ConsoleNotifierPlugin {
   compilationDone(stats) {
     const log = (error) => {
-      console.log(error.error.toString());
+      console.error(error.error ? error.error : error);
     };
     stats.compilation.errors.forEach(log);
   }
@@ -21,21 +21,26 @@ class ConsoleNotifierPlugin {
 
 module.exports = {
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        sourceMap: true,
-        uglifyOptions: {
-          compress: true,
-          mangle: {
-            safari10: true, // https://github.com/webpack-contrib/uglifyjs-webpack-plugin/issues/92
-          },
-          output: {
-            beautify: false,
-            comments: false,
-          }
-        }
-      })
-    ]
+    minimizer: [new TerserPlugin({
+      sourceMap: true,
+      terserOptions: {
+        ecma: undefined,
+        warnings: false,
+        parse: {},
+        compress: {},
+        mangle: true, // Note `mangle.properties` is `false` by default.
+        module: false,
+        output: {
+          comments: false,
+        },
+        toplevel: false,
+        nameCache: null,
+        ie8: false,
+        keep_classnames: undefined,
+        keep_fnames: false,
+        safari10: true,
+      },
+    })],
   },
   // Change to your "entry-point".
   entry: ['./src/ts/main.ts'],

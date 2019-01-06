@@ -1,7 +1,7 @@
 import { Binding, Debug, RibaComponent, Binder } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import template from './instagram.component.html';
-import { IInstagramMedia, IInstagramResponse, InstagramService } from '../../services/instagram.service';
+import { IInstagramMedia, IInstagramResponse, InstagramService } from '@ribajs/shopify-tda';
 
 export interface IScope {
   media?: IInstagramMedia;

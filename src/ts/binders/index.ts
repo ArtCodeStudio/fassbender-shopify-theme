@@ -6,7 +6,7 @@ import { mailtoBinderWrapper } from './mailto.binder';
 import { telBinderWrapper } from './tel.binder';
 import { scrollbarDragableBinderWrapper } from './scrollbar/scrollbar-dragable.binder';
 import { scrollfixBinderWrapper } from './scrollbar/scrollfix.binder';
-import { i18nStarBinderWrapper } from './i18n/i18n-star.binder';
+// import { i18nStarBinderWrapper } from './i18n/i18n-star.binder';
 
 import { collapseBinderWrapper } from './bs4/collapse.binder';
 import { expanOnUrlBinderWrapper } from './bs4/expan-on-url.binder';
@@ -19,7 +19,7 @@ const mailtoBinder = mailtoBinderWrapper();
 const telBinder = telBinderWrapper();
 const scrollbarDragableBinder = scrollbarDragableBinderWrapper();
 const scrollfixBinder = scrollfixBinderWrapper();
-const i18nStarBinder = i18nStarBinderWrapper();
+// const i18nStarBinder = i18nStarBinderWrapper();
 
 const collapseBinder = collapseBinderWrapper();
 const expanOnUrlBinder = expanOnUrlBinderWrapper();
@@ -30,7 +30,7 @@ customBinders[mailtoBinder.name] = mailtoBinder.binder;
 customBinders[telBinder.name] = telBinder.binder;
 customBinders[scrollbarDragableBinder.name] = scrollbarDragableBinder.binder;
 customBinders[scrollfixBinder.name] = scrollfixBinder.binder;
-customBinders[i18nStarBinder.name] = i18nStarBinder.binder;
+// customBinders[i18nStarBinder.name] = i18nStarBinder.binder;
 
 customBinders[collapseBinder.name] = collapseBinder.binder;
 customBinders[expanOnUrlBinder.name] = expanOnUrlBinder.binder;

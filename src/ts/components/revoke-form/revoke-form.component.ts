@@ -34,7 +34,7 @@ export class RevokeFormComponent extends RibaComponent {
 
   protected debug = Debug('component:' + RevokeFormComponent.tagName);
 
-  protected localsService = new LocalesService();
+  protected localesService = new LocalesService();
 
   protected $form?: JQuery<HTMLFormElement>;
 

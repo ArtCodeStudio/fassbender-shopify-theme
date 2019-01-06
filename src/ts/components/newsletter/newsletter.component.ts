@@ -28,7 +28,7 @@ export class NewsletterComponent extends RibaComponent {
 
   protected debug = Debug('component:' + NewsletterComponent.tagName);
 
-  protected localsService = new LocalesService();
+  protected localesService = new LocalesService();
 
   protected scope: IScope = {
     subscribe: this.subscribe,

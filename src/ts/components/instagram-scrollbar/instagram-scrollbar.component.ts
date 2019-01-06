@@ -1,7 +1,7 @@
 import { Binding, Debug, Binder, RibaComponent } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import { Utils } from '../../services/Utils';
-import { IInstagramMedia, IInstagramResponse, InstagramService } from '../../services/instagram.service';
+import { IInstagramMedia, IInstagramResponse, InstagramService } from '@ribajs/shopify-tda';
 import template from './instagram-scrollbar.component.html';
 
 export interface IScope {

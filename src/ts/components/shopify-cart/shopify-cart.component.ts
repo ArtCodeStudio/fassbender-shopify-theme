@@ -21,7 +21,7 @@ interface IScope {
   estimateShippingRate: boolean;
   shippingRates: IShopifyShippingRatesNormalized;
   toggle: ShopifyCartComponent['toggle'];
-  remove: ShopifyCartComponent['remove'];
+  remove: ShopifyCartComponent['removeCart'];
   increase: ShopifyCartComponent['increase'];
   decrease: ShopifyCartComponent['decrease'];
   closeDropdowns: ShopifyCartComponent['closeDropdowns'];
@@ -49,7 +49,7 @@ export class ShopifyCartComponent extends RibaComponent {
     estimateShippingRate: false,
     shippingRates: [],
     toggle: this.toggle,
-    remove: this.remove,
+    remove: this.removeCart,
     increase: this.increase,
     decrease: this.decrease,
     closeDropdowns: this.closeDropdowns,
@@ -94,7 +94,7 @@ export class ShopifyCartComponent extends RibaComponent {
     return this.dropdownService.toggle();
   }
 
-  public remove(lineItem: IShopifyCartLineItem, lineIndex: number) {
+  public removeCart(lineItem: IShopifyCartLineItem, lineIndex: number) {
     this.debug('remove', lineItem, lineIndex);
     ShopifyCartService.change(lineItem.variant_id, 0)
     .then((cart: IShopifyCartObject) => {
