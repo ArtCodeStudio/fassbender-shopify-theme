@@ -80,11 +80,21 @@
           "color": "#ffffff",
           "title_spacing": 7
         }
+      },
+      "1546520863559": {
+        "type": "instagram-scrollbar",
+        "settings": {
+          "instagram_id": "17841406311268728",
+          "open-links": false,
+          "open-url": "",
+          "limit": 9
+        }
       }
     },
     "content_for_index": [
       "1540828651208",
-      "1531503358229"
+      "1531503358229",
+      "1546520863559"
     ]
   }
 }
