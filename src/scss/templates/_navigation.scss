@@ -11,7 +11,13 @@
   }
 }
 
-.logo-text-sm {
+
+.logo-text {
+  background-color: transparent;
+  user-select: none;
+}
+
+.logo-text-top {
   letter-spacing: .1rem;
   font-weight: bold;
   font-size: 0.9rem;

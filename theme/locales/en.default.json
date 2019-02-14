@@ -18,12 +18,10 @@
       "home": "FASSBENDER",
       "copyright": "2018 FASSBENDER. All rights reserved",
       "crafter_html": "The Art+Code Studio accepts that every client is unique, each project requires a different approach and that all projects need to be launched with an open mind. In order for us to do collaborate closely with our clients to discover the potential and erect a creative and beautiful solutions. Just drop us an email <a href=\"mailto:hi@artandcode.studio\">hi@artandcode.studio<\/a>"
-    },
-    "navigation": {
-      "teaser_text": "Welcome to the online home of covering trends, fashion inspiration and high end ready to wear pieces."
     }
   },
   "menus": {
+    "fsbdr": "#FSBDR",
     "signup": "Sign Up",
     "instagram": "Instagram",
     "account": "Account",

@@ -1,0 +1,439 @@
+
+{% assign idPrefix = section.settings.name | handleize %}
+
+{% capture class %}
+  
+{% endcapture %}
+
+{% if section.settings.enable %}
+  <a
+    target="_blank"
+    href="{{ section.settings.href }}"
+    class="live-chat-button {{section.settings.position_xs}} {{section.settings.position_sm}} {{section.settings.position_md}} {{section.settings.position_lg}} {{section.settings.position_xl}}"
+  >
+    <img
+      class="messageus_unhovered"
+      alt="{{ section.settings.img_icon.image.alt }}"
+      src="{{ section.settings.img_icon | img_url: '400x400' }}"
+      srcset="{{ section.settings.img_icon | img_url: '400x400', scale: 2 }}"
+    >
+  </a>
+  <style>
+    .live-chat-button {
+      width: 45px;
+      height: auto;
+      display: block;
+      position: fixed;
+      z-index: 99999;
+    }
+    .live-chat-button img {
+      max-width: 100%;
+    }
+
+    {% comment %} xs {% endcomment %}
+    .live-chat-button.bottom-right {
+      top: unset;
+      left: unset;
+      bottom: {{section.settings.spacing_bottom}}vh;
+      right: {{section.settings.spacing_right}}vw;
+    }
+    .live-chat-button.bottom-left {
+      top: unset;
+      right: unset;
+      bottom: {{section.settings.spacing_bottom}}vh;
+      left: {{section.settings.spacing_left}}vw;
+    }
+    .live-chat-button.top-right {
+      bottom: unset;
+      left: unset;
+      top: {{section.settings.spacing_top}}vh;
+      right: {{section.settings.spacing_right}}vw;
+    }
+    .live-chat-button.top-left {
+      bottom: unset;
+      right: unset;
+      top: {{section.settings.spacing_top}}vh;
+      left: {{section.settings.spacing_left}}vw;
+    }
+
+    {% comment %} sm 576px {% endcomment %}
+    @media (min-width: 576px) {
+      .live-chat-button.bottom-right-sm {
+        top: unset;
+        left: unset;
+        bottom: {{section.settings.spacing_bottom}}vh;
+        right: {{section.settings.spacing_right}}vw;
+      }
+    }
+    @media (min-width: 576px) {
+      .live-chat-button.bottom-left-sm {
+        top: unset;
+        right: unset;
+        bottom: {{section.settings.spacing_bottom}}vh;
+        left: {{section.settings.spacing_left}}vw;
+      }
+    }
+    @media (min-width: 576px) {
+      .live-chat-button.top-right-sm {
+        bottom: unset;
+        left: unset;
+        top: {{section.settings.spacing_top}}vh;
+        right: 3vw
+      };
+    }
+    @media (min-width: 576px) {
+      .live-chat-button.top-left-sm {
+        bottom: unset;
+        right: unset;
+        top: {{section.settings.spacing_top}}vh;
+        left: {{section.settings.spacing_left}}vw;
+      }
+    }
+
+    {% comment %} md 768px {% endcomment %}
+    @media (min-width: 768px) {
+      .live-chat-button.bottom-right-md {
+        top: unset;
+        left: unset;
+        bottom: {{section.settings.spacing_bottom}}vh;
+        right: {{section.settings.spacing_right}}vw;
+      }
+    }
+    @media (min-width: 768px) {
+      .live-chat-button.bottom-left-md {
+        top: unset;
+        right: unset;
+        bottom: {{section.settings.spacing_bottom}}vh;
+        left: {{section.settings.spacing_left}}vw;
+      }
+    }
+    @media (min-width: 768px) {
+      .live-chat-button.top-right-md {
+        bottom: unset;
+        left: unset;
+        top: {{section.settings.spacing_top}}vh;
+        right: {{section.settings.spacing_right}}vw;
+      }
+    }
+    @media (min-width: 768px) {
+      .live-chat-button.top-left-md {
+        bottom: unset;
+        right: unset;
+        top: {{section.settings.spacing_top}}vh;
+        left: {{section.settings.spacing_left}}vw;
+      }
+    }
+
+
+    {% comment %} lg 992px {% endcomment %}
+    @media (min-width: 992px) {
+      .live-chat-button.bottom-right-lg {
+        top: unset;
+        left: unset;
+        bottom: {{section.settings.spacing_bottom}}vh;
+        right: {{section.settings.spacing_right}}vw;
+      }
+    }
+    @media (min-width: 992px) {
+      .live-chat-button.bottom-left-lg {
+        top: unset;
+        right: unset;
+        bottom: {{section.settings.spacing_bottom}}vh;
+        left: {{section.settings.spacing_left}}vw;
+      }
+    }
+    @media (min-width: 992px) {
+      .live-chat-button.top-right-lg {
+        bottom: unset;
+        left: unset;
+        top: {{section.settings.spacing_top}}vh;
+        right: {{section.settings.spacing_right}}vw;
+      }
+    }
+    @media (min-width: 992px) {
+      .live-chat-button.top-left-lg {
+        bottom: unset;
+        right: unset;
+        top: {{section.settings.spacing_top}}vh;
+        left: {{section.settings.spacing_left}}vw;
+      }
+    }
+
+    {% comment %} xl 1200px {% endcomment %}
+    @media (min-width: 992px) {
+      .live-chat-button.bottom-right-xl {
+        top: unset;
+        left: unset;
+        bottom: {{section.settings.spacing_bottom}}vh;
+        right: {{section.settings.spacing_right}}vw;
+      }
+    }
+    @media (min-width: 992px) {
+      .live-chat-button.bottom-left-xl {
+        top: unset;
+        right: unset;
+        bottom: {{section.settings.spacing_bottom}}vh;
+        left: {{section.settings.spacing_left}}vw;
+      }
+    }
+    @media (min-width: 992px) {
+      .live-chat-button.top-right-xl {
+        bottom: unset;
+        left: unset;
+        top: {{section.settings.spacing_top}}vh;
+        right: {{section.settings.spacing_right}}vw;
+      }
+    }
+    @media (min-width: 992px) {
+      .live-chat-button.top-left-xl {
+        bottom: unset;
+        right: unset;
+        top: {{section.settings.spacing_top}}vh;
+        left: {{section.settings.spacing_left}}vw;
+      }
+    }
+  </style>
+
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Live Chat",
+    "class": "live-chat",
+    "settings": [
+      {
+        "type":      "checkbox",
+        "id":        "enable",
+        "label":     "Enable Live Chat button",
+        "default":   true
+      },
+      {
+        "type":      "image_picker",
+        "id":        "img_icon",
+        "label":     "Icon",
+        "info": "The Live Chat button icon"
+      },
+      {
+        "type":      "url",
+        "id":        "href",
+        "label":     "Link",
+        "info": "Live Chat button link"
+      },
+      {
+        "type":      "range",
+        "id":        "spacing_top",
+        "min":       0,
+        "max":        50,
+        "step":       1,
+        "unit":       "vh",
+        "label":     "Spacing top",
+        "default":   3
+      },
+      {
+        "type":      "range",
+        "id":        "spacing_bottom",
+        "min":       0,
+        "max":        50,
+        "step":       1,
+        "unit":       "vh",
+        "label":     "Spacing bottom",
+        "default":   3
+      },
+      {
+        "type":      "range",
+        "id":        "spacing_left",
+        "min":       0,
+        "max":        50,
+        "step":       1,
+        "unit":       "vw",
+        "label":     "Spacing left",
+        "default":   3
+      },
+      {
+        "type":      "range",
+        "id":        "spacing_right",
+        "min":       0,
+        "max":        50,
+        "step":       1,
+        "unit":       "vw",
+        "label":     "Spacing right",
+        "default":   3
+      },
+      {
+        "type":      "select",
+        "id":        "position_xs",
+        "label":     "XS Position",
+        "info":      "Position on extra small devices",
+        "options": [
+          {
+            "group": "value",
+            "value": "bottom-right",
+            "label": "Bottom right"
+          },
+          {
+            "group": "value",
+            "value": "bottom-left",
+            "label": "Bottom left"
+          },
+          {
+            "group": "value",
+            "value": "top-left",
+            "label": "Top left"
+          },
+          {
+            "group": "value",
+            "value": "top-right",
+            "label": "Top right"
+          }
+        ],
+        "default":   "bottom-right"
+      },
+      {
+        "type":      "select",
+        "id":        "position_sm",
+        "label":     "SM Position",
+        "info":      "Position on small devices",
+        "options": [
+          {
+            "group": "value",
+            "value": "previous-sm",
+            "label": "Previous"
+          },
+          {
+            "group": "value",
+            "value": "bottom-right-sm",
+            "label": "Bottom right"
+          },
+          {
+            "group": "value",
+            "value": "bottom-left-sm",
+            "label": "Bottom left"
+          },
+          {
+            "group": "value",
+            "value": "top-left-sm",
+            "label": "Top left"
+          },
+          {
+            "group": "value",
+            "value": "top-right-sm",
+            "label": "Top right"
+          }
+        ],
+        "default":   "previous-sm"
+      },
+      {
+        "type":      "select",
+        "id":        "position_md",
+        "label":     "MD Position",
+        "info":      "Position on medium devices",
+        "options": [
+          {
+            "group": "value",
+            "value": "previous-md",
+            "label": "Previous"
+          },
+          {
+            "group": "value",
+            "value": "bottom-right-md",
+            "label": "Bottom right"
+          },
+          {
+            "group": "value",
+            "value": "bottom-left-md",
+            "label": "Bottom left"
+          },
+          {
+            "group": "value",
+            "value": "top-left-md",
+            "label": "Top left"
+          },
+          {
+            "group": "value",
+            "value": "top-right-md",
+            "label": "Top right"
+          }
+        ],
+        "default":   "previous-md"
+      },
+      {
+        "type":      "select",
+        "id":        "position_lg",
+        "label":     "LG Position",
+        "info":      "Position on large devices",
+        "options": [
+          {
+            "group": "value",
+            "value": "previous-lg",
+            "label": "Previous"
+          },
+          {
+            "group": "value",
+            "value": "bottom-right-lg",
+            "label": "Bottom right"
+          },
+          {
+            "group": "value",
+            "value": "bottom-left-lg",
+            "label": "Bottom left"
+          },
+          {
+            "group": "value",
+            "value": "top-left-lg",
+            "label": "Top left"
+          },
+          {
+            "group": "value",
+            "value": "top-right-lg",
+            "label": "Top right"
+          }
+        ],
+        "default":   "previous-lg"
+      },
+      {
+        "type":      "select",
+        "id":        "position_xl",
+        "label":     "XL Position",
+        "info":      "Position on extra large devices",
+        "options": [
+          {
+            "group": "value",
+            "value": "previous-xl",
+            "label": "Previous"
+          },
+          {
+            "group": "value",
+            "value": "bottom-right-xl",
+            "label": "Bottom right"
+          },
+          {
+            "group": "value",
+            "value": "bottom-left-xl",
+            "label": "Bottom left"
+          },
+          {
+            "group": "value",
+            "value": "top-left-xl",
+            "label": "Top left"
+          },
+          {
+            "group": "value",
+            "value": "top-right-xl",
+            "label": "Top right"
+          }
+        ],
+        "default":   "previous-xl"
+      }
+    ],
+    "blocks": [],
+    "presets": [],
+    "locales": {
+      "en": {
+        "info": "Message Us"
+      },
+      "de": {
+        "info": "Schreibe Uns"
+      }
+    }
+  }
+{% endschema %}
