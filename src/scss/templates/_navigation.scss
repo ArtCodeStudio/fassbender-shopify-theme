@@ -1,12 +1,11 @@
 .sidenav-main-menu-toggler {
-  span {
+  rv-icon {
     @extend .rotate-animate;
-    @extend .rotate-0;
+    @extend .rotate-45;
   }
   &[aria-expanded='true'] {
-    // display: none !important;
-    span {
-      @extend .rotate-45;
+    rv-icon {
+      @extend .rotate-0;
     }
   }
 }

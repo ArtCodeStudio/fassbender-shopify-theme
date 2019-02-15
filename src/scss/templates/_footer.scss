@@ -45,6 +45,7 @@
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 2021;
   .more-menu-toggler {
     span {
       @extend .rotate-animate;

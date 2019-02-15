@@ -1,184 +1,162 @@
 {% comment %} Navigation Desktop TODO remove d-none d-lg-block {% endcomment %}
 <div class="container-fluid fixed-top navbar-main pointer-events-none d-none d-lg-block">
   {% comment %}
-    SUBBAR
-  {% endcomment %}
-  <div class="row subbar pt-2  d-none d-lg-flex">
-    <div class="col d-flex">
-      <div class="ml-auto">
-         
-        <ul class="nav pointer-events-all">
-          <li class="nav-item">
-            <div class="nav-text">
-              &nbsp;
-            </div>
-          </li>
-        </ul>
-
-      </div>
-    </div>
-  </div>
-
-  {% comment %}
     MAINBAR
   {% endcomment %}
-  <div class="row mainbar">
+  <fsbdr-mainbar>
+    <div class="row mainbar pt-1">
 
-    {% comment %}
-      MAINBAR VERTICAL
-    {% endcomment %}
-    <div class="mainbar-vertical col-auto" style="position: fixed; width: auto; z-index: 1;">
-      <div class="row d-none d-lg-flex">
-        <a class="col-auto brand pointer-events-all" rv-route-class-active="'/'" rv-route="'/'" href="/">
-          <rv-icon rv-src="'{{ 'iconset-logo.svg' | asset_url }}'" height="64" width="47"></rv-icon>
-        </a>
-      </div>
-      <div class="row pt-4">
-        <div class="col-auto pointer-events-all font-weight-bold">
-          <div rv-bs4-collapse="'#sidenav-main-menu'" class="sidenav-main-menu-toggler nav-item nav-link pl-0 cursor-pointer">
-            <span>+</span>
+      {% comment %}
+        MAINBAR VERTICAL
+      {% endcomment %}
+      <div class="mainbar-vertical col-auto" style="position: fixed; width: auto; z-index: 1;">
+        <div class="row">
+          <div class="col-auto pointer-events-all font-weight-bold">
+            <div rv-bs4-collapse="'#sidenav-main-menu'" class="sidenav-main-menu-toggler nav-item nav-link pl-0 cursor-pointer">
+              <rv-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></rv-icon>
+            </div>
+            <shopify-linklist rv-bs4-expan-on-url="'/'" class="" id="sidenav-main-menu" name="main-menu" vertical="true" pills="false"></shopify-linklist>
           </div>
-          <shopify-linklist rv-bs4-expan-on-url="'/'" class="" id="sidenav-main-menu" name="main-menu" vertical="true" pills="false"></shopify-linklist>
+        </div>
+
+        <div class="row pt-4">
+          <shopify-filter class="col-auto pointer-events-all" rv-collection-url="dataset.collectionUrl" rv-namespace="dataset.namespace" rv-template="dataset.template | json" rv-filter="filter | json">
+            <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
+              <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template collectionUrl">
+                <a
+                  class="nav-link"
+                  rv-add-class="'level-' | append link.level"
+                  rv-route="link.url"
+                  rv-href="link.url"
+                  rv-i18n-text="link.title | handleize | prepend 'menus.'"
+                >{link.title}</a>
+                
+                <div class="small" rv-if="type | call link.handle | eq 'routes'">
+                  <strong>Type</strong>
+                  <div class="nav-item" rv-each-sublink="link.links">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" rv-route-class-active="sublink.url" rv-route="sublink.url" class="custom-control-input">
+                      <label
+                        class="custom-control-label"
+                        rv-route-class-active="sublink.url"
+                        rv-route="sublink.url"
+                        rv-for="link.handle | append sublink.handle"
+                      >
+                          <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div rv-if="link.handle | eq 'store'">
+                    {% for collection in collections %}
+                      {% if collection.metafields["global"]["hide-in-filter"] != 'true' %}
+                        <div class="nav-item">
+                          <div class="custom-control custom-radio">
+                            <input
+                              type="radio"
+                              id="{{ collection.handle }}"
+                              rv-name="link.handle"
+                              class="custom-control-input"
+                              rv-parent-route-class-active="'{{ collection.url }}'"
+                              rv-route="'{{ collection.url }}'"
+                            >
+                            <label
+                              class="custom-control-label"
+                              rv-for="{{ collection.handle }}"
+                              rv-parent-route-class-active="'{{ collection.url }}'"
+                              rv-route="'{{ collection.url }}'"
+                              rv-i18n-text="'collections.{{collection.title|handleize}}'"
+                            >{{ collection.title }}</label>
+                          </div>
+                        </div>
+                      {% endif %}
+                      {% assign collectionBefore = collection %}
+                    {% endfor %}
+                  </div>
+
+                </div>
+
+                <div class="small" rv-if="type | call link.handle | eq 'scrollspy'">
+                  <strong>Type</strong>
+                  <div class="nav-item" rv-each-sublink="link.links">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" rv-bs4-scrollspy-active="sublink.url" class="custom-control-input">
+                      <label
+                        class="custom-control-label"
+                        rv-on-click="scrollTo | args sublink.url"
+                        rv-for="link.handle | append sublink.handle"
+                      >
+                        <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="small" rv-if="type | call link.handle | eq 'stories-filter'">
+                  <strong>Type</strong>
+                  <div class="nav-item" rv-each-sublink="link.links">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" class="custom-control-input">
+                      <label
+                        class="custom-control-label"
+                        rv-for="link.handle | append sublink.handle"
+                        rv-on-click="storiesFilterBy | args link.handle sublink.url"
+                      >
+                        <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </nav>
+          </shopify-filter>
+
         </div>
       </div>
 
-      <div class="row pt-4">
-        <shopify-filter class="col-auto pointer-events-all" rv-collection-url="dataset.collectionUrl" rv-namespace="dataset.namespace" rv-template="dataset.template | json" rv-filter="filter | json">
-          <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
-            <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template collectionUrl">
-              <a
-                class="nav-link"
-                rv-add-class="'level-' | append link.level"
-                rv-route="link.url"
-                rv-href="link.url"
-                rv-i18n-text="link.title | handleize | prepend 'menus.'"
-              >{link.title}</a>
-              
-              <div class="small" rv-if="type | call link.handle | eq 'routes'">
-                <strong>Type</strong>
-                <div class="nav-item" rv-each-sublink="link.links">
-                  <div class="custom-control custom-radio">
-                    <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" rv-route-class-active="sublink.url" rv-route="sublink.url" class="custom-control-input">
-                    <label
-                      class="custom-control-label"
-                      rv-route-class-active="sublink.url"
-                      rv-route="sublink.url"
-                      rv-for="link.handle | append sublink.handle"
-                    >
-                        <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
-                    </label>
-                  </div>
-                </div>
+      {% comment %}
+        MAINBAR HORIZONTAL
+      {% endcomment %}
+      <div class="mainbar-horizontal ml-auto col-auto align-items-center d-none d-lg-flex">
+        <ul class="nav" style="pointer-events: all;">
+          <li class="nav-item">
+            <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'">
+              <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="24"></rv-icon>
+            </a>
+          </li>
 
-                <div rv-if="link.handle | eq 'store'">
-                  {% for collection in collections %}
-                    {% if collection.metafields["global"]["hide-in-filter"] != 'true' %}
-                      <div class="nav-item">
-                        <div class="custom-control custom-radio">
-                          <input
-                            type="radio"
-                            id="{{ collection.handle }}"
-                            rv-name="link.handle"
-                            class="custom-control-input"
-                            rv-parent-route-class-active="'{{ collection.url }}'"
-                            rv-route="'{{ collection.url }}'"
-                          >
-                          <label
-                            class="custom-control-label"
-                            rv-for="{{ collection.handle }}"
-                            rv-parent-route-class-active="'{{ collection.url }}'"
-                            rv-route="'{{ collection.url }}'"
-                            rv-i18n-text="'collections.{{collection.title|handleize}}'"
-                          >{{ collection.title }}</label>
-                        </div>
-                      </div>
-                    {% endif %}
-                    {% assign collectionBefore = collection %}
-                  {% endfor %}
-                </div>
+          <tda-i18n-switcher rv-show="menuOpen">
+            <li class="nav-item" rv-each-langcode="langcodes">
+              <div
+                class="nav-link text-uppercase"
+                rv-text="langcode.code"
+                rv-on-click="switch | args langcode"
+                rv-class-active="langcode.active"
+              ></div>
+            </li>
+          </tda-i18n-switcher>
 
-              </div>
+          <shopify-linklist rv-show="menuOpen" class="" id="toggle-menu" name="toggle-menu" vertical="false" pills="false"></shopify-linklist>
 
-              <div class="small" rv-if="type | call link.handle | eq 'scrollspy'">
-                <strong>Type</strong>
-                <div class="nav-item" rv-each-sublink="link.links">
-                  <div class="custom-control custom-radio">
-                    <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" rv-bs4-scrollspy-active="sublink.url" class="custom-control-input">
-                    <label
-                      class="custom-control-label"
-                      rv-on-click="scrollTo | args sublink.url"
-                      rv-for="link.handle | append sublink.handle"
-                    >
-                      <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="small" rv-if="type | call link.handle | eq 'stories-filter'">
-                <strong>Type</strong>
-                <div class="nav-item" rv-each-sublink="link.links">
-                  <div class="custom-control custom-radio">
-                    <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" class="custom-control-input">
-                    <label
-                      class="custom-control-label"
-                      rv-for="link.handle | append sublink.handle"
-                      rv-on-click="storiesFilterBy | args link.handle sublink.url"
-                    >
-                      <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
+          <li class="nav-item">
+            {% include 'jumplink-shopping-cart-dropdown' %}
+          </li>    
+          <li class="nav-item">
+            <div class="nav-link" rv-on-click="open" rv-hide="menuOpen">
+              <rv-icon rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" size="24"></rv-icon>
             </div>
-          </nav>
-        </shopify-filter>
-
+            <div class="nav-link" rv-on-click="close" rv-show="menuOpen">
+              <rv-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></rv-icon>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
-
-    {% comment %}
-      MAINBAR HORIZONTAL
-    {% endcomment %}
-    <div class="mainbar-horizontal ml-auto col-auto align-items-center d-none d-lg-flex">
-      <ul class="nav" style="pointer-events: all;">
-        <li class="nav-item">
-          <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'">
-            <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="24"></rv-icon>
-          </a>
-        </li>
-
-        <tda-i18n-switcher rv-show="menuOpen">
-           <li class="nav-item" rv-each-langcode="langcodes">
-            <div
-              class="nav-link text-uppercase"
-              rv-text="langcode.code"
-              rv-on-click="switch | args langcode"
-              rv-class-active="langcode.active"
-            ></div>
-           </li>
-        </tda-i18n-switcher>
-
-        <shopify-linklist rv-show="menuOpen" class="" id="toggle-menu" name="toggle-menu" vertical="false" pills="false"></shopify-linklist>
-
-        <li class="nav-item">
-          {% include 'jumplink-shopping-cart-dropdown' %}
-        </li>    
-        <li class="nav-item">
-          <div class="nav-link" rv-on-click="assign | args 'menuOpen' true" rv-hide="menuOpen">
-            <rv-icon rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" size="24"></rv-icon>
-          </div>
-          <div class="nav-link" rv-on-click="assign | args 'menuOpen' false" rv-show="menuOpen">
-            <rv-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></rv-icon>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
+  </fsbdr-mainbar>
 </div>
 
 {% comment %} Navigation Smartphone {% endcomment %}
-<div class="container-fluid fixed-top pointer-events-none d-block text-center logo-text logo-text-top">
+<div class="container-fluid fixed-top pointer-events-none text-center logo-text logo-text-top">
   <a class="pointer-events-all text-primary" rv-route-class-active="'/'" rv-route="'/'" href="/">FASSBENDER</a>
 </div>
