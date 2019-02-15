@@ -37,7 +37,6 @@
 .fullscreen-menu {
   width: 100%;
   max-width: 100vw;
-  height: 100%;
   background-color: $dropdown-bg;
   backdrop-filter: blur(10px);
   position: fixed;
@@ -45,7 +44,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2021;
+  z-index: 1021;
   .more-menu-toggler {
     span {
       @extend .rotate-animate;

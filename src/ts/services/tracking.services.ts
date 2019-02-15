@@ -30,7 +30,7 @@ export class TrackingService {
   protected dispatcher = new EventDispatcher('main');
 
   // Original document.cookie function to hold them if we block all cookies
-  protected _cookie: string;
+  protected _cookie: any;
 
   public get theTradeDeskDisabled(): boolean {
     if (document.cookie.indexOf(this.theTradeDeskDisableStr + '=true') > -1) {
@@ -120,9 +120,25 @@ export class TrackingService {
      * store original cookie getter and setter to make it possible to revert the block
      */
     this._cookie = {
-      get: (document as any).__lookupGetter__('cookie') || (Object.getOwnPropertyDescriptor(document, 'cookie') as PropertyDescriptor).get,
-      set: (document as any).__lookupSetter__('cookie') || (Object.getOwnPropertyDescriptor(document, 'cookie') as PropertyDescriptor).set,
-    } as any;
+      get: undefined as any,
+      set: undefined as any,
+    };
+
+    if ((document as any).__lookupGetter__ && (document as any).__lookupGetter__('cookie')) {
+      this._cookie.get = (document as any).__lookupGetter__('cookie');
+    }
+
+    if ((document as any).__lookupSetter__ && (document as any).__lookupSetter__('cookie')) {
+      this._cookie.set = (document as any).__lookupSetter__('cookie');
+    }
+
+    if (Object.getOwnPropertyDescriptor && Object.getOwnPropertyDescriptor(document, 'cookie') && (Object.getOwnPropertyDescriptor(document, 'cookie') as PropertyDescriptor).get) {
+      this._cookie.get = (Object.getOwnPropertyDescriptor(document, 'cookie') as PropertyDescriptor).get;
+    }
+
+    if (Object.getOwnPropertyDescriptor && Object.getOwnPropertyDescriptor(document, 'cookie') && (Object.getOwnPropertyDescriptor(document, 'cookie') as PropertyDescriptor).set) {
+      this._cookie.set = (Object.getOwnPropertyDescriptor(document, 'cookie') as PropertyDescriptor).set;
+    }
 
     if (TrackingService.instance) {
       return TrackingService.instance;
