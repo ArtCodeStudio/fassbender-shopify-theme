@@ -55,41 +55,6 @@
           "limit": 60
         }
       },
-      "1540828651208": {
-        "type": "one-storie",
-        "blocks": {
-          "1540828759649": {
-            "type": "image",
-            "settings": {
-              "image": "",
-              "aspect_ratio": "2-3",
-              "aspect_ratio_md": "16-9",
-              "video_url": "",
-              "mp4_video_url": "https:\/\/player.vimeo.com\/external\/291548439.hd.mp4?s=9eae7cb97395595efca5847cef18e3ad41baf5eb&profile_id=175",
-              "video_poster": "shopify:\/\/shop_images\/MyFassbender_shop-coat-burgundy-now.jpg",
-              "spacing": 0
-            }
-          }
-        },
-        "block_order": [
-          "1540828759649"
-        ],
-        "settings": {
-          "story": "shopify:\/\/collections\/all",
-          "title": "Shop Collection FW18 Now",
-          "color": "#ffffff",
-          "title_spacing": 7
-        }
-      },
-      "1546520863559": {
-        "type": "instagram-scrollbar",
-        "settings": {
-          "instagram_id": "17841406311268728",
-          "open-links": false,
-          "open-url": "",
-          "limit": 9
-        }
-      },
       "live-chat": {
         "type": "live-chat",
         "settings": {
@@ -106,12 +71,77 @@
           "position_lg": "bottom-right-lg",
           "position_xl": "previous-xl"
         }
+      },
+      "1550327279919": {
+        "type": "one-storie",
+        "blocks": {
+          "1550327302805": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_8_fb37a99e-de95-41b8-8cfc-95d6ed05bf14.jpg",
+              "aspect_ratio": "3-2",
+              "aspect_ratio_md": "none",
+              "video_url": "",
+              "mp4_video_url": "",
+              "video_poster": "",
+              "spacing": 50
+            }
+          }
+        },
+        "block_order": [
+          "1550327302805"
+        ],
+        "settings": {
+          "story": "",
+          "title": "Lookbook FW19\/20",
+          "color": "#ffffff",
+          "title_spacing": 0
+        }
+      },
+      "1550327343652": {
+        "type": "one-storie",
+        "blocks": {
+          "1550327356511": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_5.jpg",
+              "aspect_ratio": "2-3",
+              "aspect_ratio_md": "2-3",
+              "video_url": "",
+              "mp4_video_url": "",
+              "video_poster": "",
+              "spacing": 61
+            }
+          },
+          "1550327370787": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_6.jpg",
+              "aspect_ratio": "3-2",
+              "aspect_ratio_md": "none",
+              "video_url": "",
+              "mp4_video_url": "",
+              "video_poster": "",
+              "spacing": 33
+            }
+          }
+        },
+        "block_order": [
+          "1550327356511",
+          "1550327370787"
+        ],
+        "settings": {
+          "story": "",
+          "title": "",
+          "color": "#ffffff",
+          "title_spacing": 7
+        }
       }
     },
     "content_for_index": [
-      "1540828651208",
-      "1531503358229",
-      "1546520863559"
+      "1550327279919",
+      "1550327343652",
+      "1531503358229"
     ]
   }
 }
