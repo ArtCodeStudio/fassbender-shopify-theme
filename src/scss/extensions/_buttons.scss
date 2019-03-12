@@ -7,6 +7,7 @@
   background-image: none;
   border-bottom-color: $color;
   border-width: 2px;
+  text-decoration: none;
 
   &:hover {
     // color: $color-hover;
@@ -92,6 +93,7 @@
   background-image: none;
   overflow: hidden;
   position: relative;
+  text-decoration: none;
 
   &:after {
     // .box-sizing;         

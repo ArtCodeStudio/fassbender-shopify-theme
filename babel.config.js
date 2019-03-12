@@ -1,4 +1,4 @@
-// iMPORTANT do not use .babelrc: https://github.com/babel/babel/issues/8711#issuecomment-421918023
+// IMPORTANT do not use .babelrc: https://github.com/babel/babel/issues/8711#issuecomment-421918023
 module.exports = {
   "presets": [
     [
