@@ -63,22 +63,8 @@
         }
 
         if (options) {
-            //assign css3 property or js property to IE browser version
-            if (options.lowerThan == 'IE8' || options.lowerThan == 'borderSpacing') {
-                options.lowerThan = 'borderSpacing';
-            } else if (options.lowerThan == 'IE9' || options.lowerThan == 'boxShadow') {
-                options.lowerThan = 'boxShadow';
-            } else if (options.lowerThan == 'IE10' || options.lowerThan == 'transform' || options.lowerThan == '' || typeof options.lowerThan === "undefined") {
-                options.lowerThan = 'transform';
-            } else if (options.lowerThan == 'IE11' || options.lowerThan == 'borderImage') {
-                options.lowerThan = 'borderImage';
-            } else if (options.lowerThan == 'IE11' || options.lowerThan == 'borderImage') {
-                options.lowerThan = 'objectFit';
-            }  else if (options.lowerThan == 'Edge' || options.lowerThan == 'js:Promise') {
-                options.lowerThan = 'js:Promise';
-            }
 
-            //all properties
+            // all properties
             this.defaultOpts.bgColor = options.bgColor;
             this.defaultOpts.color = options.color;
             this.defaultOpts.lowerThan = options.lowerThan;
@@ -86,12 +72,12 @@
 
             bkgColor = this.defaultOpts.bgColor;
             txtColor = this.defaultOpts.color;
-            cssProp = this.defaultOpts.lowerThan;
+            cssProps = this.defaultOpts.lowerThan;
             languagePath = this.defaultOpts.languagePath;
         } else {
             bkgColor = this.defaultOpts.bgColor;
             txtColor = this.defaultOpts.color;
-            cssProp = this.defaultOpts.lowerThan;
+            cssProps = this.defaultOpts.lowerThan;
             languagePath = this.defaultOpts.languagePath;
         } //end if options
 
@@ -148,26 +134,13 @@
             };
         } )();
 
-        var validBrowser = false;
+        var validBrowser = true;
 
-        // browser check by js props
-        if(/^js:+/g.test(cssProp)) {
-            var jsProp = cssProp.split(':')[1];
-            if(!jsProp)
-                return;
-
-            switch (jsProp) {
-                case 'Promise':
-                    validBrowser = window.Promise !== undefined && window.Promise !== null && Object.prototype.toString.call(window.Promise.resolve()) === '[object Promise]';
-                    break;
-                default:
-                    validBrowser = false;
-            }
-        } else {
-            // check by css3 property (transform=default)
+        // check by css3 property (transform=default)
+        for (let index = 0; index < cssProps.length && validBrowser; index++) {
+            const cssProp = cssProps[index];
             validBrowser = supports('' + cssProp + '');
         }
-
 
         if (!validBrowser) {
             if (done && outdated.style.opacity !== '1') {
@@ -235,7 +208,7 @@
         outdatedBrowser({
             bgColor: 'rgba(0,0,0,0.8)',
             color: '#000',
-            lowerThan: 'objectFit',
+            lowerThan: ['objectFit', 'flexDirection'],
             languagePath: ''
         });
     });

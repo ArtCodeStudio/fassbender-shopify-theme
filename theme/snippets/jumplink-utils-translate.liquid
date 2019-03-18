@@ -3,31 +3,23 @@
 {% assign translateString = translate | handleize | prepend: _path %}
 {% assign _translated = translateString | t %}
 
-{% if _translated contains 'translation missing' %}
-  {% comment %} Translate using metafields or locals/*.json {% endcomment %}
-  {% capture translated %}
-    <span rv-i18n-html="'{{translateString}}'">
+{% comment %} Translate using locals/*.json or metafields {% endcomment %}
+{% capture translated %}
+  {% if _translated contains 'translation missing' %}
+    <span class="d-none" hidden>{{_translated}}</span>
+  {% endif %}
+  <span rv-i18n-html="'{{translateString}}'">
+    {% unless _translated contains 'translation missing' %}
       {{_translated}}
-      {% unless de == blank %}
-        <template lang="de">{{de}}</template>
-      {% endunless %}
-      {% unless default == blank %}
-        <template lang="default">{{default}}</template>
-      {% endunless %}
-    </span>
-  {% endcapture %}
-{% else %}
-  {% comment %} Translate using locals/*.json or metafields {% endcomment %}
-  {% capture translated %}
-    <span rv-i18n-html="'{{translateString}}'">
-      {{translate}}
-      {% unless de == blank %}
-        <template lang="de">{{de}}</template>
-      {% endunless %}
-      {% unless default == blank %}
-        <template lang="default">{{default}}</template>
-      {% endunless %}
-    </span>
-  {% endcapture %}
-{% endif %}
-
+    {% endunless %}
+    {% unless de == blank %}
+      <template lang="de">{{de}}</template>
+    {% endunless %}
+    {% unless en == blank %}
+      <template lang="en">{{en}}</template>
+    {% endunless %}
+    {% unless default == blank %}
+      <template lang="default">{{default}}</template>
+    {% endunless %}
+  </span>
+{% endcapture %}
