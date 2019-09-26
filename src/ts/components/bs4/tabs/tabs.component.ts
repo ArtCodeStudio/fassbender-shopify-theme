@@ -1,7 +1,7 @@
 /* tslint:disable:max-classes-per-file */
-import { RibaComponent, Debug, JQuery as $ } from '@ribajs/core';
+import { Component, Debug, JQuery as $ } from '@ribajs/core';
 
-export class TabsComponent extends RibaComponent {
+export class TabsComponent extends Component {
 
   public static tagName: string = 'bs4-tabs';
 
@@ -20,6 +20,7 @@ export class TabsComponent extends RibaComponent {
 
   constructor(element?: HTMLElement) {
     super(element);
+    console.warn('Depricated use tabs module from bs4 module');
     const self = this;
     this.$el = $(this.el);
     this.$tabs = this.$el.find('.nav-link');

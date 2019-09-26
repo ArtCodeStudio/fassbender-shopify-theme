@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { IOneWayBinder, BinderWrapper, JQuery } from '@ribajs/core';
+import { IBinder, BinderWrapper, JQuery } from '@ribajs/core';
 
 const debug = Debug('binder:rv-scrollfix');
 
@@ -19,9 +19,9 @@ const onWheel = (event: Event) => {
  * TODO not working yet
  * @see issue https://stackoverflow.com/questions/29344162/fullscreen-video-doesnt-allow-scrolling-on-firefox
  */
-export const scrollfixBinderWrapper: BinderWrapper = () => {
-  const name = 'scrollfix';
-  const binder: IOneWayBinder<string> = (el: HTMLElement, value: any) => {
+export const scrollfixBinderWrapper: IBinder<any> = {
+  name: 'scrollfix',
+  routine(el: HTMLElement, value: any) {
 
     debug('scrollfix', el);
     const $el = JQuery(el);
@@ -37,9 +37,5 @@ export const scrollfixBinderWrapper: BinderWrapper = () => {
       document.removeEventListener('mousewheel', onWheel);
       document.removeEventListener('DOMMouseScroll', onWheel);
     });
-  };
-  return {
-    binder,
-    name,
-  };
+  },
 };

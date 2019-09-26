@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="row flex-nowrap scrollbar-invisible scrollbar-x-auto" rv-scrollbar-dragable="" rv-on-scroll="onScroll">
-    <div class="col-7 col-md-5 px-0 content-box ratio-1-1 cursor-pointer" rv-each-image="media.data" rv-class="image.media_type" rv-data-url="image.permalink" rv-on-tap="onTap">
+    <div class="col-7 col-md-5 px-0 content-box ratio-1-1 cursor-pointer" rv-each-image="media.data" rv-add-class="image.media_type" rv-data-url="image.permalink" rv-on-tap="onTap">
       
       {% comment %} IMAGE {% endcomment %}
       <img lazyload="auto" class="content" rv-if="image.media_type | eq 'IMAGE'" rv-src="image.media_url" rv-alt="image.caption">

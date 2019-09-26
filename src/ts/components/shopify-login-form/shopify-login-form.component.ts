@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent } from '@ribajs/core';
+import { Component } from '@ribajs/core';
 import template from './shopify-login-form.component.html';
 import { Utils } from '../../services/Utils';
 
@@ -45,7 +45,7 @@ interface IScope {
   recoverBack: ShopifyLoginFormComponent['recoverBack'];
 }
 
-export class ShopifyLoginFormComponent extends RibaComponent {
+export class ShopifyLoginFormComponent extends Component {
 
   public static tagName: string = 'rv-shopify-login-form';
 

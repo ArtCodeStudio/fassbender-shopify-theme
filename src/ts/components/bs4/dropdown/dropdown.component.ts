@@ -1,7 +1,7 @@
-import { Binder, RibaComponent, Debug, JQuery as $ } from '@ribajs/core';
+import { IBinder, Component, Debug, JQuery as $ } from '@ribajs/core';
 import { DropdownService } from './dropdown.service';
 
-export class DropdownComponent extends RibaComponent {
+export class DropdownComponent extends Component {
 
   public static tagName: string = 'bs4-dropdown';
 
@@ -24,7 +24,7 @@ export class DropdownComponent extends RibaComponent {
     this.init(DropdownComponent.observedAttributes);
   }
 
-  public toggle(context: Binder<any>, event: Event) {
+  public toggle(context: IBinder<any>, event: Event) {
     this.debug('toggle');
     event.preventDefault();
     event.stopPropagation();

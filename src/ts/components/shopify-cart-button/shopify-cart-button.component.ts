@@ -1,8 +1,8 @@
 import {
-  RibaComponent,
+  Component,
   JQuery as $,
   Debug,
-  Binder,
+  IBinder,
 } from '@ribajs/core';
 import {
   Pjax,
@@ -21,7 +21,7 @@ interface IScope {
   startAddAnimation: boolean;
 }
 
-export class ShopifyCartButtonComponent extends RibaComponent {
+export class ShopifyCartButtonComponent extends Component {
 
   public static tagName: string = 'rv-shopify-cart-button';
 
@@ -57,7 +57,7 @@ export class ShopifyCartButtonComponent extends RibaComponent {
     this.init(ShopifyCartButtonComponent.observedAttributes);
   }
 
-  public toggle(context: Binder<any>, event: Event) {
+  public toggle(context: IBinder<any>, event: Event) {
     this.debug('toggle');
     event.preventDefault();
     event.stopPropagation();

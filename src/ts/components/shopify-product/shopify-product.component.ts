@@ -1,5 +1,5 @@
 import {
-  RibaComponent,
+  Component,
   JQuery as $,
   Debug,
 } from '@ribajs/core';
@@ -36,7 +36,7 @@ export interface IScope {
   self: ShopifyProductComponent; // WORKAROUND
 }
 
-export class ShopifyProductComponent extends RibaComponent {
+export class ShopifyProductComponent extends Component {
 
   public static tagName: string = 'rv-shopify-product';
 

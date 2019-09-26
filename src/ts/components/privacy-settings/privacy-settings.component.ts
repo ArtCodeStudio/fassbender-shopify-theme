@@ -1,8 +1,8 @@
 import {
-  RibaComponent,
+  Component,
   JQuery as $,
   Debug,
-  Binder,
+  IBinder,
 } from '@ribajs/core';
 import {
   ShopifyCartService,
@@ -40,7 +40,7 @@ interface IScope {
 }
 
 // see also TrackingService
-export class PrivacySettingsComponent extends RibaComponent {
+export class PrivacySettingsComponent extends Component {
 
   public static tagName: string = 'rv-privacy-settings';
 
@@ -92,7 +92,7 @@ export class PrivacySettingsComponent extends RibaComponent {
     this.init(PrivacySettingsComponent.observedAttributes);
   }
 
-  public onClearDataClicked(context: Binder<any>, event: Event) {
+  public onClearDataClicked(context: IBinder<any>, event: Event) {
     this.debug('onClearDataClicked', this.scope.cookies.enabled);
     ShopifyCartService.clear()
     .then(() => {

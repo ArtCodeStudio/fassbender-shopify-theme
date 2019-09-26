@@ -52,9 +52,9 @@
       {% endcomment %}
       <div class="col order-1 order-lg-1 mb-5 pb-3 mb-lg-3 pt-4 d-flex flex-column justify-content-end">
         <div class="variant-chooser">
-          <div rv-each-option="product.options" class="row px-3" rv-if="option.name | eq 'color'" rv-class="option.name">
+          <div rv-each-option="product.options" class="row px-3" rv-if="option.name | eq 'color'" rv-add-class="option.name">
             <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="chooseOption | args self color option.position option.name">
-              <div class="styleicon-circle option-color option-variant-color" rv-class="color | replace_first '#' '' | prepend 'option-color-'" rv-css-background-color="color" style="width: 20px; height: 20px;"></div>
+              <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace-first '#' '' | prepend 'option-color-'" rv-css-background-color="color" style="width: 20px; height: 20px;"></div>
             </div>
             {% for i in (1..4) %}
               {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
@@ -103,7 +103,7 @@
         <div rv-each-option="product.options">
           <div class="row justify-content-between pt-4" rv-if="option.name | eq 'size'">
             <div class="col-auto px-1" rv-each-size="option.values">
-              <button class="btn btn-link btn-option option-size text-decoration-normal" rv-text="size" rv-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"></button>
+              <button class="btn btn-link btn-option option-size text-decoration-normal" rv-text="size" rv-add-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"></button>
             </div>
           </div>
         </div>

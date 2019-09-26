@@ -1,6 +1,6 @@
 import {
   Debug,
-  Binder,
+  IBinder,
 } from '@ribajs/core';
 import { ILangcode, AI18nSwitcherComponent } from '@ribajs/i18n';
 import { LocalesService } from '@ribajs/shopify-tda';
@@ -36,7 +36,7 @@ export class TdaI18nSwitcherComponent extends AI18nSwitcherComponent {
    * @param langcode
    * @param event
    */
-  public switch(langcode: ILangcode, context: Binder<any>, event: Event) {
+  public switch(langcode: ILangcode, context: IBinder<any>, event: Event) {
     return super.switch(langcode, context, event);
   }
 
@@ -45,7 +45,7 @@ export class TdaI18nSwitcherComponent extends AI18nSwitcherComponent {
    * @param langcode
    * @param event
    */
-  public toggle(context: Binder<any>, event: Event) {
+  public toggle(context: IBinder<any>, event: Event) {
     return super.toggle(context, event);
   }
 

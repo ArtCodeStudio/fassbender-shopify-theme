@@ -1,13 +1,13 @@
 import $ from 'jquery';
-import { IOneWayBinder, BinderWrapper } from '@ribajs/core';
+import { IBinder, BinderWrapper } from '@ribajs/core';
 
 /**
  *
  * @see https://getbootstrap.com/docs/4.1/components/scrollspy/
  */
-export const scrollspyStarBinderWrapper: BinderWrapper = () => {
-  const name = 'bs4-scrollspy-*';
-  const binder: IOneWayBinder<string> = function(el: HTMLElement, targetSelector: string) {
+export const scrollspyStarBinderWrapper: IBinder<string> = {
+  name: 'bs4-scrollspy-*',
+  routine(el: HTMLElement, targetSelector: string) {
     const $el = $(el);
     const nativeIDTargetSelector = targetSelector.replace('#', '');
     // const dispatcher = new EventDispatcher('main');
@@ -57,9 +57,5 @@ export const scrollspyStarBinderWrapper: BinderWrapper = () => {
 
     $(window).off('scroll', onScroll).on('scroll', onScroll);
     onScroll();
-  };
-  return {
-    binder,
-    name,
-  };
+  },
 };

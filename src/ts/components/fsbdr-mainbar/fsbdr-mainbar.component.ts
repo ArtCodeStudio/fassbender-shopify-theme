@@ -1,8 +1,8 @@
 import {
-  RibaComponent,
+  Component,
   JQuery,
   Debug,
-  Binder,
+  IBinder,
 } from '@ribajs/core';
 
 import template from './fsbdr-mainbar.component.html';
@@ -15,7 +15,7 @@ interface IScope {
   [name: string]: any;
 }
 
-export class FsbdrMainbarComponent extends RibaComponent {
+export class FsbdrMainbarComponent extends Component {
 
   public static tagName: string = 'fsbdr-mainbar';
 
@@ -45,7 +45,7 @@ export class FsbdrMainbarComponent extends RibaComponent {
     this.init(FsbdrMainbarComponent.observedAttributes);
   }
 
-  public assign(key: string, value: any, context: Binder<any>, event: Event) {
+  public assign(key: string, value: any, context: IBinder<any>, event: Event) {
     // event.preventDefault();
     // event.stopPropagation();
     this.scope[key] = value;

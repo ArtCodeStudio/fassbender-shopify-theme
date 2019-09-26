@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import { Utils } from '../../services/Utils';
-import { RibaComponent, Binder } from '@ribajs/core';
+import { Component, IBinder } from '@ribajs/core';
 import template from './delete-data-form.component.html';
 import { LocalesService } from '@ribajs/shopify-tda';
 
@@ -26,7 +26,7 @@ export interface IValidationObject {
   };
 }
 
-export class DeleteDataFormComponent extends RibaComponent {
+export class DeleteDataFormComponent extends Component {
 
   public static tagName: string = 'rv-delete-data-form';
 
@@ -67,7 +67,7 @@ export class DeleteDataFormComponent extends RibaComponent {
   /**
    * Send the contact form using a form submit request with best shopify form support
    */
-  public send(context: Binder<any>, event: Event) {
+  public send(context: IBinder<any>, event: Event) {
     this.debug('send', this.scope, event);
 
     this.scope.form.firstName = Utils.stripHtml(this.scope.form.firstName);
@@ -87,7 +87,7 @@ export class DeleteDataFormComponent extends RibaComponent {
 
   }
 
-  public selectAll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
+  public selectAll(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
     this.debug('selectAll');
     Utils.selectAll(eventEl);
   }

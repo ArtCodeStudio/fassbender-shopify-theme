@@ -1,4 +1,4 @@
-import { Binding, Debug, RibaComponent, Binder } from '@ribajs/core';
+import { Binding, Debug, Component, IBinder } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import template from './instagram.component.html';
 import { IInstagramMedia, IInstagramResponse, InstagramService } from '@ribajs/shopify-tda';
@@ -11,7 +11,7 @@ export interface IScope {
   onTap: InstagramComponent['onTap'];
 }
 
-export class InstagramComponent extends RibaComponent {
+export class InstagramComponent extends Component {
 
   public static tagName: string = 'rv-instagram';
 
@@ -39,7 +39,7 @@ export class InstagramComponent extends RibaComponent {
   /**
    * Just open the instagram url
    */
-  public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
+  public onTap(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     if (!this.scope.openLinks) {
       return;
     }

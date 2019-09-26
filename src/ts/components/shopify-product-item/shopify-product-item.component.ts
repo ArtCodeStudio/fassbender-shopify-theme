@@ -1,6 +1,6 @@
 import {
-  RibaComponent,
-  Binder,
+  Component,
+  IBinder,
   Debug,
   JQuery as $,
 } from '@ribajs/core';
@@ -39,7 +39,7 @@ export interface IScope {
  * or just get the attributes we need like the options
  * or render the most with liquid
  */
-export class ShopifyProductItemComponent extends RibaComponent /*ShopifyProductItemComponent*/ {
+export class ShopifyProductItemComponent extends Component /*ShopifyProductItemComponent*/ {
 
   public static tagName: string = 'rv-shopify-product-item';
 
@@ -162,7 +162,7 @@ export class ShopifyProductItemComponent extends RibaComponent /*ShopifyProductI
     this.init(ShopifyProductItemComponent.observedAttributes);
   }
 
-  public chooseOption(self: ShopifyProductItemComponent, optionValue: string | number, position1: number, optionName: string, context: Binder<any>, event: MouseEvent, scope: any, el: HTMLElement) {
+  public chooseOption(self: ShopifyProductItemComponent, optionValue: string | number, position1: number, optionName: string, context: IBinder<any>, event: MouseEvent, scope: any, el: HTMLElement) {
     optionValue = optionValue.toString();
 
     if (!this.scope.product) {

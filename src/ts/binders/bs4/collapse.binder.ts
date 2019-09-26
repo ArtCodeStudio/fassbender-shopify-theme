@@ -1,14 +1,14 @@
 import $ from 'jquery';
-import { IOneWayBinder, BinderWrapper } from '@ribajs/core';
+import { IBinder } from '@ribajs/core';
 import { CollapseService } from './collapse.service';
 
 /**
  *
  * @see https://getbootstrap.com/docs/4.1/components/collapse/
  */
-export const collapseBinderWrapper: BinderWrapper = () => {
-  const name = 'bs4-collapse';
-  const binder: IOneWayBinder<string> = (el: HTMLElement, targetSelector: string) => {
+export const collapseBinderWrapper: IBinder<string> = {
+  name: 'bs4-collapse',
+  routine(el: HTMLElement, targetSelector: string) {
     const $el = $(el);
     const $target = $(targetSelector);
 
@@ -37,9 +37,5 @@ export const collapseBinderWrapper: BinderWrapper = () => {
 
     onStateChange();
 
-  };
-  return {
-    binder,
-    name,
-  };
+  },
 };

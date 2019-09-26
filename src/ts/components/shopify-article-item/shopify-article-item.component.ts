@@ -1,9 +1,9 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent } from '@ribajs/core';
+import { Component } from '@ribajs/core';
 import template from './shopify-article-item.component.html';
 
-export class ShopifyArticleItemComponent extends RibaComponent {
+export class ShopifyArticleItemComponent extends Component {
 
   public static tagName: string = 'rv-shopify-article-item';
 

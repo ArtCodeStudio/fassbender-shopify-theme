@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { RibaComponent, JQuery as $ } from '@ribajs/core';
+import { Component, JQuery as $ } from '@ribajs/core';
 import template from './shopify-filter.component.html';
 
 interface IScope {
@@ -16,7 +16,7 @@ interface IScope {
 /**
  * shopify-filter
  */
-export class ShopifyFilterComponent extends RibaComponent {
+export class ShopifyFilterComponent extends Component {
 
   public static tagName: string = 'shopify-filter';
 

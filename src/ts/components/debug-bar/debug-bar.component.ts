@@ -1,9 +1,9 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent } from '@ribajs/core';
+import { Component } from '@ribajs/core';
 import template from './debug-bar.component.html';
 
-export class DebugBarComponent extends RibaComponent {
+export class DebugBarComponent extends Component {
 
   public static tagName: string = 'rv-debug-bar';
 

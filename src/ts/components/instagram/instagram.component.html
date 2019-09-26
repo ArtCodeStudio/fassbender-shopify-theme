@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-4 px-0 content-box ratio-1-1" rv-each-image="media.data" rv-class="image.media_type">
+  <div class="col-4 px-0 content-box ratio-1-1" rv-each-image="media.data" rv-add-class="image.media_type">
     {% comment %} IMAGE {% endcomment %}
     <img lazyload="auto" class="content" rv-if="image.media_type | eq 'IMAGE'" rv-src="image.media_url" rv-alt="image.caption">
 

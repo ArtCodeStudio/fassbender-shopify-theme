@@ -1,5 +1,5 @@
 import {
-  RibaComponent,
+  Component,
   JQuery,
   Debug,
 } from '@ribajs/core';
@@ -11,7 +11,7 @@ interface IScope {
   hello?: string;
 }
 
-export class ComponentSkeletonComponent extends RibaComponent {
+export class ComponentSkeletonComponent extends Component {
 
   public static tagName: string = 'rv-component-skeleton';
 

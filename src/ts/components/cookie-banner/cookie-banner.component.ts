@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import {
-  RibaComponent,
-  Binder,
+  Component,
+  IBinder,
 } from '@ribajs/core';
 import template from './cookie-banner.component.html';
 
@@ -11,7 +11,7 @@ interface IScope {
   show: boolean;
 }
 
-export class CookieBannerComponent extends RibaComponent {
+export class CookieBannerComponent extends Component {
 
   public static tagName: string = 'rv-cookie-banner';
 
@@ -48,12 +48,12 @@ export class CookieBannerComponent extends RibaComponent {
     this.init(CookieBannerComponent.observedAttributes);
   }
 
-  public accept(context: Binder<any>, event: Event) {
+  public accept(context: IBinder<any>, event: Event) {
     this.debug('accept');
     this.cookieAccepted = true;
   }
 
-  public close(context: Binder<any>, event: Event) {
+  public close(context: IBinder<any>, event: Event) {
     this.debug('close');
     this.scope.show = false;
   }

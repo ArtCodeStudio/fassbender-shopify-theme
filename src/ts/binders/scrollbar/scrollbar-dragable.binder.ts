@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { IOneWayBinder, BinderWrapper } from '@ribajs/core';
+import { IBinder, BinderWrapper } from '@ribajs/core';
 
 /**
  * Scroll an scrollable element by draging and moving your mouse.
@@ -65,14 +65,10 @@ export class Dragscroll {
 /**
  * dragscroll
  */
-export const scrollbarDragableBinderWrapper: BinderWrapper = () => {
-  const name = 'scrollbar-dragable';
-  const binder: IOneWayBinder<string> = (el: HTMLElement, value: any) => {
+export const scrollbarDragableBinderWrapper: IBinder<string> = {
+  name: 'scrollbar-dragable',
+  routine(el: HTMLElement, value: any) {
     const dragscroll = new Dragscroll(el, true);
     dragscroll.debug('ready');
-  };
-  return {
-    binder,
-    name,
-  };
+  },
 };

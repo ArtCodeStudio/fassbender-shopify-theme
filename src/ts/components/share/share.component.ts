@@ -1,8 +1,8 @@
 import Debug from 'debug';
 import $ from 'jquery';
 import {
-  RibaComponent,
-  Binder,
+  Component,
+  IBinder,
 } from '@ribajs/core';
 import template from './share.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
@@ -49,7 +49,7 @@ declare global {
  *
  * TODO Fallback share if native share is not avabile
  */
-export class ShareComponent extends RibaComponent {
+export class ShareComponent extends Component {
 
   public static tagName: string = 'rv-share';
 
@@ -111,7 +111,7 @@ export class ShareComponent extends RibaComponent {
     this.scope.isDesktop = !(this.scope.isIos || this.scope.isAndroid); // on those two support "mobile deep links", so HTTP based fallback for all others.
   }
 
-  public share(context: Binder<any> | null, event: Event | JQuery.Event): Promise<any> {
+  public share(context: IBinder<any> | null, event: Event | JQuery.Event): Promise<any> {
     this.debug('share', this.scope);
     event.preventDefault();
     event.stopPropagation();

@@ -1,9 +1,9 @@
 import Debug from 'debug';
 import $ from 'jquery';
-import { RibaComponent } from '@ribajs/core';
+import { Component } from '@ribajs/core';
 import template from './icon.component.html';
 
-export class IconComponent extends RibaComponent {
+export class IconComponent extends Component {
 
   public static tagName: string = 'rv-icon';
 

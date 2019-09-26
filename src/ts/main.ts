@@ -3,7 +3,7 @@ import {
   View,
   Debug,
   JQuery,
-  Binder,
+  IBinder,
 
   coreModule,
 
@@ -13,7 +13,7 @@ import routerModule from '@ribajs/router';
 import { i18nModule } from '@ribajs/i18n';
 
 import { TrackingService } from './services/tracking.services';
-import { customBinders, styleBinders } from './binders/index';
+import * as customBinders from './binders/index';
 
 import * as CustomComponents from './components/components';
 import { LocalesService } from '@ribajs/shopify-tda';
@@ -49,7 +49,7 @@ export class Main {
     // Regist custom components
     this.riba.module.regist({
       components: CustomComponents,
-      binders: {...customBinders, ...styleBinders},
+      binders: customBinders,
     });
 
     this.riba.module.regist(coreModule);
@@ -57,13 +57,13 @@ export class Main {
     this.riba.module.regist(shopifyModule);
     this.riba.module.regist(i18nModule(this.localesService));
 
-    window.model.assign = function(key: string, value: any, context: Binder<any>, event: Event) {
+    window.model.assign = function(key: string, value: any, context: IBinder<any>, event: Event) {
       // event.preventDefault();
       // event.stopPropagation();
       this[key] = value;
     };
 
-    window.model.globalToggle = function(key: string, context: Binder<any>, event: Event) {
+    window.model.globalToggle = function(key: string, context: IBinder<any>, event: Event) {
       this[key] = !!!this[key];
       event.preventDefault();
       event.stopPropagation();

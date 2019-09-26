@@ -1,5 +1,5 @@
 import { Utils } from '../../services/Utils';
-import { RibaComponent, Binder, Debug, JQuery as $ } from '@ribajs/core';
+import { Component, IBinder, Debug, JQuery as $ } from '@ribajs/core';
 import template from './revoke-form.component.html';
 import { LocalesService } from '@ribajs/shopify-tda';
 
@@ -24,7 +24,7 @@ export interface IValidationObject {
   };
 }
 
-export class RevokeFormComponent extends RibaComponent {
+export class RevokeFormComponent extends Component {
 
   public static tagName: string = 'rv-revoke-form';
 
@@ -65,7 +65,7 @@ export class RevokeFormComponent extends RibaComponent {
   /**
    * Send the contact form using a form submit request with best shopify form support
    */
-  public send(context: Binder<any>, event: Event) {
+  public send(context: IBinder<any>, event: Event) {
     this.debug('send', this.scope, event);
 
     this.scope.form.firstName = Utils.stripHtml(this.scope.form.firstName);
@@ -85,7 +85,7 @@ export class RevokeFormComponent extends RibaComponent {
 
   }
 
-  public selectAll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
+  public selectAll(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
     this.debug('selectAll');
     Utils.selectAll(eventEl);
   }

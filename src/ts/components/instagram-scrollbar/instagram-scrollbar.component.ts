@@ -1,4 +1,4 @@
-import { Binding, Debug, Binder, RibaComponent } from '@ribajs/core';
+import { Binding, Debug, IBinder, Component } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import { Utils } from '../../services/Utils';
 import { IInstagramMedia, IInstagramResponse, InstagramService } from '@ribajs/shopify-tda';
@@ -14,7 +14,7 @@ export interface IScope {
   media?: IInstagramMedia;
 }
 
-export class InstagramScrollbarComponent extends RibaComponent {
+export class InstagramScrollbarComponent extends Component {
 
   public static tagName: string = 'rv-instagram-scrollbar';
 
@@ -48,7 +48,7 @@ export class InstagramScrollbarComponent extends RibaComponent {
   /**
    * Just open the instagram url
    */
-  public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
+  public onTap(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
     if (this.scope.openUrl.length > 0) {
       this.pjax.goTo(this.scope.openUrl);
     }
@@ -63,7 +63,7 @@ export class InstagramScrollbarComponent extends RibaComponent {
    * get instagram in the middle of the scrollbar elementinnerWidth
    * TODO not used
    */
-  public onScroll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
+  public onScroll(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     const self = this;
     this.debug('onScroll', eventEl.scrollLeft, this.$scollWith);
     if (this.$scollWith) {

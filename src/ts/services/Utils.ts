@@ -95,6 +95,10 @@ export class Utils extends tinybindUtils {
         const range = document.createRange();
         range.selectNodeContents(element);
         const selection = window.getSelection();
+        if (!selection) {
+          console.warn('Selection not found!');
+          return;
+        }
         selection.removeAllRanges();
         selection.addRange(range);
         selection.selectAllChildren(element);
