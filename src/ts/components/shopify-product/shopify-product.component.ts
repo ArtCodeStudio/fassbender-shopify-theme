@@ -139,10 +139,12 @@ export class ShopifyProductComponent extends Component {
 
     optionValue = optionValue.toString();
 
-    self.debug('chooseOption', optionValue, position1, self.selectedOptions, self.variant);
-
     self.selectedOptions[(position1 - 1)] = optionValue.toString();
+
     const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, self.selectedOptions);
+
+    self.debug('chooseOption', optionValue, 'position1', position1, 'selectedOptions', self.selectedOptions, 'variant', variant);
+
     if (variant) {
       // Option choosed so enable add to cart button
       self.optionChoosed = true;

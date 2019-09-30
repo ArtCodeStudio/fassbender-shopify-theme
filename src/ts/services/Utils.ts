@@ -96,7 +96,7 @@ export class Utils extends tinybindUtils {
         range.selectNodeContents(element);
         const selection = window.getSelection();
         if (!selection) {
-          console.warn('Selection not found!');
+          console.warn('No selection found!');
           return;
         }
         selection.removeAllRanges();

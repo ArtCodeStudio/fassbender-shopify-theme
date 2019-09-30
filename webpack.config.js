@@ -24,7 +24,7 @@ module.exports = {
     minimizer: [new TerserPlugin({
       sourceMap: false,
       terserOptions: {
-        ecma: 5,
+        ecma: undefined,
         warnings: true,
         parse: {},
         compress: {},
@@ -41,13 +41,18 @@ module.exports = {
         safari10: true,
       },
     })],
+    splitChunks: {
+      automaticNameDelimiter: '.',
+      chunks: 'all'
+    },
   },
   // Change to your "entry-point".
   entry: ['./src/ts/main.ts'],
   // devtool: 'inline-source-map',
   mode: 'production', // 'development', //'production', 
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, 'theme/assets/')
   },
   resolve: {
