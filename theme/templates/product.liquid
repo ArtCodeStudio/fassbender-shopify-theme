@@ -1,14 +1,17 @@
 <rv-shopify-product rv-handle="'{{product.handle}}'" extras='{% include "jumplink-utils-json-product-extras" %}'>
   <div class="container-fluid">
 
+    {% comment %} selected variant featured_image image {% endcomment %}
     <div class="row">
-      {% comment %} selected variant featured_image image {% endcomment %}
+
+      {% comment %} MD {% endcomment %}
       <div class="col-12 px-0 d-none d-md-block">
         <div class="content-box ratio-3-2">      
           <img lazyload="auto" class="content" src="{{ product.featured_image.src | img_url: 'master' }}" rv-src="variant.featured_image.src | img_url: 'original'" alt="{{image.alt}}" />
         </div>
       </div>
 
+      {% comment %} XS {% endcomment %}
       <div class="col-12 px-0 d-block d-md-none">
         <div class="content-box ratio-3-4">      
           <img lazyload="auto" class="content" src="{{ product.featured_image.src | img_url: 'master' }}" rv-src="variant.featured_image.src | img_url: 'original'" alt="{{image.alt}}" />
@@ -17,27 +20,9 @@
 
     </div>
 
-    {% comment %} Variant image 1-2 {% endcomment %}
-    <div class="row">
-      <div rv-each-image="variant.images | range 0 1" class="col-12 col-md px-0" >
-        <div class="content-box ratio-3-4">      
-          <img lazyload="auto" class="content" rv-src="image | img_url: 'original'" alt="variant.title" />
-        </div>
-      </div>
-    </div>
-
-    {% comment %} Variant images 3-4 {% endcomment %}
-    <div class="row">
-      <div rv-each-image="variant.images | range 2 4" class="col-12 col-md px-0" >
-        <div class="content-box ratio-3-4">     
-          <img lazyload="auto" class="content" rv-src="image | img_url: 'original'" alt="variant.title" />
-        </div>
-      </div>
-    </div>
-
-    {% comment %} Variant images 4-.. {% endcomment %}
-    <div class="row" rv-if="variant.images | count | egt 5">
-      <div rv-each-image="variant.images | range 5" class="col-12 col-md px-0">
+    {% comment %} images per row {% endcomment %}
+    <div class="row" rv-each-row="variant.imageRows">
+      <div rv-each-image="row.images" rv-class="row.class" >
         <div class="content-box ratio-3-4">      
           <img lazyload="auto" class="content" rv-src="image | img_url: 'original'" alt="variant.title" />
         </div>
