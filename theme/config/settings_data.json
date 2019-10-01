@@ -22,15 +22,6 @@
     "checkout_button_color": "#000000",
     "checkout_error_color": "#e32c2b",
     "sections": {
-      "1531503358229": {
-        "type": "newsletter",
-        "settings": {
-          "name": "Home",
-          "enable": true,
-          "color": "#ffffff",
-          "subscrib_url": "https:\/\/myfassbender.us19.list-manage.com\/subscribe\/post?u=11ae6ea303b6ef3f1e7d5c7c6&amp;id=65d09922c7"
-        }
-      },
       "newsletter": {
         "type": "newsletter",
         "settings": {
@@ -78,24 +69,42 @@
           "1550327302805": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_8_fb37a99e-de95-41b8-8cfc-95d6ed05bf14.jpg",
+              "image": "shopify:\/\/shop_images\/fassbender-Hybrid-Coat_Black_1.jpg",
               "aspect_ratio": "3-2",
               "aspect_ratio_md": "none",
               "video_url": "",
               "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
               "video_poster": "",
-              "spacing": 50
+              "spacing": 0
+            }
+          },
+          "1569938250258": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/fassbender_Coat_Beige_Blue_001_FW1920_2_93dd5b96-e649-4ea1-a3d0-2db9d64b416b.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "3-4",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "video_poster": "",
+              "spacing": 0
             }
           }
         },
         "block_order": [
-          "1550327302805"
+          "1550327302805",
+          "1569938250258"
         ],
         "settings": {
-          "story": "",
-          "title": "Lookbook FW19\/20",
+          "story": "shopify:\/\/collections\/all",
+          "title": "",
+          "show_title": false,
           "color": "#ffffff",
-          "title_spacing": 0
+          "title_spacing": 10
         }
       },
       "1550327343652": {
@@ -104,25 +113,29 @@
           "1550327356511": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_5.jpg",
-              "aspect_ratio": "2-3",
-              "aspect_ratio_md": "2-3",
+              "image": "shopify:\/\/shop_images\/fassbender_Parker_Tobacco_001_FW1920_2.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "3-4",
               "video_url": "",
               "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
               "video_poster": "",
-              "spacing": 61
+              "spacing": 0
             }
           },
           "1550327370787": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_6.jpg",
+              "image": "shopify:\/\/shop_images\/fassbender_Hybrid_Black_001_b_FW1920_2.jpg",
               "aspect_ratio": "3-2",
               "aspect_ratio_md": "none",
               "video_url": "",
               "mp4_video_url": "",
-              "video_poster": "",
-              "spacing": 33
+              "controls": false,
+              "mute": true,
+              "video_poster": "shopify:\/\/shop_images\/fassbender_Hybrid_Black_001_b_FW1920_2.jpg",
+              "spacing": 0
             }
           }
         },
@@ -131,17 +144,53 @@
           "1550327370787"
         ],
         "settings": {
+          "story": "shopify:\/\/collections\/all",
+          "title": "Shop FW19 online",
+          "show_title": true,
+          "color": "#ffffff",
+          "title_spacing": 10
+        }
+      },
+      "outdated-browser": {
+        "type": "outdated-browser",
+        "settings": {
+          "enable": true
+        }
+      },
+      "1569936572878": {
+        "type": "one-storie",
+        "blocks": {
+          "1569936582202": {
+            "type": "image",
+            "settings": {
+              "image": "",
+              "aspect_ratio": "16-9",
+              "aspect_ratio_md": "16-9",
+              "video_url": "https:\/\/vimeo.com\/363147174",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "video_poster": "",
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "1569936582202"
+        ],
+        "settings": {
           "story": "",
-          "title": "",
+          "title": "Video",
+          "show_title": false,
           "color": "#ffffff",
           "title_spacing": 7
         }
       }
     },
     "content_for_index": [
+      "1569936572878",
       "1550327279919",
-      "1550327343652",
-      "1531503358229"
+      "1550327343652"
     ]
   }
 }

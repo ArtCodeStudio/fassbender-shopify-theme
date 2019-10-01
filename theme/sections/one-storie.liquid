@@ -54,6 +54,22 @@
         {% assign videoType = 'video/mp4' %}
       {% endif %}
 
+      {% if block.settings.controls %}
+        {% assign youtubeParams = 'controls=1' %}
+        {% assign vimeoParams = 'controls=1&background=0' %}
+      {% else %}
+        {% assign youtubeParams = 'controls=0' %}
+        {% assign vimeoParams = 'controls=0&background=1' %}
+      {% endif %}
+
+      {% if block.settings.mute %}
+        {% assign youtubeParams = youtubeParams | append: '&mute=1' %}
+        {% assign vimeoParams = vimeoParams | append: '&muted=1' %}
+      {% else %}
+        {% assign youtubeParams = youtubeParams | append: '&mute=0' %}
+        {% assign vimeoParams = vimeoParams | append: '&muted=0' %}
+      {% endif %}
+
       {% if block.settings.video_poster != blank %}
         {% assign videoPoster = block.settings.video_poster | img_url: "master" %}
       {% endif %}
@@ -69,7 +85,7 @@
               class="{{imageClass}}"
               id="ytplayer"
               type="text/html" 
-              src="https://www.youtube.com/embed/{{ video.id  }}?autoplay=1&mute=1&color=white&controls=0&disablekb=0&enablejsapi=0&fs=1&iv_load_policy=3&loop=0&modestbranding=1&origin={{shop.url}}&playsinline=0&rel=0&showinfo=0"
+              src="https://www.youtube.com/embed/{{ video.id  }}?autoplay=1&color=white&disablekb=0&enablejsapi=0&fs=1&iv_load_policy=3&loop=0&modestbranding=1&origin={{shop.url}}&playsinline=0&rel=0&showinfo=0&{{ youtubeParams }}"
               frameborder="0"
               marginheight="0"
               marginwidth="0"
@@ -79,7 +95,10 @@
               allowtransparency
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               scrolling="no"
-              style="pointer-events: none;" {% comment %} Fix mouse scroll problem {% endcomment %}>
+              {% unless block.settings.controls %}
+                style="pointer-events: none;" {% comment %} Fix mouse scroll problem {% endcomment %}
+              {% endunless %}
+              >
               </iframe>
           </div>
         {% elsif videoType == 'vimeo' %}
@@ -91,7 +110,7 @@
               lazyload="auto"
               class="{{imageClass}}"
               type="text/html" 
-              src="https://player.vimeo.com/video/{{ video.id }}?color=D9998F&autoplay=1&loop=1&autopause=0&background=1&muted=1"
+              src="https://player.vimeo.com/video/{{ video.id }}?color=D9998F&autoplay=1&loop=1&autopause=0&{{ vimeoParams }}"
               frameborder="0"
               marginheight="0"
               marginwidth="0"
@@ -101,12 +120,25 @@
               allowtransparency
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               scrolling="no"
-              style="pointer-events: none;" {% comment %} Fix mouse scroll problem {% endcomment %}>
+              {% unless block.settings.controls %}
+                style="pointer-events: none;" {% comment %} Fix mouse scroll problem {% endcomment %}
+              {% endunless %}
+              >
               </iframe>
           </div>
         {% elsif videoType == 'video/mp4' %}
           <div class="col px-0 content-box {{contentBoxClass}}">
-            <video class="{{imageClass}}" autoplay muted loop {% if videoPoster %}poster="{{videoPoster}}"{% endif %}>
+            <video
+              class="{{imageClass}}"
+              autoplay
+              {% if block.settings.mute %}
+                muted
+              {% endif %}
+              {% if block.settings.controls %}
+                controls
+              {% endif %}
+              loop
+              {% if videoPoster %}poster="{{videoPoster}}"{% endif %}>
               <source src="{{video}}" type="video/mp4">
               <span rv-i18n-text="'system.video_tag_not_supported'">
                 {{'system.video_tag_not_supported'|t}}
@@ -123,10 +155,12 @@
   </div>
 
   
-  {% if section.settings.title != blank %}
-    {% assign title = section.settings.title %}
-  {% else %}
-    {% assign title = article.title %}
+  {% if section.settings.show_title %}
+    {% if section.settings.title != blank %}
+      {% assign title = section.settings.title %}
+    {% else %}
+      {% assign title = article.title %}
+    {% endif %}
   {% endif %}
 
   {% if title %}
@@ -155,6 +189,12 @@
         "label":     "Title",
         "info":      "Overwrite the story title if you wish",
         "placeholder": "Story Title"
+      },
+      {
+        "id": "show_title",
+        "type": "checkbox",
+        "default": true,
+        "label": "Show title"
       },
       {
         "type":      "color",
@@ -344,6 +384,19 @@
             "type": "url",
             "label": "Video .mp4 Source URL",
             "info": "Video must be in .mp4 format"
+          },
+          {
+            "id": "controls",
+            "type": "checkbox",
+            "default": false,
+            "label": "Show video controls",
+            "info": "Video controls like playbar, volume and fullscreen controls"
+          },
+          {
+            "id": "mute",
+            "type": "checkbox",
+            "default": true,
+            "label": "Mute the video"
           },
           {
             "id": "video_poster",
