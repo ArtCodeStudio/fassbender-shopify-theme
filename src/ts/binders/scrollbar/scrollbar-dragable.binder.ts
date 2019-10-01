@@ -1,5 +1,4 @@
-import Debug from 'debug';
-import { IBinder } from '@ribajs/core';
+import { Debug, IBinder } from '@ribajs/core';
 
 /**
  * Scroll an scrollable element by draging and moving your mouse.

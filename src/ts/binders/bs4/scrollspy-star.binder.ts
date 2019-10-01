@@ -1,5 +1,4 @@
-import $ from 'jquery';
-import { IBinder } from '@ribajs/core';
+import { IBinder, JQuery as $ } from '@ribajs/core';
 
 /**
  *

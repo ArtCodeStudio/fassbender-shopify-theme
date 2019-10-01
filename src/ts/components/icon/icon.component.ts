@@ -1,6 +1,4 @@
-import Debug from 'debug';
-import $ from 'jquery';
-import { Component } from '@ribajs/core';
+import { Component, Debug, JQuery as $ } from '@ribajs/core';
 import template from './icon.component.html';
 
 export class IconComponent extends Component {

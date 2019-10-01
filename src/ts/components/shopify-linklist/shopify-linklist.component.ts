@@ -1,5 +1,4 @@
-import Debug from 'debug';
-import { Component } from '@ribajs/core';
+import { Component, Debug } from '@ribajs/core';
 import template from './shopify-linklist.component.html';
 
 /**

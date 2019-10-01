@@ -1,6 +1,4 @@
-import Debug from 'debug';
-import $ from 'jquery';
-import { Component, IBinder } from '@ribajs/core';
+import { Component, Debug, JQuery as $, IBinder } from '@ribajs/core';
 import template from './shopify-addresses.component.html';
 import { Utils } from '../../services/Utils';
 

@@ -1,7 +1,6 @@
-import $ from 'jquery';
 import Popper from 'popper.js'; // /dist/umd/popper
+import { Debug, JQuery as $ } from '@ribajs/core';
 import { Utils } from '../../../services/Utils';
-import Debug from 'debug';
 
 /**
  * --------------------------------------------------------------------------

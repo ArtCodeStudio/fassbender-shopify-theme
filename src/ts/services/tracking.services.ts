@@ -1,12 +1,11 @@
 import {
+  Debug,
   EventDispatcher,
 } from '@ribajs/core';
 
 import {
   IState,
 } from '@ribajs/router';
-
-import Debug from 'debug';
 
 // see also PrivacySettingsComponent
 export class TrackingService {

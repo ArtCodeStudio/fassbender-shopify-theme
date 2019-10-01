@@ -1,7 +1,7 @@
-import Debug from 'debug';
-import $ from 'jquery';
 import {
   Component,
+  Debug,
+  JQuery as $,
   IBinder,
 } from '@ribajs/core';
 import template from './share.component.html';

@@ -1,5 +1,4 @@
-import Debug from 'debug';
-import { Component, JQuery as $ } from '@ribajs/core';
+import { Component, Debug, JQuery as $ } from '@ribajs/core';
 import template from './shopify-filter.component.html';
 
 interface IScope {

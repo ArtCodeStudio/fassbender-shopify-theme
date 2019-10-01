@@ -1,6 +1,6 @@
-import Debug from 'debug';
 import {
   Component,
+  Debug,
   IBinder,
 } from '@ribajs/core';
 import template from './cookie-banner.component.html';
