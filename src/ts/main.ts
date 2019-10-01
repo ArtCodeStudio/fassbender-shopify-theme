@@ -42,6 +42,8 @@ export class Main {
 
     this.debug('init the main application');
 
+    window.model.year = new Date().getFullYear();
+
     window.model.filter = {
       stories: 'all',
     };

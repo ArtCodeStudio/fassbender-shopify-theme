@@ -54,7 +54,7 @@
       <div class="col-12">
         <div class="row m-0">
           <div rv-each-color="colorOption.values" class="col-auto pl-0 pr-2 pb-4 cursor-pointer pointer-events-all" rv-on-click="chooseOption | args color colorOption.position colorOption.name">
-            <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace-first '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 16px; height: 16px;"></div>
+            <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace_first '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 16px; height: 16px;"></div>
           </div>
           {% for i in (1..4) %}
             {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}

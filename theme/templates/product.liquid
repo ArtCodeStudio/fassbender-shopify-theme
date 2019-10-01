@@ -39,7 +39,7 @@
         <div class="variant-chooser">
           <div rv-each-option="product.options" class="row px-3" rv-if="option.name | eq 'color'" rv-add-class="option.name">
             <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="chooseOption | args color option.position option.name">
-              <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace-first '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 20px; height: 20px;"></div>
+              <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace_first '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 20px; height: 20px;"></div>
             </div>
             {% for i in (1..4) %}
               {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}

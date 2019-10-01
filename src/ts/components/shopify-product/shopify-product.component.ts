@@ -140,24 +140,24 @@ export class ShopifyProductComponent extends Component {
     this.init(ShopifyProductComponent.observedAttributes);
   }
 
-  public chooseOption(self: ShopifyProductComponent, optionValue: string | number, position1: number, optionName: string, _: any, event: MouseEvent, scope: any, el: HTMLElement) {
+  public chooseOption(optionValue: string | number, position1: number, optionName: string, _: any, event: MouseEvent, scope: any, el: HTMLElement) {
     if (!this.scope.product) {
       throw new Error('Product not set!');
     }
 
     optionValue = optionValue.toString();
 
-    self.selectedOptions[(position1 - 1)] = optionValue.toString();
+    this.selectedOptions[(position1 - 1)] = optionValue.toString();
 
-    const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, self.selectedOptions);
+    const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, this.selectedOptions);
 
-    self.debug('chooseOption', optionValue, 'position1', position1, 'selectedOptions', self.selectedOptions, 'variant', variant);
+    this.debug('chooseOption', optionValue, 'position1', position1, 'selectedOptions', this.selectedOptions, 'variant', variant);
 
     if (variant) {
       // Option choosed so enable add to cart button
-      self.optionChoosed = true;
+      this.optionChoosed = true;
 
-      self.variant = variant as IShopifyProductVariant;
+      this.variant = variant as IShopifyProductVariant;
     }
 
     event.stopPropagation();
