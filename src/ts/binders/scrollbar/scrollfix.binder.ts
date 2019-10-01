@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { IBinder, BinderWrapper, JQuery } from '@ribajs/core';
+import { IBinder, JQuery } from '@ribajs/core';
 
 const debug = Debug('binder:rv-scrollfix');
 
@@ -19,7 +19,7 @@ const onWheel = (event: Event) => {
  * TODO not working yet
  * @see issue https://stackoverflow.com/questions/29344162/fullscreen-video-doesnt-allow-scrolling-on-firefox
  */
-export const scrollfixBinderWrapper: IBinder<any> = {
+export const scrollfixBinder: IBinder<any> = {
   name: 'scrollfix',
   routine(el: HTMLElement, value: any) {
 

@@ -12,8 +12,16 @@ import {
 } from '@ribajs/shopify';
 import template from './shopify-product.component.html';
 
+const IMAGES_PER_ROW = 2;
+
+export interface ImageRow {
+  class: string;
+  images: string[];
+}
+
 export interface IPrepairedProductVariant extends IShopifyProductVariant {
   images?: string[];
+  imageRows?: ImageRow[];
 }
 
 export interface IScope {
@@ -369,6 +377,42 @@ export class ShopifyProductComponent extends Component {
   }
 
   /**
+   * Get image rows,
+   * Always two pictures side by side.
+   * If the last picture would stood alone then 3 pictures next to each other.
+   * @param images
+   */
+  private getImageRows(images: string[]) {
+    const leftoverPictureCount = (images.length % IMAGES_PER_ROW);
+    const rowLength = Math.floor(images.length / IMAGES_PER_ROW);
+    const rows: Array<ImageRow> = new Array(rowLength);
+    for (let index = 0; index < rows.length; index++) {
+      rows[index] = {
+        class: 'col-12 col-md px-0',
+        images: [],
+      };
+    }
+
+    let imageIndex = 0;
+    for (let rowIndex = 0; rowIndex < rowLength; rowIndex++) {
+      const currentRow = rows[rowIndex];
+      // Append IMAGES_PER_ROW images to the row
+      for (let rowImageIndex = 0; rowImageIndex < IMAGES_PER_ROW; rowImageIndex++, imageIndex++) {
+        const rowImage = images[imageIndex];
+        currentRow.images.push(rowImage);
+      }
+      // Append the leftover pictures to the last row
+      if (rowIndex === rowLength - 1) {
+        for (let rowImageIndex = 0; rowImageIndex < leftoverPictureCount; rowImageIndex++, imageIndex++) {
+          const rowImage = images[imageIndex];
+          currentRow.images.push(rowImage);
+        }
+      }
+    }
+    return rows;
+  }
+
+  /**
    * prepair variant, e.g. fix missing image etc
    * @param variant
    */
@@ -396,6 +440,8 @@ export class ShopifyProductComponent extends Component {
 
       // add gerneal images
       variant.images = variant.images.concat(this.getGeneralImages());
+
+      variant.imageRows = this.getImageRows(variant.images);
     }
 
     return variant;

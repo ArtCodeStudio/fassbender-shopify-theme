@@ -1,11 +1,11 @@
 import $ from 'jquery';
-import { IBinder, BinderWrapper } from '@ribajs/core';
+import { IBinder } from '@ribajs/core';
 
 /**
  *
  * @see https://getbootstrap.com/docs/4.1/components/scrollspy/
  */
-export const scrollspyStarBinderWrapper: IBinder<string> = {
+export const scrollspyStarBinder: IBinder<string> = {
   name: 'bs4-scrollspy-*',
   routine(el: HTMLElement, targetSelector: string) {
     const $el = $(el);

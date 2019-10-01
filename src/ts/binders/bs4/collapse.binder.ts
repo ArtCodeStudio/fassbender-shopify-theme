@@ -6,7 +6,7 @@ import { CollapseService } from './collapse.service';
  *
  * @see https://getbootstrap.com/docs/4.1/components/collapse/
  */
-export const collapseBinderWrapper: IBinder<string> = {
+export const collapseBinder: IBinder<string> = {
   name: 'bs4-collapse',
   routine(el: HTMLElement, targetSelector: string) {
     const $el = $(el);

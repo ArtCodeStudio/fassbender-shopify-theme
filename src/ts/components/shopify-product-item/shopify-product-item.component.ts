@@ -2,6 +2,7 @@ import {
   Component,
   IBinder,
   Debug,
+  Binding,
   JQuery as $,
 } from '@ribajs/core';
 import {
@@ -162,22 +163,22 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     this.init(ShopifyProductItemComponent.observedAttributes);
   }
 
-  public chooseOption(self: ShopifyProductItemComponent, optionValue: string | number, position1: number, optionName: string, context: IBinder<any>, event: MouseEvent, scope: any, el: HTMLElement) {
+  public chooseOption(optionValue: string | number, position1: number, optionName: string, context: IBinder<any>, event: MouseEvent, scope: any, el: HTMLElement) {
     optionValue = optionValue.toString();
 
     if (!this.scope.product) {
       throw new Error('Product not set!');
     }
 
-    self.debug('chooseOption', optionValue, position1, self.selectedOptions, self.variant);
+    // this.debug('chooseOption', '\noptionValue', JSON.stringify(optionValue), '\nposition1', position1, '\noptionName', optionName, '\ncontext', context, '\nevent', event, '\nscope', scope, '\nel', el );
 
-    self.selectedOptions[(position1 - 1)] = optionValue.toString();
-    const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, self.selectedOptions);
+    this.selectedOptions[(position1 - 1)] = optionValue.toString();
+    const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, this.selectedOptions);
     if (variant) {
       // Option choosed so enable add to cart button
-      self.optionChoosed = true;
+      this.optionChoosed = true;
 
-      self.variant = variant as IShopifyProductVariant;
+      this.variant = variant as IShopifyProductVariant;
     }
 
     event.stopPropagation();

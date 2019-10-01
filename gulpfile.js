@@ -1,32 +1,21 @@
-(function () {
-  'use strict';
-}());
+/*jslint node: true */
 
-const gulp          = require('gulp');
-const gutil         = require('gulp-util');
-const pjson         = require('./package.json');
-const zip           = require('gulp-zip');
-const jsoncombine   = require('gulp-jsoncombine');
+'use strict';
+
+import { task, src, dest, watch, series } from 'gulp';
+import { name, version } from './package.json';
+import zip from 'gulp-zip';
+import jsoncombine from 'gulp-jsoncombine';
 
 // list of settings files to include, in order of inclusion
-var settingsSchemas = [
+const settingsSchemas = [
   'theme_info',
   'general',
   'home',
 ];
 
-// Basic error messages output to the console.
-// Used with plumber so we don't stop the other tasks from running or kill the gulp process on an error
-var onError = function (err) {
-  gutil.beep();
-  gutil.log(gutil.colors.red(err));
-};
- 
-/**
- * Cretae a zipped file of the theme that can be uploaded to Shopify
- */
-gulp.task('zip', function () {
-  var theme = [
+const files = {
+  zip: [
     'theme/assets/*',
     'theme/config/*',
     'theme/layout/*',
@@ -35,19 +24,29 @@ gulp.task('zip', function () {
     'theme/snippets/*',
     'theme/templates/*',
     'theme/templates/customers/*'
-  ];
+  ],
+  theme_settings: './settings_schema/*.json',
+};
+ 
+/**
+ * Cretae a zipped file of the theme that can be uploaded to Shopify
+ */
+task('build:zip', () => {
+  return src(files.zip, {base: "."})
+    .pipe(zip(name + '-' + version + '.zip'))
+    .pipe(dest('./'));
+});
 
-  return gulp.src(theme, {base: "."})
-    .pipe(zip(pjson.name + '-' + pjson.version + '.zip'))
-    .pipe(gulp.dest('./'));
+task('watch:zip', () => {
+  return watch(files.zip, series('build:zip'));
 });
 
 /**
  * Create settings_schema.json
  */
-gulp.task('theme_settings', function () {
-  return gulp.src('./settings_schema/*.json')
-    .pipe(jsoncombine('settings_schema.json',function(data){
+task('build:theme_settings', () => {
+  return src(files.theme_settings)
+    .pipe(jsoncombine('settings_schema.json', (data) => {
       var data_array = [];
       // collect the json data and store it in the correct order
       for (var i = 0; i < settingsSchemas.length; i++) {
@@ -56,5 +55,5 @@ gulp.task('theme_settings', function () {
       }
       return new Buffer(JSON.stringify(data_array, null, 2));
     }))
-    .pipe(gulp.dest('./theme/config/'));
+    .pipe(dest('./theme/config/'));
 });

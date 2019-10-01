@@ -19,73 +19,78 @@ class ConsoleNotifierPlugin {
   }
 }
 
-module.exports = {
-  optimization: {
-    minimizer: [new TerserPlugin({
-      sourceMap: false,
-      terserOptions: {
-        ecma: undefined,
-        warnings: true,
-        parse: {},
-        compress: {},
-        mangle: true, // Note `mangle.properties` is `false` by default.
-        module: false,
-        output: {
-          comments: false,
+module.exports = env => {
+  return {
+    optimization: {
+      minimizer: [new TerserPlugin({
+        sourceMap: !env.production,
+        terserOptions: {
+          ecma: undefined,
+          warnings: true,
+          parse: {},
+          compress: {},
+          mangle: true, // Note `mangle.properties` is `false` by default.
+          module: false,
+          output: {
+            comments: false,
+          },
+          toplevel: false,
+          nameCache: null,
+          ie8: false,
+          keep_classnames: undefined,
+          keep_fnames: false,
+          safari10: true,
         },
-        toplevel: false,
-        nameCache: null,
-        ie8: false,
-        keep_classnames: undefined,
-        keep_fnames: false,
-        safari10: true,
+      })],
+      splitChunks: {
+        automaticNameDelimiter: '.',
+        chunks: 'all'
       },
-    })],
-    splitChunks: {
-      automaticNameDelimiter: '.',
-      chunks: 'all'
     },
-  },
-  // Change to your "entry-point".
-  entry: ['./src/ts/main.ts'],
-  // devtool: 'inline-source-map',
-  mode: 'production', // 'development', //'production', 
-  output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'theme/assets/')
-  },
-  resolve: {
-    modules: [ 'node_modules', 'src/modules' ],
-    extensions: ['.ts', '.tsx', '.js', '.json'],
-    symlinks: true
-  },
-  module: {
-    rules: [
-      // typescript and javascript
-      {
-        test: /\.(tsx?)|\.(js)$/,
-        exclude: [/node_modules\/(?!@ribajs)/, /(bower_components)/],
-        loader: 'babel-loader',
-        // include: []
-        // include: [
-        //   // /node_modules\/@ribajs\/*/,
-        //   path.resolve(__dirname, "node_modules/@ribajs/core"),
-        //   path.resolve(__dirname, "node_modules/@ribajs/router"),
-        //   path.resolve(__dirname, "node_modules/@ribajs/shopify")
-        // ]
-      },
-      // html templates
-      {
-        test: /\.html$/,
-        use: [ {
-          loader: 'html-loader',
-          options: {
-            minimize: true
-          }
-        }]
-      }
-    ]
-  },
-  plugins:  [new ConsoleNotifierPlugin()]
+    // Change to your "entry-point".
+    entry: ['./src/ts/main.ts'],
+    devtool: env.production ? '' : 'inline-source-map',
+    mode: env.production ? 'production' : 'development',
+    output: {
+      filename: '[name].bundle.js',
+      chunkFilename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'theme/assets/')
+    },
+    resolve: {
+      modules: [ 'node_modules', 'src/modules' ],
+      extensions: ['.ts', '.tsx', '.js', '.json'],
+      symlinks: true
+    },
+    module: {
+      rules: [
+        // typescript and javascript
+        {
+          test: /\.(tsx?)|\.(js)$/,
+          exclude: [/node_modules\/(?!@ribajs)/, /(bower_components)/],
+          loader: 'babel-loader',
+        },
+        // html templates
+        {
+          test: /\.html$/,
+          use: [ {
+            loader: 'html-loader',
+            options: {
+              minimize: true
+            }
+          }]
+        },
+        // pug templates
+        {
+          test: /\.pug$/,
+          use: [ {
+            loader: 'pug-loader',
+            options: {
+              minimize: true
+            }
+          }]
+        }
+      ]
+    },
+    plugins:  [new ConsoleNotifierPlugin()],
+  };
 };

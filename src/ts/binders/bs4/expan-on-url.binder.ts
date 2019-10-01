@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { IBinder, BinderWrapper, EventDispatcher } from '@ribajs/core';
+import { IBinder, EventDispatcher } from '@ribajs/core';
 import { CollapseService } from './collapse.service';
 import { Utils } from '../../services/Utils';
 
@@ -8,7 +8,7 @@ import { Utils } from '../../services/Utils';
  * @see https://getbootstrap.com/docs/4.1/components/collapse/
  * @see https://github.com/twbs/bootstrap/blob/v4-dev/js/src/collapse.js
  */
-export const expanOnUrlBinderWrapper: IBinder<string> = {
+export const expanOnUrlBinder: IBinder<string> = {
   name: 'bs4-expan-on-url',
   routine(el: HTMLElement, url: string) {
     const $el = $(el);

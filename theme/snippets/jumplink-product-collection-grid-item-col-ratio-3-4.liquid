@@ -19,7 +19,7 @@
       class="content"
       src="{{ product.featured_image | img_url: imageSize }}"
       alt="{{ product.featured_image.alt }}"
-      rv-css-padding-bottom="detailMenuPadding"/>
+      rv-style-padding-bottom="detailMenuPadding"/>
   </a>
   <div class="position-absolute w-100" style="bottom: 7px;" rv-class-pointer-events-none="showDetailMenu | not">
     <div class="row m-0">
@@ -41,7 +41,7 @@
 
         <div class="row justify-content-around px-3 pb-4 option-group">
           <div class="col-auto px-0" rv-each-size="sizeOption.values">
-            <button class="btn btn-link btn-option option-size text-decoration-normal" rv-add-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args self size option.position option.name"
+            <button class="btn btn-link btn-option option-size text-decoration-normal" rv-add-class="size | prepend 'option-size-'" rv-on-click="chooseOption | args size sizeOption.position sizeOption.name"
               rv-text="size"
               rv-i18n-text="size | handleize | prepend 'products.options.'"
             ></button>
@@ -53,8 +53,8 @@
       
       <div class="col-12">
         <div class="row m-0">
-          <div rv-each-color="colorOption.values" class="col-auto pl-0 pr-2 pb-4 cursor-pointer pointer-events-all" rv-on-click="chooseOption | args self color option.position option.name">
-            <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace-first '#' '' | prepend 'option-color-'" rv-css-background-color="color" style="width: 16px; height: 16px;"></div>
+          <div rv-each-color="colorOption.values" class="col-auto pl-0 pr-2 pb-4 cursor-pointer pointer-events-all" rv-on-click="chooseOption | args color colorOption.position colorOption.name">
+            <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace-first '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 16px; height: 16px;"></div>
           </div>
           {% for i in (1..4) %}
             {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
@@ -66,7 +66,7 @@
                 class="col-auto pl-0 pr-2 pb-4 cursor-pointer"
                 rv-route="'{{ all_products[handle].url }}'"
               >
-                <div class="styleicon-circle option-color option-metafield-color option-color-{{ variantColor }}" rv-css-background-color="'{{ variantColor }}'" style="width: 16px; height: 16px;"></div>
+                <div class="styleicon-circle option-color option-metafield-color option-color-{{ variantColor }}" rv-style-background-color="'{{ variantColor }}'" style="width: 16px; height: 16px;"></div>
               </div>
             {% endif %}
           {% endfor %}
@@ -80,7 +80,8 @@
         <strong rv-route="'{{ product.url | within: collection }}'">{{ product.title }}</strong><br />
         <div rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</div>
       </div>
-      <div class="col-md text-right d-none d-md-flex align-items-end justify-content-end mb-2 text-truncate">
+      {% comment %} only MD and up {% endcomment %}
+      <div class="d-none d-md-flex col-md-auto text-right align-items-end justify-content-end mb-2 text-truncate">
         <button rv-hide="showDetailMenu" class="btn btn-animated-underline-dark" rv-on-click="toggleDetailMenu">
           <span rv-i18n-text="'products.choose'">{{'products.choose'|t}}</span>
         </button>

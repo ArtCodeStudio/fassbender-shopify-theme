@@ -10,7 +10,7 @@ import {
 } from '@ribajs/core';
 import shopifyModule from '@ribajs/shopify';
 import routerModule from '@ribajs/router';
-import { i18nModule } from '@ribajs/i18n';
+import i18nModule from '@ribajs/i18n';
 
 import { TrackingService } from './services/tracking.services';
 import * as customBinders from './binders/index';

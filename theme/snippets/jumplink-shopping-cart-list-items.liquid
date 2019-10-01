@@ -15,7 +15,7 @@
       <div class="options d-flex align-items-center">
         <div class="mr-2 my-0 d-inline-block" rv-each-option="item.variant_options">
           {% comment %} color option {% endcomment %}
-          <div rv-show="option | first | eq '#'" class="styleicon-circle option-color" rv-css-background-color="option" style="width: 12px; height: 12px;"></div>
+          <div rv-show="option | first | eq '#'" class="styleicon-circle option-color" rv-style-background-color="option" style="width: 12px; height: 12px;"></div>
           
           {% comment %} size or other option {% endcomment %}
           <div rv-hide="option | first | eq '#'" class="option-other" rv-text="option"></div>

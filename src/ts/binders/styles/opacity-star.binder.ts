@@ -1,4 +1,4 @@
-import { IBinder, BinderWrapper, JQuery as $ } from '@ribajs/core';
+import { IBinder, JQuery as $ } from '@ribajs/core';
 
 export const opacityStarBinder: IBinder<string> = {
   name: 'opacity-*',
