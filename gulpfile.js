@@ -2,10 +2,10 @@
 
 'use strict';
 
-import { task, src, dest, watch, series } from 'gulp';
-import { name, version } from './package.json';
-import zip from 'gulp-zip';
-import jsoncombine from 'gulp-jsoncombine';
+const gulp = require('gulp');
+const pkg = require('./package.json');
+const zip = require('gulp-zip');
+const jsoncombine = require('gulp-jsoncombine');
 
 // list of settings files to include, in order of inclusion
 const settingsSchemas = [
@@ -31,21 +31,21 @@ const files = {
 /**
  * Cretae a zipped file of the theme that can be uploaded to Shopify
  */
-task('build:zip', () => {
-  return src(files.zip, {base: "."})
-    .pipe(zip(name + '-' + version + '.zip'))
-    .pipe(dest('./'));
+gulp.task('build:zip', () => {
+  return gulp.src(files.zip, {base: "."})
+    .pipe(zip(pkg.name + '-' + pkg.version + '.zip'))
+    .pipe(gulp.dest('./'));
 });
 
-task('watch:zip', () => {
-  return watch(files.zip, series('build:zip'));
+gulp.task('watch:zip', () => {
+  return gulp.watch(files.zip, gulp.series('build:zip'));
 });
 
 /**
  * Create settings_schema.json
  */
-task('build:theme_settings', () => {
-  return src(files.theme_settings)
+gulp.task('build:theme_settings', () => {
+  return gulp.src(files.theme_settings)
     .pipe(jsoncombine('settings_schema.json', (data) => {
       var data_array = [];
       // collect the json data and store it in the correct order
@@ -55,5 +55,5 @@ task('build:theme_settings', () => {
       }
       return new Buffer(JSON.stringify(data_array, null, 2));
     }))
-    .pipe(dest('./theme/config/'));
+    .pipe(gulp.dest('./theme/config/'));
 });
