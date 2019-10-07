@@ -1,3 +1,9 @@
 img {
   user-select: none;
 }
+
+.lazy {
+  background-image: url(loading.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+}

@@ -20,7 +20,6 @@ export interface IScope {
   variant: IShopifyProductVariant | null;
   quantity: number;
   showDetailMenu: boolean;
-  detailMenuPadding: string;
   // showAddToCartButton: boolean;
   chooseOption: ShopifyProductItemComponent['chooseOption'];
   addToCart: ShopifyProductItemComponent['addToCart'];
@@ -28,7 +27,6 @@ export interface IScope {
   decrease: ShopifyProductItemComponent['decrease'];
   increase: ShopifyProductItemComponent['increase'];
   $parent?: any;
-  self: ShopifyProductItemComponent; // WORKAROUND
   colorOption: IShopifyProductVariantOption | null;
   sizeOption: IShopifyProductVariantOption | null;
   available: boolean;
@@ -64,14 +62,12 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     variant: null,
     quantity: 1,
     showDetailMenu: false,
-    detailMenuPadding: '60px',
     // showAddToCartButton: false,
     chooseOption: this.chooseOption,
     addToCart: this.addToCart,
     toggleDetailMenu: this.toggleDetailMenu,
     decrease: this.decrease,
     increase: this.increase,
-    self: this, // WORKAROUND
     colorOption: null,
     sizeOption: null,
     /**
@@ -86,19 +82,9 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   private selectedOptions: string[] = [];
 
   /**
-   * Number of detail menü padding without px
-   */
-  private _menuPadding: number = 60;
-
-  /**
    * Is true if the user has choosed an option
    */
   private optionChoosed: boolean = false;
-
-  protected set menuPadding(padding: number) {
-    this._menuPadding = padding;
-    this.scope.detailMenuPadding = this._menuPadding + 'px';
-  }
 
   /**
    * available is only true if the variant is available and the user has clicked on an option
@@ -108,11 +94,6 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   }
 
   protected set showMenu(show: boolean) {
-    if (show) {
-      this.menuPadding = 215;
-    } else {
-      this.menuPadding = 60;
-    }
     this.scope.showDetailMenu = show;
   }
 

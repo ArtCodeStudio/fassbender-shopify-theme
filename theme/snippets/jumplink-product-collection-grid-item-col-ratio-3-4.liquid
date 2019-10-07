@@ -8,20 +8,60 @@
   {% assign colClass = 'col-12 col-md' %}
 {% endif %}
 
-{% if imageSize == blank %}
-  {% assign imageSize = 'master' %}
-{% endif %}
-
 <rv-shopify-product-item handle="{{ product.handle }}" class="{{ colClass }} {{ orderClass }} px-0 content-box ratio-3-4">
   <a rv-route="'{{ product.url | within: collection }}'" href="{{product.url | within: collection }}">
     <img
-      lazyload="auto"
-      class="content"
-      src="{{ product.featured_image | img_url: imageSize }}"
+      lazyload="lazy"
+      class="content lazy"
+      rv-class-show-detail-menu="showDetailMenu"
+      src="{{ product.featured_image | img_url: '575x' }}"
+      rv-shopify-img="'{{ product.featured_image | img_url: 'master' }}'"
+      {% comment %}
+        srcset="{{ product.featured_image | img_url: '300x'}} 300w, {{ product.featured_image | img_url: '600x'}} 600w, {{ product.featured_image | img_url: '1200x'}} 1200w, {{ product.featured_image | img_url: '2400x'}} 2400w, {{ product.featured_image | img_url: '4000x'}} 4000w"
+        For size testing
+
+        Grid breakpoints
+        xs: 0 - 575w       2 images per row
+        sm: 576w - 768w   2 images per row
+        md: 768w - 991w   2 images per row
+        lg: 992w - 1199w  3 images per row
+        xl (hd): 1200w - 1920w  4 images per row
+        xl (4k): 1921w - 4096w  4 images per row
+
+        srcset="
+          //placehold.it/288x 288w,
+          //placehold.it/384x 384w,
+          //placehold.it/768x 768w,
+          //placehold.it/496x 496w,
+          //placehold.it/991x 991w,
+          //placehold.it/1199x 1199w,
+          //placehold.it/1920x 1920w,
+          //placehold.it/2048x 2048w,
+          //placehold.it/3072x 3072w,
+          //placehold.it/4096x 4096w"
+      {% endcomment %}
+      srcset="
+        {{ product.featured_image | img_url: '200x' }} 200w,
+        {{ product.featured_image | img_url: '288x' }} 288w,
+        {{ product.featured_image | img_url: '300x' }} 300w,
+        {{ product.featured_image | img_url: '384x' }} 384w,
+        {{ product.featured_image | img_url: '575x' }} 575w,
+        {{ product.featured_image | img_url: '768x' }} 768w,
+        {{ product.featured_image | img_url: '991x' }} 991w,
+        {{ product.featured_image | img_url: '1199x' }} 1199w,
+        {{ product.featured_image | img_url: '1920x' }} 1920w,
+        {{ product.featured_image | img_url: '2048x' }} 2048w,
+        {{ product.featured_image | img_url: '3072x' }} 3072w,
+        {{ product.featured_image | img_url: '4096x' }} 4096w"
+      sizes="
+        (min-width: 992px) 33vw,
+        (min-width: 1200px) 25vw,
+        50vw,
+      "
       alt="{{ product.featured_image.alt }}"
-      rv-style-padding-bottom="detailMenuPadding"/>
+    />
   </a>
-  <div class="position-absolute w-100" style="bottom: 7px;" rv-class-pointer-events-none="showDetailMenu | not">
+  <div class="position-absolute w-100 py-2" style="bottom: 0;" rv-class-pointer-events-none="showDetailMenu | not">
     <div class="row m-0">
       <div class="col-12 px-0 detailMenu" rv-class-show="showDetailMenu">
         
@@ -76,12 +116,12 @@
     </div>
     <div class="row m-0 pointer-events-all">
 
-      <div class="cpl-12 col-md text-left text-truncate">
+      <div class="col-12 col-md text-left text-truncate pr-md-0">
         <strong rv-route="'{{ product.url | within: collection }}'">{{ product.title }}</strong><br />
         <div rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</div>
       </div>
       {% comment %} only MD and up {% endcomment %}
-      <div class="d-none d-md-flex col-md-auto text-right align-items-end justify-content-end mb-2 text-truncate">
+      <div class="d-none d-md-flex col-md-auto text-right align-items-end justify-content-end mb-2 text-truncate pl-md-0">
         <button rv-hide="showDetailMenu" class="btn btn-animated-underline-dark" rv-on-click="toggleDetailMenu">
           <span rv-i18n-text="'products.choose'">{{'products.choose'|t}}</span>
         </button>

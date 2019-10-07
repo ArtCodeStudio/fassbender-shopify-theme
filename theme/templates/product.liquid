@@ -5,16 +5,15 @@
     <div class="row">
 
       {% comment %} MD {% endcomment %}
-      <div class="col-12 px-0 d-none d-md-block">
-        <div class="content-box ratio-3-2">      
-          <img lazyload="auto" class="content" src="{{ product.featured_image.src | img_url: 'master' }}" rv-src="variant.featured_image.src | img_url 'master'" alt="{{image.alt}}" />
-        </div>
-      </div>
-
-      {% comment %} XS {% endcomment %}
-      <div class="col-12 px-0 d-block d-md-none">
-        <div class="content-box ratio-3-4">      
-          <img lazyload="auto" class="content" src="{{ product.featured_image.src | img_url: 'master' }}" rv-src="variant.featured_image.src | img_url 'master'" alt="{{image.alt}}" />
+      <div class="col-12 px-0">
+        <div class="content-box ratio-3-4 ratio-md-3-2">      
+          <img
+            lazyload="lazy"
+            class="content lazy"
+            src="{{ product.featured_image.src | img_url: 'master' }}"
+            rv-shopify-img="variant.featured_image.src"
+            alt="{{image.alt}}"
+          />
         </div>
       </div>
 
@@ -24,7 +23,40 @@
     <div class="row" rv-each-row="variant.imageRows">
       <div rv-each-image="row.images" rv-class="row.class" >
         <div class="content-box ratio-3-4">      
-          <img lazyload="auto" class="content" rv-src="image | img_url 'master'" alt="variant.title" />
+          <img
+            lazyload="lazy"
+            class="content lazy"
+            rv-shopify-img="image"
+            {% comment %}
+              rv-srcset-200w="'//placehold.it/200x'"
+              rv-srcset-288w="'//placehold.it/288x'"
+              rv-srcset-300w="'//placehold.it/300x'"
+              rv-srcset-384w="'//placehold.it/384x'"
+              rv-srcset-575w="'//placehold.it/575x'"
+              rv-srcset-768w="'//placehold.it/768x'"
+              rv-srcset-991w="'//placehold.it/991x'"
+              rv-srcset-1199w="'//placehold.it/1199x'"
+              rv-srcset-1920w="'//placehold.it/1920x'"
+              rv-srcset-2048w="'//placehold.it/2048x'"
+              rv-srcset-3072w="'//placehold.it/3072x'"
+              rv-srcset-4096w="'//placehold.it/4096x'"
+            {% endcomment %}
+            rv-srcset-200w="image | img_url '200x'"
+            rv-srcset-288w="image | img_url '288x'"
+            rv-srcset-300w="image | img_url '300x'"
+            rv-srcset-384w="image | img_url '384x'"
+            rv-srcset-575w="image | img_url '575x'"
+            rv-srcset-768w="image | img_url '768x'"
+            rv-srcset-991w="image | img_url '991x'"
+            rv-srcset-1199w="image | img_url '1199x'"
+            rv-srcset-1920w="image | img_url '1920x'"
+            rv-srcset-2048w="image | img_url '2048x'"
+            rv-srcset-3072w="image | img_url '3072x'"
+            rv-srcset-4096w="image | img_url '4096x'"
+            sizes="(min-width: 768px) 50vw, 100vw"
+            rv-sizes="row.sizes"
+            rv-alt="variant.title"
+          />
         </div>
       </div>
     </div>
@@ -38,7 +70,7 @@
       <div class="col order-1 order-lg-1 mb-5 pb-3 mb-lg-3 pt-4 d-flex flex-column justify-content-end">
         <div class="variant-chooser">
           <div rv-each-option="product.options" class="row px-3" rv-if="option.name | eq 'color'" rv-add-class="option.name">
-            <div rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="chooseOption | args color option.position option.name">
+            <div rv-show="option.name | eq 'color'" rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="chooseOption | args color option.position option.name">
               <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace_first '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 20px; height: 20px;"></div>
             </div>
             {% for i in (1..4) %}
@@ -135,7 +167,7 @@
       </div>
     </div>
 
-    <bs4-tabs class="row py-5">
+    <bs4-tabs class="row my-5">
       <div class="col-12 product-tab-list nav nav-tabs nav-tabs-underline d-flex flex-nowrap justify-content-center" id="product-{{product.handle}}-tab-list" role="tablist">
         
         {% comment %} Product Description Tab Title {% endcomment %}
@@ -259,19 +291,18 @@
     </bs4-tabs>
 
     {% if collection %}
-      <div class="row">
+      <div class="row text-nowrap my-5">
         {% assign productUrl = product.url | within: collection %}
-        <div class="col-auto">
+        <div class="col-6">
           {% if collection.previous_product and collection.previous_product != productUrl %}
-            <a class="nav-link" href="{{collection.previous_product}}" rv-route="'{{collection.previous_product}}'" rv-i18n-text="'products.prev'">
+            <a class="nav-link justify-content-start text-left px-0 py-3" href="{{collection.previous_product}}" rv-route="'{{collection.previous_product}}'" rv-i18n-text="'products.prev'">
               {{'products.prev'|t}}
             </a>
           {% endif %}
         </div>
-        <div class="col"></div>
-        <div class="col-auto">
+        <div class="col-6">
           {% if collection.next_product and collection.next_product != productUrl %}
-            <a class="nav-link" href="{{collection.next_product}}" rv-route="'{{collection.next_product}}'" rv-i18n-text="'products.next'">
+            <a class="nav-link justify-content-end text-right px-0 py-3" href="{{collection.next_product}}" rv-route="'{{collection.next_product}}'" rv-i18n-text="'products.next'">
               {{'products.next'|t}}
             </a>
           {% endif %}

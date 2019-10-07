@@ -83,7 +83,7 @@
 
           {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
           <div class="col px-0 content-box {{contentBoxClass}}">
-            <img lazyload="auto" class="{{imageClass}}" src="{{ image }}" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
+            <img lazyload="lazy" class="{{imageClass}}" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
           </div>
         {% endfor %}
       {% endif %}

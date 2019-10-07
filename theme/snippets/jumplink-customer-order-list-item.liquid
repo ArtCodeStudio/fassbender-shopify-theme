@@ -33,7 +33,7 @@
       {% assign _options = item.title | split: ' - ' %}
       {% assign options = _options[1] | split: ' / ' %}
       <li class="media mb-3 cursor-pointer" rv-route="'{{ item.product.url }}'">
-        <img lazyload="auto" class="img-fluid mr-3" src="{{ item.image | img_url: '100x',  scale: 2 }}" alt="{{ item.title }}" />
+        <img lazyload="lazy" class="img-fluid mr-3" src="{{ item.image | img_url: '100x', scale: 2 }}" rv-shopify-img="'{{ item.image }}'" srcset="{{ item.image | img_url: '100x', scale: 1 }} 1x, {{ item.image | img_url: '100x', scale: 2 }} 2x, {{ item.image | img_url: '100x', scale: 3 }} 3x, {{ item.image | img_url: '100x', scale: 4 }} 4x" alt="{{ item.title }}" />
         
         <div class="media-body">
           <p class="mb-1">

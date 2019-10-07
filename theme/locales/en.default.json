@@ -62,8 +62,8 @@
     "add": "Add",
     "sold_out": "Sold Out",
     "quantity": "Quantity",
-    "next": "Next",
-    "prev": "Prev",
+    "next": "Next product",
+    "prev": "Previous product",
     "options": {
       "30": "30",
       "32": "32",

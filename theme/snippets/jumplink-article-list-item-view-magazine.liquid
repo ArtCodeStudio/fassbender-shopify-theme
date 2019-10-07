@@ -65,10 +65,10 @@
       <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" rv-scrollfix="" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
         <div class="col-12 col-md px-0 content-box {{videoRatioClass}}">
           {% if videoPoster %}
-            <img lazyload="auto" class="content" src="{{videoPoster}}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+            <img lazyload="lazy" class="content lazy" src="{{ videoPoster }}" rv-shopify-img="'{{ videoPoster }}'" alt="{{ article.title }}" style="padding: {{imageSpacing}}px" />
           {% endif %}
           {% if videoType == 'video/mp4' %}
-            <video class="content" preload="auto" controls {% if videoPoster %}poster="{{videoPoster}}"{% endif %}>
+            <video class="content lazy" preload="auto" controls {% if videoPoster %}poster="{{ videoPoster }}"{% endif %}>
               <source src="{{video}}" type="video/mp4">
               <span rv-i18n-text="'system.video_tag_not_supported'">
                 {{'system.video_tag_not_supported'|t}}
@@ -77,8 +77,8 @@
           {% endif %}
           {% if videoType == 'vimeo' %}
             <iframe
-              lazyload="auto"
-              class="content"
+              lazyload="lazy"
+              class="content lazy"
               type="text/html"
               src="https://player.vimeo.com/video/{{ video }}?color=D9998F&title=0&byline=0&portrait=0&autoplay=0&loop=0&autopause=1&background=0&muted=0"
               frameborder="0"
@@ -94,8 +94,8 @@
           {% endif %}
           {% if videoType == 'youtube' %}
             <iframe
-              lazyload="auto"
-              class="content"
+              lazyload="lazy"
+              class="content lazy"
               type="text/html"
               src="https://www.youtube.com/embed/{{ video }}?autoplay=0&mute=0&color=white&controls=2&disablekb=0&enablejsapi=0&fs=1&iv_load_policy=3&loop=0&modestbranding=1&origin={{shop.url}}&playsinline=0&rel=0&showinfo=0"
               frameborder="0"
@@ -117,7 +117,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images limit:1 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="auto" class="content" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="lazy" class="content lazy" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{ article.title }}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -126,7 +126,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:1 limit:2 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="auto" class="content" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="lazy" class="content lazy" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -135,7 +135,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:3 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="auto" class="content" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="lazy" class="content lazy" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>

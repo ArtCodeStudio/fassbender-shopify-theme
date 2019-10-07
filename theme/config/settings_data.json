@@ -50,16 +50,16 @@
         "type": "live-chat",
         "settings": {
           "enable": true,
-          "img_icon": "shopify:\/\/shop_images\/Messenger_Logo_Black_CMYK.png",
+          "img_icon": "shopify:\/\/shop_images\/FBMessenger2.png",
           "href": "https:\/\/m.me\/346703952475439?ref=messenger_commerce_1163199097047119_https:\/\/myfassbender.com\/",
           "spacing_top": 40,
-          "spacing_bottom": 180,
+          "spacing_bottom": 100,
           "spacing_left": 40,
-          "spacing_right": 40,
-          "position_xs": "top-right",
+          "spacing_right": 0,
+          "position_xs": "bottom-right",
           "position_sm": "previous-sm",
           "position_md": "previous-md",
-          "position_lg": "bottom-right-lg",
+          "position_lg": "previous-lg",
           "position_xl": "previous-xl"
         }
       },
@@ -170,7 +170,7 @@
               "mp4_video_url": "",
               "controls": false,
               "mute": true,
-              "video_poster": "",
+              "video_poster": "shopify:\/\/shop_images\/820371376.jpg",
               "spacing": 0
             }
           }

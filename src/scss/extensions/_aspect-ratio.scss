@@ -90,6 +90,7 @@
 
 // ASPECT RATIO size for contens and images
 .content-box {
+  display: block;
   position: relative;
   width: 100%;   /* desired width */
   overflow: hidden;

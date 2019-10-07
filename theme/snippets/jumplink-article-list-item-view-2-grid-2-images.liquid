@@ -101,7 +101,7 @@
           {% endif %}
 
           <div class="col px-0 content-box {{contentBoxClass}}">
-            <img lazyload="auto" class="{{imageClass}}" src="{{ image }}" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
+            <img lazyload="lazy" class="{{ imageClass }}" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
           
             {% comment %} title for medium and heigher {% endcomment %}
             {% if article.title and forloop.index0 == title_under_image %}

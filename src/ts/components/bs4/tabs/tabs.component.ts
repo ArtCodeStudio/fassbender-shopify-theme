@@ -1,4 +1,3 @@
-/* tslint:disable:max-classes-per-file */
 import { Component, Debug, JQuery as $ } from '@ribajs/core';
 
 export class TabsComponent extends Component {

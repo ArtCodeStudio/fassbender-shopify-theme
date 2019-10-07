@@ -2,6 +2,11 @@ rv-shopify-product-item {
   display: block;
   img.content {
     transition: padding 300ms ease;
+    padding-bottom: 60px;
+    &.show-detail-menu {
+      padding-bottom: 214px;
+      background-image: none;
+    }
   }
 
   .detailMenu {

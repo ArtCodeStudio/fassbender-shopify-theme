@@ -1,0 +1,12 @@
+<div class="container-fluid" rv-view='{"listenAllLinks": false, "containerSelector": "#products-pagination", "scrollToTop": false, "action": "append", "datasetToModel": false}' id="products-pagination">
+  {% paginate collection.products by 40 %}
+    <div class="row">
+      {% for product in collection.products %}
+        {% include 'jumplink-product-collection-grid-item-col-ratio-3-4' with product, collection, colClass: 'col-6 col-lg-4 col-xl-3' %}
+      {% endfor %}
+      <div class="col-12">
+        {% include 'jumplink-pagination' with viewId: 'products-pagination' %}
+      </div>
+    </div>
+  {% endpaginate %}
+</div>

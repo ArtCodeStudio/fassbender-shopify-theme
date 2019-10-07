@@ -62,8 +62,8 @@
     "add": "Hinzufügen",
     "sold_out": "Ausverkauft",
     "quantity": "Menge",
-    "next": "Nächstes",
-    "prev": "Vorheriges",
+    "next": "Nächstes Produkt",
+    "prev": "Vorheriges Produkt",
     "options": {
       "30": "30",
       "32": "32",

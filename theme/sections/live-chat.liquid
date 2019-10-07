@@ -14,8 +14,9 @@
     <img
       class="messageus_unhovered"
       alt="{{ section.settings.img_icon.image.alt }}"
-      src="{{ section.settings.img_icon | img_url: '400x400' }}"
-      srcset="{{ section.settings.img_icon | img_url: '400x400', scale: 2 }}"
+      src="{{ section.settings.img_icon | img_url: '45x' }}"
+      srcset="{{ section.settings.img_icon | img_url: '45x' }} 1x, {{ section.settings.img_icon | img_url: '45x', scale: 2 }} 2x,  {{ section.settings.img_icon | img_url: '45x', scale: 3 }} 3x,  {{ section.settings.img_icon | img_url: '45x', scale: 4 }} 4x"
+      size="45px"
     >
   </a>
   <style>

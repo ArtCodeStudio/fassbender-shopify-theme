@@ -17,6 +17,7 @@ const IMAGES_PER_ROW = 2;
 export interface ImageRow {
   class: string;
   images: string[];
+  sizes: string;
 }
 
 export interface IPrepairedProductVariant extends IShopifyProductVariant {
@@ -41,7 +42,6 @@ export interface IScope {
    * If the variant is available, used to disable the add to cart button
    */
   available: boolean;
-  self: ShopifyProductComponent; // WORKAROUND
 }
 
 export class ShopifyProductComponent extends Component {
@@ -78,7 +78,6 @@ export class ShopifyProductComponent extends Component {
      * If the variant is available, used to disable the add to cart button
      */
     available: false,
-    self: this, // WORKAROUND
   };
 
   private colorOption: IShopifyProductVariantOption | null = null;
@@ -390,6 +389,7 @@ export class ShopifyProductComponent extends Component {
       rows[index] = {
         class: 'col-12 col-md px-0',
         images: [],
+        sizes: '(min-width: 768px) 50vw, 100vw',
       };
     }
 
@@ -403,6 +403,7 @@ export class ShopifyProductComponent extends Component {
       }
       // Append the leftover pictures to the last row
       if (rowIndex === rowLength - 1) {
+        currentRow.sizes = '(min-width: 768px) 33vw, 100vw';
         for (let rowImageIndex = 0; rowImageIndex < leftoverPictureCount; rowImageIndex++, imageIndex++) {
           const rowImage = images[imageIndex];
           currentRow.images.push(rowImage);

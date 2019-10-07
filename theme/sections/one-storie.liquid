@@ -35,7 +35,7 @@
         {% assign imageHasSpacing = false %}
       {% endif %}
 
-      {% assign imageClass = 'content' %}
+      {% assign imageClass = 'content lazy' %}
       {% if imageHasSpacing %}
         {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
       {% endif %}
@@ -78,10 +78,10 @@
         {% if videoType == 'youtube' %}
           <div class="col px-0 content-box fit-initial {{contentBoxClass}}">
             {% if videoPoster %}
-              <img lazyload="auto" class="{{imageClass}}" src="{{videoPoster}}" alt="" />
+              <img lazyload="lazy" class="{{imageClass}}" src="{{ videoPoster }}" rv-shopify-img="'{{ videoPoster }}'" alt="{{ section.settings.title }}" />
             {% endif %}
             <iframe
-              lazyload="auto"
+              lazyload="lazy"
               class="{{imageClass}}"
               id="ytplayer"
               type="text/html" 
@@ -104,10 +104,10 @@
         {% elsif videoType == 'vimeo' %}
           <div class="col px-0 content-box fit-initial ratio-16-9">
             {% if videoPoster %}
-              <img lazyload="auto" class="{{imageClass}}" src="{{videoPoster}}" alt="" />
+              <img lazyload="lazy" class="{{imageClass}}" src="{{ videoPoster }}" rv-shopify-img="'{{ videoPoster }}'" alt="{{ section.settings.title }}" />
             {% endif %}
             <iframe
-              lazyload="auto"
+              lazyload="lazy"
               class="{{imageClass}}"
               type="text/html" 
               src="https://player.vimeo.com/video/{{ video.id }}?color=D9998F&autoplay=1&loop=1&autopause=0&{{ vimeoParams }}"
@@ -138,7 +138,7 @@
                 controls
               {% endif %}
               loop
-              {% if videoPoster %}poster="{{videoPoster}}"{% endif %}>
+              {% if videoPoster %}poster="{{ videoPoster }}"{% endif %}>
               <source src="{{video}}" type="video/mp4">
               <span rv-i18n-text="'system.video_tag_not_supported'">
                 {{'system.video_tag_not_supported'|t}}
@@ -148,7 +148,7 @@
         {% endif %}
       {% else %}
         <div class="col px-0 content-box {{contentBoxClass}}">
-          <img lazyload="auto" class="{{imageClass}}" src="{{ imageSrc }}" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
+          <img lazyload="lazy" class="{{imageClass}}" src="{{ imageSrc }}" rv-shopify-img="'{{ imageSrc }}'" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
         </div>
       {% endif %}
     {% endfor %}
