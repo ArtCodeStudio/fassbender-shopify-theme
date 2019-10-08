@@ -26,17 +26,17 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1680"
-     inkscape:window-height="992"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
      id="namedview14"
      showgrid="false"
-     inkscape:zoom="2.36"
-     inkscape:cx="75.313653"
-     inkscape:cy="104.05425"
-     inkscape:window-x="0"
-     inkscape:window-y="60"
+     inkscape:zoom="1.668772"
+     inkscape:cx="-84.463028"
+     inkscape:cy="187.44946"
+     inkscape:window-x="1680"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg18" />
+     inkscape:current-layer="g871" />
   <metadata
      id="metadata24">
     <rdf:RDF>
@@ -56,96 +56,77 @@
      id="g871"
      style="stroke-width:2.74955368">
     <g
-       transform="translate(20,50)"
-       id="g4"
-       style="stroke-width:2.74955368">
-      <circle
-         style="fill:#d9998f;stroke-width:2.74955368"
-         cx="0"
-         cy="0"
-         r="6"
-         id="circle2"
-         transform="scale(0.852803)">
-        <animateTransform
-           attributeName="transform"
-           type="scale"
-           begin="-0.675s"
-           calcMode="spline"
-           keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
-           values="0;1;0"
-           keyTimes="0;0.5;1"
-           dur="1.8s"
-           repeatCount="indefinite" />
-      </circle>
-    </g>
-    <g
-       transform="translate(40,50)"
-       id="g8"
-       style="stroke-width:2.74955368">
-      <circle
-         style="fill:#d9998f;stroke-width:2.74955368"
-         cx="0"
-         cy="0"
-         r="6"
-         transform="scale(0.998882)"
-         id="circle6">
-        <animateTransform
-           attributeName="transform"
-           type="scale"
-           begin="-0.45s"
-           calcMode="spline"
-           keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
-           values="0;1;0"
-           keyTimes="0;0.5;1"
-           dur="1.8s"
-           repeatCount="indefinite" />
-      </circle>
-    </g>
-    <g
-       transform="translate(60,50)"
-       id="g12"
-       style="stroke-width:2.74955368">
-      <circle
-         style="fill:#d9998f;stroke-width:2.74955368"
-         cx="0"
-         cy="0"
-         r="6"
-         transform="scale(0.812868)"
-         id="circle10">
-        <animateTransform
-           attributeName="transform"
-           type="scale"
-           begin="-0.225s"
-           calcMode="spline"
-           keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
-           values="0;1;0"
-           keyTimes="0;0.5;1"
-           dur="1.8s"
-           repeatCount="indefinite" />
-      </circle>
-    </g>
-    <g
-       transform="translate(80,50)"
-       id="g16"
-       style="stroke-width:2.74955368">
-      <circle
-         style="fill:#d9998f;stroke-width:2.74955368"
-         cx="0"
-         cy="0"
-         r="6"
-         transform="scale(0.47486)"
-         id="circle14">
-        <animateTransform
-           attributeName="transform"
-           type="scale"
-           begin="0s"
-           calcMode="spline"
-           keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
-           values="0;1;0"
-           keyTimes="0;0.5;1"
-           dur="1.8s"
-           repeatCount="indefinite" />
-      </circle>
+       id="g896"
+       transform="translate(-16.989055,-3.1175264)">
+      <g
+         style="stroke-width:2.74955368"
+         id="g8"
+         transform="translate(40,50)">
+        <circle
+           id="circle6"
+           transform="scale(0.998882)"
+           r="6"
+           cy="0"
+           cx="0"
+           style="fill:#d9998f;stroke-width:2.74955368">
+          <animateTransform
+             repeatCount="indefinite"
+             dur="1.8s"
+             keyTimes="0;0.5;1"
+             values="0;1;0"
+             keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
+             calcMode="spline"
+             begin="-0.45s"
+             type="scale"
+             attributeName="transform" />
+        </circle>
+      </g>
+      <g
+         style="stroke-width:2.74955368"
+         id="g12"
+         transform="translate(74.85458,50)">
+        <circle
+           id="circle10"
+           transform="scale(0.812868)"
+           r="6"
+           cy="0"
+           cx="0"
+           style="fill:#d9998f;stroke-width:2.74955368">
+          <animateTransform
+             repeatCount="indefinite"
+             dur="1.8s"
+             keyTimes="0;0.5;1"
+             values="0;1;0"
+             keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
+             calcMode="spline"
+             begin="-0.225s"
+             type="scale"
+             attributeName="transform" />
+        </circle>
+      </g>
+      <g
+         style="stroke-width:2.74955368"
+         id="g16"
+         transform="translate(94.85458,50)">
+        <circle
+           id="circle14"
+           transform="scale(0.47486)"
+           r="6"
+           cy="0"
+           cx="0"
+           style="fill:#d9998f;stroke-width:2.74955368">
+          <animateTransform
+             repeatCount="indefinite"
+             dur="1.8s"
+             keyTimes="0;0.5;1"
+             values="0;1;0"
+             keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
+             calcMode="spline"
+             begin="0s"
+             type="scale"
+             attributeName="transform" />
+        </circle>
+      </g>
     </g>
   </g>
 </svg>

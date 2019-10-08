@@ -24,7 +24,7 @@ export class FsbdrMainbarComponent extends Component {
   protected $logoTop: JQuery<HTMLElement>;
 
   static get observedAttributes() {
-    return [];
+    return ['dataset', 'filter'];
   }
 
   protected $el: JQuery<HTMLElement>;
@@ -78,7 +78,7 @@ export class FsbdrMainbarComponent extends Component {
   }
 
   protected requiredAttributes() {
-    return [];
+    return ['dataset'];
   }
 
   protected attributeChangedCallback(attributeName: string, oldValue: any, newValue: any, namespace: string | null) {

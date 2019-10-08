@@ -48,7 +48,7 @@
     {% include 'jumplink-navigation' %}
   </div>
 
-  <div rv-view='{"listenAllLinks": false, "datasetToModel": true}' id="main">
+  <div rv-view='{"listenAllLinks": false, "datasetToModel": true, "parseTitle": true}' id="main">
     <div {% include 'jumplink-utils-barba-container-attributes', parseCollection: true %}>
       {{ content_for_layout }}
     </div>
