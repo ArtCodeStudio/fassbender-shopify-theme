@@ -69,6 +69,7 @@ var start = function () {
     cc.googleAnalyticsDisableStr = 'ga-disable-' + cc.googleAnalyticsTrackingId;
     cc.theTradeDeskDisableStr = 'TTDOptOut';
     cc.facebookPixelDisableStr = 'fb-pixel-is-disabled';
+    cc.pinteresstTagDisableStr = 'pinterest-tag-is-disabled';
 
     cc.disableGoogleAnalytics = function () {
         window[cc.googleAnalyticsDisableStr] = true;
@@ -92,6 +93,14 @@ var start = function () {
         window[cc.theTradeDeskDisableStr] = true;
     };
 
+    cc.disablePinterestTag = function() {
+        window[cc.pinterestTagDisableStr] = true;
+        window._pintrk = window.pintrk;
+        window.pintrk = function() {
+            console.warn('[checkout] pintrk is disabled, ignore');
+        };
+    };
+
     cc.cookieIsTrue = function(cookieStr) {
         if (document.cookie.indexOf(cookieStr + '=true') > -1) {
             return true;
@@ -100,13 +109,16 @@ var start = function () {
     };
 
     cc.disableTrackingsIfCookieIsSet = function() {
-        if (cc.cookieIsTrue(cc.theTradeDeskDisableStr)) {
+        if (navigator.doNotTrack === '1' || cc.cookieIsTrue(cc.theTradeDeskDisableStr)) {
             cc.disableTheTradeDesk();
         }
-        if (cc.cookieIsTrue(cc.facebookPixelDisableStr)) {
+        if (navigator.doNotTrack === '1' || cc.cookieIsTrue(cc.facebookPixelDisableStr)) {
             cc.disableFacebookPixel();
         }
-        if (cc.cookieIsTrue(cc.facebookPixelDisableStr)) {
+        if (navigator.doNotTrack === '1' || cc.cookieIsTrue(cc.facebookPixelDisableStr)) {
+            cc.disableTheTradeDesk();
+        }
+        if (navigator.doNotTrack === '1' || cc.cookieIsTrue(cc.pinteresstTagDisableStr)) {
             cc.disableTheTradeDesk();
         }
     };
@@ -200,7 +212,12 @@ var start = function () {
         );
     };
 
+    // TODO: https://help.pinterest.com/de/business/article/shopify-and-pinterest-tag
     cc.initTracking = function (cb) {
+        if (navigator.doNotTrack === '1') {
+            console.log('Disable tracking (No Not Track)!');
+            return;
+        }
         if (cc.cookieIsTrue(cc.theTradeDeskDisableStr)) {
             console.log('[checkout] ttd tracking is disabled');
         } else {
@@ -214,6 +231,8 @@ var start = function () {
                 });
             });
         }
+
+
     };
 
     cc.initAgbBox = function () {

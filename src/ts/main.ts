@@ -80,6 +80,7 @@ export class Main {
 const tracking = new TrackingService({
   googleAnalytics: window.model.system.themeSettings.googleAnalytics,
   theTradeDesk: window.model.system.themeSettings.theTradeDesk,
+  pinterestTag: window.model.system.themeSettings.pinterestTag,
 });
 
 JQuery(($: JQueryStatic) => {

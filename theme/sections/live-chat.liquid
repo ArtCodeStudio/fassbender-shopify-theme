@@ -14,12 +14,12 @@
     <img
       class="messageus_unhovered"
       alt="{{ section.settings.img_icon.image.alt }}"
-      src="{{ section.settings.img_icon | img_url: 'master' }}"
+      src="{{ section.settings.img_icon | img_url: '100x', scale: 4 }}"
+      width="{{ section.settings.image_width }}"
     >
   </a>
   <style>
     .live-chat-button {
-      width: 45px;
       height: auto;
       display: block;
       position: fixed;
@@ -211,6 +211,16 @@
         "id":        "img_icon",
         "label":     "Icon",
         "info": "The Live Chat button icon"
+      },
+      {
+        "type":      "range",
+        "id":        "image_width",
+        "min":       0,
+        "max":        100,
+        "step":       1,
+        "unit":       "px",
+        "label":      "Image width",
+        "default":   30
       },
       {
         "type":      "url",

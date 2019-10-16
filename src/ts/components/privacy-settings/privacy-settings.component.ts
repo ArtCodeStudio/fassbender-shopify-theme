@@ -22,6 +22,10 @@ interface IScope {
     enabled: boolean;
     trackingId: string;
   };
+  pinterestTag: {
+    enabled: boolean;
+    trackingId: string;
+  };
   facebookPixel: {
     enabled: boolean;
   };
@@ -36,7 +40,12 @@ interface IScope {
   onTheTradeDeskChanged: PrivacySettingsComponent['onTheTradeDeskChanged'];
   onGoogleAnalyticsChanged: PrivacySettingsComponent['onGoogleAnalyticsChanged'];
   onFacebookPixelChanged: PrivacySettingsComponent['onFacebookPixelChanged'];
+  onPinterestTagChanged: PrivacySettingsComponent['onPinterestTagChanged'];
   onClearDataClicked: PrivacySettingsComponent['onClearDataClicked'];
+  /**
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Navigator/doNotTrack
+   */
+  doNotTrack: boolean;
 }
 
 // see also TrackingService
@@ -63,6 +72,7 @@ export class PrivacySettingsComponent extends Component {
     this.scope = {
       theTradeDesk: window.model.system.themeSettings.theTradeDesk,
       googleAnalytics: window.model.system.themeSettings.googleAnalytics,
+      pinterestTag: window.model.system.themeSettings.pinterestTag,
       facebookPixel: {
         enabled: true,
       },
@@ -77,17 +87,21 @@ export class PrivacySettingsComponent extends Component {
       onTheTradeDeskChanged: this.onTheTradeDeskChanged,
       onGoogleAnalyticsChanged: this.onGoogleAnalyticsChanged,
       onFacebookPixelChanged: this.onFacebookPixelChanged,
+      onPinterestTagChanged: this.onPinterestTagChanged,
       onClearDataClicked: this.onClearDataClicked,
+      doNotTrack: navigator.doNotTrack === '1',
     };
 
     this.trackingService = new TrackingService({
       theTradeDesk: this.scope.theTradeDesk,
       googleAnalytics: this.scope.googleAnalytics,
+      pinterestTag: this.scope.pinterestTag,
     });
 
     this.scope.googleAnalytics.enabled = !this.trackingService.googleAnalyticsDisabled;
     this.scope.theTradeDesk.enabled = !this.trackingService.theTradeDeskDisabled;
     this.scope.facebookPixel.enabled = !this.trackingService.facebookPixelDisabled;
+    this.scope.pinterestTag.enabled = !this.trackingService.pinterestTagDisabled;
 
     this.init(PrivacySettingsComponent.observedAttributes);
   }
@@ -131,6 +145,11 @@ export class PrivacySettingsComponent extends Component {
   public onFacebookPixelChanged() {
     this.debug('onFacebookPixelChanged', this.scope.facebookPixel.enabled);
     this.trackingService.facebookPixelDisabled = !this.scope.facebookPixel.enabled;
+  }
+
+  public onPinterestTagChanged() {
+    this.debug('onPinterestTagChanged', this.scope.pinterestTag.enabled);
+    this.trackingService.pinterestTagDisabled = !this.scope.pinterestTag.enabled;
   }
 
   protected async beforeBind() {

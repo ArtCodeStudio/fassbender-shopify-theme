@@ -16,6 +16,8 @@
       <rv-privacy-settings>
         <p class="mt-2" >
           <strong rv-i18n-html="'legals.privacy.tracking_title'">{{'legals.privacy.tracking_title'|t}}</strong><br>
+          <div rv-hide="doNotTrack" rv-i18n-html="'legals.privacy.do_not_track_note'">{{'legals.privacy.do_not_track_note'|t}}</div>
+          <div rv-show="doNotTrack" rv-i18n-html="'legals.privacy.do_not_track_is_enabled'">{{'legals.privacy.do_not_track_is_enabled'|t}}</div>
         </p>
         {% comment %} disabled until we have a working solution {% endcomment %}
         <div class="custom-control custom-checkbox" hidden>
@@ -34,7 +36,7 @@
           </label>
         </div>
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" name="googleAnalytics" id="googleAnalytics" rv-checked="googleAnalytics.enabled" rv-on-change="onGoogleAnalyticsChanged">
+          <input type="checkbox" class="custom-control-input" rv-disabled="doNotTrack" name="googleAnalytics" id="googleAnalytics" rv-checked="googleAnalytics.enabled" rv-on-change="onGoogleAnalyticsChanged">
           <label class="custom-control-label" for="googleAnalytics"
             rv-i18n-html="'legals.privacy.google_analytics_label_html'"
           >
@@ -42,7 +44,7 @@
           </label>
         </div>
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" name="theTradeDesk" id="theTradeDesk" rv-checked="theTradeDesk.enabled" rv-on-change="onTheTradeDeskChanged">
+          <input type="checkbox" class="custom-control-input" rv-disabled="doNotTrack" name="theTradeDesk" id="theTradeDesk" rv-checked="theTradeDesk.enabled" rv-on-change="onTheTradeDeskChanged">
           <label class="custom-control-label" for="theTradeDesk"
             rv-i18n-html="'legals.privacy.ttd_label_html'"
           >
@@ -50,11 +52,19 @@
           </label>
         </div>
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" name="facebookPixel" id="facebookPixel" rv-checked="facebookPixel.enabled" rv-on-change="onFacebookPixelChanged">
+          <input type="checkbox" class="custom-control-input" rv-disabled="doNotTrack" name="facebookPixel" id="facebookPixel" rv-checked="facebookPixel.enabled" rv-on-change="onFacebookPixelChanged">
           <label class="custom-control-label" for="facebookPixel"
             rv-i18n-html="'legals.privacy.facebook_pixel_label_html'"
           >
             {{'legals.privacy.facebook_pixel_label_html'|t}}<br>
+          </label>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" rv-disabled="doNotTrack" name="pinterestTag" id="pinterestTag" rv-checked="pinterestTag.enabled" rv-on-change="onPinterestTagChanged">
+          <label class="custom-control-label" for="pinterestTag"
+            rv-i18n-html="'legals.privacy.pinterest_label_html'"
+          >
+            {{'legals.privacy.pinterest_label_html'|t}}<br>
           </label>
         </div>
         <p>

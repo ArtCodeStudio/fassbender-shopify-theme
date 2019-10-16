@@ -35,6 +35,23 @@
       },
       {
         "type": "header",
+        "content": "Pinterest",
+        "info": "Tracks the user with Pinterest-Tag"
+      },
+      {
+        "type": "checkbox",
+        "id": "pinterestTag_enabled",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "pinterestTag_trackingId",
+        "label": "Tracking-ID",
+        "default": "2613188425032"
+      },
+      {
+        "type": "header",
         "content": "The Trade Desk",
         "info": "Tracks the user with The Trade Desk"
       },

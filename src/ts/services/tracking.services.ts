@@ -3,14 +3,35 @@ import {
   EventDispatcher,
 } from '@ribajs/core';
 
-import {
-  IState,
-} from '@ribajs/router';
+import { IState } from '@ribajs/router';
+
+export interface TheTradeDesk {
+  enabled: boolean;
+  adv: string;
+  tagId: string;
+  baseSrc: string;
+}
+
+export interface GoogleAnalytics {
+  enabled: boolean;
+  trackingId: string;
+}
+
+export interface PinterestTag {
+  enabled: boolean;
+  trackingId: string;
+}
+
+export interface FacebookPixel {
+  enabled?: boolean;
+}
 
 // see also PrivacySettingsComponent
 export class TrackingService {
 
   public static instance?: TrackingService;
+
+  public shopifyCartEventDispatcher = new EventDispatcher('ShopifyCart');
 
   public theTradeDeskDisableStr: string;
 
@@ -18,11 +39,15 @@ export class TrackingService {
 
   public facebookPixelDisableStr: string;
 
-  protected theTradeDesk: any;
+  public pinterestTagDisableStr: string;
 
-  protected googleAnalytics: any;
+  protected theTradeDesk: TheTradeDesk;
 
-  protected facebookPixel: any = {};
+  protected googleAnalytics: GoogleAnalytics;
+
+  protected facebookPixel: FacebookPixel = {};
+
+  protected pinterestTag: PinterestTag;
 
   protected debug = Debug('app:TrackingService');
 
@@ -96,6 +121,32 @@ export class TrackingService {
     }
   }
 
+  public get pinterestTagDisabled(): boolean {
+    if (document.cookie.indexOf(this.pinterestTagDisableStr + '=true') > -1) {
+      return true;
+    }
+    return false;
+  }
+
+  public set pinterestTagDisabled(disabled: boolean) {
+    document.cookie = `${this.pinterestTagDisableStr}=${disabled}; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/`;
+    // see https://www.tba-berlin.de/blog/dsgvo-optout/
+    (window as any)[this.pinterestTagDisableStr] = disabled;
+    this.pinterestTag.enabled = !disabled;
+
+    // be sure that pintrk is disabled by overwrite the function
+    if (disabled) {
+      (window as any)._pintrk = (window as any).pintrk;
+      (window as any).pintrk = (...args: any[]) => {
+        console.warn('pinterest is disabled, ignore', (window as any).pintrk);
+      };
+    } else {
+      if ((window as any)._pintrk) {
+        (window as any).pintrk = (window as any)._pintrk;
+      }
+    }
+  }
+
   public set cookieStorageDisabled(disabled: boolean) {
     if (disabled) {
       this.blockCookies();
@@ -104,14 +155,22 @@ export class TrackingService {
     }
   }
 
-  constructor(settings: any) {
+  constructor(settings: {
+    theTradeDesk: TheTradeDesk,
+    googleAnalytics: GoogleAnalytics,
+    pinterestTag: PinterestTag,
+  }) {
 
     this.theTradeDesk = settings.theTradeDesk;
     this.googleAnalytics = settings.googleAnalytics;
+    this.pinterestTag = settings.pinterestTag;
+
+    this.debug('settings', settings);
 
     this.googleAnalyticsDisableStr = 'ga-disable-' + this.googleAnalytics.trackingId;
     this.theTradeDeskDisableStr = 'TTDOptOut';
     this.facebookPixelDisableStr = 'fb-pixel-is-disabled';
+    this.pinterestTagDisableStr = 'pinterest-tag-is-disabled';
 
     this.checkDisableTrackingCookies();
 
@@ -146,18 +205,31 @@ export class TrackingService {
     this.debug('google analytics disabled: ', (window as any)[this.googleAnalyticsDisableStr]);
     this.debug('the trade desk disabled: ', (window as any)[this.theTradeDeskDisableStr]);
     this.debug('facebook pixel disabled: ', (window as any)[this.facebookPixelDisableStr]);
+    this.debug('pinterest tag disabled: ', (window as any)[this.pinterestTagDisableStr]);
 
     this.dispatcher.on('newPageReady', (viewId: string, currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) => {
       this.trackingCallback(currentStatus, prevStatus, $container, newPageRawHTML, dataset, isFirstPageLoad);
+    });
+
+    this.shopifyCartEventDispatcher.on('ShopifyCart:add', (data: {id: number, quantity: number, properties: any}) => {
+      if (navigator.doNotTrack === '1') {
+        this.debug('The user wishs no tracking');
+        return;
+      }
+      if (this.pinterestTag && this.pinterestTag.enabled && (window as any).pintrk) {
+        (window as any).pintrk('track', 'addtocart');
+        this.debug('pinterest addtocart tracked!');
+      }
     });
 
     TrackingService.instance = this;
   }
 
   public checkDisableTrackingCookies() {
-    this.theTradeDeskDisabled = this.theTradeDeskDisabled;
-    this.googleAnalyticsDisabled = this.googleAnalyticsDisabled;
-    this.facebookPixelDisabled = this.facebookPixelDisabled;
+    this.theTradeDeskDisabled = this.theTradeDeskDisabled || navigator.doNotTrack === '1';
+    this.googleAnalyticsDisabled = this.googleAnalyticsDisabled || navigator.doNotTrack === '1';
+    this.facebookPixelDisabled = this.facebookPixelDisabled || navigator.doNotTrack === '1';
+    this.pinterestTagDisabled = this.pinterestTagDisabled || navigator.doNotTrack === '1';
   }
 
   /**
@@ -257,6 +329,10 @@ export class TrackingService {
 
   public trackingCallback(currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) {
     const self = this;
+    if (navigator.doNotTrack === '1') {
+      this.debug('The user wishs no tracking');
+      return;
+    }
     // self.debug('trackingCallback', viewId, currentStatus, prevStatus, dataset, isFirstPageLoad);
     if (self.theTradeDesk.enabled && (window as any)[this.theTradeDeskDisableStr] !== true) {
       if (typeof((window as any).ttd_dom_ready) === 'function') {
@@ -294,6 +370,11 @@ export class TrackingService {
     } else {
       this.debug('googleAnalytics is disabled');
     }
-  }
 
+    if (self.pinterestTag && self.pinterestTag.enabled && !isFirstPageLoad && (window as any).pintrk) {
+      (window as any).pintrk('track', 'pagevisit');
+      self.debug('pinterest pagevisit tracked!');
+    }
+
+  }
 }

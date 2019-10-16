@@ -165,11 +165,14 @@
     },
     "privacy": {
       "tracking_title": "Disable tracking services",
+      "do_not_track_note": "We recommend that you enable the <strong>Do Not Track</ strong> option of your browser if you do not want tracking. This also automatically disables the options listed below.",
+      "do_not_track_is_enabled": "Everything clean, you have activated your browser's <strong> Do Not Track </ strong> option, so the tracking services below are already disabled.",
       "cookies_label_html": "Allow the use of cookies<br><small>Sorry you can 't disable cookies because they are necessary to make the shop work<\/small>",
       "shopify_tracking_label_html": "Allow internal tracking by our shopsytem<br><small>Sorry you can 't disable the tracking by our shopsytem<\/small>",
       "google_analytics_label_html": "Allow tracking with <a href=\"https:\/\/analytics.google.com\/\">Google Analytics<\/a>",
       "ttd_label_html": "Allow tracking with <a href=\"https:\/\/www.thetradedesk.com\/\">The Trade Desk<\/a>",
       "facebook_pixel_label_html": "Allow tracking with <a href=\"https:\/\/www.facebook.com\/business\/help\/742478679120153\">Facebook Pixel<\/a>",
+      "pinterest_label_html": "Allow tracking with <a href=\"https:\/\/business.pinterest.com\/en\/pinterest-tag\">Pinterest<\/a>",
       "note_html": "Please reload this site after you have disabled any tracking service.<br>Please note that these settings are saved with cookies, if you delete your cookies these settings will be lost.",
       "clear_title_html": "Clear your session data",
       "clear_html": "You can clear your session data, this will log you out, clear your shopping cart and removes client site cookies if possible.",
@@ -338,6 +341,14 @@
       "ga-disable-UA-126476233-1": "Used to save the setting that you do not want tracking with Google Analytics.",
       "TTDOptOut": "Used to save the setting that you do not want tracking with The Trade Desk.",
       "fb-pixel-is-disabled": "Used to save the setting that you do not want tracking with Facebook Pixel."
+    },
+    "pinterest": {
+      "title": "Pinterest Tracking",
+      "description_html": "For information on the technology used by Pinterest and privacy, visit the following link: <a href=\"https:\/\/help.pinterest.com\/en/business\/article\/pinterest-tag-parameters-and-cookies\">help.pinterest.com\/en/business\/article\/pinterest-tag-parameters-and-cookies<\/a>",
+      "_pinterest_sess": "The Pinterest login cookie. Contains user id(s), authentication token(s), timestamp, etc.  If the user is logged out, authentication tokens are deleted, but we still leave the cookie present; we use the (logged out) user ids to optimize the user experience and measurement.",
+      "_pinterest_ct": "This is the equivalent of the _pinterest_sess cookie for our in-app browser.  This cookie is set in Pinner's in-app browser is set whenever the Pinner views offsite content (e.g. a 3rd party website) from within the Pinterest app.",
+      "_pinterest_ct_mw": "This is set whenever offsite content (e.g. a 3rd party website) is loaded in Pinner's mobile browser (e.g. Safari).  The Pinterest App opens content in the Pinner's mobile browser (instead of the in-app browser) whenever the Pinner clicks the \"Open in …\" button.  Also, we occasionally redirect the Pinner to the mobile browser (rather than in-app browser) experience.",
+      "_pinterest_ct_rt": "This is set whenever the Pinner visits an Advertiser's site which has the Pinterest Tag installed."
     }
   },
   "return": {
