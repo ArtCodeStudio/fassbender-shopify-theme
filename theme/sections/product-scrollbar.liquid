@@ -5,7 +5,13 @@
     {% for product in collection.products %}
       {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
       <div rv-on-tap="onProductTap" rv-on-mouseenter="onProductMouseenter" data-url="{{product.url}}" data-title="{{product.title}}" class="col-6 px-0 content-box ratio-3-4 cursor-pointer">
-        <img lazyload="lazy" class="content lazy" src="{{ product.featured_image | img_url: 'master' }}" rv-shopify-img="'{{ product.featured_image | img_url: 'master' }}'" alt="{{image.alt}}" />
+        <img
+          lazyload="lazy"
+          class="content lazy"
+          src="{{ product.featured_image | img_url: 'master' }}"
+          srcset="{{ product.featured_image  | img_url: '512x' }} 512w, {{ product.featured_image  | img_url: '1024x' }} 1024w, {{ product.featured_image  | img_url: '2048x' }} 2048w, {{ product.featured_image  | img_url: '4096x' }} 4096w, {{ product.featured_image | img_url: 'master' }} 5760w"
+          alt="{{image.alt}}"
+        />
       </div>
     {% endfor %}
     <div class="col-3"></div>

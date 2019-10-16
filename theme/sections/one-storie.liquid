@@ -19,7 +19,6 @@
 {% endif %}
 
 {% assign block_length = section.blocks | size %}
-{% assign imageSize = "master" %}
 
 <a rv-route="'{{ section.settings.story }}'" href="{{section.settings.story}}" rv-shopify-section='{{ section.settings | json }}' class="d-block container-fluid position-relative" style="background-color: {{ section.settings.color }};">
   <div class="row">
@@ -41,7 +40,7 @@
       {% endif %}
 
       {% if block.settings.image != blank %}
-        {% assign imageSrc = block.settings.image | img_url: imageSize %}
+        {% assign imageSrc = block.settings.image | img_url: 'master'  %}
       {% endif %}
 
       {% if block.settings.video_url != blank %}
@@ -71,14 +70,19 @@
       {% endif %}
 
       {% if block.settings.video_poster != blank %}
-        {% assign videoPoster = block.settings.video_poster | img_url: "master" %}
+        {% assign videoPoster = block.settings.video_poster | img_url: 'master' %}
       {% endif %}
 
       {% if video != blank %}
         {% if videoType == 'youtube' %}
           <div class="col px-0 content-box fit-initial {{contentBoxClass}}">
             {% if videoPoster %}
-              <img lazyload="lazy" class="{{imageClass}}" src="{{ videoPoster }}" rv-shopify-img="'{{ videoPoster }}'" alt="{{ section.settings.title }}" />
+              <img
+                lazyload="lazy"
+                class="{{imageClass}}"
+                src="{{ videoPoster }}"
+                alt="{{ section.settings.title }}"
+              />
             {% endif %}
             <iframe
               lazyload="lazy"
@@ -104,7 +108,12 @@
         {% elsif videoType == 'vimeo' %}
           <div class="col px-0 content-box fit-initial ratio-16-9">
             {% if videoPoster %}
-              <img lazyload="lazy" class="{{imageClass}}" src="{{ videoPoster }}" rv-shopify-img="'{{ videoPoster }}'" alt="{{ section.settings.title }}" />
+              <img
+                lazyload="lazy"
+                class="{{imageClass}}"
+                src="{{ videoPoster }}"
+                alt="{{ section.settings.title }}"
+              />
             {% endif %}
             <iframe
               lazyload="lazy"
@@ -148,7 +157,13 @@
         {% endif %}
       {% else %}
         <div class="col px-0 content-box {{contentBoxClass}}">
-          <img lazyload="lazy" class="{{imageClass}}" src="{{ imageSrc }}" rv-shopify-img="'{{ imageSrc }}'" alt="{{image.alt}}" style="padding: {{block.settings.spacing}}px" />
+          <img
+            lazyload="lazy"
+            class="{{imageClass}}"
+            src="{{ imageSrc }}"
+            alt="{{image.alt}}"
+            style="padding: {{block.settings.spacing}}px"
+          />
         </div>
       {% endif %}
     {% endfor %}

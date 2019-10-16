@@ -4,10 +4,8 @@
 {% assign images_length = images | size %}
 {% if images_length <= 1 %}
   {% assign ratioClass = "ratio-3-2" %}
-  {% assign imageSize = "master" %}
 {% else %}
   {% assign ratioClass = "ratio-3-4" %}
-  {% assign imageSize = "master" %}
 {% endif %}
 
 {% assign spacings = '39,100,39' | split: ',' %}
@@ -101,7 +99,13 @@
           {% endif %}
 
           <div class="col px-0 content-box {{contentBoxClass}}">
-            <img lazyload="lazy" class="{{ imageClass }}" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
+            <img
+              lazyload="lazy"
+              class="{{ imageClass }}"
+              src="{{ image }}"
+              alt="{{acticle.title}}"
+              style="padding: {{spacing}}px"
+            />
           
             {% comment %} title for medium and heigher {% endcomment %}
             {% if article.title and forloop.index0 == title_under_image %}

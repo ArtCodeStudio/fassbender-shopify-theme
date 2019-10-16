@@ -1,7 +1,6 @@
 <!-- jumplink-article-list-item-view-magazine.liquid -->
 {% assign ratioClass = "ratio-3-2" %}
 {% assign videoRatioClass = "ratio-16-9" %}
-{% assign imageSize = "2400x1600" %}
 {% assign imageCount = images | size %}
 {% assign imageSpacing = 0 %}
 
@@ -65,7 +64,13 @@
       <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" rv-scrollfix="" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
         <div class="col-12 col-md px-0 content-box {{videoRatioClass}}">
           {% if videoPoster %}
-            <img lazyload="lazy" class="content lazy" src="{{ videoPoster }}" rv-shopify-img="'{{ videoPoster }}'" alt="{{ article.title }}" style="padding: {{imageSpacing}}px" />
+            <img
+              lazyload="lazy"
+              class="content lazy"
+              src="{{ videoPoster }}"
+              alt="{{ article.title }}"
+              style="padding: {{imageSpacing}}px"
+            />
           {% endif %}
           {% if videoType == 'video/mp4' %}
             <video class="content lazy" preload="auto" controls {% if videoPoster %}poster="{{ videoPoster }}"{% endif %}>
@@ -117,7 +122,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images limit:1 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="lazy" class="content lazy" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{ article.title }}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="lazy" class="content lazy" src="{{ image }}" alt="{{ article.title }}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -126,7 +131,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:1 limit:2 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="lazy" class="content lazy" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="lazy" class="content lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -135,7 +140,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:3 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="lazy" class="content lazy" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img lazyload="lazy" class="content lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -196,7 +201,6 @@
   {% if nextArticle %}
     {% assign nextType = nextArticle.metafields["global"]["type"] %}
     {% assign nextColor = nextArticle.metafields["global"]["color"] %}
-    {% assign nextArticleImageSize = "master" %}
     {% capture nextArticleTitleStyle %}
       {% if color %}
         background-color:{{ nextColor | color_modify: 'alpha', 0.5 }};
@@ -209,7 +213,7 @@
   <div class="container-fluid position-relative">
     <div class="row">
       {% if nextArticle %}
-        {% include 'jumplink-article-item-col-ratio-3-4' with article: nextArticle, colClass: 'col-12 col-sm', color: nextColor, articleTitleStyle: nextArticleTitleStyle, articleImageSize: nextArticleImageSize, showVideo: false %}
+        {% include 'jumplink-article-item-col-ratio-3-4' with article: nextArticle, colClass: 'col-12 col-sm', color: nextColor, articleTitleStyle: nextArticleTitleStyle, showVideo: false %}
       {% endif %}
       {% if product.title != blank %}
         {% include 'jumplink-product-collection-grid-item-col-ratio-3-4' with product, colClass: 'col-12 col-sm' %}

@@ -17,7 +17,7 @@
 {% endif %}
 
 {% if article.image %}
-  {% assign image = article.image | img_url: articleImageSize %}
+  {% assign image = article.image | img_url: 'master' %}
 {% elsif article.metafields["global"]["Image-2"] %}
   {% comment %} Fallback Image {% endcomment %}
   {% assign image = article.metafields["global"]["Image-2"] %}
@@ -39,7 +39,13 @@
 <rv-shopify-article-item class="{{ colClass }} px-0 content-box ratio-3-4" rv-route="'{{ article.url }}'" href="{{article.url}}" style="background-color: {{ color }};">
   {% if showVideo %}
     {% if videoPoster %}
-      <img lazyload="lazy" class="content lazy" src="{{ videoPoster }}" rv-shopify-img="'{{ videoPoster }}'" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+      <img
+        lazyload="lazy"
+        class="content lazy"
+        src="{{ videoPoster }}"
+        alt="{{article.title}}"
+        style="padding: {{imageSpacing}}px"
+      />
     {% endif %}
     {% if videoType == 'video/mp4' %}
       <video class="content has-xs-spacing has-sm-spacing" preload="auto" controls {% if videoPoster %}poster="{{ videoPoster }}"{% endif %}>
@@ -84,8 +90,8 @@
         </iframe>
     {% endif %}
   {% else %}
-    {% if article.image %}
-      {% assign image = article.image | img_url: articleImageSize %}
+    {% if article.image | img_url: 'master' %}
+      {% assign image = article.image %}
     {% elsif article.metafields["global"]["Image-2"] %}
       {% comment %} Fallback Image {% endcomment %}
       {% assign image = article.metafields["global"]["Image-2"] %}
@@ -97,7 +103,13 @@
     {% elsif videoPoster %}
       {% assign image = videoPoster %}
     {% endif %}
-    <img lazyload="lazy" class="content has-xs-spacing has-sm-spacing" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{acticle.title}}" style="padding: 60px" />
+    <img
+      lazyload="lazy"
+      class="content has-xs-spacing has-sm-spacing"
+      src="{{ image }}"
+      alt="{{ acticle.title }}"
+      style="padding: 60px"
+    />
   {% endif %}
   {% if article.title %}
     <div class="position-absolute w-100 bottom-0" style="{{ articleTitleStyle }}">

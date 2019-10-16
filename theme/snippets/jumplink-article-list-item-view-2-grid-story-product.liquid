@@ -1,6 +1,5 @@
 <!-- jumplink-article-list-item-view-2-grid-story-product.liquid -->
 {% assign product = all_products[article.metafields["global"]["product-handle"]] %}
-{% assign articleImageSize = "master" %}
 {% capture articleTitleStyle %}
   {% if color %}
     background-color:{{ color | color_modify: 'alpha', 0.5 }};
@@ -9,7 +8,7 @@
 
 <div data-tags='{% include 'jumplink-utils-json-tags', tags: article.tags %}' class="container-fluid position-relative jumplink-article-list-item jumplink-article-list-item-view-2-grid-story-product">
   <div class="row">
-    {% include 'jumplink-article-item-col-ratio-3-4' with article, color, articleTitleStyle, articleImageSize: articleImageSize  %}
+    {% include 'jumplink-article-item-col-ratio-3-4' with article, color, articleTitleStyle %}
     {% include 'jumplink-product-item-col-ratio-3-4' with product, orderClass: productOrderClass  %}
   </div>
 </div>

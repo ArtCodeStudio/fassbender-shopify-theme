@@ -4,10 +4,8 @@
 {% assign images_length = images | size %}
 {% if images_length <= 1 %}
   {% assign ratioClass = "ratio-3-2" %}
-  {% assign imageSize = "master" %}
 {% else %}
   {% assign ratioClass = "ratio-3-4" %}
-  {% assign imageSize = "master" %}
 {% endif %}
 
 {% assign spacings = '0,0,0' | split: ',' %}
@@ -83,7 +81,7 @@
 
           {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
           <div class="col px-0 content-box {{contentBoxClass}}">
-            <img lazyload="lazy" class="{{imageClass}}" src="{{ image }}" rv-shopify-img="'{{ image }}'" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
+            <img lazyload="lazy" class="{{imageClass}}" src="{{ image }}" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
           </div>
         {% endfor %}
       {% endif %}

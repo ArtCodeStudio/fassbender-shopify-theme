@@ -8,13 +8,16 @@
   {% assign colClass = 'col' %}
 {% endif %}
 
-{% if imageSize == blank %}
-  {% assign imageSize = 'master' %}
-{% endif %}
-
 <rv-shopify-product-item handle="{{product.handle}}" class="{{colClass}} {{ orderClass }} px-0 content-box ratio-3-4">
   <a rv-route="'{{ product.url | within: collection }}'" href="{{product.url | within: collection }}">
-    <img lazyload="lazy" class="content has-xs-spacing has-sm-spacing" src="{{ product.featured_image | img_url: imageSize}}" rv-shopify-img="'{{ product.featured_image | img_url: 'master'}}'" alt="{{product.featured_image.alt}}" style="padding-bottom: 60px;"/>
+    <img
+      lazyload="lazy"
+      class="content has-xs-spacing has-sm-spacing"
+      src="{{ product.featured_image | img_url: 'master'}}"
+      srcset="{{ product.featured_image  | img_url: '512x' }} 512w, {{ product.featured_image | img_url: '1024x' }} 1024w, {{ product.featured_image | img_url: '2048x' }} 2048w, {{ product.featured_image | img_url: '4096x' }} 4096w, {{ product.featured_image | img_url: 'master' }} 5760w"
+      alt="{{product.featured_image.alt}}"
+      style="padding-bottom: 60px;"
+    />
   </a>
   <div class="position-absolute w-100 bottom-0">
     <div class="text-center title-xs-spacing title-sm-spacing text-truncate">

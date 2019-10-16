@@ -15,7 +15,6 @@
       class="content lazy"
       rv-class-show-detail-menu="showDetailMenu"
       src="{{ product.featured_image | img_url: '575x' }}"
-      rv-shopify-img="'{{ product.featured_image | img_url: 'master' }}'"
       {% comment %}
         srcset="{{ product.featured_image | img_url: '300x'}} 300w, {{ product.featured_image | img_url: '600x'}} 600w, {{ product.featured_image | img_url: '1200x'}} 1200w, {{ product.featured_image | img_url: '2400x'}} 2400w, {{ product.featured_image | img_url: '4000x'}} 4000w"
         For size testing
