@@ -36,8 +36,16 @@
         <img
           lazyload="lazy"
           class="img-fluid mr-3"
-          src="{{ item.image | img_url: '100x', scale: 2 }}"
-          srcset="{{ item.image | img_url: '100x', scale: 1 }} 1x, {{ item.image | img_url: '100x', scale: 2 }} 2x, {{ item.image | img_url: '100x', scale: 3 }} 3x, {{ item.image | img_url: '100x', scale: 4 }} 4x"
+          src="{{ item.image | img_url: '100x', scale: 4, format: 'pjpg' }}"
+          {% comment %}
+            highest quality first for safari, see https://stackoverflow.com/q/45487105
+          {% endcomment %}
+          srcset="
+            {{ item.image | img_url: '100x', scale: 4, format: 'pjpg' }} 4x,
+            {{ item.image | img_url: '100x', scale: 3, format: 'pjpg' }} 3x,
+            {{ item.image | img_url: '100x', scale: 2, format: 'pjpg' }} 2x,
+            {{ item.image | img_url: '100x', scale: 1, format: 'pjpg' }} 1x
+          "
           sizes="100px"
           alt="{{ item.title }}"
         />

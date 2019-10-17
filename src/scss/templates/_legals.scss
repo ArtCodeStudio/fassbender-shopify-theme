@@ -2,7 +2,16 @@
   display: none;
 }
 
-#page-legals {
+#body-page-cookies, #body-page-legals, #body-page-returns, #body-page-returns-form, #body-page-privacy-settings, #body-page-privacy, #body-page-cookies, #body-page-contact {
+  word-break: break-word;
+
+  table {
+    overflow-x: auto;
+    max-width: 100vw;
+    word-break: keep-all;
+    display: block;
+  }
+ 
   h2, h3, h4, h5, h6 {
     font-size: 1rem !important;
   }

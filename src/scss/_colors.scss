@@ -1,0 +1,5 @@
+.bg-white-on-hover {
+  &:hover {
+    @extend .bg-white;
+  }
+}

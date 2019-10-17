@@ -11,19 +11,25 @@
             lazyload="lazy"
             class="content lazy"
             src="{{ product.featured_image.src | img_url: 'master' }}"
+            {% comment %}
+              highest quality first for safari, see https://stackoverflow.com/q/45487105
+            {% endcomment %}
             srcset="
-              {{ product.featured_image | img_url: '200x' }} 200w,
-              {{ product.featured_image | img_url: '288x' }} 288w,
-              {{ product.featured_image | img_url: '300x' }} 300w,
-              {{ product.featured_image | img_url: '384x' }} 384w,
-              {{ product.featured_image | img_url: '575x' }} 575w,
-              {{ product.featured_image | img_url: '768x' }} 768w,
-              {{ product.featured_image | img_url: '991x' }} 991w,
-              {{ product.featured_image | img_url: '1199x' }} 1199w,
-              {{ product.featured_image | img_url: '1920x' }} 1920w,
               {{ product.featured_image | img_url: '2048x' }} 2048w,
-              {{ product.featured_image | img_url: '3072x' }} 3072w,
-              {{ product.featured_image | img_url: '4096x' }} 4096w"
+              {{ product.featured_image | img_url: '1920x' }} 1920w,
+              {{ product.featured_image | img_url: '1199x' }} 1199w,
+              {{ product.featured_image | img_url: '991x' }} 991w,
+              {{ product.featured_image | img_url: '768x' }} 768w,
+              {{ product.featured_image | img_url: '575x' }} 575w,
+              {{ product.featured_image | img_url: '384x' }} 384w,
+              {{ product.featured_image | img_url: '300x' }} 300w,
+              {{ product.featured_image | img_url: '288x' }} 288w,
+              {{ product.featured_image | img_url: '200x' }} 200w,
+              {{ product.featured_image | img_url: '4096x' }} 4096w,
+              {{ product.featured_image | img_url: '3072x' }} 3072w
+            "
+            {% comment %} WORKAROUND TO FIX SAFARI IMGAGE STRECH BUG {% endcomment %}
+            rv-srcset-1500w="'{{ product.featured_image | img_url: '1500x2000', crop: 'center', format: 'pjpg' }}'"
             sizes="100vw"
             alt="{{ product.title }} - {{ product.featured_image.alt }}"
           />
@@ -67,9 +73,9 @@
         Desktop / Mobile: Left part
       {% endcomment %}
       <div class="col order-1 order-lg-1 mb-5 pb-3 mb-lg-3 pt-4 d-flex flex-column justify-content-end">
-        <div class="variant-chooser">
+        <div class="variant-chooser pb-3">
           <div rv-each-option="product.options" class="row px-3" rv-if="option.name | eq 'color'" rv-add-class="option.name">
-            <div rv-show="option.name | eq 'color'" rv-each-color="option.values" class="col-auto px-1 cursor-pointer" rv-on-click="chooseOption | args color option.position option.name">
+            <div rv-show="option.name | eq 'color'" rv-each-color="option.values" class="col-auto pl-0 pr-2 cursor-pointer" rv-on-click="chooseOption | args color option.position option.name">
               <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace_first '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 20px; height: 20px;"></div>
             </div>
             {% for i in (1..4) %}
@@ -79,7 +85,7 @@
               {% assign handle = product.metafields["global"][HandleIndex] %}
               {% if color != blank and handle != blank %}
                 <a
-                  class="col-auto px-1 cursor-pointer"
+                  class="col-auto pl-0 pr-2 cursor-pointer"
                   href="{{ collection.url }}{{ all_products[handle].url }}"
                   rv-route="'{{ collection.url }}{{ all_products[handle].url }}'"
                 >

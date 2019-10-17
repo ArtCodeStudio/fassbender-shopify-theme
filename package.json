@@ -1,11 +1,13 @@
 {
   "name": "fassbender-shopify-theme",
-  "version": "2.0.5",
+  "version": "2.0.7",
   "description": "Shopify theme based on Bootstrap 4",
   "main": "src/ts/main.ts",
   "typings": "src/ts/types",
   "scripts": {
     "theme:download": "theme download --dir './theme'",
+    "theme:download:locales": "theme download --dir './theme' locales",
+    "theme:download:config": "theme download --dir './theme' config",
     "webpack": "webpack --env.production",
     "webpack:dev": "webpack --env.development",
     "deploy": "npm run build && theme deploy --dir ./theme",

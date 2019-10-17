@@ -61,7 +61,7 @@
 
 </head>
 
-<body id="{% include 'jumplink-utils-get-namespace' %}" rv-id="dataset.namespace">
+<body id="body-{% include 'jumplink-utils-get-namespace' %}" rv-id="dataset.namespace | prepend 'body-'">
 
   <div id="layout-top">
     {% include 'jumplink-navigation' %}

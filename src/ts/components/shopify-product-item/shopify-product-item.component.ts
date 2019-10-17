@@ -2,8 +2,6 @@ import {
   Component,
   IBinder,
   Debug,
-  Binding,
-  JQuery as $,
 } from '@ribajs/core';
 import {
   IShopifyProductVariant,
@@ -51,8 +49,6 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   static get observedAttributes() {
     return ['handle', 'extras'];
   }
-
-  protected $el: JQuery<HTMLElement>;
 
   protected debug = Debug('component:' + ShopifyProductItemComponent.tagName);
 
@@ -139,9 +135,11 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.$el = $(this.el);
     this.debug('constructor', this);
     this.init(ShopifyProductItemComponent.observedAttributes);
+    this.el.addEventListener('mouseleave', (event: Event) => {
+      this.showMenu = false;
+    }, false);
   }
 
   public chooseOption(optionValue: string | number, position1: number, optionName: string, context: IBinder<any>, event: MouseEvent, scope: any, el: HTMLElement) {
@@ -198,6 +196,11 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     }
   }
 
+  // deconstructor
+  protected disconnectedCallback() {
+    super.disconnectedCallback();
+  }
+
   /**
    * Workaround because `rv-class-active="isOptionActive | call size"` is not updating if selectedOptions changes
    * @param optionValue
@@ -206,8 +209,14 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   protected activateOption(optionValue: string, optionName: string) {
     optionValue = optionValue.toString().replace('#', '');
     this.debug('activateOption', `.option-${optionName.toLowerCase()}-${optionValue}`);
-    this.$el.find(`.option-${optionName.toLocaleLowerCase()}`).removeClass('active');
-    this.$el.find(`.option-${optionName.toLocaleLowerCase()}-${optionValue}`).addClass('active');
+    const allOptions = this.el.querySelectorAll(`.option-${optionName.toLocaleLowerCase()}`);
+    allOptions.forEach((el) => {
+      el.classList.remove('active');
+    });
+    const activeOptions = this.el.querySelectorAll(`.option-${optionName.toLocaleLowerCase()}-${optionValue}`);
+    activeOptions.forEach((el) => {
+      el.classList.add('active');
+    });
   }
 
   /**

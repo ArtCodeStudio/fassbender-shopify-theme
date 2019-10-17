@@ -8,8 +8,14 @@
         <img
           lazyload="lazy"
           class="content lazy"
-          src="{{ product.featured_image | img_url: 'master' }}"
-          srcset="{{ product.featured_image  | img_url: '512x' }} 512w, {{ product.featured_image  | img_url: '1024x' }} 1024w, {{ product.featured_image  | img_url: '2048x' }} 2048w, {{ product.featured_image  | img_url: '4096x' }} 4096w, {{ product.featured_image | img_url: 'master' }} 5760w"
+          src="{{ product.featured_image | img_url: '1024x1365', crop: 'center', format: 'pjpg' }} 1024w"
+          {% comment %}
+            highest quality first for safari, see https://stackoverflow.com/q/45487105
+          {% endcomment %}
+          srcset="
+            {{ product.featured_image | img_url: '1024x1365', crop: 'center', format: 'pjpg' }} 1024w,
+            {{ product.featured_image | img_url: '512x683', crop: 'center', format: 'pjpg' }} 512w,
+          "
           alt="{{image.alt}}"
         />
       </div>

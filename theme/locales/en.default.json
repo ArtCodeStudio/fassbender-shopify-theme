@@ -165,8 +165,8 @@
     },
     "privacy": {
       "tracking_title": "Disable tracking services",
-      "do_not_track_note": "We recommend that you enable the <strong>Do Not Track</ strong> option of your browser if you do not want tracking. This also automatically disables the options listed below.",
-      "do_not_track_is_enabled": "Everything clean, you have activated your browser's <strong> Do Not Track </ strong> option, so the tracking services below are already disabled.",
+      "do_not_track_note_html": "We recommend that you enable the <strong>Do Not Track</strong> option of your browser if you do not want tracking. This also automatically disables the options listed below.",
+      "do_not_track_is_enabled_html": "Everything clean, you have activated your browser's <strong>Do Not Track</strong> option, so the tracking services below are already disabled.",
       "cookies_label_html": "Allow the use of cookies<br><small>Sorry you can 't disable cookies because they are necessary to make the shop work<\/small>",
       "shopify_tracking_label_html": "Allow internal tracking by our shopsytem<br><small>Sorry you can 't disable the tracking by our shopsytem<\/small>",
       "google_analytics_label_html": "Allow tracking with <a href=\"https:\/\/analytics.google.com\/\">Google Analytics<\/a>",

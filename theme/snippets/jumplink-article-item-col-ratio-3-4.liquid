@@ -36,7 +36,7 @@
   {% endunless %}
 {% endif %}
 
-<rv-shopify-article-item class="{{ colClass }} px-0 content-box ratio-3-4" rv-route="'{{ article.url }}'" href="{{article.url}}" style="background-color: {{ color }};">
+<rv-shopify-article-item class="{{ colClass }} px-0 content-box ratio-3-4" rv-route="'{{ article.url }}'" href="{{ article.url }}" style="background-color: {{ color }};">
   {% if showVideo %}
     {% if videoPoster %}
       <img
