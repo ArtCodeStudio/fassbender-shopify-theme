@@ -37,9 +37,13 @@
 @import 'templates/index';
 
 // components, binders and sections
-@import '../ts/components/components';
+@import '../ts/components/index';
 @import '../ts/binders/index';
 @import 'sections/index';
 
+// Component overwrites
+@import 'components/index';
+
 // Riba
+@import '../../node_modules//@ribajs/core/src/index';
 @import '../../node_modules//@ribajs/shopify/src/index';

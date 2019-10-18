@@ -48,12 +48,16 @@
       />
     {% endif %}
     {% if videoType == 'video/mp4' %}
-      <video class="content has-xs-spacing has-sm-spacing" preload="auto" controls {% if videoPoster %}poster="{{ videoPoster }}"{% endif %}>
-        <source src="{{video}}" type="video/mp4">
-        <span rv-i18n-text="'system.video_tag_not_supported'">
-          {{'system.video_tag_not_supported'|t}}
-        </span>
-      </video>
+      <rv-video class="content has-xs-spacing has-sm-spacing">
+        <video preload="auto" controls {% if videoPoster %}poster="{{ videoPoster }}"{% endif %} playsinline webkit-playsinline>
+          <source src="{{video}}" type="video/mp4">
+          <span rv-i18n-text="'system.video_tag_not_supported'">
+            {{'system.video_tag_not_supported'|t}}
+          </span>
+        </video>
+        <rv-icon rv-hide="muted" rv-on-click="toggleMute" size="50" class="video-volume-high" src="{{ 'icon_volume-high_alt.svg' | asset_url }}"></rv-icon>
+        <rv-icon rv-show="muted" rv-on-click="toggleMute" size="50" class="video-volume-mute" src="{{ 'icon_vol-mute_alt.svg' | asset_url }}"></rv-icon>
+      </rv-video>
     {% endif %}
     {% if videoType == 'vimeo' %}
       <iframe

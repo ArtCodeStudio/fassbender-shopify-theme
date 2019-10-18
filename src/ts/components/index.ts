@@ -24,3 +24,4 @@ export { ShareComponent } from './share/share.component';
 export { PrivacySettingsComponent } from './privacy-settings/privacy-settings.component';
 export { ProductScrollbarComponent } from './product-scrollbar/product-scrollbar.component';
 export * from './bs4/bs4.components';
+export { FsbdrVideoComponent } from './fsbdr-video/fsbdr-video.component';

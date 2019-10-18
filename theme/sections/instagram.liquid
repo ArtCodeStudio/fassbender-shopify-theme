@@ -4,7 +4,7 @@
   limit="{{section.settings.limit}}"
   >
   <div class="row">
-    <div class="col-12 col-sm-4 px-0 content-box ratio-1-1" rv-each-image="media.data" rv-add-class="image.media_type" rv-data-url="image.permalink" rv-on-tap="onTap">
+    <div class="col-12 col-sm-4 px-0 content-box ratio-1-1" rv-each-image="media.data" rv-add-class="image.media_type" rv-data-url="image.permalink" rv-on-doubletap="onTap">
       {% comment %} IMAGE {% endcomment %}
       <img lazyload="lazy" class="content lazy" rv-if="image.media_type | eq 'IMAGE'" rv-src="image.media_url" rv-src="image.media_url" rv-alt="image.caption">
 
@@ -12,10 +12,15 @@
       <img lazyload="lazy" class="content lazy" rv-if="image.media_type | eq 'CAROUSEL_ALBUM'" rv-src="image.media_url" rv-src="image.media_url" rv-alt="image.caption">
       
       {% comment %} VIDEO {% endcomment %}
-      <video class="content lazy" rv-if="image.media_type | eq 'VIDEO'" autoplay muted loop preload playsinline webkit-playsinline>
-        <source rv-src="image.media_url" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <fsbdr-video class="" rv-mp4-src="image.media_url" rv-show="image.media_type | eq 'VIDEO'">
+        {% comment %} VIDEO {% endcomment %}
+        <video class="content lazy" autoplay muted loop preload playsinline webkit-playsinline>
+          <source rv-src="mp4Src" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <rv-icon rv-hide="muted" rv-on-click="toggleMute" size="50" class="video-volume-high" src="{{ 'icon_volume-high_alt.svg' | asset_url }}"></rv-icon>
+        <rv-icon rv-show="muted" rv-on-click="toggleMute" size="50" class="video-volume-mute" src="{{ 'icon_vol-mute_alt.svg' | asset_url }}"></rv-icon>
+      </fsbdr-video>
 
       {% comment %} hover info {% endcomment %}
       <div class="content caption d-none d-md-flex align-items-center" rv-text="image.caption">

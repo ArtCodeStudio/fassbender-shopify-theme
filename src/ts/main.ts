@@ -15,7 +15,7 @@ import i18nModule from '@ribajs/i18n';
 import { TrackingService } from './services/tracking.services';
 import * as customBinders from './binders/index';
 
-import * as CustomComponents from './components/components';
+import * as CustomComponents from './components/index';
 import { LocalesService } from '@ribajs/shopify-tda';
 
 declare global {

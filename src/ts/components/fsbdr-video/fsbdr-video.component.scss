@@ -1,0 +1,27 @@
+rv-video, fsbdr-video {
+  display: block;
+  color: $white;
+  .video-volume-high, .video-volume-mute {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 15px;
+    transition: opacity 100ms ease;
+    opacity: 0.7;
+    z-index: 1;
+    @include media-breakpoint-up(lg) {
+      opacity: 0;
+    }
+    &:hover {
+      color: $primary;
+    }
+  }
+  &:hover {
+    .video-volume-high, .video-volume-mute {
+      opacity: 0.7 !important;
+      @include media-breakpoint-up(lg) {
+        opacity: 0.7;
+      }
+    }
+  }
+}

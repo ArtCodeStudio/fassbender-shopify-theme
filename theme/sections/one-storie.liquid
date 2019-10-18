@@ -20,7 +20,7 @@
 
 {% assign block_length = section.blocks | size %}
 
-<a rv-route="'{{ section.settings.story }}'" href="{{section.settings.story}}" rv-shopify-section='{{ section.settings | json }}' class="d-block container-fluid position-relative" style="background-color: {{ section.settings.color }};">
+<a rv-route="'{{ section.settings.story }}'" href="{{ section.settings.story }}" rv-shopify-section='{{ section.settings | json }}' class="d-block container-fluid position-relative" style="background-color: {{ section.settings.color }};">
   <div class="row">
     {% for block in section.blocks %}
       
@@ -75,18 +75,18 @@
 
       {% if video != blank %}
         {% if videoType == 'youtube' %}
-          <div class="col px-0 content-box fit-initial {{contentBoxClass}}">
+          <div class="col px-0 content-box fit-initial {{ contentBoxClass }}">
             {% if videoPoster %}
               <img
                 lazyload="lazy"
-                class="{{imageClass}}"
+                class="{{ imageClass }}"
                 src="{{ videoPoster }}"
                 alt="{{ section.settings.title }}"
               />
             {% endif %}
             <iframe
               lazyload="lazy"
-              class="{{imageClass}}"
+              class="{{ imageClass }}"
               id="ytplayer"
               type="text/html" 
               src="https://www.youtube.com/embed/{{ video.id  }}?autoplay=1&color=white&disablekb=0&enablejsapi=0&fs=1&iv_load_policy=3&loop=0&modestbranding=1&origin={{shop.url}}&playsinline=0&rel=0&showinfo=0&{{ youtubeParams }}"
@@ -110,14 +110,14 @@
             {% if videoPoster %}
               <img
                 lazyload="lazy"
-                class="{{imageClass}}"
+                class="{{ imageClass }}"
                 src="{{ videoPoster }}"
                 alt="{{ section.settings.title }}"
               />
             {% endif %}
             <iframe
               lazyload="lazy"
-              class="{{imageClass}}"
+              class="{{ imageClass }}"
               type="text/html" 
               src="https://player.vimeo.com/video/{{ video.id }}?color=D9998F&autoplay=1&loop=1&autopause=0&{{ vimeoParams }}"
               frameborder="0"
@@ -136,9 +136,11 @@
               </iframe>
           </div>
         {% elsif videoType == 'video/mp4' %}
-          <div class="col px-0 content-box {{contentBoxClass}}">
+          <rv-video class="col px-0 content-box {{ contentBoxClass }}">
             <video
-              class="{{imageClass}}"
+              class="{{ imageClass }}"
+              playsinline
+              webkit-playsinline
               autoplay
               {% if block.settings.mute %}
                 muted
@@ -148,21 +150,23 @@
               {% endif %}
               loop
               {% if videoPoster %}poster="{{ videoPoster }}"{% endif %}>
-              <source src="{{video}}" type="video/mp4">
+              <source src="{{ video }}" type="video/mp4">
               <span rv-i18n-text="'system.video_tag_not_supported'">
-                {{'system.video_tag_not_supported'|t}}
+                {{ 'system.video_tag_not_supported'|t }}
               </span>
             </video>
-          </div>
+            <rv-icon rv-hide="muted" rv-on-click="toggleMute" size="50" class="video-volume-high" src="{{ 'icon_volume-high_alt.svg' | asset_url }}"></rv-icon>
+            <rv-icon rv-show="muted" rv-on-click="toggleMute" size="50" class="video-volume-mute" src="{{ 'icon_vol-mute_alt.svg' | asset_url }}"></rv-icon>
+          </rv-video>
         {% endif %}
       {% else %}
-        <div class="col px-0 content-box {{contentBoxClass}}">
+        <div class="col px-0 content-box {{ contentBoxClass }}">
           <img
             lazyload="lazy"
-            class="{{imageClass}}"
+            class="{{ imageClass }}"
             src="{{ imageSrc }}"
-            alt="{{image.alt}}"
-            style="padding: {{block.settings.spacing}}px"
+            alt="{{ image.alt }}"
+            style="padding: {{ block.settings.spacing }}px"
           />
         </div>
       {% endif %}

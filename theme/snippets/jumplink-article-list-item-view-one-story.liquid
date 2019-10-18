@@ -50,14 +50,16 @@
           {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
         {% endif %}
 
-        <div class="col px-0 content-box {{contentBoxClass}}">
-          <video class="{{imageClass}}" preload="auto" controls style="padding: {{spacing}}px">
+        <rv-video class="col px-0 content-box {{contentBoxClass}}">
+          <video class="{{imageClass}}" preload="auto" controls style="padding: {{spacing}}px" playsinline webkit-playsinline>
             <source src="{{ video }}" type="video/mp4">
             <span rv-i18n-text="'system.video_tag_not_supported'">
               {{'system.video_tag_not_supported'|t}}
             </span>
           </video>
-        </div>
+          <rv-icon rv-hide="muted" rv-on-click="toggleMute" size="50" class="video-volume-high" src="{{ 'icon_volume-high_alt.svg' | asset_url }}"></rv-icon>
+          <rv-icon rv-show="muted" rv-on-click="toggleMute" size="50" class="video-volume-mute" src="{{ 'icon_vol-mute_alt.svg' | asset_url }}"></rv-icon>
+        </rv-video>
 
       {% else %}
         {% for image in images %}

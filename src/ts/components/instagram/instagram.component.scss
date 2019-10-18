@@ -1,5 +1,5 @@
 rv-instagram {
-  .content-box{
+  .content-box {
     .content {
       transform: scale(1);
       transition: 0.3s all ease;
@@ -20,5 +20,8 @@ rv-instagram {
         }
       }
     }
+  }
+  .video-volume-high, .video-volume-mute {
+    opacity: 0.7 !important;
   }
 }
