@@ -169,8 +169,8 @@
               "image": "",
               "aspect_ratio": "16-9",
               "aspect_ratio_md": "16-9",
-              "video_url": "https:\/\/vimeo.com\/363147174",
-              "mp4_video_url": "",
+              "video_url": "",
+              "mp4_video_url": "https:\/\/player.vimeo.com\/external\/363147174.hd.mp4?s=e096a5243bc365f4757f7f6c9072829ee309b738&profile_id=175",
               "controls": false,
               "mute": true,
               "video_poster": "shopify:\/\/shop_images\/820371376.jpg",
@@ -187,6 +187,180 @@
           "show_title": false,
           "color": "#ffffff",
           "title_spacing": 7
+        }
+      },
+      "lookbook-01": {
+        "type": "lookbook-01",
+        "blocks": {
+          "1571908910277": {
+            "type": "product",
+            "settings": {
+              "title": "Puffa Reptil Black",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_4.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571909000412": {
+            "type": "product",
+            "settings": {
+              "title": "Coat Burgundy",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_5.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571909267436": {
+            "type": "product",
+            "settings": {
+              "title": "Trench Coat Beige",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_6.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571909345856": {
+            "type": "product",
+            "settings": {
+              "title": "Pea Coat Bottle Green",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_1.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571909392658": {
+            "type": "product",
+            "settings": {
+              "title": "Parka Velvet Olive",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_2.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571909471184": {
+            "type": "product",
+            "settings": {
+              "title": "Biker Jacket Offwhite",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_3.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571909535593": {
+            "type": "product",
+            "settings": {
+              "title": "Coat Mid Grey",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_7.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          }
+        },
+        "block_order": [
+          "1571909535593",
+          "1571908910277",
+          "1571909267436",
+          "1571909471184",
+          "1571909392658",
+          "1571909345856",
+          "1571909000412"
+        ],
+        "settings": {
+          "title": "FW18\/19"
+        }
+      },
+      "lookbook-02": {
+        "type": "lookbook-02",
+        "blocks": {
+          "1571910664003": {
+            "type": "product",
+            "settings": {
+              "title": "Vintage Coat",
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_14.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": "shopify:\/\/products\/vintage-coat-beige-blue"
+            }
+          },
+          "1571910688499": {
+            "type": "product",
+            "settings": {
+              "title": "Trenchcoat",
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_10.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": "shopify:\/\/products\/2-in-1-trench-coat-beige"
+            }
+          },
+          "1571910755683": {
+            "type": "product",
+            "settings": {
+              "title": "Pea Coat",
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_12_bea56901-bf24-4e9e-980d-9f1158278115.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": "shopify:\/\/products\/pea-coat-black-1"
+            }
+          },
+          "1571910871223": {
+            "type": "product",
+            "settings": {
+              "title": "Parka",
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_3.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": "shopify:\/\/products\/parka-olive"
+            }
+          },
+          "1571910962171": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_4.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571910987527": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_6_bb18ae95-63e6-4379-9d68-92776a16724d.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571911085092": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_11.jpg",
+              "aspect_ratio": "3-4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          }
+        },
+        "block_order": [
+          "1571910987527",
+          "1571910755683",
+          "1571910688499",
+          "1571910871223",
+          "1571910664003",
+          "1571910962171",
+          "1571911085092"
+        ],
+        "settings": {
+          "title": "FW19\/20"
         }
       }
     },

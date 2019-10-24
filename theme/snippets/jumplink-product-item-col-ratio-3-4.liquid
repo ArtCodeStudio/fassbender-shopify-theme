@@ -30,6 +30,7 @@
       "
       {% comment %} WORKAROUND TO FIX SAFARI IMGAGE STRECH BUG {% endcomment %}
       rv-srcset-1500w="'{{ product.featured_image | img_url: '1500x2000', crop: 'center', format: 'pjpg' }}'"
+      sizes=50vw
       alt="{{ product.featured_image.alt }}"
       style="padding-bottom: 60px;"
     />

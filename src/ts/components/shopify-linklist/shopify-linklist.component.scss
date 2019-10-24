@@ -6,4 +6,36 @@ shopify-linklist {
       padding-right: 0;
     }
   }
+
+  .nav-item {
+    &.nav-item-level-2 {
+      @extend .small;
+    }
+  }
+
+  &#sidenav-main-menu { 
+    .nav-item {
+      &.nav-item-level-1 {
+        .nav-link {
+          @extend .font-weight-bold;
+        }
+        .nav-item-level-2 {
+          @extend .small;
+          @extend .custom-control;
+          @extend .custom-radio;
+          background-repeat: no-repeat;
+          background-size: 7px;
+          background-position: left center;
+          background-image: $custom-radio-indicator-icon-unchecked;
+          &.active {
+            background-image: $custom-radio-indicator-icon-checked;
+          }
+          .nav-link {
+            @extend .font-weight-normal;
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
 }

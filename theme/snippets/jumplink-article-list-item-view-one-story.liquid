@@ -57,8 +57,10 @@
               {{'system.video_tag_not_supported'|t}}
             </span>
           </video>
-          <rv-icon rv-hide="muted" rv-on-click="toggleMute" size="50" class="video-volume-high" src="{{ 'icon_volume-high_alt.svg' | asset_url }}"></rv-icon>
-          <rv-icon rv-show="muted" rv-on-click="toggleMute" size="50" class="video-volume-mute" src="{{ 'icon_vol-mute_alt.svg' | asset_url }}"></rv-icon>
+          <div rv-hide="controls" class="video-custom-controls">
+            <rv-icon rv-hide="muted" rv-on-click="toggleMute" size="50" class="video-volume-high" src="{{ 'icon_volume-high_alt.svg' | asset_url }}"></rv-icon>
+            <rv-icon rv-show="muted" rv-on-click="toggleMute" size="50" class="video-volume-mute" src="{{ 'icon_vol-mute_alt.svg' | asset_url }}"></rv-icon>
+          </div>
         </rv-video>
 
       {% else %}

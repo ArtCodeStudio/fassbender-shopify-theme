@@ -1,24 +1,38 @@
 <nav class="nav" rv-add-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
-  <div class="nav-item" rv-each-link="linklist.links">
+  <div class="nav-item nav-item-level-1" rv-each-link="linklist.links" rv-route-class-active="link.url">
     <a
+      rv-if="link.collapseable | not"
       class="nav-link"
-      rv-class-active="link.active"
       rv-parent-route-class-active="link.url"
       rv-route="link.url"
       rv-href="link.url"
       >
       <span rv-i18n-text="link.title | handleize | prepend 'menus.'">{link.title}</span>
     </a>
-    <div class="nav-item" rv-each-sublink="link.links">
+
+    <button rv-if="link.collapseable" class="btn nav-link" rv-on-click="toggle | args link">
+      <span rv-i18n-text="link.title | handleize | prepend 'menus.'">{link.title}</span>
+    </button>
+
+    <div class="nav-item nav-item-level-2" rv-hide="link.collapsed" rv-each-sublink="link.links" rv-route-class-active="sublink.url">
       <a
         class="nav-link"
-        rv-class-active="sublink.active"
-        rv-route-class-active="link.url"
+        rv-route-class-active="sublink.url"
         rv-route="sublink.url"
         rv-href="sublink.url"
       >
-      <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
-    </a>
+        <span rv-i18n-text="sublink.title | handleize | prepend 'menus.'">{sublink.title}</span>
+      </a>
+      <div class="nav-item nav-item-level-3" rv-each-subsublink="sublink.links" rv-route-class-active="subsublink.url">
+        <a
+          class="nav-link"
+          rv-route-class-active="subsublink.url"
+          rv-route="subsublink.url"
+          rv-href="subsublink.url"
+        >
+          <span rv-i18n-text="subsublink.title | handleize | prepend 'menus.'">{subsublink.title}</span>
+        </a>
+      </div>
     </div>
   </div>
 </nav>

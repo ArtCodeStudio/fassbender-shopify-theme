@@ -1,0 +1,264 @@
+<div class="container-fluid" id="page-lookbook">
+  <div class="row">
+    {% for block in section.blocks %}
+      {% assign ratioClass = "ratio-" | append: block.settings.aspect_ratio %}
+      {% assign ratioClassMD = "ratio-md-" | append: block.settings.aspect_ratio_md %}
+
+      {% if block.settings.url contains "/blogs/" %}
+        {% assign handle = block.settings.url | remove_first: "/blogs/" %}
+        {% assign item = articles[handle] %}
+      {% endif %}
+
+      {% if block.settings.url contains "/products/" %}
+        {% assign handle = block.settings.url | remove_first: "/products/" %}
+        {% assign item = all_products[handle] %}
+      {% endif %}
+
+      {% if block.settings.url contains "/pages/" %}
+        {% assign handle = block.settings.url | remove_first: "/pages/" %}
+        {% assign item = pages[handle] %}
+      {% endif %}
+
+      {% if block.settings.url contains "/collections/" %}
+        {% assign handle = block.settings.url | remove_first: "/collections/" %}
+        {% assign item = collections[handle] %}
+      {% endif %}
+
+      {% if block.settings.url != blank %}
+        {% assign hasUrl = true %}
+      {% else %}
+        {% assign hasUrl = false %}
+      {% endif %}
+
+      {% if block.settings.image != blank %}
+        {% assign image = block.settings.image %}
+      {% else %}
+        {% comment %} Fallback image {% endcomment %}
+        {% if item.featured_image != blank %}
+          {% assign image = item.featured_image %}
+        {% endif %}
+        {% if item.image != blank %}
+          {% assign image = item.image %}
+        {% endif %}
+      {% endif %}
+
+      {% if hasUrl %}
+      <a href="{{ block.settings.url }}" rv-route="'{{ block.settings.url }}'" class="col-6 col-lg-4 col-xl-3 px-0 content-box {{ ratioClass }} {{ ratioClassMD }}">
+      {% else %}
+      <div class="col-6 col-lg-4 col-xl-3 px-0 content-box {{ ratioClass }} {{ ratioClassMD }}">
+      {% endif %}
+        <img
+          lazyload="lazy"
+          class="content lazy"
+          src="{{ image | img_url: '1200x1600', crop: 'center', format: 'pjpg' }}"
+          srcset="
+            {{ image | img_url: '1200x1600', crop: 'center', format: 'pjpg' }} 1200w,
+            {{ image | img_url: '1024x1365', crop: 'center', format: 'pjpg' }} 1024w,
+            {{ image | img_url: '991x1321', crop: 'center', format: 'pjpg' }} 991w,
+            {{ image | img_url: '768x1024', crop: 'center', format: 'pjpg' }} 768w,
+            {{ image | img_url: '575x767', crop: 'center', format: 'pjpg' }} 575w,
+            {{ image | img_url: '384x512', crop: 'center', format: 'pjpg' }} 384w,
+            {{ image | img_url: '300x400', crop: 'center', format: 'pjpg' }} 300w,
+            {{ image | img_url: '288x384', crop: 'center', format: 'pjpg' }} 288w,
+            {{ image | img_url: '200x267', crop: 'center', format: 'pjpg' }} 200w,
+            {{ image | img_url: '1920x2560', crop: 'center', format: 'pjpg' }} 1920w,
+            {{ image | img_url: '2048x2731', crop: 'center', format: 'pjpg' }} 2048w,
+            {{ image | img_url: '4096x5461', crop: 'center', format: 'pjpg' }} 4096w
+          "
+          {% comment %} WORKAROUND TO FIX SAFARI IMGAGE STRECH BUG {% endcomment %}
+          rv-srcset-1500w="'{{ product.featured_image | img_url: '1500x2000', crop: 'center', format: 'pjpg' }}'"
+          sizes="
+            (min-width: 992px) 33vw,
+            (min-width: 1200px) 25vw,
+            50vw,
+          "
+          alt="{{ image.alt }}"
+        />
+      {% if hasUrl %}
+      </a>
+      {% else %}
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Lookbook 01",
+    "class": "lookbook",
+    "settings": [
+      {
+        "type":      "text",
+        "id":        "title",
+        "label":     "Title"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+          {
+            "type":      "text",
+            "id":        "title",
+            "label":     "Title"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "select",
+            "id": "aspect_ratio",
+            "label": "Aspect ratio (Smartphone)",
+            "options": [
+              {
+                "value": "1-1",
+                "label": "1:1"
+              },
+              {
+                "value": "3-2",
+                "label": "3:2"
+              },
+              {
+                "value": "2-3",
+                "label": "2:3"
+              },
+              {
+                "value": "2-1",
+                "label": "2:1"
+              },
+              {
+                "value": "1-2",
+                "label": "1:2"
+              },
+              {
+                "value": "4-3",
+                "label": "4:3"
+              },
+              {
+                "value": "3-4",
+                "label": "3:4 (default)"
+              },
+              {
+                "value": "16-9",
+                "label": "16:9 (Videos)"
+              },
+              {
+                "value": "9-16",
+                "label": "9:16"
+              },
+              {
+                "value": "10-3",
+                "label": "10:3"
+              },
+              {
+                "value": "3-10",
+                "label": "3:10"
+              },
+              {
+                "value": "17-10",
+                "label": "17:10"
+              },
+              {
+                "value": "10-17",
+                "label": "10:17"
+              },
+              {
+                "value": "14-9",
+                "label": "14:9"
+              },
+              {
+                "value": "9-14",
+                "label": "9:14"
+              }
+            ],
+            "default": "3-4"
+          },
+          {
+            "type": "select",
+            "id": "aspect_ratio_md",
+            "label": "Aspect ratio (Desktop)",
+            "info": "Not working on embedded Vimeo Videos (always 16:9), instead use the .mp4 from vimeo",
+            "options": [
+              {
+                "value": "none",
+                "label": "None (use the smartphone ratio) (default)"
+              },
+              {
+                "value": "1-1",
+                "label": "1:1"
+              },
+              {
+                "value": "3-2",
+                "label": "3:2"
+              },
+              {
+                "value": "2-3",
+                "label": "2:3"
+              },
+              {
+                "value": "2-1",
+                "label": "2:1"
+              },
+              {
+                "value": "1-2",
+                "label": "1:2"
+              },
+              {
+                "value": "4-3",
+                "label": "4:3"
+              },
+              {
+                "value": "3-4",
+                "label": "3:4 (use this for 2 images side by side)"
+              },
+              {
+                "value": "16-9",
+                "label": "16:9 (Videos)"
+              },
+              {
+                "value": "9-16",
+                "label": "9:16"
+              },
+              {
+                "value": "10-3",
+                "label": "10:3"
+              },
+              {
+                "value": "3-10",
+                "label": "3:10"
+              },
+              {
+                "value": "17-10",
+                "label": "17:10"
+              },
+              {
+                "value": "10-17",
+                "label": "10:17"
+              },
+              {
+                "value": "14-9",
+                "label": "14:9"
+              },
+              {
+                "value": "9-14",
+                "label": "9:14"
+              }
+            ],
+            "default": "none"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Url"
+          }
+        ]
+      }
+    ],
+    "presets": [],
+    "locales": {}
+  }
+{% endschema %}
