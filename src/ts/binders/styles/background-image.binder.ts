@@ -1,4 +1,5 @@
-import { IBinder, JQuery as $ } from '@ribajs/core';
+import { IBinder } from '@ribajs/core';
+import { JQuery as $ } from '@ribajs/jquery';
 
 export const backgroundImageBinder: IBinder<string> = {
   name: 'background-image',

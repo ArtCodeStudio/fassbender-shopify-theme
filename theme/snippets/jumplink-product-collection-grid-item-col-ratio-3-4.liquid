@@ -51,7 +51,7 @@
             <div class="form-inline">
               <label class="m-0" for="quanity" rv-i18n-text="'products.quantity'">{{'products.quantity'|t}}</label>
               <span class="px-3 btn-quantity" rv-on-click="decrease">-</span>
-              <input type="number" min="0" step="1" class="form-control input-quantity bg-transparent border-0 px-0 text-center" id="quanity" rv-value="quantity | strip_html | number 1">
+              <input type="number" min="0" step="1" class="form-control input-quantity bg-transparent border-0 px-0 text-center" id="quanity" rv-value="quantity | stripHtml | number 1">
               <span class="px-3 btn-quantity" rv-on-click="increase">+</span>
             </div>
           </div>
@@ -75,7 +75,7 @@
       <div class="col-12">
         <div class="row m-0">
           <div rv-each-color="colorOption.values" class="col-auto pl-0 pr-2 pb-4 cursor-pointer pointer-events-all" rv-on-click="chooseOption | args color colorOption.position colorOption.name">
-            <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace_first '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 16px; height: 16px;"></div>
+            <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replaceFirst '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 16px; height: 16px;"></div>
           </div>
           {% for i in (1..4) %}
             {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}

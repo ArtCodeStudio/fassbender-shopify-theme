@@ -36,14 +36,14 @@
 {
   "@context": "http://schema.org",
   "@type": "Article",
-  "articleBody": "{{ article.content | strip_html }}",
+  "articleBody": "{{ article.content | stripHtml }}",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ shop.url }}{{ page.url }}"
   },
   "headline": "{{ article.title }}",
   {% if article.excerpt != blank %}
-    "description": "{{ article.excerpt | strip_html }}",
+    "description": "{{ article.excerpt | stripHtml }}",
   {% endif %}
   {% if article.image %}
     {% assign image_size = article.image.width | append: 'x' %}

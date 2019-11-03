@@ -1,4 +1,5 @@
-import { Component, Debug, JQuery as $, IBinder } from '@ribajs/core';
+import { Component, Debug, IBinder } from '@ribajs/core';
+import { JQuery as $ } from '@ribajs/jquery';
 import template from './shopify-comments-form.component.html';
 
 export interface IValidationRule {

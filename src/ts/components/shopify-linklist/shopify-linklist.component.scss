@@ -8,18 +8,18 @@ shopify-linklist {
   }
 
   .nav-item {
-    &.nav-item-level-2 {
+    &.nav-item-level-1 {
       @extend .small;
     }
   }
 
   &#sidenav-main-menu { 
     .nav-item {
-      &.nav-item-level-1 {
+      &.nav-item-level-0 {
         .nav-link {
           @extend .font-weight-bold;
         }
-        .nav-item-level-2 {
+        .nav-item-level-1 {
           @extend .small;
           @extend .custom-control;
           @extend .custom-radio;

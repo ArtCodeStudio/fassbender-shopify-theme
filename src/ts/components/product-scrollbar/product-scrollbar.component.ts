@@ -1,4 +1,5 @@
-import { Debug, JQuery as $, Binding, IBinder, Component } from '@ribajs/core';
+import { Debug, Binding, IBinder, Component } from '@ribajs/core';
+import { JQuery as $ } from '@ribajs/jquery';
 import { Pjax, Prefetch } from '@ribajs/router';
 
 export class ProductScrollbarComponent extends Component {
@@ -33,7 +34,7 @@ export class ProductScrollbarComponent extends Component {
   /**
    * Just open the product url
    */
-  public onProductTap(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
+  public onProductTap(context: IBinder<any>, event: JQuery.Event | Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     const url = $(eventEl).data('url');
     this.pjax.goTo(url);
   }
@@ -41,16 +42,16 @@ export class ProductScrollbarComponent extends Component {
   /**
    * Preload product on mouse over
    */
-  public onProductMouseenter(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
+  public onProductMouseenter(context: IBinder<any>, event: JQuery.Event | Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     this.debug('onProductMouseenter');
     const url = $(eventEl).data('url');
-    this.prefetch.onLinkEnter(event, url);
+    this.prefetch.onLinkEnter(event as Event, url);
   }
 
   /**
    * get product in the middle of the scrollbar element
    */
-  public onScroll(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
+  public onScroll(context: IBinder<any>, event: JQuery.Event | Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     const self = this;
     this.debug('onScroll', this.scope);
     if (this.$products) {

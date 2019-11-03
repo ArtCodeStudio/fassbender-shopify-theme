@@ -2,12 +2,13 @@ import {
   Riba,
   View,
   Debug,
-  JQuery,
+  Utils,
   IBinder,
 
   coreModule,
 
 } from '@ribajs/core';
+import { jqueryModule, JQuery} from '@ribajs/jquery';
 import shopifyModule from '@ribajs/shopify';
 import routerModule from '@ribajs/router';
 import i18nModule from '@ribajs/i18n';
@@ -48,16 +49,17 @@ export class Main {
       stories: 'all',
     };
 
+    this.riba.module.regist(coreModule);
+    this.riba.module.regist(jqueryModule);
+    this.riba.module.regist(routerModule);
+    this.riba.module.regist(shopifyModule);
+    this.riba.module.regist(i18nModule(this.localesService));
+
     // Regist custom components
     this.riba.module.regist({
       components: CustomComponents,
       binders: customBinders,
     });
-
-    this.riba.module.regist(coreModule);
-    this.riba.module.regist(routerModule);
-    this.riba.module.regist(shopifyModule);
-    this.riba.module.regist(i18nModule(this.localesService));
 
     window.model.assign = function(key: string, value: any, context: IBinder<any>, event: Event) {
       // event.preventDefault();
@@ -83,7 +85,7 @@ const tracking = new TrackingService({
   pinterestTag: window.model.system.themeSettings.pinterestTag,
 });
 
-JQuery(($: JQueryStatic) => {
+Utils.domIsReady(() => {
   const main = new Main();
 });
 

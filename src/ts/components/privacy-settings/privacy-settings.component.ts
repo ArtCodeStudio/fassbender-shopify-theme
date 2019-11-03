@@ -1,9 +1,9 @@
 import {
   Component,
-  JQuery as $,
   Debug,
   IBinder,
 } from '@ribajs/core';
+import { JQuery as $ } from '@ribajs/jquery';
 import {
   ShopifyCartService,
 } from '@ribajs/shopify';

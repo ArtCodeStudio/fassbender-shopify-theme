@@ -1,4 +1,5 @@
-import { Debug, IBinder, JQuery } from '@ribajs/core';
+import { Debug, IBinder } from '@ribajs/core';
+import { JQuery } from '@ribajs/jquery';
 
 const debug = Debug('binder:rv-scrollfix');
 

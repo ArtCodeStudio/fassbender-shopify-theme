@@ -1,4 +1,5 @@
-import { IBinder, Component, Debug, JQuery as $ } from '@ribajs/core';
+import { IBinder, Component, Debug } from '@ribajs/core';
+import { JQuery as $ } from '@ribajs/jquery';
 import { DropdownService } from './dropdown.service';
 
 export class DropdownComponent extends Component {

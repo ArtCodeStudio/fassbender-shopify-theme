@@ -1,8 +1,8 @@
 import {
   Component,
-  JQuery as $,
   Debug,
 } from '@ribajs/core';
+import { JQuery as $} from '@ribajs/jquery';
 import {
   IShopifyProductVariant,
   IShopifyProduct,

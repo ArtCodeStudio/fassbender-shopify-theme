@@ -1,5 +1,6 @@
 import { Utils } from '../../services/Utils';
-import { Component, Debug, IBinder, JQuery as $ } from '@ribajs/core';
+import { Component, Debug, IBinder } from '@ribajs/core';
+import { JQuery as $ } from '@ribajs/jquery';
 import template from './contact-form.component.html';
 import { LocalesService } from '@ribajs/shopify-tda';
 

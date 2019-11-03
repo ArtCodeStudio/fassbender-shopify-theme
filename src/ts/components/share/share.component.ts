@@ -1,9 +1,9 @@
 import {
   Component,
   Debug,
-  JQuery as $,
   IBinder,
 } from '@ribajs/core';
+import { JQuery as $ } from '@ribajs/jquery';
 import template from './share.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
 import { LocalesService } from '@ribajs/shopify-tda';

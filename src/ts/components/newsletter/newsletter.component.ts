@@ -1,4 +1,5 @@
-import { Component, JQuery as $, Debug, IBinder } from '@ribajs/core';
+import { Component, Debug, IBinder } from '@ribajs/core';
+import { JQuery as $ } from '@ribajs/jquery';
 import template from './newsletter.component.html';
 import { LocalesService } from '@ribajs/shopify-tda';
 import { Utils } from '../../services/Utils';

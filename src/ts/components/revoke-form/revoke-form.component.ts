@@ -1,5 +1,6 @@
 import { Utils } from '../../services/Utils';
-import { Component, IBinder, Debug, JQuery as $ } from '@ribajs/core';
+import { Component, IBinder, Debug } from '@ribajs/core';
+import { JQuery as $ } from '@ribajs/jquery';
 import template from './revoke-form.component.html';
 import { LocalesService } from '@ribajs/shopify-tda';
 

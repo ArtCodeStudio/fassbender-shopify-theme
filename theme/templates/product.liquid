@@ -76,7 +76,7 @@
         <div class="variant-chooser pb-3">
           <div rv-each-option="product.options" class="row px-3" rv-if="option.name | eq 'color'" rv-add-class="option.name">
             <div rv-show="option.name | eq 'color'" rv-each-color="option.values" class="col-auto pl-0 pr-2 cursor-pointer" rv-on-click="chooseOption | args color option.position option.name">
-              <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replace_first '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 20px; height: 20px;"></div>
+              <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replaceFirst '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 20px; height: 20px;"></div>
             </div>
             {% for i in (1..4) %}
               {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
@@ -118,7 +118,7 @@
           <div class="form-inline">
             <label class="m-0" for="quanity" rv-i18n-text="'products.quantity'">{{'products.quantity'|t}}</label>
             <span class="px-3 btn-quantity" rv-on-click="decrease">-</span>
-            <input type="number" min="0" step="1" class="form-control input-quantity bg-transparent border-0 px-0 text-center" id="quanity" rv-value="quantity | strip_html | number 1">
+            <input type="number" min="0" step="1" class="form-control input-quantity bg-transparent border-0 px-0 text-center" id="quanity" rv-value="quantity | stripHtml | number 1">
             <span class="px-3 btn-quantity" rv-on-click="increase">+</span>
           </div>
         </div>
@@ -331,7 +331,7 @@
       "https:{{ product.featured_image.src | img_url: image_size }}"
     ],
   {% endif %}
-  "description": "{{ product.description | strip_html | escape }}",
+  "description": "{{ product.description | stripHtml | escape }}",
   {% if current_variant.sku != blank %}
     "sku": "{{ current_variant.sku }}",
   {% endif %}

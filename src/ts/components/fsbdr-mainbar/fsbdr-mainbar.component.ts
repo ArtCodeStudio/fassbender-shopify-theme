@@ -1,9 +1,9 @@
 import {
   Component,
-  JQuery,
   Debug,
   IBinder,
 } from '@ribajs/core';
+import { JQuery } from '@ribajs/jquery';
 
 import template from './fsbdr-mainbar.component.html';
 

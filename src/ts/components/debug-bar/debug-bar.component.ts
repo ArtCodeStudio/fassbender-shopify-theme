@@ -1,4 +1,5 @@
-import { Component, Debug, JQuery as $ } from '@ribajs/core';
+import { Component, Debug } from '@ribajs/core';
+import { JQuery as $ } from '@ribajs/jquery';
 import template from './debug-bar.component.html';
 
 export class DebugBarComponent extends Component {
