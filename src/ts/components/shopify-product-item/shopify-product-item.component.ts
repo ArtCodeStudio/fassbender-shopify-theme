@@ -1,7 +1,6 @@
 import {
   Component,
   IBinder,
-  Debug,
 } from '@ribajs/core';
 import {
   IShopifyProductVariant,
@@ -50,8 +49,6 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     return ['handle', 'extras'];
   }
 
-  protected debug = Debug('component:' + ShopifyProductItemComponent.tagName);
-
   protected scope: IScope = {
     handle: null,
     product: null,
@@ -98,7 +95,6 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   }
 
   protected set product(product: IShopifyProduct | null) {
-    this.debug('set product', product);
     if (product) {
       this.scope.product = ShopifyProductService.prepair(product);
 
@@ -116,14 +112,12 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
 
   protected set variant(variant: IShopifyProductVariant | null) {
     if (variant === null) {
-      this.debug('Error: Variant ist null');
+      console.warn('Error: Variant ist null');
       return;
     }
-    this.debug('set variant', variant);
     this.scope.variant = variant;
     if (this.scope.variant) {
       this.selectedOptions = this.scope.variant.options.slice();
-      this.debug('set selectedOptions', this.selectedOptions);
       this.available = this.scope.variant.available;
       this.activateOptions();
     }
@@ -135,7 +129,6 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.debug('constructor', this);
     this.init(ShopifyProductItemComponent.observedAttributes);
     this.el.addEventListener('mouseleave', (event: Event) => {
       this.showMenu = false;
@@ -149,7 +142,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
       throw new Error('Product not set!');
     }
 
-    // this.debug('chooseOption', '\noptionValue', JSON.stringify(optionValue), '\nposition1', position1, '\noptionName', optionName, '\ncontext', context, '\nevent', event, '\nscope', scope, '\nel', el );
+    // console.warn('chooseOption', '\noptionValue', JSON.stringify(optionValue), '\nposition1', position1, '\noptionName', optionName, '\ncontext', context, '\nevent', event, '\nscope', scope, '\nel', el );
 
     this.selectedOptions[(position1 - 1)] = optionValue.toString();
     const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, this.selectedOptions);
@@ -165,31 +158,27 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
 
   public addToCart() {
     if (!this.variant) {
-      this.debug('Variant not selected');
+      console.warn('Variant not selected');
       return;
     }
-    this.debug('addToCart', this.variant.id, this.scope.quantity);
     ShopifyCartService.add(this.variant.id, this.scope.quantity)
     .then((response: any /** TODO not any */) => {
-      this.debug('addToCart response', response);
+      return response;
     })
     .catch((error: Error) => {
-      this.debug('addToCart error', error);
+      console.error('addToCart error', error);
     });
   }
 
   public toggleDetailMenu() {
-    this.debug('toggleDetailMenu');
     this.showMenu = !this.showMenu;
   }
 
   public increase() {
-    this.debug('increase', this.scope.quantity);
     this.scope.quantity++;
   }
 
   public decrease() {
-    this.debug('decrease', this.scope.quantity);
     this.scope.quantity--;
     if (this.scope.quantity <= 0) {
       this.scope.quantity = 1;
@@ -208,7 +197,6 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
    */
   protected activateOption(optionValue: string, optionName: string) {
     optionValue = optionValue.toString().replace('#', '');
-    this.debug('activateOption', `.option-${optionName.toLowerCase()}-${optionValue}`);
     const allOptions = this.el.querySelectorAll(`.option-${optionName.toLocaleLowerCase()}`);
     allOptions.forEach((el) => {
       el.classList.remove('active');
@@ -228,7 +216,6 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
       if (this.selectedOptions[position0]) {
         const optionValue = this.selectedOptions[position0];
         if (this.scope.product) {
-          this.debug('activateOptions', this.scope.product.options[position0]);
           const optionName = this.scope.product.options[position0].name;
           // Only activate size if it was clicked by the user
           if (optionName === 'size') {
@@ -244,7 +231,6 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   }
 
   protected async beforeBind() {
-    this.debug('beforeBind');
     if (this.scope.handle === null) {
       throw new Error('Product handle not set');
     }
@@ -256,7 +242,6 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   }
 
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
     this.activateOptions();
   }
 

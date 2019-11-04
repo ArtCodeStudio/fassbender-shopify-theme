@@ -1,6 +1,5 @@
 import {
   Component,
-  Debug,
   IBinder,
 } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
@@ -39,8 +38,6 @@ export class ShopifyCartComponent extends Component {
 
   protected $el: JQuery<HTMLElement>;
 
-  protected debug = Debug('component:' + ShopifyCartComponent.tagName);
-
   protected dropdownService: DropdownService;
 
   protected scope: IScope = {
@@ -73,7 +70,6 @@ export class ShopifyCartComponent extends Component {
         triggerOnStart: false,
       })
       .then((shippingRates: IShopifyShippingRates | IShopifyShippingRatesNormalized) => {
-        this.debug('Get shipping rate', shippingRates);
         this.scope.shippingRates = shippingRates as IShopifyShippingRatesNormalized;
       });
     }
@@ -83,63 +79,55 @@ export class ShopifyCartComponent extends Component {
     super(element);
     this.$el = $(this.el);
     this.dropdownService = new DropdownService(this.$el.find('.dropdown-toggle')[0] as HTMLButtonElement);
-    this.debug('constructor', this);
     this.init(ShopifyCartComponent.observedAttributes);
   }
 
   public toggle(context: IBinder<any>, event: Event) {
-    this.debug('toggle');
     event.preventDefault();
     event.stopPropagation();
     return this.dropdownService.toggle();
   }
 
   public removeCart(lineItem: IShopifyCartLineItem, lineIndex: number) {
-    this.debug('remove', lineItem, lineIndex);
     ShopifyCartService.change(lineItem.variant_id, 0)
     .then((cart: IShopifyCartObject) => {
-      this.debug('removed', cart);
       this.cart = cart;
     });
   }
 
   public increase(lineItem: IShopifyCartLineItem, lineIndex: number) {
-    this.debug('increase', lineItem, lineIndex);
     lineItem.quantity++;
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
     .then((cart: IShopifyCartObject) => {
-      this.debug('increased', cart);
       // this.cart = cart;
+      return cart;
     });
   }
 
   public decrease(lineItem: IShopifyCartLineItem, lineIndex: number) {
-    this.debug('decrease', lineItem, lineIndex);
     lineItem.quantity--;
     if (lineItem.quantity < 0) {
       lineItem.quantity = 0;
     }
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
     .then((cart: IShopifyCartObject) => {
-      this.debug('decreased', cart);
+      return cart;
+    })
+    .catch((error) => {
+      console.error(error);
     });
   }
 
   public closeDropdowns() {
-    this.debug('closeDropdowns');
     DropdownService.closeAll();
   }
 
   protected async beforeBind() {
-    this.debug('beforeBind');
-
     ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:start', () => {
-      this.debug('ShopifyCart:request:start');
       this.scope.pending = true;
     });
 
     ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
-      this.debug('ShopifyCart:request:complete', cart);
       if (cart) {
         this.cart = cart;
       }
@@ -148,8 +136,6 @@ export class ShopifyCartComponent extends Component {
   }
 
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
-
     return ShopifyCartService.get()
     .catch((error: Error) => {
       console.error(error);

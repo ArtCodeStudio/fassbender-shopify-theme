@@ -1,5 +1,4 @@
 import {
-  Debug,
   IBinder,
 } from '@ribajs/core';
 import { ILangcode, AI18nSwitcherComponent } from '@ribajs/i18n';
@@ -13,11 +12,7 @@ export class TdaI18nSwitcherComponent extends AI18nSwitcherComponent {
     return [];
   }
 
-  // protected $el: JQuery<HTMLElement>;
-
   protected localesService = new LocalesService();
-
-  protected debug = Debug('component:' + TdaI18nSwitcherComponent.tagName);
 
   protected scope = {
     langcodes: <ILangcode[]> [],
@@ -50,16 +45,7 @@ export class TdaI18nSwitcherComponent extends AI18nSwitcherComponent {
   }
 
   protected setLangcode(langcode: string) {
-    this.debug('setLangcode', langcode);
     return super.setLangcode(langcode);
-  }
-
-  protected async beforeBind() {
-    this.debug('beforeBind', this.scope);
-  }
-
-  protected async afterBind() {
-    this.debug('afterBind', this.scope);
   }
 
   protected requiredAttributes() {

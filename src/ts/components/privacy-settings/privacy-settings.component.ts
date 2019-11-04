@@ -1,6 +1,5 @@
 import {
   Component,
-  Debug,
   IBinder,
 } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
@@ -59,8 +58,6 @@ export class PrivacySettingsComponent extends Component {
 
   protected $el: JQuery<HTMLElement>;
 
-  protected debug = Debug('component:' + PrivacySettingsComponent.tagName);
-
   protected scope: IScope;
 
   protected trackingService: TrackingService;
@@ -107,7 +104,6 @@ export class PrivacySettingsComponent extends Component {
   }
 
   public onClearDataClicked(context: IBinder<any>, event: Event) {
-    this.debug('onClearDataClicked', this.scope.cookies.enabled);
     ShopifyCartService.clear()
     .then(() => {
       return Utils.get('/account/logout');
@@ -125,7 +121,6 @@ export class PrivacySettingsComponent extends Component {
   }
 
   public onCookiesStorageChanged() {
-    this.debug('onCookiesStorageChanged', this.scope.cookies.enabled);
     if (!this.scope.cookies.enabled) {
       this.trackingService.removeCookies();
     }
@@ -133,31 +128,19 @@ export class PrivacySettingsComponent extends Component {
   }
 
   public onGoogleAnalyticsChanged() {
-    this.debug('onGoogleAnalyticsChanged', this.scope.googleAnalytics.enabled);
     this.trackingService.googleAnalyticsDisabled = !this.scope.googleAnalytics.enabled;
   }
 
   public onTheTradeDeskChanged() {
-    this.debug('onTheTradeDeskChanged', this.scope.theTradeDesk.enabled);
     this.trackingService.theTradeDeskDisabled = !this.scope.theTradeDesk.enabled;
   }
 
   public onFacebookPixelChanged() {
-    this.debug('onFacebookPixelChanged', this.scope.facebookPixel.enabled);
     this.trackingService.facebookPixelDisabled = !this.scope.facebookPixel.enabled;
   }
 
   public onPinterestTagChanged() {
-    this.debug('onPinterestTagChanged', this.scope.pinterestTag.enabled);
     this.trackingService.pinterestTagDisabled = !this.scope.pinterestTag.enabled;
-  }
-
-  protected async beforeBind() {
-    this.debug('beforeBind');
-  }
-
-  protected async afterBind() {
-    this.debug('afterBind', this.scope);
   }
 
   protected requiredAttributes() {

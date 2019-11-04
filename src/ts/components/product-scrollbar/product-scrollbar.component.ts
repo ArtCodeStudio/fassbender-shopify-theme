@@ -1,4 +1,4 @@
-import { Debug, Binding, IBinder, Component } from '@ribajs/core';
+import { Binding, IBinder, Component } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import { Pjax, Prefetch } from '@ribajs/router';
 
@@ -9,8 +9,6 @@ export class ProductScrollbarComponent extends Component {
   static get observedAttributes() {
     return [];
   }
-
-  protected debug = Debug('component:' +  + ProductScrollbarComponent.tagName);
 
   protected scope: any = {
     onScroll: this.onScroll,
@@ -43,7 +41,6 @@ export class ProductScrollbarComponent extends Component {
    * Preload product on mouse over
    */
   public onProductMouseenter(context: IBinder<any>, event: JQuery.Event | Event, scope: any, eventEl: HTMLElement, binding: Binding) {
-    this.debug('onProductMouseenter');
     const url = $(eventEl).data('url');
     this.prefetch.onLinkEnter(event as Event, url);
   }
@@ -53,7 +50,6 @@ export class ProductScrollbarComponent extends Component {
    */
   public onScroll(context: IBinder<any>, event: JQuery.Event | Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     const self = this;
-    this.debug('onScroll', this.scope);
     if (this.$products) {
       this.$products.each((index: number) => {
         if (self.$products) {

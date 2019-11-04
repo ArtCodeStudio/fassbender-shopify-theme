@@ -1,6 +1,5 @@
 import {
   Component,
-  Debug,
   IBinder,
 } from '@ribajs/core';
 import { JQuery } from '@ribajs/jquery';
@@ -28,7 +27,6 @@ export class FsbdrMainbarComponent extends Component {
   }
 
   protected $el: JQuery<HTMLElement>;
-  protected debug = Debug('component:' + FsbdrMainbarComponent.tagName);
 
   protected scope: IScope = {
     assign: this.assign,
@@ -41,7 +39,6 @@ export class FsbdrMainbarComponent extends Component {
     super(element);
     this.$el = JQuery(this.el);
     this.$logoTop = JQuery('.logo-text.logo-text-top');
-    this.debug('constructor', this);
     this.init(FsbdrMainbarComponent.observedAttributes);
   }
 
@@ -68,12 +65,7 @@ export class FsbdrMainbarComponent extends Component {
     });
   }
 
-  protected async beforeBind() {
-    this.debug('beforeBind');
-  }
-
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
     this.$logoTop = JQuery('.logo-text.logo-text-top');
   }
 

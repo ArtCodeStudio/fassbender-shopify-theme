@@ -1,12 +1,10 @@
-import { Component, Debug } from '@ribajs/core';
+import { Component } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './icon.component.html';
 
 export class IconComponent extends Component {
 
   public static tagName: string = 'rv-icon';
-
-  protected debug = Debug('component:' + IconComponent.tagName);
 
   static get observedAttributes() {
     return ['size', 'width', 'height', 'name', 'src', 'color', 'direction'];
@@ -34,7 +32,6 @@ export class IconComponent extends Component {
   }
 
   public attributeChangedCallback(name: string, oldValue: any, newValue: any, namespace: string | null) {
-    this.debug('attributeChangedCallback', name, oldValue, newValue, namespace);
     // injects the changed attributes to scope
     super.attributeChangedCallback(name, oldValue, newValue, namespace);
 
@@ -54,7 +51,6 @@ export class IconComponent extends Component {
 
     if (name === 'size') {
       const size = newValue;
-      this.debug('set size', this.$el);
       this.$el
       .css({height: size, width: size})
       .removeClass((index, className) => {
@@ -65,7 +61,6 @@ export class IconComponent extends Component {
 
     if (name === 'width') {
       const width = newValue;
-      this.debug('set width', this.$el);
       this.$el
       .css({width})
       .removeClass((index, className) => {
@@ -76,7 +71,6 @@ export class IconComponent extends Component {
 
     if (name === 'height') {
       const height = newValue;
-      this.debug('set height', this.$el);
       this.$el
       .css({height})
       .removeClass((index, className) => {

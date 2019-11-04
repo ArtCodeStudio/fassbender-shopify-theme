@@ -1,4 +1,4 @@
-import { Component, Debug, IBinder } from '@ribajs/core';
+import { Component, IBinder } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './shopify-addresses.component.html';
 import { Utils } from '../../services/Utils';
@@ -61,8 +61,6 @@ export class ShopifyAddressesComponent extends Component {
   protected $editAddressForm: JQuery<HTMLFormElement> | null = null;
   protected $createAddressForm: JQuery<HTMLFormElement> | null = null;
 
-  protected debug = Debug('component:' + ShopifyAddressesComponent.tagName);
-
   protected scope: IScope = {
     createAddress: {
       validation: {
@@ -79,17 +77,17 @@ export class ShopifyAddressesComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    this.debug('constructor', this);
+    console.warn('constructor', this);
     this.init(ShopifyAddressesComponent.observedAttributes);
   }
 
   public edit(id: string, context: IBinder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
-    this.debug('login', this.scope);
+    console.warn('login', this.scope);
 
     const $form = this.$el.find(`form[action="/account/addresses/${id}]`) as JQuery<HTMLFormElement>;
 
     if (!$form) {
-      this.debug('No edit address form found');
+      console.warn('No edit address form found');
       return false;
     }
 
@@ -102,7 +100,7 @@ export class ShopifyAddressesComponent extends Component {
     if (this.scope.editAddress[id].validation.valid) {
       $form.submit();
     } else {
-      this.debug('form not valid', this.scope);
+      console.warn('form not valid', this.scope);
     }
   }
 
@@ -110,10 +108,8 @@ export class ShopifyAddressesComponent extends Component {
    * Submit an new address
    */
   public create(context: IBinder<any>, event: Event) {
-    this.debug('create', this.scope);
-
     if (!this.$createAddressForm) {
-      this.debug('No create form found');
+      console.warn('No create form found');
       return false;
     }
 
@@ -126,7 +122,7 @@ export class ShopifyAddressesComponent extends Component {
     if (this.scope.createAddress.validation.valid) {
       this.$createAddressForm.submit();
     } else {
-      this.debug('form not valid', this.$createAddressForm);
+      console.warn('form not valid', this.$createAddressForm);
     }
   }
 
@@ -135,11 +131,10 @@ export class ShopifyAddressesComponent extends Component {
   public delete(id: string, context: IBinder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
     Utils.delete(`/account/addresses/${id}`, {}, 'json')
     .then((response: any) => {
-      this.debug('delete response', response);
       location.reload();
     })
     .catch((error: any) => {
-      this.debug('delete error', error);
+      console.error('delete error', error);
       location.reload();
     });
   }
@@ -152,8 +147,6 @@ export class ShopifyAddressesComponent extends Component {
     this.$createAddressForm = this.$el.find('form[action="/account/addresses"]')  as JQuery<HTMLFormElement>;
     this.$createAddressForm.attr('novalidate', '');
     this.$createAddressForm.addClass('needs-validation');
-
-    this.debug('initValidation', this.$createAddressForm, this.$createAddressForm);
   }
 
   protected validate($form: JQuery<HTMLFormElement>, validationScope: IValidationObject) {
@@ -163,12 +156,7 @@ export class ShopifyAddressesComponent extends Component {
     $form.addClass('was-validated');
   }
 
-  protected async beforeBind() {
-    this.debug('beforeBind');
-  }
-
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
     this.initValidation();
   }
 

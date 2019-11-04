@@ -1,16 +1,11 @@
-import { Debug, IBinder } from '@ribajs/core';
+import { IBinder } from '@ribajs/core';
 import { JQuery } from '@ribajs/jquery';
 
-const debug = Debug('binder:rv-scrollfix');
-
 const onWheel = (event: Event) => {
-  debug('onWheel');
   if ((event as any).wheelDelta > 0 || (event as WheelEvent).detail < 0) {
     // scroll up
-    debug('scroll up');
   } else {
     // scroll down
-    debug('scroll down');
   }
 };
 
@@ -23,16 +18,15 @@ export const scrollfixBinder: IBinder<any> = {
   name: 'scrollfix',
   routine(el: HTMLElement, value: any) {
 
-    debug('scrollfix', el);
     const $el = JQuery(el);
 
     $el.hover(() => {
-      debug('over');
+      // over
       document.addEventListener('wheel', onWheel);
       document.addEventListener('mousewheel', onWheel);
       document.addEventListener('DOMMouseScroll', onWheel);
     }, () => {
-      debug('leave');
+      // leave
       document.removeEventListener('wheel', onWheel);
       document.removeEventListener('mousewheel', onWheel);
       document.removeEventListener('DOMMouseScroll', onWheel);

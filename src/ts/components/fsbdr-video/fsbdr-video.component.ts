@@ -1,6 +1,5 @@
 import {
   VideoComponent,
-  Debug,
 } from '@ribajs/core';
 
 interface IScope {
@@ -13,11 +12,8 @@ export class FsbdrVideoComponent extends VideoComponent {
 
   protected autobind = true;
 
-  protected debug = Debug('component:' + FsbdrVideoComponent.tagName);
-
   constructor(element?: HTMLElement) {
     super(element);
-    this.debug('constructor', this);
   }
 
   protected requiredAttributes() {

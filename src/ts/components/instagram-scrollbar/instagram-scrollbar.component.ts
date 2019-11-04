@@ -1,4 +1,4 @@
-import { Binding, Debug, IBinder, Component } from '@ribajs/core';
+import { Binding, IBinder, Component } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import { Utils } from '../../services/Utils';
 import { IInstagramMedia, IInstagramResponse, InstagramService } from '@ribajs/shopify-tda';
@@ -21,8 +21,6 @@ export class InstagramScrollbarComponent extends Component {
   static get observedAttributes() {
     return ['instagram-id', 'open-links', 'limit', 'open-url'];
   }
-
-  protected debug = Debug('component:' + InstagramScrollbarComponent.tagName);
 
   protected scope: IScope = {
     instagramId: undefined,
@@ -65,7 +63,6 @@ export class InstagramScrollbarComponent extends Component {
    */
   public onScroll(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     const self = this;
-    this.debug('onScroll', eventEl.scrollLeft, this.$scollWith);
     if (this.$scollWith) {
       const factor = 3;
       this.$scollWith.scrollLeft(eventEl.scrollLeft / factor);
@@ -101,15 +98,14 @@ export class InstagramScrollbarComponent extends Component {
     InstagramService.loadMedia(this.scope.instagramId, this.scope.limit)
     .then((response: IInstagramResponse) => {
       this.scope.media = response.media;
-      this.debug('response', response);
+      return this.scope.media;
     })
     .catch((error) => {
-      this.debug(`Error: Can't load instagram media`, error);
+      console.error(`Error: Can't load instagram media`, error);
     });
   }
 
   protected async beforeBind() {
-    this.debug('beforeBind', this.scope);
     return this.loadMedia();
   }
 

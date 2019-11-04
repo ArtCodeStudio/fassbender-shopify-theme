@@ -1,4 +1,4 @@
-import { Binding, Debug, Component, IBinder } from '@ribajs/core';
+import { Binding, Component, IBinder } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import template from './instagram.component.html';
 import { IInstagramMedia, IInstagramResponse, InstagramService } from '@ribajs/shopify-tda';
@@ -18,8 +18,6 @@ export class InstagramComponent extends Component {
   static get observedAttributes() {
     return ['instagram-id', 'open-links', 'limit'];
   }
-
-  protected debug = Debug('component:' + InstagramComponent.tagName);
 
   protected scope: IScope = {
     media: undefined,
@@ -54,15 +52,13 @@ export class InstagramComponent extends Component {
     InstagramService.loadMedia(this.scope.instagramId, this.scope.limit)
     .then((response: IInstagramResponse) => {
       this.scope.media = response.media;
-      this.debug('response', response);
     })
     .catch((error: Error) => {
-      this.debug(`Error: Can't load instagram media`, error);
+      console.error(`Error: Can't load instagram media`, error);
     });
   }
 
   protected async beforeBind() {
-    this.debug('beforeBind', this.scope);
     return this.loadMedia();
   }
 

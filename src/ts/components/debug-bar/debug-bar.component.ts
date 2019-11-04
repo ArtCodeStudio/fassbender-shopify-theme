@@ -1,12 +1,10 @@
-import { Component, Debug } from '@ribajs/core';
+import { Component } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './debug-bar.component.html';
 
 export class DebugBarComponent extends Component {
 
   public static tagName: string = 'rv-debug-bar';
-
-  protected debug = Debug('component:' + DebugBarComponent.tagName);
 
   static get observedAttributes() {
     return ['theme-name'];
@@ -35,7 +33,6 @@ export class DebugBarComponent extends Component {
   }
 
   public attributeChangedCallback(name: string, oldValue: any, newValue: any, namespace: string | null) {
-    this.debug('attributeChangedCallback', name, oldValue, newValue, namespace);
     // injects the changed attributes to scope
     super.attributeChangedCallback(name, oldValue, newValue, namespace);
   }
@@ -47,11 +44,9 @@ export class DebugBarComponent extends Component {
   public toggleBar(forceHide: boolean = false) {
     if (this.$previewBar && this.$previewBar.length > 0) {
       if (forceHide === true || this.elementIsVisable(this.$previewBar)) {
-        this.debug('hide previewbar');
         this.$previewBar.attr('hidden', '');
         // this.$previewBar.hide();
       } else {
-        this.debug('show previewbar');
         this.$previewBar.removeAttr('hidden');
         // this.$previewBar.show();
       }
@@ -59,11 +54,9 @@ export class DebugBarComponent extends Component {
 
     if (this.$adminBar && this.$adminBar.length > 0) {
       if (forceHide === true || this.elementIsVisable(this.$adminBar)) {
-        this.debug('hide adminbar');
         this.$adminBar.attr('hidden', '');
         // this.$adminBar.hide();
       } else {
-        this.debug('show adminbar');
         this.$adminBar.removeAttr('hidden');
         // this.$adminBar.show();
       }
@@ -80,7 +73,6 @@ export class DebugBarComponent extends Component {
   }
 
   protected async beforeBind(): Promise<any> {
-    this.debug('beforeBind');
     this.$previewBar = $('#preview-bar-iframe') || null;
     this.$adminBar = $('#admin-bar-iframe') || null;
 

@@ -1,4 +1,4 @@
-import { Component, Debug, IBinder } from '@ribajs/core';
+import { Component, IBinder } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './shopify-comments-form.component.html';
 
@@ -52,8 +52,6 @@ export class ShopifyCommentsFormComponent extends Component {
 
   protected $newCommentForm: JQuery<HTMLFormElement> | null = null;
 
-  protected debug = Debug('component:' + ShopifyCommentsFormComponent.tagName);
-
   protected scope: IScope = {
     form: {
       customer: {
@@ -82,7 +80,6 @@ export class ShopifyCommentsFormComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    this.debug('constructor', this);
     this.init(ShopifyCommentsFormComponent.observedAttributes);
   }
 
@@ -90,8 +87,6 @@ export class ShopifyCommentsFormComponent extends Component {
    * Post comment
    */
   public post(context: IBinder<any>, event: Event) {
-    this.debug('post', this.scope.form);
-
     if (!this.$newCommentForm) {
       console.error('No comment form found');
       return false;
@@ -106,7 +101,7 @@ export class ShopifyCommentsFormComponent extends Component {
     if (this.scope.loginCustomer.validation.valid) {
       this.$newCommentForm.submit();
     } else {
-      this.debug('form not valid', this.scope.form);
+      console.warn('form not valid', this.scope.form);
     }
   }
 
@@ -114,7 +109,6 @@ export class ShopifyCommentsFormComponent extends Component {
     this.$newCommentForm = this.$el.find('#comment_form')  as JQuery<HTMLFormElement>;
     this.$newCommentForm.attr('novalidate', '');
     this.$newCommentForm.addClass('needs-validation');
-    this.debug('initValidation', this.$newCommentForm);
   }
 
   protected validate($form: JQuery<HTMLFormElement>, validationScope: IValidationObject) {
@@ -124,12 +118,7 @@ export class ShopifyCommentsFormComponent extends Component {
     $form.addClass('was-validated');
   }
 
-  protected async beforeBind() {
-    this.debug('beforeBind');
-  }
-
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
     this.initValidation();
   }
 

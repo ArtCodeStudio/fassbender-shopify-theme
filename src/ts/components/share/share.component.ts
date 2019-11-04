@@ -1,6 +1,5 @@
 import {
   Component,
-  Debug,
   IBinder,
 } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
@@ -59,8 +58,6 @@ export class ShareComponent extends Component {
 
   protected $el: JQuery<HTMLElement>;
 
-  protected debug = Debug('component:' + ShareComponent.tagName);
-
   protected localesService = new LocalesService();
 
   protected dropdownService: DropdownService;
@@ -103,7 +100,6 @@ export class ShareComponent extends Component {
     super(element);
     this.$el = $(this.el);
     this.dropdownService = new DropdownService(this.$el.find('.dropdown-toggle')[0] as HTMLButtonElement);
-    this.debug('constructor', this);
     this.$el.on('click', (event) => {
       this.share(null, event);
     });
@@ -112,7 +108,6 @@ export class ShareComponent extends Component {
   }
 
   public share(context: IBinder<any> | null, event: Event | JQuery.Event): Promise<any> {
-    this.debug('share', this.scope);
     event.preventDefault();
     event.stopPropagation();
     // return this.dropdownService.toggle();
@@ -126,17 +121,11 @@ export class ShareComponent extends Component {
       return new Promise((resolve, reject) => {
         resolve();
         // TODO open menu
-        this.toggle(null, event);
       });
     }
   }
 
-  public toggle(_: any, event: Event | JQuery.Event) {
-    this.debug('toggle');
-  }
-
   public closeDropdowns() {
-    this.debug('closeDropdowns');
     DropdownService.closeAll();
   }
 
@@ -163,7 +152,6 @@ export class ShareComponent extends Component {
 
     this.localesService.get([langcode, ...this.scope.textI18n.split('.')])
     .then((local) => {
-      this.debug('changed local', local);
       this.scope.text = local;
       return;
     })
@@ -173,7 +161,6 @@ export class ShareComponent extends Component {
   }
 
   protected async beforeBind() {
-    this.debug('beforeBind');
     this.initTranslate();
     // const $whatsapp = this.$el.find('.web-share-whatsapp');
     // const $facebook = this.$el.find('.web-share-facebook');
@@ -184,7 +171,6 @@ export class ShareComponent extends Component {
   }
 
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
     this.scope.shareUrls = this.shareUrls;
   }
 

@@ -1,5 +1,4 @@
-import { Component, Debug } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
+import { Component } from '@ribajs/core';
 import template from './shopify-article-item.component.html';
 
 export class ShopifyArticleItemComponent extends Component {
@@ -10,15 +9,11 @@ export class ShopifyArticleItemComponent extends Component {
     return [];
   }
 
-  protected debug = Debug('component:' + ShopifyArticleItemComponent.tagName);
-
   protected scope: any = {
   };
 
   constructor(element?: HTMLElement) {
     super(element);
-    const $el = $(this.el);
-    this.debug('constructor', this);
     this.init(ShopifyArticleItemComponent.observedAttributes);
   }
 

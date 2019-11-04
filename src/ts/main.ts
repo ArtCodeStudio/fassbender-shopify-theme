@@ -1,7 +1,6 @@
 import {
   Riba,
   View,
-  Debug,
   Utils,
   IBinder,
 
@@ -34,14 +33,11 @@ declare function TTDUniversalPixelApi(optionalTopLevelUrl?: string): TTDUniversa
 export class Main {
 
   private view: View;
-  private debug = Debug('app:main');
   private riba = new Riba();
   private localesService = new LocalesService();
   // private dispatcher = new EventDispatcher('main');
 
   constructor() {
-
-    this.debug('init the main application');
 
     window.model.year = new Date().getFullYear();
 

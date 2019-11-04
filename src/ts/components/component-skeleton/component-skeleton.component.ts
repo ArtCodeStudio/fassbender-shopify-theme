@@ -1,7 +1,5 @@
 import {
   Component,
-  JQuery,
-  Debug,
 } from '@ribajs/core';
 
 // import pugTemplate from './component-skeleton.component.pug';
@@ -21,17 +19,12 @@ export class ComponentSkeletonComponent extends Component {
     return ['hello'];
   }
 
-  protected $el: JQuery<HTMLElement>;
-  protected debug = Debug('component:' + ComponentSkeletonComponent.tagName);
-
   protected scope: IScope = {
     hello: undefined,
   };
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.$el = JQuery(this.el);
-    this.debug('constructor', this);
     this.init(ComponentSkeletonComponent.observedAttributes);
   }
 
@@ -40,14 +33,6 @@ export class ComponentSkeletonComponent extends Component {
     .then((view) => {
       return view;
     });
-  }
-
-  protected async beforeBind() {
-    this.debug('beforeBind');
-  }
-
-  protected async afterBind() {
-    this.debug('afterBind', this.scope);
   }
 
   protected requiredAttributes() {
@@ -62,19 +47,6 @@ export class ComponentSkeletonComponent extends Component {
   protected disconnectedCallback() {
     super.disconnectedCallback();
   }
-
-  // protected template() {
-  //   let template: string | null = null;
-  //   // Only set the component template if there no childs already
-  //   if (this.el.hasChildNodes()) {
-  //     this.debug('Do not template, because element has child nodes');
-  //     return template;
-  //   } else {
-  //     template = pugTemplate(this.scope);
-  //     this.debug('Use template', template);
-  //     return template;
-  //   }
-  // }
 
   protected template() {
     // Only set the component template if there no childs already

@@ -1,4 +1,4 @@
-import { Component, Debug } from '@ribajs/core';
+import { Component } from '@ribajs/core';
 import { JQuery as $} from '@ribajs/jquery';
 import template from './shopify-login-form.component.html';
 import { Utils } from '../../services/Utils';
@@ -58,8 +58,6 @@ export class ShopifyLoginFormComponent extends Component {
   protected $createCustomerForm: JQuery<HTMLFormElement> | null = null;
   protected $recoverCustomerForm: JQuery<HTMLFormElement> | null = null;
 
-  protected debug = Debug('component:' + ShopifyLoginFormComponent.tagName);
-
   protected scope: IScope = {
     form: {
       customer: {
@@ -91,7 +89,6 @@ export class ShopifyLoginFormComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    this.debug('constructor', this);
     this.init(ShopifyLoginFormComponent.observedAttributes);
   }
 
@@ -99,8 +96,6 @@ export class ShopifyLoginFormComponent extends Component {
    * Login submit using the login form
    */
   public login(_: any, event: Event) {
-    this.debug('login', this.scope.form);
-
     if (!this.$loginCustomerForm) {
       console.error('No login form found');
       return false;
@@ -115,7 +110,7 @@ export class ShopifyLoginFormComponent extends Component {
     if (this.scope.loginCustomer.validation.valid) {
       this.$loginCustomerForm.submit();
     } else {
-      this.debug('form not valid', this.scope.form);
+      console.warn('form not valid', this.scope.form);
     }
   }
 
@@ -123,8 +118,6 @@ export class ShopifyLoginFormComponent extends Component {
    * Create an account submit using the login form
    */
   public create(_: any, event: Event) {
-    this.debug('create', this.scope.form);
-
     if (!this.$createCustomerForm) {
       console.error('No create form found');
       return false;
@@ -139,7 +132,7 @@ export class ShopifyLoginFormComponent extends Component {
     if (this.scope.createCustomer.validation.valid) {
       this.$createCustomerForm.submit();
     } else {
-      this.debug('form not valid', this.scope.form);
+      console.warn('form not valid', this.scope.form);
     }
   }
 
@@ -148,7 +141,6 @@ export class ShopifyLoginFormComponent extends Component {
    * @param event
    */
   public recover(_: any, event: Event) {
-    this.debug('recover', this.scope.form, this.$recoverCustomerForm);
     if (!this.$recoverCustomerForm) {
       console.error('No recover form found');
       return false;
@@ -168,7 +160,7 @@ export class ShopifyLoginFormComponent extends Component {
     if (this.scope.recoverCustomer.validation.valid) {
       this.$recoverCustomerForm.submit();
     } else {
-      this.debug('form not valid', this.scope.form);
+      console.warn('form not valid', this.scope.form);
       this.$loginCustomerForm.parent().attr('hidden', '').hide();
       this.$recoverCustomerForm.parent().removeAttr('hidden').show();
     }
@@ -206,8 +198,6 @@ export class ShopifyLoginFormComponent extends Component {
     this.$recoverCustomerForm = this.$el.find('form[action="/account/recover"]') as JQuery<HTMLFormElement>;
     this.$recoverCustomerForm.attr('novalidate', '');
     this.$recoverCustomerForm.addClass('needs-validation');
-
-    this.debug('initValidation', this.$createCustomerForm, this.$loginCustomerForm, this.$recoverCustomerForm);
   }
 
   protected validate($form: JQuery<HTMLFormElement>, validationScope: IValidationObject) {
@@ -217,12 +207,7 @@ export class ShopifyLoginFormComponent extends Component {
     $form.addClass('was-validated');
   }
 
-  protected async beforeBind() {
-    this.debug('beforeBind');
-  }
-
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
     this.initValidation();
   }
 

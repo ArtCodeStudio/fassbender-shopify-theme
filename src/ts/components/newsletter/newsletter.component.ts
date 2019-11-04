@@ -1,4 +1,4 @@
-import { Component, Debug, IBinder } from '@ribajs/core';
+import { Component, IBinder } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './newsletter.component.html';
 import { LocalesService } from '@ribajs/shopify-tda';
@@ -27,8 +27,6 @@ export class NewsletterComponent extends Component {
     return [];
   }
 
-  protected debug = Debug('component:' + NewsletterComponent.tagName);
-
   protected localesService = new LocalesService();
 
   protected scope: IScope = {
@@ -55,14 +53,12 @@ export class NewsletterComponent extends Component {
   }
 
   public subscribe(context: IBinder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
-    this.debug('subscribe');
-
     // stop native submit
     event.preventDefault();
     event.stopPropagation();
 
     if (!this.$form) {
-      this.debug('No form found');
+      console.warn('No form found');
       return false;
     }
 
@@ -71,13 +67,12 @@ export class NewsletterComponent extends Component {
     if (this.scope.form.valid) {
       this.$form.submit();
     } else {
-      this.debug('form not valid', this.scope);
+      console.warn('form not valid', this.scope);
     }
 
   }
 
   public selectAll(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
-    this.debug('selectAll', eventEl);
     Utils.selectAll(eventEl);
   }
 
@@ -85,8 +80,6 @@ export class NewsletterComponent extends Component {
     this.$form = this.$el.find('form') as JQuery<HTMLFormElement>;
     this.$form.attr('novalidate', '');
     this.$form.addClass('needs-validation');
-
-    this.debug('initValidation', this.$form);
   }
 
   protected validate($form: JQuery<HTMLFormElement>, validationScope: IValidationObject) {
@@ -96,11 +89,9 @@ export class NewsletterComponent extends Component {
       validationScope.error = formEl.validationMessage;
     });
     $form.addClass('was-validated');
-    this.debug('validate', validationScope, $form[0]);
   }
 
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
     this.initValidation();
   }
 

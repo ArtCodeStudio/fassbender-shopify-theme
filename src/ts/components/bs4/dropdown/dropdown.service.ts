@@ -1,5 +1,4 @@
 import Popper from 'popper.js'; // /dist/umd/popper
-import { Debug } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import { Utils } from '../../../services/Utils';
 
@@ -221,8 +220,6 @@ export class DropdownService {
   private _config: any; // TODO
   private _menu: Element;
   private _inNavbar: boolean;
-
-  private debug = Debug('service:DropdownService');
 
   constructor(element: HTMLButtonElement | HTMLAnchorElement, config?: any) {
     this._element  = element;

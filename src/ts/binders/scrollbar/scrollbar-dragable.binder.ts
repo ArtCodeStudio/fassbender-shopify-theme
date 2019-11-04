@@ -1,11 +1,10 @@
-import { Debug, IBinder } from '@ribajs/core';
+import { IBinder } from '@ribajs/core';
 
 /**
  * Scroll an scrollable element by draging and moving your mouse.
  * inspired by https://github.com/asvd/dragscroll
  */
 export class Dragscroll {
-  public debug = Debug('binders:scrollbar-dragable');
   private lastClientX = 0;
   private lastClientY = 0;
   private el: HTMLElement;
@@ -68,6 +67,5 @@ export const scrollbarDragableBinder: IBinder<string> = {
   name: 'scrollbar-dragable',
   routine(el: HTMLElement, value: any) {
     const dragscroll = new Dragscroll(el, true);
-    dragscroll.debug('ready');
   },
 };

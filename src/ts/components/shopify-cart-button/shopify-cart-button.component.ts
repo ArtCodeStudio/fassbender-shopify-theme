@@ -1,6 +1,5 @@
 import {
   Component,
-  Debug,
   IBinder,
 } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
@@ -33,8 +32,6 @@ export class ShopifyCartButtonComponent extends Component {
 
   protected $el: JQuery<HTMLElement>;
 
-  protected debug = Debug('component:' + ShopifyCartButtonComponent.tagName);
-
   protected scope: IScope = {
     cartItemCount: 0,
     toggle: this.toggle,
@@ -53,17 +50,15 @@ export class ShopifyCartButtonComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    this.debug('constructor', this);
     this.init(ShopifyCartButtonComponent.observedAttributes);
   }
 
   public toggle(context: IBinder<any>, event: Event) {
-    this.debug('toggle');
     event.preventDefault();
     event.stopPropagation();
 
     if (Utils.onRoute(ShopifyCartButtonComponent.cartUrl)) {
-      this.debug('already on this site');
+      console.warn('already on this site');
       window.history.back();
     } else {
       if (ShopifyCartButtonComponent.cartUrl) {
@@ -75,15 +70,11 @@ export class ShopifyCartButtonComponent extends Component {
   }
 
   protected async beforeBind() {
-    this.debug('beforeBind');
-
     ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:start', () => {
-      this.debug('ShopifyCartButton:request:start');
       this.scope.pending = true;
     });
 
     ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
-      this.debug('ShopifyCartButton:request:complete', cart);
       if (cart) {
         this.cart = cart;
       }
@@ -93,11 +84,9 @@ export class ShopifyCartButtonComponent extends Component {
   }
 
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
-
     return ShopifyCartService.get()
     .catch((error: Error) => {
-      this.debug(error);
+      console.warn(error);
     });
 
   }

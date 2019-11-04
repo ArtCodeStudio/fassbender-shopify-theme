@@ -1,11 +1,10 @@
-import { Component, Debug } from '@ribajs/core';
+import { Component } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 
 export class TabsComponent extends Component {
 
   public static tagName: string = 'bs4-tabs';
 
-  protected debug = Debug('component:bs4-tabs');
   protected scope: any = {};
 
   private $el: JQuery<HTMLElement>;
@@ -26,8 +25,6 @@ export class TabsComponent extends Component {
     this.$tabs = this.$el.find('.nav-link');
     this.$tabPanes = this.$el.find('.tab-pane');
     this.$scrollable = this.$el.find('[scrollable]');
-
-    this.debug('constructor', this.$el, this.$tabs, this.$tabPanes);
 
     this.$tabs.on('click', function(event) {
       event.preventDefault();
@@ -87,7 +84,6 @@ export class TabsComponent extends Component {
 
   public activate($tab: JQuery<HTMLElement>) {
     const target = $tab.attr('href');
-    this.debug('activate', target, this.$el.find(target || ''));
     if (target) {
       const $target = this.$el.find(target);
       this.deactivateAll();

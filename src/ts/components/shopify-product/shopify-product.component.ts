@@ -1,6 +1,5 @@
 import {
   Component,
-  Debug,
 } from '@ribajs/core';
 import { JQuery as $} from '@ribajs/jquery';
 import {
@@ -60,8 +59,6 @@ export class ShopifyProductComponent extends Component {
 
   protected $el: JQuery<HTMLElement>;
 
-  protected debug = Debug('component:' + ShopifyProductComponent.tagName);
-
   protected scope: IScope = {
     handle: null,
     product: null,
@@ -90,7 +87,6 @@ export class ShopifyProductComponent extends Component {
   private optionChoosed: boolean = false;
 
   protected set product(product: IShopifyProduct | null) {
-    this.debug('set product', product);
     if (product) {
       this.scope.product = ShopifyProductService.prepair(product);
 
@@ -108,14 +104,12 @@ export class ShopifyProductComponent extends Component {
 
   protected set variant(variant: IShopifyProductVariant | null) {
     if (variant === null) {
-      this.debug('Error: Variant ist null');
+      console.warn('Error: Variant ist null');
       return;
     }
-    this.debug('set variant', variant);
     this.scope.variant = this.prepairVariant(variant);
     if (this.scope.variant) {
       this.selectedOptions = this.scope.variant.options.slice();
-      this.debug('set selectedOptions', this.selectedOptions);
       this.available = this.scope.variant.available;
       this.activateOptions();
     }
@@ -135,7 +129,6 @@ export class ShopifyProductComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    this.debug('constructor', this);
     this.init(ShopifyProductComponent.observedAttributes);
   }
 
@@ -150,8 +143,6 @@ export class ShopifyProductComponent extends Component {
 
     const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, this.selectedOptions);
 
-    this.debug('chooseOption', optionValue, 'position1', position1, 'selectedOptions', this.selectedOptions, 'variant', variant);
-
     if (variant) {
       // Option choosed so enable add to cart button
       this.optionChoosed = true;
@@ -164,31 +155,27 @@ export class ShopifyProductComponent extends Component {
 
   public addToCart() {
     if (!this.variant) {
-      this.debug('Variant not selected');
+      console.warn('Variant not selected');
       return;
     }
-    this.debug('addToCart', this.variant.id, this.scope.quantity);
     ShopifyCartService.add(this.variant.id, this.scope.quantity)
     .then((response: any) => {
-      this.debug('addToCart response', response);
+      return response;
     })
     .catch((error: Error) => {
-      this.debug('addToCart error', error);
+      console.error('addToCart error', error);
     });
   }
 
   public toggleDetailMenu() {
-    this.debug('toggleDetailMenu');
     this.scope.showDetailMenu = !this.scope.showDetailMenu;
   }
 
   public increase() {
-    this.debug('increase', this.scope.quantity);
     this.scope.quantity++;
   }
 
   public decrease() {
-    this.debug('decrease', this.scope.quantity);
     this.scope.quantity--;
     if (this.scope.quantity <= 0) {
       this.scope.quantity = 1;
@@ -202,7 +189,6 @@ export class ShopifyProductComponent extends Component {
    */
   protected activateOption(optionValue: string, optionName: string) {
     optionValue = optionValue.toString().replace('#', '');
-    this.debug('activateOption', `.option-${optionName.toLowerCase()}-${optionValue}`);
     this.$el.find(`.option-${optionName.toLocaleLowerCase()}`).removeClass('active');
     this.$el.find(`.option-${optionName.toLocaleLowerCase()}-${optionValue}`).addClass('active');
   }
@@ -216,7 +202,6 @@ export class ShopifyProductComponent extends Component {
       if (this.selectedOptions[position0]) {
         const optionValue = this.selectedOptions[position0];
         if (this.scope.product) {
-          this.debug('activateOptions', this.scope.product.options[position0]);
           const optionName = this.scope.product.options[position0].name;
           // Only activate size if it was clicked by the user
           if (optionName === 'size') {
@@ -232,7 +217,6 @@ export class ShopifyProductComponent extends Component {
   }
 
   protected async beforeBind() {
-    this.debug('beforeBind');
     if (this.scope.handle === null) {
       throw new Error('Product handle not set');
     }
@@ -243,7 +227,6 @@ export class ShopifyProductComponent extends Component {
   }
 
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
     this.activateOptions();
   }
 
@@ -286,7 +269,6 @@ export class ShopifyProductComponent extends Component {
    */
   private getGeneralImages(optionName = 'color') {
     optionName = optionName.toLowerCase();
-    // this.debug('getImages');
     const generalImages: string[] = [];
     if (this.scope.product) {
       // add images without optionName in filename
@@ -306,9 +288,6 @@ export class ShopifyProductComponent extends Component {
         }
       });
     }
-
-    // this.debug('getGeneralImages', generalImages);
-
     return generalImages;
   }
 
@@ -320,11 +299,9 @@ export class ShopifyProductComponent extends Component {
   private getOptionImages(option: IShopifyProductVariantOption, optionValue: string) {
     optionValue = optionValue.toLowerCase().replace('#', '_');
     const optionName = option.name.toLowerCase();
-    // this.debug('getOptionImages', optionName, optionValue);
     const optionImages: string[] = [];
     if (this.scope.product) {
       this.scope.product.images.forEach((image: string, index) => {
-        // this.debug(`check ${optionName}-${optionValue} in`, image);
         if (image.toLowerCase().includes(`${optionName}-${optionValue}`)) {
           optionImages.push(image);
         }
@@ -419,14 +396,14 @@ export class ShopifyProductComponent extends Component {
    */
   private prepairVariant(variant: IPrepairedProductVariant) {
     if (variant === null) {
-      this.debug('Error: Variant is null!');
+      console.error('Variant is null!');
       return null;
     }
 
     if (this.colorOption) {
       variant.images = this.getOptionImages(this.colorOption, variant.options[this.colorOption.position - 1]);
     } else {
-      this.debug('Warn: colorOption not defined');
+      console.warn('colorOption not defined');
       variant.images = [];
     }
 

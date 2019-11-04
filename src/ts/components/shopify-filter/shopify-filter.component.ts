@@ -1,4 +1,4 @@
-import { Component, Debug } from '@ribajs/core';
+import { Component } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './shopify-filter.component.html';
 
@@ -20,8 +20,6 @@ export class ShopifyFilterComponent extends Component {
 
   public static tagName: string = 'shopify-filter';
 
-  protected debug = Debug('component:' + ShopifyFilterComponent.tagName);
-
   static get observedAttributes() {
     return ['collection-url', 'namespace', 'linklist', 'template', 'filter'];
   }
@@ -37,12 +35,10 @@ export class ShopifyFilterComponent extends Component {
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.debug('constructor', this);
     this.init(ShopifyFilterComponent.observedAttributes);
   }
 
   public show(filterHandle: string, namespace: string, shopifyTemplate: any, collectionUrl?: string): boolean {
-    this.debug('show', filterHandle, namespace, shopifyTemplate);
     switch (filterHandle) {
       case 'stories':
         // return namespace === 'blog' || shopifyTemplate.template === 'article'; // TODO if the user is on a artice and wants to go back to the list view we need do do some additional work
@@ -60,7 +56,6 @@ export class ShopifyFilterComponent extends Component {
   }
 
   public type(filterHandle: string): string {
-    this.debug('type', filterHandle);
     switch (filterHandle) {
       case 'stories':
         return 'stories-filter';
@@ -72,7 +67,6 @@ export class ShopifyFilterComponent extends Component {
   }
 
   public scrollTo(selector: string) {
-    this.debug('scrollTo', selector);
     const offset = $(selector).offset();
     if (!offset) {
       console.warn(`Element with selector ${selector} not found`);
@@ -94,8 +88,6 @@ export class ShopifyFilterComponent extends Component {
     if (el && el.parentNode) {
      const radioElement = (el.parentNode.childNodes[1] as HTMLInputElement);
      radioElement.checked = true;
-
-     this.debug('checked', radioElement);
     }
 
     this.scope.filter[handle] = tagName;
@@ -110,21 +102,16 @@ export class ShopifyFilterComponent extends Component {
 
       const data = $listItem.data();
       if (this.indexOfIgnoreCase(data.tags, tagName) <= -1) {
-        self.debug('hide', $listItem);
         // $listItem.hide();
         $listItem.attr('hidden', 'hidden');
       } else {
-        self.debug('show', $listItem);
         // $listItem.show();
         $listItem.removeAttr('hidden');
       }
-      self.debug('jumplink-article-list-item', data, $listItem);
     });
 
     // to data binding for filter
     this.publish('filter', this.scope.filter, null);
-
-    this.debug('filterBy', handle, tagName);
   }
 
   protected requiredAttributes() {
@@ -132,7 +119,6 @@ export class ShopifyFilterComponent extends Component {
   }
 
   protected parsedAttributeChangedCallback(attributeName: string, oldValue: any, newValue: any, namespace: string | null) {
-    this.debug('parsedAttributeChangedCallback', attributeName, oldValue, newValue, namespace);
     if (attributeName === 'filter') {
       if (newValue) {
         for (const handle in newValue) {
@@ -148,7 +134,6 @@ export class ShopifyFilterComponent extends Component {
   }
 
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
     if (this.scope.filter) {
       for (const handle in this.scope.filter) {
 

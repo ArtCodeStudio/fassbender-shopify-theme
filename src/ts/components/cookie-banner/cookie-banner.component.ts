@@ -1,6 +1,5 @@
 import {
   Component,
-  Debug,
   IBinder,
 } from '@ribajs/core';
 import template from './cookie-banner.component.html';
@@ -20,8 +19,6 @@ export class CookieBannerComponent extends Component {
   static get observedAttributes() {
     return ['title', 'text', 'url', 'label'];
   }
-
-  protected debug = Debug('component:' + CookieBannerComponent.tagName);
 
   protected scope: IScope = {
     accept: this.accept,
@@ -43,27 +40,16 @@ export class CookieBannerComponent extends Component {
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.debug('constructor', this);
     this.scope.show = !this.cookieAccepted;
     this.init(CookieBannerComponent.observedAttributes);
   }
 
   public accept(context: IBinder<any>, event: Event) {
-    this.debug('accept');
     this.cookieAccepted = true;
   }
 
   public close(context: IBinder<any>, event: Event) {
-    this.debug('close');
     this.scope.show = false;
-  }
-
-  protected async beforeBind() {
-    this.debug('beforeBind');
-  }
-
-  protected async afterBind() {
-    this.debug('afterBind', this.scope);
   }
 
   protected requiredAttributes() {

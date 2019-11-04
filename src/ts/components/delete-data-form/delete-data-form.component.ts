@@ -1,5 +1,5 @@
 import { Utils } from '../../services/Utils';
-import { Component, Debug, IBinder } from '@ribajs/core';
+import { Component, IBinder } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './delete-data-form.component.html';
 import { LocalesService } from '@ribajs/shopify-tda';
@@ -33,8 +33,6 @@ export class DeleteDataFormComponent extends Component {
     return [];
   }
 
-  protected debug = Debug('component:' + DeleteDataFormComponent.tagName);
-
   protected localsService = new LocalesService();
 
   protected $form?: JQuery<HTMLFormElement>;
@@ -67,8 +65,6 @@ export class DeleteDataFormComponent extends Component {
    * Send the contact form using a form submit request with best shopify form support
    */
   public send(context: IBinder<any>, event: Event) {
-    this.debug('send', this.scope, event);
-
     this.scope.form.firstName = Utils.stripHtml(this.scope.form.firstName);
     this.scope.form.lastName = Utils.stripHtml(this.scope.form.lastName);
     this.scope.form.phone = Utils.stripHtml(this.scope.form.phone);
@@ -87,7 +83,6 @@ export class DeleteDataFormComponent extends Component {
   }
 
   public selectAll(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
-    this.debug('selectAll');
     Utils.selectAll(eventEl);
   }
 
@@ -191,7 +186,6 @@ export class DeleteDataFormComponent extends Component {
     }
 
     $form.addClass('was-validated');
-    this.debug('validate', validation);
     return validation;
   }
 
@@ -232,7 +226,6 @@ export class DeleteDataFormComponent extends Component {
   }
 
   protected async beforeBind() {
-    this.debug('before');
     this.$form = $(this.el).find('form') as JQuery<HTMLFormElement>;
 
     // For custom style form validation, see https://getbootstrap.com/docs/4.1/components/forms/#custom-styles
