@@ -1,6 +1,6 @@
 import {
   Component,
-  IBinder,
+  Binder,
 } from '@ribajs/core';
 import { JQuery } from '@ribajs/jquery';
 
@@ -42,7 +42,7 @@ export class FsbdrMainbarComponent extends Component {
     this.init(FsbdrMainbarComponent.observedAttributes);
   }
 
-  public assign(key: string, value: any, context: IBinder<any>, event: Event) {
+  public assign(key: string, value: any, context: Binder<any>, event: Event) {
     // event.preventDefault();
     // event.stopPropagation();
     this.scope[key] = value;

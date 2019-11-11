@@ -1,10 +1,10 @@
-import { Binding, Component, IBinder } from '@ribajs/core';
+import { Binding, Component, Binder } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import template from './instagram.component.html';
-import { IInstagramMedia, IInstagramResponse, InstagramService } from '@ribajs/shopify-tda';
+import { InstagramMedia, InstagramResponse, InstagramService } from '@ribajs/shopify-tda';
 
 export interface IScope {
-  media?: IInstagramMedia;
+  media?: InstagramMedia;
   instagramId?: string;
   openLinks: boolean;
   limit: number;
@@ -37,7 +37,7 @@ export class InstagramComponent extends Component {
   /**
    * Just open the instagram url
    */
-  public onTap(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
+  public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     if (!this.scope.openLinks) {
       return;
     }
@@ -50,7 +50,7 @@ export class InstagramComponent extends Component {
       return Promise.reject();
     }
     InstagramService.loadMedia(this.scope.instagramId, this.scope.limit)
-    .then((response: IInstagramResponse) => {
+    .then((response: InstagramResponse) => {
       this.scope.media = response.media;
     })
     .catch((error: Error) => {

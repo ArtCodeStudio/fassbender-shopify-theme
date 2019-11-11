@@ -1,4 +1,4 @@
-import { Component, IBinder } from '@ribajs/core';
+import { Component, Binder } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './newsletter.component.html';
 import { LocalesService } from '@ribajs/shopify-tda';
@@ -52,7 +52,7 @@ export class NewsletterComponent extends Component {
     this.init(NewsletterComponent.observedAttributes);
   }
 
-  public subscribe(context: IBinder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
+  public subscribe(context: Binder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
     // stop native submit
     event.preventDefault();
     event.stopPropagation();
@@ -72,7 +72,7 @@ export class NewsletterComponent extends Component {
 
   }
 
-  public selectAll(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
+  public selectAll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
     Utils.selectAll(eventEl);
   }
 

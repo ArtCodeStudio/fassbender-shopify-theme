@@ -1,6 +1,6 @@
 import {
   Component,
-  IBinder,
+  Binder,
 } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import {
@@ -103,7 +103,7 @@ export class PrivacySettingsComponent extends Component {
     this.init(PrivacySettingsComponent.observedAttributes);
   }
 
-  public onClearDataClicked(context: IBinder<any>, event: Event) {
+  public onClearDataClicked(context: Binder<any>, event: Event) {
     ShopifyCartService.clear()
     .then(() => {
       return Utils.get('/account/logout');

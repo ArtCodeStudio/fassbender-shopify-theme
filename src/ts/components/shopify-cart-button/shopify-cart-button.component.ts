@@ -1,6 +1,6 @@
 import {
   Component,
-  IBinder,
+  Binder,
 } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import {
@@ -8,7 +8,7 @@ import {
 } from '@ribajs/router';
 import {
   ShopifyCartService,
-  IShopifyCartObject,
+  ShopifyCartObject,
 } from '@ribajs/shopify';
 import { Utils } from '../../services/Utils';
 import template from './shopify-cart-button.component.html';
@@ -39,7 +39,7 @@ export class ShopifyCartButtonComponent extends Component {
     startAddAnimation: false,
   };
 
-  protected set cart(cart: IShopifyCartObject) {
+  protected set cart(cart: ShopifyCartObject) {
     this.scope.cartItemCount = cart.item_count;
     this.scope.startAddAnimation = true;
     setTimeout(() => {
@@ -53,7 +53,7 @@ export class ShopifyCartButtonComponent extends Component {
     this.init(ShopifyCartButtonComponent.observedAttributes);
   }
 
-  public toggle(context: IBinder<any>, event: Event) {
+  public toggle(context: Binder<any>, event: Event) {
     event.preventDefault();
     event.stopPropagation();
 
@@ -74,7 +74,7 @@ export class ShopifyCartButtonComponent extends Component {
       this.scope.pending = true;
     });
 
-    ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
+    ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:complete', (cart: ShopifyCartObject) => {
       if (cart) {
         this.cart = cart;
       }

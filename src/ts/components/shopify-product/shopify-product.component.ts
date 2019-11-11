@@ -3,9 +3,9 @@ import {
 } from '@ribajs/core';
 import { JQuery as $} from '@ribajs/jquery';
 import {
-  IShopifyProductVariant,
-  IShopifyProduct,
-  IShopifyProductVariantOption,
+  ShopifyProductVariant,
+  ShopifyProduct,
+  ShopifyProductVariantOption,
   ShopifyCartService,
   ShopifyProductService,
 } from '@ribajs/shopify';
@@ -19,14 +19,14 @@ export interface ImageRow {
   sizes: string;
 }
 
-export interface IPrepairedProductVariant extends IShopifyProductVariant {
+export interface IPrepairedProductVariant extends ShopifyProductVariant {
   images?: string[];
   imageRows?: ImageRow[];
 }
 
 export interface IScope {
   handle: string | null;
-  product: IShopifyProduct  | null;
+  product: ShopifyProduct  | null;
   variant: IPrepairedProductVariant | null;
   quantity: number;
   showDetailMenu: boolean;
@@ -77,7 +77,7 @@ export class ShopifyProductComponent extends Component {
     available: false,
   };
 
-  private colorOption: IShopifyProductVariantOption | null = null;
+  private colorOption: ShopifyProductVariantOption | null = null;
 
   private selectedOptions: string[] = [];
 
@@ -86,7 +86,7 @@ export class ShopifyProductComponent extends Component {
    */
   private optionChoosed: boolean = false;
 
-  protected set product(product: IShopifyProduct | null) {
+  protected set product(product: ShopifyProduct | null) {
     if (product) {
       this.scope.product = ShopifyProductService.prepair(product);
 
@@ -98,11 +98,11 @@ export class ShopifyProductComponent extends Component {
     }
   }
 
-  protected get product(): IShopifyProduct | null {
+  protected get product(): ShopifyProduct | null {
     return this.scope.product;
   }
 
-  protected set variant(variant: IShopifyProductVariant | null) {
+  protected set variant(variant: ShopifyProductVariant | null) {
     if (variant === null) {
       console.warn('Error: Variant ist null');
       return;
@@ -147,7 +147,7 @@ export class ShopifyProductComponent extends Component {
       // Option choosed so enable add to cart button
       this.optionChoosed = true;
 
-      this.variant = variant as IShopifyProductVariant;
+      this.variant = variant as ShopifyProductVariant;
     }
 
     event.stopPropagation();
@@ -221,7 +221,7 @@ export class ShopifyProductComponent extends Component {
       throw new Error('Product handle not set');
     }
     return ShopifyProductService.get(this.scope.handle)
-    .then((product: IShopifyProduct) => {
+    .then((product: ShopifyProduct) => {
       this.product = product;
     });
   }
@@ -278,7 +278,7 @@ export class ShopifyProductComponent extends Component {
         }
       });
       // remove variant images from copied array
-      this.scope.product.variants.forEach((variant: IShopifyProductVariant) => {
+      this.scope.product.variants.forEach((variant: ShopifyProductVariant) => {
         let index = -1;
         if (variant.featured_image !== null && variant.featured_image.src) {
           index = this.indexOfUrl(generalImages, variant.featured_image.src);
@@ -296,7 +296,7 @@ export class ShopifyProductComponent extends Component {
    * Shopify only supports one image per variant, with this function more images for each variant are possible.
    * The image filename must include {optionName}-{optionValue} for that.
    */
-  private getOptionImages(option: IShopifyProductVariantOption, optionValue: string) {
+  private getOptionImages(option: ShopifyProductVariantOption, optionValue: string) {
     optionValue = optionValue.toLowerCase().replace('#', '_');
     const optionName = option.name.toLowerCase();
     const optionImages: string[] = [];

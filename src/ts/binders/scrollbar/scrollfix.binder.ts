@@ -1,4 +1,4 @@
-import { IBinder } from '@ribajs/core';
+import { Binder } from '@ribajs/core';
 import { JQuery } from '@ribajs/jquery';
 
 const onWheel = (event: Event) => {
@@ -14,7 +14,7 @@ const onWheel = (event: Event) => {
  * TODO not working yet
  * @see issue https://stackoverflow.com/questions/29344162/fullscreen-video-doesnt-allow-scrolling-on-firefox
  */
-export const scrollfixBinder: IBinder<any> = {
+export const scrollfixBinder: Binder<any> = {
   name: 'scrollfix',
   routine(el: HTMLElement, value: any) {
 

@@ -1,4 +1,4 @@
-import { Component, IBinder } from '@ribajs/core';
+import { Component, Binder } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './shopify-addresses.component.html';
 import { Utils } from '../../services/Utils';
@@ -81,7 +81,7 @@ export class ShopifyAddressesComponent extends Component {
     this.init(ShopifyAddressesComponent.observedAttributes);
   }
 
-  public edit(id: string, context: IBinder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
+  public edit(id: string, context: Binder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
     console.warn('login', this.scope);
 
     const $form = this.$el.find(`form[action="/account/addresses/${id}]`) as JQuery<HTMLFormElement>;
@@ -107,7 +107,7 @@ export class ShopifyAddressesComponent extends Component {
   /**
    * Submit an new address
    */
-  public create(context: IBinder<any>, event: Event) {
+  public create(context: Binder<any>, event: Event) {
     if (!this.$createAddressForm) {
       console.warn('No create form found');
       return false;
@@ -128,7 +128,7 @@ export class ShopifyAddressesComponent extends Component {
 
   // https://help.shopify.com/en/api/reference/customers/customer_address
   // /account/addresses/{id}
-  public delete(id: string, context: IBinder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
+  public delete(id: string, context: Binder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
     Utils.delete(`/account/addresses/${id}`, {}, 'json')
     .then((response: any) => {
       location.reload();

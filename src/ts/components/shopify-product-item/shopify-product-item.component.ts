@@ -1,11 +1,11 @@
 import {
   Component,
-  IBinder,
+  Binder,
 } from '@ribajs/core';
 import {
-  IShopifyProductVariant,
-  IShopifyProduct,
-  IShopifyProductVariantOption,
+  ShopifyProductVariant,
+  ShopifyProduct,
+  ShopifyProductVariantOption,
   ShopifyCartService,
   ShopifyProductService,
 } from '@ribajs/shopify';
@@ -13,8 +13,8 @@ import template from './shopify-product-item.component.html';
 
 export interface IScope {
   handle: string | null;
-  product: IShopifyProduct  | null;
-  variant: IShopifyProductVariant | null;
+  product: ShopifyProduct  | null;
+  variant: ShopifyProductVariant | null;
   quantity: number;
   showDetailMenu: boolean;
   // showAddToCartButton: boolean;
@@ -24,8 +24,8 @@ export interface IScope {
   decrease: ShopifyProductItemComponent['decrease'];
   increase: ShopifyProductItemComponent['increase'];
   $parent?: any;
-  colorOption: IShopifyProductVariantOption | null;
-  sizeOption: IShopifyProductVariantOption | null;
+  colorOption: ShopifyProductVariantOption | null;
+  sizeOption: ShopifyProductVariantOption | null;
   available: boolean;
 }
 
@@ -94,7 +94,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     return this.scope.showDetailMenu;
   }
 
-  protected set product(product: IShopifyProduct | null) {
+  protected set product(product: ShopifyProduct | null) {
     if (product) {
       this.scope.product = ShopifyProductService.prepair(product);
 
@@ -106,11 +106,11 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     }
   }
 
-  protected get product(): IShopifyProduct | null {
+  protected get product(): ShopifyProduct | null {
     return this.scope.product;
   }
 
-  protected set variant(variant: IShopifyProductVariant | null) {
+  protected set variant(variant: ShopifyProductVariant | null) {
     if (variant === null) {
       console.warn('Error: Variant ist null');
       return;
@@ -135,7 +135,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     }, false);
   }
 
-  public chooseOption(optionValue: string | number, position1: number, optionName: string, context: IBinder<any>, event: MouseEvent, scope: any, el: HTMLElement) {
+  public chooseOption(optionValue: string | number, position1: number, optionName: string, context: Binder<any>, event: MouseEvent, scope: any, el: HTMLElement) {
     optionValue = optionValue.toString();
 
     if (!this.scope.product) {
@@ -150,7 +150,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
       // Option choosed so enable add to cart button
       this.optionChoosed = true;
 
-      this.variant = variant as IShopifyProductVariant;
+      this.variant = variant as ShopifyProductVariant;
     }
 
     event.stopPropagation();
@@ -235,7 +235,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
       throw new Error('Product handle not set');
     }
     return ShopifyProductService.get(this.scope.handle)
-    .then((product: IShopifyProduct) => {
+    .then((product: ShopifyProduct) => {
       this.product = product;
       return product;
     });

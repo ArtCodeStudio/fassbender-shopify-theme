@@ -1,7 +1,7 @@
-import { Binding, IBinder, Component } from '@ribajs/core';
+import { Binding, Binder, Component } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import { Utils } from '../../services/Utils';
-import { IInstagramMedia, IInstagramResponse, InstagramService } from '@ribajs/shopify-tda';
+import { InstagramMedia, InstagramResponse, InstagramService } from '@ribajs/shopify-tda';
 import template from './instagram-scrollbar.component.html';
 
 export interface IScope {
@@ -11,7 +11,7 @@ export interface IScope {
   limit: number;
   onScroll: InstagramScrollbarComponent['onScroll'];
   onTap: InstagramScrollbarComponent['onTap'];
-  media?: IInstagramMedia;
+  media?: InstagramMedia;
 }
 
 export class InstagramScrollbarComponent extends Component {
@@ -46,7 +46,7 @@ export class InstagramScrollbarComponent extends Component {
   /**
    * Just open the instagram url
    */
-  public onTap(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
+  public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
     if (this.scope.openUrl.length > 0) {
       this.pjax.goTo(this.scope.openUrl);
     }
@@ -61,7 +61,7 @@ export class InstagramScrollbarComponent extends Component {
    * get instagram in the middle of the scrollbar elementinnerWidth
    * TODO not used
    */
-  public onScroll(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
+  public onScroll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
     const self = this;
     if (this.$scollWith) {
       const factor = 3;
@@ -96,7 +96,7 @@ export class InstagramScrollbarComponent extends Component {
       throw new Error('instagram id is required!');
     }
     InstagramService.loadMedia(this.scope.instagramId, this.scope.limit)
-    .then((response: IInstagramResponse) => {
+    .then((response: InstagramResponse) => {
       this.scope.media = response.media;
       return this.scope.media;
     })

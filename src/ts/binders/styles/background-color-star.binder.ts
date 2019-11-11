@@ -1,7 +1,7 @@
-import { IBinder } from '@ribajs/core';
+import { Binder } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 
-export const backgroundColorStarBinder: IBinder<string> = {
+export const backgroundColorStarBinder: Binder<string> = {
   name: 'background-color-*',
   routine(el: HTMLElement, value: string) {
     const $el = $(el);

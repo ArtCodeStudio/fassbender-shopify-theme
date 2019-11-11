@@ -1,5 +1,5 @@
 import { Utils } from '../../services/Utils';
-import { Component, IBinder } from '@ribajs/core';
+import { Component, Binder } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './delete-data-form.component.html';
 import { LocalesService } from '@ribajs/shopify-tda';
@@ -64,7 +64,7 @@ export class DeleteDataFormComponent extends Component {
   /**
    * Send the contact form using a form submit request with best shopify form support
    */
-  public send(context: IBinder<any>, event: Event) {
+  public send(context: Binder<any>, event: Event) {
     this.scope.form.firstName = Utils.stripHtml(this.scope.form.firstName);
     this.scope.form.lastName = Utils.stripHtml(this.scope.form.lastName);
     this.scope.form.phone = Utils.stripHtml(this.scope.form.phone);
@@ -82,7 +82,7 @@ export class DeleteDataFormComponent extends Component {
 
   }
 
-  public selectAll(context: IBinder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
+  public selectAll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
     Utils.selectAll(eventEl);
   }
 

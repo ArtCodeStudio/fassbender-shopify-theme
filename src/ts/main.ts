@@ -2,7 +2,7 @@ import {
   Riba,
   View,
   Utils,
-  IBinder,
+  Binder,
 
   coreModule,
 
@@ -57,13 +57,13 @@ export class Main {
       binders: customBinders,
     });
 
-    window.model.assign = function(key: string, value: any, context: IBinder<any>, event: Event) {
+    window.model.assign = function(key: string, value: any, context: Binder<any>, event: Event) {
       // event.preventDefault();
       // event.stopPropagation();
       this[key] = value;
     };
 
-    window.model.globalToggle = function(key: string, context: IBinder<any>, event: Event) {
+    window.model.globalToggle = function(key: string, context: Binder<any>, event: Event) {
       this[key] = !!!this[key];
       event.preventDefault();
       event.stopPropagation();

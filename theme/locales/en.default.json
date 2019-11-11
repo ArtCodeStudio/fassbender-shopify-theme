@@ -49,7 +49,10 @@
     "addresses": "Addresses",
     "all": "All",
     "blog": "Stories",
-    "vlog": "Vlog"
+    "vlog": "Vlog",
+    "lookbook-fw18": "Lookbook FW18",
+    "lookbook-fw19": "Lookbook FW19",
+    "lookbook-fw20": "Lookbook FW20"
   },
   "collections": {
     "all": "All",

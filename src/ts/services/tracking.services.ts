@@ -2,7 +2,7 @@ import {
   EventDispatcher,
 } from '@ribajs/core';
 
-import { IState } from '@ribajs/router';
+import { State } from '@ribajs/router';
 
 export interface TheTradeDesk {
   enabled: boolean;
@@ -197,12 +197,12 @@ export class TrackingService {
       return TrackingService.instance;
     }
 
-    console.warn('google analytics disabled: ', (window as any)[this.googleAnalyticsDisableStr]);
-    console.warn('the trade desk disabled: ', (window as any)[this.theTradeDeskDisableStr]);
-    console.warn('facebook pixel disabled: ', (window as any)[this.facebookPixelDisableStr]);
-    console.warn('pinterest tag disabled: ', (window as any)[this.pinterestTagDisableStr]);
+    // console.warn('google analytics disabled: ', (window as any)[this.googleAnalyticsDisableStr]);
+    // console.warn('the trade desk disabled: ', (window as any)[this.theTradeDeskDisableStr]);
+    // console.warn('facebook pixel disabled: ', (window as any)[this.facebookPixelDisableStr]);
+    // console.warn('pinterest tag disabled: ', (window as any)[this.pinterestTagDisableStr]);
 
-    this.dispatcher.on('newPageReady', (viewId: string, currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) => {
+    this.dispatcher.on('newPageReady', (viewId: string, currentStatus: State, prevStatus: State, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) => {
       this.trackingCallback(currentStatus, prevStatus, $container, newPageRawHTML, dataset, isFirstPageLoad);
     });
 
@@ -319,7 +319,7 @@ export class TrackingService {
     this.deleteCookieOnServer();
   }
 
-  public trackingCallback(currentStatus: IState, prevStatus: IState, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) {
+  public trackingCallback(currentStatus: State, prevStatus: State, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) {
     const self = this;
     if (navigator.doNotTrack === '1') {
       console.warn('The user wishs no tracking');

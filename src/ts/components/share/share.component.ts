@@ -1,6 +1,6 @@
 import {
   Component,
-  IBinder,
+  Binder,
 } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './share.component.html';
@@ -107,7 +107,7 @@ export class ShareComponent extends Component {
     this.scope.isDesktop = !(this.scope.isIos || this.scope.isAndroid); // on those two support "mobile deep links", so HTTP based fallback for all others.
   }
 
-  public share(context: IBinder<any> | null, event: Event | JQuery.Event): Promise<any> {
+  public share(context: Binder<any> | null, event: Event | JQuery.Event): Promise<any> {
     event.preventDefault();
     event.stopPropagation();
     // return this.dropdownService.toggle();

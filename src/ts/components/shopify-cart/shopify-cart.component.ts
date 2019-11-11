@@ -1,24 +1,24 @@
 import {
   Component,
-  IBinder,
+  Binder,
 } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import {
   ShopifyCartService,
-  IShopifyCartLineItem,
-  IShopifyCartObject,
-  IShopifyCustomerAddress,
-  IShopifyShippingRates,
-  IShopifyShippingRatesNormalized,
+  ShopifyCartLineItem,
+  ShopifyCartObject,
+  ShopifyCustomerAddress,
+  ShopifyShippingRates,
+  ShopifyShippingRatesNormalized,
 } from '@ribajs/shopify';
 import template from './shopify-cart.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
 
 interface IScope {
-  cart: IShopifyCartObject | null;
-  shippingAddress: IShopifyCustomerAddress | null;
+  cart: ShopifyCartObject | null;
+  shippingAddress: ShopifyCustomerAddress | null;
   estimateShippingRate: boolean;
-  shippingRates: IShopifyShippingRatesNormalized;
+  shippingRates: ShopifyShippingRatesNormalized;
   toggle: ShopifyCartComponent['toggle'];
   remove: ShopifyCartComponent['removeCart'];
   increase: ShopifyCartComponent['increase'];
@@ -69,8 +69,8 @@ export class ShopifyCartComponent extends Component {
         triggerOnComplete: false,
         triggerOnStart: false,
       })
-      .then((shippingRates: IShopifyShippingRates | IShopifyShippingRatesNormalized) => {
-        this.scope.shippingRates = shippingRates as IShopifyShippingRatesNormalized;
+      .then((shippingRates: ShopifyShippingRates | ShopifyShippingRatesNormalized) => {
+        this.scope.shippingRates = shippingRates as ShopifyShippingRatesNormalized;
       });
     }
   }
@@ -82,35 +82,35 @@ export class ShopifyCartComponent extends Component {
     this.init(ShopifyCartComponent.observedAttributes);
   }
 
-  public toggle(context: IBinder<any>, event: Event) {
+  public toggle(context: Binder<any>, event: Event) {
     event.preventDefault();
     event.stopPropagation();
     return this.dropdownService.toggle();
   }
 
-  public removeCart(lineItem: IShopifyCartLineItem, lineIndex: number) {
+  public removeCart(lineItem: ShopifyCartLineItem, lineIndex: number) {
     ShopifyCartService.change(lineItem.variant_id, 0)
-    .then((cart: IShopifyCartObject) => {
+    .then((cart: ShopifyCartObject) => {
       this.cart = cart;
     });
   }
 
-  public increase(lineItem: IShopifyCartLineItem, lineIndex: number) {
+  public increase(lineItem: ShopifyCartLineItem, lineIndex: number) {
     lineItem.quantity++;
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
-    .then((cart: IShopifyCartObject) => {
+    .then((cart: ShopifyCartObject) => {
       // this.cart = cart;
       return cart;
     });
   }
 
-  public decrease(lineItem: IShopifyCartLineItem, lineIndex: number) {
+  public decrease(lineItem: ShopifyCartLineItem, lineIndex: number) {
     lineItem.quantity--;
     if (lineItem.quantity < 0) {
       lineItem.quantity = 0;
     }
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
-    .then((cart: IShopifyCartObject) => {
+    .then((cart: ShopifyCartObject) => {
       return cart;
     })
     .catch((error) => {
@@ -127,7 +127,7 @@ export class ShopifyCartComponent extends Component {
       this.scope.pending = true;
     });
 
-    ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:complete', (cart: IShopifyCartObject) => {
+    ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:complete', (cart: ShopifyCartObject) => {
       if (cart) {
         this.cart = cart;
       }

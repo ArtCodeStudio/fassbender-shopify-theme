@@ -1,6 +1,6 @@
 import {
   Component,
-  IBinder,
+  Binder,
 } from '@ribajs/core';
 import template from './cookie-banner.component.html';
 
@@ -44,11 +44,11 @@ export class CookieBannerComponent extends Component {
     this.init(CookieBannerComponent.observedAttributes);
   }
 
-  public accept(context: IBinder<any>, event: Event) {
+  public accept(context: Binder<any>, event: Event) {
     this.cookieAccepted = true;
   }
 
-  public close(context: IBinder<any>, event: Event) {
+  public close(context: Binder<any>, event: Event) {
     this.scope.show = false;
   }
 

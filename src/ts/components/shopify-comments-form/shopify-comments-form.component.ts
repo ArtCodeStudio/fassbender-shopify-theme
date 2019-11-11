@@ -1,4 +1,4 @@
-import { Component, IBinder } from '@ribajs/core';
+import { Component, Binder } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './shopify-comments-form.component.html';
 
@@ -86,7 +86,7 @@ export class ShopifyCommentsFormComponent extends Component {
   /**
    * Post comment
    */
-  public post(context: IBinder<any>, event: Event) {
+  public post(context: Binder<any>, event: Event) {
     if (!this.$newCommentForm) {
       console.error('No comment form found');
       return false;

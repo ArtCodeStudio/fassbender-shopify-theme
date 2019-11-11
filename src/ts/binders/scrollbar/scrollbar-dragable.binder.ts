@@ -1,4 +1,4 @@
-import { IBinder } from '@ribajs/core';
+import { Binder } from '@ribajs/core';
 
 /**
  * Scroll an scrollable element by draging and moving your mouse.
@@ -63,7 +63,7 @@ export class Dragscroll {
 /**
  * dragscroll
  */
-export const scrollbarDragableBinder: IBinder<string> = {
+export const scrollbarDragableBinder: Binder<string> = {
   name: 'scrollbar-dragable',
   routine(el: HTMLElement, value: any) {
     const dragscroll = new Dragscroll(el, true);
