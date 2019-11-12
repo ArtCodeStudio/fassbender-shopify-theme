@@ -14,7 +14,6 @@ export { ShopifyFilterComponent } from './shopify-filter/shopify-filter.componen
 export { ShopifyArticleItemComponent } from './shopify-article-item/shopify-article-item.component';
 export { ShopifyProductComponent } from './shopify-product/shopify-product.component';
 export { ShopifyProductItemComponent } from './shopify-product-item/shopify-product-item.component';
-export { TdaI18nSwitcherComponent } from './switcher/switcher.component';
 export { ShopifyCartComponent } from './shopify-cart/shopify-cart.component';
 export { ShopifyCartButtonComponent } from './shopify-cart-button/shopify-cart-button.component';
 export { ShopifyCommentsFormComponent } from './shopify-comments-form/shopify-comments-form.component';
