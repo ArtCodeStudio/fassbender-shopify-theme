@@ -1,7 +1,6 @@
-import { Component, Binder } from '@ribajs/core';
+import { Component, Binder, HttpService } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './shopify-addresses.component.html';
-import { Utils } from '../../services/Utils';
 
 // TODO move to general validation component class we can extend from
 export interface IValidationRule {
@@ -129,7 +128,7 @@ export class ShopifyAddressesComponent extends Component {
   // https://help.shopify.com/en/api/reference/customers/customer_address
   // /account/addresses/{id}
   public delete(id: string, context: Binder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
-    Utils.delete(`/account/addresses/${id}`, {}, 'json')
+    HttpService.delete(`/account/addresses/${id}`, {}, 'json')
     .then((response: any) => {
       location.reload();
     })

@@ -1,6 +1,7 @@
 import {
   Component,
   Binder,
+  HttpService,
 } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import {
@@ -8,7 +9,6 @@ import {
 } from '@ribajs/shopify';
 import template from './privacy-settings.component.html';
 import { TrackingService } from '../../services/tracking.services';
-import { Utils } from '../../services/Utils';
 
 interface IScope {
   theTradeDesk: {
@@ -106,7 +106,7 @@ export class PrivacySettingsComponent extends Component {
   public onClearDataClicked(context: Binder<any>, event: Event) {
     ShopifyCartService.clear()
     .then(() => {
-      return Utils.get('/account/logout');
+      return HttpService.get('/account/logout');
     })
     .then(() => {
       return this.trackingService.removeCookies([this.trackingService.theTradeDeskDisableStr, this.trackingService.googleAnalyticsDisableStr, this.trackingService.facebookPixelDisableStr /*, 'cookieconsent_accepted'*/]);

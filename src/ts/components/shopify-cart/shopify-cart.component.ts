@@ -2,7 +2,6 @@ import {
   Component,
   Binder,
 } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
 import {
   ShopifyCartService,
   ShopifyCartLineItem,
@@ -35,8 +34,6 @@ export class ShopifyCartComponent extends Component {
   static get observedAttributes() {
     return ['shipping-address', 'estimate-shipping-rate'];
   }
-
-  protected $el: JQuery<HTMLElement>;
 
   protected dropdownService: DropdownService;
 
@@ -77,8 +74,7 @@ export class ShopifyCartComponent extends Component {
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.$el = $(this.el);
-    this.dropdownService = new DropdownService(this.$el.find('.dropdown-toggle')[0] as HTMLButtonElement);
+    this.dropdownService = new DropdownService(this.el.querySelector('.dropdown-toggle') as HTMLButtonElement);
     this.init(ShopifyCartComponent.observedAttributes);
   }
 
@@ -92,6 +88,9 @@ export class ShopifyCartComponent extends Component {
     ShopifyCartService.change(lineItem.variant_id, 0)
     .then((cart: ShopifyCartObject) => {
       this.cart = cart;
+    })
+    .catch((error) => {
+      console.error(error);
     });
   }
 
@@ -101,6 +100,9 @@ export class ShopifyCartComponent extends Component {
     .then((cart: ShopifyCartObject) => {
       // this.cart = cart;
       return cart;
+    })
+    .catch((error) => {
+      console.error(error);
     });
   }
 
