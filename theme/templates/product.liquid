@@ -8,7 +8,7 @@
       <div class="col-12 px-0">
         <div class="content-box ratio-3-4 ratio-md-3-2">      
           <img
-            lazyload="lazy"
+            loading="lazy"
             class="content lazy"
             src="{{ product.featured_image.src | img_url: 'master' }}"
             {% comment %}
@@ -43,7 +43,7 @@
       <div rv-each-image="row.images" rv-class="row.class" >
         <div class="content-box ratio-3-4">      
           <img
-            lazyload="lazy"
+            loading="lazy"
             class="content lazy"
             rv-srcset-200w="image | img_url '200x'"
             rv-srcset-288w="image | img_url '288x'"

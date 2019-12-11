@@ -78,14 +78,14 @@
           <div class="col px-0 content-box fit-initial {{ contentBoxClass }}">
             {% if videoPoster %}
               <img
-                lazyload="lazy"
+                loading="lazy"
                 class="{{ imageClass }}"
                 src="{{ videoPoster }}"
                 alt="{{ section.settings.title }}"
               />
             {% endif %}
             <iframe
-              lazyload="lazy"
+              loading="lazy"
               class="{{ imageClass }}"
               id="ytplayer"
               type="text/html" 
@@ -109,14 +109,14 @@
           <div class="col px-0 content-box fit-initial ratio-16-9">
             {% if videoPoster %}
               <img
-                lazyload="lazy"
+                loading="lazy"
                 class="{{ imageClass }}"
                 src="{{ videoPoster }}"
                 alt="{{ section.settings.title }}"
               />
             {% endif %}
             <iframe
-              lazyload="lazy"
+              loading="lazy"
               class="{{ imageClass }}"
               type="text/html" 
               src="https://player.vimeo.com/video/{{ video.id }}?color=D9998F&autoplay=1&loop=1&autopause=0&{{ vimeoParams }}"
@@ -164,7 +164,7 @@
       {% else %}
         <div class="col px-0 content-box {{ contentBoxClass }}">
           <img
-            lazyload="lazy"
+            loading="lazy"
             class="{{ imageClass }}"
             src="{{ imageSrc }}"
             alt="{{ image.alt }}"

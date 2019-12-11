@@ -34,7 +34,7 @@
       {% assign options = _options[1] | split: ' / ' %}
       <li class="media mb-3 cursor-pointer" rv-route="'{{ item.product.url }}'">
         <img
-          lazyload="lazy"
+          loading="lazy"
           class="img-fluid mr-3"
           src="{{ item.image | img_url: '100x', scale: 4, format: 'pjpg' }}"
           {% comment %}

@@ -65,7 +65,7 @@
         <div class="col-12 col-md px-0 content-box {{videoRatioClass}}">
           {% if videoPoster %}
             <img
-              lazyload="lazy"
+              loading="lazy"
               class="content lazy"
               src="{{ videoPoster }}"
               alt="{{ article.title }}"
@@ -88,7 +88,7 @@
           {% endif %}
           {% if videoType == 'vimeo' %}
             <iframe
-              lazyload="lazy"
+              loading="lazy"
               class="content lazy"
               type="text/html"
               src="https://player.vimeo.com/video/{{ video }}?color=D9998F&title=0&byline=0&portrait=0&autoplay=0&loop=0&autopause=1&background=0&muted=0"
@@ -105,7 +105,7 @@
           {% endif %}
           {% if videoType == 'youtube' %}
             <iframe
-              lazyload="lazy"
+              loading="lazy"
               class="content lazy"
               type="text/html"
               src="https://www.youtube.com/embed/{{ video }}?autoplay=0&mute=0&color=white&controls=2&disablekb=0&enablejsapi=0&fs=1&iv_load_policy=3&loop=0&modestbranding=1&origin={{shop.url}}&playsinline=0&rel=0&showinfo=0"
@@ -128,7 +128,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images limit:1 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="lazy" class="content lazy" src="{{ image }}" alt="{{ article.title }}" style="padding: {{imageSpacing}}px" />
+          <img loading="lazy" class="content lazy" src="{{ image }}" alt="{{ article.title }}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -137,7 +137,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:1 limit:2 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="lazy" class="content lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img loading="lazy" class="content lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -146,7 +146,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:3 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img lazyload="lazy" class="content lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img loading="lazy" class="content lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>

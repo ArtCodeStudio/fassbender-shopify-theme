@@ -40,7 +40,7 @@
   {% if showVideo %}
     {% if videoPoster %}
       <img
-        lazyload="lazy"
+        loading="lazy"
         class="content lazy"
         src="{{ videoPoster }}"
         alt="{{article.title}}"
@@ -63,7 +63,7 @@
     {% endif %}
     {% if videoType == 'vimeo' %}
       <iframe
-        lazyload="lazy"
+        loading="lazy"
         class="content lazy"
         type="text/html"
         src="https://player.vimeo.com/video/{{ video }}?color=D9998F&title=0&byline=0&portrait=0&autoplay=0&loop=0&autopause=1&background=0&muted=0"
@@ -80,7 +80,7 @@
     {% endif %}
     {% if videoType == 'youtube' %}
       <iframe
-        lazyload="lazy"
+        loading="lazy"
         class="content lazy"
         type="text/html"
         src="https://www.youtube.com/embed/{{ video }}?autoplay=0&mute=0&color=white&controls=2&disablekb=0&enablejsapi=0&fs=1&iv_load_policy=3&loop=0&modestbranding=1&origin={{shop.url}}&playsinline=0&rel=0&showinfo=0"
@@ -110,7 +110,7 @@
       {% assign image = videoPoster %}
     {% endif %}
     <img
-      lazyload="lazy"
+      loading="lazy"
       class="content has-xs-spacing has-sm-spacing"
       src="{{ image }}"
       alt="{{ acticle.title }}"

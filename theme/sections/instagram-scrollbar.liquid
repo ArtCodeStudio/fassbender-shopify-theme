@@ -20,10 +20,10 @@
     <div class="col-7 col-md-5 px-0 content-box ratio-1-1 cursor-pointer" rv-each-image="media.data" rv-add-class="image.media_type" rv-data-url="image.permalink" rv-on-tap="onTap">
       
       {% comment %} IMAGE {% endcomment %}
-      <img lazyload="lazy" class="content lazy" rv-if="image.media_type | eq 'IMAGE'" rv-src="image.media_url" rv-alt="image.caption">
+      <img loading="lazy" class="content lazy" rv-if="image.media_type | eq 'IMAGE'" rv-src="image.media_url" rv-alt="image.caption">
 
       {% comment %} CAROUSEL_ALBUM {% endcomment %}
-      <img lazyload="lazy" class="content lazy" rv-if="image.media_type | eq 'CAROUSEL_ALBUM'" rv-src="image.media_url" rv-alt="image.caption">
+      <img loading="lazy" class="content lazy" rv-if="image.media_type | eq 'CAROUSEL_ALBUM'" rv-src="image.media_url" rv-alt="image.caption">
       
       {% comment %} VIDEO {% endcomment %}
       <fsbdr-video rv-if="image.media_type | eq 'VIDEO'" rv-mp4-src="image.media_url">
