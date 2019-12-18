@@ -7,21 +7,21 @@
     website:    http://www.burocratik.com
     * @preserve
     -----------------------------------------------------------------------*/
-    #outdated{
+    #outdated {
         display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%;
         text-align: center; text-transform: uppercase; z-index:1500;
         background-color: #fff; background-color: rgba(0,0,0,0.8); color: #000;
     }
-    * html #outdated{position: absolute;}
-    #outdated h6{font-size: 25px; line-height: 25px; margin: 30px 0 10px;}
-    #outdated p{font-size: 12px; margin: 0;}
+    * html #outdated {position: absolute;}
+    #outdated h6 {font-size: 25px; line-height: 25px; margin: 30px 0 10px;}
+    #outdated p {font-size: 12px; margin: 0;}
     #outdated #btnUpdateBrowser{
         display: block; position: relative; padding: 10px 20px; margin: 30px auto 0; width: 230px; /*need for IE*/
         color: #000; text-decoration: none; border: 2px solid #000; cursor: pointer;
     }
     #outdated .last{position: absolute; top: 10px; right: 25px; width: 20px; height: 20px;}
     #outdated .last[dir='rtl']{right: auto !important; left: 25px !important;}
-    #outdated #btnCloseUpdateBrowser{
+    #outdated #btnCloseUpdateBrowser {
         display: block; position: relative; width: 100%; height: 100%;
         text-decoration: none; color: #ffffff; font-size: 36px; line-height: 36px;
     }
@@ -42,62 +42,32 @@
     </style>
 
     <script>
-    /*!--------------------------------------------------------------------
-    JAVASCRIPT "Outdated Browser"
-    Version:    1.1.2 - 2015
-    author:     Burocratik
-    website:    http://www.burocratik.com
-    * @preserve
-    -----------------------------------------------------------------------*/
+    var outdatedBrowserLoaded = false;
     var outdatedBrowser = function(options) {
-
-        //Variable definition (before ajax)
-        var outdated = document.getElementById("outdated");
-
-        // Default settings
-        this.defaultOpts = {
-            bgColor: '#f25648',
-            color: '#ffffff',
-            lowerThan: 'transform',
-            languagePath: '../outdatedbrowser/lang/en.html'
+        
+        if (outdatedBrowserLoaded) {
+            return;
         }
-
-        if (options) {
-
-            // all properties
-            this.defaultOpts.bgColor = options.bgColor;
-            this.defaultOpts.color = options.color;
-            this.defaultOpts.lowerThan = options.lowerThan;
-            this.defaultOpts.languagePath = options.languagePath;
-
-            bkgColor = this.defaultOpts.bgColor;
-            txtColor = this.defaultOpts.color;
-            cssProps = this.defaultOpts.lowerThan;
-            languagePath = this.defaultOpts.languagePath;
-        } else {
-            bkgColor = this.defaultOpts.bgColor;
-            txtColor = this.defaultOpts.color;
-            cssProps = this.defaultOpts.lowerThan;
-            languagePath = this.defaultOpts.languagePath;
-        } //end if options
-
-
-        //Define opacity and fadeIn/fadeOut functions
+        
+        outdatedBrowserLoaded = true;
+    
+        // Default options
+        if (!options || !options.lowerThan) {
+            options.lowerThan = 'transform';
+        }
+        cssProps = options.lowerThan;
+    
+        // Variable definition (before ajax)
+        var outdated = document.getElementById("outdated");
+    
+        // Define opacity and fadeIn / fadeOut functions
         var done = true;
-
+    
         function function_opacity(opacity_value) {
             outdated.style.opacity = opacity_value / 100;
             outdated.style.filter = 'alpha(opacity=' + opacity_value + ')';
         }
-
-        // function function_fade_out(opacity_value) {
-        //     function_opacity(opacity_value);
-        //     if (opacity_value == 1) {
-        //         outdated.style.display = 'none';
-        //         done = true;
-        //     }
-        // }
-
+    
         function function_fade_in(opacity_value) {
             function_opacity(opacity_value);
             if (opacity_value == 1) {
@@ -107,24 +77,19 @@
                 done = true;
             }
         }
-
-        //check if element has a particular class
-        // function hasClass(element, cls) {
-        //     return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
-        // }
-
+    
         var supports = ( function() {
             var div = document.createElement('div');
             var vendors = 'Khtml Ms O Moz Webkit'.split(' ');
             var len = vendors.length;
-
+    
             return function(prop) {
                 if (prop in div.style) return true;
-
+    
                 prop = prop.replace(/^[a-z]/, function(val) {
                     return val.toUpperCase();
                 });
-
+    
                 while (len--) {
                     if (vendors[len] + prop in div.style) {
                         return true;
@@ -133,15 +98,15 @@
                 return false;
             };
         } )();
-
+    
         var validBrowser = true;
-
+    
         // check by css3 property (transform=default)
-        for (let index = 0; index < cssProps.length && validBrowser; index++) {
-            const cssProp = cssProps[index];
+        for (var index = 0; index < cssProps.length && validBrowser; index++) {
+            var cssProp = cssProps[index];
             validBrowser = supports('' + cssProp + '');
         }
-
+    
         if (!validBrowser) {
             if (done && outdated.style.opacity !== '1') {
                 done = false;
@@ -155,24 +120,11 @@
             }
         } else {
             return;
-        } //end if
-
-
-        //events and colors
-        function startStylesAndEvents() {
-            var btnClose = document.getElementsByClassName("btnCloseUpdateBrowser");
-            //close button
-            btnClose.onmousedown = function() {
-                outdated.style.display = 'none';
-                return false;
-            };
-
         }
-        startStylesAndEvents();
     };
-
+    
     // Plain Javascript
-    //event listener: DOM ready
+    // event listener: DOM ready
     function addLoadEvent(func) {
         var oldonload = window.onload;
         if (typeof window.onload != 'function') {
@@ -185,31 +137,39 @@
                 func();
             }
         }
-    }
 
+        var oldonerror = window.onerror;
+        if (typeof window.onerror != 'function') {
+            window.onerror = func;
+        } else {
+            window.onerror = function() {
+                if (oldonerror) {
+                    oldonerror();
+                }
+                func();
+            }
+        }
+    }
+    
     /**
      * Test if the current borwser is IE
      */
     function isIE() {
         return (navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || (typeof $.browser !== "undefined" && $.browser.msie == 1));
     }
-
+    
     function addBrowserClassToHtml() {
         if(isIE()) {
             var htmlElement = document.getElementsByTagName( 'html' )[0];
             htmlElement.setAttribute( 'class', 'browser-ie' );
         }
     }
-
-
-    //call plugin function after DOM ready
+    
+    //c all plugin function after DOM ready
     addLoadEvent(function(){
         addBrowserClassToHtml();
         outdatedBrowser({
-            bgColor: 'rgba(0,0,0,0.8)',
-            color: '#000',
-            lowerThan: ['objectFit', 'flexDirection'],
-            languagePath: ''
+            lowerThan: ['objectFit', 'flexDirection']
         });
     });
 
@@ -225,10 +185,8 @@
                     Upgrade to Microsoft Edge or another modern browser to view this webapp correctly.
                 </p>
                 <p class="pt-4">
-                    <a class="btnUpdateBrowser btn btn-animated-underline-dark font-weight-bold" href="http://outdatedbrowser.com/de">Update my browser now </a>
+                    <a class="btnUpdateBrowser btn btn-animated-underline-dark font-weight-bold" href="https://outdatedbrowser.com/en">Update my browser now </a>
                 </p>
-                
-                {% comment %} <p class="last btnCloseUpdateBrowser"><a href="#" title="Close">&times;</a></p> {% endcomment %}
             </div>
             <div class="d-none d-de-block">
                 <h6 class="pb-3">Ihr Browser ist veraltet!</h6>
@@ -240,10 +198,8 @@
                     Bitte aktualisieren Sie auf Microsoft Edge oder einen anderen zeitgemäßen Browser, um diese Webanwendung korrekt darzustellen.
                 </p>
                 <p class="pt-4">
-                    <a class="btnUpdateBrowser btn btn-animated-underline-dark font-weight-bold" href="http://outdatedbrowser.com/de">Jetzt aktualisieren </a>
+                    <a class="btnUpdateBrowser btn btn-animated-underline-dark font-weight-bold" href="https://outdatedbrowser.com/de">Jetzt aktualisieren </a>
                 </p>
-
-                {% comment %} <p class="last btnCloseUpdateBrowser"><a href="#" title="Schließen">&times;</a></p> {% endcomment %}
             </div>
         </div>
     </div>
