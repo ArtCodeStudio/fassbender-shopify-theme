@@ -5,7 +5,7 @@ import { LocalesService } from '@ribajs/shopify-tda';
 import { Utils } from '../../services/Utils';
 
 // TODO move to general validation component class we can extend from
-export interface IValidationObject {
+export interface ValidationObject {
   fields: {
     [name: string]: string | number;
   };
@@ -13,15 +13,15 @@ export interface IValidationObject {
   error?: string;
 }
 
-interface IScope {
+interface Scope {
   subscribe: NewsletterComponent['subscribe'];
   selectAll: NewsletterComponent['selectAll'];
-  form: IValidationObject;
+  form: ValidationObject;
 }
 
 export class NewsletterComponent extends Component {
 
-  public static tagName: string = 'rv-newsletter';
+  public static tagName = 'rv-newsletter';
 
   static get observedAttributes() {
     return [];
@@ -29,7 +29,7 @@ export class NewsletterComponent extends Component {
 
   protected localesService = new LocalesService();
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     subscribe: this.subscribe,
     selectAll: this.selectAll,
     form: {
@@ -52,7 +52,7 @@ export class NewsletterComponent extends Component {
     this.init(NewsletterComponent.observedAttributes);
   }
 
-  public subscribe(context: Binder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
+  public subscribe(context: Binder<any>, event: Event) {
     // stop native submit
     event.preventDefault();
     event.stopPropagation();
@@ -82,9 +82,8 @@ export class NewsletterComponent extends Component {
     this.$form.addClass('needs-validation');
   }
 
-  protected validate($form: JQuery<HTMLFormElement>, validationScope: IValidationObject) {
+  protected validate($form: JQuery<HTMLFormElement>, validationScope: ValidationObject) {
     $form.each((index: number, formEl) => {
-      const name = formEl.name;
       validationScope.valid = formEl.checkValidity();
       validationScope.error = formEl.validationMessage;
     });

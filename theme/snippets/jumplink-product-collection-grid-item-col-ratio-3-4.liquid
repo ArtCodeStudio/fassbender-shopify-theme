@@ -8,11 +8,11 @@
   {% assign colClass = 'col-12 col-md' %}
 {% endif %}
 
-<rv-shopify-product-item handle="{{ product.handle }}" class="{{ colClass }} {{ orderClass }} px-0 content-box ratio-3-4">
+<rv-shopify-product-item handle="{{ product.handle }}" class="{{ colClass }} {{ orderClass }} px-0 cembed-responsive embed-responsive-3by4">
   <a rv-route="'{{ product.url | within: collection }}'" href="{{product.url | within: collection }}">
     <img
       loading="lazy"
-      class="content lazy"
+      class="embed-responsive-item lazy"
       rv-class-show-detail-menu="showDetailMenu"
       src="{{ product.featured_image | img_url: '1200x1600', crop: 'center', format: 'pjpg' }}"
       {% comment %}

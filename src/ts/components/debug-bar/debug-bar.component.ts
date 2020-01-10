@@ -4,7 +4,7 @@ import template from './debug-bar.component.html';
 
 export class DebugBarComponent extends Component {
 
-  public static tagName: string = 'rv-debug-bar';
+  public static tagName = 'rv-debug-bar';
 
   static get observedAttributes() {
     return ['theme-name'];
@@ -41,7 +41,7 @@ export class DebugBarComponent extends Component {
     this.scope.hidden = !this.scope.hidden;
   }
 
-  public toggleBar(forceHide: boolean = false) {
+  public toggleBar(forceHide = false) {
     if (this.$previewBar && this.$previewBar.length > 0) {
       if (forceHide === true || this.elementIsVisable(this.$previewBar)) {
         this.$previewBar.attr('hidden', '');

@@ -58,7 +58,7 @@ module.exports = env => {
       path: path.resolve(__dirname, 'theme/assets/')
     },
     resolve: {
-      modules: [ 'node_modules', 'src/modules' ],
+      modules: ['node_modules'],
       extensions: ['.ts', '.tsx', '.js', '.json'],
       symlinks: true
     },

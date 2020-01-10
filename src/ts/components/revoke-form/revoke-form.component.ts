@@ -5,7 +5,7 @@ import template from './revoke-form.component.html';
 import { LocalesService } from '@ribajs/shopify-tda';
 
 // TODO move to general validation component class we can extend from
-export interface IValidationRule {
+export interface ValidationRule {
   required: boolean;
   minlength?: number;
   maxlength?: number;
@@ -18,16 +18,16 @@ export interface IValidationRule {
 }
 
 // TODO move to general validation component class we can extend from
-export interface IValidationObject {
+export interface ValidationObject {
   valid: boolean;
   rules?: {
-    [key: string]: IValidationRule;
+    [key: string]: ValidationRule;
   };
 }
 
 export class RevokeFormComponent extends Component {
 
-  public static tagName: string = 'rv-revoke-form';
+  public static tagName = 'rv-revoke-form';
 
   static get observedAttributes() {
     return [];
@@ -92,7 +92,7 @@ export class RevokeFormComponent extends Component {
    * @param the form with the values form the form
    * @param keys keys you want to validate
    */
-  protected validate(validation: IValidationObject, formValues: any, keys: string[], $form: JQuery<HTMLFormElement>) {
+  protected validate(validation: ValidationObject, formValues: any, keys: string[], $form: JQuery<HTMLFormElement>) {
     validation.valid = true;
 
     keys.forEach((key: string) => {
@@ -190,7 +190,7 @@ export class RevokeFormComponent extends Component {
   }
 
   protected getValidationObject() {
-    const validation: IValidationObject = {
+    const validation: ValidationObject = {
       valid: true,
       rules: {
         firstName: {

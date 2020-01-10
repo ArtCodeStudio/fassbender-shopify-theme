@@ -4,7 +4,7 @@ import template from './icon.component.html';
 
 export class IconComponent extends Component {
 
-  public static tagName: string = 'rv-icon';
+  public static tagName = 'rv-icon';
 
   static get observedAttributes() {
     return ['size', 'width', 'height', 'name', 'src', 'color', 'direction'];

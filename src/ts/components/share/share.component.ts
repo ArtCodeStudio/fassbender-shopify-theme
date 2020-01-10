@@ -7,7 +7,7 @@ import template from './share.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
 import { LocalesService } from '@ribajs/shopify-tda';
 
-interface IScope {
+interface Scope {
   title: string;
   text: string;
   textI18n?: string;
@@ -27,15 +27,14 @@ interface IScope {
   isNative: boolean;
 }
 
-interface INavigatorShareParam {
+interface NavigatorShareParam {
   url: string;
   text: string;
   title: string;
 }
 
 declare global {
-  // tslint:disable: interface-name
-  interface Navigator { share: (data: INavigatorShareParam) => Promise<any>; }
+  interface Navigator { share: (data: NavigatorShareParam) => Promise<any> }
 }
 
 /**
@@ -50,7 +49,7 @@ declare global {
  */
 export class ShareComponent extends Component {
 
-  public static tagName: string = 'rv-share';
+  public static tagName = 'rv-share';
 
   static get observedAttributes() {
     return ['title', 'text', 'text-i18n', 'url', 'label', 'label-i18n'];
@@ -64,9 +63,6 @@ export class ShareComponent extends Component {
 
   protected get shareUrls() {
     const fbid = null;
-    this.scope.url = this.scope.url;
-    this.scope.text = this.scope.text;
-    this.scope.title = this.scope.title;
     const body = encodeURIComponent(`${this.scope.text}\n\n${this.scope.url}`);
     const url = encodeURIComponent(this.scope.url);
     const redirectUri = encodeURIComponent(this.scope.url);
@@ -81,7 +77,7 @@ export class ShareComponent extends Component {
     return urls;
   }
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     title: $(document).find('title').text(),
     text: 'Look at this! 🤩', // 👀
     textI18n: undefined,
@@ -118,7 +114,7 @@ export class ShareComponent extends Component {
         url: this.scope.url || window.location.href,
       });
     } else {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         resolve();
         // TODO open menu
       });
@@ -139,7 +135,7 @@ export class ShareComponent extends Component {
         this.translate(langcode);
       }
     } else {
-      this.localesService.event.on('ready', (langcode: string, translationNeeded: boolean) => {
+      this.localesService.event.on('ready', (langcode: string) => {
         this.translate(langcode);
       });
     }

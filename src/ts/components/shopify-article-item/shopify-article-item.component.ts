@@ -3,7 +3,7 @@ import template from './shopify-article-item.component.html';
 
 export class ShopifyArticleItemComponent extends Component {
 
-  public static tagName: string = 'rv-shopify-article-item';
+  public static tagName = 'rv-shopify-article-item';
 
   static get observedAttributes() {
     return [];

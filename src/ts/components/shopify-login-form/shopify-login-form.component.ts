@@ -1,9 +1,8 @@
 import { Component } from '@ribajs/core';
 import { JQuery as $} from '@ribajs/jquery';
 import template from './shopify-login-form.component.html';
-import { Utils } from '../../services/Utils';
 
-export interface IValidationRule {
+export interface ValidationRule {
   required: boolean;
   minlength?: number;
   maxlength?: number;
@@ -15,14 +14,14 @@ export interface IValidationRule {
   onlyNumbers?: boolean;
 }
 
-export interface IValidationObject {
+export interface ValidationObject {
   valid: boolean;
   rules?: {
-    [key: string]: IValidationRule;
+    [key: string]: ValidationRule;
   };
 }
 
-interface IScope {
+interface Scope {
   form: {
     customer: {
       email: string;
@@ -30,13 +29,13 @@ interface IScope {
     };
   };
   loginCustomer: {
-    validation: IValidationObject;
+    validation: ValidationObject;
   };
   createCustomer: {
-    validation: IValidationObject;
+    validation: ValidationObject;
   };
   recoverCustomer: {
-    validation: IValidationObject;
+    validation: ValidationObject;
   };
   login: ShopifyLoginFormComponent['login'];
   create: ShopifyLoginFormComponent['create'];
@@ -46,7 +45,7 @@ interface IScope {
 
 export class ShopifyLoginFormComponent extends Component {
 
-  public static tagName: string = 'rv-shopify-login-form';
+  public static tagName = 'rv-shopify-login-form';
 
   static get observedAttributes() {
     return [];
@@ -58,7 +57,7 @@ export class ShopifyLoginFormComponent extends Component {
   protected $createCustomerForm: JQuery<HTMLFormElement> | null = null;
   protected $recoverCustomerForm: JQuery<HTMLFormElement> | null = null;
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     form: {
       customer: {
         email: '',
@@ -200,7 +199,7 @@ export class ShopifyLoginFormComponent extends Component {
     this.$recoverCustomerForm.addClass('needs-validation');
   }
 
-  protected validate($form: JQuery<HTMLFormElement>, validationScope: IValidationObject) {
+  protected validate($form: JQuery<HTMLFormElement>, validationScope: ValidationObject) {
     $form.each((index: number, formEl) => {
       validationScope.valid = formEl.checkValidity();
     });

@@ -13,7 +13,7 @@ import {
 import { Utils } from '../../services/Utils';
 import template from './shopify-cart-button.component.html';
 
-interface IScope {
+interface Scope {
   cartItemCount: number;
   toggle: ShopifyCartButtonComponent['toggle'];
   pending: boolean;
@@ -22,9 +22,9 @@ interface IScope {
 
 export class ShopifyCartButtonComponent extends Component {
 
-  public static tagName: string = 'rv-shopify-cart-button';
+  public static tagName = 'rv-shopify-cart-button';
 
-  public static cartUrl: string = '/cart';
+  public static cartUrl = '/cart';
 
   static get observedAttributes() {
     return [];
@@ -32,7 +32,7 @@ export class ShopifyCartButtonComponent extends Component {
 
   protected $el: JQuery<HTMLElement>;
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     cartItemCount: 0,
     toggle: this.toggle,
     pending: false,
@@ -63,7 +63,7 @@ export class ShopifyCartButtonComponent extends Component {
     } else {
       if (ShopifyCartButtonComponent.cartUrl) {
         const pjax = Pjax.getInstance('main');
-        pjax.goTo(ShopifyCartButtonComponent.cartUrl, false);
+        pjax?.goTo(ShopifyCartButtonComponent.cartUrl, false);
       }
     }
 

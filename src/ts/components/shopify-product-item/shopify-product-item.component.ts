@@ -11,7 +11,7 @@ import {
 } from '@ribajs/shopify';
 import template from './shopify-product-item.component.html';
 
-export interface IScope {
+export interface Scope {
   handle: string | null;
   product: ShopifyProduct  | null;
   variant: ShopifyProductVariant | null;
@@ -37,9 +37,9 @@ export interface IScope {
  */
 export class ShopifyProductItemComponent extends Component /*ShopifyProductItemComponent*/ {
 
-  public static tagName: string = 'rv-shopify-product-item';
+  public static tagName = 'rv-shopify-product-item';
 
-  protected autobind: boolean = true;
+  protected autobind = true;
 
   /**
    * handle is the product handle to get the product json object
@@ -49,7 +49,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     return ['handle', 'extras'];
   }
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     handle: null,
     product: null,
     variant: null,
@@ -77,7 +77,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   /**
    * Is true if the user has choosed an option
    */
-  private optionChoosed: boolean = false;
+  private optionChoosed = false;
 
   /**
    * available is only true if the variant is available and the user has clicked on an option
@@ -130,12 +130,12 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   constructor(element?: HTMLElement) {
     super(element);
     this.init(ShopifyProductItemComponent.observedAttributes);
-    this.el.addEventListener('mouseleave', (event: Event) => {
+    this.el.addEventListener('mouseleave', () => {
       this.showMenu = false;
     }, false);
   }
 
-  public chooseOption(optionValue: string | number, position1: number, optionName: string, context: Binder<any>, event: MouseEvent, scope: any, el: HTMLElement) {
+  public chooseOption(optionValue: string | number, position1: number, optionName: string, context: Binder<any>, event: MouseEvent) {
     optionValue = optionValue.toString();
 
     if (!this.scope.product) {

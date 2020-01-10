@@ -363,15 +363,17 @@ export class DropdownService {
    * @param selector
    */
   private clouseOnClickOutsite($element: JQuery<Element>) {
+
+    const removeClickListener = () => {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      document.removeEventListener('click', outsideClickListener);
+    };
+
     const outsideClickListener = (event: Event) => {
       if (!$(event.target as any).closest($element.get(0)).length) {
         this.close();
         removeClickListener();
       }
-    };
-
-    const removeClickListener = () => {
-      document.removeEventListener('click', outsideClickListener);
     };
 
     document.addEventListener('click', outsideClickListener);

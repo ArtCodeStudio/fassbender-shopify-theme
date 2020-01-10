@@ -1,6 +1,6 @@
 rv-instagram {
-  .content-box {
-    .content {
+  .embed-responsive {
+    .embed-responsive-item {
       transform: scale(1);
       transition: 0.3s all ease;
       &.caption {
@@ -12,7 +12,7 @@ rv-instagram {
       }
     }
     &:hover {
-      .content {
+      .embed-responsive-item {
         filter: grayscale(1);
         transform: scale(1.1);
         &.caption {

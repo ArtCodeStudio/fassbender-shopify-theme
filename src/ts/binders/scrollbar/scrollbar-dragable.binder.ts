@@ -8,7 +8,7 @@ export class Dragscroll {
   private lastClientX = 0;
   private lastClientY = 0;
   private el: HTMLElement;
-  private pushed: boolean = false;
+  private pushed = false;
 
   constructor(el: HTMLElement, detectGlobalMove = true) {
     this.el = el;
@@ -39,7 +39,7 @@ export class Dragscroll {
     e.preventDefault();
   }
 
-  private mu <EventListener>(e: MouseEvent) {
+  private mu <EventListener>() {
     this.pushed = false;
   }
 
@@ -65,7 +65,7 @@ export class Dragscroll {
  */
 export const scrollbarDragableBinder: Binder<string> = {
   name: 'scrollbar-dragable',
-  routine(el: HTMLElement, value: any) {
-    const dragscroll = new Dragscroll(el, true);
+  routine(el: HTMLElement) {
+    new Dragscroll(el, true);
   },
 };

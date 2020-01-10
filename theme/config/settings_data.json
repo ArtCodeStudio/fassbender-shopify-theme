@@ -73,7 +73,7 @@
             "type": "image",
             "settings": {
               "image": "shopify:\/\/shop_images\/fassbender-Hybrid-Coat_Black_1.jpg",
-              "aspect_ratio": "3-2",
+              "aspect_ratio": "3by2",
               "aspect_ratio_md": "none",
               "video_url": "",
               "mp4_video_url": "",
@@ -87,8 +87,8 @@
             "type": "image",
             "settings": {
               "image": "shopify:\/\/shop_images\/fassbender_Coat_Beige_Blue_001_FW1920_2_93dd5b96-e649-4ea1-a3d0-2db9d64b416b.jpg",
-              "aspect_ratio": "3-4",
-              "aspect_ratio_md": "3-4",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "3by4",
               "video_url": "",
               "mp4_video_url": "",
               "controls": false,
@@ -117,8 +117,8 @@
             "type": "image",
             "settings": {
               "image": "shopify:\/\/shop_images\/fassbender_Parker_Tobacco_001_FW1920_2.jpg",
-              "aspect_ratio": "3-4",
-              "aspect_ratio_md": "3-4",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "3by4",
               "video_url": "",
               "mp4_video_url": "",
               "controls": false,
@@ -131,7 +131,7 @@
             "type": "image",
             "settings": {
               "image": "shopify:\/\/shop_images\/fassbender_Hybrid_Black_001_b_FW1920_2.jpg",
-              "aspect_ratio": "3-2",
+              "aspect_ratio": "3by2",
               "aspect_ratio_md": "none",
               "video_url": "",
               "mp4_video_url": "",
@@ -167,8 +167,8 @@
             "type": "image",
             "settings": {
               "image": "",
-              "aspect_ratio": "16-9",
-              "aspect_ratio_md": "16-9",
+              "aspect_ratio": "16by9",
+              "aspect_ratio_md": "16by9",
               "video_url": "",
               "mp4_video_url": "https:\/\/player.vimeo.com\/external\/363147174.hd.mp4?s=e096a5243bc365f4757f7f6c9072829ee309b738&profile_id=175",
               "controls": false,
@@ -197,7 +197,7 @@
             "settings": {
               "title": "Puffa Reptil Black",
               "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_4.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
@@ -207,7 +207,7 @@
             "settings": {
               "title": "Coat Burgundy",
               "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_5.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
@@ -217,7 +217,7 @@
             "settings": {
               "title": "Trench Coat Beige",
               "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_6.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
@@ -227,7 +227,7 @@
             "settings": {
               "title": "Pea Coat Bottle Green",
               "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_1.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
@@ -237,7 +237,7 @@
             "settings": {
               "title": "Parka Velvet Olive",
               "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_2.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
@@ -247,7 +247,7 @@
             "settings": {
               "title": "Biker Jacket Offwhite",
               "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_3.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
@@ -257,7 +257,7 @@
             "settings": {
               "title": "Coat Mid Grey",
               "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_7.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
@@ -284,7 +284,7 @@
             "settings": {
               "title": "Vintage Coat",
               "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_14.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": "shopify:\/\/products\/vintage-coat-beige-blue"
             }
@@ -294,7 +294,7 @@
             "settings": {
               "title": "Trenchcoat",
               "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_10.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": "shopify:\/\/products\/2-in-1-trench-coat-beige"
             }
@@ -304,7 +304,7 @@
             "settings": {
               "title": "Pea Coat",
               "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_12_bea56901-bf24-4e9e-980d-9f1158278115.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": "shopify:\/\/products\/pea-coat-black-1"
             }
@@ -314,7 +314,7 @@
             "settings": {
               "title": "Parka",
               "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_3.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": "shopify:\/\/products\/parka-olive"
             }
@@ -324,7 +324,7 @@
             "settings": {
               "title": "",
               "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_4.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
@@ -334,7 +334,7 @@
             "settings": {
               "title": "",
               "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_6_bb18ae95-63e6-4379-9d68-92776a16724d.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
@@ -344,7 +344,7 @@
             "settings": {
               "title": "",
               "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_11.jpg",
-              "aspect_ratio": "3-4",
+              "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }

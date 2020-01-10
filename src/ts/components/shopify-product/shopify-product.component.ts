@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import {
   Component,
 } from '@ribajs/core';
@@ -19,15 +20,15 @@ export interface ImageRow {
   sizes: string;
 }
 
-export interface IPrepairedProductVariant extends ShopifyProductVariant {
+export interface PrepairedProductVariant extends ShopifyProductVariant {
   images?: string[];
   imageRows?: ImageRow[];
 }
 
-export interface IScope {
+export interface Scope {
   handle: string | null;
   product: ShopifyProduct  | null;
-  variant: IPrepairedProductVariant | null;
+  variant: PrepairedProductVariant | null;
   quantity: number;
   showDetailMenu: boolean;
   // showAddToCartButton: boolean;
@@ -45,9 +46,9 @@ export interface IScope {
 
 export class ShopifyProductComponent extends Component {
 
-  public static tagName: string = 'rv-shopify-product';
+  public static tagName = 'rv-shopify-product';
 
-  protected autobind: boolean = true;
+  protected autobind = true;
 
   /**
    * handle is the product handle to get the product json object
@@ -59,7 +60,7 @@ export class ShopifyProductComponent extends Component {
 
   protected $el: JQuery<HTMLElement>;
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     handle: null,
     product: null,
     variant: null,
@@ -84,7 +85,7 @@ export class ShopifyProductComponent extends Component {
   /**
    * Is true if the user has choosed an option
    */
-  private optionChoosed: boolean = false;
+  private optionChoosed = false;
 
   protected set product(product: ShopifyProduct | null) {
     if (product) {
@@ -132,7 +133,7 @@ export class ShopifyProductComponent extends Component {
     this.init(ShopifyProductComponent.observedAttributes);
   }
 
-  public chooseOption(optionValue: string | number, position1: number, optionName: string, _: any, event: MouseEvent, scope: any, el: HTMLElement) {
+  public chooseOption(optionValue: string | number, position1: number, optionName: string, _: any, event: MouseEvent) {
     if (!this.scope.product) {
       throw new Error('Product not set!');
     }
@@ -272,7 +273,7 @@ export class ShopifyProductComponent extends Component {
     const generalImages: string[] = [];
     if (this.scope.product) {
       // add images without optionName in filename
-      this.scope.product.images.forEach((image: string, index) => {
+      this.scope.product.images.forEach((image: string) => {
         if (!image.toLowerCase().includes(`${optionName}-`)) {
           generalImages.push(image);
         }
@@ -301,7 +302,7 @@ export class ShopifyProductComponent extends Component {
     const optionName = option.name.toLowerCase();
     const optionImages: string[] = [];
     if (this.scope.product) {
-      this.scope.product.images.forEach((image: string, index) => {
+      this.scope.product.images.forEach((image: string) => {
         if (image.toLowerCase().includes(`${optionName}-${optionValue}`)) {
           optionImages.push(image);
         }
@@ -314,7 +315,7 @@ export class ShopifyProductComponent extends Component {
   /**
    * Get featured images of variant, use the first option image or the featured product image as fallback
    */
-  private getFeaturedImage(variant: IPrepairedProductVariant) {
+  private getFeaturedImage(variant: PrepairedProductVariant) {
     if (variant.featured_image !== null) {
       variant.featured_image.src = variant.featured_image.src
       .replace(/(^\w+:|^)\/\//, '//'); // remove protocol
@@ -394,7 +395,7 @@ export class ShopifyProductComponent extends Component {
    * prepair variant, e.g. fix missing image etc
    * @param variant
    */
-  private prepairVariant(variant: IPrepairedProductVariant) {
+  private prepairVariant(variant: PrepairedProductVariant) {
     if (variant === null) {
       console.error('Variant is null!');
       return null;

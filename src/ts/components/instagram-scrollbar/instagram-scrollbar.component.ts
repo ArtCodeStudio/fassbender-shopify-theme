@@ -1,10 +1,10 @@
-import { Binding, Binder, Component } from '@ribajs/core';
+import { Binder, Component } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import { Utils } from '../../services/Utils';
 import { InstagramMedia, InstagramResponse, InstagramService } from '@ribajs/shopify-tda';
 import template from './instagram-scrollbar.component.html';
 
-export interface IScope {
+export interface Scope {
   instagramId?: string;
   openLinks: boolean;
   openUrl: string;
@@ -16,13 +16,13 @@ export interface IScope {
 
 export class InstagramScrollbarComponent extends Component {
 
-  public static tagName: string = 'rv-instagram-scrollbar';
+  public static tagName = 'rv-instagram-scrollbar';
 
   static get observedAttributes() {
     return ['instagram-id', 'open-links', 'limit', 'open-url'];
   }
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     instagramId: undefined,
     openLinks: false,
     openUrl: '',
@@ -33,7 +33,6 @@ export class InstagramScrollbarComponent extends Component {
   };
 
   protected $el: JQuery<HTMLElement>;
-  private pjax = new Pjax('main');
   private $scollWith?: JQuery<HTMLElement>;
 
   constructor(element?: HTMLElement) {
@@ -47,12 +46,13 @@ export class InstagramScrollbarComponent extends Component {
    * Just open the instagram url
    */
   public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
+    const pjax = Pjax.getInstance('main');
     if (this.scope.openUrl.length > 0) {
-      this.pjax.goTo(this.scope.openUrl);
+      pjax?.goTo(this.scope.openUrl);
     }
     if (this.scope.openLinks) {
       const url = $(eventEl).first().data('url');
-      this.pjax.goTo(url, true);
+      pjax?.goTo(url, true);
     }
 
   }
@@ -61,8 +61,7 @@ export class InstagramScrollbarComponent extends Component {
    * get instagram in the middle of the scrollbar elementinnerWidth
    * TODO not used
    */
-  public onScroll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
-    const self = this;
+  public onScroll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
     if (this.$scollWith) {
       const factor = 3;
       this.$scollWith.scrollLeft(eventEl.scrollLeft / factor);

@@ -1,6 +1,5 @@
 import {
   Riba,
-  View,
   Utils,
   Binder,
 
@@ -20,19 +19,11 @@ import { LocalesService } from '@ribajs/shopify-tda';
 
 declare global {
   // tslint:disable: interface-name
-  interface Window { model: any; }
+  interface Window { model: any }
 }
-
-/* tslint:disable:max-classes-per-file */
-declare class TTDUniversalPixelApiWrapper {
-  public getVersion(): string;
-  public init(adv: string, tagIds: string[], baseSrc: string, dynParams?: string[]): void;
-}
-declare function TTDUniversalPixelApi(optionalTopLevelUrl?: string): TTDUniversalPixelApiWrapper;
 
 export class Main {
 
-  private view: View;
   private riba = new Riba();
   private localesService = new LocalesService();
   // private dispatcher = new EventDispatcher('main');
@@ -57,33 +48,31 @@ export class Main {
       binders: customBinders,
     });
 
-    window.model.assign = function(key: string, value: any, context: Binder<any>, event: Event) {
-      // event.preventDefault();
-      // event.stopPropagation();
+    window.model.assign = function(key: string, value: any) {
       this[key] = value;
     };
 
     window.model.globalToggle = function(key: string, context: Binder<any>, event: Event) {
-      this[key] = !!!this[key];
+      this[key] = !this[key];
       event.preventDefault();
       event.stopPropagation();
     };
 
     window.model.system.shopify = (window as any).Shopify;
 
-    this.view = this.riba.bind(JQuery('body')[0], window.model);
+    this.riba.bind(JQuery('body')[0], window.model);
   }
 }
 
-const tracking = new TrackingService({
+new TrackingService({
   googleAnalytics: window.model.system.themeSettings.googleAnalytics,
   theTradeDesk: window.model.system.themeSettings.theTradeDesk,
   pinterestTag: window.model.system.themeSettings.pinterestTag,
 });
 
 Utils.domIsReady(() => {
-  const main = new Main();
+  new Main();
 });
 
-(window as any).$ = JQuery;
-(window as any).JQuery = JQuery;
+// (window as any).$ = JQuery;
+// (window as any).JQuery = JQuery;

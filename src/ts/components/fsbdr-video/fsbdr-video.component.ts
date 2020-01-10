@@ -2,13 +2,9 @@ import {
   VideoComponent,
 } from '@ribajs/core';
 
-interface IScope {
-  hello?: string;
-}
-
 export class FsbdrVideoComponent extends VideoComponent {
 
-  public static tagName: string = 'fsbdr-video';
+  public static tagName = 'fsbdr-video';
 
   protected autobind = true;
 

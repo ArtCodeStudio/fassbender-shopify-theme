@@ -6,7 +6,7 @@ import template from './shopify-linklist.component.html';
  */
 export class ShopifyLinklistComponent extends OriginalShopifyLinklistComponent {
 
-  public static tagName: string = 'shopify-linklist';
+  public static tagName = 'shopify-linklist';
 
   constructor(element?: HTMLElement) {
     super(element);

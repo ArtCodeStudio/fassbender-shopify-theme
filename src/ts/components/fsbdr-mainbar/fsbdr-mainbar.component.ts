@@ -1,12 +1,11 @@
 import {
   Component,
-  Binder,
 } from '@ribajs/core';
 import { JQuery } from '@ribajs/jquery';
 
 import template from './fsbdr-mainbar.component.html';
 
-interface IScope {
+interface Scope {
   assign: FsbdrMainbarComponent['assign'];
   open: FsbdrMainbarComponent['open'];
   close: FsbdrMainbarComponent['close'];
@@ -16,7 +15,7 @@ interface IScope {
 
 export class FsbdrMainbarComponent extends Component {
 
-  public static tagName: string = 'fsbdr-mainbar';
+  public static tagName = 'fsbdr-mainbar';
 
   protected autobind = true;
 
@@ -28,7 +27,7 @@ export class FsbdrMainbarComponent extends Component {
 
   protected $el: JQuery<HTMLElement>;
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     assign: this.assign,
     open: this.open,
     close: this.close,
@@ -42,7 +41,7 @@ export class FsbdrMainbarComponent extends Component {
     this.init(FsbdrMainbarComponent.observedAttributes);
   }
 
-  public assign(key: string, value: any, context: Binder<any>, event: Event) {
+  public assign(key: string, value: any) {
     // event.preventDefault();
     // event.stopPropagation();
     this.scope[key] = value;

@@ -2,7 +2,7 @@ import { Component, Binder } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './shopify-comments-form.component.html';
 
-export interface IValidationRule {
+export interface ValidationRule {
   required: boolean;
   minlength?: number;
   maxlength?: number;
@@ -14,14 +14,14 @@ export interface IValidationRule {
   onlyNumbers?: boolean;
 }
 
-export interface IValidationObject {
+export interface ValidationObject {
   valid: boolean;
   rules?: {
-    [key: string]: IValidationRule;
+    [key: string]: ValidationRule;
   };
 }
 
-interface IScope {
+interface Scope {
   form: {
     customer: {
       email: string;
@@ -29,20 +29,20 @@ interface IScope {
     };
   };
   loginCustomer: {
-    validation: IValidationObject;
+    validation: ValidationObject;
   };
   createCustomer: {
-    validation: IValidationObject;
+    validation: ValidationObject;
   };
   recoverCustomer: {
-    validation: IValidationObject;
+    validation: ValidationObject;
   };
   post: ShopifyCommentsFormComponent['post'];
 }
 
 export class ShopifyCommentsFormComponent extends Component {
 
-  public static tagName: string = 'rv-shopify-comments-form';
+  public static tagName = 'rv-shopify-comments-form';
 
   static get observedAttributes() {
     return [];
@@ -52,7 +52,7 @@ export class ShopifyCommentsFormComponent extends Component {
 
   protected $newCommentForm: JQuery<HTMLFormElement> | null = null;
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     form: {
       customer: {
         email: '',
@@ -111,7 +111,7 @@ export class ShopifyCommentsFormComponent extends Component {
     this.$newCommentForm.addClass('needs-validation');
   }
 
-  protected validate($form: JQuery<HTMLFormElement>, validationScope: IValidationObject) {
+  protected validate($form: JQuery<HTMLFormElement>, validationScope: ValidationObject) {
     $form.each((index: number, formEl) => {
       validationScope.valid = formEl.checkValidity();
     });

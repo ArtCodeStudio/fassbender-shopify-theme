@@ -4,7 +4,7 @@ import { DropdownService } from './dropdown.service';
 
 export class DropdownComponent extends Component {
 
-  public static tagName: string = 'bs4-dropdown';
+  public static tagName = 'bs4-dropdown';
 
   protected scope: any = {
     toggle: this.toggle,
@@ -18,7 +18,7 @@ export class DropdownComponent extends Component {
 
   constructor(element?: HTMLElement) {
     super(element);
-    const self = this;
+    // const self = this;
     const $el = $(this.el);
     this.dropdownService = new DropdownService($el.find('.dropdown-toggle')[0] as HTMLButtonElement);
     this.init(DropdownComponent.observedAttributes);

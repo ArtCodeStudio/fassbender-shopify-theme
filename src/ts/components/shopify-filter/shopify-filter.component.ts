@@ -2,7 +2,7 @@ import { Component } from '@ribajs/core';
 import { JQuery as $ } from '@ribajs/jquery';
 import template from './shopify-filter.component.html';
 
-interface IScope {
+interface Scope {
   linklist: any;
   show: any;
   collectionUrl?: string;
@@ -18,13 +18,13 @@ interface IScope {
  */
 export class ShopifyFilterComponent extends Component {
 
-  public static tagName: string = 'shopify-filter';
+  public static tagName = 'shopify-filter';
 
   static get observedAttributes() {
     return ['collection-url', 'namespace', 'linklist', 'template', 'filter'];
   }
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     linklist: window.model.system.linklists.filter,
     show: this.show,
     type: this.type,
@@ -38,7 +38,7 @@ export class ShopifyFilterComponent extends Component {
     this.init(ShopifyFilterComponent.observedAttributes);
   }
 
-  public show(filterHandle: string, namespace: string, shopifyTemplate: any, collectionUrl?: string): boolean {
+  public show(filterHandle: string, namespace: string, shopifyTemplate: any): boolean {
     switch (filterHandle) {
       case 'stories':
         // return namespace === 'blog' || shopifyTemplate.template === 'article'; // TODO if the user is on a artice and wants to go back to the list view we need do do some additional work
@@ -82,7 +82,7 @@ export class ShopifyFilterComponent extends Component {
   public storiesFilterBy(handle: string, tagName: string, _: any, event?: Event, scope?: any, el?: HTMLLabelElement) {
     tagName = tagName.replace('#', '');
 
-    const self = this;
+    // const self = this;
 
     // WORKAROUND because I can't check the middle radio button (wt..?!)
     if (el && el.parentNode) {
@@ -118,12 +118,12 @@ export class ShopifyFilterComponent extends Component {
     return ['namespace', 'template', 'filter'];
   }
 
-  protected parsedAttributeChangedCallback(attributeName: string, oldValue: any, newValue: any, namespace: string | null) {
+  protected parsedAttributeChangedCallback(attributeName: string, oldValue: any, newValue: any) {
     if (attributeName === 'filter') {
       if (newValue) {
         for (const handle in newValue) {
 
-          if (newValue.hasOwnProperty(handle)) {
+          if (newValue[handle]) {
             const tagName = newValue[handle];
             this.storiesFilterBy(handle, tagName, undefined, undefined, document.querySelectorAll(`label[for="${tagName}"]`)[0] as HTMLLabelElement);
           }
@@ -137,7 +137,7 @@ export class ShopifyFilterComponent extends Component {
     if (this.scope.filter) {
       for (const handle in this.scope.filter) {
 
-        if (this.scope.filter.hasOwnProperty(handle)) {
+        if (this.scope.filter[handle]) {
           const tagName = this.scope.filter[handle];
           this.storiesFilterBy(handle, tagName, undefined, undefined, document.querySelectorAll(`label[for="${tagName}"]`)[0] as HTMLLabelElement);
         }

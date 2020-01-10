@@ -1,6 +1,6 @@
 <!-- jumplink-article-list-item-view-magazine.liquid -->
-{% assign ratioClass = "ratio-3-2" %}
-{% assign videoRatioClass = "ratio-16-9" %}
+{% assign ratioClass = "embed-responsive-3by2" %}
+{% assign videoRatioClass = "embed-responsive-16by9" %}
 {% assign imageCount = images | size %}
 {% assign imageSpacing = 0 %}
 
@@ -66,7 +66,7 @@
           {% if videoPoster %}
             <img
               loading="lazy"
-              class="content lazy"
+              class="embed-responsive-item lazy"
               src="{{ videoPoster }}"
               alt="{{ article.title }}"
               style="padding: {{imageSpacing}}px"
@@ -74,7 +74,7 @@
           {% endif %}
           {% if videoType == 'video/mp4' %}
             <rv-video>
-              <video class="content lazy" preload="auto" controls {% if videoPoster %}poster="{{ videoPoster }}"{% endif %} playsinline webkit-playsinline>
+              <video class="embed-responsive-item lazy" preload="auto" controls {% if videoPoster %}poster="{{ videoPoster }}"{% endif %} playsinline webkit-playsinline>
                 <source src="{{ video }}" type="video/mp4">
                 <span rv-i18n-text="'system.video_tag_not_supported'">
                   {{'system.video_tag_not_supported'|t}}
@@ -89,7 +89,7 @@
           {% if videoType == 'vimeo' %}
             <iframe
               loading="lazy"
-              class="content lazy"
+              class="embed-responsive-item lazy"
               type="text/html"
               src="https://player.vimeo.com/video/{{ video }}?color=D9998F&title=0&byline=0&portrait=0&autoplay=0&loop=0&autopause=1&background=0&muted=0"
               frameborder="0"
@@ -106,7 +106,7 @@
           {% if videoType == 'youtube' %}
             <iframe
               loading="lazy"
-              class="content lazy"
+              class="embed-responsive-item lazy"
               type="text/html"
               src="https://www.youtube.com/embed/{{ video }}?autoplay=0&mute=0&color=white&controls=2&disablekb=0&enablejsapi=0&fs=1&iv_load_policy=3&loop=0&modestbranding=1&origin={{shop.url}}&playsinline=0&rel=0&showinfo=0"
               frameborder="0"
@@ -128,7 +128,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images limit:1 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img loading="lazy" class="content lazy" src="{{ image }}" alt="{{ article.title }}" style="padding: {{imageSpacing}}px" />
+          <img loading="lazy" class="embed-responsive-item lazy" src="{{ image }}" alt="{{ article.title }}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -137,7 +137,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:1 limit:2 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img loading="lazy" class="content lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img loading="lazy" class="embed-responsive-item lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -146,7 +146,7 @@
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:3 %}
         <div class="col-12 col-md px-0 content-box {{ratioClass}}">
-          <img loading="lazy" class="content lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
+          <img loading="lazy" class="embed-responsive-item lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
     </div>
@@ -219,10 +219,10 @@
   <div class="container-fluid position-relative">
     <div class="row">
       {% if nextArticle %}
-        {% include 'jumplink-article-item-col-ratio-3-4' with article: nextArticle, colClass: 'col-12 col-sm', color: nextColor, articleTitleStyle: nextArticleTitleStyle, showVideo: false %}
+        {% include 'jumplink-article-item-col-embed-responsive-3by4' with article: nextArticle, colClass: 'col-12 col-sm', color: nextColor, articleTitleStyle: nextArticleTitleStyle, showVideo: false %}
       {% endif %}
       {% if product.title != blank %}
-        {% include 'jumplink-product-collection-grid-item-col-ratio-3-4' with product, colClass: 'col-12 col-sm' %}
+        {% include 'jumplink-product-collection-grid-item-col-embed-responsive-3by4' with product, colClass: 'col-12 col-sm' %}
       {% endif %}
     </div>
   </div>

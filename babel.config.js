@@ -1,4 +1,3 @@
-// IMPORTANT do not use .babelrc: https://github.com/babel/babel/issues/8711#issuecomment-421918023
 module.exports = {
   "presets": [
     [
@@ -8,28 +7,21 @@ module.exports = {
     ],
     [
       "@babel/preset-env", {
-        "targets": {
-          "ie": "11",
-          "safari": "10",
-          "chrome": "52",
-          "edge": "16",
-          "firefox": "59"
-        }
+        corejs: 3,
+        useBuiltIns: "entry", // or "usage"
       }
     ]
   ],
   "plugins": [
     [
       "@babel/plugin-transform-runtime", {
-        "corejs": 2
+        "corejs": 3
       }
     ],
     "@babel/plugin-syntax-export-default-from",
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-optional-chaining",
     "array-includes"
-  ],
-  "ignore": [
-    "**/custom-elements-es5-adapter.js"
   ]
 };

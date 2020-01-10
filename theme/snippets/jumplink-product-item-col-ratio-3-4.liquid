@@ -8,7 +8,7 @@
   {% assign colClass = 'col' %}
 {% endif %}
 
-<rv-shopify-product-item handle="{{ product.handle }}" class="{{ colClass }} {{ orderClass }} px-0 content-box ratio-3-4">
+<rv-shopify-product-item handle="{{ product.handle }}" class="{{ colClass }} {{ orderClass }} px-0 embed-responsive embed-responsive-3by4">
   <a rv-route="'{{ product.url | within: collection }}'" href="{{ product.url | within: collection }}">
     <img
       loading="lazy"

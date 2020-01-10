@@ -16,7 +16,7 @@ const onWheel = (event: Event) => {
  */
 export const scrollfixBinder: Binder<any> = {
   name: 'scrollfix',
-  routine(el: HTMLElement, value: any) {
+  routine(el: HTMLElement) {
 
     const $el = JQuery(el);
 

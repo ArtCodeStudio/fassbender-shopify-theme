@@ -13,7 +13,7 @@ import {
 import template from './shopify-cart.component.html';
 import { DropdownService } from '../bs4/dropdown/dropdown.service';
 
-interface IScope {
+interface Scope {
   cart: ShopifyCartObject | null;
   shippingAddress: ShopifyCustomerAddress | null;
   estimateShippingRate: boolean;
@@ -29,7 +29,7 @@ interface IScope {
 
 export class ShopifyCartComponent extends Component {
 
-  public static tagName: string = 'rv-shopify-cart';
+  public static tagName = 'rv-shopify-cart';
 
   static get observedAttributes() {
     return ['shipping-address', 'estimate-shipping-rate'];
@@ -37,7 +37,7 @@ export class ShopifyCartComponent extends Component {
 
   protected dropdownService: DropdownService;
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     cart: ShopifyCartService.cart,
     shippingAddress: null,
     estimateShippingRate: false,
@@ -84,7 +84,7 @@ export class ShopifyCartComponent extends Component {
     return this.dropdownService.toggle();
   }
 
-  public removeCart(lineItem: ShopifyCartLineItem, lineIndex: number) {
+  public removeCart(lineItem: ShopifyCartLineItem) {
     ShopifyCartService.change(lineItem.variant_id, 0)
     .then((cart: ShopifyCartObject) => {
       this.cart = cart;
@@ -94,7 +94,7 @@ export class ShopifyCartComponent extends Component {
     });
   }
 
-  public increase(lineItem: ShopifyCartLineItem, lineIndex: number) {
+  public increase(lineItem: ShopifyCartLineItem) {
     lineItem.quantity++;
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
     .then((cart: ShopifyCartObject) => {
@@ -106,7 +106,7 @@ export class ShopifyCartComponent extends Component {
     });
   }
 
-  public decrease(lineItem: ShopifyCartLineItem, lineIndex: number) {
+  public decrease(lineItem: ShopifyCartLineItem) {
     lineItem.quantity--;
     if (lineItem.quantity < 0) {
       lineItem.quantity = 0;

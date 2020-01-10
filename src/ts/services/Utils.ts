@@ -122,7 +122,6 @@ export class Utils extends tinybindUtils {
    */
   public eventTarget(e: Event) {
     let targ;
-    let $targ;
     e = e || window.event;
 
     if (e.target) {
@@ -134,7 +133,7 @@ export class Utils extends tinybindUtils {
     if (targ.nodeType === 3) {
       targ = targ.parentNode;
     }
-    $targ = $(targ);
+    const $targ = $(targ);
     return $targ;
   }
 

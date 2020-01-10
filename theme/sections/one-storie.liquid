@@ -24,8 +24,8 @@
   <div class="row">
     {% for block in section.blocks %}
       
-      {% assign ratioClass = "ratio-" | append: block.settings.aspect_ratio %}
-      {% assign ratioClassMD = "ratio-md-" | append: block.settings.aspect_ratio_md %}
+      {% assign ratioClass = "embed-responsive-" | append: block.settings.aspect_ratio %}
+      {% assign ratioClassMD = "embed-responsive-md-" | append: block.settings.aspect_ratio_md %}
       {% assign contentBoxClass = ratioClass | append: ' ' | append: ratioClassMD %}
 
       {% if block.settings.spacing > 0 %}
@@ -106,7 +106,7 @@
               </iframe>
           </div>
         {% elsif videoType == 'vimeo' %}
-          <div class="col px-0 content-box fit-initial ratio-16-9">
+          <div class="col px-0 content-box fit-initial embed-responsive-16by9">
             {% if videoPoster %}
               <img
                 loading="lazy"
@@ -255,67 +255,67 @@
             "label": "Aspect ratio (Smartphone)",
             "options": [
               {
-                "value": "1-1",
+                "value": "1by1",
                 "label": "1:1"
               },
               {
-                "value": "3-2",
+                "value": "3by2",
                 "label": "3:2 (default)"
               },
               {
-                "value": "2-3",
+                "value": "2by3",
                 "label": "2:3"
               },
               {
-                "value": "2-1",
+                "value": "2by1",
                 "label": "2:1"
               },
               {
-                "value": "1-2",
+                "value": "1by2",
                 "label": "1:2"
               },
               {
-                "value": "4-3",
+                "value": "4by3",
                 "label": "4:3"
               },
               {
-                "value": "3-4",
+                "value": "3by4",
                 "label": "3:4"
               },
               {
-                "value": "16-9",
+                "value": "16by9",
                 "label": "16:9 (Videos)"
               },
               {
-                "value": "9-16",
+                "value": "9by16",
                 "label": "9:16"
               },
               {
-                "value": "10-3",
+                "value": "10by3",
                 "label": "10:3"
               },
               {
-                "value": "3-10",
+                "value": "3by10",
                 "label": "3:10"
               },
               {
-                "value": "17-10",
+                "value": "17by10",
                 "label": "17:10"
               },
               {
-                "value": "10-17",
+                "value": "10by17",
                 "label": "10:17"
               },
               {
-                "value": "14-9",
+                "value": "14by9",
                 "label": "14:9"
               },
               {
-                "value": "9-14",
+                "value": "9by14",
                 "label": "9:14"
               }
             ],
-            "default": "3-2"
+            "default": "3by2"
           },
           {
             "type": "select",
@@ -328,63 +328,63 @@
                 "label": "None (use the smartphone ratio)"
               },
               {
-                "value": "1-1",
+                "value": "1by1",
                 "label": "1:1"
               },
               {
-                "value": "3-2",
+                "value": "3by2",
                 "label": "3:2 (default)"
               },
               {
-                "value": "2-3",
+                "value": "2by3",
                 "label": "2:3"
               },
               {
-                "value": "2-1",
+                "value": "2by1",
                 "label": "2:1"
               },
               {
-                "value": "1-2",
+                "value": "1by2",
                 "label": "1:2"
               },
               {
-                "value": "4-3",
+                "value": "4by3",
                 "label": "4:3"
               },
               {
-                "value": "3-4",
+                "value": "3by4",
                 "label": "3:4 (use this for 2 images side by side)"
               },
               {
-                "value": "16-9",
+                "value": "16by9",
                 "label": "16:9 (Videos)"
               },
               {
-                "value": "9-16",
+                "value": "9by16",
                 "label": "9:16"
               },
               {
-                "value": "10-3",
+                "value": "10by3",
                 "label": "10:3"
               },
               {
-                "value": "3-10",
+                "value": "3by10",
                 "label": "3:10"
               },
               {
-                "value": "17-10",
+                "value": "17by10",
                 "label": "17:10"
               },
               {
-                "value": "10-17",
+                "value": "10by17",
                 "label": "10:17"
               },
               {
-                "value": "14-9",
+                "value": "14by9",
                 "label": "14:9"
               },
               {
-                "value": "9-14",
+                "value": "9by14",
                 "label": "9:14"
               }
             ],

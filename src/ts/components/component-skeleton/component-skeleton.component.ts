@@ -5,13 +5,13 @@ import {
 // import pugTemplate from './component-skeleton.component.pug';
 import template from './component-skeleton.component.html';
 
-interface IScope {
+interface Scope {
   hello?: string;
 }
 
 export class ComponentSkeletonComponent extends Component {
 
-  public static tagName: string = 'rv-component-skeleton';
+  public static tagName = 'rv-component-skeleton';
 
   protected autobind = true;
 
@@ -19,7 +19,7 @@ export class ComponentSkeletonComponent extends Component {
     return ['hello'];
   }
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     hello: undefined,
   };
 

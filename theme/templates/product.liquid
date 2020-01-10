@@ -6,10 +6,10 @@
 
       {% comment %} MD {% endcomment %}
       <div class="col-12 px-0">
-        <div class="content-box ratio-3-4 ratio-md-3-2">      
+        <div class="embed-responsive embed-responsive-3by4 embed-responsive-md-3by2">      
           <img
             loading="lazy"
-            class="content lazy"
+            class="embed-responsive-item lazy"
             src="{{ product.featured_image.src | img_url: 'master' }}"
             {% comment %}
               highest quality first for safari, see https://stackoverflow.com/q/45487105
@@ -41,10 +41,10 @@
     {% comment %} images per row {% endcomment %}
     <div class="row" rv-each-row="variant.imageRows">
       <div rv-each-image="row.images" rv-class="row.class" >
-        <div class="content-box ratio-3-4">      
+        <div class="embed-responsive embed-responsive-3by4">      
           <img
             loading="lazy"
-            class="content lazy"
+            class="embed-responsive-item lazy"
             rv-srcset-200w="image | img_url '200x'"
             rv-srcset-288w="image | img_url '288x'"
             rv-srcset-300w="image | img_url '300x'"

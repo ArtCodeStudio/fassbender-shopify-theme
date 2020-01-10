@@ -3,7 +3,7 @@ import { JQuery as $ } from '@ribajs/jquery';
 
 export class TabsComponent extends Component {
 
-  public static tagName: string = 'bs4-tabs';
+  public static tagName = 'bs4-tabs';
 
   protected scope: any = {};
 
@@ -20,6 +20,7 @@ export class TabsComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     console.warn('Depricated use tabs module from bs4 module');
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     this.$el = $(this.el);
     this.$tabs = this.$el.find('.nav-link');

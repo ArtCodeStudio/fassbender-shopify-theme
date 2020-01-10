@@ -1,9 +1,9 @@
-import { Binding, Component, Binder } from '@ribajs/core';
+import { Component, Binder } from '@ribajs/core';
 import { Pjax } from '@ribajs/router';
 import template from './instagram.component.html';
 import { InstagramMedia, InstagramResponse, InstagramService } from '@ribajs/shopify-tda';
 
-export interface IScope {
+export interface Scope {
   media?: InstagramMedia;
   instagramId?: string;
   openLinks: boolean;
@@ -13,21 +13,19 @@ export interface IScope {
 
 export class InstagramComponent extends Component {
 
-  public static tagName: string = 'rv-instagram';
+  public static tagName = 'rv-instagram';
 
   static get observedAttributes() {
     return ['instagram-id', 'open-links', 'limit'];
   }
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     media: undefined,
     openLinks: false,
     limit: 0,
     instagramId: undefined,
     onTap: this.onTap,
   };
-
-  private pjax = new Pjax('main');
 
   constructor(element?: HTMLElement) {
     super(element);
@@ -37,12 +35,13 @@ export class InstagramComponent extends Component {
   /**
    * Just open the instagram url
    */
-  public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement, binding: Binding) {
+  public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
     if (!this.scope.openLinks) {
       return;
     }
     const url = $(eventEl).first().data('url');
-    this.pjax.goTo(url, true);
+    const pjax = Pjax.getInstance('main');
+    pjax?.goTo(url, true);
   }
 
   protected loadMedia() {

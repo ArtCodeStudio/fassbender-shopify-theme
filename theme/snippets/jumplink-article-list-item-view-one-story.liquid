@@ -3,9 +3,9 @@
 
 {% assign images_length = images | size %}
 {% if images_length <= 1 %}
-  {% assign ratioClass = "ratio-3-2" %}
+  {% assign ratioClass = "embed-responsive-3by2" %}
 {% else %}
-  {% assign ratioClass = "ratio-3-4" %}
+  {% assign ratioClass = "embed-responsive-3by4" %}
 {% endif %}
 
 {% assign spacings = '0,0,0' | split: ',' %}

@@ -1,12 +1,12 @@
 rv-shopify-product-item {
   display: block;
 
-  .detailMenu, .colorMenu, .chooseSizeMenu, .img.content {
+  .detailMenu, .colorMenu, .chooseSizeMenu, .img.embed-responsive-item {
     transition: all 300ms ease;
   }
 
   // Dont show lazy loader in background of detail-menu 
-  img.content {
+  img.embed-responsive-item {
     &.show-detail-menu {
       background-image: none;
     }

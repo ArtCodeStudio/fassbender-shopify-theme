@@ -134,7 +134,7 @@ export class TrackingService {
     // be sure that pintrk is disabled by overwrite the function
     if (disabled) {
       (window as any)._pintrk = (window as any).pintrk;
-      (window as any).pintrk = (...args: any[]) => {
+      (window as any).pintrk = () => {
         console.warn('pinterest is disabled, ignore', (window as any).pintrk);
       };
     } else {
@@ -153,9 +153,9 @@ export class TrackingService {
   }
 
   constructor(settings: {
-    theTradeDesk: TheTradeDesk,
-    googleAnalytics: GoogleAnalytics,
-    pinterestTag: PinterestTag,
+    theTradeDesk: TheTradeDesk;
+    googleAnalytics: GoogleAnalytics;
+    pinterestTag: PinterestTag;
   }) {
 
     this.theTradeDesk = settings.theTradeDesk;
@@ -206,7 +206,7 @@ export class TrackingService {
       this.trackingCallback(currentStatus, prevStatus, $container, newPageRawHTML, dataset, isFirstPageLoad);
     });
 
-    this.shopifyCartEventDispatcher.on('ShopifyCart:add', (data: {id: number, quantity: number, properties: any}) => {
+    this.shopifyCartEventDispatcher.on('ShopifyCart:add', () => {
       if (navigator.doNotTrack === '1') {
         console.warn('The user wishs no tracking');
         return;
@@ -320,17 +320,17 @@ export class TrackingService {
   }
 
   public trackingCallback(currentStatus: State, prevStatus: State, $container: JQuery<HTMLElement>, newPageRawHTML: string, dataset: any, isFirstPageLoad: boolean) {
-    const self = this;
+    // const self = this;
     if (navigator.doNotTrack === '1') {
       console.warn('The user wishs no tracking');
       return;
     }
-    if (self.theTradeDesk.enabled && (window as any)[this.theTradeDeskDisableStr] !== true) {
+    if (this.theTradeDesk.enabled && (window as any)[this.theTradeDeskDisableStr] !== true) {
       if (typeof((window as any).ttd_dom_ready) === 'function') {
         (window as any).ttd_dom_ready( () => {
           if (typeof((window as any).TTDUniversalPixelApi) === 'function') {
             const universalPixelApi = new (window as any).TTDUniversalPixelApi();
-            universalPixelApi.init(self.theTradeDesk.adv, [self.theTradeDesk.tagId[1]], self.theTradeDesk.baseSrc);
+            universalPixelApi.init(this.theTradeDesk.adv, [this.theTradeDesk.tagId[1]], this.theTradeDesk.baseSrc);
           }
         });
       }
@@ -340,17 +340,17 @@ export class TrackingService {
 
     (window as any).dataLayer = (window as any).dataLayer || [];
     function gtag(...args: any[]) {
-      (window as any).dataLayer.push(arguments);
+      (window as any).dataLayer.push(...args);
     }
 
-    if (self.googleAnalytics.enabled && (window as any)[this.googleAnalyticsDisableStr] !== true) {
+    if (this.googleAnalytics.enabled && (window as any)[this.googleAnalyticsDisableStr] !== true) {
       if (isFirstPageLoad) {
         // this is already tracked by the shopify event listener code
       } else {
         // if never framework  Website-Tag (gtag.js) for google analytics is used:
         gtag('event', 'page_view', {
           // tslint:disable-next-line:object-literal-key-quotes
-          'send_to': self.googleAnalytics.trackingId, // object-literal-key-quotes
+          'send_to': this.googleAnalytics.trackingId, // object-literal-key-quotes
         });
         if ((window as any).ga) {
           (window as any).ga('send', 'pageview');
@@ -360,7 +360,7 @@ export class TrackingService {
       console.warn('googleAnalytics is disabled');
     }
 
-    if (self.pinterestTag && self.pinterestTag.enabled && !isFirstPageLoad && (window as any).pintrk) {
+    if (this.pinterestTag && this.pinterestTag.enabled && !isFirstPageLoad && (window as any).pintrk) {
       (window as any).pintrk('track', 'pagevisit');
     }
 

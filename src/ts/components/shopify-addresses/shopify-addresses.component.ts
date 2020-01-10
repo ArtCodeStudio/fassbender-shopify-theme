@@ -3,7 +3,7 @@ import { JQuery as $ } from '@ribajs/jquery';
 import template from './shopify-addresses.component.html';
 
 // TODO move to general validation component class we can extend from
-export interface IValidationRule {
+export interface ValidationRule {
   required: boolean;
   minlength?: number;
   maxlength?: number;
@@ -15,14 +15,14 @@ export interface IValidationRule {
   onlyNumbers?: boolean;
 }
 
-export interface IValidationObject {
+export interface ValidationObject {
   valid: boolean;
   rules?: {
-    [key: string]: IValidationRule;
+    [key: string]: ValidationRule;
   };
 }
 
-interface IScope {
+interface Scope {
   // form: {
   //   customer: {
   //     email: string;
@@ -32,14 +32,14 @@ interface IScope {
 
   editAddress: {
     [addressID: string]: {
-      validation: IValidationObject;
+      validation: ValidationObject;
     };
   };
 
   showFormId: string;
 
   createAddress: {
-    validation: IValidationObject;
+    validation: ValidationObject;
   };
 
   edit: ShopifyAddressesComponent['edit'];
@@ -49,7 +49,7 @@ interface IScope {
 
 export class ShopifyAddressesComponent extends Component {
 
-  public static tagName: string = 'rv-shopify-addresses';
+  public static tagName = 'rv-shopify-addresses';
 
   static get observedAttributes() {
     return [];
@@ -60,7 +60,7 @@ export class ShopifyAddressesComponent extends Component {
   protected $editAddressForm: JQuery<HTMLFormElement> | null = null;
   protected $createAddressForm: JQuery<HTMLFormElement> | null = null;
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     createAddress: {
       validation: {
         valid: false,
@@ -80,7 +80,7 @@ export class ShopifyAddressesComponent extends Component {
     this.init(ShopifyAddressesComponent.observedAttributes);
   }
 
-  public edit(id: string, context: Binder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
+  public edit(id: string, context: Binder<any>, event: Event) {
     console.warn('login', this.scope);
 
     const $form = this.$el.find(`form[action="/account/addresses/${id}]`) as JQuery<HTMLFormElement>;
@@ -127,9 +127,9 @@ export class ShopifyAddressesComponent extends Component {
 
   // https://help.shopify.com/en/api/reference/customers/customer_address
   // /account/addresses/{id}
-  public delete(id: string, context: Binder<any>, event: Event, scope: IScope, form: HTMLFormElement) {
+  public delete(id: string) {
     HttpService.delete(`/account/addresses/${id}`, {}, 'json')
-    .then((response: any) => {
+    .then(() => {
       location.reload();
     })
     .catch((error: any) => {
@@ -148,7 +148,7 @@ export class ShopifyAddressesComponent extends Component {
     this.$createAddressForm.addClass('needs-validation');
   }
 
-  protected validate($form: JQuery<HTMLFormElement>, validationScope: IValidationObject) {
+  protected validate($form: JQuery<HTMLFormElement>, validationScope: ValidationObject) {
     $form.each((index: number, formEl) => {
       validationScope.valid = formEl.checkValidity();
     });

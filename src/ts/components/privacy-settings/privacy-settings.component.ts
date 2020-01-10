@@ -10,7 +10,7 @@ import {
 import template from './privacy-settings.component.html';
 import { TrackingService } from '../../services/tracking.services';
 
-interface IScope {
+interface Scope {
   theTradeDesk: {
     enabled: boolean;
     adv: string;
@@ -50,7 +50,7 @@ interface IScope {
 // see also TrackingService
 export class PrivacySettingsComponent extends Component {
 
-  public static tagName: string = 'rv-privacy-settings';
+  public static tagName = 'rv-privacy-settings';
 
   static get observedAttributes() {
     return [];
@@ -58,7 +58,7 @@ export class PrivacySettingsComponent extends Component {
 
   protected $el: JQuery<HTMLElement>;
 
-  protected scope: IScope;
+  protected scope: Scope;
 
   protected trackingService: TrackingService;
 

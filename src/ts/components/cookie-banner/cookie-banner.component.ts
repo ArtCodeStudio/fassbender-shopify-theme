@@ -1,10 +1,9 @@
 import {
   Component,
-  Binder,
 } from '@ribajs/core';
 import template from './cookie-banner.component.html';
 
-interface IScope {
+interface Scope {
   accept: CookieBannerComponent['accept'];
   close: CookieBannerComponent['close'];
   show: boolean;
@@ -12,7 +11,7 @@ interface IScope {
 
 export class CookieBannerComponent extends Component {
 
-  public static tagName: string = 'rv-cookie-banner';
+  public static tagName = 'rv-cookie-banner';
 
   protected cookieAcceptedString = 'cookieconsent_accepted';
 
@@ -20,7 +19,7 @@ export class CookieBannerComponent extends Component {
     return ['title', 'text', 'url', 'label'];
   }
 
-  protected scope: IScope = {
+  protected scope: Scope = {
     accept: this.accept,
     close: this.close,
     show: false,
@@ -44,11 +43,11 @@ export class CookieBannerComponent extends Component {
     this.init(CookieBannerComponent.observedAttributes);
   }
 
-  public accept(context: Binder<any>, event: Event) {
+  public accept() {
     this.cookieAccepted = true;
   }
 
-  public close(context: Binder<any>, event: Event) {
+  public close() {
     this.scope.show = false;
   }
 
