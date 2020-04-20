@@ -1,31 +1,34 @@
-import { Binder, Component } from '@ribajs/core';
-import { Pjax } from '@ribajs/router';
-import { Utils } from '../../services/Utils';
-import { InstagramMedia, InstagramResponse, InstagramService } from '@ribajs/shopify-tda';
-import template from './instagram-scrollbar.component.html';
+import { Binder, Component } from "@ribajs/core";
+import { Pjax } from "@ribajs/router";
+import { Utils } from "../../services/Utils";
+import {
+  InstagramMedia,
+  InstagramResponse,
+  InstagramService,
+} from "@ribajs/shopify-tda";
+import template from "./instagram-scrollbar.component.html";
 
 export interface Scope {
   instagramId?: string;
   openLinks: boolean;
   openUrl: string;
   limit: number;
-  onScroll: InstagramScrollbarComponent['onScroll'];
-  onTap: InstagramScrollbarComponent['onTap'];
+  onScroll: InstagramScrollbarComponent["onScroll"];
+  onTap: InstagramScrollbarComponent["onTap"];
   media?: InstagramMedia;
 }
 
 export class InstagramScrollbarComponent extends Component {
-
-  public static tagName = 'rv-instagram-scrollbar';
+  public static tagName = "rv-instagram-scrollbar";
 
   static get observedAttributes() {
-    return ['instagram-id', 'open-links', 'limit', 'open-url'];
+    return ["instagram-id", "open-links", "limit", "open-url"];
   }
 
   protected scope: Scope = {
     instagramId: undefined,
     openLinks: false,
-    openUrl: '',
+    openUrl: "",
     limit: 0,
     onScroll: this.onScroll,
     onTap: this.onTap,
@@ -38,30 +41,39 @@ export class InstagramScrollbarComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    this.$scollWith = this.$el.find('.title-row');
+    this.$scollWith = this.$el.find(".title-row");
     this.init(InstagramScrollbarComponent.observedAttributes);
   }
 
   /**
    * Just open the instagram url
    */
-  public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
-    const pjax = Pjax.getInstance('main');
+  public onTap(
+    context: Binder<any>,
+    event: JQuery.Event,
+    scope: any,
+    eventEl: HTMLElement
+  ) {
+    const pjax = Pjax.getInstance("main");
     if (this.scope.openUrl.length > 0) {
       pjax?.goTo(this.scope.openUrl);
     }
     if (this.scope.openLinks) {
-      const url = $(eventEl).first().data('url');
+      const url = $(eventEl).first().data("url");
       pjax?.goTo(url, true);
     }
-
   }
 
   /**
    * get instagram in the middle of the scrollbar elementinnerWidth
    * TODO not used
    */
-  public onScroll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
+  public onScroll(
+    context: Binder<any>,
+    event: JQuery.Event,
+    scope: any,
+    eventEl: HTMLElement
+  ) {
     if (this.$scollWith) {
       const factor = 3;
       this.$scollWith.scrollLeft(eventEl.scrollLeft / factor);
@@ -76,7 +88,7 @@ export class InstagramScrollbarComponent extends Component {
     if (!this.$scollWith) {
       return 0;
     }
-    return this.$scollWith.find('.title-col')[0].clientWidth || 0;
+    return this.$scollWith.find(".title-col")[0].clientWidth || 0;
   }
 
   /**
@@ -86,22 +98,23 @@ export class InstagramScrollbarComponent extends Component {
     if (!this.scope.media) {
       return;
     }
-    const width = (Utils.getViewportDimensions().w / 3) * (this.scope.media.data.length);
+    const width =
+      (Utils.getViewportDimensions().w / 3) * this.scope.media.data.length;
     return width;
   }
 
   protected loadMedia() {
     if (!this.scope.instagramId) {
-      throw new Error('instagram id is required!');
+      throw new Error("instagram id is required!");
     }
     InstagramService.loadMedia(this.scope.instagramId, this.scope.limit)
-    .then((response: InstagramResponse) => {
-      this.scope.media = response.media;
-      return this.scope.media;
-    })
-    .catch((error) => {
-      console.error(`Error: Can't load instagram media`, error);
-    });
+      .then((response: InstagramResponse) => {
+        this.scope.media = response.media;
+        return this.scope.media;
+      })
+      .catch((error) => {
+        console.error(`Error: Can't load instagram media`, error);
+      });
   }
 
   protected async beforeBind() {
@@ -109,7 +122,7 @@ export class InstagramScrollbarComponent extends Component {
   }
 
   protected requiredAttributes() {
-    return ['instagramId', 'limit'];
+    return ["instagramId", "limit"];
   }
 
   protected template() {
@@ -120,5 +133,4 @@ export class InstagramScrollbarComponent extends Component {
       return template;
     }
   }
-
 }

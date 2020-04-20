@@ -1,13 +1,13 @@
-import { Binder } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import { CollapseService } from './collapse.service';
+import { Binder } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import { CollapseService } from "./collapse.service";
 
 /**
  *
  * @see https://getbootstrap.com/docs/4.1/components/collapse/
  */
 export const collapseBinder: Binder<string> = {
-  name: 'bs4-collapse',
+  name: "bs4-collapse",
   routine(el: HTMLElement, targetSelector: string) {
     const $el = $(el);
     const $target = $(targetSelector);
@@ -17,12 +17,12 @@ export const collapseBinder: Binder<string> = {
     const onStateChange = () => {
       if (collapseService.isCollapsed()) {
         $el
-        .addClass(CollapseService.CLASSNAME.COLLAPSED)
-        .attr('aria-expanded', 'false');
+          .addClass(CollapseService.CLASSNAME.COLLAPSED)
+          .attr("aria-expanded", "false");
       } else {
         $el
-        .removeClass(CollapseService.CLASSNAME.COLLAPSED)
-        .attr('aria-expanded', 'true');
+          .removeClass(CollapseService.CLASSNAME.COLLAPSED)
+          .attr("aria-expanded", "true");
       }
     };
 
@@ -30,12 +30,11 @@ export const collapseBinder: Binder<string> = {
 
     $target.on(CollapseService.EVENT.HIDDEN, onStateChange);
 
-    $el.on('click', (event) => {
+    $el.on("click", (event) => {
       event.preventDefault();
       collapseService.toggle();
     });
 
     onStateChange();
-
   },
 };

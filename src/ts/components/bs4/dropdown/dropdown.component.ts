@@ -1,10 +1,9 @@
-import { Binder, Component } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import { DropdownService } from './dropdown.service';
+import { Binder, Component } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import { DropdownService } from "./dropdown.service";
 
 export class DropdownComponent extends Component {
-
-  public static tagName = 'bs4-dropdown';
+  public static tagName = "bs4-dropdown";
 
   protected scope: any = {
     toggle: this.toggle,
@@ -20,7 +19,9 @@ export class DropdownComponent extends Component {
     super(element);
     // const self = this;
     const $el = $(this.el);
-    this.dropdownService = new DropdownService($el.find('.dropdown-toggle')[0] as HTMLButtonElement);
+    this.dropdownService = new DropdownService(
+      $el.find(".dropdown-toggle")[0] as HTMLButtonElement
+    );
     this.init(DropdownComponent.observedAttributes);
   }
 

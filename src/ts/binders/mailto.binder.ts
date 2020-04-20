@@ -1,11 +1,11 @@
-import { Binder } from '@ribajs/core';
+import { Binder } from "@ribajs/core";
 
 /**
  * mailto
  */
 export const mailtoBinder: Binder<string> = {
-  name: 'mailto',
+  name: "mailto",
   routine(el: HTMLElement, value: any) {
-    $(el).attr('href', 'mailto:' + value);
+    $(el).attr("href", "mailto:" + value);
   },
 };

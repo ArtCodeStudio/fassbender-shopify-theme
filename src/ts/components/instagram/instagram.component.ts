@@ -1,22 +1,25 @@
-import { Component, Binder } from '@ribajs/core';
-import { Pjax } from '@ribajs/router';
-import template from './instagram.component.html';
-import { InstagramMedia, InstagramResponse, InstagramService } from '@ribajs/shopify-tda';
+import { Component, Binder } from "@ribajs/core";
+import { Pjax } from "@ribajs/router";
+import template from "./instagram.component.html";
+import {
+  InstagramMedia,
+  InstagramResponse,
+  InstagramService,
+} from "@ribajs/shopify-tda";
 
 export interface Scope {
   media?: InstagramMedia;
   instagramId?: string;
   openLinks: boolean;
   limit: number;
-  onTap: InstagramComponent['onTap'];
+  onTap: InstagramComponent["onTap"];
 }
 
 export class InstagramComponent extends Component {
-
-  public static tagName = 'rv-instagram';
+  public static tagName = "rv-instagram";
 
   static get observedAttributes() {
-    return ['instagram-id', 'open-links', 'limit'];
+    return ["instagram-id", "open-links", "limit"];
   }
 
   protected scope: Scope = {
@@ -35,12 +38,17 @@ export class InstagramComponent extends Component {
   /**
    * Just open the instagram url
    */
-  public onTap(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLElement) {
+  public onTap(
+    context: Binder<any>,
+    event: JQuery.Event,
+    scope: any,
+    eventEl: HTMLElement
+  ) {
     if (!this.scope.openLinks) {
       return;
     }
-    const url = $(eventEl).first().data('url');
-    const pjax = Pjax.getInstance('main');
+    const url = $(eventEl).first().data("url");
+    const pjax = Pjax.getInstance("main");
     pjax?.goTo(url, true);
   }
 
@@ -49,12 +57,12 @@ export class InstagramComponent extends Component {
       return Promise.reject();
     }
     InstagramService.loadMedia(this.scope.instagramId, this.scope.limit)
-    .then((response: InstagramResponse) => {
-      this.scope.media = response.media;
-    })
-    .catch((error: Error) => {
-      console.error(`Error: Can't load instagram media`, error);
-    });
+      .then((response: InstagramResponse) => {
+        this.scope.media = response.media;
+      })
+      .catch((error: Error) => {
+        console.error(`Error: Can't load instagram media`, error);
+      });
   }
 
   protected async beforeBind() {
@@ -62,7 +70,7 @@ export class InstagramComponent extends Component {
   }
 
   protected requiredAttributes() {
-    return ['instagramId', 'limit'];
+    return ["instagramId", "limit"];
   }
 
   protected template() {

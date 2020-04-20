@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import {
-  Component,
-} from '@ribajs/core';
-import { JQuery as $} from '@ribajs/jquery';
+import { Component } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
 import {
   ShopifyProductVariant,
   ShopifyProduct,
   ShopifyProductVariantOption,
   ShopifyCartService,
   ShopifyProductService,
-} from '@ribajs/shopify';
-import template from './shopify-product.component.html';
+} from "@ribajs/shopify";
+import template from "./shopify-product.component.html";
 
 const IMAGES_PER_ROW = 2;
 
@@ -27,16 +25,16 @@ export interface PrepairedProductVariant extends ShopifyProductVariant {
 
 export interface Scope {
   handle: string | null;
-  product: ShopifyProduct  | null;
+  product: ShopifyProduct | null;
   variant: PrepairedProductVariant | null;
   quantity: number;
   showDetailMenu: boolean;
   // showAddToCartButton: boolean;
-  chooseOption: ShopifyProductComponent['chooseOption'];
-  addToCart: ShopifyProductComponent['addToCart'];
-  toggleDetailMenu: ShopifyProductComponent['toggleDetailMenu'];
-  decrease: ShopifyProductComponent['decrease'];
-  increase: ShopifyProductComponent['increase'];
+  chooseOption: ShopifyProductComponent["chooseOption"];
+  addToCart: ShopifyProductComponent["addToCart"];
+  toggleDetailMenu: ShopifyProductComponent["toggleDetailMenu"];
+  decrease: ShopifyProductComponent["decrease"];
+  increase: ShopifyProductComponent["increase"];
   $parent?: any;
   /**
    * If the variant is available, used to disable the add to cart button
@@ -45,8 +43,7 @@ export interface Scope {
 }
 
 export class ShopifyProductComponent extends Component {
-
-  public static tagName = 'rv-shopify-product';
+  public static tagName = "rv-shopify-product";
 
   protected autobind = true;
 
@@ -55,7 +52,7 @@ export class ShopifyProductComponent extends Component {
    * extras are product data wich is only avaiable over liquid and not over the product json object
    */
   static get observedAttributes() {
-    return ['handle', 'extras'];
+    return ["handle", "extras"];
   }
 
   protected $el: JQuery<HTMLElement>;
@@ -93,7 +90,10 @@ export class ShopifyProductComponent extends Component {
 
       // this.selectedOptions = new Array(this.scope.product.options.length);
 
-      this.colorOption = ShopifyProductService.getOption(this.scope.product, 'color');
+      this.colorOption = ShopifyProductService.getOption(
+        this.scope.product,
+        "color"
+      );
       // set the first variant to the selected one
       this.variant = this.scope.product ? this.scope.product.variants[0] : null;
     }
@@ -105,7 +105,7 @@ export class ShopifyProductComponent extends Component {
 
   protected set variant(variant: ShopifyProductVariant | null) {
     if (variant === null) {
-      console.warn('Error: Variant ist null');
+      console.warn("Error: Variant ist null");
       return;
     }
     this.scope.variant = this.prepairVariant(variant);
@@ -124,7 +124,7 @@ export class ShopifyProductComponent extends Component {
    * available is only true if the variant is available and the user has clicked on an option
    */
   protected set available(available: boolean) {
-    this.scope.available = (available && this.optionChoosed);
+    this.scope.available = available && this.optionChoosed;
   }
 
   constructor(element?: HTMLElement) {
@@ -133,16 +133,25 @@ export class ShopifyProductComponent extends Component {
     this.init(ShopifyProductComponent.observedAttributes);
   }
 
-  public chooseOption(optionValue: string | number, position1: number, optionName: string, _: any, event: MouseEvent) {
+  public chooseOption(
+    optionValue: string | number,
+    position1: number,
+    optionName: string,
+    _: any,
+    event: MouseEvent
+  ) {
     if (!this.scope.product) {
-      throw new Error('Product not set!');
+      throw new Error("Product not set!");
     }
 
     optionValue = optionValue.toString();
 
-    this.selectedOptions[(position1 - 1)] = optionValue.toString();
+    this.selectedOptions[position1 - 1] = optionValue.toString();
 
-    const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, this.selectedOptions);
+    const variant = ShopifyProductService.getVariantOfOptions(
+      this.scope.product,
+      this.selectedOptions
+    );
 
     if (variant) {
       // Option choosed so enable add to cart button
@@ -156,16 +165,16 @@ export class ShopifyProductComponent extends Component {
 
   public addToCart() {
     if (!this.variant) {
-      console.warn('Variant not selected');
+      console.warn("Variant not selected");
       return;
     }
     ShopifyCartService.add(this.variant.id, this.scope.quantity)
-    .then((response: any) => {
-      return response;
-    })
-    .catch((error: Error) => {
-      console.error('addToCart error', error);
-    });
+      .then((response: any) => {
+        return response;
+      })
+      .catch((error: Error) => {
+        console.error("addToCart error", error);
+      });
   }
 
   public toggleDetailMenu() {
@@ -189,9 +198,13 @@ export class ShopifyProductComponent extends Component {
    * @param optionName
    */
   protected activateOption(optionValue: string, optionName: string) {
-    optionValue = optionValue.toString().replace('#', '');
-    this.$el.find(`.option-${optionName.toLocaleLowerCase()}`).removeClass('active');
-    this.$el.find(`.option-${optionName.toLocaleLowerCase()}-${optionValue}`).addClass('active');
+    optionValue = optionValue.toString().replace("#", "");
+    this.$el
+      .find(`.option-${optionName.toLocaleLowerCase()}`)
+      .removeClass("active");
+    this.$el
+      .find(`.option-${optionName.toLocaleLowerCase()}-${optionValue}`)
+      .addClass("active");
   }
 
   /**
@@ -205,7 +218,7 @@ export class ShopifyProductComponent extends Component {
         if (this.scope.product) {
           const optionName = this.scope.product.options[position0].name;
           // Only activate size if it was clicked by the user
-          if (optionName === 'size') {
+          if (optionName === "size") {
             if (this.optionChoosed) {
               this.activateOption(optionValue, optionName);
             }
@@ -219,12 +232,13 @@ export class ShopifyProductComponent extends Component {
 
   protected async beforeBind() {
     if (this.scope.handle === null) {
-      throw new Error('Product handle not set');
+      throw new Error("Product handle not set");
     }
-    return ShopifyProductService.get(this.scope.handle)
-    .then((product: ShopifyProduct) => {
-      this.product = product;
-    });
+    return ShopifyProductService.get(this.scope.handle).then(
+      (product: ShopifyProduct) => {
+        this.product = product;
+      }
+    );
   }
 
   protected async afterBind() {
@@ -232,11 +246,11 @@ export class ShopifyProductComponent extends Component {
   }
 
   protected requiredAttributes() {
-    return ['handle'];
+    return ["handle"];
   }
 
   protected template() {
-     // Only set the component template if there no childs already
+    // Only set the component template if there no childs already
     if (this.el.hasChildNodes()) {
       return null;
     } else {
@@ -252,12 +266,12 @@ export class ShopifyProductComponent extends Component {
   private indexOfUrl(images: string[], findImage: string) {
     let index = -1;
     const clearFindImage = findImage
-    .split('?')[0] // remove query string
-    .replace(/(^\w+:|^)\/\//, '//'); // remove protocol
+      .split("?")[0] // remove query string
+      .replace(/(^\w+:|^)\/\//, "//"); // remove protocol
     images.forEach((image, i) => {
       const clearImage = image
-      .split('?')[0] // remove query string
-      .replace(/(^\w+:|^)\/\//, '//'); // remove protocol
+        .split("?")[0] // remove query string
+        .replace(/(^\w+:|^)\/\//, "//"); // remove protocol
       if (clearImage === clearFindImage) {
         index = i;
       }
@@ -268,7 +282,7 @@ export class ShopifyProductComponent extends Component {
   /**
    * Get images wich are not linked to any variant
    */
-  private getGeneralImages(optionName = 'color') {
+  private getGeneralImages(optionName = "color") {
     optionName = optionName.toLowerCase();
     const generalImages: string[] = [];
     if (this.scope.product) {
@@ -297,8 +311,11 @@ export class ShopifyProductComponent extends Component {
    * Shopify only supports one image per variant, with this function more images for each variant are possible.
    * The image filename must include {optionName}-{optionValue} for that.
    */
-  private getOptionImages(option: ShopifyProductVariantOption, optionValue: string) {
-    optionValue = optionValue.toLowerCase().replace('#', '_');
+  private getOptionImages(
+    option: ShopifyProductVariantOption,
+    optionValue: string
+  ) {
+    optionValue = optionValue.toLowerCase().replace("#", "_");
     const optionName = option.name.toLowerCase();
     const optionImages: string[] = [];
     if (this.scope.product) {
@@ -317,21 +334,23 @@ export class ShopifyProductComponent extends Component {
    */
   private getFeaturedImage(variant: PrepairedProductVariant) {
     if (variant.featured_image !== null) {
-      variant.featured_image.src = variant.featured_image.src
-      .replace(/(^\w+:|^)\/\//, '//'); // remove protocol
+      variant.featured_image.src = variant.featured_image.src.replace(
+        /(^\w+:|^)\/\//,
+        "//"
+      ); // remove protocol
       return variant.featured_image;
     }
 
-    let fallbackImageSrc = '';
+    let fallbackImageSrc = "";
 
     if (variant.images && variant.images.length > 0) {
       fallbackImageSrc = variant.images[0];
     } else if (this.scope.product) {
-      fallbackImageSrc =  this.scope.product.featured_image;
+      fallbackImageSrc = this.scope.product.featured_image;
     }
 
     // remove protocol for normalisation
-    fallbackImageSrc = fallbackImageSrc.replace(/(^\w+:|^)\/\//, '//');
+    fallbackImageSrc = fallbackImageSrc.replace(/(^\w+:|^)\/\//, "//");
 
     // If variant has no image use the default product image
     if (this.scope.product) {
@@ -350,7 +369,7 @@ export class ShopifyProductComponent extends Component {
       return featuredImage;
     }
 
-    throw new Error('image not found');
+    throw new Error("image not found");
   }
 
   /**
@@ -360,14 +379,14 @@ export class ShopifyProductComponent extends Component {
    * @param images
    */
   private getImageRows(images: string[]) {
-    const leftoverPictureCount = (images.length % IMAGES_PER_ROW);
+    const leftoverPictureCount = images.length % IMAGES_PER_ROW;
     const rowLength = Math.floor(images.length / IMAGES_PER_ROW);
     const rows: Array<ImageRow> = new Array(rowLength);
     for (let index = 0; index < rows.length; index++) {
       rows[index] = {
-        class: 'col-12 col-md px-0',
+        class: "col-12 col-md px-0",
         images: [],
-        sizes: '(min-width: 768px) 50vw, 100vw',
+        sizes: "(min-width: 768px) 50vw, 100vw",
       };
     }
 
@@ -375,14 +394,22 @@ export class ShopifyProductComponent extends Component {
     for (let rowIndex = 0; rowIndex < rowLength; rowIndex++) {
       const currentRow = rows[rowIndex];
       // Append IMAGES_PER_ROW images to the row
-      for (let rowImageIndex = 0; rowImageIndex < IMAGES_PER_ROW; rowImageIndex++, imageIndex++) {
+      for (
+        let rowImageIndex = 0;
+        rowImageIndex < IMAGES_PER_ROW;
+        rowImageIndex++, imageIndex++
+      ) {
         const rowImage = images[imageIndex];
         currentRow.images.push(rowImage);
       }
       // Append the leftover pictures to the last row
       if (rowIndex === rowLength - 1) {
-        currentRow.sizes = '(min-width: 768px) 33vw, 100vw';
-        for (let rowImageIndex = 0; rowImageIndex < leftoverPictureCount; rowImageIndex++, imageIndex++) {
+        currentRow.sizes = "(min-width: 768px) 33vw, 100vw";
+        for (
+          let rowImageIndex = 0;
+          rowImageIndex < leftoverPictureCount;
+          rowImageIndex++, imageIndex++
+        ) {
           const rowImage = images[imageIndex];
           currentRow.images.push(rowImage);
         }
@@ -397,14 +424,17 @@ export class ShopifyProductComponent extends Component {
    */
   private prepairVariant(variant: PrepairedProductVariant) {
     if (variant === null) {
-      console.error('Variant is null!');
+      console.error("Variant is null!");
       return null;
     }
 
     if (this.colorOption) {
-      variant.images = this.getOptionImages(this.colorOption, variant.options[this.colorOption.position - 1]);
+      variant.images = this.getOptionImages(
+        this.colorOption,
+        variant.options[this.colorOption.position - 1]
+      );
     } else {
-      console.warn('colorOption not defined');
+      console.warn("colorOption not defined");
       variant.images = [];
     }
 

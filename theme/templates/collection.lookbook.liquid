@@ -2,7 +2,7 @@
   {% paginate collection.products by 40 %}
     <div class="row">
       {% for product in collection.products %}
-        {% include 'jumplink-product-collection-grid-item-col-embed-responsive-3by4' with product, collection, colClass: 'col-6 col-lg-4 col-xl-3' %}
+        {% include 'product-collection-grid-item-col-embed-responsive-3by4' with product, collection, colClass: 'col-6 col-lg-4 col-xl-3' %}
       {% endfor %}
       <div class="col-12">
         {% include 'jumplink-pagination' with viewId: 'products-pagination' %}

@@ -43,9 +43,9 @@
       {% endif %}
 
       {% if hasUrl %}
-      <a href="{{ block.settings.url }}" rv-route="'{{ block.settings.url }}'" class="col-6 col-lg-4 col-xl-3 px-0 content-box {{ ratioClass }} {{ ratioClassMD }}">
+      <a href="{{ block.settings.url }}" rv-route="'{{ block.settings.url }}'" class="col-6 col-lg-4 col-xl-3 px-0 embed-responsive {{ ratioClass }} {{ ratioClassMD }}">
       {% else %}
-      <div class="col-6 col-lg-4 col-xl-3 px-0 content-box {{ ratioClass }} {{ ratioClassMD }}">
+      <div class="col-6 col-lg-4 col-xl-3 px-0 embed-responsive {{ ratioClass }} {{ ratioClassMD }}">
       {% endif %}
         <img
           loading="lazy"

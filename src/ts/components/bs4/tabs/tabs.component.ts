@@ -1,9 +1,8 @@
-import { Component } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
+import { Component } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
 
 export class TabsComponent extends Component {
-
-  public static tagName = 'bs4-tabs';
+  public static tagName = "bs4-tabs";
 
   protected scope: any = {};
 
@@ -19,33 +18,34 @@ export class TabsComponent extends Component {
 
   constructor(element?: HTMLElement) {
     super(element);
-    console.warn('Depricated use tabs module from bs4 module');
+    console.warn("Depricated use tabs module from bs4 module");
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     this.$el = $(this.el);
-    this.$tabs = this.$el.find('.nav-link');
-    this.$tabPanes = this.$el.find('.tab-pane');
-    this.$scrollable = this.$el.find('[scrollable]');
+    this.$tabs = this.$el.find(".nav-link");
+    this.$tabPanes = this.$el.find(".tab-pane");
+    this.$scrollable = this.$el.find("[scrollable]");
 
-    this.$tabs.on('click', function(event) {
+    this.$tabs.on("click", function (event) {
       event.preventDefault();
       const $tab = $(this);
       self.activate($tab);
     });
 
-    this.$tabs.off('shown.bs.tab').on('shown.bs.tab', (event) => {
+    this.$tabs.off("shown.bs.tab").on("shown.bs.tab", (event) => {
       const $tab = $(event.target);
       if (this.$scrollable.length) {
         const tabScrollPosition = $tab[0].getBoundingClientRect();
-        const scrollLeftTo = this.$scrollable.scrollLeft() || 0 + tabScrollPosition.left;
-        this.$scrollable.animate({ scrollLeft: scrollLeftTo}, 'slow');
+        const scrollLeftTo =
+          this.$scrollable.scrollLeft() || 0 + tabScrollPosition.left;
+        this.$scrollable.animate({ scrollLeft: scrollLeftTo }, "slow");
       }
     });
 
     this.activate(this.$tabs.first());
 
     if (this.tabsSameHeight) {
-      $(window).on('resize', () => {
+      $(window).on("resize", () => {
         this.setHeight();
       });
     }
@@ -58,42 +58,42 @@ export class TabsComponent extends Component {
    */
   public setHeight() {
     let heigest = 0;
-    this.$tabPanes.each(function() {
+    this.$tabPanes.each(function () {
       const $tabPane = $(this);
-      $tabPane.css('height', 'auto');
+      $tabPane.css("height", "auto");
       const height = $tabPane.height() || 0;
       if (height > heigest) {
         heigest = height;
       }
     });
-    this.$tabPanes.each(function() {
+    this.$tabPanes.each(function () {
       const $tabPane = $(this);
-      $tabPane.css('height', heigest + 'px');
+      $tabPane.css("height", heigest + "px");
     });
   }
 
   public deactivateAll() {
-    this.$tabs.each(function() {
+    this.$tabs.each(function () {
       const $tab = $(this);
-      $tab.removeClass('active');
+      $tab.removeClass("active");
     });
-    this.$tabPanes.each(function() {
+    this.$tabPanes.each(function () {
       const $tabPane = $(this);
-      $tabPane.removeClass('active show');
+      $tabPane.removeClass("active show");
     });
   }
 
   public activate($tab: JQuery<HTMLElement>) {
-    const target = $tab.attr('href');
+    const target = $tab.attr("href");
     if (target) {
       const $target = this.$el.find(target);
       this.deactivateAll();
-      $target.addClass('active');
+      $target.addClass("active");
       setTimeout(() => {
-          $target.addClass('show');
-          $tab.addClass('active');
-          $target.trigger('shown.bs.tab');
-          $tab.trigger('shown.bs.tab');
+        $target.addClass("show");
+        $tab.addClass("active");
+        $target.trigger("shown.bs.tab");
+        $tab.trigger("shown.bs.tab");
       }, 0);
     }
   }

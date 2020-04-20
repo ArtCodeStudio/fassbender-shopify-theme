@@ -50,7 +50,7 @@
           {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
         {% endif %}
 
-        <rv-video class="col px-0 content-box {{contentBoxClass}}">
+        <rv-video class="col px-0 embed-responsive {{contentBoxClass}}">
           <video class="{{imageClass}}" preload="auto" controls style="padding: {{spacing}}px" playsinline webkit-playsinline>
             <source src="{{ video }}" type="video/mp4">
             <span rv-i18n-text="'system.video_tag_not_supported'">
@@ -84,7 +84,7 @@
           {% endif %}
 
           {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}
-          <div class="col px-0 content-box {{contentBoxClass}}">
+          <div class="col px-0 embed-responsive {{contentBoxClass}}">
             <img loading="lazy" class="{{imageClass}}" src="{{ image }}" alt="{{acticle.title}}" style="padding: {{spacing}}px" />
           </div>
         {% endfor %}

@@ -1,7 +1,7 @@
-import { Binder, EventDispatcher } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import { CollapseService } from './collapse.service';
-import { Utils } from '../../services/Utils';
+import { Binder, EventDispatcher } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import { CollapseService } from "./collapse.service";
+import { Utils } from "../../services/Utils";
 
 /**
  *
@@ -9,11 +9,11 @@ import { Utils } from '../../services/Utils';
  * @see https://github.com/twbs/bootstrap/blob/v4-dev/js/src/collapse.js
  */
 export const collapseOnUrlBinder: Binder<string> = {
-  name: 'bs4-collapse-on-url',
+  name: "bs4-collapse-on-url",
   routine(el: HTMLElement, url: string) {
     const $el = $(el);
     const collapseService = new CollapseService($el);
-    const dispatcher = new EventDispatcher('main');
+    const dispatcher = new EventDispatcher("main");
 
     const checkURL = (urlToCheck?: string) => {
       if (urlToCheck && Utils.onRoute(urlToCheck)) {
@@ -24,7 +24,6 @@ export const collapseOnUrlBinder: Binder<string> = {
       return false;
     };
 
-    dispatcher.on('newPageReady', () => checkURL(url));
-
+    dispatcher.on("newPageReady", () => checkURL(url));
   },
 };

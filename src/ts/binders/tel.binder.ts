@@ -1,11 +1,11 @@
-import { Binder } from '@ribajs/core';
+import { Binder } from "@ribajs/core";
 
 /**
  * tel
  */
 export const telBinder: Binder<string> = {
-  name: 'tel',
+  name: "tel",
   routine(el: HTMLElement, value: any) {
-    $(el).attr('href', 'tel:' + value);
+    $(el).attr("href", "tel:" + value);
   },
 };

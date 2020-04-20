@@ -20,9 +20,9 @@
         </div>
 
         <div class="row pt-4">
-          <shopify-filter class="col-auto pointer-events-all" rv-collection-url="dataset.collectionUrl" rv-namespace="dataset.namespace" rv-template="dataset.template | json" rv-filter="filter | json">
+          <shopify-filter class="col-auto pointer-events-all" rv-collection-url="dataset.collectionUrl" rv-namespace="dataset.namespace" rv-data-template="dataset.template | json" rv-filter="filter | json">
             <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
-              <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace template collectionUrl">
+              <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace dataTemplate collectionUrl">
                 <a
                   class="nav-link"
                   rv-add-class="'level-' | append link.level"

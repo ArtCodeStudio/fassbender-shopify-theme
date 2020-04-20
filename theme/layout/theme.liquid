@@ -57,7 +57,7 @@
     </noscript>
   {% endif %}
 
-  <link rel="stylesheet" href="{{ 'bundle.css' | asset_url }}">
+  <link rel="stylesheet" href="{{ 'main.css' | asset_url }}">
 
 </head>
 
@@ -68,7 +68,7 @@
   </div>
 
   <div rv-view='{"listenAllLinks": false, "datasetToModel": true, "parseTitle": true, "autoprefetchLinks": true}' id="main">
-    <div {% include 'jumplink-utils-barba-container-attributes', parseCollection: true %}>
+    <div {% render 'riba-view-namespace', parseCollection: true %}>
       {{ content_for_layout }}
     </div>
   </div>
@@ -111,8 +111,8 @@
 {{ content_for_header }}
 <!-- content_for_header: end -->
 
-{{ 'vendors.main.bundle.js' | asset_url | script_tag }}
-{{ 'main.bundle.js' | asset_url | script_tag }}
+<script async src="{{ 'vendors.bundle.js' | asset_url }}" type="text/javascript"></script>
+<script async src="{{ 'main.bundle.js' | asset_url }}" type="text/javascript"></script>
 
 </body>
 </html>

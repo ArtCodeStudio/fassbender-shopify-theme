@@ -1,4 +1,4 @@
-import { Binder } from '@ribajs/core';
+import { Binder } from "@ribajs/core";
 
 /**
  * Scroll an scrollable element by draging and moving your mouse.
@@ -13,42 +13,44 @@ export class Dragscroll {
   constructor(el: HTMLElement, detectGlobalMove = true) {
     this.el = el;
 
-    el.removeEventListener('mousedown', this.md.bind(this), false);
-    el.addEventListener('mousedown', this.md.bind(this), false);
+    el.removeEventListener("mousedown", this.md.bind(this), false);
+    el.addEventListener("mousedown", this.md.bind(this), false);
 
     // Use global move if your element does not use the full width / height
     if (detectGlobalMove) {
-      window.removeEventListener('mouseup', this.mu.bind(this), false);
-      window.removeEventListener('mousemove', this.mm.bind(this), false);
+      window.removeEventListener("mouseup", this.mu.bind(this), false);
+      window.removeEventListener("mousemove", this.mm.bind(this), false);
 
-      window.addEventListener('mouseup', this.mu.bind(this), false);
-      window.addEventListener('mousemove', this.mm.bind(this), false);
+      window.addEventListener("mouseup", this.mu.bind(this), false);
+      window.addEventListener("mousemove", this.mm.bind(this), false);
     } else {
-      el.removeEventListener('mouseup', this.mu.bind(this), false);
-      el.removeEventListener('mousemove', this.mm.bind(this), false);
+      el.removeEventListener("mouseup", this.mu.bind(this), false);
+      el.removeEventListener("mousemove", this.mm.bind(this), false);
 
-      el.addEventListener('mouseup', this.mu.bind(this), false);
-      el.addEventListener('mousemove', this.mm.bind(this), false);
+      el.addEventListener("mouseup", this.mu.bind(this), false);
+      el.addEventListener("mousemove", this.mm.bind(this), false);
     }
   }
 
-  private md <EventListener>(e: MouseEvent) {
+  private md<EventListener>(e: MouseEvent) {
     this.pushed = true;
     this.lastClientX = e.clientX;
     this.lastClientY = e.clientY;
     e.preventDefault();
   }
 
-  private mu <EventListener>() {
+  private mu<EventListener>() {
     this.pushed = false;
   }
 
-  private mm <EventListener>(e: MouseEvent) {
+  private mm<EventListener>(e: MouseEvent) {
     let newScrollX = 0;
     let newScrollY = 0;
     if (this.pushed) {
-      this.el.scrollLeft -= newScrollX = (- this.lastClientX + (this.lastClientX = e.clientX));
-      this.el.scrollTop -= newScrollY = (- this.lastClientY + (this.lastClientY = e.clientY));
+      this.el.scrollLeft -= newScrollX =
+        -this.lastClientX + (this.lastClientX = e.clientX);
+      this.el.scrollTop -= newScrollY =
+        -this.lastClientY + (this.lastClientY = e.clientY);
       if (this.el === document.body) {
         if (document.documentElement) {
           this.el = document.documentElement;
@@ -64,7 +66,7 @@ export class Dragscroll {
  * dragscroll
  */
 export const scrollbarDragableBinder: Binder<string> = {
-  name: 'scrollbar-dragable',
+  name: "scrollbar-dragable",
   routine(el: HTMLElement) {
     new Dragscroll(el, true);
   },

@@ -1,11 +1,8 @@
-import {
-  Component,
-  Binder,
-} from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import template from './share.component.html';
-import { DropdownService } from '../bs4/dropdown/dropdown.service';
-import { LocalesService } from '@ribajs/shopify-tda';
+import { Component, Binder } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import template from "./share.component.html";
+import { DropdownService } from "../bs4/dropdown/dropdown.service";
+import { LocalesService } from "@ribajs/shopify-tda";
 
 interface Scope {
   title: string;
@@ -14,7 +11,7 @@ interface Scope {
   url: string;
   label: string;
   labelI18n?: string;
-  share: ShareComponent['share'];
+  share: ShareComponent["share"];
   /** true if the browser runs on Android */
   isAndroid: boolean;
   /** true if the browser runs on iOS */
@@ -34,7 +31,9 @@ interface NavigatorShareParam {
 }
 
 declare global {
-  interface Navigator { share: (data: NavigatorShareParam) => Promise<any> }
+  interface Navigator {
+    share: (data: NavigatorShareParam) => Promise<any>;
+  }
 }
 
 /**
@@ -48,11 +47,10 @@ declare global {
  * TODO Fallback share if native share is not avabile
  */
 export class ShareComponent extends Component {
-
-  public static tagName = 'rv-share';
+  public static tagName = "rv-share";
 
   static get observedAttributes() {
-    return ['title', 'text', 'text-i18n', 'url', 'label', 'label-i18n'];
+    return ["title", "text", "text-i18n", "url", "label", "label-i18n"];
   }
 
   protected $el: JQuery<HTMLElement>;
@@ -67,9 +65,15 @@ export class ShareComponent extends Component {
     const url = encodeURIComponent(this.scope.url);
     const redirectUri = encodeURIComponent(this.scope.url);
     const urls = {
-      whatsapp: this.scope.isDesktop ? `https://api.whatsapp.com/send?text=${body}` : `whatsapp://send?text=${body}`,
-      telegram: this.scope.isDesktop ? `https://telegram.me/share/url?url=${url}&text=${body}` : `tg://msg?text=${body}`,
-      facebook: this.scope.isDesktop ? `https://www.facebook.com/dialog/share?app_id=${fbid}&display=popup&href=${url}&redirect_uri=${redirectUri}&quote=${body}` : `fb-messenger://share/?message=${body}`,
+      whatsapp: this.scope.isDesktop
+        ? `https://api.whatsapp.com/send?text=${body}`
+        : `whatsapp://send?text=${body}`,
+      telegram: this.scope.isDesktop
+        ? `https://telegram.me/share/url?url=${url}&text=${body}`
+        : `tg://msg?text=${body}`,
+      facebook: this.scope.isDesktop
+        ? `https://www.facebook.com/dialog/share?app_id=${fbid}&display=popup&href=${url}&redirect_uri=${redirectUri}&quote=${body}`
+        : `fb-messenger://share/?message=${body}`,
       email: `mailto:?subject=${this.scope.title}&body=${body}`,
       sms: `sms:?body=${body}`,
     };
@@ -78,32 +82,37 @@ export class ShareComponent extends Component {
   }
 
   protected scope: Scope = {
-    title: $(document).find('title').text(),
-    text: 'Look at this! 🤩', // 👀
+    title: $(document).find("title").text(),
+    text: "Look at this! 🤩", // 👀
     textI18n: undefined,
     url: window.location.href,
-    label: 'Share',
+    label: "Share",
     labelI18n: undefined,
     share: this.share,
     isAndroid: navigator.userAgent.match(/Android/i) !== null,
     isIos: navigator.userAgent.match(/iPhone|iPad|iPod/i) !== null,
     isDesktop: false,
     shareUrls: {},
-    isNative: typeof(navigator.share) === 'function',
+    isNative: typeof navigator.share === "function",
   };
 
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    this.dropdownService = new DropdownService(this.$el.find('.dropdown-toggle')[0] as HTMLButtonElement);
-    this.$el.on('click', (event) => {
+    this.dropdownService = new DropdownService(
+      this.$el.find(".dropdown-toggle")[0] as HTMLButtonElement
+    );
+    this.$el.on("click", (event) => {
       this.share(null, event);
     });
     this.init(ShareComponent.observedAttributes);
     this.scope.isDesktop = !(this.scope.isIos || this.scope.isAndroid); // on those two support "mobile deep links", so HTTP based fallback for all others.
   }
 
-  public share(context: Binder<any> | null, event: Event | JQuery.Event): Promise<any> {
+  public share(
+    context: Binder<any> | null,
+    event: Event | JQuery.Event
+  ): Promise<any> {
     event.preventDefault();
     event.stopPropagation();
     // return this.dropdownService.toggle();
@@ -126,7 +135,7 @@ export class ShareComponent extends Component {
   }
 
   protected initTranslate() {
-    this.localesService.event.on('changed', (langcode: string) => {
+    this.localesService.event.on("changed", (langcode: string) => {
       this.translate(langcode);
     });
     if (this.localesService.ready) {
@@ -135,7 +144,7 @@ export class ShareComponent extends Component {
         this.translate(langcode);
       }
     } else {
-      this.localesService.event.on('ready', (langcode: string) => {
+      this.localesService.event.on("ready", (langcode: string) => {
         this.translate(langcode);
       });
     }
@@ -146,14 +155,15 @@ export class ShareComponent extends Component {
       return;
     }
 
-    this.localesService.get([langcode, ...this.scope.textI18n.split('.')])
-    .then((local) => {
-      this.scope.text = local;
-      return;
-    })
-    .catch((error: Error) => {
-      console.error(error);
-    });
+    this.localesService
+      .get([langcode, ...this.scope.textI18n.split(".")])
+      .then((local) => {
+        this.scope.text = local;
+        return;
+      })
+      .catch((error: Error) => {
+        console.error(error);
+      });
   }
 
   protected async beforeBind() {
@@ -171,7 +181,7 @@ export class ShareComponent extends Component {
   }
 
   protected requiredAttributes() {
-    return ['title', 'text', 'url', 'label'];
+    return ["title", "text", "url", "label"];
   }
 
   protected template() {

@@ -1,6 +1,6 @@
-import { Component, Binder } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import template from './shopify-comments-form.component.html';
+import { Component, Binder } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import template from "./shopify-comments-form.component.html";
 
 export interface ValidationRule {
   required: boolean;
@@ -37,12 +37,11 @@ interface Scope {
   recoverCustomer: {
     validation: ValidationObject;
   };
-  post: ShopifyCommentsFormComponent['post'];
+  post: ShopifyCommentsFormComponent["post"];
 }
 
 export class ShopifyCommentsFormComponent extends Component {
-
-  public static tagName = 'rv-shopify-comments-form';
+  public static tagName = "rv-shopify-comments-form";
 
   static get observedAttributes() {
     return [];
@@ -55,8 +54,8 @@ export class ShopifyCommentsFormComponent extends Component {
   protected scope: Scope = {
     form: {
       customer: {
-        email: '',
-        password: '',
+        email: "",
+        password: "",
       },
     },
     loginCustomer: {
@@ -88,7 +87,7 @@ export class ShopifyCommentsFormComponent extends Component {
    */
   public post(context: Binder<any>, event: Event) {
     if (!this.$newCommentForm) {
-      console.error('No comment form found');
+      console.error("No comment form found");
       return false;
     }
 
@@ -101,21 +100,26 @@ export class ShopifyCommentsFormComponent extends Component {
     if (this.scope.loginCustomer.validation.valid) {
       this.$newCommentForm.submit();
     } else {
-      console.warn('form not valid', this.scope.form);
+      console.warn("form not valid", this.scope.form);
     }
   }
 
   protected initValidation() {
-    this.$newCommentForm = this.$el.find('#comment_form')  as JQuery<HTMLFormElement>;
-    this.$newCommentForm.attr('novalidate', '');
-    this.$newCommentForm.addClass('needs-validation');
+    this.$newCommentForm = this.$el.find("#comment_form") as JQuery<
+      HTMLFormElement
+    >;
+    this.$newCommentForm.attr("novalidate", "");
+    this.$newCommentForm.addClass("needs-validation");
   }
 
-  protected validate($form: JQuery<HTMLFormElement>, validationScope: ValidationObject) {
+  protected validate(
+    $form: JQuery<HTMLFormElement>,
+    validationScope: ValidationObject
+  ) {
     $form.each((index: number, formEl) => {
       validationScope.valid = formEl.checkValidity();
     });
-    $form.addClass('was-validated');
+    $form.addClass("was-validated");
   }
 
   protected async afterBind() {
@@ -127,7 +131,7 @@ export class ShopifyCommentsFormComponent extends Component {
   }
 
   protected template() {
-     // Only set the component template if there no childs already
+    // Only set the component template if there no childs already
     if (this.el.hasChildNodes()) {
       return null;
     } else {

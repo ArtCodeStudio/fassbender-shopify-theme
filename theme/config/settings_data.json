@@ -1,6 +1,6 @@
 {
   "current": {
-    "debug": true,
+    "debug": false,
     "googleAnalytics_enabled": true,
     "googleAnalytics_trackingId": "UA-126476233-1",
     "pinterestTag_enabled": true,
@@ -68,26 +68,13 @@
       },
       "1550327279919": {
         "type": "one-storie",
+        "disabled": true,
         "blocks": {
-          "1550327302805": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender-Hybrid-Coat_Black_1.jpg",
-              "aspect_ratio": "3by2",
-              "aspect_ratio_md": "none",
-              "video_url": "",
-              "mp4_video_url": "",
-              "controls": false,
-              "mute": true,
-              "video_poster": "",
-              "spacing": 0
-            }
-          },
           "1569938250258": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender_Coat_Beige_Blue_001_FW1920_2_93dd5b96-e649-4ea1-a3d0-2db9d64b416b.jpg",
-              "aspect_ratio": "3by4",
+              "image": "shopify:\/\/shop_images\/361a3398_xs_65qual.jpeg",
+              "aspect_ratio": "10by17",
               "aspect_ratio_md": "3by4",
               "video_url": "",
               "mp4_video_url": "",
@@ -99,57 +86,12 @@
           }
         },
         "block_order": [
-          "1550327302805",
           "1569938250258"
         ],
         "settings": {
-          "story": "shopify:\/\/collections\/all",
-          "title": "",
+          "story": "shopify:\/\/products\/vest-dress-1",
+          "title": "Vest Dress red Anton",
           "show_title": false,
-          "color": "#ffffff",
-          "title_spacing": 10
-        }
-      },
-      "1550327343652": {
-        "type": "one-storie",
-        "blocks": {
-          "1550327356511": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender_Parker_Tobacco_001_FW1920_2.jpg",
-              "aspect_ratio": "3by4",
-              "aspect_ratio_md": "3by4",
-              "video_url": "",
-              "mp4_video_url": "",
-              "controls": false,
-              "mute": true,
-              "video_poster": "",
-              "spacing": 0
-            }
-          },
-          "1550327370787": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/fassbender_Hybrid_Black_001_b_FW1920_2.jpg",
-              "aspect_ratio": "3by2",
-              "aspect_ratio_md": "none",
-              "video_url": "",
-              "mp4_video_url": "",
-              "controls": false,
-              "mute": true,
-              "video_poster": "shopify:\/\/shop_images\/fassbender_Hybrid_Black_001_b_FW1920_2.jpg",
-              "spacing": 0
-            }
-          }
-        },
-        "block_order": [
-          "1550327356511",
-          "1550327370787"
-        ],
-        "settings": {
-          "story": "shopify:\/\/collections\/all",
-          "title": "Shop FW19 online",
-          "show_title": true,
           "color": "#ffffff",
           "title_spacing": 10
         }
@@ -162,28 +104,29 @@
       },
       "1569936572878": {
         "type": "one-storie",
+        "disabled": true,
         "blocks": {
-          "1569936582202": {
+          "1586618232284": {
             "type": "image",
             "settings": {
-              "image": "",
-              "aspect_ratio": "16by9",
-              "aspect_ratio_md": "16by9",
+              "image": "shopify:\/\/shop_images\/361a3243_xs_65qual.jpeg",
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "none",
               "video_url": "",
-              "mp4_video_url": "https:\/\/player.vimeo.com\/external\/363147174.hd.mp4?s=e096a5243bc365f4757f7f6c9072829ee309b738&profile_id=175",
+              "mp4_video_url": "",
               "controls": false,
               "mute": true,
-              "video_poster": "shopify:\/\/shop_images\/820371376.jpg",
+              "video_poster": "",
               "spacing": 0
             }
           }
         },
         "block_order": [
-          "1569936582202"
+          "1586618232284"
         ],
         "settings": {
-          "story": "",
-          "title": "Video",
+          "story": "shopify:\/\/products\/silk-dress-red-print",
+          "title": "Silk Dress Red",
           "show_title": false,
           "color": "#ffffff",
           "title_spacing": 7
@@ -192,21 +135,21 @@
       "lookbook-01": {
         "type": "lookbook-01",
         "blocks": {
-          "1571908910277": {
+          "1571909535593": {
             "type": "product",
             "settings": {
-              "title": "Puffa Reptil Black",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_4.jpg",
+              "title": "Coat Mid Grey",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_7.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
           },
-          "1571909000412": {
+          "1571908910277": {
             "type": "product",
             "settings": {
-              "title": "Coat Burgundy",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_5.jpg",
+              "title": "Puffa Reptil Black",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_4.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
@@ -222,11 +165,11 @@
               "url": ""
             }
           },
-          "1571909345856": {
+          "1571909471184": {
             "type": "product",
             "settings": {
-              "title": "Pea Coat Bottle Green",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_1.jpg",
+              "title": "Biker Jacket Offwhite",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_3.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
@@ -242,21 +185,21 @@
               "url": ""
             }
           },
-          "1571909471184": {
+          "1571909345856": {
             "type": "product",
             "settings": {
-              "title": "Biker Jacket Offwhite",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_3.jpg",
+              "title": "Pea Coat Bottle Green",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_1.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
             }
           },
-          "1571909535593": {
+          "1571909000412": {
             "type": "product",
             "settings": {
-              "title": "Coat Mid Grey",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_7.jpg",
+              "title": "Coat Burgundy",
+              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_5.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
@@ -279,24 +222,14 @@
       "lookbook-02": {
         "type": "lookbook-02",
         "blocks": {
-          "1571910664003": {
+          "1571910987527": {
             "type": "product",
             "settings": {
-              "title": "Vintage Coat",
-              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_14.jpg",
+              "title": "",
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_6_bb18ae95-63e6-4379-9d68-92776a16724d.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
-              "url": "shopify:\/\/products\/vintage-coat-beige-blue"
-            }
-          },
-          "1571910688499": {
-            "type": "product",
-            "settings": {
-              "title": "Trenchcoat",
-              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_10.jpg",
-              "aspect_ratio": "3by4",
-              "aspect_ratio_md": "none",
-              "url": "shopify:\/\/products\/2-in-1-trench-coat-beige"
+              "url": ""
             }
           },
           "1571910755683": {
@@ -309,6 +242,16 @@
               "url": "shopify:\/\/products\/pea-coat-black-1"
             }
           },
+          "1571910688499": {
+            "type": "product",
+            "settings": {
+              "title": "Trenchcoat",
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_10.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": "shopify:\/\/products\/2-in-1-trench-coat-beige"
+            }
+          },
           "1571910871223": {
             "type": "product",
             "settings": {
@@ -319,21 +262,21 @@
               "url": "shopify:\/\/products\/parka-olive"
             }
           },
+          "1571910664003": {
+            "type": "product",
+            "settings": {
+              "title": "Vintage Coat",
+              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_14.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": "shopify:\/\/products\/vintage-coat-beige-blue"
+            }
+          },
           "1571910962171": {
             "type": "product",
             "settings": {
               "title": "",
               "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_4.jpg",
-              "aspect_ratio": "3by4",
-              "aspect_ratio_md": "none",
-              "url": ""
-            }
-          },
-          "1571910987527": {
-            "type": "product",
-            "settings": {
-              "title": "",
-              "image": "shopify:\/\/shop_images\/fassbender-lookbook-fw19_6_bb18ae95-63e6-4379-9d68-92776a16724d.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
@@ -362,12 +305,152 @@
         "settings": {
           "title": "FW19\/20"
         }
+      },
+      "1574804032139": {
+        "type": "one-storie",
+        "disabled": true,
+        "blocks": {
+          "1574804043097": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Popup_HH.Hege.png",
+              "aspect_ratio": "9by14",
+              "aspect_ratio_md": "16by9",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "video_poster": "",
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "1574804043097"
+        ],
+        "settings": {
+          "story": "shopify:\/\/collections\/all",
+          "title": "SHOP NOW",
+          "show_title": false,
+          "color": "#ffffff",
+          "title_spacing": 0
+        }
+      },
+      "1586687831585": {
+        "type": "one-storie",
+        "blocks": {
+          "1586687856181": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/361a2607__xs_75qual.jpg",
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "none",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "video_poster": "",
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "1586687856181"
+        ],
+        "settings": {
+          "story": "shopify:\/\/collections\/ss-2020",
+          "title": "Spring Summer 2020",
+          "show_title": false,
+          "color": "#d9998f",
+          "title_spacing": 7
+        }
+      },
+      "1586688264965": {
+        "type": "one-storie",
+        "disabled": true,
+        "blocks": {
+          "1586688273878": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/361a3357__xs_75qual.jpeg",
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "none",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "video_poster": "",
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "1586688273878"
+        ],
+        "settings": {
+          "story": "shopify:\/\/collections\/all",
+          "title": "Silk Dress Headshot",
+          "show_title": false,
+          "color": "#ffffff",
+          "title_spacing": 7
+        }
+      },
+      "1586688927448": {
+        "type": "product-scrollbar",
+        "settings": {
+          "collection": "dress",
+          "title": ""
+        }
+      },
+      "1586688985887": {
+        "type": "newsletter",
+        "disabled": true,
+        "settings": {
+          "name": "",
+          "enable": true,
+          "color": "#f9dfd2",
+          "subscrib_url": ""
+        }
+      },
+      "1587240625973": {
+        "type": "one-storie",
+        "blocks": {
+          "1587240643574": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/57C9D24A-C7DD-4519-BD8A-B4BC365634B5.png",
+              "aspect_ratio": "1by2",
+              "aspect_ratio_md": "none",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "video_poster": "",
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "1587240643574"
+        ],
+        "settings": {
+          "story": "shopify:\/\/collections\/winter-sale",
+          "title": "Winter Sale",
+          "show_title": false,
+          "color": "#ffffff",
+          "title_spacing": 7
+        }
       }
     },
     "content_for_index": [
       "1569936572878",
+      "1586687831585",
+      "1586688264965",
+      "1587240625973",
       "1550327279919",
-      "1550327343652"
+      "1586688927448",
+      "1586688985887",
+      "1574804032139"
     ]
   }
 }

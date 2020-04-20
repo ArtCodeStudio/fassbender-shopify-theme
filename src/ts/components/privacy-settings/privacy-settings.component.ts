@@ -1,14 +1,8 @@
-import {
-  Component,
-  Binder,
-  HttpService,
-} from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import {
-  ShopifyCartService,
-} from '@ribajs/shopify';
-import template from './privacy-settings.component.html';
-import { TrackingService } from '../../services/tracking.services';
+import { Component, Binder, HttpService } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import { ShopifyCartService } from "@ribajs/shopify";
+import template from "./privacy-settings.component.html";
+import { TrackingService } from "../../services/tracking.services";
 
 interface Scope {
   theTradeDesk: {
@@ -35,12 +29,12 @@ interface Scope {
     enabled: boolean;
   };
   hostname: string;
-  onCookiesStorageChanged: PrivacySettingsComponent['onCookiesStorageChanged'];
-  onTheTradeDeskChanged: PrivacySettingsComponent['onTheTradeDeskChanged'];
-  onGoogleAnalyticsChanged: PrivacySettingsComponent['onGoogleAnalyticsChanged'];
-  onFacebookPixelChanged: PrivacySettingsComponent['onFacebookPixelChanged'];
-  onPinterestTagChanged: PrivacySettingsComponent['onPinterestTagChanged'];
-  onClearDataClicked: PrivacySettingsComponent['onClearDataClicked'];
+  onCookiesStorageChanged: PrivacySettingsComponent["onCookiesStorageChanged"];
+  onTheTradeDeskChanged: PrivacySettingsComponent["onTheTradeDeskChanged"];
+  onGoogleAnalyticsChanged: PrivacySettingsComponent["onGoogleAnalyticsChanged"];
+  onFacebookPixelChanged: PrivacySettingsComponent["onFacebookPixelChanged"];
+  onPinterestTagChanged: PrivacySettingsComponent["onPinterestTagChanged"];
+  onClearDataClicked: PrivacySettingsComponent["onClearDataClicked"];
   /**
    * @see https://developer.mozilla.org/en-US/docs/Web/API/Navigator/doNotTrack
    */
@@ -49,8 +43,7 @@ interface Scope {
 
 // see also TrackingService
 export class PrivacySettingsComponent extends Component {
-
-  public static tagName = 'rv-privacy-settings';
+  public static tagName = "rv-privacy-settings";
 
   static get observedAttributes() {
     return [];
@@ -86,7 +79,7 @@ export class PrivacySettingsComponent extends Component {
       onFacebookPixelChanged: this.onFacebookPixelChanged,
       onPinterestTagChanged: this.onPinterestTagChanged,
       onClearDataClicked: this.onClearDataClicked,
-      doNotTrack: navigator.doNotTrack === '1',
+      doNotTrack: navigator.doNotTrack === "1",
     };
 
     this.trackingService = new TrackingService({
@@ -95,28 +88,37 @@ export class PrivacySettingsComponent extends Component {
       pinterestTag: this.scope.pinterestTag,
     });
 
-    this.scope.googleAnalytics.enabled = !this.trackingService.googleAnalyticsDisabled;
-    this.scope.theTradeDesk.enabled = !this.trackingService.theTradeDeskDisabled;
-    this.scope.facebookPixel.enabled = !this.trackingService.facebookPixelDisabled;
-    this.scope.pinterestTag.enabled = !this.trackingService.pinterestTagDisabled;
+    this.scope.googleAnalytics.enabled = !this.trackingService
+      .googleAnalyticsDisabled;
+    this.scope.theTradeDesk.enabled = !this.trackingService
+      .theTradeDeskDisabled;
+    this.scope.facebookPixel.enabled = !this.trackingService
+      .facebookPixelDisabled;
+    this.scope.pinterestTag.enabled = !this.trackingService
+      .pinterestTagDisabled;
 
     this.init(PrivacySettingsComponent.observedAttributes);
   }
 
   public onClearDataClicked(context: Binder<any>, event: Event) {
     ShopifyCartService.clear()
-    .then(() => {
-      return HttpService.get('/account/logout');
-    })
-    .then(() => {
-      return this.trackingService.removeCookies([this.trackingService.theTradeDeskDisableStr, this.trackingService.googleAnalyticsDisableStr, this.trackingService.facebookPixelDisableStr /*, 'cookieconsent_accepted'*/]);
-    })
-    .then(() => {
-      location.reload();
-    })
-    .catch((error: Error) => {
-      console.error(error);
-    });
+      .then(() => {
+        return HttpService.get("/account/logout");
+      })
+      .then(() => {
+        return this.trackingService.removeCookies([
+          this.trackingService.theTradeDeskDisableStr,
+          this.trackingService.googleAnalyticsDisableStr,
+          this.trackingService
+            .facebookPixelDisableStr /*, 'cookieconsent_accepted'*/,
+        ]);
+      })
+      .then(() => {
+        location.reload();
+      })
+      .catch((error: Error) => {
+        console.error(error);
+      });
     event.preventDefault();
   }
 
@@ -128,19 +130,23 @@ export class PrivacySettingsComponent extends Component {
   }
 
   public onGoogleAnalyticsChanged() {
-    this.trackingService.googleAnalyticsDisabled = !this.scope.googleAnalytics.enabled;
+    this.trackingService.googleAnalyticsDisabled = !this.scope.googleAnalytics
+      .enabled;
   }
 
   public onTheTradeDeskChanged() {
-    this.trackingService.theTradeDeskDisabled = !this.scope.theTradeDesk.enabled;
+    this.trackingService.theTradeDeskDisabled = !this.scope.theTradeDesk
+      .enabled;
   }
 
   public onFacebookPixelChanged() {
-    this.trackingService.facebookPixelDisabled = !this.scope.facebookPixel.enabled;
+    this.trackingService.facebookPixelDisabled = !this.scope.facebookPixel
+      .enabled;
   }
 
   public onPinterestTagChanged() {
-    this.trackingService.pinterestTagDisabled = !this.scope.pinterestTag.enabled;
+    this.trackingService.pinterestTagDisabled = !this.scope.pinterestTag
+      .enabled;
   }
 
   protected requiredAttributes() {

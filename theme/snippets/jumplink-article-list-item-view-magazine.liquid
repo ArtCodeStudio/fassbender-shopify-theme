@@ -62,7 +62,7 @@
   <rv-shopify-article-item data-handle="{{article.handle}}">
     {% if showVideo %}
       <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" rv-scrollfix="" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
-        <div class="col-12 col-md px-0 content-box {{videoRatioClass}}">
+        <div class="col-12 col-md px-0 embed-responsive {{videoRatioClass}}">
           {% if videoPoster %}
             <img
               loading="lazy"
@@ -127,7 +127,7 @@
     {% comment %} First image {% endcomment %}
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images limit:1 %}
-        <div class="col-12 col-md px-0 content-box {{ratioClass}}">
+        <div class="col-12 col-md px-0 embed-responsive {{ratioClass}}">
           <img loading="lazy" class="embed-responsive-item lazy" src="{{ image }}" alt="{{ article.title }}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
@@ -136,7 +136,7 @@
     {% comment %} Image 2-4 {% endcomment %}
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:1 limit:2 %}
-        <div class="col-12 col-md px-0 content-box {{ratioClass}}">
+        <div class="col-12 col-md px-0 embed-responsive {{ratioClass}}">
           <img loading="lazy" class="embed-responsive-item lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
@@ -145,7 +145,7 @@
     {% comment %} Image 4-.. {% endcomment %}
     <div class="row {% if linkToArticle %}cursor-pointer{% endif %}" {% if linkToArticle %}rv-route="'{{article.url}}'"{% endif %}>
       {% for image in images offset:3 %}
-        <div class="col-12 col-md px-0 content-box {{ratioClass}}">
+        <div class="col-12 col-md px-0 embed-responsive {{ratioClass}}">
           <img loading="lazy" class="embed-responsive-item lazy" src="{{ image }}" alt="{{article.title}}" style="padding: {{imageSpacing}}px" />
         </div>
       {% endfor %}
@@ -222,7 +222,7 @@
         {% include 'jumplink-article-item-col-embed-responsive-3by4' with article: nextArticle, colClass: 'col-12 col-sm', color: nextColor, articleTitleStyle: nextArticleTitleStyle, showVideo: false %}
       {% endif %}
       {% if product.title != blank %}
-        {% include 'jumplink-product-collection-grid-item-col-embed-responsive-3by4' with product, colClass: 'col-12 col-sm' %}
+        {% include 'product-collection-grid-item-col-embed-responsive-3by4' with product, colClass: 'col-12 col-sm' %}
       {% endif %}
     </div>
   </div>

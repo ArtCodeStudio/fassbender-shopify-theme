@@ -1,6 +1,6 @@
-import { Component, Binder, HttpService } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import template from './shopify-addresses.component.html';
+import { Component, Binder, HttpService } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import template from "./shopify-addresses.component.html";
 
 // TODO move to general validation component class we can extend from
 export interface ValidationRule {
@@ -42,14 +42,13 @@ interface Scope {
     validation: ValidationObject;
   };
 
-  edit: ShopifyAddressesComponent['edit'];
-  create: ShopifyAddressesComponent['create'];
-  delete: ShopifyAddressesComponent['delete'];
+  edit: ShopifyAddressesComponent["edit"];
+  create: ShopifyAddressesComponent["create"];
+  delete: ShopifyAddressesComponent["delete"];
 }
 
 export class ShopifyAddressesComponent extends Component {
-
-  public static tagName = 'rv-shopify-addresses';
+  public static tagName = "rv-shopify-addresses";
 
   static get observedAttributes() {
     return [];
@@ -66,7 +65,7 @@ export class ShopifyAddressesComponent extends Component {
         valid: false,
       },
     },
-    showFormId: '',
+    showFormId: "",
     editAddress: {},
     edit: this.edit,
     create: this.create,
@@ -76,17 +75,19 @@ export class ShopifyAddressesComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    console.warn('constructor', this);
+    console.warn("constructor", this);
     this.init(ShopifyAddressesComponent.observedAttributes);
   }
 
   public edit(id: string, context: Binder<any>, event: Event) {
-    console.warn('login', this.scope);
+    console.warn("login", this.scope);
 
-    const $form = this.$el.find(`form[action="/account/addresses/${id}]`) as JQuery<HTMLFormElement>;
+    const $form = this.$el.find(
+      `form[action="/account/addresses/${id}]`
+    ) as JQuery<HTMLFormElement>;
 
     if (!$form) {
-      console.warn('No edit address form found');
+      console.warn("No edit address form found");
       return false;
     }
 
@@ -99,7 +100,7 @@ export class ShopifyAddressesComponent extends Component {
     if (this.scope.editAddress[id].validation.valid) {
       $form.submit();
     } else {
-      console.warn('form not valid', this.scope);
+      console.warn("form not valid", this.scope);
     }
   }
 
@@ -108,7 +109,7 @@ export class ShopifyAddressesComponent extends Component {
    */
   public create(context: Binder<any>, event: Event) {
     if (!this.$createAddressForm) {
-      console.warn('No create form found');
+      console.warn("No create form found");
       return false;
     }
 
@@ -121,38 +122,45 @@ export class ShopifyAddressesComponent extends Component {
     if (this.scope.createAddress.validation.valid) {
       this.$createAddressForm.submit();
     } else {
-      console.warn('form not valid', this.$createAddressForm);
+      console.warn("form not valid", this.$createAddressForm);
     }
   }
 
   // https://help.shopify.com/en/api/reference/customers/customer_address
   // /account/addresses/{id}
   public delete(id: string) {
-    HttpService.delete(`/account/addresses/${id}`, {}, 'json')
-    .then(() => {
-      location.reload();
-    })
-    .catch((error: any) => {
-      console.error('delete error', error);
-      location.reload();
-    });
+    HttpService.delete(`/account/addresses/${id}`, {}, "json")
+      .then(() => {
+        location.reload();
+      })
+      .catch((error: any) => {
+        console.error("delete error", error);
+        location.reload();
+      });
   }
 
   protected initValidation() {
-    this.$editAddressForm = this.$el.find('form[action^="/account/addresses/"]') as JQuery<HTMLFormElement>;
-    this.$editAddressForm.attr('novalidate', '');
-    this.$editAddressForm.addClass('needs-validation');
+    this.$editAddressForm = this.$el.find(
+      'form[action^="/account/addresses/"]'
+    ) as JQuery<HTMLFormElement>;
+    this.$editAddressForm.attr("novalidate", "");
+    this.$editAddressForm.addClass("needs-validation");
 
-    this.$createAddressForm = this.$el.find('form[action="/account/addresses"]')  as JQuery<HTMLFormElement>;
-    this.$createAddressForm.attr('novalidate', '');
-    this.$createAddressForm.addClass('needs-validation');
+    this.$createAddressForm = this.$el.find(
+      'form[action="/account/addresses"]'
+    ) as JQuery<HTMLFormElement>;
+    this.$createAddressForm.attr("novalidate", "");
+    this.$createAddressForm.addClass("needs-validation");
   }
 
-  protected validate($form: JQuery<HTMLFormElement>, validationScope: ValidationObject) {
+  protected validate(
+    $form: JQuery<HTMLFormElement>,
+    validationScope: ValidationObject
+  ) {
     $form.each((index: number, formEl) => {
       validationScope.valid = formEl.checkValidity();
     });
-    $form.addClass('was-validated');
+    $form.addClass("was-validated");
   }
 
   protected async afterBind() {
@@ -164,7 +172,7 @@ export class ShopifyAddressesComponent extends Component {
   }
 
   protected template() {
-     // Only set the component template if there no childs already
+    // Only set the component template if there no childs already
     if (this.el.hasChildNodes()) {
       return null;
     } else {

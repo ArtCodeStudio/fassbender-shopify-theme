@@ -1,10 +1,7 @@
-import {
-  VideoComponent,
-} from '@ribajs/core';
+import { VideoComponent } from "@ribajs/core";
 
 export class FsbdrVideoComponent extends VideoComponent {
-
-  public static tagName = 'fsbdr-video';
+  public static tagName = "fsbdr-video";
 
   protected autobind = true;
 
@@ -13,6 +10,6 @@ export class FsbdrVideoComponent extends VideoComponent {
   }
 
   protected requiredAttributes() {
-    return ['mp4Src'];
+    return ["mp4Src"];
   }
 }

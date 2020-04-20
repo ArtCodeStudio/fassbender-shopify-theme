@@ -1,22 +1,19 @@
-import {
-  Component,
-} from '@ribajs/core';
+import { Component } from "@ribajs/core";
 
 // import pugTemplate from './component-skeleton.component.pug';
-import template from './component-skeleton.component.html';
+import template from "./component-skeleton.component.html";
 
 interface Scope {
   hello?: string;
 }
 
 export class ComponentSkeletonComponent extends Component {
-
-  public static tagName = 'rv-component-skeleton';
+  public static tagName = "rv-component-skeleton";
 
   protected autobind = true;
 
   static get observedAttributes() {
-    return ['hello'];
+    return ["hello"];
   }
 
   protected scope: Scope = {
@@ -29,8 +26,7 @@ export class ComponentSkeletonComponent extends Component {
   }
 
   protected async init(observedAttributes: string[]) {
-    return super.init(observedAttributes)
-    .then((view) => {
+    return super.init(observedAttributes).then((view) => {
       return view;
     });
   }
@@ -39,8 +35,18 @@ export class ComponentSkeletonComponent extends Component {
     return [];
   }
 
-  protected attributeChangedCallback(attributeName: string, oldValue: any, newValue: any, namespace: string | null) {
-    super.attributeChangedCallback(attributeName, oldValue, newValue, namespace);
+  protected attributeChangedCallback(
+    attributeName: string,
+    oldValue: any,
+    newValue: any,
+    namespace: string | null
+  ) {
+    super.attributeChangedCallback(
+      attributeName,
+      oldValue,
+      newValue,
+      namespace
+    );
   }
 
   // deconstructor

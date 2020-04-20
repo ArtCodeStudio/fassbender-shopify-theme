@@ -1,28 +1,25 @@
-import {
-  Component,
-} from '@ribajs/core';
-import { JQuery } from '@ribajs/jquery';
+import { Component } from "@ribajs/core";
+import { JQuery } from "@ribajs/jquery";
 
-import template from './fsbdr-mainbar.component.html';
+import template from "./fsbdr-mainbar.component.html";
 
 interface Scope {
-  assign: FsbdrMainbarComponent['assign'];
-  open: FsbdrMainbarComponent['open'];
-  close: FsbdrMainbarComponent['close'];
+  assign: FsbdrMainbarComponent["assign"];
+  open: FsbdrMainbarComponent["open"];
+  close: FsbdrMainbarComponent["close"];
   menuOpen: boolean;
   [name: string]: any;
 }
 
 export class FsbdrMainbarComponent extends Component {
-
-  public static tagName = 'fsbdr-mainbar';
+  public static tagName = "fsbdr-mainbar";
 
   protected autobind = true;
 
   protected $logoTop: JQuery<HTMLElement>;
 
   static get observedAttributes() {
-    return ['dataset', 'filter'];
+    return ["dataset", "filter"];
   }
 
   protected $el: JQuery<HTMLElement>;
@@ -37,7 +34,7 @@ export class FsbdrMainbarComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = JQuery(this.el);
-    this.$logoTop = JQuery('.logo-text.logo-text-top');
+    this.$logoTop = JQuery(".logo-text.logo-text-top");
     this.init(FsbdrMainbarComponent.observedAttributes);
   }
 
@@ -58,22 +55,31 @@ export class FsbdrMainbarComponent extends Component {
   }
 
   protected async init(observedAttributes: string[]) {
-    return super.init(observedAttributes)
-    .then((view) => {
+    return super.init(observedAttributes).then((view) => {
       return view;
     });
   }
 
   protected async afterBind() {
-    this.$logoTop = JQuery('.logo-text.logo-text-top');
+    this.$logoTop = JQuery(".logo-text.logo-text-top");
   }
 
   protected requiredAttributes() {
-    return ['dataset'];
+    return ["dataset"];
   }
 
-  protected attributeChangedCallback(attributeName: string, oldValue: any, newValue: any, namespace: string | null) {
-    super.attributeChangedCallback(attributeName, oldValue, newValue, namespace);
+  protected attributeChangedCallback(
+    attributeName: string,
+    oldValue: any,
+    newValue: any,
+    namespace: string | null
+  ) {
+    super.attributeChangedCallback(
+      attributeName,
+      oldValue,
+      newValue,
+      namespace
+    );
   }
 
   // deconstructor

@@ -59,7 +59,7 @@
           {% assign imageClass = imageClass %}
         {% endif %}
 
-        <rv-video class="col px-0 content-box {{contentBoxClass}}">
+        <rv-video class="col px-0 embed-responsive {{contentBoxClass}}">
           <video class="{{imageClass}}" preload="auto" controls style="padding: {{spacing}}px" playsinline webkit-playsinline>
             <source src="{{ video }}" type="video/mp4">
             <span rv-i18n-text="'system.video_tag_not_supported'">
@@ -102,7 +102,7 @@
             {% assign imageClass = imageClass %}
           {% endif %}
 
-          <div class="col px-0 content-box {{contentBoxClass}}">
+          <div class="col px-0 embed-responsive {{contentBoxClass}}">
             <img
               loading="lazy"
               class="{{ imageClass }}"

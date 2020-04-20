@@ -1,8 +1,8 @@
-import { Utils } from '../../services/Utils';
-import { Component, Binder } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import template from './contact-form.component.html';
-import { LocalesService } from '@ribajs/shopify-tda';
+import { Utils } from "../../services/Utils";
+import { Component, Binder } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import template from "./contact-form.component.html";
+import { LocalesService } from "@ribajs/shopify-tda";
 
 // TODO move to general validation component class we can extend from
 export interface ValidationRule {
@@ -26,8 +26,7 @@ export interface ValidationObject {
 }
 
 export class ContactFormComponent extends Component {
-
-  public static tagName = 'rv-contact-form';
+  public static tagName = "rv-contact-form";
 
   static get observedAttributes() {
     return [];
@@ -39,11 +38,11 @@ export class ContactFormComponent extends Component {
 
   protected scope: any = {
     form: {
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      message: '',
+      firstName: "",
+      lastName: "",
+      phone: "",
+      email: "",
+      message: "",
     },
     validation: this.getValidationObject(),
     /** send form function */
@@ -51,9 +50,9 @@ export class ContactFormComponent extends Component {
     /** select all text function */
     selectAll: this.selectAll,
     /** form post request error message if form fails */
-    error: '',
+    error: "",
     /** form post request success message if form request was succes */
-    success: '',
+    success: "",
   };
 
   constructor(element?: HTMLElement) {
@@ -71,7 +70,12 @@ export class ContactFormComponent extends Component {
     this.scope.form.email = Utils.stripHtml(this.scope.form.email);
 
     if (this.$form) {
-      this.scope.validation = this.validate(this.scope.validation, this.scope.form, ['firstName', 'lastName', 'phone', 'email', 'message'], this.$form);
+      this.scope.validation = this.validate(
+        this.scope.validation,
+        this.scope.form,
+        ["firstName", "lastName", "phone", "email", "message"],
+        this.$form
+      );
     }
 
     if (!this.scope.validation.valid) {
@@ -79,10 +83,14 @@ export class ContactFormComponent extends Component {
       event.preventDefault();
       event.stopPropagation();
     }
-
   }
 
-  public selectAll(context: Binder<any>, event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
+  public selectAll(
+    context: Binder<any>,
+    event: JQuery.Event,
+    scope: any,
+    eventEl: HTMLInputElement
+  ) {
     Utils.selectAll(eventEl);
   }
 
@@ -92,26 +100,31 @@ export class ContactFormComponent extends Component {
    * @param the form with the values form the form
    * @param keys keys you want to validate
    */
-  protected validate(validation: ValidationObject, formValues: any, keys: string[], $form: JQuery<HTMLFormElement>) {
+  protected validate(
+    validation: ValidationObject,
+    formValues: any,
+    keys: string[],
+    $form: JQuery<HTMLFormElement>
+  ) {
     validation.valid = true;
 
     keys.forEach((key: string) => {
       if (!validation.rules) {
         return;
       }
-      validation.rules[key].error = '';
+      validation.rules[key].error = "";
       // value is requred
       if (validation.rules[key].required) {
         if (Utils.isString(formValues[key])) {
           if (formValues[key].length <= 0) {
             validation.valid = false;
             // validation.rules[key].error = 'This field is required';
-            validation.rules[key].error = 'forms.invalid.required';
+            validation.rules[key].error = "forms.invalid.required";
           }
         }
         if (Utils.isUndefined(formValues[key])) {
           // validation.rules[key].error = 'This field is required';
-          validation.rules[key].error = 'forms.invalid.required';
+          validation.rules[key].error = "forms.invalid.required";
         }
       }
 
@@ -121,7 +134,7 @@ export class ContactFormComponent extends Component {
         if (Utils.isNumber(validation.rules[key].max)) {
           if (formValues[key] > (validation.rules[key].max as number)) {
             // validation.rules[key].error = 'The number must be a maximum of ' + validation.rules[key].max;
-            validation.rules[key].error = 'forms.invalid.required';
+            validation.rules[key].error = "forms.invalid.required";
           }
         }
 
@@ -129,39 +142,43 @@ export class ContactFormComponent extends Component {
         if (Utils.isNumber(validation.rules[key].min)) {
           if (formValues[key] < (validation.rules[key].min as number)) {
             // validation.rules[key].error = 'The number must be at least ' + validation.rules[key].min;
-            validation.rules[key].error = 'forms.invalid.min';
+            validation.rules[key].error = "forms.invalid.min";
           }
         }
       }
 
       // validation for strings
-      if (Utils.isString(formValues[key]) && formValues[key].length >= 1 ) {
+      if (Utils.isString(formValues[key]) && formValues[key].length >= 1) {
         // maximum value for string length
         if (Utils.isNumber(validation.rules[key].maxlength)) {
-          if (formValues[key].length > (validation.rules[key].maxlength as number)) {
+          if (
+            formValues[key].length > (validation.rules[key].maxlength as number)
+          ) {
             // validation.rules[key].error = 'The number of characters must not exceed ' + validation.rules[key].maxlength;
-            validation.rules[key].error = 'forms.invalid.maxlength';
+            validation.rules[key].error = "forms.invalid.maxlength";
           }
         }
 
         // minimum value for string length
         if (Utils.isNumber(validation.rules[key].minlength)) {
-          if (formValues[key].length < (validation.rules[key].minlength as number)) {
+          if (
+            formValues[key].length < (validation.rules[key].minlength as number)
+          ) {
             // validation.rules[key].error = 'The number of characters must be at least ' + validation.rules[key].minlength;
-            validation.rules[key].error = 'forms.invalid.minlength';
+            validation.rules[key].error = "forms.invalid.minlength";
           }
         }
 
         // email
         if (validation.rules[key].isEmail) {
-          if (formValues[key].indexOf('@') <= -1) {
+          if (formValues[key].indexOf("@") <= -1) {
             // validation.rules[key].error = 'This is not a valid email address';
-            validation.rules[key].error = 'forms.invalid.invalid_email';
+            validation.rules[key].error = "forms.invalid.invalid_email";
           }
 
-          if (formValues[key].indexOf('.') <= -1) {
+          if (formValues[key].indexOf(".") <= -1) {
             // validation.rules[key].error = 'This is not a valid email address';
-            validation.rules[key].error = 'forms.invalid.invalid_email';
+            validation.rules[key].error = "forms.invalid.invalid_email";
           }
         }
 
@@ -169,7 +186,7 @@ export class ContactFormComponent extends Component {
         if (validation.rules[key].isPhone) {
           if (!Utils.stringIsPhoneNumber(formValues[key])) {
             // validation.rules[key].error = 'The phone number can only contain numbers, +, -, ) and (';
-            validation.rules[key].error = 'forms.invalid.invalid_phone';
+            validation.rules[key].error = "forms.invalid.invalid_phone";
           }
         }
 
@@ -177,7 +194,7 @@ export class ContactFormComponent extends Component {
         if (validation.rules[key].onlyNumbers) {
           if (!Utils.stringHasOnlyNumbers(formValues[key])) {
             // validation.rules[key].error = 'The value may only contain numbers';
-            validation.rules[key].error = 'forms.invalid.only_numbers';
+            validation.rules[key].error = "forms.invalid.only_numbers";
           }
         }
       }
@@ -196,7 +213,7 @@ export class ContactFormComponent extends Component {
       validation.valid = $form[0].checkValidity();
     }
 
-    $form.addClass('was-validated');
+    $form.addClass("was-validated");
     return validation;
   }
 
@@ -207,29 +224,29 @@ export class ContactFormComponent extends Component {
         firstName: {
           required: true,
           minlength: 3,
-          error: '',
+          error: "",
         },
         lastName: {
           required: true,
           minlength: 3,
-          error: '',
+          error: "",
         },
         email: {
           required: true,
           isEmail: true,
           minlength: 3,
-          error: '',
+          error: "",
         },
         phone: {
           required: false,
           isPhone: true,
           minlength: 4,
-          error: '',
+          error: "",
         },
         message: {
           required: true,
           minlength: 20,
-          error: '',
+          error: "",
         },
       },
     };
@@ -237,11 +254,11 @@ export class ContactFormComponent extends Component {
   }
 
   protected async beforeBind() {
-    this.$form = $(this.el).find('form') as JQuery<HTMLFormElement>;
+    this.$form = $(this.el).find("form") as JQuery<HTMLFormElement>;
 
     // For custom style form validation, see https://getbootstrap.com/docs/4.1/components/forms/#custom-styles
-    this.$form.addClass('needs-validation');
-    this.$form.attr('novalidate', '');
+    this.$form.addClass("needs-validation");
+    this.$form.attr("novalidate", "");
   }
 
   protected requiredAttributes() {

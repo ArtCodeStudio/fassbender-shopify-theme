@@ -1,28 +1,25 @@
-import {
-  Component,
-  Binder,
-} from '@ribajs/core';
+import { Component, Binder } from "@ribajs/core";
 import {
   ShopifyProductVariant,
   ShopifyProduct,
   ShopifyProductVariantOption,
   ShopifyCartService,
   ShopifyProductService,
-} from '@ribajs/shopify';
-import template from './shopify-product-item.component.html';
+} from "@ribajs/shopify";
+import template from "./shopify-product-item.component.html";
 
 export interface Scope {
   handle: string | null;
-  product: ShopifyProduct  | null;
+  product: ShopifyProduct | null;
   variant: ShopifyProductVariant | null;
   quantity: number;
   showDetailMenu: boolean;
   // showAddToCartButton: boolean;
-  chooseOption: ShopifyProductItemComponent['chooseOption'];
-  addToCart: ShopifyProductItemComponent['addToCart'];
-  toggleDetailMenu: ShopifyProductItemComponent['toggleDetailMenu'];
-  decrease: ShopifyProductItemComponent['decrease'];
-  increase: ShopifyProductItemComponent['increase'];
+  chooseOption: ShopifyProductItemComponent["chooseOption"];
+  addToCart: ShopifyProductItemComponent["addToCart"];
+  toggleDetailMenu: ShopifyProductItemComponent["toggleDetailMenu"];
+  decrease: ShopifyProductItemComponent["decrease"];
+  increase: ShopifyProductItemComponent["increase"];
   $parent?: any;
   colorOption: ShopifyProductVariantOption | null;
   sizeOption: ShopifyProductVariantOption | null;
@@ -36,8 +33,7 @@ export interface Scope {
  * or render the most with liquid
  */
 export class ShopifyProductItemComponent extends Component /*ShopifyProductItemComponent*/ {
-
-  public static tagName = 'rv-shopify-product-item';
+  public static tagName = "rv-shopify-product-item";
 
   protected autobind = true;
 
@@ -46,7 +42,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
    * extras are product data wich is only avaiable over liquid and not over the product json object
    */
   static get observedAttributes() {
-    return ['handle', 'extras'];
+    return ["handle", "extras"];
   }
 
   protected scope: Scope = {
@@ -83,7 +79,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
    * available is only true if the variant is available and the user has clicked on an option
    */
   protected set available(available: boolean) {
-    this.scope.available = (available && this.optionChoosed);
+    this.scope.available = available && this.optionChoosed;
   }
 
   protected set showMenu(show: boolean) {
@@ -98,8 +94,14 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     if (product) {
       this.scope.product = ShopifyProductService.prepair(product);
 
-      this.scope.colorOption = ShopifyProductService.getOption(this.scope.product, 'color');
-      this.scope.sizeOption = ShopifyProductService.getOption(this.scope.product, 'size');
+      this.scope.colorOption = ShopifyProductService.getOption(
+        this.scope.product,
+        "color"
+      );
+      this.scope.sizeOption = ShopifyProductService.getOption(
+        this.scope.product,
+        "size"
+      );
 
       // set the first variant to the selected one
       this.variant = this.scope.product ? this.scope.product.variants[0] : null;
@@ -112,7 +114,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
 
   protected set variant(variant: ShopifyProductVariant | null) {
     if (variant === null) {
-      console.warn('Error: Variant ist null');
+      console.warn("Error: Variant ist null");
       return;
     }
     this.scope.variant = variant;
@@ -130,22 +132,35 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   constructor(element?: HTMLElement) {
     super(element);
     this.init(ShopifyProductItemComponent.observedAttributes);
-    this.el.addEventListener('mouseleave', () => {
-      this.showMenu = false;
-    }, false);
+    this.el.addEventListener(
+      "mouseleave",
+      () => {
+        this.showMenu = false;
+      },
+      false
+    );
   }
 
-  public chooseOption(optionValue: string | number, position1: number, optionName: string, context: Binder<any>, event: MouseEvent) {
+  public chooseOption(
+    optionValue: string | number,
+    position1: number,
+    optionName: string,
+    context: Binder<any>,
+    event: MouseEvent
+  ) {
     optionValue = optionValue.toString();
 
     if (!this.scope.product) {
-      throw new Error('Product not set!');
+      throw new Error("Product not set!");
     }
 
     // console.warn('chooseOption', '\noptionValue', JSON.stringify(optionValue), '\nposition1', position1, '\noptionName', optionName, '\ncontext', context, '\nevent', event, '\nscope', scope, '\nel', el );
 
-    this.selectedOptions[(position1 - 1)] = optionValue.toString();
-    const variant = ShopifyProductService.getVariantOfOptions(this.scope.product, this.selectedOptions);
+    this.selectedOptions[position1 - 1] = optionValue.toString();
+    const variant = ShopifyProductService.getVariantOfOptions(
+      this.scope.product,
+      this.selectedOptions
+    );
     if (variant) {
       // Option choosed so enable add to cart button
       this.optionChoosed = true;
@@ -158,16 +173,16 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
 
   public addToCart() {
     if (!this.variant) {
-      console.warn('Variant not selected');
+      console.warn("Variant not selected");
       return;
     }
     ShopifyCartService.add(this.variant.id, this.scope.quantity)
-    .then((response: any /** TODO not any */) => {
-      return response;
-    })
-    .catch((error: Error) => {
-      console.error('addToCart error', error);
-    });
+      .then((response: any /** TODO not any */) => {
+        return response;
+      })
+      .catch((error: Error) => {
+        console.error("addToCart error", error);
+      });
   }
 
   public toggleDetailMenu() {
@@ -196,14 +211,18 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
    * @param optionName
    */
   protected activateOption(optionValue: string, optionName: string) {
-    optionValue = optionValue.toString().replace('#', '');
-    const allOptions = this.el.querySelectorAll(`.option-${optionName.toLocaleLowerCase()}`);
+    optionValue = optionValue.toString().replace("#", "");
+    const allOptions = this.el.querySelectorAll(
+      `.option-${optionName.toLocaleLowerCase()}`
+    );
     allOptions.forEach((el) => {
-      el.classList.remove('active');
+      el.classList.remove("active");
     });
-    const activeOptions = this.el.querySelectorAll(`.option-${optionName.toLocaleLowerCase()}-${optionValue}`);
+    const activeOptions = this.el.querySelectorAll(
+      `.option-${optionName.toLocaleLowerCase()}-${optionValue}`
+    );
     activeOptions.forEach((el) => {
-      el.classList.add('active');
+      el.classList.add("active");
     });
   }
 
@@ -218,7 +237,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
         if (this.scope.product) {
           const optionName = this.scope.product.options[position0].name;
           // Only activate size if it was clicked by the user
-          if (optionName === 'size') {
+          if (optionName === "size") {
             if (this.optionChoosed) {
               this.activateOption(optionValue, optionName);
             }
@@ -232,13 +251,14 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
 
   protected async beforeBind() {
     if (this.scope.handle === null) {
-      throw new Error('Product handle not set');
+      throw new Error("Product handle not set");
     }
-    return ShopifyProductService.get(this.scope.handle)
-    .then((product: ShopifyProduct) => {
-      this.product = product;
-      return product;
-    });
+    return ShopifyProductService.get(this.scope.handle).then(
+      (product: ShopifyProduct) => {
+        this.product = product;
+        return product;
+      }
+    );
   }
 
   protected async afterBind() {
@@ -246,15 +266,15 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   }
 
   protected requiredAttributes() {
-    return ['handle'];
+    return ["handle"];
   }
 
   protected template() {
     // Only set the component template if there no childs already
-   if (this.el.hasChildNodes()) {
-     return null;
-   } else {
-     return template;
-   }
- }
+    if (this.el.hasChildNodes()) {
+      return null;
+    } else {
+      return template;
+    }
+  }
 }

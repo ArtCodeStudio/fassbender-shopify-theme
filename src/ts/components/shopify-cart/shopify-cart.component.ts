@@ -1,7 +1,4 @@
-import {
-  Component,
-  Binder,
-} from '@ribajs/core';
+import { Component, Binder } from "@ribajs/core";
 import {
   ShopifyCartService,
   ShopifyCartLineItem,
@@ -9,30 +6,33 @@ import {
   ShopifyCustomerAddress,
   ShopifyShippingRates,
   ShopifyShippingRatesNormalized,
-} from '@ribajs/shopify';
-import template from './shopify-cart.component.html';
-import { DropdownService } from '../bs4/dropdown/dropdown.service';
+} from "@ribajs/shopify";
+import template from "./shopify-cart.component.html";
+import { DropdownService } from "../bs4/dropdown/dropdown.service";
 
 interface Scope {
   cart: ShopifyCartObject | null;
   shippingAddress: ShopifyCustomerAddress | null;
   estimateShippingRate: boolean;
   shippingRates: ShopifyShippingRatesNormalized;
-  toggle: ShopifyCartComponent['toggle'];
-  remove: ShopifyCartComponent['removeCart'];
-  increase: ShopifyCartComponent['increase'];
-  decrease: ShopifyCartComponent['decrease'];
-  closeDropdowns: ShopifyCartComponent['closeDropdowns'];
+  toggle: ShopifyCartComponent["toggle"];
+  remove: ShopifyCartComponent["removeCart"];
+  increase: ShopifyCartComponent["increase"];
+  decrease: ShopifyCartComponent["decrease"];
+  closeDropdowns: ShopifyCartComponent["closeDropdowns"];
   pending: boolean;
   startAddAnimation: boolean;
 }
 
 export class ShopifyCartComponent extends Component {
-
-  public static tagName = 'rv-shopify-cart';
+  public static tagName = "rv-shopify-cart";
 
   static get observedAttributes() {
-    return ['shipping-address', 'estimate-shipping-rate'];
+    return ["shipping-address", "estimate-shipping-rate"];
+  }
+
+  protected requiredAttributes() {
+    return [];
   }
 
   protected dropdownService: DropdownService;
@@ -65,16 +65,21 @@ export class ShopifyCartComponent extends Component {
         triggerOnChange: false,
         triggerOnComplete: false,
         triggerOnStart: false,
-      })
-      .then((shippingRates: ShopifyShippingRates | ShopifyShippingRatesNormalized) => {
-        this.scope.shippingRates = shippingRates as ShopifyShippingRatesNormalized;
-      });
+      }).then(
+        (
+          shippingRates: ShopifyShippingRates | ShopifyShippingRatesNormalized
+        ) => {
+          this.scope.shippingRates = shippingRates as ShopifyShippingRatesNormalized;
+        }
+      );
     }
   }
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.dropdownService = new DropdownService(this.el.querySelector('.dropdown-toggle') as HTMLButtonElement);
+    this.dropdownService = new DropdownService(
+      this.el.querySelector(".dropdown-toggle") as HTMLButtonElement
+    );
     this.init(ShopifyCartComponent.observedAttributes);
   }
 
@@ -86,24 +91,24 @@ export class ShopifyCartComponent extends Component {
 
   public removeCart(lineItem: ShopifyCartLineItem) {
     ShopifyCartService.change(lineItem.variant_id, 0)
-    .then((cart: ShopifyCartObject) => {
-      this.cart = cart;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then((cart: ShopifyCartObject) => {
+        this.cart = cart;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   public increase(lineItem: ShopifyCartLineItem) {
     lineItem.quantity++;
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
-    .then((cart: ShopifyCartObject) => {
-      // this.cart = cart;
-      return cart;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then((cart: ShopifyCartObject) => {
+        // this.cart = cart;
+        return cart;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   public decrease(lineItem: ShopifyCartLineItem) {
@@ -112,12 +117,12 @@ export class ShopifyCartComponent extends Component {
       lineItem.quantity = 0;
     }
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
-    .then((cart: ShopifyCartObject) => {
-      return cart;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then((cart: ShopifyCartObject) => {
+        return cart;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   public closeDropdowns() {
@@ -125,31 +130,33 @@ export class ShopifyCartComponent extends Component {
   }
 
   protected async beforeBind() {
-    ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:start', () => {
-      this.scope.pending = true;
-    });
-
-    ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:complete', (cart: ShopifyCartObject) => {
-      if (cart) {
-        this.cart = cart;
+    ShopifyCartService.shopifyCartEventDispatcher.on(
+      "ShopifyCart:request:start",
+      () => {
+        this.scope.pending = true;
       }
-      this.scope.pending = false;
-    });
+    );
+
+    ShopifyCartService.shopifyCartEventDispatcher.on(
+      "ShopifyCart:request:complete",
+      (cart: ShopifyCartObject) => {
+        if (cart) {
+          this.cart = cart;
+        }
+        this.scope.pending = false;
+      }
+    );
   }
 
   protected async afterBind() {
-    return ShopifyCartService.get()
-    .catch((error: Error) => {
+    this.debug('afterBind', this.scope);
+    return ShopifyCartService.get().catch((error: Error) => {
       console.error(error);
     });
   }
 
-  protected requiredAttributes() {
-    return [];
-  }
-
   protected template() {
-     // Only set the component template if there no childs already
+    // Only set the component template if there no childs already
     if (this.el.hasChildNodes()) {
       return null;
     } else {

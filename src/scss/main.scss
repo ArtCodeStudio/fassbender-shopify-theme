@@ -1,10 +1,13 @@
 @import 'charset';
 @import 'variables';
-@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+@import 'bootstrap';
 
+// Riba
+@import "./vendors/@ribajs/bs4/index";
+@import "./vendors/@ribajs/i18n/index";
+@import "./vendors/@ribajs/shopify/index";
+@import "./vendors/@ribajs/core/index";
 
-// Bootstrap style extensions from @ribajs/bs4
-@import "../../node_modules/@ribajs/bs4/src/index";
 
 // custom extensions
 @import 'extensions/extensions';
@@ -43,7 +46,3 @@
 
 // Component overwrites
 @import 'components/index';
-
-// Riba
-@import '../../node_modules/@ribajs/core/src/index';
-@import '../../node_modules/@ribajs/shopify/src/index';

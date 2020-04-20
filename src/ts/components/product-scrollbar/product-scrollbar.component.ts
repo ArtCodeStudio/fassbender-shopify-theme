@@ -1,10 +1,9 @@
-import { Binder, Component } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import { Pjax, Prefetch } from '@ribajs/router';
+import { Binder, Component } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import { Pjax, Prefetch } from "@ribajs/router";
 
 export class ProductScrollbarComponent extends Component {
-
-  public static tagName = 'rv-product-scrollbar';
+  public static tagName = "rv-product-scrollbar";
 
   static get observedAttributes() {
     return [];
@@ -14,7 +13,7 @@ export class ProductScrollbarComponent extends Component {
     onScroll: this.onScroll,
     onProductTap: this.onProductTap,
     onProductMouseenter: this.onProductMouseenter,
-    title: '',
+    title: "",
   };
 
   private $products?: JQuery<HTMLElement>;
@@ -22,7 +21,7 @@ export class ProductScrollbarComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     const $el = $(this.el);
-    this.$products = $el.find('.embed-responsive');
+    this.$products = $el.find(".embed-responsive");
     this.init(ProductScrollbarComponent.observedAttributes);
   }
 
@@ -30,11 +29,11 @@ export class ProductScrollbarComponent extends Component {
    * Just open the product url
    */
   public onProductTap(_: any, event: Event, scope: any, eventEl: HTMLElement) {
-    const url = $(eventEl).data('url');
+    const url = $(eventEl).data("url");
     if (!url) {
       return;
     }
-    const pjax = Pjax.getInstance('main');
+    const pjax = Pjax.getInstance("main");
     if (!pjax) {
       return;
     }
@@ -44,9 +43,14 @@ export class ProductScrollbarComponent extends Component {
   /**
    * Preload product on mouse over
    */
-  public onProductMouseenter(_: any, event: Event, scope: any, eventEl: HTMLElement) {
+  public onProductMouseenter(
+    _: any,
+    event: Event,
+    scope: any,
+    eventEl: HTMLElement
+  ) {
     // console.debug'onProductMouseenter');
-    const url = $(eventEl).data('url');
+    const url = $(eventEl).data("url");
     const prefetch = Prefetch.getInstance();
     if (!prefetch) {
       return;
@@ -57,7 +61,12 @@ export class ProductScrollbarComponent extends Component {
   /**
    * get product in the middle of the scrollbar element
    */
-  public onScroll(context: Binder<any>, event: JQuery.Event | Event, scope: any, eventEl: HTMLElement) {
+  public onScroll(
+    context: Binder<any>,
+    event: JQuery.Event | Event,
+    scope: any,
+    eventEl: HTMLElement
+  ) {
     if (this.$products) {
       this.$products.each((index: number) => {
         if (this.$products) {
@@ -65,12 +74,13 @@ export class ProductScrollbarComponent extends Component {
           const productData = product.dataset;
           const parentRect = eventEl.getBoundingClientRect();
           const elementRect = product.getBoundingClientRect();
-          const elementMiddle = (elementRect.width / 2);
+          const elementMiddle = elementRect.width / 2;
           /** centerX is 0 if the product is in the middle */
-          const centerX = elementRect.left - ((parentRect.width / 2) - elementMiddle);
+          const centerX =
+            elementRect.left - (parentRect.width / 2 - elementMiddle);
           const offset = elementMiddle;
 
-          if (centerX > (offset * -1) && centerX < offset) {
+          if (centerX > offset * -1 && centerX < offset) {
             this.scope.title = productData.title;
           }
         }
@@ -87,7 +97,7 @@ export class ProductScrollbarComponent extends Component {
    * Invoked when the custom element is first connected to the document's DOM.
    */
   protected connectedCallback() {
-    this.$products = $((this as any)).find('.embed-responsive');
+    this.$products = $(this as any).find(".embed-responsive");
   }
 
   protected template() {

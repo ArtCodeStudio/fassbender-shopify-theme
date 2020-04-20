@@ -1,22 +1,19 @@
-import {
-  Component,
-} from '@ribajs/core';
-import template from './cookie-banner.component.html';
+import { Component } from "@ribajs/core";
+import template from "./cookie-banner.component.html";
 
 interface Scope {
-  accept: CookieBannerComponent['accept'];
-  close: CookieBannerComponent['close'];
+  accept: CookieBannerComponent["accept"];
+  close: CookieBannerComponent["close"];
   show: boolean;
 }
 
 export class CookieBannerComponent extends Component {
+  public static tagName = "rv-cookie-banner";
 
-  public static tagName = 'rv-cookie-banner';
-
-  protected cookieAcceptedString = 'cookieconsent_accepted';
+  protected cookieAcceptedString = "cookieconsent_accepted";
 
   static get observedAttributes() {
-    return ['title', 'text', 'url', 'label'];
+    return ["title", "text", "url", "label"];
   }
 
   protected scope: Scope = {
@@ -26,7 +23,7 @@ export class CookieBannerComponent extends Component {
   };
 
   protected get cookieAccepted(): boolean {
-    if (document.cookie.indexOf(this.cookieAcceptedString + '=true') > -1) {
+    if (document.cookie.indexOf(this.cookieAcceptedString + "=true") > -1) {
       return true;
     }
     return false;

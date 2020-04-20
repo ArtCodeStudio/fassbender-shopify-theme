@@ -1,5 +1,5 @@
-import { Binder } from '@ribajs/core';
-import { JQuery } from '@ribajs/jquery';
+import { Binder } from "@ribajs/core";
+import { JQuery } from "@ribajs/jquery";
 
 const onWheel = (event: Event) => {
   if ((event as any).wheelDelta > 0 || (event as WheelEvent).detail < 0) {
@@ -15,21 +15,23 @@ const onWheel = (event: Event) => {
  * @see issue https://stackoverflow.com/questions/29344162/fullscreen-video-doesnt-allow-scrolling-on-firefox
  */
 export const scrollfixBinder: Binder<any> = {
-  name: 'scrollfix',
+  name: "scrollfix",
   routine(el: HTMLElement) {
-
     const $el = JQuery(el);
 
-    $el.hover(() => {
-      // over
-      document.addEventListener('wheel', onWheel);
-      document.addEventListener('mousewheel', onWheel);
-      document.addEventListener('DOMMouseScroll', onWheel);
-    }, () => {
-      // leave
-      document.removeEventListener('wheel', onWheel);
-      document.removeEventListener('mousewheel', onWheel);
-      document.removeEventListener('DOMMouseScroll', onWheel);
-    });
+    $el.hover(
+      () => {
+        // over
+        document.addEventListener("wheel", onWheel);
+        document.addEventListener("mousewheel", onWheel);
+        document.addEventListener("DOMMouseScroll", onWheel);
+      },
+      () => {
+        // leave
+        document.removeEventListener("wheel", onWheel);
+        document.removeEventListener("mousewheel", onWheel);
+        document.removeEventListener("DOMMouseScroll", onWheel);
+      }
+    );
   },
 };

@@ -1,30 +1,21 @@
-import {
-  Component,
-  Binder,
-} from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import {
-  Pjax,
-} from '@ribajs/router';
-import {
-  ShopifyCartService,
-  ShopifyCartObject,
-} from '@ribajs/shopify';
-import { Utils } from '../../services/Utils';
-import template from './shopify-cart-button.component.html';
+import { Component, Binder } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import { Pjax } from "@ribajs/router";
+import { ShopifyCartService, ShopifyCartObject } from "@ribajs/shopify";
+import { Utils } from "../../services/Utils";
+import template from "./shopify-cart-button.component.html";
 
 interface Scope {
   cartItemCount: number;
-  toggle: ShopifyCartButtonComponent['toggle'];
+  toggle: ShopifyCartButtonComponent["toggle"];
   pending: boolean;
   startAddAnimation: boolean;
 }
 
 export class ShopifyCartButtonComponent extends Component {
+  public static tagName = "rv-shopify-cart-button";
 
-  public static tagName = 'rv-shopify-cart-button';
-
-  public static cartUrl = '/cart';
+  public static cartUrl = "/cart";
 
   static get observedAttributes() {
     return [];
@@ -58,37 +49,39 @@ export class ShopifyCartButtonComponent extends Component {
     event.stopPropagation();
 
     if (Utils.onRoute(ShopifyCartButtonComponent.cartUrl)) {
-      console.warn('already on this site');
+      console.warn("already on this site");
       window.history.back();
     } else {
       if (ShopifyCartButtonComponent.cartUrl) {
-        const pjax = Pjax.getInstance('main');
+        const pjax = Pjax.getInstance("main");
         pjax?.goTo(ShopifyCartButtonComponent.cartUrl, false);
       }
     }
-
   }
 
   protected async beforeBind() {
-    ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:start', () => {
-      this.scope.pending = true;
-    });
-
-    ShopifyCartService.shopifyCartEventDispatcher.on('ShopifyCart:request:complete', (cart: ShopifyCartObject) => {
-      if (cart) {
-        this.cart = cart;
+    ShopifyCartService.shopifyCartEventDispatcher.on(
+      "ShopifyCart:request:start",
+      () => {
+        this.scope.pending = true;
       }
-      this.scope.pending = false;
-    });
+    );
 
+    ShopifyCartService.shopifyCartEventDispatcher.on(
+      "ShopifyCart:request:complete",
+      (cart: ShopifyCartObject) => {
+        if (cart) {
+          this.cart = cart;
+        }
+        this.scope.pending = false;
+      }
+    );
   }
 
   protected async afterBind() {
-    return ShopifyCartService.get()
-    .catch((error: Error) => {
+    return ShopifyCartService.get().catch((error: Error) => {
       console.warn(error);
     });
-
   }
 
   protected requiredAttributes() {
@@ -96,7 +89,7 @@ export class ShopifyCartButtonComponent extends Component {
   }
 
   protected template() {
-     // Only set the component template if there no childs already
+    // Only set the component template if there no childs already
     if (this.el.hasChildNodes()) {
       return null;
     } else {

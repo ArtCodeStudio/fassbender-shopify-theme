@@ -78,6 +78,10 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
+# Yarn
+.yarn/cache/
+.yarn/unplugged/
+
 # Custom #
 ######################
 *.sass-cache*

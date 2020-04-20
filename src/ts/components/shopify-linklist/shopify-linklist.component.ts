@@ -1,12 +1,11 @@
-import { ShopifyLinklistComponent as OriginalShopifyLinklistComponent } from '@ribajs/shopify/src/components/shopify-linklist/shopify-linklist.component';
-import template from './shopify-linklist.component.html';
+import { ShopifyLinklistComponent as OriginalShopifyLinklistComponent } from "@ribajs/shopify/src/components/shopify-linklist/shopify-linklist.component";
+import template from "./shopify-linklist.component.html";
 
 /**
- * shopify-filter
+ * shopify-linklist
  */
 export class ShopifyLinklistComponent extends OriginalShopifyLinklistComponent {
-
-  public static tagName = 'shopify-linklist';
+  public static tagName = "shopify-linklist";
 
   constructor(element?: HTMLElement) {
     super(element);

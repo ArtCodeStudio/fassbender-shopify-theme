@@ -1,13 +1,12 @@
-import { Component } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
-import template from './debug-bar.component.html';
+import { Component } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
+import template from "./debug-bar.component.html";
 
 export class DebugBarComponent extends Component {
-
-  public static tagName = 'rv-debug-bar';
+  public static tagName = "rv-debug-bar";
 
   static get observedAttributes() {
-    return ['theme-name'];
+    return ["theme-name"];
   }
 
   protected scope: any = {
@@ -32,7 +31,12 @@ export class DebugBarComponent extends Component {
     this.init(DebugBarComponent.observedAttributes);
   }
 
-  public attributeChangedCallback(name: string, oldValue: any, newValue: any, namespace: string | null) {
+  public attributeChangedCallback(
+    name: string,
+    oldValue: any,
+    newValue: any,
+    namespace: string | null
+  ) {
     // injects the changed attributes to scope
     super.attributeChangedCallback(name, oldValue, newValue, namespace);
   }
@@ -44,24 +48,23 @@ export class DebugBarComponent extends Component {
   public toggleBar(forceHide = false) {
     if (this.$previewBar && this.$previewBar.length > 0) {
       if (forceHide === true || this.elementIsVisable(this.$previewBar)) {
-        this.$previewBar.attr('hidden', '');
+        this.$previewBar.attr("hidden", "");
         // this.$previewBar.hide();
       } else {
-        this.$previewBar.removeAttr('hidden');
+        this.$previewBar.removeAttr("hidden");
         // this.$previewBar.show();
       }
     }
 
     if (this.$adminBar && this.$adminBar.length > 0) {
       if (forceHide === true || this.elementIsVisable(this.$adminBar)) {
-        this.$adminBar.attr('hidden', '');
+        this.$adminBar.attr("hidden", "");
         // this.$adminBar.hide();
       } else {
-        this.$adminBar.removeAttr('hidden');
+        this.$adminBar.removeAttr("hidden");
         // this.$adminBar.show();
       }
     }
-
   }
 
   protected elementIsVisable($el: JQuery<Element>) {
@@ -69,12 +72,17 @@ export class DebugBarComponent extends Component {
   }
 
   protected elementIsHidden($el: JQuery<Element>) {
-    return $el.is(':hidden') || $el[0].hasAttribute('hidden') || $el.css('display') === 'none' || $el.css('visibility') === 'hidden';
+    return (
+      $el.is(":hidden") ||
+      $el[0].hasAttribute("hidden") ||
+      $el.css("display") === "none" ||
+      $el.css("visibility") === "hidden"
+    );
   }
 
   protected async beforeBind(): Promise<any> {
-    this.$previewBar = $('#preview-bar-iframe') || null;
-    this.$adminBar = $('#admin-bar-iframe') || null;
+    this.$previewBar = $("#preview-bar-iframe") || null;
+    this.$adminBar = $("#admin-bar-iframe") || null;
 
     if (this.$previewBar && this.$previewBar.length) {
       this.scope.hasPreviewBar = true;

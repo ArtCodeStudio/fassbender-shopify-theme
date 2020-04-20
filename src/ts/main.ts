@@ -1,39 +1,32 @@
-import {
-  Riba,
-  Utils,
-  Binder,
+import { Riba, Utils, Binder, coreModule } from "@ribajs/core";
+import { jqueryModule } from "@ribajs/jquery";
+import { shopifyModule } from "@ribajs/shopify";
+import { routerModule } from "@ribajs/router";
+import { i18nModule } from "@ribajs/i18n";
 
-  coreModule,
+import { TrackingService } from "./services/tracking.services";
+import * as customBinders from "./binders/index";
 
-} from '@ribajs/core';
-import { jqueryModule, JQuery} from '@ribajs/jquery';
-import shopifyModule from '@ribajs/shopify';
-import routerModule from '@ribajs/router';
-import i18nModule from '@ribajs/i18n';
-
-import { TrackingService } from './services/tracking.services';
-import * as customBinders from './binders/index';
-
-import * as CustomComponents from './components/index';
-import { LocalesService } from '@ribajs/shopify-tda';
+import * as CustomComponents from "./components/index";
+import { LocalesService } from "@ribajs/shopify-tda";
 
 declare global {
-  // tslint:disable: interface-name
-  interface Window { model: any }
+  interface Window {
+    model: any;
+  }
 }
 
 export class Main {
-
   private riba = new Riba();
   private localesService = new LocalesService();
   // private dispatcher = new EventDispatcher('main');
 
   constructor() {
-
+    window.model = window.model || {};
     window.model.year = new Date().getFullYear();
 
     window.model.filter = {
-      stories: 'all',
+      stories: "all",
     };
 
     this.riba.module.regist(coreModule);
@@ -48,11 +41,15 @@ export class Main {
       binders: customBinders,
     });
 
-    window.model.assign = function(key: string, value: any) {
+    window.model.assign = function (key: string, value: any) {
       this[key] = value;
     };
 
-    window.model.globalToggle = function(key: string, context: Binder<any>, event: Event) {
+    window.model.globalToggle = function (
+      key: string,
+      context: Binder<any>,
+      event: Event
+    ) {
       this[key] = !this[key];
       event.preventDefault();
       event.stopPropagation();
@@ -60,7 +57,7 @@ export class Main {
 
     window.model.system.shopify = (window as any).Shopify;
 
-    this.riba.bind(JQuery('body')[0], window.model);
+    this.riba.bind(document.body, window.model);
   }
 }
 

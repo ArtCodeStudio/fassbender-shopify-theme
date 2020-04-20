@@ -1,15 +1,15 @@
-import { Binder } from '@ribajs/core';
-import { JQuery as $ } from '@ribajs/jquery';
+import { Binder } from "@ribajs/core";
+import { JQuery as $ } from "@ribajs/jquery";
 
 /**
  *
  * @see https://getbootstrap.com/docs/4.1/components/scrollspy/
  */
 export const scrollspyStarBinder: Binder<string> = {
-  name: 'bs4-scrollspy-*',
+  name: "bs4-scrollspy-*",
   routine(el: HTMLElement, targetSelector: string) {
     const $el = $(el);
-    const nativeIDTargetSelector = targetSelector.replace('#', '');
+    const nativeIDTargetSelector = targetSelector.replace("#", "");
     // const dispatcher = new EventDispatcher('main');
     let target = document.getElementById(nativeIDTargetSelector);
     // let $target: JQuery<Element> | null = null;
@@ -23,13 +23,14 @@ export const scrollspyStarBinder: Binder<string> = {
      * @param elem The element
      * @return Returns true if element is in the viewport
      */
-    const isInViewport = (elem: Element ): boolean => {
+    const isInViewport = (elem: Element): boolean => {
       if (!elem) {
         return false;
       }
       const distance = elem.getBoundingClientRect();
       return (
-        distance.top + distance.height >= 0 && distance.bottom - distance.height <= 0
+        distance.top + distance.height >= 0 &&
+        distance.bottom - distance.height <= 0
       );
     };
 
@@ -44,18 +45,18 @@ export const scrollspyStarBinder: Binder<string> = {
 
       if (isInViewport(target)) {
         $el.addClass(className);
-        if ($el.is(':radio')) {
-          $el.prop('checked', true);
+        if ($el.is(":radio")) {
+          $el.prop("checked", true);
         }
       } else {
         $el.removeClass(className);
-        if ($el.is(':radio')) {
-          $el.prop('checked', false);
+        if ($el.is(":radio")) {
+          $el.prop("checked", false);
         }
       }
     };
 
-    $(window).off('scroll', onScroll).on('scroll', onScroll);
+    $(window).off("scroll", onScroll).on("scroll", onScroll);
     onScroll();
   },
 };

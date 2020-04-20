@@ -34,7 +34,7 @@
         {% assign imageHasSpacing = false %}
       {% endif %}
 
-      {% assign imageClass = 'content lazy' %}
+      {% assign imageClass = 'embed-responsive-item lazy' %}
       {% if imageHasSpacing %}
         {% assign imageClass = imageClass | append: ' has-xs-spacing has-sm-spacing' %}
       {% endif %}
@@ -75,7 +75,7 @@
 
       {% if video != blank %}
         {% if videoType == 'youtube' %}
-          <div class="col px-0 content-box fit-initial {{ contentBoxClass }}">
+          <div class="col px-0 embed-responsive fit-initial {{ contentBoxClass }}">
             {% if videoPoster %}
               <img
                 loading="lazy"
@@ -106,7 +106,7 @@
               </iframe>
           </div>
         {% elsif videoType == 'vimeo' %}
-          <div class="col px-0 content-box fit-initial embed-responsive-16by9">
+          <div class="col px-0 embed-responsive fit-initial embed-responsive-16by9">
             {% if videoPoster %}
               <img
                 loading="lazy"
@@ -136,7 +136,7 @@
               </iframe>
           </div>
         {% elsif videoType == 'video/mp4' %}
-          <rv-video class="col px-0 content-box {{ contentBoxClass }}">
+          <rv-video class="col px-0 embed-responsive {{ contentBoxClass }}">
             <video
               class="{{ imageClass }}"
               playsinline
@@ -162,7 +162,7 @@
           </rv-video>
         {% endif %}
       {% else %}
-        <div class="col px-0 content-box {{ contentBoxClass }}">
+        <div class="col px-0 embed-responsive {{ contentBoxClass }}">
           <img
             loading="lazy"
             class="{{ imageClass }}"
