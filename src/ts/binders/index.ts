@@ -3,7 +3,7 @@ export * from "./styles/styles.binders";
 // binders
 export { mailtoBinder } from "./mailto.binder";
 export { telBinder } from "./tel.binder";
-export { scrollbarDragableBinder } from "./scrollbar/scrollbar-dragable.binder";
+// xport { scrollbarDragableBinder } from "./scrollbar/scrollbar-dragable.binder";
 export { scrollfixBinder } from "./scrollbar/scrollfix.binder";
 // import { i18nStarBinder } from './i18n/i18n-star.binder';
 

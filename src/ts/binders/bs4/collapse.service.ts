@@ -22,28 +22,27 @@ export class CollapseService {
     COLLAPSED: "collapsed",
   };
 
-  private $target: JQuery<HTMLElement>;
+  private target: HTMLElement;
 
-  constructor($target: JQuery<HTMLElement>) {
-    this.$target = $target;
+  constructor(target: HTMLElement) {
+    this.target = target;
   }
 
   public show() {
-    this.$target
-      .removeClass(CollapseService.CLASSNAME.COLLAPSE)
-      .addClass(CollapseService.CLASSNAME.SHOW)
-      .trigger(CollapseService.EVENT.SHOWN);
+    this.target.classList.remove(CollapseService.CLASSNAME.COLLAPSE);
+    this.target.classList.add(CollapseService.CLASSNAME.SHOW);
+    this.target.dispatchEvent(new CustomEvent(CollapseService.EVENT.SHOWN));
   }
 
   public hide() {
-    this.$target
-      .removeClass(CollapseService.CLASSNAME.SHOW)
-      .addClass(CollapseService.CLASSNAME.COLLAPSE)
-      .trigger(CollapseService.EVENT.HIDDEN);
+    this.target;
+    this.target.classList.remove(CollapseService.CLASSNAME.SHOW);
+    this.target.classList.add(CollapseService.CLASSNAME.COLLAPSE);
+    this.target.dispatchEvent(new CustomEvent(CollapseService.EVENT.HIDDEN));
   }
 
   public isExpanded() {
-    return this.$target.hasClass(CollapseService.CLASSNAME.SHOW);
+    return this.target.classList.contains(CollapseService.CLASSNAME.SHOW);
   }
 
   public isCollapsed() {

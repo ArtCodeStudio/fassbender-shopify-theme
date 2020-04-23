@@ -6,6 +6,6 @@ import { Binder } from "@ribajs/core";
 export const telBinder: Binder<string> = {
   name: "tel",
   routine(el: HTMLElement, value: any) {
-    $(el).attr("href", "tel:" + value);
+    el.setAttribute("href", "tel:" + value);
   },
 };

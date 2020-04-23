@@ -1,6 +1,6 @@
 <rv-product-scrollbar class="d-block container-fluid">
   {% assign collection = collections[section.settings.collection] %}
-  <div class="row flex-nowrap scrollbar-invisible scrollbar-x-auto" rv-scrollbar-dragable="" rv-on-scroll="onScroll">
+  <div class="row flex-nowrap scrollbar-invisible scrollbar-x-auto" rv-scrollbar-draggable="" rv-on-scroll="onScroll">
     <div class="col-3"></div>
     {% for product in collection.products %}
       {% comment %} 900x1600 = 9x16 * 100 {% endcomment %}

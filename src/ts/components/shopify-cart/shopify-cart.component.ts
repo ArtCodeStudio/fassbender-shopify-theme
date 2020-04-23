@@ -8,7 +8,7 @@ import {
   ShopifyShippingRatesNormalized,
 } from "@ribajs/shopify";
 import template from "./shopify-cart.component.html";
-import { DropdownService } from "../bs4/dropdown/dropdown.service";
+import { DropdownService } from "@ribajs/bs4/src/services/dropdown.service";
 
 interface Scope {
   cart: ShopifyCartObject | null;
@@ -149,7 +149,7 @@ export class ShopifyCartComponent extends Component {
   }
 
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
+    this.debug("afterBind", this.scope);
     return ShopifyCartService.get().catch((error: Error) => {
       console.error(error);
     });

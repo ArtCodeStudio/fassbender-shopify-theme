@@ -1,7 +1,7 @@
 import { Component, Binder } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import template from "./share.component.html";
-import { DropdownService } from "../bs4/dropdown/dropdown.service";
+import { DropdownService } from "@ribajs/bs4/src/services/dropdown.service";
 import { LocalesService } from "@ribajs/shopify-tda";
 
 interface Scope {

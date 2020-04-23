@@ -1,5 +1,4 @@
 import { Binder } from "@ribajs/core";
-import { JQuery as $ } from "@ribajs/jquery";
 
 /**
  *
@@ -8,14 +7,9 @@ import { JQuery as $ } from "@ribajs/jquery";
 export const scrollspyStarBinder: Binder<string> = {
   name: "bs4-scrollspy-*",
   routine(el: HTMLElement, targetSelector: string) {
-    const $el = $(el);
     const nativeIDTargetSelector = targetSelector.replace("#", "");
     // const dispatcher = new EventDispatcher('main');
     let target = document.getElementById(nativeIDTargetSelector);
-    // let $target: JQuery<Element> | null = null;
-    // if (target) {
-    //   $target = $(target);
-    // }
     const className = this.args[0] as string;
 
     /**
@@ -44,19 +38,20 @@ export const scrollspyStarBinder: Binder<string> = {
       }
 
       if (isInViewport(target)) {
-        $el.addClass(className);
-        if ($el.is(":radio")) {
-          $el.prop("checked", true);
+        el.classList.add(className);
+        if ((el as HTMLInputElement).type.toLowerCase() === "radio") {
+          (el as HTMLInputElement).checked = true;
         }
       } else {
-        $el.removeClass(className);
-        if ($el.is(":radio")) {
-          $el.prop("checked", false);
+        el.classList.remove(className);
+        if ((el as HTMLInputElement).type.toLowerCase() === "radio") {
+          (el as HTMLInputElement).checked = false;
         }
       }
     };
 
-    $(window).off("scroll", onScroll).on("scroll", onScroll);
+    // $(window).off("scroll", onScroll).on("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
   },
 };

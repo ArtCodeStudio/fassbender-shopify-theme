@@ -3,7 +3,7 @@
   {% comment %}
     MAINBAR
   {% endcomment %}
-  <fsbdr-mainbar rv-dataset="dataset | json" rv-filter="filter | json">
+  <fsbdr-mainbar rv-co-dataset="dataset" rv-co-filter="filter">
     <div class="row mainbar pt-1">
 
       {% comment %}
@@ -20,7 +20,7 @@
         </div>
 
         <div class="row pt-4">
-          <shopify-filter class="col-auto pointer-events-all" rv-collection-url="dataset.collectionUrl" rv-namespace="dataset.namespace" rv-data-template="dataset.template | json" rv-filter="filter | json">
+          <shopify-filter class="col-auto pointer-events-all" rv-co-collection-url="dataset.collectionUrl" rv-co-namespace="dataset.namespace" rv-co-data-template="dataset.template" rv-co-filter="filter">
             <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
               <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace dataTemplate collectionUrl">
                 <a

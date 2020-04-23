@@ -3,10 +3,10 @@ import { JQuery as $ } from "@ribajs/jquery";
 import template from "./shopify-filter.component.html";
 
 interface DataTemplate {
-    directory: string;
-    template: string;
-    name: string;
-    suffix: string | null;
+  directory: string;
+  template: string;
+  name: string;
+  suffix: string | null;
 }
 
 interface Scope {
@@ -28,7 +28,13 @@ export class ShopifyFilterComponent extends Component {
   public static tagName = "shopify-filter";
 
   static get observedAttributes() {
-    return ["collection-url", "namespace", "linklist", "data-template", "filter"];
+    return [
+      "collection-url",
+      "namespace",
+      "linklist",
+      "data-template",
+      "filter",
+    ];
   }
 
   protected requiredAttributes() {
@@ -53,9 +59,9 @@ export class ShopifyFilterComponent extends Component {
   public show(
     filterHandle: string,
     namespace: string,
-    dataTemplate: DataTemplate,
+    dataTemplate: DataTemplate
   ): boolean {
-    this.debug('dataTemplate', this.scope.dataTemplate);
+    this.debug("dataTemplate", this.scope.dataTemplate);
     switch (filterHandle) {
       case "stories":
         // return namespace === 'blog' || shopifyTemplate.template === 'article'; // TODO if the user is on a artice and wants to go back to the list view we need do do some additional work
@@ -172,10 +178,10 @@ export class ShopifyFilterComponent extends Component {
   }
 
   protected async afterBind() {
-    this.debug('afterBind', this.scope);
+    this.debug("afterBind", this.scope);
     if (this.scope.filter) {
       for (const handle in this.scope.filter) {
-        this.debug('filter handle', handle);
+        this.debug("filter handle", handle);
         if (this.scope.filter[handle]) {
           const tagName = this.scope.filter[handle];
           this.storiesFilterBy(
