@@ -4,7 +4,7 @@
   limit="{{section.settings.limit}}"
   >
   <div class="row">
-    <div class="col-12 col-sm-4 px-0 embed-responsive embed-responsive-1by1 lazy" rv-each-image="media.data" rv-add-class="image.media_type" rv-data-url="image.permalink" rv-on-doubletap="onTap">
+    <div class="col-12 col-sm-4 px-0 embed-responsive embed-responsive-1by1 lazy" rv-each-image="media.data" rv-add-class="image.media_type" rv-data-url="image.permalink" rv-touch-events rv-on-doubletap="onTap">
       {% comment %} IMAGE {% endcomment %}
       <img loading="lazy" class="embed-responsive-item" rv-if="image.media_type | eq 'IMAGE'" rv-src="image.media_url" rv-src="image.media_url" rv-alt="image.caption">
 

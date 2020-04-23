@@ -4,7 +4,7 @@ import { jqueryModule } from "@ribajs/jquery";
 import { shopifyModule } from "@ribajs/shopify";
 import { routerModule } from "@ribajs/router";
 import { i18nModule } from "@ribajs/i18n";
-import { scrollbarDraggableBinder } from "@ribajs/extras";
+import { scrollbarDraggableBinder, touchEventsBinder } from "@ribajs/extras";
 
 import { TrackingService } from "./services/tracking.services";
 import * as customBinders from "./binders/index";
@@ -38,6 +38,7 @@ export class Main {
     this.riba.module.regist(i18nModule(this.localesService));
 
     this.riba.module.binder.regist(scrollbarDraggableBinder);
+    this.riba.module.binder.regist(touchEventsBinder);
     this.riba.module.component.regist(Bs4DropdownComponent);
     this.riba.module.component.regist(Bs4TabsComponent);
 

@@ -6,8 +6,8 @@
   <div class="row">
     <div class="col-12 text-center">
       {% if paginate.next.is_link %}
-        <a class="cursor-pointer pt-5" rv-route='{"url": "{{ paginate.next.url }}{{ paginate_hash }}", "viewId": "{{viewId}}", "removeAfterActivation": true, "listenPopstate": false, "action": "append"}' aria-label="{{ 'snippets.jumplink-pagination.load_more' | t }}">
-          <span rv-i18n-text="'snippets.jumplink-pagination.load_more'">{{'snippets.jumplink-pagination.load_more'|t}}</span>
+        <a class="cursor-pointer pt-5" rv-route='{"url": "{{ paginate.next.url }}{{ paginate_hash }}", "viewId": "{{ viewId }}", "removeAfterActivation": true, "listenPopstate": false, "action": "append"}' aria-label="{{ 'snippets.jumplink-pagination.load_more' | t }}">
+          <span rv-i18n-text="'snippets.jumplink-pagination.load_more'">{{ 'snippets.jumplink-pagination.load_more'|t }}</span>
         </a>
       {% endif %}
     </div>

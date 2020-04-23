@@ -1,6 +1,6 @@
 
 {% assign on_sale = false %}
-{% if product.compare_at_price > product.price %}
+{% if product.compare_at_price_max > product.price %}
   {% assign on_sale = true %}
 {% endif %}
 
@@ -9,7 +9,7 @@
 {% endif %}
 
 <rv-shopify-product-item handle="{{ product.handle }}" class="{{ colClass }} {{ orderClass }} px-0 embed-responsive embed-responsive-3by4">
-  <a rv-route="'{{ product.url | within: collection }}'" href="{{product.url | within: collection }}">
+  <a rv-route="'{{ product.url | within: collection }}'" href="{{ product.url | within: collection }}">
     <img
       loading="lazy"
       class="embed-responsive-item lazy"
@@ -99,7 +99,10 @@
 
       <div class="col-12 col-md text-left text-truncate pr-md-0">
         <strong rv-route="'{{ product.url | within: collection }}'">{{ product.title }}</strong><br />
-        <div rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</div>
+        {% if on_sale %}
+          <s class="compare-at-price mr-2" rv-show="variant.compare_at_price | gt variant.price" rv-text="variant.compare_at_price | money '{{ shop.money_format }}'">{{ product.compare_at_price_max | money }}</s>
+        {% endif %}
+        <span rv-class-text-danger="variant.compare_at_price | gt variant.price" rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</span> 
       </div>
       {% comment %} only MD and up {% endcomment %}
       <div class="d-none d-md-flex col-md-auto text-right align-items-end justify-content-end mb-2 text-truncate pl-md-0">

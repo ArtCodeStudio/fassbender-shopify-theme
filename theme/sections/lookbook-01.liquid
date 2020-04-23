@@ -66,7 +66,7 @@
             {{ image | img_url: '4096x5461', crop: 'center', format: 'pjpg' }} 4096w
           "
           {% comment %} WORKAROUND TO FIX SAFARI IMGAGE STRECH BUG {% endcomment %}
-          rv-srcset-1500w="'{{ product.featured_image | img_url: '1500x2000', crop: 'center', format: 'pjpg' }}'"
+          rv-srcset-1500w="'{{ image | img_url: '1500x2000', crop: 'center', format: 'pjpg' }}'"
           sizes="
             (min-width: 992px) 33vw,
             (min-width: 1200px) 25vw,
