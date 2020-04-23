@@ -173,7 +173,44 @@
       </div>
     </div>
 
-    <bs4-tabs class="row my-5">
+    {% comment %}
+    <div class="row my-5">
+      <bs4-tabs class="co-auto mx-auto">
+        {% if product.description != blank %}
+          <template title="{{'products.tabs.description'|t}}">
+            <div class="rte" rv-i18n-html="">
+              {{ product.description }}
+              <template lang="default">{{product.description}}</template>
+              <template lang="de">{{product.metafields["global"]["de-description"]}}</template>
+            </div>
+          </template>
+        {% endif %}
+
+        Product Metafield Tab Titles
+        {% for i in (1..6) %}
+          {% assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" %}
+          {% assign deTabTitleIndex = "de-tab-" | append: forloop.index | append: "-title" %}
+          {% assign tabContentIndex = "tab-" | append: forloop.index | append: "-content" %}
+          {% assign deTabContentIndex = "de-tab-" | append: forloop.index | append: "-content" %}
+          {% assign tabTitle = product.metafields["global"][tabTitleIndex] %}
+          {% assign deTabTitle = product.metafields["global"][deTabTitleIndex] %}
+          {% assign tabContent = product.metafields["global"][tabContentIndex] %}
+          {% assign deTabContent = product.metafields["global"][deTabContentIndex] %}
+          {% if tabTitle != blank %}
+            <template i18n-title="products.tabs.{{ tabTitle | handleize }}" title="{{ tabTitle }}">
+              <div rv-i18n-html="">
+                {{ tabContent }}
+                <template lang="default">{{tabContent}}</template>
+                <template lang="de">{{deTabContent}}</template>
+              </div>
+            </template>
+          {% endif %}
+        {% endfor %}
+      </bs4-tabs>
+    </div>
+    {% endcomment %}
+
+    <bs4-tabs-deprecated class="row my-5">
       <div class="col-12 product-tab-list nav nav-tabs nav-tabs-underline d-flex flex-nowrap justify-content-center" id="product-{{product.handle}}-tab-list" role="tablist">
         
         {% comment %} Product Description Tab Title {% endcomment %}
@@ -294,7 +331,7 @@
         {% endfor %}
       </div>
 
-    </bs4-tabs>
+    </bs4-tabs-deprecated>
 
     {% if collection %}
       <div class="row text-nowrap my-5">

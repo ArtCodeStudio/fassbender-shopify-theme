@@ -1,5 +1,5 @@
 import { Riba, Utils, Binder, coreModule } from "@ribajs/core";
-import { Bs4DropdownComponent } from "@ribajs/bs4";
+import { Bs4DropdownComponent, Bs4TabsComponent } from "@ribajs/bs4";
 import { jqueryModule } from "@ribajs/jquery";
 import { shopifyModule } from "@ribajs/shopify";
 import { routerModule } from "@ribajs/router";
@@ -39,6 +39,7 @@ export class Main {
 
     this.riba.module.binder.regist(scrollbarDraggableBinder);
     this.riba.module.component.regist(Bs4DropdownComponent);
+    this.riba.module.component.regist(Bs4TabsComponent);
 
     // Regist custom components
     this.riba.module.regist({
