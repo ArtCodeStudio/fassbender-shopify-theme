@@ -1,4 +1,4 @@
-import { Component } from "@ribajs/core";
+import { Component, EventDispatcher } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import { Linklist } from "@ribajs/shopify";
 import template from "./shopify-filter.component.html";
@@ -65,7 +65,9 @@ const show = (
 export class ShopifyFilterComponent extends Component {
   public static tagName = "shopify-filter";
 
-  public _debug = true;
+  public _debug = false;
+
+  private dispatcher = new EventDispatcher("main");
 
   static get observedAttributes() {
     return [
@@ -118,8 +120,7 @@ export class ShopifyFilterComponent extends Component {
   public anyIsVisable(
     linklist?: Linklist,
     namespace?: string,
-    dataTemplate?: DataTemplate,
-    collectionUrl?: string
+    dataTemplate?: DataTemplate
   ) {
     this.debug("anyIsVisable this", this);
     let visable = false;
@@ -255,6 +256,19 @@ export class ShopifyFilterComponent extends Component {
           );
         }
       }
+    }
+
+    this.dispatcher.on("newPageReady", this.onNewPage.bind(this));
+  }
+
+  protected onNewPage() {
+    const vw = Math.max(
+      document.documentElement.clientWidth,
+      window.innerWidth || 0
+    );
+    // MD
+    if (vw <= 991) {
+      this.closeFilter();
     }
   }
 

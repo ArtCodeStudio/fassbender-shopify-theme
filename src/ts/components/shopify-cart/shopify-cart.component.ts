@@ -77,9 +77,12 @@ export class ShopifyCartComponent extends Component {
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.dropdownService = new DropdownService(
-      this.el.querySelector(".dropdown-toggle") as HTMLButtonElement
-    );
+    const dropdownElement = this.el.querySelector(
+      ".dropdown-toggle"
+    ) as HTMLButtonElement;
+    if (dropdownElement) {
+      this.dropdownService = new DropdownService(dropdownElement);
+    }
     this.init(ShopifyCartComponent.observedAttributes);
   }
 

@@ -43,7 +43,7 @@
                   rv-i18n-text="link.title | handleize | prepend 'menus.'"
                 >{link.title}</a>
                 
-                <div class="small" rv-if="type | call link.handle | eq 'routes'">
+                <div class="font-size-lg-small font-weight-lg-light" rv-if="type | call link.handle | eq 'routes'">
                   <strong>Type</strong>
                   <div class="nav-item" rv-each-sublink="link.links">
                     <div class="custom-control custom-radio">
@@ -131,7 +131,7 @@
         MAINBAR HORIZONTAL
       {% endcomment %}
       <div class="mainbar-horizontal ml-auto col-auto align-items-center d-none d-xl-flex">
-        <ul class="nav" style="pointer-events: all;">
+        <ul class="nav pointer-events-all">
           <li class="nav-item">
             <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'">
               <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="24"></rv-icon>
