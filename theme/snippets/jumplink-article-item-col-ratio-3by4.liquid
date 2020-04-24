@@ -1,4 +1,4 @@
-<!-- jumplink-article-item-col-embed-responsive-3by4.liquid -->
+<!-- jumplink-article-item-col-ratio-3by4.liquid {{ article.metafields["global"] | json  }} -->
 {% if colClass == blank %}
   {% assign colClass = 'col' %}
 {% endif %}
@@ -11,33 +11,72 @@
 
 {% if article.metafields["global"]["video-1"] %}
   {% assign video = article.metafields["global"]["video-1"] %}
+  {% assign videoType = 'video/mp4' %}
 {% endif %}
 {% if article.metafields["global"]["video-url-1"] %}
   {% assign video = article.metafields["global"]["video-url-1"] %}
+  {% assign videoType = 'video/mp4' %}
+{% endif %}
+{% if article.metafields["global"]["video-vimeo-1"] %}
+  {% assign video = article.metafields["global"]["video-vimeo-1"] %}
+  {% assign videoType = 'vimeo' %}
+{% endif %}
+{% if article.metafields["global"]["video-youtube-1"] %}
+  {% assign video = article.metafields["global"]["video-youtube-1"] %}
+  {% assign videoType = 'youtube' %}
+{% endif %}
+{% if article.metafields["global"]["video-poster-1"] %}
+  {% assign videoPoster = article.metafields["global"]["video-poster-1"] %}
+{% endif %}
+{% if video == blank %}
+  <!-- No video found! {{ video }} -->
+{% else %}
+  <!-- video: {{ video }} -->
+  <!-- videoType: {{ videoType }} -->
+  <!-- videoPoster: {{ videoPoster }} -->
 {% endif %}
 
 {% if article.image %}
-  {% assign image = article.image | img_url: 'master' %}
+  {% assign image = article.image.src | img_url: 'master' %}
 {% elsif article.metafields["global"]["Image-2"] %}
   {% comment %} Fallback Image {% endcomment %}
   {% assign image = article.metafields["global"]["Image-2"] %}
+{% elsif article.metafields["global"]["Image-3"] %}
+  {% comment %} Fallback Image {% endcomment %}
+  {% assign image = article.metafields["global"]["Image-3"] %}
 {% elsif article.metafields["global"]["detail-image-1"] %}
   {% comment %} Fallback Image {% endcomment %}
   {% assign image = article.metafields["global"]["detail-image-1"] %}
+{% elsif article.metafields["global"]["detail-image-2"] %}
+  {% comment %} Fallback Image {% endcomment %}
+  {% assign image = article.metafields["global"]["detail-image-2"] %}
+{% elsif article.metafields["global"]["detail-image-3"] %}
+  {% comment %} Fallback Image {% endcomment %}
+  {% assign image = article.metafields["global"]["detail-image-3"] %}
 {% elsif article.metafields["global"]["video-poster-1"] %}
   {% assign image = article.metafields["global"]["video-poster-1"] %}
+{% elsif article.metafields["global"]["video-poster-1"] %}
+  {% assign image = article.metafields["global"]["video-poster-1"] %}
+{% elsif videoPoster %}
+  {% assign image = videoPoster %}
+{% endif %}
+{% if image == blank %}
+  <!-- No image found! -->
+{% else %}
+  <!-- image: {{ image }} -->
 {% endif %}
 
 {% comment %} Show Video always on detail view or if no images are set {% endcomment %}
-{% assign showVideo = false %}
-{% if video %}
-  {% unless image %}
-    {% assign showVideo = true %}
-  {% endunless %}
+
+{% if video != blank and image == blank %}
+  {% assign show_video = true %}
+    <!-- set show_video: {{ show_video }} -->
+{% else %}
+  {% assign show_video = false %}
 {% endif %}
 
 <rv-shopify-article-item class="{{ colClass }} px-0 embed-responsive embed-responsive-3by4" rv-route="'{{ article.url }}'" href="{{ article.url }}" style="background-color: {{ color }};">
-  {% if showVideo %}
+  {% if show_video %}
     {% if videoPoster %}
       <img
         loading="lazy"
@@ -48,7 +87,7 @@
       />
     {% endif %}
     {% if videoType == 'video/mp4' %}
-      <rv-video class="content has-xs-spacing has-sm-spacing">
+      <rv-video class="embed-responsive-item has-xs-spacing has-sm-spacing">
         <video preload="auto" controls {% if videoPoster %}poster="{{ videoPoster }}"{% endif %} playsinline webkit-playsinline>
           <source src="{{video}}" type="video/mp4">
           <span rv-i18n-text="'system.video_tag_not_supported'">
@@ -96,22 +135,10 @@
         </iframe>
     {% endif %}
   {% else %}
-    {% if article.image | img_url: 'master' %}
-      {% assign image = article.image %}
-    {% elsif article.metafields["global"]["Image-2"] %}
-      {% comment %} Fallback Image {% endcomment %}
-      {% assign image = article.metafields["global"]["Image-2"] %}
-    {% elsif article.metafields["global"]["detail-image-1"] %}
-      {% comment %} Fallback Image {% endcomment %}
-      {% assign image = article.metafields["global"]["detail-image-1"] %}
-    {% elsif article.metafields["global"]["video-poster-1"] %}
-      {% assign image = article.metafields["global"]["video-poster-1"] %}
-    {% elsif videoPoster %}
-      {% assign image = videoPoster %}
-    {% endif %}
+
     <img
       loading="lazy"
-      class="content has-xs-spacing has-sm-spacing"
+      class="embed-responsive-item has-xs-spacing has-sm-spacing"
       src="{{ image }}"
       alt="{{ acticle.title }}"
       style="padding: 60px"

@@ -52,7 +52,6 @@ export class TabsComponent extends Component {
 
   constructor(element?: HTMLElement) {
     super(element);
-    console.warn("Depricated use tabs module from bs4 module");
     this.tabs = this.el.querySelectorAll<HTMLAnchorElement>(".nav-link");
     this.tabPanes = this.el.querySelectorAll<HTMLElement>(".tab-pane");
     this.scrollable = this.el.querySelector<HTMLElement>("[scrollable]");

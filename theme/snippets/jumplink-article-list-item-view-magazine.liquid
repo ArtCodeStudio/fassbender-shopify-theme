@@ -169,9 +169,8 @@
         {{ article.excerpt_or_content }}
       {% endif %}
       <hr>
-      <p class="small font-weight-bold">
-        <rv-share title="{{ article.title }}" url="{{ article.url }}" text-i18n="blogs.article.share-text" label-i18n="blogs.article.share">{{'blogs.article.share'|t}}</rv-share>
-        <span class="pl-3 info-comments" rv-i18n-text="'blogs.comments.with_count'">
+      <p class="small font-weight-bold" >
+        <span class="info-comments" rv-i18n-text="'blogs.comments.with_count'">
           {{ 'blogs.comments.with_count' | t: count: number_of_comments }}
           <template name="count">{{number_of_comments}}</template>
         </span>
@@ -182,6 +181,9 @@
             </a>
           {% endif %}
         {% endunless %}
+      </p>
+      <p class="small font-weight-bold share-container" >
+        <i18n-share title="{{ article.title }}" url="{{ article.url }}" text-i18n="blogs.article.share-text" label-i18n="blogs.article.share"></i18n-share>
       </p>
     </div>
   </rv-shopify-article-item>
@@ -219,10 +221,10 @@
   <div class="container-fluid position-relative">
     <div class="row">
       {% if nextArticle %}
-        {% include 'jumplink-article-item-col-embed-responsive-3by4' with article: nextArticle, colClass: 'col-12 col-sm', color: nextColor, articleTitleStyle: nextArticleTitleStyle, showVideo: false %}
+        {% include 'jumplink-article-item-col-ratio-3by4' with article: nextArticle, colClass: 'col-12 col-sm', color: nextColor, articleTitleStyle: nextArticleTitleStyle, showVideo: false %}
       {% endif %}
       {% if product.title != blank %}
-        {% include 'product-collection-grid-item-col-embed-responsive-3by4' with product, colClass: 'col-12 col-sm' %}
+        {% include 'product-collection-grid-item-col-ratio-3by4' with product, colClass: 'col-12 col-sm' %}
       {% endif %}
     </div>
   </div>

@@ -59,7 +59,7 @@ selectors inside search.css.
                     PRODUCT
                   {% endcomment %}
                   {% assign product_length = product_length | plus: 1 %}
-                    {% include 'product-collection-grid-item-col-embed-responsive-3by4' with product, collection, colClass: 'col-12 col-md-6' %}
+                    {% include 'product-collection-grid-item-col-ratio-3by4' with product, collection, colClass: 'col-12 col-md-6' %}
                 {% endif %}
               {% endfor %}
               {% if all_length == 0 %}  

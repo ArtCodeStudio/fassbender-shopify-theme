@@ -49,13 +49,22 @@
     "addresses": "Adressen",
     "all": "Alle",
     "blog": "Stories",
-    "vlog": "Vlog"
+    "vlog": "Vlog",
+    "springsummer": "Spring/Summer",
+    "winter-sale": "Winter SALE",
+    "lookbook": "Lookbook",
+    "lookbook-fw18": "Lookbook FW18",
+    "lookbook-fw19": "Lookbook FW19"
   },
   "collections": {
     "all": "Alle",
     "coat": "Coat",
     "jacket": "Jacket",
-    "vest": "Vest"
+    "vest": "Vest",
+    "dress": "Dress",
+    "scarf": "Scarf",
+    "spring-summer": "Spring/Summer",
+    "winter-sale": "Winter SALE"
   },
   "products": {
     "choose": "Größe wählen",
@@ -75,7 +84,8 @@
       "44": "44",
       "46": "46",
       "48": "48",
-      "50": "50"
+      "50": "50",
+      "one-size": "One Size"
     },
     "tabs": {
       "description": "Detail",
@@ -259,9 +269,9 @@
   "blogs": {
     "article": {
       "by": "von {{first_name}} {{last_name}}",
-      "view": "View Article",
+      "view": "Artikel anschauen",
       "share": "Diesen Artikel teilen",
-      "share-text": "Look at this! 👀"
+      "share-text": "Schau dir das an! 👀"
     },
     "comments": {
       "title": "Kommentare auf {{title}}",
