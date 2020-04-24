@@ -1,4 +1,3 @@
-{% comment %} Navigation Desktop TODO remove d-none d-lg-block {% endcomment %}
 <div class="container-fluid fixed-top navbar-main pointer-events-none ">
   {% comment %}
     MAINBAR
@@ -23,21 +22,18 @@
         </div>
 
         {% comment %}
-          VERTICAL Filter close button (only on mobile)
-        {% endcomment %}
-        <div class="row">
-          <div class="col-auto pointer-events-all font-weight-bold cursor-pointer" rv-on-click="toggleFilter">
-            <div class="px-2 nav-item nav-link mini-toggler d-block" rv-aria-expanded="filterOpen">
-              <span>+</span>
-            </div>
-          </div>
-        </div>
-        {% comment %}
           VERTICAL Filter
         {% endcomment %}
-        <div class="row" rv-show="filterOpen">
+        <div class="row">
           <shopify-filter class="col-auto pointer-events-all" rv-co-collection-url="dataset.collectionUrl" rv-co-namespace="dataset.namespace" rv-co-data-template="dataset.template" rv-co-filter="filter">
-            <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
+            
+            <div rv-on-click="toggleFilter" rv-show="anyIsVisable | call linklist namespace dataTemplate collectionUrl">
+              <div class="px-2 nav-item nav-link mini-toggler d-block font-weight-bold" rv-aria-expanded="filterOpen">
+                <span>+</span>
+              </div>
+            </div>
+            
+            <nav rv-show="filterOpen" class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
               <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace dataTemplate collectionUrl">
                 <a
                   class="nav-link"
@@ -134,7 +130,7 @@
       {% comment %}
         MAINBAR HORIZONTAL
       {% endcomment %}
-      <div class="mainbar-horizontal ml-auto col-auto align-items-center d-none d-lg-flex">
+      <div class="mainbar-horizontal ml-auto col-auto align-items-center d-none d-xl-flex">
         <ul class="nav" style="pointer-events: all;">
           <li class="nav-item">
             <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'">

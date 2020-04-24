@@ -28,7 +28,7 @@ export class ProductScrollbarComponent extends Component {
   /**
    * Just open the product url
    */
-  public onProductTap(_: any, event: Event, scope: any, eventEl: HTMLElement) {
+  public onProductTap(event: Event, scope: any, eventEl: HTMLElement) {
     const url = $(eventEl).data("url");
     if (!url) {
       return;
@@ -43,12 +43,7 @@ export class ProductScrollbarComponent extends Component {
   /**
    * Preload product on mouse over
    */
-  public onProductMouseenter(
-    _: any,
-    event: Event,
-    scope: any,
-    eventEl: HTMLElement
-  ) {
+  public onProductMouseenter(event: Event, scope: any, eventEl: HTMLElement) {
     // console.debug'onProductMouseenter');
     const url = $(eventEl).data("url");
     const prefetch = Prefetch.getInstance();

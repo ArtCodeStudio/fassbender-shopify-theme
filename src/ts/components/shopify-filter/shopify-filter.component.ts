@@ -1,5 +1,6 @@
 import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
+import { Linklist } from "@ribajs/shopify";
 import template from "./shopify-filter.component.html";
 
 interface DataTemplate {
@@ -10,22 +11,61 @@ interface DataTemplate {
 }
 
 interface Scope {
-  linklist: any;
+  linklist: Linklist;
   show: any;
   collectionUrl?: string;
   namespace?: string;
-  type: any;
-  storiesFilterBy: any;
-  filter?: any;
-  scrollTo: any;
   dataTemplate?: DataTemplate;
+  filterOpen: boolean;
+  filter?: any;
+  type: ShopifyFilterComponent["type"];
+  storiesFilterBy: ShopifyFilterComponent["storiesFilterBy"];
+  toggleFilter: ShopifyFilterComponent["toggleFilter"];
+  scrollTo: ShopifyFilterComponent["scrollTo"];
+  anyIsVisable: ShopifyFilterComponent["anyIsVisable"];
 }
+
+// WORKAROUND
+const show = (
+  filterHandle: string,
+  namespace?: string,
+  dataTemplate?: DataTemplate
+) => {
+  if (!dataTemplate || !namespace) {
+    return false;
+  }
+  // this.debug("show", filterHandle, namespace, dataTemplate);
+  switch (filterHandle) {
+    case "stories":
+      // return namespace === 'blog' || shopifyTemplate.template === 'article'; // TODO if the user is on a artice and wants to go back to the list view we need do do some additional work
+      return namespace === "blog";
+    case "account":
+      return (
+        namespace === "cart" ||
+        dataTemplate.directory === "customers" ||
+        dataTemplate.template === "page.returns-form" ||
+        dataTemplate.template === "page.privacy-settings"
+      );
+    case "legal-area":
+      return dataTemplate.template === "page.legals";
+    case "store":
+      return (
+        dataTemplate.template === "collection" ||
+        dataTemplate.template === "product"
+      );
+    default:
+      break;
+  }
+  return true;
+};
 
 /**
  * shopify-filter
  */
 export class ShopifyFilterComponent extends Component {
   public static tagName = "shopify-filter";
+
+  public _debug = true;
 
   static get observedAttributes() {
     return [
@@ -42,12 +82,16 @@ export class ShopifyFilterComponent extends Component {
   }
 
   protected scope: Scope = {
+    // TODO use rv-parent for that
     linklist: window.model.system.linklists.filter,
+    filterOpen: true,
+    collectionUrl: undefined,
     show: this.show,
     type: this.type,
-    collectionUrl: undefined,
+    toggleFilter: this.toggleFilter,
     storiesFilterBy: this.storiesFilterBy,
     scrollTo: this.scrollTo,
+    anyIsVisable: this.anyIsVisable,
   };
 
   constructor(element?: HTMLElement) {
@@ -56,34 +100,51 @@ export class ShopifyFilterComponent extends Component {
     this.debug("constructor", this.el);
   }
 
+  public openFilter() {
+    this.scope.filterOpen = true;
+  }
+
+  public closeFilter() {
+    this.scope.filterOpen = false;
+  }
+
+  public toggleFilter() {
+    if (this.scope.filterOpen) {
+      return this.closeFilter();
+    }
+    return this.openFilter();
+  }
+
+  public anyIsVisable(
+    linklist?: Linklist,
+    namespace?: string,
+    dataTemplate?: DataTemplate,
+    collectionUrl?: string
+  ) {
+    this.debug("anyIsVisable this", this);
+    let visable = false;
+    if (!linklist) {
+      return false;
+    }
+    for (const link of linklist.links) {
+      // TODO fix callFormatterHandler problem
+      // visable = visable || this.show(link.handle, namespace, dataTemplate);
+      visable = visable || show(link.handle, namespace, dataTemplate);
+    }
+    this.debug("anyIsVisable", visable);
+    return visable;
+  }
+
   public show(
     filterHandle: string,
-    namespace: string,
-    dataTemplate: DataTemplate
+    namespace?: string,
+    dataTemplate?: DataTemplate
   ): boolean {
-    this.debug("dataTemplate", this.scope.dataTemplate);
-    switch (filterHandle) {
-      case "stories":
-        // return namespace === 'blog' || shopifyTemplate.template === 'article'; // TODO if the user is on a artice and wants to go back to the list view we need do do some additional work
-        return namespace === "blog";
-      case "account":
-        return (
-          namespace === "cart" ||
-          dataTemplate.directory === "customers" ||
-          dataTemplate.template === "page.returns-form" ||
-          dataTemplate.template === "page.privacy-settings"
-        );
-      case "legal-area":
-        return dataTemplate.template === "page.legals";
-      case "store":
-        return (
-          dataTemplate.template === "collection" ||
-          dataTemplate.template === "product"
-        );
-      default:
-        break;
+    if (!dataTemplate || !namespace) {
+      return false;
     }
-    return true;
+    this.debug("show", filterHandle, namespace, dataTemplate);
+    return show(filterHandle, namespace, dataTemplate);
   }
 
   public type(filterHandle: string): string {
@@ -113,7 +174,6 @@ export class ShopifyFilterComponent extends Component {
   public storiesFilterBy(
     handle: string,
     tagName: string,
-    _: any,
     event?: Event,
     scope?: any,
     el?: HTMLLabelElement

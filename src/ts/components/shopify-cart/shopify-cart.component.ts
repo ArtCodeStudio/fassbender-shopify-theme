@@ -1,4 +1,4 @@
-import { Component, Binder } from "@ribajs/core";
+import { Component } from "@ribajs/core";
 import {
   ShopifyCartService,
   ShopifyCartLineItem,

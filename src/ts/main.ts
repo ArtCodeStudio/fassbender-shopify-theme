@@ -1,4 +1,4 @@
-import { Riba, Utils, Binder, coreModule } from "@ribajs/core";
+import { Riba, Utils, coreModule, EventDispatcher } from "@ribajs/core";
 import { Bs4DropdownComponent, Bs4TabsComponent } from "@ribajs/bs4";
 import { jqueryModule } from "@ribajs/jquery";
 import { shopifyModule } from "@ribajs/shopify";
@@ -21,7 +21,7 @@ declare global {
 export class Main {
   private riba = new Riba();
   private localesService = new LocalesService();
-  // private dispatcher = new EventDispatcher('main');
+  private dispatcher = new EventDispatcher("main");
 
   constructor() {
     window.model = window.model || {};
@@ -59,11 +59,6 @@ export class Main {
       // element: HTMLElement
     ) {
       window.model[key] = !window.model[key];
-      console.debug("this", this);
-      console.debug("key", key);
-      console.debug("event", event);
-      // console.debug("scope", scope);
-      // console.debug("element", element);
       if (event) {
         if ((event as JQueryEventObject).originalEvent) {
           event = (event as JQueryEventObject).originalEvent;
@@ -76,6 +71,11 @@ export class Main {
     window.model.system.shopify = (window as any).Shopify;
 
     this.riba.bind(document.body, window.model);
+
+    // TODO solve with rv-on-new-page-ready="assign | args 'fullscreenMenuOpen' false"?
+    this.dispatcher.on("newPageReady", () => {
+      window.model.fullscreenMenuOpen = false;
+    });
   }
 }
 
@@ -88,6 +88,3 @@ new TrackingService({
 Utils.domIsReady(() => {
   new Main();
 });
-
-// (window as any).$ = JQuery;
-// (window as any).JQuery = JQuery;

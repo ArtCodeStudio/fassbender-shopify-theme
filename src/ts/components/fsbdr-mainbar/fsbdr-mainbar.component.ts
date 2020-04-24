@@ -6,9 +6,7 @@ interface Scope {
   assign: FsbdrMainbarComponent["assign"];
   open: FsbdrMainbarComponent["open"];
   close: FsbdrMainbarComponent["close"];
-  toggleFilter: FsbdrMainbarComponent["toggleFilter"];
   menuOpen: boolean;
-  filterOpen: boolean;
   [name: string]: any;
 }
 
@@ -29,7 +27,6 @@ export class FsbdrMainbarComponent extends Component {
     assign: this.assign,
     open: this.open,
     close: this.close,
-    toggleFilter: this.toggleFilter,
     menuOpen: false,
     filterOpen: true,
   };
@@ -58,23 +55,6 @@ export class FsbdrMainbarComponent extends Component {
     if (this.logoTop) {
       this.logoTop.removeAttribute("hidden");
     }
-  }
-
-  public openFilter() {
-    this.scope.filterOpen = true;
-    // this.logoTop.setAttribute("hidden", "hidden");
-  }
-
-  public closeFilter() {
-    this.scope.filterOpen = false;
-    // this.logoTop.show();
-  }
-
-  public toggleFilter() {
-    if (this.scope.filterOpen) {
-      return this.closeFilter();
-    }
-    return this.openFilter();
   }
 
   protected async init(observedAttributes: string[]) {

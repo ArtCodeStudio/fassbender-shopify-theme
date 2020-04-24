@@ -1,6 +1,6 @@
 {
   "current": {
-    "debug": false,
+    "debug": true,
     "googleAnalytics_enabled": true,
     "googleAnalytics_trackingId": "UA-126476233-1",
     "pinterestTag_enabled": true,
@@ -52,7 +52,7 @@
         "type": "live-chat",
         "settings": {
           "enable": true,
-          "img_icon": "shopify:\/\/shop_images\/Messenger_Logo_White_RGB.svg_12bab5a0-3aa4-4ea5-b32f-f978f19d481d.png",
+          "img_icon": "shopify:\/\/shop_images\/Messenger_Logo_White_RGB.svg_12bab5a0-3aa4-4ea5-b32f-f978f19d481d_134x134_crop_center_2x_Kopie.png",
           "image_width": 30,
           "href": "https:\/\/m.me\/346703952475439?ref=messenger_commerce_1163199097047119_https:\/\/myfassbender.com\/",
           "spacing_top": 40,

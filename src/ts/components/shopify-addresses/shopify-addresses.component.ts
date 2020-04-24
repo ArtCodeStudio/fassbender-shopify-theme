@@ -1,4 +1,4 @@
-import { Component, Binder, HttpService } from "@ribajs/core";
+import { Component, HttpService } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import template from "./shopify-addresses.component.html";
 

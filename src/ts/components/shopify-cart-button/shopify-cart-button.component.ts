@@ -1,4 +1,4 @@
-import { Component, Binder } from "@ribajs/core";
+import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import { Pjax } from "@ribajs/router";
 import { ShopifyCartService, ShopifyCartObject } from "@ribajs/shopify";

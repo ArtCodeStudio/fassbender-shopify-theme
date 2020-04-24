@@ -214,10 +214,6 @@
       <span>+</span>
     </div>
 
-    {% comment %} <a class="nav-link" rv-show="moreMenuOpen" rv-class-active="moreMenuOpen" rv-on-click="assign | args 'moreMenuOpen' false">
-      -
-    </a> {% endcomment %}
-
     <shopify-linklist class="" rv-show="moreMenuOpen" id="toggle-menu-more" name="toggle-menu-more" vertical="true" pills="false">
       <nav class="nav" rv-add-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
         <div class="nav-item" rv-each-link="linklist.links">
@@ -234,7 +230,7 @@
     </shopify-linklist>
 
     <div class="pt-3">
-      <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'" rv-on-new-page-ready="assign | args 'fullscreenMenuOpen' false">
+      <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'">
         <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="32"></rv-icon>
       </a>
     </div>

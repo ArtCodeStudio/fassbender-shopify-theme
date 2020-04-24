@@ -26,6 +26,7 @@ a {
 
 .mini-toggler {
   span {
+    width: 10px;
     @extend .rotate-animate;
     @extend .rotate-0;
     display: block;
