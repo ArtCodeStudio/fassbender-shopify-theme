@@ -100,7 +100,7 @@ export class PrivacySettingsComponent extends Component {
     this.init(PrivacySettingsComponent.observedAttributes);
   }
 
-  public onClearDataClicked(context: Binder<any>, event: Event) {
+  public onClearDataClicked(event: Event) {
     ShopifyCartService.clear()
       .then(() => {
         return HttpService.get("/account/logout");

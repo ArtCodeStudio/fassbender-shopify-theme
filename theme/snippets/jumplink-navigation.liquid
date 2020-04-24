@@ -1,5 +1,5 @@
 {% comment %} Navigation Desktop TODO remove d-none d-lg-block {% endcomment %}
-<div class="container-fluid fixed-top navbar-main pointer-events-none d-none d-lg-block">
+<div class="container-fluid fixed-top navbar-main pointer-events-none ">
   {% comment %}
     MAINBAR
   {% endcomment %}
@@ -10,7 +10,10 @@
         MAINBAR VERTICAL
       {% endcomment %}
       <div class="mainbar-vertical col-auto" style="position: fixed; width: auto; z-index: 1;">
-        <div class="row">
+        {% comment %}
+          VERTICAL Main Menu (only on Desktop)
+        {% endcomment %}
+        <div class="row d-none d-lg-block">
           <div class="col-auto pointer-events-all font-weight-bold">
             <div rv-bs4-collapse="'#sidenav-main-menu'" class="sidenav-main-menu-toggler nav-item nav-link pl-0 cursor-pointer">
               <rv-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></rv-icon>
@@ -19,7 +22,20 @@
           </div>
         </div>
 
-        <div class="row pt-4">
+        {% comment %}
+          VERTICAL Filter close button (only on mobile)
+        {% endcomment %}
+        <div class="row">
+          <div class="col-auto pointer-events-all font-weight-bold cursor-pointer" rv-on-click="toggleFilter">
+            <div class="px-2 nav-item nav-link mini-toggler d-block" rv-aria-expanded="filterOpen">
+              <span>+</span>
+            </div>
+          </div>
+        </div>
+        {% comment %}
+          VERTICAL Filter
+        {% endcomment %}
+        <div class="row" rv-show="filterOpen">
           <shopify-filter class="col-auto pointer-events-all" rv-co-collection-url="dataset.collectionUrl" rv-co-namespace="dataset.namespace" rv-co-data-template="dataset.template" rv-co-filter="filter">
             <nav class="nav flex-column font-weight-bold" rv-add-class="linklist.handle">
               <div class="nav-item" rv-each-link="linklist.links" rv-show="show | call link.handle namespace dataTemplate collectionUrl">

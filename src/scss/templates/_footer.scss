@@ -44,17 +44,5 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1021;
-  .more-menu-toggler {
-    span {
-      @extend .rotate-animate;
-      @extend .rotate-0;
-      display: block;
-    }
-    &[aria-expanded='true'] {
-      span {
-        @extend .rotate-45;
-      }
-    }
-  }
+  z-index: $zindex-fixed;
 }

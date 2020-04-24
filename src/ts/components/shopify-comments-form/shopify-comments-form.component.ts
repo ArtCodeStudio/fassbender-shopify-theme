@@ -85,7 +85,7 @@ export class ShopifyCommentsFormComponent extends Component {
   /**
    * Post comment
    */
-  public post(context: Binder<any>, event: Event) {
+  public post(event: Event) {
     if (!this.$newCommentForm) {
       console.error("No comment form found");
       return false;

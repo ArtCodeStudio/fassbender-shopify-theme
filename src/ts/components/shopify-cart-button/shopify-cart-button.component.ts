@@ -44,7 +44,7 @@ export class ShopifyCartButtonComponent extends Component {
     this.init(ShopifyCartButtonComponent.observedAttributes);
   }
 
-  public toggle(context: Binder<any>, event: Event) {
+  public toggle(event: Event) {
     event.preventDefault();
     event.stopPropagation();
 

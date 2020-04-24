@@ -63,7 +63,7 @@ export class ContactFormComponent extends Component {
   /**
    * Send the contact form using a form submit request with best shopify form support
    */
-  public send(context: Binder<any>, event: Event) {
+  public send(event: Event) {
     this.scope.form.firstName = Utils.stripHtml(this.scope.form.firstName);
     this.scope.form.lastName = Utils.stripHtml(this.scope.form.lastName);
     this.scope.form.phone = Utils.stripHtml(this.scope.form.phone);

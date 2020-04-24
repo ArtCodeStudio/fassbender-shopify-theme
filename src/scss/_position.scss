@@ -11,6 +11,10 @@
   right: 0;
 }
 
+.fixed-bottom {
+  z-index: $zindex-fixed + 1;
+}
+
 .sticky-bottom {
   @supports (position: sticky) {
     position: sticky;

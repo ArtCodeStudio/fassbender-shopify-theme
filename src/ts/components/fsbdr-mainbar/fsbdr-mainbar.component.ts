@@ -1,5 +1,4 @@
 import { Component } from "@ribajs/core";
-import { JQuery } from "@ribajs/jquery";
 
 import template from "./fsbdr-mainbar.component.html";
 
@@ -7,7 +6,9 @@ interface Scope {
   assign: FsbdrMainbarComponent["assign"];
   open: FsbdrMainbarComponent["open"];
   close: FsbdrMainbarComponent["close"];
+  toggleFilter: FsbdrMainbarComponent["toggleFilter"];
   menuOpen: boolean;
+  filterOpen: boolean;
   [name: string]: any;
 }
 
@@ -16,25 +17,26 @@ export class FsbdrMainbarComponent extends Component {
 
   protected autobind = true;
 
-  protected $logoTop: JQuery<HTMLElement>;
+  public _debug = false;
+
+  protected logoTop: HTMLElement | null;
 
   static get observedAttributes() {
     return ["dataset", "filter"];
   }
 
-  protected $el: JQuery<HTMLElement>;
-
   protected scope: Scope = {
     assign: this.assign,
     open: this.open,
     close: this.close,
+    toggleFilter: this.toggleFilter,
     menuOpen: false,
+    filterOpen: true,
   };
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.$el = JQuery(this.el);
-    this.$logoTop = JQuery(".logo-text.logo-text-top");
+    this.logoTop = document.querySelector(".logo-text.logo-text-top");
     this.init(FsbdrMainbarComponent.observedAttributes);
   }
 
@@ -46,12 +48,33 @@ export class FsbdrMainbarComponent extends Component {
 
   public open() {
     this.scope.menuOpen = true;
-    this.$logoTop.hide();
+    if (this.logoTop) {
+      this.logoTop.setAttribute("hidden", "hidden");
+    }
   }
 
   public close() {
     this.scope.menuOpen = false;
-    this.$logoTop.show();
+    if (this.logoTop) {
+      this.logoTop.removeAttribute("hidden");
+    }
+  }
+
+  public openFilter() {
+    this.scope.filterOpen = true;
+    // this.logoTop.setAttribute("hidden", "hidden");
+  }
+
+  public closeFilter() {
+    this.scope.filterOpen = false;
+    // this.logoTop.show();
+  }
+
+  public toggleFilter() {
+    if (this.scope.filterOpen) {
+      return this.closeFilter();
+    }
+    return this.openFilter();
   }
 
   protected async init(observedAttributes: string[]) {
@@ -61,7 +84,8 @@ export class FsbdrMainbarComponent extends Component {
   }
 
   protected async afterBind() {
-    this.$logoTop = JQuery(".logo-text.logo-text-top");
+    this.logoTop = document.querySelector(".logo-text.logo-text-top");
+    this.debug("afterBind", this.scope);
   }
 
   protected requiredAttributes() {

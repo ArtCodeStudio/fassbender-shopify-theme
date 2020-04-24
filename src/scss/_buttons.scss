@@ -22,3 +22,17 @@ a {
     color: $link-active-color;
   }
 }
+
+
+.mini-toggler {
+  span {
+    @extend .rotate-animate;
+    @extend .rotate-0;
+    display: block;
+  }
+  &[aria-expanded='true'] {
+    span {
+      @extend .rotate-45;
+    }
+  }
+}

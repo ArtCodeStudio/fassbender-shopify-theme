@@ -83,7 +83,7 @@ export class ShopifyCartComponent extends Component {
     this.init(ShopifyCartComponent.observedAttributes);
   }
 
-  public toggle(context: Binder<any>, event: Event) {
+  public toggle(event: Event) {
     event.preventDefault();
     event.stopPropagation();
     return this.dropdownService.toggle();

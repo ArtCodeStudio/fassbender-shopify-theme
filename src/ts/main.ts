@@ -54,12 +54,23 @@ export class Main {
 
     window.model.globalToggle = function (
       key: string,
-      context: Binder<any>,
       event: Event
+      // scope: any,
+      // element: HTMLElement
     ) {
-      this[key] = !this[key];
-      event.preventDefault();
-      event.stopPropagation();
+      window.model[key] = !window.model[key];
+      console.debug("this", this);
+      console.debug("key", key);
+      console.debug("event", event);
+      // console.debug("scope", scope);
+      // console.debug("element", element);
+      if (event) {
+        if ((event as JQueryEventObject).originalEvent) {
+          event = (event as JQueryEventObject).originalEvent;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+      }
     };
 
     window.model.system.shopify = (window as any).Shopify;

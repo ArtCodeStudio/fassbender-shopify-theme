@@ -79,7 +79,7 @@ export class ShopifyAddressesComponent extends Component {
     this.init(ShopifyAddressesComponent.observedAttributes);
   }
 
-  public edit(id: string, context: Binder<any>, event: Event) {
+  public edit(id: string, event: Event) {
     console.warn("login", this.scope);
 
     const $form = this.$el.find(
@@ -107,7 +107,7 @@ export class ShopifyAddressesComponent extends Component {
   /**
    * Submit an new address
    */
-  public create(context: Binder<any>, event: Event) {
+  public create(event: Event) {
     if (!this.$createAddressForm) {
       console.warn("No create form found");
       return false;

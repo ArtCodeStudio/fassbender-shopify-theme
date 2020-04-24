@@ -51,7 +51,7 @@ export class NewsletterComponent extends Component {
     this.init(NewsletterComponent.observedAttributes);
   }
 
-  public subscribe(context: Binder<any>, event: Event) {
+  public subscribe(event: Event) {
     // stop native submit
     event.preventDefault();
     event.stopPropagation();

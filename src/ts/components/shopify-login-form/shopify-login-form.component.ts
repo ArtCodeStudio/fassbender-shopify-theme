@@ -93,7 +93,7 @@ export class ShopifyLoginFormComponent extends Component {
   /**
    * Login submit using the login form
    */
-  public login(_: any, event: Event) {
+  public login(event: Event) {
     if (!this.$loginCustomerForm) {
       console.error("No login form found");
       return false;
@@ -115,7 +115,7 @@ export class ShopifyLoginFormComponent extends Component {
   /**
    * Create an account submit using the login form
    */
-  public create(_: any, event: Event) {
+  public create(event: Event) {
     if (!this.$createCustomerForm) {
       console.error("No create form found");
       return false;
@@ -141,7 +141,7 @@ export class ShopifyLoginFormComponent extends Component {
    * Reset password submit using the (hidden) reset form
    * @param event
    */
-  public recover(_: any, event: Event) {
+  public recover(event: Event) {
     if (!this.$recoverCustomerForm) {
       console.error("No recover form found");
       return false;
@@ -170,7 +170,7 @@ export class ShopifyLoginFormComponent extends Component {
     }
   }
 
-  public recoverBack(_: any, event: Event) {
+  public recoverBack(event: Event) {
     if (!this.$recoverCustomerForm) {
       console.error("No recover form found");
       return false;

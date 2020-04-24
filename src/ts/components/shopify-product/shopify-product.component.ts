@@ -137,7 +137,6 @@ export class ShopifyProductComponent extends Component {
     optionValue: string | number,
     position1: number,
     optionName: string,
-    _: any,
     event: MouseEvent
   ) {
     if (!this.scope.product) {
