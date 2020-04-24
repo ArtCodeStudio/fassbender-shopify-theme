@@ -44,7 +44,7 @@
                 >{link.title}</a>
                 
                 <div class="font-size-lg-small font-weight-lg-light" rv-if="type | call link.handle | eq 'routes'">
-                  <strong>Type</strong>
+                  <strong rv-i18n-text="'collections.type'">{{ 'collections.type' | t }}</strong>
                   <div class="nav-item" rv-each-sublink="link.links">
                     <div class="custom-control custom-radio">
                       <input type="radio" rv-id="link.handle | append sublink.handle" rv-name="link.handle" rv-route-class-active="sublink.url" rv-route="sublink.url" class="custom-control-input">
@@ -77,7 +77,7 @@
                               rv-for="{{ collection.handle }}"
                               rv-parent-route-class-active="'{{ collection.url }}'"
                               rv-route="'{{ collection.url }}'"
-                              rv-i18n-text="'collections.{{collection.title|handleize}}'"
+                              rv-i18n-text="'collections.{{ collection.title | handleize }}'"
                             >{{ collection.title }}</label>
                           </div>
                         </div>
@@ -130,7 +130,7 @@
       {% comment %}
         MAINBAR HORIZONTAL
       {% endcomment %}
-      <div class="mainbar-horizontal ml-auto col-auto align-items-center d-none d-xl-flex">
+      <div class="mainbar-horizontal ml-auto col-auto align-items-center d-none d-lg-flex">
         <ul class="nav pointer-events-all">
           <li class="nav-item">
             <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'">

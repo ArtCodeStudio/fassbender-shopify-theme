@@ -35,7 +35,7 @@ export class ShopifyCartComponent extends Component {
     return [];
   }
 
-  protected dropdownService: DropdownService;
+  protected dropdownService?: DropdownService;
 
   protected scope: Scope = {
     cart: ShopifyCartService.cart,
@@ -89,7 +89,9 @@ export class ShopifyCartComponent extends Component {
   public toggle(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    return this.dropdownService.toggle();
+    if (this.dropdownService) {
+      return this.dropdownService.toggle();
+    }
   }
 
   public removeCart(lineItem: ShopifyCartLineItem) {

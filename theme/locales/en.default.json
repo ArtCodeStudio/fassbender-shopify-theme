@@ -64,7 +64,8 @@
     "dress": "Dress",
     "scarf": "Scarf",
     "spring-summer": "Spring\/Summer",
-    "winter-sale": "Winter SALE"
+    "winter-sale": "Winter SALE",
+    "type": "Filter"
   },
   "products": {
     "choose": "Choose size",
