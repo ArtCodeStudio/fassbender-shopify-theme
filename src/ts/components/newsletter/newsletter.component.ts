@@ -1,4 +1,4 @@
-import { Component, Binder } from "@ribajs/core";
+import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import template from "./newsletter.component.html";
 import { LocalesService } from "@ribajs/shopify-tda";
@@ -70,12 +70,7 @@ export class NewsletterComponent extends Component {
     }
   }
 
-  public selectAll(
-    context: Binder<any>,
-    event: JQuery.Event,
-    scope: any,
-    eventEl: HTMLInputElement
-  ) {
+  public selectAll(event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
     Utils.selectAll(eventEl);
   }
 

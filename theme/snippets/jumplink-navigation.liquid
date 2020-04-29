@@ -14,7 +14,7 @@
         {% endcomment %}
         <div class="row d-none d-lg-block">
           <div class="col-auto pointer-events-all font-weight-bold">
-            <div rv-bs4-collapse="'#sidenav-main-menu'" class="sidenav-main-menu-toggler nav-item nav-link pl-0 cursor-pointer">
+            <div rv-bs4-collapse="'#sidenav-main-menu'" class="sidenav-main-menu-toggler nav-item nav-link mx-auto cursor-pointer">
               <rv-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></rv-icon>
             </div>
             <shopify-linklist rv-bs4-expan-on-url="'/'" class="" id="sidenav-main-menu" name="main-menu" vertical="true" pills="false"></shopify-linklist>
@@ -28,7 +28,7 @@
           <shopify-filter class="col-auto pointer-events-all" rv-co-collection-url="dataset.collectionUrl" rv-co-namespace="dataset.namespace" rv-co-data-template="dataset.template" rv-co-filter="filter">
             
             <div rv-on-click="toggleFilter" rv-show="anyIsVisable | call linklist namespace dataTemplate collectionUrl">
-              <div class="px-2 nav-item nav-link mini-toggler d-block font-weight-bold" rv-aria-expanded="filterOpen">
+              <div class="px-2 nav-item nav-link mini-toggler d-block font-weight-bold text-center" rv-aria-expanded="filterOpen">
                 <span>+</span>
               </div>
             </div>

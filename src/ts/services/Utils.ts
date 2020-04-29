@@ -1,12 +1,10 @@
-import { Utils as tinybindUtils } from "@ribajs/core";
-
 /**
  * Just an Class with some helpful functions
  *
  * @export
  * @class Utils
  */
-export class Utils extends tinybindUtils {
+export class Utils {
   /**
    * Shoutout AngusCroll (https://goo.gl/pxwQGp)
    * @param obj
@@ -65,16 +63,6 @@ export class Utils extends tinybindUtils {
       return null;
     }
   }
-
-  public static stringHasOnlyNumbers(str: string) {
-    return /^\d+$/.test(str);
-  }
-
-  public static stripHtml = (html: string) => {
-    const tmp = document.createElement("DIV");
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || "";
-  };
 
   /**
    * Select all of an contenteditable or input element

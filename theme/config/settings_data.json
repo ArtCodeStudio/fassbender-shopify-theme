@@ -1,6 +1,6 @@
 {
   "current": {
-    "debug": true,
+    "debug": false,
     "googleAnalytics_enabled": true,
     "googleAnalytics_trackingId": "UA-126476233-1",
     "pinterestTag_enabled": true,
@@ -56,9 +56,9 @@
           "image_width": 30,
           "href": "https:\/\/m.me\/346703952475439?ref=messenger_commerce_1163199097047119_https:\/\/myfassbender.com\/",
           "spacing_top": 40,
-          "spacing_bottom": 100,
+          "spacing_bottom": 130,
           "spacing_left": 40,
-          "spacing_right": 30,
+          "spacing_right": 20,
           "position_xs": "bottom-right",
           "position_sm": "previous-sm",
           "position_md": "previous-md",
@@ -104,7 +104,6 @@
       },
       "1569936572878": {
         "type": "one-storie",
-        "disabled": true,
         "blocks": {
           "1586618232284": {
             "type": "image",
@@ -129,7 +128,7 @@
           "title": "Silk Dress Red",
           "show_title": false,
           "color": "#ffffff",
-          "title_spacing": 7
+          "title_spacing": 0
         }
       },
       "lookbook-01": {
@@ -392,7 +391,7 @@
           "title": "Silk Dress Headshot",
           "show_title": false,
           "color": "#ffffff",
-          "title_spacing": 7
+          "title_spacing": 0
         }
       },
       "1586688927448": {
@@ -414,6 +413,7 @@
       },
       "1587240625973": {
         "type": "one-storie",
+        "disabled": true,
         "blocks": {
           "1587240643574": {
             "type": "image",
@@ -443,12 +443,12 @@
       }
     },
     "content_for_index": [
-      "1569936572878",
       "1586687831585",
-      "1586688264965",
       "1587240625973",
       "1550327279919",
       "1586688927448",
+      "1569936572878",
+      "1586688264965",
       "1586688985887",
       "1574804032139"
     ]

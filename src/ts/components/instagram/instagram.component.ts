@@ -1,4 +1,4 @@
-import { Component, Binder } from "@ribajs/core";
+import { Component } from "@ribajs/core";
 import { Pjax } from "@ribajs/router";
 import template from "./instagram.component.html";
 import {
@@ -38,12 +38,7 @@ export class InstagramComponent extends Component {
   /**
    * Just open the instagram url
    */
-  public onTap(
-    context: Binder<any>,
-    event: JQuery.Event,
-    scope: any,
-    eventEl: HTMLElement
-  ) {
+  public onTap(event: JQuery.Event, scope: any, eventEl: HTMLElement) {
     if (!this.scope.openLinks) {
       return;
     }

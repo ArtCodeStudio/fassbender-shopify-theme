@@ -82,6 +82,68 @@
     ]
   },
   {
+    "name": "Preteching",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Preteching",
+        "info": "Prefetching speeds up the loading of subpages by preloading them. Be careful to preload only the most important pages, because too much can slow down the first time you visit the page."
+      },
+      {
+        "type":      "paragraph",
+        "content":   "Linklist 1"
+      },
+      {
+        "type": "text",
+        "id": "prefetch_linklist_1",
+        "label": "Prefetch linklist 1",
+        "info": "Insert here the navigation handle for the navigation links you want to prefetch, leave the field empty if you do not want to prefetch (more) links.",
+        "placeholder": "E.g. main-menu",
+        "default": "toggle-menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "prefetch_linklist_1_sublinks",
+        "label": "Include sublinks",
+        "default": true
+      },
+      {
+        "type":      "paragraph",
+        "content":   "Linklist 2"
+      },
+      {
+        "type": "text",
+        "id": "prefetch_linklist_2",
+        "label": "Prefetch linklist 2",
+        "info": "Insert here the navigation handle for the navigation links you want to prefetch, leave the field empty if you do not want to prefetch (more) links.",
+        "placeholder": "E.g. footer-menu",
+        "default": "toggle-menu-more"
+      },
+      {
+        "type": "checkbox",
+        "id": "prefetch_linklist_2_sublinks",
+        "label": "Include sublinks",
+        "default": true
+      },
+      {
+        "type":      "paragraph",
+        "content":   "Product"
+      },
+      {
+        "type": "checkbox",
+        "id": "prefetch_next_prev_product",
+        "label": "Prefetch the next / prev product on the PDP",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "prefetch_color_variants",
+        "label": "Prefetch the links product color links on the PDP",
+        "default": true
+      }
+    ]
+  },
+  {
     "name": "Home",
     "settings": [
       {

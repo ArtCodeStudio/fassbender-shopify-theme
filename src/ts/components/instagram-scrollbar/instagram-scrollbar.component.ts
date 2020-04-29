@@ -1,6 +1,6 @@
-import { Binder, Component } from "@ribajs/core";
+import { Component } from "@ribajs/core";
 import { Pjax } from "@ribajs/router";
-import { Utils } from "../../services/Utils";
+import { getViewportDimensions } from "@ribajs/utils/src/dom";
 import {
   InstagramMedia,
   InstagramResponse,
@@ -41,19 +41,14 @@ export class InstagramScrollbarComponent extends Component {
   constructor(element?: HTMLElement) {
     super(element);
     this.$el = $(this.el);
-    this.$scollWith = this.$el.find(".title-row");
+    this.$scollWith = this.$el.find<HTMLElement>(".title-row");
     this.init(InstagramScrollbarComponent.observedAttributes);
   }
 
   /**
    * Just open the instagram url
    */
-  public onTap(
-    context: Binder<any>,
-    event: JQuery.Event,
-    scope: any,
-    eventEl: HTMLElement
-  ) {
+  public onTap(event: JQuery.Event, scope: any, eventEl: HTMLElement) {
     const pjax = Pjax.getInstance("main");
     if (this.scope.openUrl.length > 0) {
       pjax?.goTo(this.scope.openUrl);
@@ -68,12 +63,7 @@ export class InstagramScrollbarComponent extends Component {
    * get instagram in the middle of the scrollbar elementinnerWidth
    * TODO not used
    */
-  public onScroll(
-    context: Binder<any>,
-    event: JQuery.Event,
-    scope: any,
-    eventEl: HTMLElement
-  ) {
+  public onScroll(event: JQuery.Event, scope: any, eventEl: HTMLElement) {
     if (this.$scollWith) {
       const factor = 3;
       this.$scollWith.scrollLeft(eventEl.scrollLeft / factor);
@@ -99,7 +89,7 @@ export class InstagramScrollbarComponent extends Component {
       return;
     }
     const width =
-      (Utils.getViewportDimensions().w / 3) * this.scope.media.data.length;
+      (getViewportDimensions().w / 3) * this.scope.media.data.length;
     return width;
   }
 

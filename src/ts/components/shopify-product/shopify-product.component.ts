@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Component } from "@ribajs/core";
-import { JQuery as $ } from "@ribajs/jquery";
 import {
   ShopifyProductVariant,
   ShopifyProduct,
@@ -47,6 +46,8 @@ export class ShopifyProductComponent extends Component {
 
   protected autobind = true;
 
+  public _debug = false;
+
   /**
    * handle is the product handle to get the product json object
    * extras are product data wich is only avaiable over liquid and not over the product json object
@@ -54,8 +55,6 @@ export class ShopifyProductComponent extends Component {
   static get observedAttributes() {
     return ["handle", "extras"];
   }
-
-  protected $el: JQuery<HTMLElement>;
 
   protected scope: Scope = {
     handle: null,
@@ -129,7 +128,12 @@ export class ShopifyProductComponent extends Component {
 
   constructor(element?: HTMLElement) {
     super(element);
-    this.$el = $(this.el);
+    this.debug("constructor");
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
+    this.debug("connectedCallback", this.el);
     this.init(ShopifyProductComponent.observedAttributes);
   }
 
@@ -198,12 +202,14 @@ export class ShopifyProductComponent extends Component {
    */
   protected activateOption(optionValue: string, optionName: string) {
     optionValue = optionValue.toString().replace("#", "");
-    this.$el
-      .find(`.option-${optionName.toLocaleLowerCase()}`)
-      .removeClass("active");
-    this.$el
-      .find(`.option-${optionName.toLocaleLowerCase()}-${optionValue}`)
-      .addClass("active");
+    const activeOptionElement = this.el.querySelector(
+      `.option-${optionName.toLocaleLowerCase()}.active`
+    );
+    activeOptionElement?.classList.remove("active");
+    const newActiveOptionElement = this.el.querySelector(
+      `.option-${optionName.toLocaleLowerCase()}-${optionValue}`
+    );
+    newActiveOptionElement?.classList.add("active");
   }
 
   /**
@@ -246,6 +252,12 @@ export class ShopifyProductComponent extends Component {
 
   protected requiredAttributes() {
     return ["handle"];
+  }
+
+  // deconstructor
+  protected disconnectedCallback() {
+    super.disconnectedCallback();
+    this.debug("disconnectedCallback", this.el);
   }
 
   protected template() {

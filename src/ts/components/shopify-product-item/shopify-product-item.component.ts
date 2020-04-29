@@ -1,4 +1,4 @@
-import { Component, Binder } from "@ribajs/core";
+import { Component } from "@ribajs/core";
 import {
   ShopifyProductVariant,
   ShopifyProduct,
@@ -145,7 +145,6 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     optionValue: string | number,
     position1: number,
     optionName: string,
-    context: Binder<any>,
     event: MouseEvent
   ) {
     optionValue = optionValue.toString();

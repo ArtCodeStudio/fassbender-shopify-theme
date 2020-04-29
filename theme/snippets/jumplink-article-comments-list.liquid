@@ -10,7 +10,7 @@
       </h3>
     </div>
 
-    <ul class="list-unstyled" rv-view='{"listenAllLinks": false, "containerSelector": "#comments-pagination", "scrollToTop": false, "action": "append"}' id="comments-pagination">
+    <ul class="list-unstyled" {% comment %} FIXME rv-view='{"listenAllLinks": false, "containerSelector": "#comments-pagination", "scrollToTop": false, "action": "append"}'{% endcomment %} id="comments-pagination">
       {% comment %}
         Display comment from URL parameters if it is waiting moderation
         We added "comment.id" check to make sure we don't display markup if there are form errors

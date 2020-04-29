@@ -27,7 +27,8 @@ a {
 .mini-toggler {
   span {
     font-size: $font-size-lg;
-    width: 10px;
+    width: 12px;
+    text-align: center;
     @extend .rotate-animate;
     @extend .rotate-0;
     display: block;

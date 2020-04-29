@@ -1,24 +1,41 @@
-{% assign on_sale = false %}
-{% if product.compare_at_price_max > product.price %}
-  {% assign on_sale = true %}
-{% endif %}
+{%- assign on_sale = false -%}
+{%- if product.compare_at_price_max > product.price -%}
+  {%- assign on_sale = true -%}
+{%- endif -%}
 
-<rv-shopify-product handle="{{product.handle}}">
+{%- comment -%} Generate color variants array {%- endcomment -%}
+{%- for i in (1..4) -%}
+  {%- assign colorIndex = "product-link-" | append: forloop.index | append: "-color" -%}
+  {%- assign HandleIndex = "product-link-" | append: forloop.index | append: "-handle" -%}
+  {%- assign color = product.metafields["global"][colorIndex] | strip -%}
+  {%- assign handle = product.metafields["global"][HandleIndex] | strip -%}
+  {%- if color != blank and handle != blank -%}
+    {%- assign colorMap = handle | append: ':' | append: color -%}
+    {%- if colors == blank -%}
+      {%- assign colors = colorMap -%}
+    {%- else -%}
+      {%- assign colors = colors | append: ',' | append: colorMap -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign colorArray = colors | split: ',' | sort -%}
+
+<rv-shopify-product handle="{{ product.handle }}">
   <div class="container-fluid">
 
-    {% comment %} selected variant featured_image image {% endcomment %}
+    {%- comment -%} selected variant featured_image image {%- endcomment -%}
     <div class="row">
 
-      {% comment %} MD {% endcomment %}
+      {%- comment -%} MD {%- endcomment -%}
       <div class="col-12 px-0">
         <div class="embed-responsive embed-responsive-3by4 embed-responsive-md-3by2">      
           <img
             loading="lazy"
             class="embed-responsive-item lazy"
             src="{{ product.featured_image.src | img_url: 'master' }}"
-            {% comment %}
+            {%- comment -%}
               highest quality first for safari, see https://stackoverflow.com/q/45487105
-            {% endcomment %}
+            {%- endcomment -%}
             srcset="
               {{ product.featured_image | img_url: '2048x' }} 2048w,
               {{ product.featured_image | img_url: '1920x' }} 1920w,
@@ -33,7 +50,7 @@
               {{ product.featured_image | img_url: '4096x' }} 4096w,
               {{ product.featured_image | img_url: '3072x' }} 3072w
             "
-            {% comment %} WORKAROUND TO FIX SAFARI IMGAGE STRECH BUG {% endcomment %}
+            {%- comment -%} WORKAROUND TO FIX SAFARI IMGAGE STRECH BUG {%- endcomment -%}
             rv-srcset-1500w="'{{ product.featured_image | img_url: '1500x2000', crop: 'center', format: 'pjpg' }}'"
             sizes="100vw"
             alt="{{ product.title }} - {{ product.featured_image.alt }}"
@@ -43,7 +60,7 @@
 
     </div>
 
-    {% comment %} images per row {% endcomment %}
+    {%- comment -%} images per row {%- endcomment -%}
     <div class="row" rv-each-row="variant.imageRows">
       <div rv-each-image="row.images" rv-class="row.class" >
         <div class="embed-responsive embed-responsive-3by4">      
@@ -71,60 +88,60 @@
       </div>
     </div>
 
-    {% comment %} Sticky price and color chooser {% endcomment %}
+    {%- comment -%} Sticky price and color chooser {%- endcomment -%}
     <div class="row sticky-bottom" rv-background-color-white="showDetailMenu">
 
-      {% comment %}
+      {%- comment -%}
         Desktop / Mobile: Left part
-      {% endcomment %}
+      {%- endcomment -%}
       <div class="col order-1 order-lg-1 mb-5 pb-3 mb-lg-3 pt-4 d-flex flex-column justify-content-end">
         <div class="variant-chooser pb-3">
-          <div rv-each-option="product.options" class="row px-3" rv-if="option.name | eq 'color'" rv-add-class="option.name">
-            <div rv-show="option.name | eq 'color'" rv-each-color="option.values" class="col-auto pl-0 pr-2 cursor-pointer" rv-on-click="chooseOption | args color option.position option.name">
-              <div class="styleicon-circle option-color option-variant-color" rv-add-class="color | replaceFirst '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 20px; height: 20px;"></div>
+          <div rv-flex-sort-childs rv-each-option="product.options" class="row px-3" rv-if="option.name | eq 'color'" rv-add-class="option.name">
+            <div data-sort-by="{{ product.handle }}" rv-show="option.name | eq 'color'" rv-each-color="option.values" class="col-auto pl-0 pr-2 cursor-pointer option-variant-color" rv-on-click="chooseOption | args color option.position option.name">
+              <div class="styleicon-circle option-color" rv-add-class="color | replaceFirst '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 20px; height: 20px;"></div>
             </div>
-            {% for i in (1..4) %}
-              {% assign colorIndex = "product-link-" | append: forloop.index | append: "-color" %}
-              {% assign HandleIndex = "product-link-" | append: forloop.index | append: "-handle" %}
-              {% assign color = product.metafields["global"][colorIndex] %}
-              {% assign handle = product.metafields["global"][HandleIndex] %}
-              {% if color != blank and handle != blank %}
+            {% for colorMap in colorArray %}
+              {%- assign handle = colorMap | split: ':' | first -%}
+              {%- assign color = colorMap | split: ':' | last -%}
                 <a
-                  class="col-auto pl-0 pr-2 cursor-pointer"
-                  href="{{ collection.url }}{{ all_products[handle].url }}"
-                  rv-route="'{{ collection.url }}{{ all_products[handle].url }}'"
+                  data-sort-by="{{ handle }}"
+                  class="col-auto pl-0 pr-2 cursor-pointer option-metafield-color"
+                  href="{{ all_products[handle].url | within: collection }}"
+                  rv-route="'{{ all_products[handle].url | within: collection }}'"
                 >
-                  <div class="styleicon-circle option-color option-metafield-color option-color-{{ color }}" rv-style-background-color="'{{ color }}'" style="width: 20px; height: 20px;"></div>
+                  <div class="styleicon-circle option-color option-color-{{ color }}" rv-style-background-color="'{{ color }}'" style="width: 20px; height: 20px;"></div>
+                  {%- if settings.prefetch_color_variants == true -%}
+                    <link rel="router-preload" href="{{ all_products[handle].url | within: collection }}">
+                  {%- endif -%}
                 </a>
-              {% endif %}
-            {% endfor %}
+            {%- endfor -%}
           </div>
         </div>
         <div>
           <strong>{{ product.title }}</strong><br />
-          {% if on_sale %}
+          {%- if on_sale -%}
             <s class="compare-at-price mr-2" rv-show="variant.compare_at_price | gt variant.price" rv-text="variant.compare_at_price | money '{{ shop.money_format }}'">{{ product.compare_at_price_max | money }}</s>
-          {% endif %}
+          {%- endif -%}
           <span rv-class-text-danger="variant.compare_at_price | gt variant.price" rv-text="variant.price | money '{{ shop.money_format }}'">{{ product.price | money }}</span>
         </div>
       </div>
 
-      {% comment %}
+      {%- comment -%}
         Desktop: Middle part
         Smartphone: Top part
-      {% endcomment %}
+      {%- endcomment -%}
       <div class="col-12 order-0 col-lg order-lg-2 col-xl mx-auto mb-3 pt-0 pt-lg-4" rv-opacity-0="showDetailMenu | not">
 
         <div class="row">
 
-          {% comment %} Smartphone: Show Close Button {% endcomment %}
+          {%- comment -%} Smartphone: Show Close Button {%- endcomment -%}
           <div class="col-12 d-flex d-lg-none justify-content-end">
             <rv-icon class="ml-3 my-2" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24" rv-on-click="toggleDetailMenu"></rv-icon>
           </div>
         </div>
         <div class="row justify-content-center text-center">
           <div class="form-inline">
-            <label class="m-0" for="quanity" rv-i18n-text="'products.quantity'">{{'products.quantity'|t}}</label>
+            <label class="m-0" for="quanity" rv-i18n-text="'products.quantity'">{{ 'products.quantity' | t }}</label>
             <span class="px-3 btn-quantity" rv-on-click="decrease">-</span>
             <input type="number" min="0" step="1" class="form-control input-quantity bg-transparent border-0 px-0 text-center" id="quanity" rv-value="quantity | stripHtml | number 1">
             <span class="px-3 btn-quantity" rv-on-click="increase">+</span>
@@ -140,22 +157,22 @@
         </div>
       </div>
 
-      {% comment %} Right part {% endcomment %}
+      {%- comment -%} Right part {%- endcomment -%}
       <div class="col order-2 order-lg-3 mb-5 mb-lg-3 pt-2">
         <div class="row h-100 justify-content-between">
 
-          {% comment %} Desktop: Show Close Button {% endcomment %}
+          {%- comment -%} Desktop: Show Close Button {%- endcomment -%}
           <div class="col-12 d-none d-lg-flex justify-content-end" rv-show="showDetailMenu">
             <rv-icon class="mx-3 mt-3" rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24" rv-on-click="toggleDetailMenu"></rv-icon>
           </div>
 
-          {% comment %} Desktop: Show Menu Button {% endcomment %}
+          {%- comment -%} Desktop: Show Menu Button {%- endcomment -%}
           <div class="col-12 d-flex justify-content-end align-self-end mb-3" rv-hide="showDetailMenu">
             <div class="btn-wrapper">
               <button class="btn btn-animated-underline-dark" rv-on-click="toggleDetailMenu"
                 rv-i18n-text="'products.choose'"
               >
-                {{'products.choose'|t}}
+                {{ 'products.choose' | t }}
               </button>
             </div>
           </div>
@@ -166,12 +183,12 @@
                 <span rv-show="variant.available"
                   rv-i18n-text="'products.add'"
                 >
-                  {{'products.add'|t}}
+                  {{ 'products.add' | t }}
                 </span>
                 <span rv-hide="variant.available"
                   rv-i18n-text="'products.sold_out'"
                 >
-                  {{'products.sold_out'|t}}
+                  {{ 'products.sold_out' | t }}
                 </span>
               </button>
             </div>
@@ -181,30 +198,30 @@
       </div>
     </div>
 
-    {% comment %}
+    {%- comment -%}
     <div class="row my-5">
       <bs4-tabs class="co-auto mx-auto">
-        {% if product.description != blank %}
-          <template title="{{'products.tabs.description'|t}}">
+        {%- if product.description != blank -%}
+          <template title="{{ 'products.tabs.description' | t }}">
             <div class="rte" rv-i18n-html="">
               {{ product.description }}
               <template lang="default">{{product.description}}</template>
               <template lang="de">{{product.metafields["global"]["de-description"]}}</template>
             </div>
           </template>
-        {% endif %}
+        {%- endif -%}
 
         Product Metafield Tab Titles
-        {% for i in (1..6) %}
-          {% assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" %}
-          {% assign deTabTitleIndex = "de-tab-" | append: forloop.index | append: "-title" %}
-          {% assign tabContentIndex = "tab-" | append: forloop.index | append: "-content" %}
-          {% assign deTabContentIndex = "de-tab-" | append: forloop.index | append: "-content" %}
-          {% assign tabTitle = product.metafields["global"][tabTitleIndex] %}
-          {% assign deTabTitle = product.metafields["global"][deTabTitleIndex] %}
-          {% assign tabContent = product.metafields["global"][tabContentIndex] %}
-          {% assign deTabContent = product.metafields["global"][deTabContentIndex] %}
-          {% if tabTitle != blank %}
+        {%- for i in (1..6) -%}
+          {%- assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" -%}
+          {%- assign deTabTitleIndex = "de-tab-" | append: forloop.index | append: "-title" -%}
+          {%- assign tabContentIndex = "tab-" | append: forloop.index | append: "-content" -%}
+          {%- assign deTabContentIndex = "de-tab-" | append: forloop.index | append: "-content" -%}
+          {%- assign tabTitle = product.metafields["global"][tabTitleIndex] -%}
+          {%- assign deTabTitle = product.metafields["global"][deTabTitleIndex] -%}
+          {%- assign tabContent = product.metafields["global"][tabContentIndex] -%}
+          {%- assign deTabContent = product.metafields["global"][deTabContentIndex] -%}
+          {%- if tabTitle != blank -%}
             <template i18n-title="products.tabs.{{ tabTitle | handleize }}" title="{{ tabTitle }}">
               <div rv-i18n-html="">
                 {{ tabContent }}
@@ -212,17 +229,17 @@
                 <template lang="de">{{deTabContent}}</template>
               </div>
             </template>
-          {% endif %}
-        {% endfor %}
+          {%- endif -%}
+        {%- endfor -%}
       </bs4-tabs>
     </div>
-    {% endcomment %}
+    {%- endcomment -%}
 
     <bs4-tabs-deprecated class="row my-5">
       <div class="col-12 product-tab-list nav nav-tabs nav-tabs-underline d-flex flex-nowrap justify-content-center" id="product-{{product.handle}}-tab-list" role="tablist">
         
-        {% comment %} Product Description Tab Title {% endcomment %}
-        {% if product.description != blank %}
+        {%- comment -%} Product Description Tab Title {%- endcomment -%}
+        {%- if product.description != blank -%}
           <a
             class="nav-item nav-link d-inline-block text-truncate"
             href="#tab-content-description"
@@ -232,16 +249,16 @@
             aria-selected="false"
             rv-i18n-text="'products.tabs.description'"
           >
-            {{'products.tabs.description'|t}}
+            {{ 'products.tabs.description' | t }}
           </a>
-        {% endif %}
+        {%- endif -%}
         
-        {% comment %} Product Metafield Tab Titles {% endcomment %}
-        {% for i in (1..6) %}
-          {% assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" %}
-          {% assign tabTitle = product.metafields["global"][tabTitleIndex] %}
-          {% if tabTitle != blank %}
-            {% include 'jumplink-utils-translate', translate: tabTitle, path: 'products.tabs' %}
+        {%- comment -%} Product Metafield Tab Titles {%- endcomment -%}
+        {%- for i in (1..6) -%}
+          {%- assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" -%}
+          {%- assign tabTitle = product.metafields["global"][tabTitleIndex] -%}
+          {%- if tabTitle != blank -%}
+            {%- include 'jumplink-utils-translate', translate: tabTitle, path: 'products.tabs' -%}
             <a
               class="nav-item nav-link d-inline-block text-truncate"
               href="#tab-content-{{ tabTitle | handleize }}"
@@ -252,14 +269,14 @@
             >
               {{ translated }}
             </a>
-          {% endif %}
-        {% endfor %}
-        {% comment %} Product Metafield STATIC Tab Titles {% endcomment %}
-        {% for i in (1..6) %}
-          {% assign tabIndex = "tab-static-" | append: forloop.index | append: ".tab-sta" %}
-          {% assign tabTitle = product.metafields[tabIndex]["tab-static-title"] %}
-          {% include 'jumplink-utils-translate', translate: tabTitle, path: 'products.tabs' %}
-          {% if tabTitle != blank %}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- comment -%} Product Metafield STATIC Tab Titles {%- endcomment -%}
+        {%- for i in (1..6) -%}
+          {%- assign tabIndex = "tab-static-" | append: forloop.index | append: ".tab-sta" -%}
+          {%- assign tabTitle = product.metafields[tabIndex]["tab-static-title"] -%}
+          {%- include 'jumplink-utils-translate', translate: tabTitle, path: 'products.tabs' -%}
+          {%- if tabTitle != blank -%}
             <a
               class="nav-item nav-link"
               href="#tab-content-{{ tabTitle | handleize }}"
@@ -270,14 +287,14 @@
             >
               {{ translated }}
             </a>
-          {% endif %}
-        {% endfor %}
+          {%- endif -%}
+        {%- endfor -%}
       </div>
 
-      <div class="col-12 col-md-6 tab-content product-tab-content px-5 mx-auto" id="product-{{product.handle}}-tab-content">
+      <div class="col-12 col-md-6 tab-content product-tab-content px-5 mx-auto" id="product-{{ product.handle }}-tab-content">
         
-        {% comment %} Product Description Tab Contents {% endcomment %}
-        {% if product.description != blank %}
+        {%- comment -%} Product Description Tab Contents {%- endcomment -%}
+        {%- if product.description != blank -%}
             <div
               class="tab-pane mt-3 mb-4"
               id="tab-content-description"
@@ -286,23 +303,23 @@
             >
               <div class="rte" rv-i18n-html="">
                 {{ product.description }}
-                <template lang="default">{{product.description}}</template>
-                <template lang="de">{{product.metafields["global"]["de-description"]}}</template>
+                <template lang="default">{{ product.description }}</template>
+                <template lang="de">{{ product.metafields["global"]["de-description"] }}</template>
               </div>
             </div>
-        {% endif %}
+        {%- endif -%}
         
-        {% comment %} Product Metafield Tab Contents {% endcomment %}
-        {% for i in (1..6) %}
-          {% assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" %}
-          {% assign deTabTitleIndex = "de-tab-" | append: forloop.index | append: "-title" %}
-          {% assign tabContentIndex = "tab-" | append: forloop.index | append: "-content" %}
-          {% assign deTabContentIndex = "de-tab-" | append: forloop.index | append: "-content" %}
-          {% assign tabTitle = product.metafields["global"][tabTitleIndex] %}
-          {% assign deTabTitle = product.metafields["global"][deTabTitleIndex] %}
-          {% assign tabContent = product.metafields["global"][tabContentIndex] %}
-          {% assign deTabContent = product.metafields["global"][deTabContentIndex] %}
-          {% if tabTitle != blank %}
+        {%- comment -%} Product Metafield Tab Contents {%- endcomment -%}
+        {%- for i in (1..6) -%}
+          {%- assign tabTitleIndex = "tab-" | append: forloop.index | append: "-title" -%}
+          {%- assign deTabTitleIndex = "de-tab-" | append: forloop.index | append: "-title" -%}
+          {%- assign tabContentIndex = "tab-" | append: forloop.index | append: "-content" -%}
+          {%- assign deTabContentIndex = "de-tab-" | append: forloop.index | append: "-content" -%}
+          {%- assign tabTitle = product.metafields["global"][tabTitleIndex] -%}
+          {%- assign deTabTitle = product.metafields["global"][deTabTitleIndex] -%}
+          {%- assign tabContent = product.metafields["global"][tabContentIndex] -%}
+          {%- assign deTabContent = product.metafields["global"][deTabContentIndex] -%}
+          {%- if tabTitle != blank -%}
             <div
               class="tab-pane mt-3 mb-4"
               id="tab-content-{{ tabTitle | handleize }}"
@@ -311,19 +328,19 @@
               rv-i18n-html=""
             >
               {{ tabContent }}
-              <template lang="default">{{tabContent}}</template>
-              <template lang="de">{{deTabContent}}</template>
+              <template lang="default">{{ tabContent }}</template>
+              <template lang="de">{{ deTabContent }}</template>
             </div>
-          {% endif %}
-        {% endfor %}
-        {% comment %} Product Metafield STATIC Tab Contents {% endcomment %}
-        {% for i in (1..6) %}
-          {% assign tabIndex = "tab-static-" | append: forloop.index | append: ".tab-sta" %}
-          {% assign tabTitle = product.metafields[tabIndex]["tab-static-title"] %}
-          {% assign deTabTitle = product.metafields[tabIndex]["de-tab-static-title"] %}
-          {% assign tabContent = product.metafields[tabIndex]["tab-static-content"] %}
-          {% assign deTabContent = product.metafields[tabIndex]["de-tab-static-content"] %}
-          {% if tabTitle != blank %}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- comment -%} Product Metafield STATIC Tab Contents {%- endcomment -%}
+        {%- for i in (1..6) -%}
+          {%- assign tabIndex = "tab-static-" | append: forloop.index | append: ".tab-sta" -%}
+          {%- assign tabTitle = product.metafields[tabIndex]["tab-static-title"] -%}
+          {%- assign deTabTitle = product.metafields[tabIndex]["de-tab-static-title"] -%}
+          {%- assign tabContent = product.metafields[tabIndex]["tab-static-content"] -%}
+          {%- assign deTabContent = product.metafields[tabIndex]["de-tab-static-content"] -%}
+          {%- if tabTitle != blank -%}
             <div
               class="tab-pane mt-3 mb-4"
               id="tab-content-{{ tabTitle | handleize }}"
@@ -331,35 +348,41 @@
               aria-labelledby="tab-title-{{ tabTitle | handleize }}"
               rv-i18n-html=""
             >
-              {{tabContent}}
-              <template lang="default">{{tabContent}}</template>
-              <template lang="de">{{deTabContent}}</template>
+              {{ tabContent }}
+              <template lang="default">{{ tabContent }}</template>
+              <template lang="de">{{ deTabContent }}</template>
             </div>
-          {% endif %}
-        {% endfor %}
+          {%- endif -%}
+        {%- endfor -%}
       </div>
 
     </bs4-tabs-deprecated>
 
-    {% if collection %}
+    {%- if collection -%}
       <div class="row text-nowrap my-5">
-        {% assign productUrl = product.url | within: collection %}
+        {%- assign productUrl = product.url | within: collection -%}
         <div class="col-6">
-          {% if collection.previous_product and collection.previous_product != productUrl %}
-            <a class="nav-link justify-content-start text-left px-0 py-3" href="{{collection.previous_product}}" rv-route="'{{collection.previous_product}}'" rv-i18n-text="'products.prev'">
-              {{'products.prev'|t}}
+          {%- if collection.previous_product and collection.previous_product != productUrl -%}
+            <a class="nav-link justify-content-start text-left px-0 py-3" href="{{ collection.previous_product }}" rv-route="'{{ collection.previous_product }}'" rv-i18n-text="'products.prev'">
+              {{ 'products.prev' | t }}
             </a>
-          {% endif %}
+            {%- if settings.prefetch_next_prev_product == true -%}
+                <link rel="router-preload" href="{{ collection.previous_product }}">
+            {%- endif -%}
+          {%- endif -%}
         </div>
         <div class="col-6">
-          {% if collection.next_product and collection.next_product != productUrl %}
-            <a class="nav-link justify-content-end text-right px-0 py-3" href="{{collection.next_product}}" rv-route="'{{collection.next_product}}'" rv-i18n-text="'products.next'">
-              {{'products.next'|t}}
+          {%- if collection.next_product and collection.next_product != productUrl -%}
+            <a class="nav-link justify-content-end text-right px-0 py-3" href="{{ collection.next_product }}" rv-route="'{{ collection.next_product }}'" rv-i18n-text="'products.next'">
+              {{ 'products.next' | t }}
             </a>
-          {% endif %}
+            {%- if settings.prefetch_next_prev_product == true -%}
+                <link rel="router-preload" href="{{ collection.next_product }}">
+            {%- endif -%}
+          {%- endif -%}
         </div>
       </div>
-    {% endif %}
+    {%- endif -%}
     
   </div>
 </rv-shopify-product>
@@ -370,56 +393,56 @@
   "@type": "Product",
   "name": "{{ product.title | escape }}",
   "url": "{{ shop.url }}{{ product.url }}",
-  {% if product.featured_image %}
-    {% assign image_size = product.featured_image.width | append: 'x' %}
+  {%- if product.featured_image -%}
+    {%- assign image_size = product.featured_image.width | append: 'x' -%}
     "image": [
       "https:{{ product.featured_image.src | img_url: image_size }}"
     ],
-  {% endif %}
+  {%- endif -%}
   "description": "{{ product.description | stripHtml | escape }}",
-  {% if current_variant.sku != blank %}
+  {%- if current_variant.sku != blank -%}
     "sku": "{{ current_variant.sku }}",
-  {% endif %}
+  {%- endif -%}
   "brand": {
     "@type": "Thing",
     "name": "{{ product.vendor | escape }}"
   },
-  {% if product.variants %}
+  {%- if product.variants -%}
     "offers": [
-      {% for variant in product.variants %}
+      {%- for variant in product.variants -%}
         {
           "@type" : "Offer",
-          "availability" : "http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+          "availability" : "http://schema.org/{%- if product.available -%}InStock{%- else -%}OutOfStock{%- endif -%}",
           "price" : "{{ variant.price | divided_by: 100.00 }}",
           "priceCurrency" : "{{ shop.currency }}",
           "url" : "{{ shop.url }}{{ variant.url }}",
           "itemOffered" :
           {
               "@type" : "Product",
-              {% if variant.image %}
-                {% assign variant_image_size = variant.image.width | append: 'x' %}
+              {%- if variant.image -%}
+                {%- assign variant_image_size = variant.image.width | append: 'x' -%}
                 "image": "http:{{ variant.image.src | img_url: variant_image_size }}",
-              {% endif %}
-              {% if variant.title != blank %}
+              {%- endif -%}
+              {%- if variant.title != blank -%}
                 "name" : "{{ variant.title | escape }}",
-              {% endif %}
-              {% if variant.sku != blank %}
+              {%- endif -%}
+              {%- if variant.sku != blank -%}
                 "sku": "{{ variant.sku }}",
-              {% endif %}
-              {% if variant.weight != blank %}
+              {%- endif -%}
+              {%- if variant.weight != blank -%}
                 "weight": {
                   "@type": "QuantitativeValue",
-                  {% if variant.weight_unit != blank %}
+                  {%- if variant.weight_unit != blank -%}
                     "unitCode": "{{ variant.weight_unit }}",
-                  {% endif %}
+                  {%- endif -%}
                   "value": "{{ variant.weight | weight_with_unit: variant.weight_unit }}"
                 },
-              {% endif %}
+              {%- endif -%}
               "url": "{{ shop.url }}{{ variant.url }}"
           }
-        }{% unless forloop.last %},{% endunless %}
-      {% endfor %}
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
     ]
-  {% endif %}
+  {%- endif -%}
 }
 </script>

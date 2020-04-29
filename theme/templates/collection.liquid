@@ -1,4 +1,4 @@
-<div class="container-fluid" rv-view='{"listenAllLinks": false, "containerSelector": "#products-pagination", "scrollToTop": false, "action": "append", "datasetToModel": false}' id="products-pagination">
+<div class="container-fluid" {% comment %} FIXME rv-view='{"listenAllLinks": false, "containerSelector": "#products-pagination", "scrollToTop": false, "action": "append", "datasetToModel": false}'{% endcomment %} id="products-pagination">
   {% paginate collection.products by 40 %}
     <div class="row">
       {% render 'product-collection-grid-item-col-ratio-3by4' for collection.products as product, collection: collection, colClass: 'col-6 col-lg-4 col-xl-3' %}

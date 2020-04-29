@@ -1,4 +1,4 @@
-import { Binder, Component } from "@ribajs/core";
+import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import { Pjax, Prefetch } from "@ribajs/router";
 
@@ -16,12 +16,11 @@ export class ProductScrollbarComponent extends Component {
     title: "",
   };
 
-  private $products?: JQuery<HTMLElement>;
+  private products?: NodeListOf<HTMLElement>;
 
   constructor(element?: HTMLElement) {
     super(element);
-    const $el = $(this.el);
-    this.$products = $el.find(".embed-responsive");
+    this.products = this.el.querySelectorAll(".embed-responsive");
     this.init(ProductScrollbarComponent.observedAttributes);
   }
 
@@ -29,7 +28,7 @@ export class ProductScrollbarComponent extends Component {
    * Just open the product url
    */
   public onProductTap(event: Event, scope: any, eventEl: HTMLElement) {
-    const url = $(eventEl).data("url");
+    const url = eventEl.dataset.url;
     if (!url) {
       return;
     }
@@ -50,22 +49,21 @@ export class ProductScrollbarComponent extends Component {
     if (!prefetch) {
       return;
     }
-    prefetch.onLinkEnter(event, url);
+    prefetch.onLinkEnter(url, url, event);
   }
 
   /**
    * get product in the middle of the scrollbar element
    */
   public onScroll(
-    context: Binder<any>,
     event: JQuery.Event | Event,
     scope: any,
     eventEl: HTMLElement
   ) {
-    if (this.$products) {
-      this.$products.each((index: number) => {
-        if (this.$products) {
-          const product = this.$products.get(index);
+    if (this.products) {
+      this.products.forEach((product /*, index*/) => {
+        if (this.products) {
+          // const product = this.products[index];
           const productData = product.dataset;
           const parentRect = eventEl.getBoundingClientRect();
           const elementRect = product.getBoundingClientRect();
@@ -92,7 +90,7 @@ export class ProductScrollbarComponent extends Component {
    * Invoked when the custom element is first connected to the document's DOM.
    */
   protected connectedCallback() {
-    this.$products = $(this as any).find(".embed-responsive");
+    this.products = this.el.querySelectorAll(".embed-responsive");
   }
 
   protected template() {

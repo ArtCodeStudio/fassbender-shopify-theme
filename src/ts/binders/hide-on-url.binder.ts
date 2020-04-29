@@ -1,5 +1,5 @@
 import { Binder, EventDispatcher } from "@ribajs/core";
-import { Utils } from "../services/Utils";
+import { onRoute } from "@ribajs/utils";
 
 /**
  *
@@ -12,7 +12,7 @@ export const hideOnUrlBinder: Binder<string> = {
     const dispatcher = new EventDispatcher("main");
 
     const checkURL = (urlToCheck?: string) => {
-      if (urlToCheck && Utils.onRoute(urlToCheck)) {
+      if (urlToCheck && onRoute(urlToCheck)) {
         el.setAttribute("hidden", "hidden");
         return true;
       }

@@ -2,7 +2,7 @@ import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import { Pjax } from "@ribajs/router";
 import { ShopifyCartService, ShopifyCartObject } from "@ribajs/shopify";
-import { Utils } from "../../services/Utils";
+import { onRoute } from "@ribajs/utils/src/url";
 import template from "./shopify-cart-button.component.html";
 
 interface Scope {
@@ -48,7 +48,7 @@ export class ShopifyCartButtonComponent extends Component {
     event.preventDefault();
     event.stopPropagation();
 
-    if (Utils.onRoute(ShopifyCartButtonComponent.cartUrl)) {
+    if (onRoute(ShopifyCartButtonComponent.cartUrl)) {
       console.warn("already on this site");
       window.history.back();
     } else {

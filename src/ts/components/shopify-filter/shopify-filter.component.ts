@@ -259,6 +259,8 @@ export class ShopifyFilterComponent extends Component {
     }
 
     this.dispatcher.on("newPageReady", this.onNewPage.bind(this));
+
+    this.onNewPage();
   }
 
   protected onNewPage() {

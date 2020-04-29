@@ -1,6 +1,13 @@
 rv-shopify-product-item {
   display: block;
 
+  .option-variant-color, .option-metafield-color {
+    z-index: 1;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
   .detailMenu, .colorMenu, .chooseSizeMenu, .img.embed-responsive-item {
     transition: all 300ms ease;
   }

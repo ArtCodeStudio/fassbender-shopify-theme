@@ -1,5 +1,13 @@
 import { Utils } from "../../services/Utils";
-import { Component, Binder } from "@ribajs/core";
+import {
+  stripHtml,
+  stringIsPhoneNumber,
+  stringHasOnlyNumbers,
+  isString,
+  isUndefined,
+  isNumber,
+} from "@ribajs/utils/src/type";
+import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import template from "./delete-data-form.component.html";
 import { LocalesService } from "@ribajs/shopify-tda";
@@ -64,10 +72,10 @@ export class DeleteDataFormComponent extends Component {
    * Send the contact form using a form submit request with best shopify form support
    */
   public send(event: Event) {
-    this.scope.form.firstName = Utils.stripHtml(this.scope.form.firstName);
-    this.scope.form.lastName = Utils.stripHtml(this.scope.form.lastName);
-    this.scope.form.phone = Utils.stripHtml(this.scope.form.phone);
-    this.scope.form.email = Utils.stripHtml(this.scope.form.email);
+    this.scope.form.firstName = stripHtml(this.scope.form.firstName);
+    this.scope.form.lastName = stripHtml(this.scope.form.lastName);
+    this.scope.form.phone = stripHtml(this.scope.form.phone);
+    this.scope.form.email = stripHtml(this.scope.form.email);
 
     if (this.$form) {
       this.scope.validation = this.validate(
@@ -85,12 +93,7 @@ export class DeleteDataFormComponent extends Component {
     }
   }
 
-  public selectAll(
-    context: Binder<any>,
-    event: JQuery.Event,
-    scope: any,
-    eventEl: HTMLInputElement
-  ) {
+  public selectAll(event: JQuery.Event, scope: any, eventEl: HTMLInputElement) {
     Utils.selectAll(eventEl);
   }
 
@@ -115,20 +118,20 @@ export class DeleteDataFormComponent extends Component {
       validation.rules[key].error = "";
       // value is requred
       if (validation.rules[key].required) {
-        if (Utils.isString(formValues[key])) {
+        if (isString(formValues[key])) {
           if (formValues[key].length <= 0) {
             validation.rules[key].error = "This field is required";
           }
         }
-        if (Utils.isUndefined(formValues[key])) {
+        if (isUndefined(formValues[key])) {
           validation.rules[key].error = "This field is required";
         }
       }
 
       // validation for numbers
-      if (Utils.isNumber(formValues[key])) {
+      if (isNumber(formValues[key])) {
         // maximum value for number
-        if (Utils.isNumber(validation.rules[key].max)) {
+        if (isNumber(validation.rules[key].max)) {
           if (formValues[key] > (validation.rules[key].max as number)) {
             validation.rules[key].error =
               "The number must be a maximum of " + validation.rules[key].max;
@@ -136,7 +139,7 @@ export class DeleteDataFormComponent extends Component {
         }
 
         // minimum value for number
-        if (Utils.isNumber(validation.rules[key].min)) {
+        if (isNumber(validation.rules[key].min)) {
           if (formValues[key] < (validation.rules[key].min as number)) {
             validation.rules[key].error =
               "The number must be at least " + validation.rules[key].min;
@@ -145,9 +148,9 @@ export class DeleteDataFormComponent extends Component {
       }
 
       // validation for strings
-      if (Utils.isString(formValues[key]) && formValues[key].length >= 1) {
+      if (isString(formValues[key]) && formValues[key].length >= 1) {
         // maximum value for string length
-        if (Utils.isNumber(validation.rules[key].maxlength)) {
+        if (isNumber(validation.rules[key].maxlength)) {
           if (
             formValues[key].length > (validation.rules[key].maxlength as number)
           ) {
@@ -158,7 +161,7 @@ export class DeleteDataFormComponent extends Component {
         }
 
         // minimum value for string length
-        if (Utils.isNumber(validation.rules[key].minlength)) {
+        if (isNumber(validation.rules[key].minlength)) {
           if (
             formValues[key].length < (validation.rules[key].minlength as number)
           ) {
@@ -181,7 +184,7 @@ export class DeleteDataFormComponent extends Component {
 
         // phone number
         if (validation.rules[key].isPhone) {
-          if (!Utils.stringIsPhoneNumber(formValues[key])) {
+          if (!stringIsPhoneNumber(formValues[key])) {
             validation.rules[key].error =
               "The phone number can only contain numbers, +, -, ) and (";
           }
@@ -189,7 +192,7 @@ export class DeleteDataFormComponent extends Component {
 
         // only numbers
         if (validation.rules[key].onlyNumbers) {
-          if (!Utils.stringHasOnlyNumbers(formValues[key])) {
+          if (!stringHasOnlyNumbers(formValues[key])) {
             validation.rules[key].error = "The value may only contain numbers";
           }
         }

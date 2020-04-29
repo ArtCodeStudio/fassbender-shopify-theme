@@ -1,4 +1,5 @@
-import { Riba, Utils, coreModule, EventDispatcher } from "@ribajs/core";
+import { Riba, coreModule, EventDispatcher } from "@ribajs/core";
+import { ready } from "@ribajs/utils/src/dom";
 import { Bs4DropdownComponent, Bs4TabsComponent } from "@ribajs/bs4";
 import { jqueryModule } from "@ribajs/jquery";
 import { shopifyModule } from "@ribajs/shopify";
@@ -85,6 +86,6 @@ new TrackingService({
   pinterestTag: window.model.system.themeSettings.pinterestTag,
 });
 
-Utils.domIsReady(() => {
+ready(() => {
   new Main();
 });

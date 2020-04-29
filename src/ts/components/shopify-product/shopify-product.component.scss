@@ -10,4 +10,11 @@ rv-shopify-product {
   .input-quantity {
     width: 28px !important;
   }
+
+  .option-variant-color, .option-metafield-color {
+    z-index: 1;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
 }

@@ -22,18 +22,20 @@
     {% endfor %}
     <div class="col-3"></div>
   </div>
-  <div class="row my-4">
-    <div class="col-12 text-center">
-      <span rv-html="title"></span>
-      <span rv-hide="title">
-        {% if section.settings.title %}
-          {{section.settings.title}}
-        {% else %}
-          {{collection.title}}
-        {% endif %}
-      </span> 
+  {% if section.settings.show_title %}
+    <div class="row my-4">
+      <div class="col-12 text-center">
+        <span rv-html="title"></span>
+        <span rv-hide="title">
+          {% if section.settings.title != blank %}
+            {{section.settings.title}}
+          {% else %}
+            {{ collection.title }}
+          {% endif %}
+        </span> 
+      </div>
     </div>
-  </div>
+  {% endif %}
 </rv-product-scrollbar>
 
 {% schema %}
@@ -51,6 +53,12 @@
         "type": "text",
         "id": "title",
         "label": "Title"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_title",
+        "label": "Show title",
+        "default": true
       }
     ],
     "blocks": [],

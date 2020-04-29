@@ -8,6 +8,45 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+  {% comment %} Preload home {% endcomment %}
+  <link rel="router-preload" href="/">
+
+  {% if settings.prefetch_linklist_1 != blank and linklists[settings.prefetch_linklist_1].links %}
+    {% for link in linklists[settings.prefetch_linklist_1].links %}
+      {% assign startsWithHash = link.url | split: '#' | first | default: true %}
+      {% unless startsWithHash == true %}
+        {% comment %} <link rel="prefetch" href="{{ link.url }}"> {% endcomment %}
+        <link rel="router-preload" href="{{ link.url }}">
+        {% if ettings.prefetch_linklist_1_sublinks and link.links != blank %}
+          {% for childLink in link.links %}
+            <link rel="router-preload" href="{{ childLink.url }}">
+            {% for grandChildLink in childLink.links %}
+              <link rel="router-preload" href="{{ grandChildLink.url }}">
+            {% endfor %}
+          {% endfor %}
+        {% endif %}
+      {% endunless %}
+    {% endfor %}
+  {% endif %}
+
+  {% if settings.prefetch_linklist_2 != blank and linklists[settings.prefetch_linklist_2].links %}
+    {% for link in linklists[settings.prefetch_linklist_2].links %}
+      {% assign startsWithHash = link.url | split: '#' | first | default: true %}
+      {% unless startsWithHash == true %}
+        {% comment %} <link rel="prefetch" href="{{ link.url }}"> {% endcomment %}
+        <link rel="router-preload" href="{{ link.url }}">
+        {% if ettings.prefetch_linklist_2_sublinks and link.links != blank %}
+          {% for childLink in link.links %}
+            <link rel="router-preload" href="{{ childLink.url }}">
+            {% for grandChildLink in childLink.links %}
+              <link rel="router-preload" href="{{ grandChildLink.url }}">
+            {% endfor %}
+          {% endfor %}
+        {% endif %}
+      {% endunless %}
+    {% endfor %}
+  {% endif %}
+
   <title>
     {% include 'jumplink-utils-get-title' %}
   </title>

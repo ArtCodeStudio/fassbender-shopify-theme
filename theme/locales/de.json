@@ -58,11 +58,11 @@
   },
   "collections": {
     "all": "Alle",
-    "coat": "Coat",
-    "jacket": "Jacket",
-    "vest": "Vest",
+    "coat": "Mäntel",
+    "jacket": "Jacken",
+    "vest": "Westen",
     "dress": "Kleider",
-    "scarf": "Scarf",
+    "scarf": "Schals",
     "spring-summer": "Spring\/Summer",
     "winter-sale": "Winter SALE",
     "type": "Filter"
