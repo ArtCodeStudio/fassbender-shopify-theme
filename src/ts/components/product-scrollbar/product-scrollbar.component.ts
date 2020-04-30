@@ -42,14 +42,18 @@ export class ProductScrollbarComponent extends Component {
   /**
    * Preload product on mouse over
    */
-  public onProductMouseenter(event: Event, scope: any, eventEl: HTMLElement) {
+  public onProductMouseenter(
+    event: Event,
+    scope: any,
+    eventEl: HTMLAnchorElement
+  ) {
     // console.debug'onProductMouseenter');
     const url = $(eventEl).data("url");
     const prefetch = Prefetch.getInstance();
     if (!prefetch) {
       return;
     }
-    prefetch.onLinkEnter(url, url, event);
+    prefetch.onLinkEnter(url, eventEl, event);
   }
 
   /**

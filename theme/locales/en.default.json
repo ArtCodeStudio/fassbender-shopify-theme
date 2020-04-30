@@ -28,6 +28,7 @@
     "contact": "Contact",
     "crafter": "Crafted by Art+Code Studio",
     "legal-area": "Legal Area",
+    "disclaimer--legal-notice": "Disclaimer + Legal notice",
     "stories": "Stories",
     "store": "Store",
     "shop-online": "Shop online",
@@ -54,7 +55,10 @@
     "winter-sale": "Winter SALE",
     "lookbook": "Lookbook",
     "lookbook-fw18": "Lookbook FW18",
-    "lookbook-fw19": "Lookbook FW19"
+    "lookbook-fw19": "Lookbook FW19",
+    "sale": "Sale",
+    "about-fassbender": "About Fassbender",
+    "shipping--return": "Shipping + Return"
   },
   "collections": {
     "all": "All",

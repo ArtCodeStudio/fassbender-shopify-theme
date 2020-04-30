@@ -155,10 +155,10 @@
 
   </div>
 </div>
-
-<div class="fullscreen-menu pb-5" {% comment %} rv-on-click="assign | args 'fullscreenMenuOpen' false" {% endcomment %} rv-show="fullscreenMenuOpen">
+{% comment %} Fullscreen Menü on Mobile {% endcomment %} 
+<div class="fullscreen-menu pb-5 d-block d-lg-none" rv-show="fullscreenMenuOpen">
   <div class="d-flex flex-column justify-content-start align-items-center text-center font-weight-bold scrollbar-y-auto py-5" style="max-height: 100%;">
-    <shopify-linklist class="mt-5" id="toggle-menu" name="toggle-menu" vertical="true" pills="false">
+    <shopify-linklist class="mt-5" id="toggle-menu" name="main-menu-smart" vertical="true" pills="false">
       <nav class="nav" rv-add-class="linklist.handle" rv-class-nav-pills="pills" rv-class-flex-column="vertical" rv-class-flex-row="vertical | not">
         <div class="nav-item" rv-each-link="linklist.links">
 
@@ -178,7 +178,7 @@
             <span class="font-weight-bold" rv-i18n-text="link.title | handleize | prepend 'menus.'">{link.title}</span>
           </button>
 
-          <div class="nav-item nav-item-level-2 d-flex align-items-center text-center" rv-hide="link.collapsed" rv-each-sublink="link.links" rv-route-class-active="sublink.url">
+          <div class="nav-item nav-item-level-2 d-flex align-items-center text-center small" rv-hide="link.collapsed" rv-each-sublink="link.links" rv-route-class-active="sublink.url">
             <a
               class="nav-link mx-auto"
               rv-route-class-active="sublink.url"
