@@ -9,7 +9,7 @@
       {% for variant in product.variants %}
         "{{variant.id}}": {
           "incoming": {{ variant.incoming | json }},
-          "next_incoming_date": {{ variant.next_incoming_date |json }}
+          "next_incoming_date": {{ variant.next_incoming_date | json }}
         }{% if forloop.last != true %},{% endif %}
       {% endfor %}
     },

@@ -21,7 +21,7 @@ export class TabsComponent extends Component {
     this.tabPanes = this.el.querySelectorAll<HTMLElement>(".tab-pane");
     this.scrollable = this.el.querySelector<HTMLElement>("[scrollable]");
 
-    for (const tab of this.tabs) {
+    for (const tab of Array.from(this.tabs)) {
       tab.addEventListener("click", (event: Event) => {
         event.preventDefault();
         this.activate(tab);
@@ -63,7 +63,7 @@ export class TabsComponent extends Component {
    */
   public setHeight() {
     let heigest = 0;
-    for (const tabPane of this.tabPanes) {
+    for (const tabPane of Array.from(this.tabPanes)) {
       tabPane.style.height = "auto";
       const height = parseFloat(
         getComputedStyle(tabPane, null).height.replace("px", "")
@@ -73,7 +73,7 @@ export class TabsComponent extends Component {
       }
     }
 
-    for (const tabPane of this.tabPanes) {
+    for (const tabPane of Array.from(this.tabPanes)) {
       tabPane.style.height = heigest + "px";
     }
     // this.tabPanes.each(function () {
@@ -91,11 +91,11 @@ export class TabsComponent extends Component {
   }
 
   public deactivateAll() {
-    for (const tab of this.tabs) {
+    for (const tab of Array.from(this.tabs)) {
       tab.classList.remove("active");
     }
 
-    for (const tabPane of this.tabPanes) {
+    for (const tabPane of Array.from(this.tabPanes)) {
       tabPane.classList.remove("active");
       tabPane.classList.remove("show");
     }
@@ -115,7 +115,7 @@ export class TabsComponent extends Component {
     if (targetSelector) {
       const targets = this.el.querySelectorAll(targetSelector);
       this.deactivateAll();
-      for (const target of targets) {
+      for (const target of Array.from(targets)) {
         target.classList.add("active");
         setTimeout(() => {
           target.classList.add("show");

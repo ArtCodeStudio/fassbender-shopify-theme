@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { Component } from "@ribajs/core";
 import {
   ShopifyProductVariant,

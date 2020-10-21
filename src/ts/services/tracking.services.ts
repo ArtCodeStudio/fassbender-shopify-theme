@@ -423,7 +423,6 @@ export class TrackingService {
       } else {
         // if never framework  Website-Tag (gtag.js) for google analytics is used:
         gtag("event", "page_view", {
-          // eslint-disable-next-line @typescript-eslint/camelcase
           send_to: this.googleAnalytics.trackingId, // object-literal-key-quotes
         });
         if ((window as any).ga) {

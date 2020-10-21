@@ -28,22 +28,22 @@
 @each $breakpoint in map-keys($grid-breakpoints) {
   $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
   @include media-breakpoint-up($breakpoint) {
-    &.font-size#{$infix}-base {
+    .font-size#{$infix}-base {
       font-size: $font-size-base !important;
     }
-    &.font-size#{$infix}-small {
+    .font-size#{$infix}-small {
       font-size: $font-size-sm !important;
     }
-    &.font-size#{$infix}-large {
+    .font-size#{$infix}-large {
       font-size: $font-size-lg !important;
     }
-    &.font-weight#{$infix}-light {
+    .font-weight#{$infix}-light {
       font-weight: $font-weight-normal !important;
     }
-    &.font-weight#{$infix}-normal {
+    .font-weight#{$infix}-normal {
       font-weight: $font-weight-normal !important;
     }
-    &.font-weight#{$infix}-bold {
+    .font-weight#{$infix}-bold {
       font-weight: $font-weight-bold !important;
     }
   }
