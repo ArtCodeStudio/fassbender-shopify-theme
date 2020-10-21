@@ -69,7 +69,10 @@
     "scarf": "Scarf",
     "spring-summer": "Spring\/Summer",
     "winter-sale": "Winter SALE",
-    "type": "Filter"
+    "type": "Filter",
+    "new-collection": "New Collection",
+    "sale": "SALE",
+    "skirt": "Skirt"
   },
   "products": {
     "choose": "Choose size",
