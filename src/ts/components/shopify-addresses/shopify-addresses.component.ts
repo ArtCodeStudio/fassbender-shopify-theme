@@ -1,6 +1,7 @@
 import { Component, HttpService } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import template from "./shopify-addresses.component.html";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 // TODO move to general validation component class we can extend from
 export interface ValidationRule {
@@ -59,7 +60,7 @@ export class ShopifyAddressesComponent extends Component {
   protected $editAddressForm: JQuery<HTMLFormElement> | null = null;
   protected $createAddressForm: JQuery<HTMLFormElement> | null = null;
 
-  protected scope: Scope = {
+  public scope: Scope = {
     createAddress: {
       validation: {
         valid: false,
@@ -72,9 +73,9 @@ export class ShopifyAddressesComponent extends Component {
     delete: this.delete,
   };
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    this.$el = $(this.el);
+  constructor() {
+    super();
+    this.$el = $(this);
     console.warn("constructor", this);
     this.init(ShopifyAddressesComponent.observedAttributes);
   }
@@ -173,7 +174,7 @@ export class ShopifyAddressesComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

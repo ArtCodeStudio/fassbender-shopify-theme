@@ -9,15 +9,15 @@ export class IconComponent extends Component {
     return ["size", "width", "height", "name", "src", "color", "direction"];
   }
 
-  protected scope: any = {};
+  public scope: any = {};
 
   protected autobind = false;
 
   protected $el: JQuery<HTMLElement>;
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    this.$el = $(this.el);
+  constructor() {
+    super();
+    this.$el = $(this);
     this.$el
       .attr("aria-hidden", "true")
       .attr("role", "img")
@@ -30,14 +30,14 @@ export class IconComponent extends Component {
     this.init(IconComponent.observedAttributes);
   }
 
-  public attributeChangedCallback(
+  public async attributeChangedCallback(
     name: string,
     oldValue: any,
     newValue: any,
     namespace: string | null
   ) {
     // injects the changed attributes to scope
-    super.attributeChangedCallback(name, oldValue, newValue, namespace);
+    await super.attributeChangedCallback(name, oldValue, newValue, namespace);
 
     if (name === "src") {
       this.$el.load(newValue);

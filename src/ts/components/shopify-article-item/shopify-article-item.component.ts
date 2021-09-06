@@ -1,5 +1,6 @@
 import { Component } from "@ribajs/core";
 import template from "./shopify-article-item.component.html";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 export class ShopifyArticleItemComponent extends Component {
   public static tagName = "rv-shopify-article-item";
@@ -8,10 +9,10 @@ export class ShopifyArticleItemComponent extends Component {
     return [];
   }
 
-  protected scope: any = {};
+  public scope: any = {};
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
     this.init(ShopifyArticleItemComponent.observedAttributes);
   }
 
@@ -21,7 +22,7 @@ export class ShopifyArticleItemComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

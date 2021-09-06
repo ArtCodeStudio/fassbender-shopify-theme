@@ -1,11 +1,7 @@
 import { Component } from "@ribajs/core";
 import { Pjax } from "@ribajs/router";
-import { getViewportDimensions } from "@ribajs/utils/src/dom";
-import {
-  InstagramMedia,
-  InstagramResponse,
-  InstagramService,
-} from "@ribajs/shopify-tda";
+import { getViewportDimensions, hasChildNodesTrim } from "@ribajs/utils";
+import { InstagramMedia, InstagramApiService } from "@ribajs/shopify-tda";
 import template from "./instagram-scrollbar.component.html";
 
 export interface Scope {
@@ -25,7 +21,7 @@ export class InstagramScrollbarComponent extends Component {
     return ["instagram-id", "open-links", "limit", "open-url"];
   }
 
-  protected scope: Scope = {
+  public scope: Scope = {
     instagramId: undefined,
     openLinks: false,
     openUrl: "",
@@ -38,9 +34,9 @@ export class InstagramScrollbarComponent extends Component {
   protected $el: JQuery<HTMLElement>;
   private $scollWith?: JQuery<HTMLElement>;
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    this.$el = $(this.el);
+  constructor() {
+    super();
+    this.$el = $(this);
     this.$scollWith = this.$el.find<HTMLElement>(".title-row");
     this.init(InstagramScrollbarComponent.observedAttributes);
   }
@@ -89,7 +85,7 @@ export class InstagramScrollbarComponent extends Component {
       return;
     }
     const width =
-      (getViewportDimensions().w / 3) * this.scope.media.data.length;
+      (getViewportDimensions().w / 3) * this.scope.media.media.length;
     return width;
   }
 
@@ -97,9 +93,10 @@ export class InstagramScrollbarComponent extends Component {
     if (!this.scope.instagramId) {
       throw new Error("instagram id is required!");
     }
-    InstagramService.loadMedia(this.scope.instagramId, this.scope.limit)
-      .then((response: InstagramResponse) => {
-        this.scope.media = response.media;
+    InstagramApiService.getSingleton()
+      .media(this.scope.instagramId, this.scope.limit)
+      .then((response) => {
+        this.scope.media = response;
         return this.scope.media;
       })
       .catch((error) => {
@@ -117,7 +114,7 @@ export class InstagramScrollbarComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

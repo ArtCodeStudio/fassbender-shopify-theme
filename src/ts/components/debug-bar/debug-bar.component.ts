@@ -1,6 +1,7 @@
 import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import template from "./debug-bar.component.html";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 export class DebugBarComponent extends Component {
   public static tagName = "rv-debug-bar";
@@ -9,7 +10,7 @@ export class DebugBarComponent extends Component {
     return ["theme-name"];
   }
 
-  protected scope: any = {
+  public scope: any = {
     hasPreviewBar: false,
     hasAdminBar: false,
     toggleBar: this.toggleBar,
@@ -24,21 +25,21 @@ export class DebugBarComponent extends Component {
   protected $previewBar: JQuery<HTMLIFrameElement> | null = null;
   protected $adminBar: JQuery<HTMLIFrameElement> | null = null;
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    this.$el = $(this.el);
+  constructor() {
+    super();
+    this.$el = $(this);
 
     this.init(DebugBarComponent.observedAttributes);
   }
 
-  public attributeChangedCallback(
+  public async attributeChangedCallback(
     name: string,
     oldValue: any,
     newValue: any,
     namespace: string | null
   ) {
     // injects the changed attributes to scope
-    super.attributeChangedCallback(name, oldValue, newValue, namespace);
+    await super.attributeChangedCallback(name, oldValue, newValue, namespace);
   }
 
   public hide() {
@@ -103,7 +104,7 @@ export class DebugBarComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

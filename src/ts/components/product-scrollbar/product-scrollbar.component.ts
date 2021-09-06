@@ -9,7 +9,7 @@ export class ProductScrollbarComponent extends Component {
     return [];
   }
 
-  protected scope: any = {
+  public scope: any = {
     onScroll: this.onScroll,
     onProductTap: this.onProductTap,
     onProductMouseenter: this.onProductMouseenter,
@@ -18,9 +18,9 @@ export class ProductScrollbarComponent extends Component {
 
   private products?: NodeListOf<HTMLElement>;
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    this.products = this.el.querySelectorAll(".embed-responsive");
+  constructor() {
+    super();
+    this.products = this.querySelectorAll(".embed-responsive");
     this.init(ProductScrollbarComponent.observedAttributes);
   }
 
@@ -94,7 +94,7 @@ export class ProductScrollbarComponent extends Component {
    * Invoked when the custom element is first connected to the document's DOM.
    */
   protected connectedCallback() {
-    this.products = this.el.querySelectorAll(".embed-responsive");
+    this.products = this.querySelectorAll(".embed-responsive");
   }
 
   protected template() {

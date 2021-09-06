@@ -8,9 +8,9 @@ import {
   stringHasOnlyNumbers,
   stripHtml,
 } from "@ribajs/utils/src/type";
-import { JQuery as $ } from "@ribajs/jquery";
 import template from "./revoke-form.component.html";
 import { LocalesService } from "@ribajs/shopify-tda";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 // TODO move to general validation component class we can extend from
 export interface ValidationRule {
@@ -40,11 +40,11 @@ export class RevokeFormComponent extends Component {
     return [];
   }
 
-  protected localesService = new LocalesService();
+  protected localesService = LocalesService.getSingleton();
 
-  protected $form?: JQuery<HTMLFormElement>;
+  protected form?: HTMLFormElement;
 
-  protected scope: any = {
+  public scope: any = {
     form: {
       firstName: "",
       lastName: "",
@@ -63,8 +63,8 @@ export class RevokeFormComponent extends Component {
     success: "",
   };
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
     this.init(RevokeFormComponent.observedAttributes);
   }
 
@@ -77,12 +77,12 @@ export class RevokeFormComponent extends Component {
     this.scope.form.phone = stripHtml(this.scope.form.phone);
     this.scope.form.email = stripHtml(this.scope.form.email);
 
-    if (this.$form) {
+    if (this.form) {
       this.scope.validation = this.validate(
         this.scope.validation,
         this.scope.form,
         ["firstName", "lastName", "phone", "email", "message"],
-        this.$form
+        this.form
       );
     }
 
@@ -107,7 +107,7 @@ export class RevokeFormComponent extends Component {
     validation: ValidationObject,
     formValues: any,
     keys: string[],
-    $form: JQuery<HTMLFormElement>
+    form: HTMLFormElement
   ) {
     validation.valid = true;
 
@@ -209,10 +209,10 @@ export class RevokeFormComponent extends Component {
      * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/checkValidity
      */
     if (validation.valid) {
-      validation.valid = $form[0].checkValidity();
+      validation.valid = form.checkValidity();
     }
 
-    $form.addClass("was-validated");
+    form.classList.add("was-validated");
     return validation;
   }
 
@@ -253,11 +253,11 @@ export class RevokeFormComponent extends Component {
   }
 
   protected async beforeBind() {
-    this.$form = $(this.el).find("form") as JQuery<HTMLFormElement>;
+    this.form = this.getElementsByTagName("form")[0];
 
     // For custom style form validation, see https://getbootstrap.com/docs/4.1/components/forms/#custom-styles
-    this.$form.addClass("needs-validation");
-    this.$form.attr("novalidate", "");
+    this.form.classList.add("needs-validation");
+    this.form.setAttribute("novalidate", "");
   }
 
   protected requiredAttributes() {
@@ -266,7 +266,7 @@ export class RevokeFormComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

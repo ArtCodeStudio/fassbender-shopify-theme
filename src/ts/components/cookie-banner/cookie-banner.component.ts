@@ -1,5 +1,6 @@
 import { Component } from "@ribajs/core";
 import template from "./cookie-banner.component.html";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 interface Scope {
   accept: CookieBannerComponent["accept"];
@@ -16,7 +17,7 @@ export class CookieBannerComponent extends Component {
     return ["title", "text", "url", "label"];
   }
 
-  protected scope: Scope = {
+  public scope: Scope = {
     accept: this.accept,
     close: this.close,
     show: false,
@@ -34,8 +35,8 @@ export class CookieBannerComponent extends Component {
     this.scope.show = !accepted;
   }
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
     this.scope.show = !this.cookieAccepted;
     this.init(CookieBannerComponent.observedAttributes);
   }
@@ -54,7 +55,7 @@ export class CookieBannerComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

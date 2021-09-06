@@ -20,9 +20,9 @@
         "excerpt": {{ article.excerpt | escape | truncate: 200 | json }},
       {% endif %}
       {% if full %}
-        "excerpt_or_content": {{ article.excerpt_or_content | stripHtml | escape | json }},
+        "excerpt_or_content": {{ article.excerpt_or_content | strip-html | escape | json }},
       {% else %}
-        "excerpt_or_content": {{ article.excerpt_or_content | stripHtml | escape | truncate: 200 | json }},
+        "excerpt_or_content": {{ article.excerpt_or_content | strip-html | escape | truncate: 200 | json }},
       {% endif %}
       "handle": {{ article.handle | json }},
       "id": {{ article.id | json }},

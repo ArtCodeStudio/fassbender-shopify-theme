@@ -21,10 +21,11 @@ declare global {
 
 export class Main {
   private riba = new Riba();
-  private localesService = new LocalesService();
+  private localesService = LocalesService.getSingleton();
   private dispatcher = new EventDispatcher("main");
 
   constructor() {
+    console.debug("localesService", this.localesService);
     window.model = window.model || {};
     window.model.year = new Date().getFullYear();
 
@@ -32,22 +33,24 @@ export class Main {
       stories: "all",
     };
 
-    this.riba.module.regist(coreModule);
-    this.riba.module.regist(jqueryModule);
-    this.riba.module.regist(routerModule);
-    this.riba.module.regist(shopifyModule);
-    this.riba.module.regist(i18nModule(this.localesService));
+    this.riba.module.regist(coreModule.init());
+    this.riba.module.regist(jqueryModule.init());
+    this.riba.module.regist(routerModule.init());
+    this.riba.module.regist(shopifyModule.init());
+    this.riba.module.regist(
+      i18nModule.init({ localesService: this.localesService })
+    );
 
     this.riba.module.binder.regist(scrollbarDraggableBinder);
     this.riba.module.binder.regist(touchEventsBinder);
     this.riba.module.component.regist(Bs4DropdownComponent);
     this.riba.module.component.regist(Bs4TabsComponent);
 
-    // Regist custom components
-    this.riba.module.regist({
-      components: CustomComponents,
-      binders: customBinders,
-    });
+    // Register custom components
+    this.riba.module.component.regists(CustomComponents);
+
+    // Register custom components
+    this.riba.module.binder.regists(customBinders);
 
     window.model.assign = function (key: string, value: any) {
       this[key] = value;
@@ -61,8 +64,8 @@ export class Main {
     ) {
       window.model[key] = !window.model[key];
       if (event) {
-        if ((event as JQueryEventObject).originalEvent) {
-          event = (event as JQueryEventObject).originalEvent;
+        if ((event as any).originalEvent) {
+          event = (event as any).originalEvent;
         }
         event.preventDefault();
         event.stopPropagation();

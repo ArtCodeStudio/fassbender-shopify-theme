@@ -193,29 +193,37 @@ export class TrackingService {
     if (
       Object.getOwnPropertyDescriptor &&
       Object.getOwnPropertyDescriptor(document, "cookie") &&
-      (Object.getOwnPropertyDescriptor(
-        document,
-        "cookie"
-      ) as PropertyDescriptor).get
+      (
+        Object.getOwnPropertyDescriptor(
+          document,
+          "cookie"
+        ) as PropertyDescriptor
+      ).get
     ) {
-      this._cookie.get = (Object.getOwnPropertyDescriptor(
-        document,
-        "cookie"
-      ) as PropertyDescriptor).get;
+      this._cookie.get = (
+        Object.getOwnPropertyDescriptor(
+          document,
+          "cookie"
+        ) as PropertyDescriptor
+      ).get;
     }
 
     if (
       Object.getOwnPropertyDescriptor &&
       Object.getOwnPropertyDescriptor(document, "cookie") &&
-      (Object.getOwnPropertyDescriptor(
-        document,
-        "cookie"
-      ) as PropertyDescriptor).set
+      (
+        Object.getOwnPropertyDescriptor(
+          document,
+          "cookie"
+        ) as PropertyDescriptor
+      ).set
     ) {
-      this._cookie.set = (Object.getOwnPropertyDescriptor(
-        document,
-        "cookie"
-      ) as PropertyDescriptor).set;
+      this._cookie.set = (
+        Object.getOwnPropertyDescriptor(
+          document,
+          "cookie"
+        ) as PropertyDescriptor
+      ).set;
     }
 
     if (TrackingService.instance) {
@@ -396,7 +404,9 @@ export class TrackingService {
       if (typeof (window as any).ttd_dom_ready === "function") {
         (window as any).ttd_dom_ready(() => {
           if (typeof (window as any).TTDUniversalPixelApi === "function") {
-            const universalPixelApi = new (window as any).TTDUniversalPixelApi();
+            const universalPixelApi = new (
+              window as any
+            ).TTDUniversalPixelApi();
             universalPixelApi.init(
               this.theTradeDesk.adv,
               [this.theTradeDesk.tagId[1]],

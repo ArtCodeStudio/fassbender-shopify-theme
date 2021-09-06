@@ -2,7 +2,7 @@ import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import { Pjax } from "@ribajs/router";
 import { ShopifyCartService, ShopifyCartObject } from "@ribajs/shopify";
-import { onRoute } from "@ribajs/utils/src/url";
+import { onRoute, hasChildNodesTrim } from "@ribajs/utils";
 import template from "./shopify-cart-button.component.html";
 
 interface Scope {
@@ -23,7 +23,7 @@ export class ShopifyCartButtonComponent extends Component {
 
   protected $el: JQuery<HTMLElement>;
 
-  protected scope: Scope = {
+  public scope: Scope = {
     cartItemCount: 0,
     toggle: this.toggle,
     pending: false,
@@ -38,9 +38,9 @@ export class ShopifyCartButtonComponent extends Component {
     }, 3000);
   }
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    this.$el = $(this.el);
+  constructor() {
+    super();
+    this.$el = $(this);
     this.init(ShopifyCartButtonComponent.observedAttributes);
   }
 
@@ -90,7 +90,7 @@ export class ShopifyCartButtonComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

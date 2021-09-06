@@ -41,14 +41,14 @@
 {
   "@context": "http://schema.org",
   "@type": "Article",
-  "articleBody": "{{ article.excerpt_or_content | stripHtml | strip_newlines }}",
+  "articleBody": "{{ article.excerpt_or_content | strip-html | strip_newlines }}",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ shop.url }}{{ page.url }}"
   },
   "headline": "{{ article.title }}",
   {% if article.excerpt != blank %}
-    "description": "{{ article.excerpt | stripHtml | strip_newlines }}",
+    "description": "{{ article.excerpt | strip-html | strip_newlines }}",
   {% endif %}
   {% if article.image %}
     {% assign image_size = article.image.width | append: 'x' %}

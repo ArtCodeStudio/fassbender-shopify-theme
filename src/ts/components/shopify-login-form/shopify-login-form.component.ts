@@ -1,6 +1,7 @@
 import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import template from "./shopify-login-form.component.html";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 export interface ValidationRule {
   required: boolean;
@@ -56,7 +57,7 @@ export class ShopifyLoginFormComponent extends Component {
   protected $createCustomerForm: JQuery<HTMLFormElement> | null = null;
   protected $recoverCustomerForm: JQuery<HTMLFormElement> | null = null;
 
-  protected scope: Scope = {
+  public scope: Scope = {
     form: {
       customer: {
         email: "",
@@ -84,9 +85,9 @@ export class ShopifyLoginFormComponent extends Component {
     recoverBack: this.recoverBack,
   };
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    this.$el = $(this.el);
+  constructor() {
+    super();
+    this.$el = $(this);
     this.init(ShopifyLoginFormComponent.observedAttributes);
   }
 
@@ -229,7 +230,7 @@ export class ShopifyLoginFormComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

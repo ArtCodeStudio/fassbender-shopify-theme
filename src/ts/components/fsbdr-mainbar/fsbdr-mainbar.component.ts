@@ -1,6 +1,7 @@
 import { Component } from "@ribajs/core";
 
 import template from "./fsbdr-mainbar.component.html";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 interface Scope {
   assign: FsbdrMainbarComponent["assign"];
@@ -23,7 +24,7 @@ export class FsbdrMainbarComponent extends Component {
     return ["dataset", "filter"];
   }
 
-  protected scope: Scope = {
+  public scope: Scope = {
     assign: this.assign,
     open: this.open,
     close: this.close,
@@ -31,8 +32,8 @@ export class FsbdrMainbarComponent extends Component {
     filterOpen: true,
   };
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
     this.logoTop = document.querySelector(".logo-text.logo-text-top");
     this.init(FsbdrMainbarComponent.observedAttributes);
   }
@@ -72,13 +73,13 @@ export class FsbdrMainbarComponent extends Component {
     return ["dataset"];
   }
 
-  protected attributeChangedCallback(
+  protected async attributeChangedCallback(
     attributeName: string,
     oldValue: any,
     newValue: any,
     namespace: string | null
   ) {
-    super.attributeChangedCallback(
+    await super.attributeChangedCallback(
       attributeName,
       oldValue,
       newValue,
@@ -93,7 +94,7 @@ export class FsbdrMainbarComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

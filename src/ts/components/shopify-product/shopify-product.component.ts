@@ -7,6 +7,7 @@ import {
   ShopifyProductService,
 } from "@ribajs/shopify";
 import template from "./shopify-product.component.html";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 const IMAGES_PER_ROW = 2;
 
@@ -55,7 +56,7 @@ export class ShopifyProductComponent extends Component {
     return ["handle", "extras"];
   }
 
-  protected scope: Scope = {
+  public scope: Scope = {
     handle: null,
     product: null,
     variant: null,
@@ -84,14 +85,16 @@ export class ShopifyProductComponent extends Component {
 
   protected set product(product: ShopifyProduct | null) {
     if (product) {
-      this.scope.product = ShopifyProductService.prepair(product);
+      this.scope.product = ShopifyProductService.prepare(product);
 
       // this.selectedOptions = new Array(this.scope.product.options.length);
 
-      this.colorOption = ShopifyProductService.getOption(
-        this.scope.product,
-        "color"
-      );
+      if (!this.scope.product) {
+        throw new Error("Product is null!");
+      }
+
+      this.colorOption =
+        ShopifyProductService.getOption(this.scope.product, "color") || null;
       // set the first variant to the selected one
       this.variant = this.scope.product ? this.scope.product.variants[0] : null;
     }
@@ -125,14 +128,14 @@ export class ShopifyProductComponent extends Component {
     this.scope.available = available && this.optionChoosed;
   }
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
     this.debug("constructor");
   }
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.debug("connectedCallback", this.el);
+    this.debug("connectedCallback", this);
     this.init(ShopifyProductComponent.observedAttributes);
   }
 
@@ -201,11 +204,11 @@ export class ShopifyProductComponent extends Component {
    */
   protected activateOption(optionValue: string, optionName: string) {
     optionValue = optionValue.toString().replace("#", "");
-    const activeOptionElement = this.el.querySelector(
+    const activeOptionElement = this.querySelector(
       `.option-${optionName.toLocaleLowerCase()}.active`
     );
     activeOptionElement?.classList.remove("active");
-    const newActiveOptionElement = this.el.querySelector(
+    const newActiveOptionElement = this.querySelector(
       `.option-${optionName.toLocaleLowerCase()}-${optionValue}`
     );
     newActiveOptionElement?.classList.add("active");
@@ -256,12 +259,11 @@ export class ShopifyProductComponent extends Component {
   // deconstructor
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    this.debug("disconnectedCallback", this.el);
+    // this.debug("disconnectedCallback", this);
   }
 
   protected template() {
-    // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

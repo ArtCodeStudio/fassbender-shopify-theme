@@ -1,8 +1,8 @@
 import { Component, HttpService } from "@ribajs/core";
-import { JQuery as $ } from "@ribajs/jquery";
 import { ShopifyCartService } from "@ribajs/shopify";
 import template from "./privacy-settings.component.html";
 import { TrackingService } from "../../services/tracking.services";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 interface Scope {
   theTradeDesk: {
@@ -49,15 +49,12 @@ export class PrivacySettingsComponent extends Component {
     return [];
   }
 
-  protected $el: JQuery<HTMLElement>;
-
-  protected scope: Scope;
+  public scope: Scope;
 
   protected trackingService: TrackingService;
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    this.$el = $(this.el);
+  constructor() {
+    super();
 
     this.scope = {
       theTradeDesk: window.model.system.themeSettings.theTradeDesk,
@@ -88,14 +85,14 @@ export class PrivacySettingsComponent extends Component {
       pinterestTag: this.scope.pinterestTag,
     });
 
-    this.scope.googleAnalytics.enabled = !this.trackingService
-      .googleAnalyticsDisabled;
-    this.scope.theTradeDesk.enabled = !this.trackingService
-      .theTradeDeskDisabled;
-    this.scope.facebookPixel.enabled = !this.trackingService
-      .facebookPixelDisabled;
-    this.scope.pinterestTag.enabled = !this.trackingService
-      .pinterestTagDisabled;
+    this.scope.googleAnalytics.enabled =
+      !this.trackingService.googleAnalyticsDisabled;
+    this.scope.theTradeDesk.enabled =
+      !this.trackingService.theTradeDeskDisabled;
+    this.scope.facebookPixel.enabled =
+      !this.trackingService.facebookPixelDisabled;
+    this.scope.pinterestTag.enabled =
+      !this.trackingService.pinterestTagDisabled;
 
     this.init(PrivacySettingsComponent.observedAttributes);
   }
@@ -130,23 +127,23 @@ export class PrivacySettingsComponent extends Component {
   }
 
   public onGoogleAnalyticsChanged() {
-    this.trackingService.googleAnalyticsDisabled = !this.scope.googleAnalytics
-      .enabled;
+    this.trackingService.googleAnalyticsDisabled =
+      !this.scope.googleAnalytics.enabled;
   }
 
   public onTheTradeDeskChanged() {
-    this.trackingService.theTradeDeskDisabled = !this.scope.theTradeDesk
-      .enabled;
+    this.trackingService.theTradeDeskDisabled =
+      !this.scope.theTradeDesk.enabled;
   }
 
   public onFacebookPixelChanged() {
-    this.trackingService.facebookPixelDisabled = !this.scope.facebookPixel
-      .enabled;
+    this.trackingService.facebookPixelDisabled =
+      !this.scope.facebookPixel.enabled;
   }
 
   public onPinterestTagChanged() {
-    this.trackingService.pinterestTagDisabled = !this.scope.pinterestTag
-      .enabled;
+    this.trackingService.pinterestTagDisabled =
+      !this.scope.pinterestTag.enabled;
   }
 
   protected requiredAttributes() {
@@ -155,7 +152,7 @@ export class PrivacySettingsComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

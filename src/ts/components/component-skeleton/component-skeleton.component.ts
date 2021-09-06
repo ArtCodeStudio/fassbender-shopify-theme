@@ -3,6 +3,8 @@ import { Component } from "@ribajs/core";
 // import pugTemplate from './component-skeleton.component.pug';
 import template from "./component-skeleton.component.html";
 
+import { hasChildNodesTrim } from "@ribajs/utils";
+
 interface Scope {
   hello?: string;
 }
@@ -16,12 +18,12 @@ export class ComponentSkeletonComponent extends Component {
     return ["hello"];
   }
 
-  protected scope: Scope = {
+  public scope: Scope = {
     hello: undefined,
   };
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
     this.init(ComponentSkeletonComponent.observedAttributes);
   }
 
@@ -35,7 +37,7 @@ export class ComponentSkeletonComponent extends Component {
     return [];
   }
 
-  protected attributeChangedCallback(
+  protected async attributeChangedCallback(
     attributeName: string,
     oldValue: any,
     newValue: any,
@@ -56,7 +58,7 @@ export class ComponentSkeletonComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

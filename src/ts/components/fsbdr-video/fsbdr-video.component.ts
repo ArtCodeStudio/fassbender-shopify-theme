@@ -5,8 +5,8 @@ export class FsbdrVideoComponent extends VideoComponent {
 
   protected autobind = true;
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
   }
 
   protected requiredAttributes() {

@@ -7,6 +7,7 @@ import {
   ShopifyProductService,
 } from "@ribajs/shopify";
 import template from "./shopify-product-item.component.html";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 export interface Scope {
   handle: string | null;
@@ -45,7 +46,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     return ["handle", "extras"];
   }
 
-  protected scope: Scope = {
+  public scope: Scope = {
     handle: null,
     product: null,
     variant: null,
@@ -92,16 +93,16 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
 
   protected set product(product: ShopifyProduct | null) {
     if (product) {
-      this.scope.product = ShopifyProductService.prepair(product);
+      this.scope.product = ShopifyProductService.prepare(product);
 
-      this.scope.colorOption = ShopifyProductService.getOption(
-        this.scope.product,
-        "color"
-      );
-      this.scope.sizeOption = ShopifyProductService.getOption(
-        this.scope.product,
-        "size"
-      );
+      if (!this.scope.product) {
+        throw new Error("Product is null!");
+      }
+
+      this.scope.colorOption =
+        ShopifyProductService.getOption(this.scope.product, "color") || null;
+      this.scope.sizeOption =
+        ShopifyProductService.getOption(this.scope.product, "size") || null;
 
       // set the first variant to the selected one
       this.variant = this.scope.product ? this.scope.product.variants[0] : null;
@@ -129,10 +130,10 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     return this.scope.variant;
   }
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
     this.init(ShopifyProductItemComponent.observedAttributes);
-    this.el.addEventListener(
+    this.addEventListener(
       "mouseleave",
       () => {
         this.showMenu = false;
@@ -211,13 +212,13 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
    */
   protected activateOption(optionValue: string, optionName: string) {
     optionValue = optionValue.toString().replace("#", "");
-    const allOptions = this.el.querySelectorAll(
+    const allOptions = this.querySelectorAll(
       `.option-${optionName.toLocaleLowerCase()}`
     );
     allOptions.forEach((el) => {
       el.classList.remove("active");
     });
-    const activeOptions = this.el.querySelectorAll(
+    const activeOptions = this.querySelectorAll(
       `.option-${optionName.toLocaleLowerCase()}-${optionValue}`
     );
     activeOptions.forEach((el) => {
@@ -269,8 +270,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   }
 
   protected template() {
-    // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

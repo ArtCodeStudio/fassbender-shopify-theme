@@ -1,11 +1,8 @@
 import { Component } from "@ribajs/core";
 import { Pjax } from "@ribajs/router";
 import template from "./instagram.component.html";
-import {
-  InstagramMedia,
-  InstagramResponse,
-  InstagramService,
-} from "@ribajs/shopify-tda";
+import { InstagramMedia, InstagramApiService } from "@ribajs/shopify-tda";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 export interface Scope {
   media?: InstagramMedia;
@@ -22,7 +19,7 @@ export class InstagramComponent extends Component {
     return ["instagram-id", "open-links", "limit"];
   }
 
-  protected scope: Scope = {
+  public scope: Scope = {
     media: undefined,
     openLinks: false,
     limit: 0,
@@ -30,8 +27,8 @@ export class InstagramComponent extends Component {
     onTap: this.onTap,
   };
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
     this.init(InstagramComponent.observedAttributes);
   }
 
@@ -51,9 +48,10 @@ export class InstagramComponent extends Component {
     if (!this.scope.instagramId) {
       return Promise.reject();
     }
-    InstagramService.loadMedia(this.scope.instagramId, this.scope.limit)
-      .then((response: InstagramResponse) => {
-        this.scope.media = response.media;
+    InstagramApiService.getSingleton()
+      .media(this.scope.instagramId, this.scope.limit)
+      .then((response) => {
+        this.scope.media = response;
       })
       .catch((error: Error) => {
         console.error(`Error: Can't load instagram media`, error);
@@ -70,7 +68,7 @@ export class InstagramComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

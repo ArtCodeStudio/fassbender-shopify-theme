@@ -3,6 +3,7 @@ import { JQuery as $ } from "@ribajs/jquery";
 import template from "./newsletter.component.html";
 import { LocalesService } from "@ribajs/shopify-tda";
 import { Utils } from "../../services/Utils";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 // TODO move to general validation component class we can extend from
 export interface ValidationObject {
@@ -26,9 +27,9 @@ export class NewsletterComponent extends Component {
     return [];
   }
 
-  protected localesService = new LocalesService();
+  protected localesService = LocalesService.getSingleton();
 
-  protected scope: Scope = {
+  public scope: Scope = {
     subscribe: this.subscribe,
     selectAll: this.selectAll,
     form: {
@@ -45,9 +46,9 @@ export class NewsletterComponent extends Component {
 
   protected $form?: JQuery<HTMLFormElement>;
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    this.$el = $(this.el);
+  constructor() {
+    super();
+    this.$el = $(this);
     this.init(NewsletterComponent.observedAttributes);
   }
 
@@ -101,7 +102,7 @@ export class NewsletterComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

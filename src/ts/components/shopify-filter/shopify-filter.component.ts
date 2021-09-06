@@ -2,6 +2,7 @@ import { Component, EventDispatcher } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import { Linklist } from "@ribajs/shopify";
 import template from "./shopify-filter.component.html";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 interface DataTemplate {
   directory: string;
@@ -83,7 +84,7 @@ export class ShopifyFilterComponent extends Component {
     return ["namespace", "filter"];
   }
 
-  protected scope: Scope = {
+  public scope: Scope = {
     // TODO use rv-parent for that
     linklist: window.model.system.linklists.filter,
     filterOpen: true,
@@ -96,10 +97,9 @@ export class ShopifyFilterComponent extends Component {
     anyIsVisable: this.anyIsVisable,
   };
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
     this.init(ShopifyFilterComponent.observedAttributes);
-    this.debug("constructor", this.el);
   }
 
   public openFilter() {
@@ -159,18 +159,18 @@ export class ShopifyFilterComponent extends Component {
     }
   }
 
-  public scrollTo(selector: string) {
-    const offset = $(selector).offset();
-    if (!offset) {
-      console.warn(`Element with selector ${selector} not found`);
-      return;
-    }
+  // public scrollTo(selector: string) {
+  //   const offset = $(selector).offset();
+  //   if (!offset) {
+  //     console.warn(`Element with selector ${selector} not found`);
+  //     return;
+  //   }
 
-    $("html, body").animate({
-      scrollTop: offset.top,
-      scrollLeft: offset.left,
-    });
-  }
+  //   $("html, body").animate({
+  //     scrollTop: offset.top,
+  //     scrollLeft: offset.left,
+  //   });
+  // }
 
   public storiesFilterBy(
     handle: string,
@@ -276,7 +276,7 @@ export class ShopifyFilterComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

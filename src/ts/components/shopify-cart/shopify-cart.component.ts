@@ -9,6 +9,7 @@ import {
 } from "@ribajs/shopify";
 import template from "./shopify-cart.component.html";
 import { DropdownService } from "@ribajs/bs4/src/services/dropdown.service";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 interface Scope {
   cart: ShopifyCartObject | null;
@@ -37,7 +38,7 @@ export class ShopifyCartComponent extends Component {
 
   protected dropdownService?: DropdownService;
 
-  protected scope: Scope = {
+  public scope: Scope = {
     cart: ShopifyCartService.cart,
     shippingAddress: null,
     estimateShippingRate: false,
@@ -69,15 +70,16 @@ export class ShopifyCartComponent extends Component {
         (
           shippingRates: ShopifyShippingRates | ShopifyShippingRatesNormalized
         ) => {
-          this.scope.shippingRates = shippingRates as ShopifyShippingRatesNormalized;
+          this.scope.shippingRates =
+            shippingRates as ShopifyShippingRatesNormalized;
         }
       );
     }
   }
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    const dropdownElement = this.el.querySelector(
+  constructor() {
+    super();
+    const dropdownElement = this.querySelector(
       ".dropdown-toggle"
     ) as HTMLButtonElement;
     if (dropdownElement) {
@@ -162,7 +164,7 @@ export class ShopifyCartComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

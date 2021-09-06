@@ -11,6 +11,7 @@ import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
 import template from "./contact-form.component.html";
 import { LocalesService } from "@ribajs/shopify-tda";
+import { hasChildNodesTrim } from "@ribajs/utils";
 
 // TODO move to general validation component class we can extend from
 export interface ValidationRule {
@@ -40,11 +41,11 @@ export class ContactFormComponent extends Component {
     return [];
   }
 
-  protected localsService = new LocalesService();
+  protected localsService = LocalesService.getSingleton();
 
   protected $form?: JQuery<HTMLFormElement>;
 
-  protected scope: any = {
+  public scope: any = {
     form: {
       firstName: "",
       lastName: "",
@@ -63,8 +64,8 @@ export class ContactFormComponent extends Component {
     success: "",
   };
 
-  constructor(element?: HTMLElement) {
-    super(element);
+  constructor() {
+    super();
     this.init(ContactFormComponent.observedAttributes);
   }
 
@@ -257,7 +258,7 @@ export class ContactFormComponent extends Component {
   }
 
   protected async beforeBind() {
-    this.$form = $(this.el).find("form") as JQuery<HTMLFormElement>;
+    this.$form = $(this).find("form") as JQuery<HTMLFormElement>;
 
     // For custom style form validation, see https://getbootstrap.com/docs/4.1/components/forms/#custom-styles
     this.$form.addClass("needs-validation");
@@ -270,7 +271,7 @@ export class ContactFormComponent extends Component {
 
   protected template() {
     // Only set the component template if there no childs already
-    if (this.el.hasChildNodes()) {
+    if (hasChildNodesTrim(this)) {
       return null;
     } else {
       return template;

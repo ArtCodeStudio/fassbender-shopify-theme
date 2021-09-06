@@ -3,7 +3,7 @@ import { Component } from "@ribajs/core";
 export class TabsComponent extends Component {
   public static tagName = "bs4-tabs-deprecated";
 
-  protected scope: any = {};
+  public scope: any = {};
 
   private tabs: NodeListOf<HTMLAnchorElement>;
   private tabPanes: NodeListOf<HTMLElement>;
@@ -17,9 +17,9 @@ export class TabsComponent extends Component {
   protected async beforeBind() {
     await super.beforeBind();
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    this.tabs = this.el.querySelectorAll<HTMLAnchorElement>(".nav-link");
-    this.tabPanes = this.el.querySelectorAll<HTMLElement>(".tab-pane");
-    this.scrollable = this.el.querySelector<HTMLElement>("[scrollable]");
+    this.tabs = this.querySelectorAll<HTMLAnchorElement>(".nav-link");
+    this.tabPanes = this.querySelectorAll<HTMLElement>(".tab-pane");
+    this.scrollable = this.querySelector<HTMLElement>("[scrollable]");
 
     for (const tab of Array.from(this.tabs)) {
       tab.addEventListener("click", (event: Event) => {
@@ -50,11 +50,11 @@ export class TabsComponent extends Component {
     }
   }
 
-  constructor(element?: HTMLElement) {
-    super(element);
-    this.tabs = this.el.querySelectorAll<HTMLAnchorElement>(".nav-link");
-    this.tabPanes = this.el.querySelectorAll<HTMLElement>(".tab-pane");
-    this.scrollable = this.el.querySelector<HTMLElement>("[scrollable]");
+  constructor() {
+    super();
+    this.tabs = this.querySelectorAll<HTMLAnchorElement>(".nav-link");
+    this.tabPanes = this.querySelectorAll<HTMLElement>(".tab-pane");
+    this.scrollable = this.querySelector<HTMLElement>("[scrollable]");
     this.init(TabsComponent.observedAttributes);
   }
 
@@ -113,7 +113,7 @@ export class TabsComponent extends Component {
   public activate(tab: HTMLAnchorElement) {
     const targetSelector = tab.getAttribute("href");
     if (targetSelector) {
-      const targets = this.el.querySelectorAll(targetSelector);
+      const targets = this.querySelectorAll(targetSelector);
       this.deactivateAll();
       for (const target of Array.from(targets)) {
         target.classList.add("active");
