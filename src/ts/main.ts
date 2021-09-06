@@ -73,9 +73,9 @@ export class Main {
 
     window.model.system.shopify = (window as any).Shopify;
 
-    const view = this.riba.bind(document.body, window.model);
+    this.riba.bind(document.body, window.model);
 
-    view.registComponents();
+    // view.registComponents();
 
     // TODO solve with rv-on-new-page-ready="assign | args 'fullscreenMenuOpen' false"?
     this.dispatcher.on("newPageReady", () => {

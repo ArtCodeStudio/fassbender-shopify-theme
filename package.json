@@ -116,9 +116,9 @@
   "dependencies": {
     "@ribajs/bs4": "workspace:*",
     "@ribajs/core": "workspace:*",
-    "@ribajs/events": "workspace:packages/riba/packages/events",
+    "@ribajs/events": "workspace:*",
     "@ribajs/extras": "workspace:*",
-    "@ribajs/history": "workspace:packages/riba/packages/history",
+    "@ribajs/history": "workspace:*",
     "@ribajs/i18n": "workspace:*",
     "@ribajs/jquery": "workspace:*",
     "@ribajs/router": "workspace:*",

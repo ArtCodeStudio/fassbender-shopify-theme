@@ -96,26 +96,28 @@
       {%- endcomment -%}
       <div class="col order-1 order-lg-1 mb-5 pb-3 mb-lg-3 pt-4 d-flex flex-column justify-content-end">
         <div class="variant-chooser pb-3">
-          <div rv-flex-sort-childs rv-each-option="product.options" class="row px-3" rv-if="option.name | contains 'color'" rv-add-class="option.name">
-            <div data-sort-by="{{ product.handle }}" rv-show="option.name | contains 'color'" rv-each-color="option.values" class="col-auto pl-0 pr-2 cursor-pointer option-variant-color" rv-on-click="chooseOption | args color option.position option.name">
+          <div class="row px-3" rv-flex-sort-childs rv-each-option="product.options" rv-show="option.name | contains 'color'" rv-add-class="option.name">
+            {%- comment -%} Native shopify colors {%- endcomment -%}
+            <div data-sort-by="{{ product.handle }}" rv-each-color="option.values" class="col-auto pl-0 pr-2 cursor-pointer option-variant-color" rv-on-click="chooseOption | args color option.position option.name">
               <div class="styleicon-circle option-color" rv-add-class="color | replaceFirst '#' '' | prepend 'option-color-'" rv-style-background-color="color" style="width: 20px; height: 20px;"></div>
             </div>
+            {%- comment -%} Metafield colors {%- endcomment -%}
+            {% for colorMap in colorArray %}
+              {%- assign handle = colorMap | split: ':' | first -%}
+              {%- assign color = colorMap | split: ':' | last -%}
+              <a
+                data-sort-by="{{ handle }}"
+                class="col-auto pl-0 pr-2 cursor-pointer option-metafield-color"
+                href="{{ all_products[handle].url | within: collection }}"
+                rv-route="'{{ all_products[handle].url | within: collection }}'"
+              >
+                <div class="styleicon-circle option-color option-color-{{ color }}" rv-style-background-color="'{{ color }}'" style="width: 20px; height: 20px;"></div>
+                {%- if settings.prefetch_color_variants == true -%}
+                  <link rel="router-preload" href="{{ all_products[handle].url | within: collection }}">
+                {%- endif -%}
+              </a>
+            {%- endfor -%}
           </div>
-          {% for colorMap in colorArray %}
-            {%- assign handle = colorMap | split: ':' | first -%}
-            {%- assign color = colorMap | split: ':' | last -%}
-            <a
-              data-sort-by="{{ handle }}"
-              class="col-auto pl-0 pr-2 cursor-pointer option-metafield-color"
-              href="{{ all_products[handle].url | within: collection }}"
-              rv-route="'{{ all_products[handle].url | within: collection }}'"
-            >
-              <div class="styleicon-circle option-color option-color-{{ color }}" rv-style-background-color="'{{ color }}'" style="width: 20px; height: 20px;"></div>
-              {%- if settings.prefetch_color_variants == true -%}
-                <link rel="router-preload" href="{{ all_products[handle].url | within: collection }}">
-              {%- endif -%}
-            </a>
-          {%- endfor -%}
         </div>
         <div>
           <strong>{{ product.title }}</strong><br />

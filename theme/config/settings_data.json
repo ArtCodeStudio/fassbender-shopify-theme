@@ -252,64 +252,67 @@
           "title": "FW19\/20"
         }
       },
-      "1589633002724": {
+      "1590140011265": {
+        "type": "newsletter",
+        "disabled": true,
+        "settings": {
+          "name": "Newsletter",
+          "enable": true,
+          "color": "#ffffff",
+          "subscrib_url": ""
+        }
+      },
+      "16109116792b362247": {
         "type": "one-storie",
         "blocks": {
-          "2f3ab92b-96fa-4670-85df-cdd83d4d6f65": {
+          "64ac83be-afd0-4a4d-9deb-490f07ebfd4c": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/Fassbender_22_klein.jpg",
-              "aspect_ratio": "1by1",
-              "aspect_ratio_md": "3by2",
-              "video_url": "",
+              "aspect_ratio": "16by9",
+              "aspect_ratio_md": "16by9",
+              "video_url": "https:\/\/vimeo.com\/595904557",
+              "mp4_video_url": "",
               "controls": false,
               "mute": true,
-              "spacing": 0
-            }
-          },
-          "77d210ba-0253-44ab-a4ec-8118cc053d36": {
-            "type": "image",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/Fassbender_03_klein.jpg",
-              "aspect_ratio": "2by3",
-              "aspect_ratio_md": "none",
-              "video_url": "",
-              "controls": false,
-              "mute": true,
-              "spacing": 0
+              "spacing": 56
             }
           }
         },
         "block_order": [
-          "2f3ab92b-96fa-4670-85df-cdd83d4d6f65",
-          "77d210ba-0253-44ab-a4ec-8118cc053d36"
+          "64ac83be-afd0-4a4d-9deb-490f07ebfd4c"
         ],
         "settings": {
           "story": "shopify:\/\/collections\/new-collection",
-          "title": "Vest Dress",
+          "title": "FW 21 Video",
           "show_title": false,
           "color": "#ffffff",
           "title_spacing": 0
         }
       },
-      "1590140011265": {
-        "type": "newsletter",
-        "settings": {
-          "name": "Newsletter",
-          "enable": true,
-          "color": "#ffffff"
-        }
-      },
-      "16018407732f1d6ed6": {
+      "16109127166cab1983": {
         "type": "one-storie",
         "blocks": {
-          "34053ec3-ff69-441d-a1a9-8190e3cf20bb": {
+          "e8e5b1d6-e54c-4946-a9e9-2475b5edf150": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/Fassbender_06_klein.jpg",
-              "aspect_ratio": "1by1",
-              "aspect_ratio_md": "3by2",
+              "image": "shopify:\/\/shop_images\/Fassbender_FW21_LB_16.jpg",
+              "aspect_ratio": "2by3",
+              "aspect_ratio_md": "3by4",
               "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": false,
+              "spacing": 0
+            }
+          },
+          "ada54775-94fc-4204-8ef5-bb82d233d457": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Fassbender_FW21_LB_41.jpg",
+              "aspect_ratio": "2by3",
+              "aspect_ratio_md": "3by4",
+              "video_url": "",
+              "mp4_video_url": "",
               "controls": false,
               "mute": true,
               "spacing": 0
@@ -317,20 +320,50 @@
           }
         },
         "block_order": [
-          "34053ec3-ff69-441d-a1a9-8190e3cf20bb"
+          "e8e5b1d6-e54c-4946-a9e9-2475b5edf150",
+          "ada54775-94fc-4204-8ef5-bb82d233d457"
         ],
         "settings": {
-          "story": "shopify:\/\/collections\/new-collection",
-          "title": "FW 20 Collection",
+          "story": "shopify:\/\/products\/oversized-shirt-with-notch-collar-rose-paddle-small-mud-fw-21",
+          "title": "",
           "show_title": false,
           "color": "#ffffff",
-          "title_spacing": 30
+          "title_spacing": 0
+        }
+      },
+      "16109140683703bcfc": {
+        "type": "one-storie",
+        "blocks": {
+          "e7c1bd7d-6542-4e87-b6e3-a42b0c1d9c48": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Fassbender_FW21_LB_20.jpg",
+              "aspect_ratio": "1by2",
+              "aspect_ratio_md": "4by3",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "e7c1bd7d-6542-4e87-b6e3-a42b0c1d9c48"
+        ],
+        "settings": {
+          "story": "shopify:\/\/collections\/fall-winter-21",
+          "title": "",
+          "show_title": false,
+          "color": "#ffffff",
+          "title_spacing": 7
         }
       }
     },
     "content_for_index": [
-      "16018407732f1d6ed6",
-      "1589633002724",
+      "16109140683703bcfc",
+      "16109127166cab1983",
+      "16109116792b362247",
       "1590140011265"
     ]
   }
