@@ -217,13 +217,13 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   protected activateOption(optionValue: string, optionName: string) {
     optionValue = optionValue.toString().replace("#", "");
     const allOptions = this.querySelectorAll(
-      `.option-${optionName.toLocaleLowerCase()}`
+      `.option-${optionName.toLowerCase()}`
     );
     allOptions.forEach((el) => {
       el.classList.remove("active");
     });
     const activeOptions = this.querySelectorAll(
-      `.option-${optionName.toLocaleLowerCase()}-${optionValue}`
+      `.option-${optionName.toLowerCase()}-${optionValue}`
     );
     activeOptions.forEach((el) => {
       el.classList.add("active");
