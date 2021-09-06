@@ -7,7 +7,7 @@ import {
   ShopifyProductService,
 } from "@ribajs/shopify";
 import template from "./shopify-product-item.component.html";
-import { hasChildNodesTrim } from "@ribajs/utils";
+import { handleize, hasChildNodesTrim } from "@ribajs/utils";
 
 export interface Scope {
   handle: string | null;
@@ -72,7 +72,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
   private selectedOptions: string[] = [];
 
   /**
-   * Is true if the user has choosed an option
+   * Is true if the user has choosen an option
    */
   private optionChoosed = false;
 
@@ -100,9 +100,11 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
       }
 
       this.scope.colorOption =
-        ShopifyProductService.getOption(this.scope.product, "color") || null;
+        ShopifyProductService.getOptionIncludes(this.scope.product, "color") ||
+        null;
       this.scope.sizeOption =
-        ShopifyProductService.getOption(this.scope.product, "size") || null;
+        ShopifyProductService.getOptionIncludes(this.scope.product, "size") ||
+        null;
 
       // set the first variant to the selected one
       this.variant = this.scope.product ? this.scope.product.variants[0] : null;
@@ -215,15 +217,14 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
    * @param optionName
    */
   protected activateOption(optionValue: string, optionName: string) {
-    optionValue = optionValue.toString().replace("#", "");
-    const allOptions = this.querySelectorAll(
-      `.option-${optionName.toLowerCase()}`
-    );
+    optionName = handleize(optionName);
+    optionValue = handleize(optionValue.toString().replace("#", ""));
+    const allOptions = this.querySelectorAll(`.option-${optionName}`);
     allOptions.forEach((el) => {
       el.classList.remove("active");
     });
     const activeOptions = this.querySelectorAll(
-      `.option-${optionName.toLowerCase()}-${optionValue}`
+      `.option-${optionName}-${optionValue}`
     );
     activeOptions.forEach((el) => {
       el.classList.add("active");
@@ -241,9 +242,9 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
         if (this.scope.product) {
           const optionName = this.scope.product.options[position0].name;
           // Only activate size if it was clicked by the user
-          if (optionName === "size") {
+          if (optionName.includes("size")) {
             if (this.optionChoosed) {
-              this.activateOption(optionValue, optionName);
+              this.activateOption(optionValue, "size");
             }
           } else {
             this.activateOption(optionValue, optionName);

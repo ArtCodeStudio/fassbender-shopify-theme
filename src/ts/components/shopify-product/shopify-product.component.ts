@@ -7,7 +7,7 @@ import {
   ShopifyProductService,
 } from "@ribajs/shopify";
 import template from "./shopify-product.component.html";
-import { hasChildNodesTrim } from "@ribajs/utils";
+import { hasChildNodesTrim, handleize } from "@ribajs/utils";
 
 const IMAGES_PER_ROW = 2;
 
@@ -79,7 +79,7 @@ export class ShopifyProductComponent extends Component {
   private selectedOptions: string[] = [];
 
   /**
-   * Is true if the user has choosed an option
+   * Is true if the user has choosen an option
    */
   private optionChoosed = false;
 
@@ -94,7 +94,8 @@ export class ShopifyProductComponent extends Component {
       }
 
       this.colorOption =
-        ShopifyProductService.getOption(this.scope.product, "color") || null;
+        ShopifyProductService.getOptionIncludes(this.scope.product, "color") ||
+        null;
       // set the first variant to the selected one
       this.variant = this.scope.product ? this.scope.product.variants[0] : null;
     }
@@ -203,13 +204,14 @@ export class ShopifyProductComponent extends Component {
    * @param optionName
    */
   protected activateOption(optionValue: string, optionName: string) {
-    optionValue = optionValue.toString().replace("#", "");
+    optionName = handleize(optionName);
+    optionValue = handleize(optionValue.toString().replace("#", ""));
     const activeOptionElement = this.querySelector(
-      `.option-${optionName.toLocaleLowerCase()}.active`
+      `.option-${optionName}.active`
     );
     activeOptionElement?.classList.remove("active");
     const newActiveOptionElement = this.querySelector(
-      `.option-${optionName.toLocaleLowerCase()}-${optionValue}`
+      `.option-${optionName}-${optionValue}`
     );
     newActiveOptionElement?.classList.add("active");
   }
@@ -223,11 +225,13 @@ export class ShopifyProductComponent extends Component {
       if (this.selectedOptions[position0]) {
         const optionValue = this.selectedOptions[position0];
         if (this.scope.product) {
-          const optionName = this.scope.product.options[position0].name;
+          const optionName = handleize(
+            this.scope.product.options[position0].name
+          );
           // Only activate size if it was clicked by the user
-          if (optionName === "size") {
+          if (optionName.includes("size")) {
             if (this.optionChoosed) {
-              this.activateOption(optionValue, optionName);
+              this.activateOption(optionValue, "size");
             }
           } else {
             this.activateOption(optionValue, optionName);
@@ -295,7 +299,7 @@ export class ShopifyProductComponent extends Component {
    * Get images wich are not linked to any variant
    */
   private getGeneralImages(optionName = "color") {
-    optionName = optionName.toLowerCase();
+    optionName = handleize(optionName);
     const generalImages: string[] = [];
     if (this.scope.product) {
       // add images without optionName in filename
