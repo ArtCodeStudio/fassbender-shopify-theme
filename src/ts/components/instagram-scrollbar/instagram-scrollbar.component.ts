@@ -38,6 +38,10 @@ export class InstagramScrollbarComponent extends Component {
     super();
     this.$el = $(this);
     this.$scollWith = this.$el.find<HTMLElement>(".title-row");
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(InstagramScrollbarComponent.observedAttributes);
   }
 

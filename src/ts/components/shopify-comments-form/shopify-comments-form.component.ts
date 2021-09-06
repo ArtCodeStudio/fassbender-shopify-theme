@@ -78,7 +78,10 @@ export class ShopifyCommentsFormComponent extends Component {
 
   constructor() {
     super();
-    // this.$el = $(this);
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(ShopifyCommentsFormComponent.observedAttributes);
   }
 

@@ -13,6 +13,10 @@ export class ShopifyArticleItemComponent extends Component {
 
   constructor() {
     super();
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(ShopifyArticleItemComponent.observedAttributes);
   }
 

@@ -38,6 +38,10 @@ export class CookieBannerComponent extends Component {
   constructor() {
     super();
     this.scope.show = !this.cookieAccepted;
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(CookieBannerComponent.observedAttributes);
   }
 

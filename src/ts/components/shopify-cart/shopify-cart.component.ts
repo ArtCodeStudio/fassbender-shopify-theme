@@ -85,6 +85,10 @@ export class ShopifyCartComponent extends Component {
     if (dropdownElement) {
       this.dropdownService = new DropdownService(dropdownElement);
     }
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(ShopifyCartComponent.observedAttributes);
   }
 
@@ -157,9 +161,7 @@ export class ShopifyCartComponent extends Component {
 
   protected async afterBind() {
     this.debug("afterBind", this.scope);
-    return ShopifyCartService.get().catch((error: Error) => {
-      console.error(error);
-    });
+    this.scope.cart = (await ShopifyCartService.get()) || null;
   }
 
   protected template() {

@@ -58,7 +58,10 @@
     "lookbook-fw19": "Lookbook FW19",
     "sale": "Sale",
     "about-fassbender": "About Fassbender",
-    "shipping--return": "Versand + Retour"
+    "shipping--return": "Versand + Retour",
+    "ss-21": "SS 21",
+    "fw-21": "FW 21",
+    "denim": "Denim"
   },
   "collections": {
     "all": "Alle",
@@ -93,7 +96,11 @@
       "46": "46",
       "48": "48",
       "50": "50",
-      "one-size": "One Size"
+      "one-size": "One Size",
+      "xxs": "XXS",
+      "xs": "XS",
+      "s": "S",
+      "m": "M"
     },
     "tabs": {
       "description": "Detail",

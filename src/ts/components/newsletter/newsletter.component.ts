@@ -49,6 +49,10 @@ export class NewsletterComponent extends Component {
   constructor() {
     super();
     this.$el = $(this);
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(NewsletterComponent.observedAttributes);
   }
 

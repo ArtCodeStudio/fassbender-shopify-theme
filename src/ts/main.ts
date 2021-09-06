@@ -25,7 +25,6 @@ export class Main {
   private dispatcher = new EventDispatcher("main");
 
   constructor() {
-    console.debug("localesService", this.localesService);
     window.model = window.model || {};
     window.model.year = new Date().getFullYear();
 
@@ -74,7 +73,9 @@ export class Main {
 
     window.model.system.shopify = (window as any).Shopify;
 
-    this.riba.bind(document.body, window.model);
+    const view = this.riba.bind(document.body, window.model);
+
+    view.registComponents();
 
     // TODO solve with rv-on-new-page-ready="assign | args 'fullscreenMenuOpen' false"?
     this.dispatcher.on("newPageReady", () => {

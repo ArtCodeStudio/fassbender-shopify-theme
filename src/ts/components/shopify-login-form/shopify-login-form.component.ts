@@ -88,6 +88,10 @@ export class ShopifyLoginFormComponent extends Component {
   constructor() {
     super();
     this.$el = $(this);
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(ShopifyLoginFormComponent.observedAttributes);
   }
 

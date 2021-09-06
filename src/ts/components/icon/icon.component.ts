@@ -13,10 +13,14 @@ export class IconComponent extends Component {
 
   protected autobind = false;
 
-  protected $el: JQuery<HTMLElement>;
+  protected $el: JQuery<HTMLElement> | null = null;
 
   constructor() {
     super();
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.$el = $(this);
     this.$el
       .attr("aria-hidden", "true")
@@ -26,7 +30,6 @@ export class IconComponent extends Component {
     // set default values
     // this.attributeChangedCallback('size', null, 32, null);
     this.attributeChangedCallback("direction", null, "top", null);
-
     this.init(IconComponent.observedAttributes);
   }
 
@@ -38,6 +41,10 @@ export class IconComponent extends Component {
   ) {
     // injects the changed attributes to scope
     await super.attributeChangedCallback(name, oldValue, newValue, namespace);
+
+    if (!this.$el) {
+      throw new Error("$el is not defined!");
+    }
 
     if (name === "src") {
       this.$el.load(newValue);

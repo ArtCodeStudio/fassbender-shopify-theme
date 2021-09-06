@@ -132,6 +132,10 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
 
   constructor() {
     super();
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(ShopifyProductItemComponent.observedAttributes);
     this.addEventListener(
       "mouseleave",

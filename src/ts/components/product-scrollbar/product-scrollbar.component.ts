@@ -21,6 +21,15 @@ export class ProductScrollbarComponent extends Component {
   constructor() {
     super();
     this.products = this.querySelectorAll(".embed-responsive");
+  }
+
+  /**
+   * Default custom Element method
+   * Invoked when the custom element is first connected to the document's DOM.
+   */
+  protected connectedCallback() {
+    super.connectedCallback();
+    this.products = this.querySelectorAll(".embed-responsive");
     this.init(ProductScrollbarComponent.observedAttributes);
   }
 
@@ -87,14 +96,6 @@ export class ProductScrollbarComponent extends Component {
 
   protected requiredAttributes() {
     return [];
-  }
-
-  /**
-   * Default custom Element method
-   * Invoked when the custom element is first connected to the document's DOM.
-   */
-  protected connectedCallback() {
-    this.products = this.querySelectorAll(".embed-responsive");
   }
 
   protected template() {

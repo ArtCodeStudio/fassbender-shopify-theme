@@ -93,7 +93,10 @@ export class PrivacySettingsComponent extends Component {
       !this.trackingService.facebookPixelDisabled;
     this.scope.pinterestTag.enabled =
       !this.trackingService.pinterestTagDisabled;
+  }
 
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(PrivacySettingsComponent.observedAttributes);
   }
 

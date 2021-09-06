@@ -76,7 +76,10 @@ export class ShopifyAddressesComponent extends Component {
   constructor() {
     super();
     this.$el = $(this);
-    console.warn("constructor", this);
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(ShopifyAddressesComponent.observedAttributes);
   }
 

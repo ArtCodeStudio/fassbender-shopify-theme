@@ -1,13 +1,14 @@
 import { Component } from "@ribajs/core";
-
-import template from "./fsbdr-mainbar.component.html";
-import { hasChildNodesTrim } from "@ribajs/utils";
+import { EventDispatcher } from "@ribajs/events";
+import { State } from "@ribajs/history";
 
 interface Scope {
   assign: FsbdrMainbarComponent["assign"];
   open: FsbdrMainbarComponent["open"];
   close: FsbdrMainbarComponent["close"];
   menuOpen: boolean;
+  filterOpen: boolean;
+  dataset: any;
   [name: string]: any;
 }
 
@@ -18,10 +19,16 @@ export class FsbdrMainbarComponent extends Component {
 
   public _debug = false;
 
-  protected logoTop: HTMLElement | null;
+  protected logoTop: HTMLElement | null = null;
+
+  protected routerEvents = EventDispatcher.getInstance("main");
 
   static get observedAttributes() {
     return ["dataset", "filter"];
+  }
+
+  protected requiredAttributes() {
+    return ["dataset"];
   }
 
   public scope: Scope = {
@@ -30,12 +37,36 @@ export class FsbdrMainbarComponent extends Component {
     close: this.close,
     menuOpen: false,
     filterOpen: true,
+    dataset: {},
   };
 
   constructor() {
     super();
-    this.logoTop = document.querySelector(".logo-text.logo-text-top");
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(FsbdrMainbarComponent.observedAttributes);
+  }
+
+  protected addEventListeners() {
+    this.routerEvents.on("newPageReady", this.onPageReady, this);
+  }
+
+  protected removeEventListeners() {
+    this.routerEvents.off("newPageReady", this.onPageReady, this);
+  }
+
+  protected onPageReady(
+    viewId: string,
+    currentStatus: State,
+    prevStatus: State,
+    container: HTMLElement,
+    newPageRawHTML: string,
+    dataset: any
+    // isInit: boolean
+  ) {
+    this.scope.dataset = dataset;
   }
 
   public assign(key: string, value: any) {
@@ -64,13 +95,14 @@ export class FsbdrMainbarComponent extends Component {
     });
   }
 
+  protected async beforeBind() {
+    this.debug("beforeBind", this.scope);
+    this.addEventListeners();
+  }
+
   protected async afterBind() {
     this.logoTop = document.querySelector(".logo-text.logo-text-top");
     this.debug("afterBind", this.scope);
-  }
-
-  protected requiredAttributes() {
-    return ["dataset"];
   }
 
   protected async attributeChangedCallback(
@@ -93,11 +125,6 @@ export class FsbdrMainbarComponent extends Component {
   }
 
   protected template() {
-    // Only set the component template if there no childs already
-    if (hasChildNodesTrim(this)) {
-      return null;
-    } else {
-      return template;
-    }
+    return null;
   }
 }

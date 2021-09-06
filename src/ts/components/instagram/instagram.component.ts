@@ -29,6 +29,10 @@ export class InstagramComponent extends Component {
 
   constructor() {
     super();
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(InstagramComponent.observedAttributes);
   }
 

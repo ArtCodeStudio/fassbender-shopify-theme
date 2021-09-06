@@ -65,6 +65,10 @@ export class RevokeFormComponent extends Component {
 
   constructor() {
     super();
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(RevokeFormComponent.observedAttributes);
   }
 

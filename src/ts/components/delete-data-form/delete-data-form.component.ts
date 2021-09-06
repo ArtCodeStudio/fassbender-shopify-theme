@@ -64,8 +64,8 @@ export class DeleteDataFormComponent extends Component {
     success: "",
   };
 
-  constructor() {
-    super();
+  protected connectedCallback() {
+    super.connectedCallback();
     this.init(DeleteDataFormComponent.observedAttributes);
   }
 
