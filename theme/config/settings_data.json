@@ -5,7 +5,7 @@
     "googleAnalytics_trackingId": "UA-126476233-1",
     "pinterestTag_enabled": true,
     "pinterestTag_trackingId": "2613188425032",
-    "theTradeDesk_enabled": true,
+    "theTradeDesk_enabled": false,
     "theTradeDesk_adv": "1fqgs22",
     "theTradeDesk_tagId_1": "hqe0lr3",
     "theTradeDesk_baseSrc": "https:\/\/insight.adsrvr.org\/track\/up",
@@ -57,7 +57,7 @@
       "live-chat": {
         "type": "live-chat",
         "settings": {
-          "enable": true,
+          "enable": false,
           "img_icon": "shopify:\/\/shop_images\/Messenger_Logo_White_RGB.svg_12bab5a0-3aa4-4ea5-b32f-f978f19d481d_134x134_crop_center_2x_Kopie.png",
           "image_width": 30,
           "href": "https:\/\/m.me\/346703952475439?ref=messenger_commerce_1163199097047119_https:\/\/myfassbender.com\/",
@@ -265,8 +265,22 @@
       "16109116792b362247": {
         "type": "one-storie",
         "blocks": {
+          "afbc6a0b-aaf6-4619-98dc-2e004bd49c05": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "none",
+              "video_url": "https:\/\/www.youtube.com\/watch?v=AwQr-oI04QM",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "spacing": 0
+            }
+          },
           "64ac83be-afd0-4a4d-9deb-490f07ebfd4c": {
             "type": "image",
+            "disabled": true,
             "settings": {
               "aspect_ratio": "16by9",
               "aspect_ratio_md": "16by9",
@@ -279,10 +293,11 @@
           }
         },
         "block_order": [
+          "afbc6a0b-aaf6-4619-98dc-2e004bd49c05",
           "64ac83be-afd0-4a4d-9deb-490f07ebfd4c"
         ],
         "settings": {
-          "story": "shopify:\/\/collections\/new-collection",
+          "story": "",
           "title": "FW 21 Video",
           "show_title": false,
           "color": "#ffffff",
@@ -358,13 +373,22 @@
           "color": "#ffffff",
           "title_spacing": 7
         }
+      },
+      "1630965716774d45c0": {
+        "type": "product-scrollbar",
+        "settings": {
+          "collection": "denim",
+          "title": "",
+          "show_title": true
+        }
       }
     },
     "content_for_index": [
       "16109140683703bcfc",
-      "16109127166cab1983",
       "16109116792b362247",
-      "1590140011265"
+      "16109127166cab1983",
+      "1590140011265",
+      "1630965716774d45c0"
     ]
   }
 }

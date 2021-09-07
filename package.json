@@ -1,6 +1,6 @@
 {
   "name": "fassbender-shopify-theme",
-  "version": "2.7.4",
+  "version": "2.7.5",
   "description": "Shopify theme based on Bootstrap 4",
   "main": "src/ts/main.ts",
   "typings": "src/ts/types",
