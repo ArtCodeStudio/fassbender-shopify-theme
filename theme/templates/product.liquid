@@ -51,7 +51,7 @@
               {{ product.featured_image | img_url: '3072x' }} 3072w
             "
             {%- comment -%} WORKAROUND TO FIX SAFARI IMAGE STRECH BUG {%- endcomment -%}
-            rv-srcset-1500w="'{{ product.featured_image | img_url: '1500x2000', crop: 'center', format: 'pjpg' }}'"
+            rv-srcset-1500w="'{{ product.featured_image | img_url: '1500x2000', format: 'pjpg' }}'"
             sizes="100vw"
             alt="{{ product.title }} - {{ product.featured_image.alt }}"
           />
