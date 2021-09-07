@@ -41,16 +41,16 @@
               {{ product.featured_image | img_url: '1920x' }} 1920w,
               {{ product.featured_image | img_url: '1199x' }} 1199w,
               {{ product.featured_image | img_url: '991x' }} 991w,
-              {{ product.featured_image | img_url: '768x' }} 768w,
-              {{ product.featured_image | img_url: '575x' }} 575w,
-              {{ product.featured_image | img_url: '384x' }} 384w,
-              {{ product.featured_image | img_url: '300x' }} 300w,
-              {{ product.featured_image | img_url: '288x' }} 288w,
-              {{ product.featured_image | img_url: '200x' }} 200w,
+              {{ product.featured_image | img_url: '1920x' }} 768w,
+              {{ product.featured_image | img_url: '1199x' }} 575w,
+              {{ product.featured_image | img_url: '991x' }} 384w, 
+              {{ product.featured_image | img_url: '768x' }} 300w,
+              {{ product.featured_image | img_url: '575x' }} 288w,
+              {{ product.featured_image | img_url: '384x' }} 200w,
               {{ product.featured_image | img_url: '4096x' }} 4096w,
               {{ product.featured_image | img_url: '3072x' }} 3072w
             "
-            {%- comment -%} WORKAROUND TO FIX SAFARI IMGAGE STRECH BUG {%- endcomment -%}
+            {%- comment -%} WORKAROUND TO FIX SAFARI IMAGE STRECH BUG {%- endcomment -%}
             rv-srcset-1500w="'{{ product.featured_image | img_url: '1500x2000', crop: 'center', format: 'pjpg' }}'"
             sizes="100vw"
             alt="{{ product.title }} - {{ product.featured_image.alt }}"
