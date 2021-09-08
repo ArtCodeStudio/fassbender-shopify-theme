@@ -264,11 +264,9 @@
       },
       "16109116792b362247": {
         "type": "one-storie",
-        "disabled": true,
         "blocks": {
           "afbc6a0b-aaf6-4619-98dc-2e004bd49c05": {
             "type": "image",
-            "disabled": true,
             "settings": {
               "aspect_ratio": "3by2",
               "aspect_ratio_md": "none",
@@ -388,8 +386,8 @@
       "16109140683703bcfc",
       "16109116792b362247",
       "16109127166cab1983",
-      "1590140011265",
-      "1630965716774d45c0"
+      "1630965716774d45c0",
+      "1590140011265"
     ]
   }
 }
