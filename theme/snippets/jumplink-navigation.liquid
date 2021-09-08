@@ -15,7 +15,7 @@
         <div class="row d-none d-lg-block">
           <div class="col-auto pointer-events-all font-weight-bold">
             <div rv-bs4-collapse="'#sidenav-main-menu'" class="sidenav-main-menu-toggler nav-item nav-link mx-auto cursor-pointer">
-              <rv-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></rv-icon>
+              <bs4-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></bs4-icon>
             </div>
             <shopify-linklist rv-bs4-expan-on-url="'/'" class="" id="sidenav-main-menu" name="main-menu" vertical="true" pills="false"></shopify-linklist>
           </div>
@@ -134,7 +134,7 @@
         <ul class="nav pointer-events-all">
           <li class="nav-item">
             <a class="nav-link" href="/search" rv-route-class-active="'/search'" rv-route="'/search'">
-              <rv-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="24"></rv-icon>
+              <bs4-icon rv-src="'{{ 'iconset-glass.svg' | asset_url }}'" size="24"></bs4-icon>
             </a>
           </li>
 
@@ -156,10 +156,10 @@
           </li>    
           <li class="nav-item">
             <div class="nav-link" rv-on-click="open" rv-hide="menuOpen">
-              <rv-icon rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" size="24"></rv-icon>
+              <bs4-icon rv-src="'{{ 'iconset-menu.svg' | asset_url }}'" size="24"></bs4-icon>
             </div>
             <div class="nav-link" rv-on-click="close" rv-show="menuOpen">
-              <rv-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></rv-icon>
+              <bs4-icon rv-src="'{{ 'iconset-x.svg' | asset_url }}'" size="24"></bs4-icon>
             </div>
           </li>
         </ul>

@@ -1,4 +1,4 @@
-<rv-instagram-scrollbar
+<shopify-tda-instagram-scrollbar
   instagram-id="{{section.settings.instagram_id}}"
   open-links="{{section.settings.open-links}}"
   limit="{{section.settings.limit}}"
@@ -32,14 +32,14 @@
           Your browser does not support the video tag.
         </video>
         <div rv-hide="controls" class="video-custom-controls">
-          <rv-icon rv-hide="muted" rv-on-click="toggleMute" size="50" class="video-volume-high" src="{{ 'icon_volume-high_alt.svg' | asset_url }}"></rv-icon>
-          <rv-icon rv-show="muted" rv-on-click="toggleMute" size="50" class="video-volume-mute" src="{{ 'icon_vol-mute_alt.svg' | asset_url }}"></rv-icon>
+          <bs4-icon rv-hide="muted" rv-on-click="toggleMute" size="50" class="video-volume-high" src="{{ 'icon_volume-high_alt.svg' | asset_url }}"></bs4-icon>
+          <bs4-icon rv-show="muted" rv-on-click="toggleMute" size="50" class="video-volume-mute" src="{{ 'icon_vol-mute_alt.svg' | asset_url }}"></bs4-icon>
         </div>
       </fsbdr-video>
     </div>
 
   </div>
-</rv-instagram-scrollbar>
+</shopify-tda-instagram-scrollbar>
 
 {% schema %}
   {

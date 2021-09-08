@@ -3,10 +3,11 @@
 @import 'bootstrap';
 
 // Riba
-@import "./vendors/@ribajs/bs4/index";
-@import "./vendors/@ribajs/i18n/index";
-@import "./vendors/@ribajs/shopify/index";
-@import "./vendors/@ribajs/core/index";
+@import "~@ribajs/bs4/index";
+@import "~@ribajs/i18n/index";
+@import "~@ribajs/shopify/index";
+@import "~@ribajs/shopify-tda/index";
+@import "~@ribajs/core/index";
 
 
 // custom extensions

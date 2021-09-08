@@ -1,6 +1,10 @@
 import { Riba, coreModule, EventDispatcher } from "@ribajs/core";
 import { ready } from "@ribajs/utils/src/dom";
-import { Bs4DropdownComponent, Bs4TabsComponent } from "@ribajs/bs4";
+import {
+  Bs4DropdownComponent,
+  Bs4TabsComponent,
+  Bs4IconComponent,
+} from "@ribajs/bs4";
 import { jqueryModule } from "@ribajs/jquery";
 import { shopifyModule } from "@ribajs/shopify";
 import { routerModule } from "@ribajs/router";
@@ -11,7 +15,11 @@ import { TrackingService } from "./services/tracking.services";
 import * as customBinders from "./binders/index";
 
 import * as CustomComponents from "./components/index";
-import { LocalesService } from "@ribajs/shopify-tda";
+import {
+  LocalesService,
+  ShopifyTdaInstagramComponent,
+  ShopifyTdaInstagramScrollbarComponent,
+} from "@ribajs/shopify-tda";
 
 declare global {
   interface Window {
@@ -40,15 +48,28 @@ export class Main {
       i18nModule.init({ localesService: this.localesService })
     );
 
-    this.riba.module.binder.regist(scrollbarDraggableBinder);
-    this.riba.module.binder.regist(touchEventsBinder);
-    this.riba.module.component.regist(Bs4DropdownComponent);
-    this.riba.module.component.regist(Bs4TabsComponent);
+    this.riba.module.binder.regists([
+      scrollbarDraggableBinder,
+      touchEventsBinder,
+    ]);
+
+    // Register Bootstrap 4 Components
+    this.riba.module.component.regists([
+      Bs4DropdownComponent,
+      Bs4TabsComponent,
+      Bs4IconComponent,
+    ]);
+
+    // Register Shopify - The Developer App Components
+    this.riba.module.component.regists([
+      ShopifyTdaInstagramComponent,
+      ShopifyTdaInstagramScrollbarComponent,
+    ]);
 
     // Register custom components
     this.riba.module.component.regists(CustomComponents);
 
-    // Register custom components
+    // Register custom binders
     this.riba.module.binder.regists(customBinders);
 
     window.model.assign = function (key: string, value: any) {

@@ -10,6 +10,6 @@ export class FsbdrVideoComponent extends VideoComponent {
   }
 
   protected requiredAttributes() {
-    return ["mp4Src"];
+    return ["video-src"];
   }
 }

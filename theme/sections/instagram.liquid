@@ -1,4 +1,4 @@
-<rv-instagram
+<shopify-tda-instagram
   instagram-id="{{section.settings.instagram_id}}"
   open-links="{{section.settings.open-links}}"
   limit="{{section.settings.limit}}"
@@ -12,15 +12,15 @@
       <img loading="lazy" class="embed-responsive-item" rv-if="image.media_type | eq 'CAROUSEL_ALBUM'" rv-src="image.media_url" rv-src="image.media_url" rv-alt="image.caption">
       
       {% comment %} VIDEO {% endcomment %}
-      <fsbdr-video class="" rv-mp4-src="image.media_url" rv-show="image.media_type | eq 'VIDEO'">
+      <fsbdr-video class="" rv-co-video-src="image.media_url" rv-show="image.media_type | eq 'VIDEO'">
         {% comment %} VIDEO {% endcomment %}
         <video class="embed-responsive-item" autoplay muted loop preload playsinline webkit-playsinline>
-          <source rv-src="mp4Src" type="video/mp4">
+          <source rv-src="videoSrc" type="video/mp4">
           Your browser does not support the video tag.
         </video>
         <div rv-hide="controls" class="video-custom-controls">
-          <rv-icon rv-hide="muted" rv-on-click="toggleMute" size="50" class="video-volume-high" src="{{ 'icon_volume-high_alt.svg' | asset_url }}"></rv-icon>
-          <rv-icon rv-show="muted" rv-on-click="toggleMute" size="50" class="video-volume-mute" src="{{ 'icon_vol-mute_alt.svg' | asset_url }}"></rv-icon>
+          <bs4-icon rv-hide="muted" rv-on-click="toggleMute" size="50" class="video-volume-high" src="{{ 'icon_volume-high_alt.svg' | asset_url }}"></bs4-icon>
+          <bs4-icon rv-show="muted" rv-on-click="toggleMute" size="50" class="video-volume-mute" src="{{ 'icon_vol-mute_alt.svg' | asset_url }}"></bs4-icon>
         </div>
       </fsbdr-video>
 
@@ -29,7 +29,7 @@
       </div>
     </div>
   </div>
-</rv-instagram>
+</shopify-tda-instagram>
 
 {% schema %}
   {

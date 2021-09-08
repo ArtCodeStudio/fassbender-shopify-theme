@@ -264,6 +264,7 @@
       },
       "16109116792b362247": {
         "type": "one-storie",
+        "disabled": true,
         "blocks": {
           "afbc6a0b-aaf6-4619-98dc-2e004bd49c05": {
             "type": "image",
@@ -273,7 +274,7 @@
               "aspect_ratio_md": "none",
               "video_url": "https:\/\/www.youtube.com\/watch?v=AwQr-oI04QM",
               "mp4_video_url": "",
-              "controls": false,
+              "controls": true,
               "mute": true,
               "spacing": 0
             }

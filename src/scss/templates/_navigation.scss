@@ -1,11 +1,11 @@
 .sidenav-main-menu-toggler {
   padding-left: 2px;
-  rv-icon {
+  bs4-icon {
     @extend .rotate-animate;
     @extend .rotate-45;
   }
   &[aria-expanded='true'] {
-    rv-icon {
+    bs4-icon {
       @extend .rotate-0;
     }
   }
