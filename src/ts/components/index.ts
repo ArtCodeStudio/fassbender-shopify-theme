@@ -3,6 +3,7 @@ export { CookieBannerComponent } from "./cookie-banner/cookie-banner.component";
 export { DebugBarComponent } from "./debug-bar/debug-bar.component";
 export { DeleteDataFormComponent } from "./delete-data-form/delete-data-form.component";
 export { FsbdrMainbarComponent } from "./fsbdr-mainbar/fsbdr-mainbar.component";
+export { FsbdrPaginationComponent } from "./fsbdr-pagination/fsbdr-pagination.component";
 export { NewsletterComponent } from "./newsletter/newsletter.component";
 export { RevokeFormComponent } from "./revoke-form/revoke-form.component";
 export { ShopifyLinklistComponent } from "./shopify-linklist/shopify-linklist.component";

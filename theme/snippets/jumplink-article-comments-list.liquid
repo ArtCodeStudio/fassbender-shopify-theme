@@ -10,19 +10,21 @@
       </h3>
     </div>
 
-    <ul class="list-unstyled" {% comment %} FIXME rv-view='{"listenAllLinks": false, "containerSelector": "#comments-pagination", "scrollToTop": false, "action": "append"}'{% endcomment %} id="comments-pagination">
-      {% comment %}
-        Display comment from URL parameters if it is waiting moderation
-        We added "comment.id" check to make sure we don't display markup if there are form errors
-      {% endcomment %}
-      {% if comment and comment.status != 'published' and comment.id != blank %}
-        {% include 'jumplink-article-comment' with blog, article, comment, number_of_comments, new_comment %}
-      {% endif %}
+    <router-view id="comments-pagination" listen-all-links="false" dataset-to-model="false" parse-title="false" scroll-to-top="false" prefetch-links="true" action="append">
+      <ul class="list-unstyled">
+        {% comment %}
+          Display comment from URL parameters if it is waiting moderation
+          We added "comment.id" check to make sure we don't display markup if there are form errors
+        {% endcomment %}
+        {% if comment and comment.status != 'published' and comment.id != blank %}
+          {% include 'jumplink-article-comment' with blog, article, comment, number_of_comments, new_comment %}
+        {% endif %}
 
-      {% for comment in article.comments %}
-        {% include 'jumplink-article-comment' with blog, article, comment, number_of_comments, new_comment %}
-      {% endfor %}
-    </ul>
+        {% for comment in article.comments %}
+          {% include 'jumplink-article-comment' with blog, article, comment, number_of_comments, new_comment %}
+        {% endfor %}
+      </ul>
+    </router-view>
 
     {% if paginate.pages > 1 %}
       {% include 'jumplink-pagination' with viewId: 'comments-pagination'%}

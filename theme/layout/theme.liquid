@@ -106,20 +106,19 @@
     {% include 'jumplink-navigation' %}
   </div>
 
+  {% comment %}
   <div rv-view='{"listenAllLinks": false, "datasetToModel": true, "parseTitle": true, "autoprefetchLinks": true}' id="main">
     <div {% render 'riba-view-namespace', parseCollection: true %}>
       {{ content_for_layout }}
     </div>
   </div>
-
-  {% comment %}
-    TODO test filter in fsbdr-mainbar
-    <router-view listen-all-links="false" dataset-to-model="true" parse-title="true" prefetch-links="true" id="main">
-      <div {% render 'riba-view-namespace', parseCollection: true %}>
-        {{ content_for_layout }}
-      </div>
-    </router-view>
   {% endcomment %}
+
+  <router-view listen-all-links="false" dataset-to-model="true" parse-title="true" prefetch-links="true" id="main">
+    <div {% render 'riba-view-namespace', parseCollection: true %}>
+      {{ content_for_layout }}
+    </div>
+  </router-view>
 
   <div id="layout-bottom" class="pb-5 pb-lg-0">
     {% include 'jumplink-footer' %}
