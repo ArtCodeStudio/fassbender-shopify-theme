@@ -10,8 +10,12 @@
     "clear": "rimraf ./theme/assets/*.js ./theme/assets/*.css ./theme/assets/*.tsbuildinfo",
     "build": "yarn lint && yarn build:vite",
     "build:vite": "vite build",
-    "watch": "concurrently \"npm:watch:dev*\"",
-    "watch:vite": "vite build --watch --mode dev"
+    "watch": "yarn clear && concurrently \"npm:watch:*\"",
+    "watch:vite": "vite build --watch --mode dev",
+    "watch:shopify": "shopify theme dev --store=fassbender-shop.myshopify.com --theme-editor-sync --path=./theme",
+    "pull:customization": "shopify theme pull --store=fassbender-shop.myshopify.com --path=./theme -n -o 'templates/*.json' -o 'templates/customers/*.json' -o 'config/settings_data.json' -o 'locales/*.json' -l",
+    "push:dev": "shopify theme push --store=fassbender-shop.myshopify.com --path=./theme  -n -a -t 147211518264",
+    "push:rc": "shopify theme push --store=fassbender-shop.myshopify.com --path=./theme -u -t \"Release Candidate\""
   },
   "repository": {
     "type": "git",
@@ -45,6 +49,7 @@
     "@babel/runtime-corejs3": "^7.23.9",
     "@ribajs/eslint-config": "^2.0.0-rc.11",
     "@ribajs/tsconfig": "^2.0.0-rc.11",
+    "@shopify/theme": "^3.54.0",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
     "@vitejs/plugin-legacy": "^5.3.0",

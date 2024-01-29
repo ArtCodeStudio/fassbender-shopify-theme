@@ -8,6 +8,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+  {% comment %} module main entry {% endcomment %}
+  <link rel="modulepreload" href="{{ 'riba.bundle.js' | asset_url }}">
+
   {% comment %} Preload home {% endcomment %}
   <link rel="router-preload" href="/">
 
@@ -96,7 +99,7 @@
     </noscript>
   {% endif %}
 
-  <link rel="stylesheet" href="{{ 'main.css' | asset_url }}">
+  <link rel="stylesheet" href="{{ 'riba.css' | asset_url }}">
 
 </head>
 
@@ -158,8 +161,19 @@
 {{ content_for_header }}
 <!-- content_for_header: end -->
 
-<script async src="{{ 'vendors.bundle.js' | asset_url }}" type="text/javascript"></script>
-<script async src="{{ 'main.bundle.js' | asset_url }}" type="text/javascript"></script>
+{% comment %} module main entry {% endcomment %}
+<script
+  id="riba"
+  async
+  type="module"
+  src="{{ 'riba.bundle.js' | asset_url }}"></script>
+{% comment %} legacy main entry {% endcomment %}
+<script
+  id="riba-legacy"
+  async
+  type="application/javascript"
+  nomodule
+  src="{{ 'riba-legacy.bundle.js' | asset_url }}"></script>
 
 </body>
 </html>
