@@ -83,7 +83,7 @@ export class ContactFormComponent extends Component {
         this.scope.validation,
         this.scope.form,
         ["firstName", "lastName", "phone", "email", "message"],
-        this.$form
+        this.$form,
       );
     }
 
@@ -108,7 +108,7 @@ export class ContactFormComponent extends Component {
     validation: ValidationObject,
     formValues: any,
     keys: string[],
-    $form: JQuery<HTMLFormElement>
+    $form: JQuery<HTMLFormElement>,
   ) {
     validation.valid = true;
 

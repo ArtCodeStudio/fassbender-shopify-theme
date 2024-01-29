@@ -68,11 +68,11 @@ export class ShopifyCartComponent extends Component {
         triggerOnStart: false,
       }).then(
         (
-          shippingRates: ShopifyShippingRates | ShopifyShippingRatesNormalized
+          shippingRates: ShopifyShippingRates | ShopifyShippingRatesNormalized,
         ) => {
           this.scope.shippingRates =
             shippingRates as ShopifyShippingRatesNormalized;
-        }
+        },
       );
     }
   }
@@ -80,7 +80,7 @@ export class ShopifyCartComponent extends Component {
   constructor() {
     super();
     const dropdownElement = this.querySelector(
-      ".dropdown-toggle"
+      ".dropdown-toggle",
     ) as HTMLButtonElement;
     if (dropdownElement) {
       this.dropdownService = new DropdownService(dropdownElement);
@@ -145,7 +145,7 @@ export class ShopifyCartComponent extends Component {
       "ShopifyCart:request:start",
       () => {
         this.scope.pending = true;
-      }
+      },
     );
 
     ShopifyCartService.shopifyCartEventDispatcher.on(
@@ -155,7 +155,7 @@ export class ShopifyCartComponent extends Component {
           this.cart = cart;
         }
         this.scope.pending = false;
-      }
+      },
     );
   }
 

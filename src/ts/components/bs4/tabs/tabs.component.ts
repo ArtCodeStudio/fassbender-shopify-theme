@@ -45,7 +45,7 @@ export class TabsComponent extends Component {
         () => {
           this.setHeight();
         },
-        { passive: true }
+        { passive: true },
       );
     }
   }
@@ -66,7 +66,7 @@ export class TabsComponent extends Component {
     for (const tabPane of Array.from(this.tabPanes)) {
       tabPane.style.height = "auto";
       const height = parseFloat(
-        getComputedStyle(tabPane, null).height.replace("px", "")
+        getComputedStyle(tabPane, null).height.replace("px", ""),
       );
       if (height > heigest) {
         heigest = height;

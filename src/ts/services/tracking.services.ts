@@ -1,4 +1,4 @@
-import { EventDispatcher } from "@ribajs/core";
+import { EventDispatcher } from "@ribajs/events";
 
 import { State } from "@ribajs/router";
 
@@ -196,14 +196,14 @@ export class TrackingService {
       (
         Object.getOwnPropertyDescriptor(
           document,
-          "cookie"
+          "cookie",
         ) as PropertyDescriptor
       ).get
     ) {
       this._cookie.get = (
         Object.getOwnPropertyDescriptor(
           document,
-          "cookie"
+          "cookie",
         ) as PropertyDescriptor
       ).get;
     }
@@ -214,14 +214,14 @@ export class TrackingService {
       (
         Object.getOwnPropertyDescriptor(
           document,
-          "cookie"
+          "cookie",
         ) as PropertyDescriptor
       ).set
     ) {
       this._cookie.set = (
         Object.getOwnPropertyDescriptor(
           document,
-          "cookie"
+          "cookie",
         ) as PropertyDescriptor
       ).set;
     }
@@ -244,7 +244,7 @@ export class TrackingService {
         $container: HTMLElement,
         newPageRawHTML: string,
         dataset: any,
-        isFirstPageLoad: boolean
+        isFirstPageLoad: boolean,
       ) => {
         this.trackingCallback(
           currentStatus,
@@ -252,9 +252,9 @@ export class TrackingService {
           $container,
           newPageRawHTML,
           dataset,
-          isFirstPageLoad
+          isFirstPageLoad,
         );
-      }
+      },
     );
 
     this.shopifyCartEventDispatcher.on("ShopifyCart:add", () => {
@@ -354,7 +354,7 @@ export class TrackingService {
   public deleteCookie(name: string) {
     console.warn("deleteCookie", `"${name}"`);
     document.cookie = `${name}=; expires=${new Date(
-      0
+      0,
     ).toUTCString()}; Max-Age=-99999999; path=/`;
   }
 
@@ -390,7 +390,7 @@ export class TrackingService {
     $container: HTMLElement,
     newPageRawHTML: string,
     dataset: any,
-    isFirstPageLoad: boolean
+    isFirstPageLoad: boolean,
   ) {
     // const self = this;
     if (navigator.doNotTrack === "1") {
@@ -410,7 +410,7 @@ export class TrackingService {
             universalPixelApi.init(
               this.theTradeDesk.adv,
               [this.theTradeDesk.tagId[1]],
-              this.theTradeDesk.baseSrc
+              this.theTradeDesk.baseSrc,
             );
           }
         });

@@ -39,7 +39,7 @@ export class DebugBarComponent extends Component {
     name: string,
     oldValue: any,
     newValue: any,
-    namespace: string | null
+    namespace: string | null,
   ) {
     // injects the changed attributes to scope
     await super.attributeChangedCallback(name, oldValue, newValue, namespace);

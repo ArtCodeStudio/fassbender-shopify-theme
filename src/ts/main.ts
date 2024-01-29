@@ -1,4 +1,6 @@
-import { Riba, coreModule, EventDispatcher } from "@ribajs/core";
+import "@ribajs/types";
+import { Riba, coreModule } from "@ribajs/core";
+import { EventDispatcher } from "@ribajs/events";
 import { ready } from "@ribajs/utils/src/dom";
 import {
   Bs4DropdownComponent,
@@ -9,7 +11,7 @@ import { jqueryModule } from "@ribajs/jquery";
 import { shopifyModule } from "@ribajs/shopify";
 import { routerModule } from "@ribajs/router";
 import { i18nModule } from "@ribajs/i18n";
-import { scrollbarDraggableBinder, touchEventsBinder } from "@ribajs/extras";
+import { ScrollbarDraggableBinder, TouchEventsBinder } from "@ribajs/extras";
 
 import { TrackingService } from "./services/tracking.services";
 import * as customBinders from "./binders/index";
@@ -40,37 +42,37 @@ export class Main {
       stories: "all",
     };
 
-    this.riba.module.regist(coreModule.init());
-    this.riba.module.regist(jqueryModule.init());
-    this.riba.module.regist(routerModule.init());
-    this.riba.module.regist(shopifyModule.init());
-    this.riba.module.regist(
-      i18nModule.init({ localesService: this.localesService })
+    this.riba.module.register(coreModule.init());
+    this.riba.module.register(jqueryModule.init());
+    this.riba.module.register(routerModule.init());
+    this.riba.module.register(shopifyModule.init());
+    this.riba.module.register(
+      i18nModule.init({ localesService: this.localesService }),
     );
 
-    this.riba.module.binder.regists([
-      scrollbarDraggableBinder,
-      touchEventsBinder,
+    this.riba.module.binder.registerAll([
+      ScrollbarDraggableBinder,
+      TouchEventsBinder,
     ]);
 
     // Register Bootstrap 4 Components
-    this.riba.module.component.regists([
+    this.riba.module.component.registerAll([
       Bs4DropdownComponent,
       Bs4TabsComponent,
       Bs4IconComponent,
     ]);
 
     // Register Shopify - The Developer App Components
-    this.riba.module.component.regists([
+    this.riba.module.component.registerAll([
       ShopifyTdaInstagramComponent,
       ShopifyTdaInstagramScrollbarComponent,
     ]);
 
     // Register custom components
-    this.riba.module.component.regists(CustomComponents);
+    this.riba.module.component.registerAll(CustomComponents);
 
     // Register custom binders
-    this.riba.module.binder.regists(customBinders);
+    this.riba.module.binder.registerAll(customBinders);
 
     window.model.assign = function (key: string, value: any) {
       this[key] = value;
@@ -78,7 +80,7 @@ export class Main {
 
     window.model.globalToggle = function (
       key: string,
-      event: Event
+      event: Event,
       // scope: any,
       // element: HTMLElement
     ) {

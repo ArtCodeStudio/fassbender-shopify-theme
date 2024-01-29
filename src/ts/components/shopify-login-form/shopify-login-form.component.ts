@@ -132,7 +132,7 @@ export class ShopifyLoginFormComponent extends Component {
 
     this.validate(
       this.$createCustomerForm,
-      this.scope.createCustomer.validation
+      this.scope.createCustomer.validation,
     );
 
     if (this.scope.createCustomer.validation.valid) {
@@ -163,7 +163,7 @@ export class ShopifyLoginFormComponent extends Component {
 
     this.validate(
       this.$recoverCustomerForm,
-      this.scope.recoverCustomer.validation
+      this.scope.recoverCustomer.validation,
     );
 
     if (this.scope.recoverCustomer.validation.valid) {
@@ -196,19 +196,19 @@ export class ShopifyLoginFormComponent extends Component {
 
   protected initValidation() {
     this.$createCustomerForm = this.$el.find(
-      'form[action="/account"]'
+      'form[action="/account"]',
     ) as JQuery<HTMLFormElement>;
     this.$createCustomerForm.attr("novalidate", "");
     this.$createCustomerForm.addClass("needs-validation");
 
     this.$loginCustomerForm = this.$el.find(
-      'form[action="/account/login"]'
+      'form[action="/account/login"]',
     ) as JQuery<HTMLFormElement>;
     this.$loginCustomerForm.attr("novalidate", "");
     this.$loginCustomerForm.addClass("needs-validation");
 
     this.$recoverCustomerForm = this.$el.find(
-      'form[action="/account/recover"]'
+      'form[action="/account/recover"]',
     ) as JQuery<HTMLFormElement>;
     this.$recoverCustomerForm.attr("novalidate", "");
     this.$recoverCustomerForm.addClass("needs-validation");
@@ -216,7 +216,7 @@ export class ShopifyLoginFormComponent extends Component {
 
   protected validate(
     $form: JQuery<HTMLFormElement>,
-    validationScope: ValidationObject
+    validationScope: ValidationObject,
   ) {
     $form.each((index: number, formEl) => {
       validationScope.valid = formEl.checkValidity();

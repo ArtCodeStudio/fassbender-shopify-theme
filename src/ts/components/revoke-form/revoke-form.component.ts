@@ -86,7 +86,7 @@ export class RevokeFormComponent extends Component {
         this.scope.validation,
         this.scope.form,
         ["firstName", "lastName", "phone", "email", "message"],
-        this.form
+        this.form,
       );
     }
 
@@ -111,7 +111,7 @@ export class RevokeFormComponent extends Component {
     validation: ValidationObject,
     formValues: any,
     keys: string[],
-    form: HTMLFormElement
+    form: HTMLFormElement,
   ) {
     validation.valid = true;
 

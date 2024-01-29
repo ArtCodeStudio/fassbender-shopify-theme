@@ -144,7 +144,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
       () => {
         this.showMenu = false;
       },
-      false
+      false,
     );
   }
 
@@ -152,7 +152,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     optionValue: string | number,
     position1: number,
     optionName: string,
-    event: MouseEvent
+    event: MouseEvent,
   ) {
     optionValue = optionValue.toString();
 
@@ -165,7 +165,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
     this.selectedOptions[position1 - 1] = optionValue.toString();
     const variant = ShopifyProductService.getVariantOfOptions(
       this.scope.product,
-      this.selectedOptions
+      this.selectedOptions,
     );
     if (variant) {
       // Option choosed so enable add to cart button
@@ -224,7 +224,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
       el.classList.remove("active");
     });
     const activeOptions = this.querySelectorAll(
-      `.option-${optionName}-${optionValue}`
+      `.option-${optionName}-${optionValue}`,
     );
     activeOptions.forEach((el) => {
       el.classList.add("active");
@@ -262,7 +262,7 @@ export class ShopifyProductItemComponent extends Component /*ShopifyProductItemC
       (product: ShopifyProduct) => {
         this.product = product;
         return product;
-      }
+      },
     );
   }
 

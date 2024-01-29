@@ -1,4 +1,5 @@
-import { Component, EventDispatcher } from "@ribajs/core";
+import { Component } from "@ribajs/core";
+import { EventDispatcher } from "@ribajs/events";
 import { JQuery as $ } from "@ribajs/jquery";
 import { Linklist } from "@ribajs/shopify";
 import template from "./shopify-filter.component.html";
@@ -30,7 +31,7 @@ interface Scope {
 const show = (
   filterHandle: string,
   namespace?: string,
-  dataTemplate?: DataTemplate
+  dataTemplate?: DataTemplate,
 ) => {
   if (!dataTemplate || !namespace) {
     return false;
@@ -120,7 +121,7 @@ export class ShopifyFilterComponent extends Component {
   public anyIsVisable(
     linklist?: Linklist,
     namespace?: string,
-    dataTemplate?: DataTemplate
+    dataTemplate?: DataTemplate,
   ) {
     this.debug("anyIsVisable this", this);
     let visable = false;
@@ -139,7 +140,7 @@ export class ShopifyFilterComponent extends Component {
   public show(
     filterHandle: string,
     namespace?: string,
-    dataTemplate?: DataTemplate
+    dataTemplate?: DataTemplate,
   ): boolean {
     if (!dataTemplate || !namespace) {
       return false;
@@ -177,7 +178,7 @@ export class ShopifyFilterComponent extends Component {
     tagName: string,
     event?: Event,
     scope?: any,
-    el?: HTMLLabelElement
+    el?: HTMLLabelElement,
   ) {
     tagName = tagName.replace("#", "");
 
@@ -216,7 +217,7 @@ export class ShopifyFilterComponent extends Component {
   protected parsedAttributeChangedCallback(
     attributeName: string,
     oldValue: any,
-    newValue: any
+    newValue: any,
   ) {
     if (attributeName === "filter") {
       if (newValue) {
@@ -229,8 +230,8 @@ export class ShopifyFilterComponent extends Component {
               undefined,
               undefined,
               document.querySelectorAll(
-                `label[for="${tagName}"]`
-              )[0] as HTMLLabelElement
+                `label[for="${tagName}"]`,
+              )[0] as HTMLLabelElement,
             );
           }
         }
@@ -251,8 +252,8 @@ export class ShopifyFilterComponent extends Component {
             undefined,
             undefined,
             document.querySelectorAll(
-              `label[for="${tagName}"]`
-            )[0] as HTMLLabelElement
+              `label[for="${tagName}"]`,
+            )[0] as HTMLLabelElement,
           );
         }
       }
@@ -266,7 +267,7 @@ export class ShopifyFilterComponent extends Component {
   protected onNewPage() {
     const vw = Math.max(
       document.documentElement.clientWidth,
-      window.innerWidth || 0
+      window.innerWidth || 0,
     );
     // MD
     if (vw <= 991) {

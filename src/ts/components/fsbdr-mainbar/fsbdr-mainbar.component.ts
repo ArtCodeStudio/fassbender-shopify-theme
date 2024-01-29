@@ -63,7 +63,7 @@ export class FsbdrMainbarComponent extends Component {
     prevStatus: State,
     container: HTMLElement,
     newPageRawHTML: string,
-    dataset: any
+    dataset: any,
     // isInit: boolean
   ) {
     this.scope.dataset = dataset;
@@ -109,13 +109,13 @@ export class FsbdrMainbarComponent extends Component {
     attributeName: string,
     oldValue: any,
     newValue: any,
-    namespace: string | null
+    namespace: string | null,
   ) {
     await super.attributeChangedCallback(
       attributeName,
       oldValue,
       newValue,
-      namespace
+      namespace,
     );
   }
 

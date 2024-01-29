@@ -144,7 +144,7 @@ export class ShopifyProductComponent extends Component {
     optionValue: string | number,
     position1: number,
     optionName: string,
-    event: MouseEvent
+    event: MouseEvent,
   ) {
     if (!this.scope.product) {
       throw new Error("Product not set!");
@@ -156,7 +156,7 @@ export class ShopifyProductComponent extends Component {
 
     const variant = ShopifyProductService.getVariantOfOptions(
       this.scope.product,
-      this.selectedOptions
+      this.selectedOptions,
     );
 
     if (variant) {
@@ -207,11 +207,11 @@ export class ShopifyProductComponent extends Component {
     optionName = handleize(optionName);
     optionValue = handleize(optionValue.toString().replace("#", ""));
     const activeOptionElement = this.querySelector(
-      `.option-${optionName}.active`
+      `.option-${optionName}.active`,
     );
     activeOptionElement?.classList.remove("active");
     const newActiveOptionElement = this.querySelector(
-      `.option-${optionName}-${optionValue}`
+      `.option-${optionName}-${optionValue}`,
     );
     newActiveOptionElement?.classList.add("active");
   }
@@ -226,7 +226,7 @@ export class ShopifyProductComponent extends Component {
         const optionValue = this.selectedOptions[position0];
         if (this.scope.product) {
           const optionName = handleize(
-            this.scope.product.options[position0].name
+            this.scope.product.options[position0].name,
           );
           // Only activate size if it was clicked by the user
           if (optionName.includes("size")) {
@@ -248,7 +248,7 @@ export class ShopifyProductComponent extends Component {
     return ShopifyProductService.get(this.scope.handle).then(
       (product: ShopifyProduct) => {
         this.product = product;
-      }
+      },
     );
   }
 
@@ -329,7 +329,7 @@ export class ShopifyProductComponent extends Component {
    */
   private getOptionImages(
     option: ShopifyProductVariantOption,
-    optionValue: string
+    optionValue: string,
   ) {
     optionValue = optionValue.toLowerCase().replace("#", "_");
     const optionName = option.name.toLowerCase();
@@ -352,7 +352,7 @@ export class ShopifyProductComponent extends Component {
     if (variant.featured_image !== null) {
       variant.featured_image.src = variant.featured_image.src.replace(
         /(^\w+:|^)\/\//,
-        "//"
+        "//",
       ); // remove protocol
       return variant.featured_image;
     }
@@ -447,7 +447,7 @@ export class ShopifyProductComponent extends Component {
     if (this.colorOption) {
       variant.images = this.getOptionImages(
         this.colorOption,
-        variant.options[this.colorOption.position - 1]
+        variant.options[this.colorOption.position - 1],
       );
     } else {
       console.warn("colorOption not defined");

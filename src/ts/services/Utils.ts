@@ -31,7 +31,7 @@ export class Utils {
   public static typeCheckConfig(
     componentName: string,
     config: any,
-    configTypes: any
+    configTypes: any,
   ) {
     for (const property in configTypes) {
       if (Object.prototype.hasOwnProperty.call(configTypes, property)) {
@@ -44,7 +44,7 @@ export class Utils {
           throw new Error(
             `${componentName.toUpperCase()}: ` +
               `Option "${property}" provided type "${valueType}" ` +
-              `but expected type "${expectedTypes}".`
+              `but expected type "${expectedTypes}".`,
           );
         }
       }
@@ -226,7 +226,7 @@ export class Utils {
    */
   public getElementPositionInElement(
     selector: JQuery.PlainObject<any>,
-    parentSelector: JQuery.PlainObject<any>
+    parentSelector: JQuery.PlainObject<any>,
   ) {
     const elementPos = this.getElementPosition(selector);
     const parentElementPos = this.getElementPosition(parentSelector);

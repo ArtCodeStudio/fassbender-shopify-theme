@@ -87,7 +87,7 @@ export class ShopifyAddressesComponent extends Component {
     console.warn("login", this.scope);
 
     const $form = this.$el.find(
-      `form[action="/account/addresses/${id}]`
+      `form[action="/account/addresses/${id}]`,
     ) as JQuery<HTMLFormElement>;
 
     if (!$form) {
@@ -145,13 +145,13 @@ export class ShopifyAddressesComponent extends Component {
 
   protected initValidation() {
     this.$editAddressForm = this.$el.find(
-      'form[action^="/account/addresses/"]'
+      'form[action^="/account/addresses/"]',
     ) as JQuery<HTMLFormElement>;
     this.$editAddressForm.attr("novalidate", "");
     this.$editAddressForm.addClass("needs-validation");
 
     this.$createAddressForm = this.$el.find(
-      'form[action="/account/addresses"]'
+      'form[action="/account/addresses"]',
     ) as JQuery<HTMLFormElement>;
     this.$createAddressForm.attr("novalidate", "");
     this.$createAddressForm.addClass("needs-validation");
@@ -159,7 +159,7 @@ export class ShopifyAddressesComponent extends Component {
 
   protected validate(
     $form: JQuery<HTMLFormElement>,
-    validationScope: ValidationObject
+    validationScope: ValidationObject,
   ) {
     $form.each((index: number, formEl) => {
       validationScope.valid = formEl.checkValidity();

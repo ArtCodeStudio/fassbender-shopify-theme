@@ -1,3 +1,0 @@
-[submodule "packages/riba"]
-	path = packages/riba
-	url = git@github.com:ribajs/riba.git

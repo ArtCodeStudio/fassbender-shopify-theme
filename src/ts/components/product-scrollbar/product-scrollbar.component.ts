@@ -54,7 +54,7 @@ export class ProductScrollbarComponent extends Component {
   public onProductMouseenter(
     event: Event,
     scope: any,
-    eventEl: HTMLAnchorElement
+    eventEl: HTMLAnchorElement,
   ) {
     // console.debug'onProductMouseenter');
     const url = $(eventEl).data("url");
@@ -71,7 +71,7 @@ export class ProductScrollbarComponent extends Component {
   public onScroll(
     event: JQuery.Event | Event,
     scope: any,
-    eventEl: HTMLElement
+    eventEl: HTMLElement,
   ) {
     if (this.products) {
       this.products.forEach((product /*, index*/) => {

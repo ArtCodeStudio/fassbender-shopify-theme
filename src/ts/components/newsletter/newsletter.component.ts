@@ -87,7 +87,7 @@ export class NewsletterComponent extends Component {
 
   protected validate(
     $form: JQuery<HTMLFormElement>,
-    validationScope: ValidationObject
+    validationScope: ValidationObject,
   ) {
     $form.each((index: number, formEl) => {
       validationScope.valid = formEl.checkValidity();

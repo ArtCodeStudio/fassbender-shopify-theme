@@ -1,4 +1,4 @@
-import { VideoComponent } from "@ribajs/core";
+import { VideoComponent } from "@ribajs/extras";
 
 export class FsbdrVideoComponent extends VideoComponent {
   public static tagName = "fsbdr-video";
