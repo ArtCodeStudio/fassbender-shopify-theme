@@ -1,6 +1,6 @@
 import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
-import template from "./debug-bar.component.html";
+import template from "./debug-bar.component.html?raw";
 import { hasChildNodesTrim } from "@ribajs/utils";
 
 export class DebugBarComponent extends Component {

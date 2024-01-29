@@ -1,6 +1,6 @@
 import { Component, HttpService } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
-import template from "./shopify-addresses.component.html";
+import template from "./shopify-addresses.component.html?raw";
 import { hasChildNodesTrim } from "@ribajs/utils";
 
 // TODO move to general validation component class we can extend from

@@ -10,7 +10,7 @@ import {
 } from "@ribajs/utils";
 import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
-import template from "./delete-data-form.component.html";
+import template from "./delete-data-form.component.html?raw";
 import { LocalesService } from "@ribajs/shopify-tda";
 
 // TODO move to general validation component class we can extend from

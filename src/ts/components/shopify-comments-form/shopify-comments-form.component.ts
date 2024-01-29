@@ -1,5 +1,5 @@
 import { Component } from "@ribajs/core";
-import template from "./shopify-comments-form.component.html";
+import template from "./shopify-comments-form.component.html?raw";
 import { hasChildNodesTrim } from "@ribajs/utils";
 
 export interface ValidationRule {

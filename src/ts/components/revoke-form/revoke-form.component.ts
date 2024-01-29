@@ -8,7 +8,7 @@ import {
   stringHasOnlyNumbers,
   stripHtml,
 } from "@ribajs/utils/src/type";
-import template from "./revoke-form.component.html";
+import template from "./revoke-form.component.html?raw";
 import { LocalesService } from "@ribajs/shopify-tda";
 import { hasChildNodesTrim } from "@ribajs/utils";
 

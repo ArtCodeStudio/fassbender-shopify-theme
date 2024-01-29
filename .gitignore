@@ -97,3 +97,8 @@ composer.lock
 yarn.lock
 theme.lock
 .vscode/
+
+
+# Shopify assets
+theme/assets/*.js
+theme/assets/*.css

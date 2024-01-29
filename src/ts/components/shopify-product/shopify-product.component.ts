@@ -6,7 +6,7 @@ import {
   ShopifyCartService,
   ShopifyProductService,
 } from "@ribajs/shopify";
-import template from "./shopify-product.component.html";
+import template from "./shopify-product.component.html?raw";
 import { hasChildNodesTrim, handleize } from "@ribajs/utils";
 
 const IMAGES_PER_ROW = 2;

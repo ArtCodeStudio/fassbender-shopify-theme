@@ -6,7 +6,7 @@ import {
   ShopifyCartService,
   ShopifyProductService,
 } from "@ribajs/shopify";
-import template from "./shopify-product-item.component.html";
+import template from "./shopify-product-item.component.html?raw";
 import { handleize, hasChildNodesTrim } from "@ribajs/utils";
 
 export interface Scope {

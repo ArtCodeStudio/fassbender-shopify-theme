@@ -2,7 +2,7 @@ import { Component } from "@ribajs/core";
 import { EventDispatcher } from "@ribajs/events";
 import { JQuery as $ } from "@ribajs/jquery";
 import { Linklist } from "@ribajs/shopify";
-import template from "./shopify-filter.component.html";
+import template from "./shopify-filter.component.html?raw";
 import { hasChildNodesTrim } from "@ribajs/utils";
 
 interface DataTemplate {

@@ -7,7 +7,7 @@ import {
   ShopifyShippingRates,
   ShopifyShippingRatesNormalized,
 } from "@ribajs/shopify";
-import template from "./shopify-cart.component.html";
+import template from "./shopify-cart.component.html?raw";
 import { DropdownService } from "@ribajs/bs4/src/services/dropdown.service";
 import { hasChildNodesTrim } from "@ribajs/utils";
 

@@ -1,6 +1,6 @@
 import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
-import template from "./shopify-login-form.component.html";
+import template from "./shopify-login-form.component.html?raw";
 import { hasChildNodesTrim } from "@ribajs/utils";
 
 export interface ValidationRule {

@@ -1,7 +1,7 @@
 import { Component } from "@ribajs/core";
 
 // import pugTemplate from './component-skeleton.component.pug';
-import template from "./component-skeleton.component.html";
+import template from "./component-skeleton.component.html?raw";
 
 import { hasChildNodesTrim } from "@ribajs/utils";
 

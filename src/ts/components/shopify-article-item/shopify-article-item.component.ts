@@ -1,5 +1,5 @@
 import { Component } from "@ribajs/core";
-import template from "./shopify-article-item.component.html";
+import template from "./shopify-article-item.component.html?raw";
 import { hasChildNodesTrim } from "@ribajs/utils";
 
 export class ShopifyArticleItemComponent extends Component {

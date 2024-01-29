@@ -1,6 +1,6 @@
 import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
-import template from "./newsletter.component.html";
+import template from "./newsletter.component.html?raw";
 import { LocalesService } from "@ribajs/shopify-tda";
 import { Utils } from "../../services/Utils";
 import { hasChildNodesTrim } from "@ribajs/utils";

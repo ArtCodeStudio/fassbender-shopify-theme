@@ -1,6 +1,6 @@
 import { Component, HttpService } from "@ribajs/core";
 import { ShopifyCartService } from "@ribajs/shopify";
-import template from "./privacy-settings.component.html";
+import template from "./privacy-settings.component.html?raw";
 import { TrackingService } from "../../services/tracking.services";
 import { hasChildNodesTrim } from "@ribajs/utils";
 

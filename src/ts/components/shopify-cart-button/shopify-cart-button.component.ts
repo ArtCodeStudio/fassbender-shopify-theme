@@ -3,7 +3,7 @@ import { JQuery as $ } from "@ribajs/jquery";
 import { Pjax } from "@ribajs/router";
 import { ShopifyCartService, ShopifyCartObject } from "@ribajs/shopify";
 import { onRoute, hasChildNodesTrim } from "@ribajs/utils";
-import template from "./shopify-cart-button.component.html";
+import template from "./shopify-cart-button.component.html?raw";
 
 interface Scope {
   cartItemCount: number;

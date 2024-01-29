@@ -9,7 +9,7 @@ import {
 } from "@ribajs/utils/src/type";
 import { Component } from "@ribajs/core";
 import { JQuery as $ } from "@ribajs/jquery";
-import template from "./contact-form.component.html";
+import template from "./contact-form.component.html?raw";
 import { LocalesService } from "@ribajs/shopify-tda";
 import { hasChildNodesTrim } from "@ribajs/utils";
 

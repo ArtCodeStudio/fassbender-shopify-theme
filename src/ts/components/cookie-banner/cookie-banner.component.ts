@@ -1,5 +1,5 @@
 import { Component } from "@ribajs/core";
-import template from "./cookie-banner.component.html";
+import template from "./cookie-banner.component.html?raw";
 import { hasChildNodesTrim } from "@ribajs/utils";
 
 interface Scope {
