@@ -1,6 +1,8 @@
 # fassbender-shopify-theme
 Shopify Theme for [Fassbender](https://myfassbender.com/)
 
+![Screenshot of the theme](screenshot.png "Screenshot of the theme")
+
 ## Development
 
 Make sure you have [Node.js](https://nodejs.org/en/) version 20+, [Yarn](https://yarnpkg.com/) and [Shopify CLI](https://shopify.dev/docs/themes/tools/cli/install) installed.
