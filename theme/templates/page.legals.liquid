@@ -2,9 +2,9 @@
   <div class="row pt-md-5 scrollbar-x-auto">
     {% unless page.content == blank %}
         <div class="col-12 col-md-8 offset-md-2 col-lg-6 rte" rv-i18n-html="">
-          {{page.content}}
-          <template lang="default">{{page.content}}</template>
-          <template lang="de">{{page.content}}</template>
+          {{ page.content | default: page.metafields["global"]["en-content"]}}
+          <template lang="default">{{ page.content | default: page.metafields["global"]["en-content"]}}</template>
+          <template lang="de">{{ page.content | default: page.metafields["global"]["en-content"]}}</template>
         </div>
     {% endunless %}
     <div class="col-12 col-md-8 offset-md-2 col-lg-6 rte">

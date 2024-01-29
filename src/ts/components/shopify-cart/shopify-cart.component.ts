@@ -103,7 +103,11 @@ export class ShopifyCartComponent extends Component {
   public removeCart(lineItem: ShopifyCartLineItem) {
     ShopifyCartService.change(lineItem.variant_id, 0)
       .then(async (cart: ShopifyCartObject | null) => {
-        this.cart = (await ShopifyCartService.refresh()) || null;
+        if (cart?.items) {
+          this.cart = cart;
+        } else {
+          this.cart = (await ShopifyCartService.refresh()) || null;
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -150,7 +154,7 @@ export class ShopifyCartComponent extends Component {
     ShopifyCartService.shopifyCartEventDispatcher.on(
       "ShopifyCart:request:complete",
       async (cart: ShopifyCartObject | null) => {
-        if(cart?.items) {
+        if (cart?.items) {
           this.cart = cart;
         } else {
           this.cart = (await ShopifyCartService.refresh()) || null;

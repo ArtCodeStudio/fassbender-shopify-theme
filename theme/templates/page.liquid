@@ -7,11 +7,12 @@
             {% include 'jumplink-utils-translate', translate: page.title, path: 'titles', de: page.metafields["global"]["de-title"], default: page.title %}
             {{ translated }}
           </h1>
+
           {% unless page.content == blank %}
             <div class="rte" rv-i18n-html="">
-              {{page.content}}
-              <template lang="default">{{page.content}}</template>
-              <template lang="de">{{page.metafields["global"]["de-content"]}}</template>
+              {{ page.content | default: page.metafields["global"]["en-content"]}}
+              <template lang="default">{{ page.content | default: page.metafields["global"]["en-content"]}}</template>
+              <template lang="de">{{ page.metafields["global"]["de-content"] | default: page.content }}</template>
             </div>
           {% endunless %}
         </div>
