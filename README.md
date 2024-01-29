@@ -41,7 +41,7 @@ yarn pull:customization
 To publish a new version of the theme to Shopify:
   
 ```bash
-yarn run push:rc
+yarn push:rc
 ```
 
 Additional developer scripts can be found in [package.json](package.json).
