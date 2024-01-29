@@ -5,9 +5,9 @@
 <div class="container-fluid pt-5">
   <div class="row pt-5">
     <div class="col-12 col-md-auto offset-md-2">
-      <rv-shopify-cart shipping-address='{{ customer.default_address | json }}' estimate-shipping-rate="{{ estimateShippingRate }}">
+      <fsbdr-shopify-cart shipping-address='{{ customer.default_address | json }}' estimate-shipping-rate="{{ estimateShippingRate }}">
         {% include 'jumplink-shopping-cart-body' with showLoginHeader, estimateShippingRate, showCartPageLink %}
-      </rv-shopify-cart>
+      </fsbdr-shopify-cart>
 
       <p class="my-3">
         <a class="btn btn-link px-0" href="/collections/all" rv-route="'/collections/all'" >

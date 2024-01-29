@@ -101,5 +101,6 @@ theme.lock
 
 # Shopify assets
 theme/assets/*.js
+theme/assets/*.map
 theme/assets/*.css
 theme/assets/*.tsbuildinfo

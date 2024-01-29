@@ -28,7 +28,7 @@ export class FsbdrMainbarComponent extends Component {
   }
 
   protected requiredAttributes() {
-    return ["dataset"];
+    return [];
   }
 
   public scope: Scope = {

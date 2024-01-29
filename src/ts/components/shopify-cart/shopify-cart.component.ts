@@ -26,7 +26,7 @@ interface Scope {
 }
 
 export class ShopifyCartComponent extends Component {
-  public static tagName = "rv-shopify-cart";
+  public static tagName = "fsbdr-shopify-cart";
 
   static get observedAttributes() {
     return ["shipping-address", "estimate-shipping-rate"];
@@ -102,8 +102,8 @@ export class ShopifyCartComponent extends Component {
 
   public removeCart(lineItem: ShopifyCartLineItem) {
     ShopifyCartService.change(lineItem.variant_id, 0)
-      .then((cart: ShopifyCartObject) => {
-        this.cart = cart;
+      .then(async (cart: ShopifyCartObject | null) => {
+        this.cart = (await ShopifyCartService.refresh()) || null;
       })
       .catch((error) => {
         console.error(error);
@@ -113,8 +113,7 @@ export class ShopifyCartComponent extends Component {
   public increase(lineItem: ShopifyCartLineItem) {
     lineItem.quantity++;
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
-      .then((cart: ShopifyCartObject) => {
-        // this.cart = cart;
+      .then((cart: ShopifyCartObject | null) => {
         return cart;
       })
       .catch((error) => {
@@ -128,7 +127,7 @@ export class ShopifyCartComponent extends Component {
       lineItem.quantity = 0;
     }
     ShopifyCartService.change(lineItem.variant_id, lineItem.quantity)
-      .then((cart: ShopifyCartObject) => {
+      .then((cart: ShopifyCartObject | null) => {
         return cart;
       })
       .catch((error) => {
@@ -150,9 +149,11 @@ export class ShopifyCartComponent extends Component {
 
     ShopifyCartService.shopifyCartEventDispatcher.on(
       "ShopifyCart:request:complete",
-      (cart: ShopifyCartObject) => {
-        if (cart) {
+      async (cart: ShopifyCartObject | null) => {
+        if(cart?.items) {
           this.cart = cart;
+        } else {
+          this.cart = (await ShopifyCartService.refresh()) || null;
         }
         this.scope.pending = false;
       },

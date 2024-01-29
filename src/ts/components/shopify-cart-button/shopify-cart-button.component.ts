@@ -13,7 +13,7 @@ interface Scope {
 }
 
 export class ShopifyCartButtonComponent extends Component {
-  public static tagName = "rv-shopify-cart-button";
+  public static tagName = "fsbdr-shopify-cart-button";
 
   public static cartUrl = "/cart";
 

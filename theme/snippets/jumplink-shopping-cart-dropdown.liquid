@@ -2,7 +2,7 @@
 {% assign showLoginHeader = true %}
 {% assign showCartPageLink = true %}
 
-<rv-shopify-cart shipping-address='{{ customer.default_address | json }}' estimate-shipping-rate="{{ estimateShippingRate }}">
+<fsbdr-shopify-cart shipping-address='{{ customer.default_address | json }}' estimate-shipping-rate="{{ estimateShippingRate }}">
   <div rv-if="cart" class="dropdown d-block">
     <a
       class="nav-link dropdown-toggle"
@@ -25,4 +25,4 @@
       {% include 'jumplink-shopping-cart-body' with showLoginHeader, estimateShippingRate, showCartPageLink %}
     </div>
   </div>
-</rv-shopify-cart>
+</fsbdr-shopify-cart>

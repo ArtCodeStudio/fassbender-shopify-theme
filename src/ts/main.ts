@@ -2,7 +2,7 @@ import "@ribajs/types";
 import "../scss/main.scss";
 import { Riba, coreModule } from "@ribajs/core";
 import { EventDispatcher } from "@ribajs/events";
-import { ready } from "@ribajs/utils/src/dom";
+import { ready } from "@ribajs/utils";
 import {
   Bs4DropdownComponent,
   Bs4TabsComponent,
