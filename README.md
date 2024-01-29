@@ -11,3 +11,8 @@ cd fassbender-shopify-theme
 yarn install
 ```
 
+To build theme run:
+
+```bash
+yarn build
+```
