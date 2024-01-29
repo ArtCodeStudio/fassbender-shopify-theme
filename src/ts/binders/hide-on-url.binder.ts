@@ -1,4 +1,5 @@
-import { Binder, EventDispatcher } from "@ribajs/core";
+import { Binder } from "@ribajs/core";
+import { EventDispatcher } from "@ribajs/events";
 import { onRoute } from "@ribajs/utils";
 
 /**
@@ -6,8 +7,8 @@ import { onRoute } from "@ribajs/utils";
  * @see https://getbootstrap.com/docs/4.1/components/collapse/
  * @see https://github.com/twbs/bootstrap/blob/v4-dev/js/src/collapse.js
  */
-export const hideOnUrlBinder: Binder<string> = {
-  name: "hide-on-url",
+export class HideOnUrlBinder extends Binder<string> {
+  static key = "hide-on-url";
   routine(el: HTMLElement, url: string) {
     const dispatcher = new EventDispatcher("main");
 
@@ -23,5 +24,5 @@ export const hideOnUrlBinder: Binder<string> = {
     dispatcher.on("newPageReady", () => checkURL(url));
 
     checkURL(url);
-  },
-};
+  }
+}

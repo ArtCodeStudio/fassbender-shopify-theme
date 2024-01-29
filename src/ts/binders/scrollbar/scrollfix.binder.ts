@@ -13,8 +13,8 @@ const onWheel = (event: Event) => {
  * TODO not working yet
  * @see issue https://stackoverflow.com/questions/29344162/fullscreen-video-doesnt-allow-scrolling-on-firefox
  */
-export const scrollfixBinder: Binder<any> = {
-  name: "scrollfix",
+export class ScrollfixBinder extends Binder<any> {
+  static key = "scrollfix";
   routine(el: HTMLElement) {
     el.addEventListener("mouseenter", () => {
       // over
@@ -29,5 +29,5 @@ export const scrollfixBinder: Binder<any> = {
       document.removeEventListener("mousewheel", onWheel);
       document.removeEventListener("DOMMouseScroll", onWheel);
     });
-  },
-};
+  }
+}

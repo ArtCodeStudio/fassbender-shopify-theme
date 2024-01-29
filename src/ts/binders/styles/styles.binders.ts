@@ -1,3 +1,3 @@
-export { backgroundImageBinder } from "./background-image.binder";
-export { backgroundColorStarBinder } from "./background-color-star.binder";
-export { opacityStarBinder } from "./opacity-star.binder";
+export { BackgroundImageBinder } from "./background-image.binder";
+export { BackgroundColorStarBinder } from "./background-color-star.binder";
+export { OpacityStarBinder } from "./opacity-star.binder";

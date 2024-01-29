@@ -4,8 +4,8 @@ import { Binder } from "@ribajs/core";
  *
  * @see https://getbootstrap.com/docs/4.1/components/scrollspy/
  */
-export const scrollspyStarBinder: Binder<string> = {
-  name: "bs4-scrollspy-*",
+export class ScrollspyStarBinder extends Binder<string> {
+  static key = "bs4-scrollspy-*";
   routine(el: HTMLElement, targetSelector: string) {
     const nativeIDTargetSelector = targetSelector.replace("#", "");
     // const dispatcher = new EventDispatcher('main');
@@ -53,5 +53,5 @@ export const scrollspyStarBinder: Binder<string> = {
     // $(window).off("scroll", onScroll).on("scroll", onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-  },
-};
+  }
+}

@@ -1,7 +1,7 @@
 import { Binder } from "@ribajs/core";
 
-export const opacityStarBinder: Binder<string> = {
-  name: "opacity-*",
+export class OpacityStarBinder extends Binder<string> {
+  static key = "opacity-*";
   routine(el: HTMLElement, value: string) {
     const opacity = parseFloat(this.args[0] as string);
     if (value) {
@@ -9,5 +9,5 @@ export const opacityStarBinder: Binder<string> = {
     } else {
       el.style.opacity = "";
     }
-  },
-};
+  }
+}

@@ -8,8 +8,8 @@ import { onRoute } from "@ribajs/utils";
  * @see https://getbootstrap.com/docs/4.1/components/collapse/
  * @see https://github.com/twbs/bootstrap/blob/v4-dev/js/src/collapse.js
  */
-export const collapseOnUrlBinder: Binder<string> = {
-  name: "bs4-collapse-on-url",
+export class CollapseOnUrlBinder extends Binder<string> {
+  static key = "bs4-collapse-on-url";
   routine(el: HTMLElement, url: string) {
     const collapseService = new CollapseService(el);
     const dispatcher = new EventDispatcher("main");
@@ -24,5 +24,5 @@ export const collapseOnUrlBinder: Binder<string> = {
     };
 
     dispatcher.on("newPageReady", () => checkURL(url));
-  },
-};
+  }
+}

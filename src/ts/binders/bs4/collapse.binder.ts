@@ -5,8 +5,8 @@ import { CollapseService } from "./collapse.service";
  *
  * @see https://getbootstrap.com/docs/4.1/components/collapse/
  */
-export const collapseBinder: Binder<string> = {
-  name: "bs4-collapse",
+export class CollapseBinder extends Binder<string> {
+  static key = "bs4-collapse";
   routine(el: HTMLElement, targetSelector: string) {
     const target = document.querySelector<HTMLElement>(targetSelector);
     if (!target) {
@@ -36,5 +36,5 @@ export const collapseBinder: Binder<string> = {
     });
 
     onStateChange();
-  },
-};
+  }
+}

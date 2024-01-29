@@ -1,7 +1,7 @@
 import { Binder } from "@ribajs/core";
 
-export const backgroundColorStarBinder: Binder<string> = {
-  name: "background-color-*",
+export class BackgroundColorStarBinder extends Binder<string> {
+  static key = "background-color-*";
   routine(el: HTMLElement, value: string) {
     const color = this.args[0].toString() || "transparent";
     if (value) {
@@ -9,5 +9,5 @@ export const backgroundColorStarBinder: Binder<string> = {
     } else {
       el.style.backgroundColor = "";
     }
-  },
-};
+  }
+}

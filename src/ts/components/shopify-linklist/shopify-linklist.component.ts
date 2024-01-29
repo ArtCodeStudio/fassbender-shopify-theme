@@ -15,7 +15,7 @@ export class ShopifyLinklistComponent extends OriginalShopifyLinklistComponent {
   /**
    * Only set the component template if there no childs already
    */
-  protected template() {
+  protected async template() {
     if (hasChildNodesTrim(this)) {
       return null;
     } else {

@@ -64,7 +64,7 @@ const RAW_RUNTIME_STATE =
           ["babel-plugin-array-includes", "npm:2.0.3"],\
           ["babel-plugin-transform-es2015-parameters", "npm:6.24.1"],\
           ["babelify", "virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:10.0.0"],\
-          ["bootstrap", "virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:5.3.2"],\
+          ["bootstrap", "virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:4.6.2"],\
           ["browserify", "npm:17.0.0"],\
           ["clean-css-cli", "npm:5.6.3"],\
           ["concurrently", "npm:8.2.2"],\
@@ -4162,7 +4162,7 @@ const RAW_RUNTIME_STATE =
           ["@ribajs/shopify", "npm:2.0.0-rc.10"],\
           ["@ribajs/shopify-easdk", "npm:2.0.0-rc.10"],\
           ["@ribajs/shopify-tda", "npm:2.0.0-rc.10"],\
-          ["bootstrap", "virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:5.3.2"],\
+          ["bootstrap", "virtual:ea4b45066b8d54d4297ccb5e28f30a6ee41f504de326bb03fb13c44340754a0be630d960d6046e10c7dcdb1e8f958334f79eca7b7819e6a281f021498aeb2ce7#npm:5.3.2"],\
           ["leaflet", "npm:1.9.4"]\
         ],\
         "linkType": "HARD"\
@@ -7497,16 +7497,20 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:5.3.2", {\
-        "packageLocation": "./.yarn/__virtual__/bootstrap-virtual-8c3b88efa9/3/.yarn/berry/cache/bootstrap-npm-5.3.2-20b391b636-10c0.zip/node_modules/bootstrap/",\
+      ["virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:4.6.2", {\
+        "packageLocation": "./.yarn/__virtual__/bootstrap-virtual-bc1bf3f93b/3/.yarn/berry/cache/bootstrap-npm-4.6.2-35720e9601-10c0.zip/node_modules/bootstrap/",\
         "packageDependencies": [\
-          ["bootstrap", "virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:5.3.2"],\
-          ["@popperjs/core", null],\
-          ["@types/popperjs__core", null]\
+          ["bootstrap", "virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:4.6.2"],\
+          ["@types/jquery", "npm:3.5.29"],\
+          ["@types/popper.js", null],\
+          ["jquery", null],\
+          ["popper.js", "npm:1.16.1"]\
         ],\
         "packagePeers": [\
-          "@popperjs/core",\
-          "@types/popperjs__core"\
+          "@types/jquery",\
+          "@types/popper.js",\
+          "jquery",\
+          "popper.js"\
         ],\
         "linkType": "HARD"\
       }],\
@@ -7537,6 +7541,19 @@ const RAW_RUNTIME_STATE =
           "@types/popper.js",\
           "jquery",\
           "popper.js"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:ea4b45066b8d54d4297ccb5e28f30a6ee41f504de326bb03fb13c44340754a0be630d960d6046e10c7dcdb1e8f958334f79eca7b7819e6a281f021498aeb2ce7#npm:5.3.2", {\
+        "packageLocation": "./.yarn/__virtual__/bootstrap-virtual-0791f3ccc9/3/.yarn/berry/cache/bootstrap-npm-5.3.2-20b391b636-10c0.zip/node_modules/bootstrap/",\
+        "packageDependencies": [\
+          ["bootstrap", "virtual:ea4b45066b8d54d4297ccb5e28f30a6ee41f504de326bb03fb13c44340754a0be630d960d6046e10c7dcdb1e8f958334f79eca7b7819e6a281f021498aeb2ce7#npm:5.3.2"],\
+          ["@popperjs/core", null],\
+          ["@types/popperjs__core", null]\
+        ],\
+        "packagePeers": [\
+          "@popperjs/core",\
+          "@types/popperjs__core"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -10760,7 +10777,7 @@ const RAW_RUNTIME_STATE =
           ["babel-plugin-array-includes", "npm:2.0.3"],\
           ["babel-plugin-transform-es2015-parameters", "npm:6.24.1"],\
           ["babelify", "virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:10.0.0"],\
-          ["bootstrap", "virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:5.3.2"],\
+          ["bootstrap", "virtual:5c5ef8782a9cc83fb2fedaf1cc050df12b2f59eecf0c29f1631870dede9b414732817f899d5178d319c6be6bbee99e86f759949adcf6cded3ed99aa92dffa4ff#npm:4.6.2"],\
           ["browserify", "npm:17.0.0"],\
           ["clean-css-cli", "npm:5.6.3"],\
           ["concurrently", "npm:8.2.2"],\
