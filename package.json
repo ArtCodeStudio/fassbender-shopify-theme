@@ -4,6 +4,7 @@
   "description": "Shopify theme based on Bootstrap 4",
   "main": "src/ts/main.ts",
   "typings": "src/ts/types",
+  "type": "module",
   "scripts": {
     "lint": "eslint ./src --ext .ts,.tsx --fix && tsc --noEmit",
     "test": "yarn lint",
