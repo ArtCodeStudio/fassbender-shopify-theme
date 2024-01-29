@@ -1,30 +1,51 @@
-# fassbender-shopify-theme
-Shopify Theme for [Fassbender](https://myfassbender.com/)
+# Fassbender Shopify Theme
 
-![Screenshot of the theme](screenshot.png "Screenshot of the theme")
+This is a custom Shopify theme designed for [Fassbender](https://myfassbender.com/).
 
-## Development
+![Screenshot of Fassbender Shopify Theme](screenshot.png "Theme Screenshot")
 
-Make sure you have [Node.js](https://nodejs.org/en/) version 20+, [Yarn](https://yarnpkg.com/) and [Shopify CLI](https://shopify.dev/docs/themes/tools/cli/install) installed.
+## Getting Started with Development
 
-Checkout this repository and install dependencies:
+### Prerequisites
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/en/) (Version 20 or later)
+- [Yarn](https://yarnpkg.com/)
+- [Shopify CLI](https://shopify.dev/docs/themes/tools/cli/install)
 
+### Setting up the Project
+Clone the repository and install dependencies:
 ```bash
 git clone git@github.com:ArtCodeStudio/fassbender-shopify-theme.git
 cd fassbender-shopify-theme
 yarn install
 ```
 
-To build theme run:
+To build the theme:
 
 ```bash
 yarn build
 ```
 
-To watch and reload changes run:
+To automatically watch for and reload changes:
 
 ```bash
 yarn watch
 ```
 
-For more developer scripts see [package.json](package.json).
+To pull changes made through Shopify's Theme Editor:
+
+```bash
+yarn pull:customization
+```
+
+To publish a new version of the theme to Shopify:
+  
+```bash
+yarn run push:rc
+```
+
+Additional developer scripts can be found in [package.json](package.json).
+
+## License
+
+This theme is available under the MIT License. For more information, see the [LICENSE](LICENSE) file.

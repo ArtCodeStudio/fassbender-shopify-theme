@@ -29,12 +29,18 @@
     "myfassbender",
     "Fassbender"
   ],
-  "author": "Pascal Garber <pascal@jumplink.eu>",
+  "author": "Pascal Garber <pascal@artandcode.studio>",
   "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/ArtCodeStudio/fassbender-shopify-theme/blob/main/LICENSE"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/ArtCodeStudio/fassbender-shopify-theme/issues"
   },
-  "homepage": "https://art-code-studio.myshopify.com",
+  "homepage": "https://myfassbender.com/",
   "devDependencies": {
     "@ribajs/eslint-config": "^2.0.0-rc.11",
     "@ribajs/tsconfig": "^2.0.0-rc.11",
