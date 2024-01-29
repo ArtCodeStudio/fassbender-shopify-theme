@@ -84,8 +84,8 @@
           "1571909535593": {
             "type": "product",
             "settings": {
-              "title": "Coat Mid Grey",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_7.jpg",
+              "title": "",
+              "image": "shopify:\/\/shop_images\/01_w_L_aaa74664-9235-4e5e-ace5-3a806f0c5023.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
@@ -94,8 +94,8 @@
           "1571908910277": {
             "type": "product",
             "settings": {
-              "title": "Puffa Reptil Black",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_4.jpg",
+              "title": "",
+              "image": "shopify:\/\/shop_images\/07_LQ.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
@@ -104,38 +104,8 @@
           "1571909267436": {
             "type": "product",
             "settings": {
-              "title": "Trench Coat Beige",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_6.jpg",
-              "aspect_ratio": "3by4",
-              "aspect_ratio_md": "none",
-              "url": ""
-            }
-          },
-          "1571909471184": {
-            "type": "product",
-            "settings": {
-              "title": "Biker Jacket Offwhite",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_3.jpg",
-              "aspect_ratio": "3by4",
-              "aspect_ratio_md": "none",
-              "url": ""
-            }
-          },
-          "1571909392658": {
-            "type": "product",
-            "settings": {
-              "title": "Parka Velvet Olive",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_2.jpg",
-              "aspect_ratio": "3by4",
-              "aspect_ratio_md": "none",
-              "url": ""
-            }
-          },
-          "1571909345856": {
-            "type": "product",
-            "settings": {
-              "title": "Pea Coat Bottle Green",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_1.jpg",
+              "title": "",
+              "image": "shopify:\/\/shop_images\/08_copy_LQ.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
@@ -144,8 +114,188 @@
           "1571909000412": {
             "type": "product",
             "settings": {
-              "title": "Coat Burgundy",
-              "image": "shopify:\/\/shop_images\/myfassbender-nyc_lookbool-FW18_5.jpg",
+              "title": "",
+              "image": "shopify:\/\/shop_images\/03_LQ.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571909471184": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/05_05dd203d-7dd1-48a6-a525-e52308192318.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571909392658": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/09_07cae2ea-4780-4160-a3ea-e65e21a4197d.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "1571909345856": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/10_w_L_2e6b42db-e32c-4cfe-840e-47e60354da13.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_7WHVYN": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/06_9bb4326f-f80f-4fae-a667-80a3dac3a4b6.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_JU8qgL": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/04_15cc7ceb-130b-441f-8441-209529aac401.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_6WfMwT": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/12_47bffa80-4ba3-475f-9b0c-ed36b38a78c2.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_gWTmcL": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/02_49d7bf81-0666-4b20-9f4e-f5fa9b02bb7f.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_YDeaND": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/51_w_L.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_7FYHB7": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/52.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_VLGMXM": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/53.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_kNbrB6": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/48_90198241-38ef-491f-8ca5-3ee96f1ac74c.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_HUBHYf": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/50.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_6VcVrh": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/44_4bd072fc-dbb8-4beb-a483-56b8a2181828.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_YpE39F": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/49_ff83f688-2d43-4a01-8d6e-a38d7595aba5.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_bNTyXC": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/43_f94647e3-044b-4120-954c-f291dae1e6f7.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_LxPfLK": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/45_w_L_6722e6b5-1ffb-4694-bc27-e6573d235fab.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_d3VGic": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/81_w_L.jpg",
+              "aspect_ratio": "3by4",
+              "aspect_ratio_md": "none",
+              "url": ""
+            }
+          },
+          "product_bwcjL7": {
+            "type": "product",
+            "settings": {
+              "title": "",
+              "image": "shopify:\/\/shop_images\/46_7d24b446-dc7b-47f7-80d0-10d7c02d9291.jpg",
               "aspect_ratio": "3by4",
               "aspect_ratio_md": "none",
               "url": ""
@@ -156,10 +306,25 @@
           "1571909535593",
           "1571908910277",
           "1571909267436",
+          "1571909000412",
           "1571909471184",
           "1571909392658",
           "1571909345856",
-          "1571909000412"
+          "product_7WHVYN",
+          "product_JU8qgL",
+          "product_6WfMwT",
+          "product_gWTmcL",
+          "product_YDeaND",
+          "product_7FYHB7",
+          "product_VLGMXM",
+          "product_kNbrB6",
+          "product_HUBHYf",
+          "product_6VcVrh",
+          "product_YpE39F",
+          "product_bNTyXC",
+          "product_LxPfLK",
+          "product_d3VGic",
+          "product_bwcjL7"
         ],
         "settings": {
           "title": "FW18\/19"
@@ -265,39 +430,25 @@
       "16109116792b362247": {
         "type": "one-storie",
         "blocks": {
-          "afbc6a0b-aaf6-4619-98dc-2e004bd49c05": {
+          "image_8bCAUW": {
             "type": "image",
             "settings": {
-              "aspect_ratio": "3by2",
-              "aspect_ratio_md": "none",
-              "video_url": "https:\/\/www.youtube.com\/watch?v=AwQr-oI04QM",
+              "aspect_ratio": "16by9",
+              "aspect_ratio_md": "16by9",
+              "video_url": "https:\/\/youtu.be\/DkzfRdqh1uc",
               "mp4_video_url": "",
               "controls": true,
               "mute": true,
               "spacing": 0
             }
-          },
-          "64ac83be-afd0-4a4d-9deb-490f07ebfd4c": {
-            "type": "image",
-            "disabled": true,
-            "settings": {
-              "aspect_ratio": "16by9",
-              "aspect_ratio_md": "16by9",
-              "video_url": "https:\/\/vimeo.com\/595904557",
-              "mp4_video_url": "",
-              "controls": false,
-              "mute": true,
-              "spacing": 56
-            }
           }
         },
         "block_order": [
-          "afbc6a0b-aaf6-4619-98dc-2e004bd49c05",
-          "64ac83be-afd0-4a4d-9deb-490f07ebfd4c"
+          "image_8bCAUW"
         ],
         "settings": {
           "story": "",
-          "title": "FW 21 Video",
+          "title": "Video",
           "show_title": false,
           "color": "#ffffff",
           "title_spacing": 0
@@ -309,9 +460,9 @@
           "e8e5b1d6-e54c-4946-a9e9-2475b5edf150": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/Fassbender_FW21_LB_16.jpg",
-              "aspect_ratio": "2by3",
-              "aspect_ratio_md": "3by4",
+              "image": "shopify:\/\/shop_images\/website04.jpg",
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "2by1",
               "video_url": "",
               "mp4_video_url": "",
               "controls": false,
@@ -319,12 +470,11 @@
               "spacing": 0
             }
           },
-          "ada54775-94fc-4204-8ef5-bb82d233d457": {
+          "image_UMkXbQ": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/Fassbender_FW21_LB_41.jpg",
-              "aspect_ratio": "2by3",
-              "aspect_ratio_md": "3by4",
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "none",
               "video_url": "",
               "mp4_video_url": "",
               "controls": false,
@@ -335,10 +485,10 @@
         },
         "block_order": [
           "e8e5b1d6-e54c-4946-a9e9-2475b5edf150",
-          "ada54775-94fc-4204-8ef5-bb82d233d457"
+          "image_UMkXbQ"
         ],
         "settings": {
-          "story": "shopify:\/\/products\/oversized-shirt-with-notch-collar-rose-paddle-small-mud-fw-21",
+          "story": "shopify:\/\/products\/slim-blazer-aware-black",
           "title": "",
           "show_title": false,
           "color": "#ffffff",
@@ -351,9 +501,22 @@
           "e7c1bd7d-6542-4e87-b6e3-a42b0c1d9c48": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/Fassbender_FW21_LB_20.jpg",
-              "aspect_ratio": "1by2",
-              "aspect_ratio_md": "4by3",
+              "image": "shopify:\/\/shop_images\/newlanding_page.jpg",
+              "aspect_ratio": "2by3",
+              "aspect_ratio_md": "1by1",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "spacing": 0
+            }
+          },
+          "aad70b51-5c95-4296-953f-843d466490b8": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "none",
               "video_url": "",
               "mp4_video_url": "",
               "controls": false,
@@ -363,10 +526,11 @@
           }
         },
         "block_order": [
-          "e7c1bd7d-6542-4e87-b6e3-a42b0c1d9c48"
+          "e7c1bd7d-6542-4e87-b6e3-a42b0c1d9c48",
+          "aad70b51-5c95-4296-953f-843d466490b8"
         ],
         "settings": {
-          "story": "shopify:\/\/collections\/fall-winter-21",
+          "story": "shopify:\/\/products\/draped-shirt-dress-attentive-pearl",
           "title": "",
           "show_title": false,
           "color": "#ffffff",
@@ -375,19 +539,151 @@
       },
       "1630965716774d45c0": {
         "type": "product-scrollbar",
+        "disabled": true,
         "settings": {
           "collection": "denim",
           "title": "",
           "show_title": true
         }
+      },
+      "02acf526-a077-4c99-99c5-4c2b7c0cd9c9": {
+        "type": "one-storie",
+        "blocks": {
+          "70dcc0d2-5294-42b4-aead-026c3e9210e9": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Screen_Shot_2023-11-08_at_4.16.03_PM.png",
+              "aspect_ratio": "4by3",
+              "aspect_ratio_md": "none",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "70dcc0d2-5294-42b4-aead-026c3e9210e9"
+        ],
+        "settings": {
+          "story": "shopify:\/\/collections\/all",
+          "title": "",
+          "show_title": false,
+          "color": "#ffffff",
+          "title_spacing": 7
+        }
+      },
+      "42ea9a7f-215f-42c3-ab4a-d63f2cc59f92": {
+        "type": "one-storie",
+        "blocks": {
+          "55d97d23-b037-415c-9cea-e0b3d37a4169": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "none",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "spacing": 0
+            }
+          },
+          "8f924ecc-688e-45b6-b617-8eae97a4f7b3": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/ScreenShot2024-01-04at4.58.42PM.png",
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "none",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "55d97d23-b037-415c-9cea-e0b3d37a4169",
+          "8f924ecc-688e-45b6-b617-8eae97a4f7b3"
+        ],
+        "settings": {
+          "story": "shopify:\/\/products\/new-short-sleeve-shirt-amaryllis-chartreuse",
+          "title": "",
+          "show_title": false,
+          "color": "#ffffff",
+          "title_spacing": 7
+        }
+      },
+      "one_storie_NRaeV3": {
+        "type": "one-storie",
+        "blocks": {
+          "image_jrjMjE": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/BLACK_WHITE_FASSBENDER.jpg",
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "none",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "spacing": 0
+            }
+          },
+          "image_f63Ukg": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "image": "shopify:\/\/shop_images\/website_no_logo_option_01.jpg",
+              "aspect_ratio": "3by2",
+              "aspect_ratio_md": "none",
+              "video_url": "",
+              "mp4_video_url": "",
+              "controls": false,
+              "mute": true,
+              "spacing": 0
+            }
+          }
+        },
+        "block_order": [
+          "image_jrjMjE",
+          "image_f63Ukg"
+        ],
+        "settings": {
+          "story": "",
+          "title": "",
+          "show_title": true,
+          "color": "#ffffff",
+          "title_spacing": 7
+        }
       }
     },
     "content_for_index": [
       "16109140683703bcfc",
+      "one_storie_NRaeV3",
+      "02acf526-a077-4c99-99c5-4c2b7c0cd9c9",
       "16109116792b362247",
+      "42ea9a7f-215f-42c3-ab4a-d63f2cc59f92",
       "16109127166cab1983",
       "1630965716774d45c0",
       "1590140011265"
-    ]
+    ],
+    "blocks": {
+      "15683396631634586217": {
+        "type": "shopify:\/\/apps\/inbox\/blocks\/chat\/841fc607-4181-4ad1-842d-e24d7f8bad6b",
+        "disabled": true,
+        "settings": {
+          "button_color": "#d9998f",
+          "button_icon": "chat_bubble",
+          "button_text": "no_text",
+          "button_horizontal_position": "bottom_right",
+          "button_vertical_position": "lowest",
+          "greeting_message": "👋 Hi, wenn du Fragen hast, lass es uns wissen. Wir sind gerne für dich da!"
+        }
+      }
+    }
   }
 }
